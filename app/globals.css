@@ -1,1 +1,11 @@
 :root{color-scheme:dark;font-family:Arial,Helvetica,sans-serif;background:#090d13;color:#eef4fb}*{box-sizing:border-box}body{margin:0}main{max-width:860px;margin:auto;padding:28px 18px 80px}h1{font-size:clamp(36px,7vw,64px);margin:12px 0}h2{font-size:22px}p{line-height:1.55;color:#aab9c8}.eyebrow{color:#79e6bd;font-size:12px;font-weight:800;letter-spacing:.16em}.panel{background:#121b25;border:1px solid #283747;border-radius:16px;padding:22px;margin-top:24px}.muted{color:#aab9c8}.pill{display:inline-block;border:1px solid #395a50;color:#91e9c7;border-radius:999px;padding:7px 12px;font-size:12px}form{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}input{flex:1;min-width:220px;background:#090e15;border:1px solid #496073;border-radius:10px;padding:14px;color:white;font-size:16px}button{border:0;border-radius:10px;background:#8be7bf;color:#081710;font-weight:800;padding:14px 20px;cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}.error{color:#ffaaaa}.result{overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.tile{background:#0c141d;border:1px solid #2d3e4e;padding:15px;border-radius:12px}.tile strong{display:block;margin-bottom:7px}a{color:#93d9ff}footer{margin-top:40px;color:#91a4b4;font-size:13px}
+
+/* V0.5: mobile-first reward intelligence */
+.reward-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+.reward-grid .tile{min-width:0;padding:14px 12px;font-size:clamp(13px,3.5vw,17px);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.reward-grid .tile strong{font-size:12px;line-height:1.35;color:#9fb1c0;font-weight:600}
+.reward-grid .reward-primary{grid-column:1/-1;padding:20px;background:#102b2b;border-color:#3d8979;font-size:clamp(19px,5.1vw,30px);font-weight:750;letter-spacing:-.025em}
+.reward-grid .reward-primary strong{font-size:13px;color:#a7edda}
+.market-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.market-grid .tile{min-width:0;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+@media(max-width:560px){main{padding:22px 14px 70px}.panel{padding:16px;margin-top:18px}.result.panel{padding:14px}.result .panel{padding:14px}.market-grid .tile{padding:12px;font-size:15px}.market-grid .tile strong{font-size:12px;color:#a7b9c8}.grid{gap:10px}h2{font-size:21px}p{font-size:14px}}
