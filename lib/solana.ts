@@ -1,0 +1,2 @@
+const ALPHABET='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+export function isSolanaMint(value:string):boolean { const s=value.trim(); if(s.length<32||s.length>44||![...s].every(c=>ALPHABET.includes(c)))return false; let n=0n;for(const c of s)n=n*58n+BigInt(ALPHABET.indexOf(c));let bytes=0;while(n>0n){bytes++;n>>=8n;}for(const c of s){if(c==='1')bytes++;else break;}return bytes===32; }
