@@ -1,20 +1,16 @@
 /** Recorded cumulative counters only. No interpolation, summation across resets, or live API calls. */
 import { isSolanaMint } from './solana';
+import type { Dataset } from './history-source';
 export const MAX_GAP_MS = 2 * 60 * 60 * 1000;
 export const STALE_AFTER_MS = 3 * 60 * 60 * 1000;
 const HOUR_MS = 60 * 60 * 1000;
-export const HISTORY_DATASET = {
- kind: 'deployment_snapshot' as const,
- continuouslyUpdated: false as const,
- synchronizationIssue: 'https://github.com/fuzzysniper/scout-stonk-intel/issues/4',
-};
 
 type Issue = 'missing_data' | 'malformed_timestamp' | 'duplicate_timestamp' | 'conflicting_duplicate' | 'counter_decrease' | 'inconsistent_quote_asset' | 'unverified_source' | 'stale_data' | 'future_timestamp';
 type Quote = { symbol: string; mint: string | null };
 type Observation = { observedAt: string; timestamp: number; distributedTokens: number | null; payoutCount: number | null; quote: Quote | null; source: string | null; conflict: boolean };
 type Change = { startAt: string; endAt: string; observedSeconds: number; distributedTokens: number | null; quote: Quote | null; status: 'available' | 'invalid_data'; issues: Issue[] };
 export type HistoryWindow = {
- status: 'available' | 'insufficient_history' | 'invalid_data' | 'stale_data';
+ status: 'available' | 'insufficient_history' | 'invalid_data' | 'stale_data' | 'source_unavailable';
  requestedSeconds: number;
  requestedStartAt: string | null;
  startAt: string | null;
@@ -27,11 +23,11 @@ export type HistoryWindow = {
  distributedTokens: number | null;
  issues: Issue[];
 };
-export type HistoryReport = {
+export type HistorySummary = {
  mint: string;
  status: 'recorded' | 'no_history' | 'invalid_data';
  fetchedAt: string;
- dataset: typeof HISTORY_DATASET;
+ latestObservedAt: string | null;
  source: string;
  evidence: string;
  recordedCount: number;
@@ -45,6 +41,8 @@ export type HistoryReport = {
  changes: Change[];
  windows: { '24h': HistoryWindow; '7d': HistoryWindow };
 };
+
+export type HistoryReport = HistorySummary & { dataset: Dataset; dataFetchedAt: string | null };
 
 function object(value: unknown): value is Record<string, unknown> {
  return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -83,7 +81,7 @@ function compare(a: Observation, b: Observation): Change {
  };
 }
 
-export function summarizeHistory(store: unknown, mint: string, now = new Date()): HistoryReport {
+export function summarizeHistory(store: unknown, mint: string, now = new Date()): HistorySummary {
  const source = 'https://www.stonkfun.xyz/api/public/v1/tokens/' + encodeURIComponent(mint) + '/rewards';
  const issues = new Set<Issue>();
  const rows = object(store) && Object.hasOwn(store, mint) ? store[mint] : undefined;
@@ -166,7 +164,8 @@ export function summarizeHistory(store: unknown, mint: string, now = new Date())
  }
  return {
   mint, status: last ? (usable(last) && orderingIssues.size === 0 ? 'recorded' : 'invalid_data') : raw.length > 0 || !object(store) || (rows !== undefined && !Array.isArray(rows)) ? 'invalid_data' : 'no_history',
-  fetchedAt: now.toISOString(), dataset: HISTORY_DATASET, source, evidence: '/api/history?mint=' + encodeURIComponent(mint),
+  fetchedAt: now.toISOString(), source, evidence: '/api/history?mint=' + encodeURIComponent(mint),
+  latestObservedAt: last?.observedAt ?? null,
   recordedCount: raw.length, observationCount: unique.length,
   startAt: first?.observedAt ?? null, endAt: last?.observedAt ?? null,
   quote: last && usable(last) ? last.quote : null,

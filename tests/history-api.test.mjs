@@ -1,7 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-import os from 'node:os';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { NextRequest } from 'next/server.js';
@@ -9,72 +8,40 @@ const { GET } = await import(pathToFileURL(path.join(process.env.HISTORY_TEST_BU
 const mint = '8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS';
 const request = query => new NextRequest('http://localhost/api/history' + query);
 
-test('history API rejects invalid, absent, repeated and traversal mint parameters', async () => {
- for (const query of ['', '?mint=invalid', '?mint=../data', '?mint=' + mint + '&mint=' + mint]) {
-  const response = await GET(request(query));
-  assert.equal(response.status, 400);
-  assert.deepEqual(await response.json(), { error: 'Invalid Solana mint address' });
- }
-});
-test('history API serves only recorded points and returns no-history for an unrecorded mint', async () => {
- const response = await GET(request('?mint=' + mint));
- assert.equal(response.status, 200);
- assert.equal(response.headers.get('cache-control'), 'no-store');
- const r = await response.json();
- const store = JSON.parse(await fs.readFile(new URL('../data/reward-snapshots.json', import.meta.url), 'utf8'));
- assert.equal(r.observationCount, store[mint].length);
- assert.equal(r.dataset.kind, 'deployment_snapshot');
- assert.equal(r.dataset.continuouslyUpdated, false);
- assert.equal(r.dataset.synchronizationIssue, 'https://github.com/fuzzysniper/scout-stonk-intel/issues/4');
- assert.equal(r.latestLifetimeTotal, store[mint].at(-1).distributedTokens);
- for (const window of Object.values(r.windows)) {
-  if (window.status !== 'available') assert.equal(window.distributedTokens, null);
- }
- const empty = await GET(request('?mint=So11111111111111111111111111111111111111112'));
- assert.equal(empty.status, 200);
- assert.equal((await empty.json()).status, 'no_history');
-});
-test('missing or malformed store returns sanitized 503, never a path or parser exception', async () => {
- const original = process.cwd();
- const root = await fs.mkdtemp(path.join(os.tmpdir(), 'scout-history-api-test-'));
+test('history API rejects invalid parameters before accessing the source', async () => {
+ const original = globalThis.fetch;
+ globalThis.fetch = async () => { throw Error('must not fetch'); };
  try {
-  process.chdir(root);
-  await fs.mkdir('data');
-  for (const contents of [null, '{bad JSON', '[]']) {
-   if (contents !== null) await fs.writeFile('data/reward-snapshots.json', contents);
-   const response = await GET(request('?mint=' + mint));
-   assert.equal(response.status, 503);
-   const data = await response.json();
-   assert.equal(data.error, 'Recorded reward history is unavailable');
-   assert.equal(data.status, 'unavailable');
-   assert.deepEqual(Object.keys(data).sort(), ['error', 'fetchedAt', 'status']);
+  for (const query of ['', '?mint=invalid', '?mint=../data', '?mint='+mint+'&mint='+mint]) {
+   const response=await GET(request(query));assert.equal(response.status,400);
+   assert.deepEqual(await response.json(),{error:'Invalid Solana mint address'});
   }
- } finally { process.chdir(original); await fs.rm(root, { recursive: true, force: true }); }
+ } finally {globalThis.fetch=original;}
 });
-
-// Artificial fixtures stay in a temporary checkout, never in the repository dataset.
-test('reading the same deployment later does not refresh observations or stale windows', async () => {
- const original = process.cwd();
- const root = await fs.mkdtemp(path.join(os.tmpdir(), 'scout-bundled-history-test-'));
+test('cold failure, real records, missing mint and degraded cache have safe API semantics', async () => {
+ const original=globalThis.fetch, originalNow=Date.now;
+ let clock=originalNow(), fail=true;
+ globalThis.fetch=async()=>{if(fail)throw Error('secret/path/token');return new Response(await fs.readFile(new URL('../data/reward-snapshots.json',import.meta.url),'utf8'));};
+ Date.now=()=>clock;
  try {
-  process.chdir(root);
-  await fs.mkdir('data');
-  const observedAt = new Date(Date.now() - 4 * 3600000).toISOString();
-  await fs.writeFile('data/reward-snapshots.json', JSON.stringify({ [mint]: [{
-   observedAt, distributedTokens: 1, quoteSymbol: 'TEST',
-   source: 'https://www.stonkfun.xyz/api/public/v1/tokens/' + mint + '/rewards',
-  }] }));
-  for (let i = 0; i < 2; i++) {
-   const response = await GET(request('?mint=' + mint));
-   const report = await response.json();
-   assert.equal(report.endAt, observedAt);
-   assert.equal(report.freshness.status, 'stale');
-   assert.ok(Date.parse(report.fetchedAt) > Date.parse(report.endAt));
-   assert.equal(report.dataset.continuouslyUpdated, false);
-   for (const window of Object.values(report.windows)) {
-    assert.equal(window.status, 'stale_data');
-    assert.equal(window.distributedTokens, null);
-   }
-  }
- } finally { process.chdir(original); await fs.rm(root, { recursive: true, force: true }); }
+  let response=await GET(request('?mint='+mint));
+  assert.equal(response.status,503);assert.equal(response.headers.get('cache-control'),'no-store');
+  let report=await response.json();assert.equal(report.dataset.sourceStatus,'unavailable');
+  assert.equal(report.latestObservedAt,null);assert.equal(report.dataFetchedAt,null);
+  assert.ok(!JSON.stringify(report).includes('secret'));
+  clock+=60000;fail=false;
+  response=await GET(request('?mint='+mint));assert.equal(response.status,200);
+  report=await response.json();assert.equal(report.dataset.kind,'github_snapshot');
+  assert.match(report.dataset.revision,/^sha256:[a-f0-9]{64}$/);
+  const stored=JSON.parse(await fs.readFile(new URL('../data/reward-snapshots.json',import.meta.url),'utf8'));
+  assert.equal(report.latestLifetimeTotal,stored[mint].at(-1).distributedTokens);
+  assert.equal(report.latestObservedAt,report.endAt);assert.equal(report.dataFetchedAt,report.dataset.dataFetchedAt);
+  const fetchedAt=report.dataFetchedAt;
+  const empty=await GET(request('?mint=So11111111111111111111111111111111111111112'));
+  assert.equal((await empty.json()).status,'no_history');
+  clock+=300000;fail=true;
+  report=await (await GET(request('?mint='+mint))).json();
+  assert.equal(report.dataset.sourceStatus,'degraded');assert.equal(report.dataFetchedAt,fetchedAt);
+  for(const window of Object.values(report.windows)){assert.equal(window.status,'source_unavailable');assert.equal(window.distributedTokens,null);}
+ } finally {globalThis.fetch=original;Date.now=originalNow;}
 });
