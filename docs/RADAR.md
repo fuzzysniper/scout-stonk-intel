@@ -34,7 +34,7 @@ Retention is bounded to 193 points per tracked mint (eight days plus a point at 
 
 ## API and comparison safeguards
 
-`GET /api/radar` aggregates the reviewed allowlist against the same sourced GitHub reader used by `/api/history`; it does not call StonkFun once per visitor or use deployment-local JSON as fresh history. `sort=name` is default, `sort=freshness` orders latest actual timestamps descending with name/mint tie-breaks. Other/repeated sorts return 400. There is no sort by amount, investment score or estimated profitability. One GitHub dataset read supplies all rows.
+`GET /api/radar` aggregates the reviewed allowlist against the same sourced GitHub reader used by `/api/history`; it does not call StonkFun once per visitor or use deployment-local JSON as fresh history. `sort=coverage` is now default (Signal Lab evidence readiness, point coverage, then freshness); explicit `sort=name` remains supported, `sort=freshness` orders latest actual timestamps descending with name/mint tie-breaks. Other/repeated sorts return 400. Signal Lab adds allowlisted `quoteMint` filtering; see [SIGNALS.md](SIGNALS.md). There is no sort by amount, investment score or estimated profitability. One GitHub dataset read supplies all rows.
 
 Each row contains mint, expected verified quote identity, identity verification time/provenance, latest actual observation, unique point count, observation freshness, quality issues, last recorded point-change interval/status, 24h/7d coverage, dossier/history/official API/onchain token links. Missing mints still have an identity card but no observation, no delta and no implied zero rewards. The dataset exposes its byte revision, original successful retrieval time and independent source status.
 
@@ -71,3 +71,7 @@ After a human-approved rollout, check `/radar` and `/api/radar`: seven allowlist
 ## Rollback and approval
 
 Revert this feature commit through a reviewed PR and approved deployment to remove Radar/links and restore the previous allowlist/collector. Preserve any genuine later observations when resolving the data-file revert; do not delete real collected history blindly. Existing `/api/history` and GitHub synchronization continue. No schema migration, DNS change, paid service teardown, secret revocation or transaction rollback is needed. Merge and production deployment require human approval; this task performs neither.
+
+## Signal Lab V1
+
+[Issue #8 methodology](SIGNALS.md) documents the pure matched-period calculation, observed reward velocity, relative velocity change, zero-baseline categories, explicit quote identity and stricter coverage/freshness rules. Signal Lab is now the primary compact card view; last-point/archive and identity evidence remain in disclosures. Earlier screenshots and rollout statements above describe the original Radar release and are retained as historical evidence.

@@ -27,3 +27,7 @@ The token dossier includes read-only `GET /api/history?mint=...` backed by GitHu
 ## Intelligence Radar
 
 Open `/radar` for a mobile-first, read-only watchlist of seven officially verified reward tokens. Rows show actual observation times, point counts, coverage, source warnings and evidence links. Missing or incomparable data remains unavailable. See [verification, methodology, operational costs and rollback](docs/RADAR.md).
+
+## Signal Lab V1
+
+The Radar compares observed distributions over consecutive 24h targets, with actual-hour velocity, relative velocity change and explicit coverage reasons. It defaults to evidence coverage/freshness and filters by verified quote mint. Both periods must pass; early history remains unavailable. See [matched-period methodology, caveats and rollback](docs/SIGNALS.md). No predictions, holder-profit claims or trading alerts.

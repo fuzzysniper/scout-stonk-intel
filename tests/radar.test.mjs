@@ -82,3 +82,11 @@ test('checked-in observations are genuine initial samples; legacy rows are never
  const knots=r.rows.find(row=>row.symbol==='KNOTS');assert.equal(knots.pointChange.distributedTokens,null);
  assert.equal(store[knots.mint][0].quoteMint,undefined);
 });
+
+test('default coverage order promotes comparable evidence rather than reward magnitude',()=>{
+ const end=now.getTime();const data={};
+ for(const [index,t] of tokens.slice(0,2).entries()){
+  data[t.mint]=Array.from({length:index===0?49:3},(_,i)=>({observedAt:new Date(end+(i-(index===0?48:2))*3600000).toISOString(),distributedTokens:index===0?i:1000000+i,quoteMint:t.quoteMint,quoteSymbol:t.quoteSymbol,source:t.source,payoutCount:i}));
+ }
+ const r=summarizeRadar(data,tokens,dataset,undefined,now);assert.equal(r.sort,'coverage');assert.equal(r.rows[0].mint,tokens[0].mint);assert.equal(r.rows[0].signals.status,'available');
+});

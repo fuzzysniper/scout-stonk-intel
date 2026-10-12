@@ -1,8 +1,11 @@
 import { summarizeHistory, MAX_GAP_MS } from './history';
+import { calculateSignals } from './signals';
+import type { SignalReport } from './signals';
 import type { HistoryWindow } from './history';
 import type { Dataset } from './history-source';
 import type { TrackedToken } from './tracked-tokens';
 export type RadarRow = TrackedToken & {
+ signals: SignalReport;
  observationCount: number; latestObservedAt: string | null;
  freshness: 'fresh' | 'stale' | 'unavailable'; quality: string[];
  pointChange: { status: string; distributedTokens: number | null; startAt: string | null; endAt: string | null; observedSeconds: number | null };
@@ -11,11 +14,11 @@ export type RadarRow = TrackedToken & {
 };
 export type RadarReport = {
  status: 'available' | 'degraded' | 'unavailable'; fetchedAt: string; dataset: Dataset;
- sort: 'name' | 'freshness'; rows: RadarRow[];
+ sort: 'coverage' | 'name' | 'freshness'; quoteMint: string | null; quotes: { mint: string; symbol: string }[]; rows: RadarRow[];
 };
-export function summarizeRadar(store: unknown, tokens: TrackedToken[], dataset: Dataset, sort: RadarReport['sort'] = 'name', now = new Date()): RadarReport {
+export function summarizeRadar(store: unknown, tokens: TrackedToken[], dataset: Dataset, sort: RadarReport['sort'] = 'coverage', now = new Date(), quoteMint: string | null = null): RadarReport {
  const sourceGood = dataset.sourceStatus === 'available' || dataset.sourceStatus === 'cached';
- const rows = tokens.map(token => {
+ const rows = tokens.filter(token => quoteMint === null || token.quoteMint === quoteMint).map(token => {
   const history = summarizeHistory(store ?? {}, token.mint, now);
   const change = history.changes.at(-1);
   let status = 'insufficient_history';
@@ -44,7 +47,8 @@ export function summarizeRadar(store: unknown, tokens: TrackedToken[], dataset: 
     window.status = 'invalid_data'; window.distributedTokens = null;
    }
   }
-  return { ...token, observationCount: history.observationCount, latestObservedAt: history.latestObservedAt,
+  const signals = calculateSignals(store, token.mint, { mint: token.quoteMint, symbol: token.quoteSymbol }, dataset.sourceStatus, now);
+  return { ...token, signals, observationCount: history.observationCount, latestObservedAt: history.latestObservedAt,
    freshness: history.freshness.status, quality: [...history.issues, ...(!identity && history.observationCount ? ['quote_unverified'] : [])],
    pointChange: { status, distributedTokens: status === 'available' ? change?.distributedTokens ?? null : null,
     startAt: change?.startAt ?? null, endAt: change?.endAt ?? null, observedSeconds: change?.observedSeconds ?? null },
@@ -52,7 +56,10 @@ export function summarizeRadar(store: unknown, tokens: TrackedToken[], dataset: 
    onchain: 'https://solscan.io/token/' + token.mint,
   };
  });
- rows.sort((a, b) => (sort === 'freshness' ? (Date.parse(b.latestObservedAt ?? '') || 0) - (Date.parse(a.latestObservedAt ?? '') || 0) : 0) || a.name.localeCompare(b.name) || a.mint.localeCompare(b.mint));
+ const coverage = (row: RadarRow) => Math.min(25, row.signals.current.observationCount) + Math.min(25, row.signals.previous.observationCount);
+ rows.sort((a, b) => (sort === 'coverage' ? Number(b.signals.status === 'available') - Number(a.signals.status === 'available') || coverage(b) - coverage(a) : 0) ||
+  (sort !== 'name' ? (Date.parse(b.latestObservedAt ?? '') || 0) - (Date.parse(a.latestObservedAt ?? '') || 0) : 0) || a.name.localeCompare(b.name) || a.mint.localeCompare(b.mint));
+ const quotes = [...new Map(tokens.map(token => [token.quoteMint, { mint: token.quoteMint, symbol: token.quoteSymbol }])).values()].sort((a, b) => a.symbol.localeCompare(b.symbol) || a.mint.localeCompare(b.mint));
  return { status: sourceGood ? 'available' : dataset.sourceStatus === 'degraded' ? 'degraded' : 'unavailable',
-  fetchedAt: now.toISOString(), dataset, sort, rows };
+  fetchedAt: now.toISOString(), dataset, sort, quoteMint, quotes, rows };
 }
