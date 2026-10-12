@@ -23,6 +23,9 @@ test('history API serves only recorded points and returns no-history for an unre
  const r = await response.json();
  const store = JSON.parse(await fs.readFile(new URL('../data/reward-snapshots.json', import.meta.url), 'utf8'));
  assert.equal(r.observationCount, store[mint].length);
+ assert.equal(r.dataset.kind, 'deployment_snapshot');
+ assert.equal(r.dataset.continuouslyUpdated, false);
+ assert.equal(r.dataset.synchronizationIssue, 'https://github.com/fuzzysniper/scout-stonk-intel/issues/4');
  assert.equal(r.latestLifetimeTotal, store[mint].at(-1).distributedTokens);
  for (const window of Object.values(r.windows)) {
   if (window.status !== 'available') assert.equal(window.distributedTokens, null);
@@ -45,6 +48,33 @@ test('missing or malformed store returns sanitized 503, never a path or parser e
    assert.equal(data.error, 'Recorded reward history is unavailable');
    assert.equal(data.status, 'unavailable');
    assert.deepEqual(Object.keys(data).sort(), ['error', 'fetchedAt', 'status']);
+  }
+ } finally { process.chdir(original); await fs.rm(root, { recursive: true, force: true }); }
+});
+
+// Artificial fixtures stay in a temporary checkout, never in the repository dataset.
+test('reading the same deployment later does not refresh observations or stale windows', async () => {
+ const original = process.cwd();
+ const root = await fs.mkdtemp(path.join(os.tmpdir(), 'scout-bundled-history-test-'));
+ try {
+  process.chdir(root);
+  await fs.mkdir('data');
+  const observedAt = new Date(Date.now() - 4 * 3600000).toISOString();
+  await fs.writeFile('data/reward-snapshots.json', JSON.stringify({ [mint]: [{
+   observedAt, distributedTokens: 1, quoteSymbol: 'TEST',
+   source: 'https://www.stonkfun.xyz/api/public/v1/tokens/' + mint + '/rewards',
+  }] }));
+  for (let i = 0; i < 2; i++) {
+   const response = await GET(request('?mint=' + mint));
+   const report = await response.json();
+   assert.equal(report.endAt, observedAt);
+   assert.equal(report.freshness.status, 'stale');
+   assert.ok(Date.parse(report.fetchedAt) > Date.parse(report.endAt));
+   assert.equal(report.dataset.continuouslyUpdated, false);
+   for (const window of Object.values(report.windows)) {
+    assert.equal(window.status, 'stale_data');
+    assert.equal(window.distributedTokens, null);
+   }
   }
  } finally { process.chdir(original); await fs.rm(root, { recursive: true, force: true }); }
 });

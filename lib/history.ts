@@ -3,6 +3,11 @@ import { isSolanaMint } from './solana';
 export const MAX_GAP_MS = 2 * 60 * 60 * 1000;
 export const STALE_AFTER_MS = 3 * 60 * 60 * 1000;
 const HOUR_MS = 60 * 60 * 1000;
+export const HISTORY_DATASET = {
+ kind: 'deployment_snapshot' as const,
+ continuouslyUpdated: false as const,
+ synchronizationIssue: 'https://github.com/fuzzysniper/scout-stonk-intel/issues/4',
+};
 
 type Issue = 'missing_data' | 'malformed_timestamp' | 'duplicate_timestamp' | 'conflicting_duplicate' | 'counter_decrease' | 'inconsistent_quote_asset' | 'unverified_source' | 'stale_data' | 'future_timestamp';
 type Quote = { symbol: string; mint: string | null };
@@ -26,6 +31,7 @@ export type HistoryReport = {
  mint: string;
  status: 'recorded' | 'no_history' | 'invalid_data';
  fetchedAt: string;
+ dataset: typeof HISTORY_DATASET;
  source: string;
  evidence: string;
  recordedCount: number;
@@ -146,20 +152,21 @@ export function summarizeHistory(store: unknown, mint: string, now = new Date())
   }
   const gaps = segment.slice(1).map((point, i) => point.timestamp - segment[i].timestamp);
   result.maxGapSeconds = gaps.length ? Math.max(...gaps) / 1000 : null;
+  // Stale bundled data cannot claim current windows, even with incomplete coverage.
+  if (stale) { result.status = 'stale_data'; result.issues = ['stale_data']; return result; }
   if (index < 0 || !baseline || target - baseline.timestamp > MAX_GAP_MS || gaps.some(gap => gap > MAX_GAP_MS)) return result;
   result.timing = baseline.timestamp === target ? 'exact' : 'nearest_snapshot';
   const invalid = new Set<Issue>();
   for (const issue of orderingIssues) invalid.add(issue);
   for (let i = 1; i < segment.length; i++) for (const issue of compare(segment[i - 1], segment[i]).issues) invalid.add(issue);
   if (invalid.size) { result.status = 'invalid_data'; result.issues = [...invalid]; return result; }
-  if (stale) { result.status = 'stale_data'; result.issues = ['stale_data']; return result; }
   result.status = 'available';
   result.distributedTokens = last.distributedTokens! - baseline.distributedTokens!;
   return result;
  }
  return {
   mint, status: last ? (usable(last) && orderingIssues.size === 0 ? 'recorded' : 'invalid_data') : raw.length > 0 || !object(store) || (rows !== undefined && !Array.isArray(rows)) ? 'invalid_data' : 'no_history',
-  fetchedAt: now.toISOString(), source, evidence: '/api/history?mint=' + encodeURIComponent(mint),
+  fetchedAt: now.toISOString(), dataset: HISTORY_DATASET, source, evidence: '/api/history?mint=' + encodeURIComponent(mint),
   recordedCount: raw.length, observationCount: unique.length,
   startAt: first?.observedAt ?? null, endAt: last?.observedAt ?? null,
   quote: last && usable(last) ? last.quote : null,

@@ -146,3 +146,14 @@ test('coverage metadata exposes gaps and boundary approximation limits', () => {
  assert.equal(w.maxGapSeconds, 4 * 3600);
  assert.equal(w.distributedTokens, null);
 });
+
+test('three-hour freshness boundary and stale incomplete windows are explicit', () => {
+ for (const elapsed of [3 * 3600000, 3 * 3600000 + 1]) {
+  const r = summarizeHistory({ [mint]: [point(0, 1)] }, mint, new Date(end + elapsed));
+  assert.equal(r.freshness.status, elapsed > 3 * 3600000 ? 'stale' : 'fresh');
+  for (const window of Object.values(r.windows)) {
+   assert.equal(window.status, elapsed > 3 * 3600000 ? 'stale_data' : 'insufficient_history');
+   assert.equal(window.distributedTokens, null);
+  }
+ }
+});

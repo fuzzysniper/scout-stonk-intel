@@ -46,6 +46,7 @@ export default function HistoryPanel({ mint }: { mint: string }) {
  const symbol = report?.quote?.symbol ?? 'quote tokens';
  return <section className="history-panel" aria-labelledby="history-title" aria-busy={loading}>
   <h3 id="history-title">Historical reward observations</h3>
+  <p className="history-method"><strong>Deployment snapshot · not continuously updated.</strong> This history is bundled with this deployment. Hourly collector commits do not automatically update a running deployment. <a href="https://github.com/fuzzysniper/scout-stonk-intel/issues/4" target="_blank" rel="noopener noreferrer">Issue #4: reliable production synchronization</a> is required before continuously updated historical comparisons can be promoted.</p>
   <p className="history-status" role="status">{loading ? 'Loading recorded history…' : failed ? 'Recorded history is temporarily unavailable. Scan again to retry.' :
    report?.status === 'no_history' ? 'No recorded history for this mint.' : report?.status === 'invalid_data' ? 'Recorded history has data quality issues.' :
    `${report?.observationCount} timestamped observation${report?.observationCount === 1 ? '' : 's'} · ${report?.freshness.status === 'stale' ? 'Stale' : 'Recorded'} history`}</p>
@@ -55,15 +56,15 @@ export default function HistoryPanel({ mint }: { mint: string }) {
     <div><dt>Observation start (UTC)</dt><dd>{utc(report.startAt)}</dd></div>
     <div><dt>Observation end (UTC)</dt><dd>{utc(report.endAt)}</dd></div>
     <div><dt>Quote asset</dt><dd>{report.quote?.symbol ?? 'Unavailable'}{report.quote?.mint ? ` · ${report.quote.mint}` : ' · mint identity not recorded'}</dd></div>
-    <div><dt>Latest recorded lifetime total</dt><dd>{report.latestLifetimeTotal === null ? 'Unavailable' : `${number(report.latestLifetimeTotal)} ${symbol}`}</dd></div>
-    <div><dt>History fetched (UTC)</dt><dd>{utc(report.fetchedAt)}</dd></div>
+    <div><dt>Snapshot lifetime total · as of observation end, not a current total</dt><dd>{report.latestLifetimeTotal === null ? 'Unavailable' : `${number(report.latestLifetimeTotal)} ${symbol}`}</dd></div>
+    <div><dt>Bundled history read (UTC) · not a source refresh</dt><dd>{utc(report.fetchedAt)}</dd></div>
     <div><dt>Observation age</dt><dd>{duration(report.freshness.ageSeconds)} · stale after 3 hours</dd></div>
    </dl>
    {report.issues.length > 0 && <ul className="history-warnings" aria-label="History limitations">{report.issues.map(issue => <li key={issue}>{issueLabels[issue] ?? issue}</li>)}</ul>}
    <div className="history-windows"><Window label="24-hour" window={report.windows['24h']} symbol={symbol}/><Window label="7-day" window={report.windows['7d']} symbol={symbol}/></div>
    <details className="history-changes"><summary>Recorded-point changes ({report.changes.length})</summary>
     {report.changes.length === 0 ? <p>At least two recorded observations are needed. No change can be calculated from one point.</p> : <>
-     <p>Most recent {Math.min(12, report.changes.length)} comparisons. Full history is linked below.</p>
+     <p>Most recent {Math.min(12, report.changes.length)} archived comparisons, not current windows. Full bundled history is linked below.</p>
      <ol>{report.changes.slice(-12).map(change => <li key={change.endAt}>
       <span>{utc(change.startAt)} → {utc(change.endAt)} ({duration(change.observedSeconds)})</span><br/>
       <strong>{change.distributedTokens === null ? 'Comparison withheld' : `${number(change.distributedTokens)} ${change.quote?.symbol ?? 'quote tokens'} observed change`}</strong>
@@ -72,7 +73,7 @@ export default function HistoryPanel({ mint }: { mint: string }) {
     </>}
    </details>
    <p className="history-method">Windows end at the latest recorded observation, not the fetch time. Changes subtract comparable recorded cumulative counters only; no interpolation or extrapolation. API-reported token distributions are not independently reconciled, APY, or an individual holder’s profit. Quote symbols alone do not verify asset identity. Numbers use JavaScript precision and are rounded to 6 decimals for display.</p>
-   <div className="sourcelinks"><a href={report.evidence} target="_blank" rel="noopener noreferrer">HISTORY JSON ↗</a><a href="https://github.com/fuzzysniper/scout-stonk-intel/blob/main/data/reward-snapshots.json" target="_blank" rel="noopener noreferrer">RECORDED SNAPSHOTS ↗</a><a href={report.source} target="_blank" rel="noopener noreferrer">STONKFUN SOURCE ↗</a></div>
+   <div className="sourcelinks"><a href={report.evidence} target="_blank" rel="noopener noreferrer">HISTORY JSON ↗</a><a href="https://github.com/fuzzysniper/scout-stonk-intel/blob/main/data/reward-snapshots.json" target="_blank" rel="noopener noreferrer">REPOSITORY SNAPSHOTS · MAY DIFFER ↗</a><a href={report.source} target="_blank" rel="noopener noreferrer">STONKFUN SOURCE ↗</a></div>
   </>}
  </section>;
 }

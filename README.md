@@ -22,4 +22,4 @@ See [SPEC.md](SPEC.md) for the 72-hour roadmap. Next: integrate a verifiable rea
 
 ## Recorded reward history
 
-The token dossier includes a read-only historical-rewards panel backed by `GET /api/history?mint=...` and the checked-in reward snapshots. Window totals remain unavailable until recorded coverage and data quality are adequate. See [methodology, limitations, verification, and rollback](docs/HISTORY.md). Run `npm test` for the history calculator and API regression tests.
+The token dossier includes a read-only historical-rewards panel backed by `GET /api/history?mint=...` and deployment-bundled reward snapshots. It is not continuously updated production history: hourly repository commits do not automatically refresh a running deployment. [Issue #4](https://github.com/fuzzysniper/scout-stonk-intel/issues/4) is required before promoting continuously updated comparisons. Window totals remain unavailable until recorded coverage and data quality are adequate. See [methodology, limitations, verification, and rollback](docs/HISTORY.md). Run `npm test` for the history calculator and API regression tests.

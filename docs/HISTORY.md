@@ -1,8 +1,8 @@
 # Recorded reward history
 
-Issue: [#2](https://github.com/fuzzysniper/scout-stonk-intel/issues/2).
+Issue: [#2](https://github.com/fuzzysniper/scout-stonk-intel/issues/2). Required production synchronization follow-up: [#4](https://github.com/fuzzysniper/scout-stonk-intel/issues/4).
 
-`GET /api/history?mint=...` reads `data/reward-snapshots.json` on the server. It makes no upstream request, writes no observations, and requires no credentials. The same strict base58/32-byte mint validation used by the dossier applies; missing, invalid, and repeated mint parameters return HTTP 400. A missing or unparsable store returns a generic HTTP 503 without file paths or exception details. An unrecorded valid mint returns HTTP 200 with `no_history`, null totals, and insufficient windows. Responses are uncached so `fetchedAt` describes this read, not a cached fetch.
+`GET /api/history?mint=...` reads `data/reward-snapshots.json` on the server. It makes no upstream request, writes no observations, and requires no credentials. The same strict base58/32-byte mint validation used by the dossier applies; missing, invalid, and repeated mint parameters return HTTP 400. A missing or unparsable store returns a generic HTTP 503 without file paths or exception details. An unrecorded valid mint returns HTTP 200 with `no_history`, null totals, and insufficient windows. Responses are uncached so `fetchedAt` describes this local read, not an upstream refresh. Successful responses include `dataset.kind = deployment_snapshot`, `dataset.continuouslyUpdated = false`, and the synchronization issue URL. `endAt` is the latest recorded observation; a recent `fetchedAt` does not make old observations fresh.
 
 ## Observation handling
 
@@ -21,7 +21,7 @@ The baseline is the nearest recorded point at or before the requested boundary. 
 
 An exact baseline is labeled `exact`; an earlier baseline is `nearest_snapshot`, with its actual longer interval and offset disclosed. The result is the counter change over those **actual observations**, never an interpolated exact-period total. Every intervening observation must remain comparable; otherwise the window is `invalid_data` with a null total.
 
-Observations older than 3 hours are explicitly stale. Even when historical coverage is otherwise adequate, stale windows return `stale_data` with null totals; recorded lifetime totals and historical point comparisons remain labeled with their observation times. Window completeness does not establish exhaustive transaction-level coverage.
+Observations older than 3 hours are explicitly stale. Regardless of historical coverage, stale windows return `stale_data` with null totals; recorded lifetime totals and historical point comparisons remain labeled with their observation times. Window completeness does not establish exhaustive transaction-level coverage.
 
 ## Limitations
 
@@ -34,7 +34,7 @@ These are StonkFun API-reported token totals, not independently reconciled trans
 Use Node 20 (matching CI):
 
 ```sh
-npm install --package-lock=false --no-audit --no-fund
+npm ci
 npm test
 npx tsc --noEmit
 npm run lint
@@ -42,17 +42,30 @@ npm run build
 npm run start -- --hostname 127.0.0.1 --port 3108
 ```
 
-The existing lockfile pins `eslint-config-next` 15.5.3 while the manifest requests 15.5.9. `npm ci` fails on this pre-existing mismatch. Installation above respects the manifest without rewriting the lockfile; no dependencies were added. Repairing the existing lockfile is a separate review item.
+The lockfile now matches the existing manifest: `eslint-config-next` and its Next plugin are 15.5.9, and the root records the existing direct `@eslint/eslintrc` dependency. No manifest dependencies were added. CI uses `npm ci` to detect future drift.
 
-`npm test` compiles the actual history calculator and route into a temporary directory and uses Node's built-in test runner. Twenty tests cover all issue-required cases plus strict validation, source/quote consistency, stale/future timestamps, zero/missing values, malformed storage, and sanitized responses. Artificial counters exist only in explicitly labeled unit tests; API checks and UI screenshots use the actual checked-in store. CI runs the new tests and lint before type checking/build.
+`npm test` compiles the actual history calculator and route into a temporary directory and uses Node's built-in test runner. Twenty-two tests cover all issue-required cases plus strict validation, source/quote consistency, stale/future timestamps, zero/missing values, malformed storage, and sanitized responses. Artificial counters exist only in explicitly labeled unit tests; API checks and UI screenshots use the actual checked-in store. CI runs the new tests and lint before type checking/build.
 
-The history panel announces loading/error/no-history states, uses labeled sections and semantic definitions, displays UTC timestamps, and aborts obsolete requests when the selected mint changes. Window cards stack on mobile. JSON, snapshot, and StonkFun links provide evidence. Production smoke checks returned HTTP 200 for the homepage, mint-specific metadata, recorded history, and unrecorded history; invalid/repeated mint parameters returned 400 and POST returned 405. Chromium checks at 1280px and 390px found no horizontal overflow or uncaught browser errors; the recorded-change disclosure was operated with the keyboard. All 20 tests passed (none skipped), and TypeScript, lint, and the production build exited 0. The build retains the existing nonblocking edge-runtime/static-generation warning.
+The history panel announces loading/error/no-history states, uses labeled sections and semantic definitions, displays UTC timestamps, and aborts obsolete requests when the selected mint changes. Window cards stack on mobile. Snapshot lifetime totals and adjacent-point changes are archived evidence with observation times, even if stale; they are not current window totals. The repository snapshot link can differ from the bundled dataset; the history JSON reflects this deployment.
 
+## Deployment and synchronization boundary
+
+The hourly collector runs at minute 17 and commits observations to the repository. This changes repository history only. A running deployment keeps its bundled checkout; `force-dynamic`, `no-store`, refreshing the browser, or reading the file again does not fetch newer GitHub data. Only a successful build from a checkout containing those observations, followed by deployment of that artifact, can change this bundled dataset. This PR does not configure or verify that propagation. GitHub Actions bot commits also must not be assumed to trigger downstream workflows or deployments.
+
+Issue #4 must land in a separately reviewed feature PR before historical comparisons are promoted as continuously updated production data. It requires a durable read-only serving path, dataset revision and observation/fetch times, bounded caching with stale/outage handling, tests for updates after deployment, and verification on the deployed host. Infrastructure choices and any paid costs remain subject to review. This PR adds no storage service, credentials, synchronization job, or production deployment.
+
+### Review follow-up verification
+
+Validated on Node 20.20.2 and npm 11.9.0: `npm ci` exited 0 (310 packages installed); `npm test` exited 0 (22 passed, 0 failed/cancelled/skipped); `npx tsc --noEmit`, `npm run lint`, and `npm run build` each exited 0. Installation emitted the existing ESLint 9.39.5 deprecation warning; the build emitted the existing edge-runtime/static-generation warning. Initial sandboxed test runs reported only two files; the verified run with executor network permission reported all 22 individual assertions. The workspace npm cache was selected with `NPM_CONFIG_CACHE=/workspace/.npm`, and Node 20 was selected through PATH.
+
+Local production-server checks: homepage, recorded history, and unrecorded mint HTTP 200; invalid/repeated mint HTTP 400; POST HTTP 405. Real history contained one observation at `2026-10-12T15:43:41.000Z`; the API returned deployment-snapshot metadata, `no-store`, stale freshness, and null 24h/7d totals. Chromium at 1280px and 390px confirmed snapshot labeling, withheld stale windows, no horizontal overflow or uncaught page errors, and keyboard-operated disclosure. No history or API response was mocked. No deployed-host synchronization or remote CI result is established by these local checks. The original screenshots below predate the deployment-snapshot labeling; refreshed screenshots are added for this review. Tests include stale incomplete windows, the exact three-hour freshness boundary, and repeated reads of the same stale deployment dataset. Artificial data stays in unit tests or temporary directories and never enters checked-in history.
 ### Screenshots
 
 Captured from the local production build without fabricated API/history responses:
 
-- [Desktop: recorded KNOTS history](screenshots/history-desktop.png)
+- [Updated desktop: deployment snapshot](screenshots/history-desktop-snapshot.png)
+- [Updated mobile: deployment snapshot](screenshots/history-mobile-snapshot.png)
+- [Original desktop: recorded KNOTS history](screenshots/history-desktop.png)
 - [Mobile: recorded KNOTS history](screenshots/history-mobile.png)
 - [Mobile: unrecorded mint](screenshots/history-no-history.png)
 
