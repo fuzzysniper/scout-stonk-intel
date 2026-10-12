@@ -25,3 +25,7 @@ No production secrets in agent prompts or pull-request logs. No autonomous trans
 2. Configure GitHub branch protection and required checks.
 3. Define agent budget and allowed issue labels.
 4. Validate the first branch-only PR end to end.
+
+## Data Health operational monitoring
+
+[Data Health V1](DATA_HEALTH.md) documents per-token freshness/coverage, dated scheduler evidence, bounded collection summaries, optional daily operational alerts and human-approved verification. This operational view does not change the historical or Signal Lab calculations.

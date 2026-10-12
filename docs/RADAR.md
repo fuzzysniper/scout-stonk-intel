@@ -75,3 +75,7 @@ Revert this feature commit through a reviewed PR and approved deployment to remo
 ## Signal Lab V1
 
 [Issue #8 methodology](SIGNALS.md) documents the pure matched-period calculation, observed reward velocity, relative velocity change, zero-baseline categories, explicit quote identity and stricter coverage/freshness rules. Signal Lab is now the primary compact card view; last-point/archive and identity evidence remain in disclosures. Earlier screenshots and rollout statements above describe the original Radar release and are retained as historical evidence.
+
+## Data Health operational monitoring
+
+[Data Health V1](DATA_HEALTH.md) documents per-token freshness/coverage, dated scheduler evidence, bounded collection summaries, optional daily operational alerts and human-approved verification. This operational view does not change the historical or Signal Lab calculations.

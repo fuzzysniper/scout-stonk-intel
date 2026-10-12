@@ -31,3 +31,7 @@ Open `/radar` for a mobile-first, read-only watchlist of seven officially verifi
 ## Signal Lab V1
 
 The Radar compares observed distributions over consecutive 24h targets, with actual-hour velocity, relative velocity change and explicit coverage reasons. It defaults to evidence coverage/freshness and filters by verified quote mint. Both periods must pass; early history remains unavailable. See [matched-period methodology, caveats and rollback](docs/SIGNALS.md). No predictions, holder-profit claims or trading alerts.
+
+## Data Health
+
+`/status` exposes per-token actual observation freshness, coverage and dated collector/publication evidence. See [methodology, operational verification, optional alerts and rollback](docs/DATA_HEALTH.md). No uptime or production reliability claim follows from a green workflow alone.

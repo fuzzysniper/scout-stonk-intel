@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "checkedAt": "2026-10-12T23:27:21Z",
+  "state": "checked",
+  "reason": null,
+  "workflowState": "unknown",
+  "scheduledRunCount": 1,
+  "runs": [
+    {
+      "id": 38319900484,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-12T23:01:12Z",
+      "updatedAt": "2026-10-12T23:01:24Z",
+      "collectionStep": "success",
+      "commitStep": "success",
+      "confirmedCommit": "b4ad30fb49226b2de86fef5ce30b7acc70018857",
+      "recordedCount": 7
+    },
+    {
+      "id": 38304889111,
+      "event": "workflow_dispatch",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-12T20:32:28Z",
+      "updatedAt": "2026-10-12T20:32:37Z",
+      "collectionStep": "success",
+      "commitStep": "success",
+      "confirmedCommit": "027ab3eb95acce515beb79dc74e5764036384759",
+      "recordedCount": 1
+    },
+    {
+      "id": 38272331847,
+      "event": "workflow_dispatch",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-12T15:43:36Z",
+      "updatedAt": "2026-10-12T15:43:45Z",
+      "collectionStep": "success",
+      "commitStep": "success",
+      "confirmedCommit": "804c6ee7d882c52fd334c2df3f3f132a9a9c2dff",
+      "recordedCount": 1
+    }
+  ],
+  "latestDatasetCommit": {
+    "sha": "b4ad30fb49226b2de86fef5ce30b7acc70018857",
+    "committedAt": "2026-10-12T23:01:19Z",
+    "revision": "sha256:ef971b99e0014c7bdbf498e50e0725e5e6f79c678c5d719394436d677e0e4b00"
+  }
+}

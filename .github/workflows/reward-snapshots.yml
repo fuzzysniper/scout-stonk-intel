@@ -10,21 +10,44 @@ concurrency:
   cancel-in-progress: false
 jobs:
   collect:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: main
           persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: python scripts/collect_rewards.py
-      - name: Commit observed data
+      - name: Collect observations
+        id: collect
+        continue-on-error: true
+        run: python scripts/collect_rewards.py
+      - name: Persist observations and summary
+        id: persist
         run: |
+          set -euo pipefail
           git config user.name "scout-data-bot"
           git config user.email "scout-data-bot@users.noreply.github.com"
-          git add data/reward-snapshots.json
+          git add data/reward-snapshots.json data/collection-summary.json
           if ! git diff --cached --quiet; then
-            git commit -m "data: append observed StonkFun reward snapshots"
-            git push
+            git commit -m "data: persist observed rewards and collector summary"
+            git push origin HEAD:main
+            git rev-parse HEAD >> "$GITHUB_STEP_SUMMARY"
+            echo 'Push accepted. Validate the served dataset against the summary hash; a green job alone is insufficient.' >> "$GITHUB_STEP_SUMMARY"
           fi
+      - name: Preserve diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: collector-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            data/collection-summary.json
+            data/reward-snapshots.json
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Fail when collection failed
+        if: always() && steps.collect.outcome == 'failure'
+        run: exit 1
