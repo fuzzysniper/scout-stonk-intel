@@ -1,3 +1,79 @@
 [
-  "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS"
+  {
+    "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+    "name": "ALLINU",
+    "symbol": "ALLINU",
+    "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+    "quoteSymbol": "DKNG",
+    "poolMint": "7ixRTR9qJipFLaY9XXYtYdoRWRbvqQTEdS6YGNPFtHjX",
+    "verifiedAt": "2026-10-12T20:36:37+00:00",
+    "source": "https://www.stonkfun.xyz/api/public/v1/tokens/4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8/rewards",
+    "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20"
+  },
+  {
+    "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+    "name": "Anonymous Cat",
+    "symbol": "ZCAT",
+    "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+    "quoteSymbol": "ZEC",
+    "poolMint": "BTccxxTFi7a9xJTE1exKn38Jgie35s6gNeRxd8DM61Rc",
+    "verifiedAt": "2026-10-12T20:36:36+00:00",
+    "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR/rewards",
+    "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20"
+  },
+  {
+    "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+    "name": "Bankroll",
+    "symbol": "BANKROLL",
+    "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "quoteSymbol": "USDC",
+    "poolMint": "Go3LWorTNzDAdeQhR32ovVrCSyizj9eD3NpLL3WNhLAi",
+    "verifiedAt": "2026-10-12T20:36:37+00:00",
+    "source": "https://www.stonkfun.xyz/api/public/v1/tokens/B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu/rewards",
+    "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20"
+  },
+  {
+    "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+    "name": "KNOTS",
+    "symbol": "KNOTS",
+    "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+    "quoteSymbol": "STONK",
+    "poolMint": "GeNDy5afAWz7S9w2tMLgpK3xQqXjeDaCvYV9h8joEmjo",
+    "verifiedAt": "2026-10-12T20:36:37+00:00",
+    "source": "https://www.stonkfun.xyz/api/public/v1/tokens/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS/rewards",
+    "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20"
+  },
+  {
+    "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+    "name": "NearKat",
+    "symbol": "NEARKAT",
+    "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+    "quoteSymbol": "NEAR",
+    "poolMint": "F5kpA8oXhgaPKEyoyMRwaZSkQpo4f1YBsMaNjtrhhBrA",
+    "verifiedAt": "2026-10-12T20:36:37+00:00",
+    "source": "https://www.stonkfun.xyz/api/public/v1/tokens/6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr/rewards",
+    "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20"
+  },
+  {
+    "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+    "name": "Nullmask",
+    "symbol": "MASK",
+    "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+    "quoteSymbol": "ZEC",
+    "poolMint": "HGMEiG5yyYPx7NYJeeugSQbxXEVEEkQt8yG63rrBbq6",
+    "verifiedAt": "2026-10-12T20:36:36+00:00",
+    "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7/rewards",
+    "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20"
+  },
+  {
+    "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+    "name": "Super Inu",
+    "symbol": "SI",
+    "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+    "quoteSymbol": "NVDAX",
+    "poolMint": "5aBH535rESkhjVb2nEaMPfyjiTw3uK57vE6c5uhZHjPY",
+    "verifiedAt": "2026-10-12T20:36:36+00:00",
+    "source": "https://www.stonkfun.xyz/api/public/v1/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+    "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20"
+  }
 ]

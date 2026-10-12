@@ -23,3 +23,7 @@ See [SPEC.md](SPEC.md) for the 72-hour roadmap. Next: integrate a verifiable rea
 ## Recorded reward history
 
 The token dossier includes read-only `GET /api/history?mint=...` backed by GitHub-hosted snapshots from `main`, fetched on request with a five-minute server cache. Collector commits can reach an existing deployment without redeploying. Responses distinguish dataset revision/retrieval time, observation freshness, and source outages; stale or degraded current-window totals are withheld. Use **Refresh history** to recheck. Collection and GitHub delays still apply; this is not a real-time feed. See [methodology, deployment verification, security, limitations, and rollback](docs/HISTORY.md). Run `npm test` for calculator, source reader, and API regression tests.
+
+## Intelligence Radar
+
+Open `/radar` for a mobile-first, read-only watchlist of seven officially verified reward tokens. Rows show actual observation times, point counts, coverage, source warnings and evidence links. Missing or incomparable data remains unavailable. See [verification, methodology, operational costs and rollback](docs/RADAR.md).
