@@ -93,3 +93,7 @@ Command results and screenshots are also attached to the PR. Run `npm ci`, `npm 
 ## Rollback and approval
 
 Revert the Signal Lab feature commit through a reviewed PR, then perform a human-approved deployment of the reverted app. This restores the previous Radar cards, default name sorting and filter-free API while preserving genuine history and existing GitHub synchronization. No data deletion, collector rollback, schema migration, DNS change, paid-service teardown or secret revocation is needed. Shared-helper refactoring is reverted with the same commit. Merge, deployment and any future financial interpretation changes require human review. No wallet access, payment, trade, token launch, gating or treasury operation occurs in this task.
+
+## Data Health operational monitoring
+
+[Data Health V1](DATA_HEALTH.md) documents per-token freshness/coverage, dated scheduler evidence, bounded collection summaries, optional daily operational alerts and human-approved verification. This operational view does not change the historical or Signal Lab calculations.

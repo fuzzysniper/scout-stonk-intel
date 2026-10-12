@@ -1,0 +1,50 @@
+name: SCOUT data health audit
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '43 7 * * *'
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: reward-snapshots
+  cancel-in-progress: false
+jobs:
+  audit:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Bounded read-only audit
+        id: inspect
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python scripts/audit_collector.py
+      - name: Publish audit evidence
+        run: |
+          set -euo pipefail
+          git config user.name "scout-data-bot"
+          git config user.email "scout-data-bot@users.noreply.github.com"
+          git add data/collector-audit.json
+          if ! git diff --cached --quiet; then
+            git commit -m "data: publish bounded collector audit"
+            git push origin HEAD:main
+          fi
+      - name: Preserve audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-health-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: data/collector-audit.json
+          retention-days: 7
+      - name: Optional daily operational failure notification
+        if: github.event_name == 'schedule' && github.run_attempt == '1' && vars.SCOUT_DATA_HEALTH_ALERTS == 'true' && steps.inspect.outputs.data_failure == 'true'
+        run: |
+          echo '::error::Collector data is older than six hours or audit evidence is unavailable. Inspect Data Health and run artifacts. No market or trading condition is used.'
+          exit 1

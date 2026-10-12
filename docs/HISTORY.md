@@ -75,3 +75,7 @@ Revert this feature commit through a reviewed PR, then perform an approved deplo
 ## Signal Lab shared calculations
 
 [Signal Lab V1](SIGNALS.md) reuses the history normalizer, timestamp parser, actual-boundary selector and adjacent-point comparison helper. Historical archive behavior and its gap policy are preserved; matched research comparisons add stricter gap, duration, quote-identity and paired-period requirements.
+
+## Data Health operational monitoring
+
+[Data Health V1](DATA_HEALTH.md) documents per-token freshness/coverage, dated scheduler evidence, bounded collection summaries, optional daily operational alerts and human-approved verification. This operational view does not change the historical or Signal Lab calculations.
