@@ -7,7 +7,7 @@ const HOUR_MS = 60 * 60 * 1000;
 
 type Issue = 'missing_data' | 'malformed_timestamp' | 'duplicate_timestamp' | 'conflicting_duplicate' | 'counter_decrease' | 'inconsistent_quote_asset' | 'unverified_source' | 'stale_data' | 'future_timestamp';
 type Quote = { symbol: string; mint: string | null };
-type Observation = { observedAt: string; timestamp: number; distributedTokens: number | null; payoutCount: number | null; quote: Quote | null; source: string | null; conflict: boolean };
+export type Observation = { observedAt: string; timestamp: number; distributedTokens: number | null; payoutCount: number | null; quote: Quote | null; source: string | null; conflict: boolean };
 type Change = { startAt: string; endAt: string; observedSeconds: number; distributedTokens: number | null; quote: Quote | null; status: 'available' | 'invalid_data'; issues: Issue[] };
 export type HistoryWindow = {
  status: 'available' | 'insufficient_history' | 'invalid_data' | 'stale_data' | 'source_unavailable';
@@ -50,7 +50,7 @@ function object(value: unknown): value is Record<string, unknown> {
 function amount(value: unknown): number | null {
  return typeof value === 'number' && Number.isFinite(value) && value >= 0 ? value : null;
 }
-function timestamp(value: unknown): number | null {
+export function parseHistoryTimestamp(value: unknown): number | null {
  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z|\+00:00)$/.test(value)) return null;
  const parsed = Date.parse(value);
  return Number.isFinite(parsed) && new Date(parsed).toISOString().slice(0, 19) === value.slice(0, 19) ? parsed : null;
@@ -66,7 +66,7 @@ function sameQuote(a: Quote | null, b: Quote | null): boolean {
 function usable(point: Observation): boolean {
  return point.distributedTokens !== null && point.quote !== null && point.source !== null && !point.conflict;
 }
-function compare(a: Observation, b: Observation): Change {
+export function compareHistoryPoints(a: Observation, b: Observation): Change {
  const issues: Issue[] = [];
  if (!usable(a) || !usable(b)) issues.push('missing_data');
  if (a.conflict || b.conflict) issues.push('conflicting_duplicate');
@@ -81,7 +81,7 @@ function compare(a: Observation, b: Observation): Change {
  };
 }
 
-export function summarizeHistory(store: unknown, mint: string, now = new Date()): HistorySummary {
+export function normalizeHistory(store: unknown, mint: string, now = new Date()) {
  const source = 'https://www.stonkfun.xyz/api/public/v1/tokens/' + encodeURIComponent(mint) + '/rewards';
  const issues = new Set<Issue>();
  const rows = object(store) && Object.hasOwn(store, mint) ? store[mint] : undefined;
@@ -90,7 +90,7 @@ export function summarizeHistory(store: unknown, mint: string, now = new Date())
  const points: Observation[] = [];
  const orderingIssues = new Set<Issue>();
  for (const row of raw) {
-  const time = object(row) ? timestamp(row.observedAt) : null;
+  const time = object(row) ? parseHistoryTimestamp(row.observedAt) : null;
   if (time === null) { issues.add('malformed_timestamp'); orderingIssues.add('malformed_timestamp'); continue; }
   if (time > now.getTime()) { issues.add('future_timestamp'); orderingIssues.add('future_timestamp'); continue; }
   const r = row as Record<string, unknown>;
@@ -115,6 +115,20 @@ export function summarizeHistory(store: unknown, mint: string, now = new Date())
    }
   } else unique.push(point);
  }
+ return { source, issues, orderingIssues, unique, raw, rows };
+}
+
+/** Select actual points at/before requested boundaries; never interpolate missing samples. */
+export function selectObservedInterval(points: Observation[], requestedStart: number, requestedEnd: number) {
+ const endIndex = points.findLastIndex(point => point.timestamp <= requestedEnd);
+ const index = points.findLastIndex(point => point.timestamp <= requestedStart);
+ const segment = endIndex < 0 ? [] : points.slice(index >= 0 ? index : 0, endIndex + 1);
+ const gaps = segment.slice(1).map((point, i) => point.timestamp - segment[i].timestamp);
+ return { index, endIndex, segment, gaps, maxGapSeconds: gaps.length ? Math.max(...gaps) / 1000 : null };
+}
+
+export function summarizeHistory(store: unknown, mint: string, now = new Date()): HistorySummary {
+ const { source, issues, orderingIssues, unique, raw, rows } = normalizeHistory(store, mint, now);
  const first = unique[0] ?? null;
  const last = unique.at(-1) ?? null;
  const ageSeconds = last ? (now.getTime() - last.timestamp) / 1000 : null;
@@ -123,7 +137,7 @@ export function summarizeHistory(store: unknown, mint: string, now = new Date())
  if (!last) issues.add('missing_data');
  const changes: Change[] = [];
  for (let i = 1; i < unique.length; i++) {
-  const change = compare(unique[i - 1], unique[i]);
+  const change = compareHistoryPoints(unique[i - 1], unique[i]);
   for (const issue of change.issues) issues.add(issue);
   if (orderingIssues.size) { change.status = 'invalid_data'; change.distributedTokens = null; change.issues.push(...orderingIssues); }
   changes.push(change);
@@ -139,8 +153,7 @@ export function summarizeHistory(store: unknown, mint: string, now = new Date())
   };
   if (!last || target === null) return result;
   // At or before the boundary only: never present a shorter period as a full window.
-  const index = unique.findLastIndex(point => point.timestamp <= target);
-  const segment = index >= 0 ? unique.slice(index) : unique;
+  const { index, segment, gaps, maxGapSeconds } = selectObservedInterval(unique, target, last.timestamp);
   const baseline = segment[0];
   result.observationCount = segment.length;
   if (baseline) {
@@ -148,15 +161,14 @@ export function summarizeHistory(store: unknown, mint: string, now = new Date())
    result.observedSeconds = (last.timestamp - baseline.timestamp) / 1000;
    result.boundaryOffsetSeconds = (baseline.timestamp - target) / 1000;
   }
-  const gaps = segment.slice(1).map((point, i) => point.timestamp - segment[i].timestamp);
-  result.maxGapSeconds = gaps.length ? Math.max(...gaps) / 1000 : null;
-  // Stale bundled data cannot claim current windows, even with incomplete coverage.
+  result.maxGapSeconds = maxGapSeconds;
+  // Stale observations cannot claim current windows, even with incomplete coverage.
   if (stale) { result.status = 'stale_data'; result.issues = ['stale_data']; return result; }
   if (index < 0 || !baseline || target - baseline.timestamp > MAX_GAP_MS || gaps.some(gap => gap > MAX_GAP_MS)) return result;
   result.timing = baseline.timestamp === target ? 'exact' : 'nearest_snapshot';
   const invalid = new Set<Issue>();
   for (const issue of orderingIssues) invalid.add(issue);
-  for (let i = 1; i < segment.length; i++) for (const issue of compare(segment[i - 1], segment[i]).issues) invalid.add(issue);
+  for (let i = 1; i < segment.length; i++) for (const issue of compareHistoryPoints(segment[i - 1], segment[i]).issues) invalid.add(issue);
   if (invalid.size) { result.status = 'invalid_data'; result.issues = [...invalid]; return result; }
   result.status = 'available';
   result.distributedTokens = last.distributedTokens! - baseline.distributedTokens!;
