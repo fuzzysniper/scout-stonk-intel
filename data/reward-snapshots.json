@@ -7,6 +7,14 @@
       "holderCount": 19157,
       "quoteSymbol": "STONK",
       "source": "https://www.stonkfun.xyz/api/public/v1/tokens/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS/rewards"
+    },
+    {
+      "observedAt": "2026-10-12T20:32:33+00:00",
+      "distributedTokens": 11894163.414890544,
+      "payoutCount": 1552341,
+      "holderCount": 19157,
+      "quoteSymbol": "STONK",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS/rewards"
     }
   ]
 }
