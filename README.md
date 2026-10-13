@@ -49,3 +49,7 @@ Approved daily editions preserve exact source bytes and calculation evidence at 
 `npm run verify:release` performs bounded GET-only checks; `npm run archive:dry-run` replays reviewed inputs in a removed local checkout without GitHub writes or working-archive changes. See [operations, physical-phone QA, approval gates and rollback](docs/RELEASE_VERIFICATION.md). A local pass is not production or phone proof; archive automation remains off until separately approved.
 
 First-time readers can use `/research` for evidence and limitations. The [first-user readiness and consent-based feedback plan](docs/FIRST_USER_READINESS.md) documents navigation, QA gates and rollback; no telemetry or feedback form is enabled.
+
+## STORK ecosystem connection
+
+SCOUT links to [storkcoin.xyz](https://storkcoin.xyz) as an informational connection to the STORK ecosystem. SCOUT remains independent and read-only, with no STORK ownership requirement, wallet connection or token-gated research. The relationship does not imply investment advice, token profit or future yield. See [relationship, scope, verification and rollback](docs/ECOSYSTEM.md) and the [research guide](https://scout.storkcoin.xyz/research#stork-relationship).
