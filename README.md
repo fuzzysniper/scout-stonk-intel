@@ -43,3 +43,7 @@ The Radar compares observed distributions over consecutive 24h targets, with act
 ## Immutable research publication
 
 Approved daily editions preserve exact source bytes and calculation evidence at `/brief/DATE/editions/ID`. Originals never become silent corrections. See [architecture, opt-in draft-PR workflow, operations and rollback](docs/ARCHIVES.md). The automation defaults off and never merges or posts to social platforms.
+
+## Archive release verification
+
+`npm run verify:release` performs bounded GET-only checks; `npm run archive:dry-run` replays reviewed inputs in a removed local checkout without GitHub writes or working-archive changes. See [operations, physical-phone QA, approval gates and rollback](docs/RELEASE_VERIFICATION.md). A local pass is not production or phone proof; archive automation remains off until separately approved.
