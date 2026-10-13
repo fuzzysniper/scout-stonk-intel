@@ -3,6 +3,7 @@ import {useCallback,useEffect,useState} from 'react';
 import {isSolanaMint} from '../lib/solana';
 import HistoryPanel from './history-panel';
 import Link from 'next/link';
+import FirstSteps from './first-steps';
 type Reward={status:string;quoteSymbol?:string|null;distributedTokens?:number|null;payoutCount?:number|null;holderCount?:number|null;lastPayoutAt?:string|null;source?:string;fetchedAt?:string};
 type Market={found:boolean;source:string;fetchedAt:string;pairUrl?:string|null;base?:{name:string;symbol:string};quote?:{symbol:string};priceUsd?:string|null;liquidityUsd?:number|null;volume24h?:number|null;change24h?:number|null;marketCap?:number|null;note?:string};
 const compact=(n:number|null|undefined)=>n==null?'—':new Intl.NumberFormat('en-US',{notation:'compact',maximumFractionDigits:2}).format(n);
@@ -14,9 +15,10 @@ export default function ScoutClient(){
  useEffect(()=>{const value=new URLSearchParams(window.location.search).get('mint');if(value&&isSolanaMint(value))void inspect(value);},[inspect]);
  async function share(){if(!selected)return;const url=new URL(window.location.href);url.searchParams.set('mint',selected);const text='SCOUT token dossier — sourced market and reward intelligence';try{if(navigator.share){await navigator.share({title:'SCOUT Token Dossier',text,url:url.toString()});setShareStatus('Shared');}else{await navigator.clipboard.writeText(url.toString());setShareStatus('Report link copied');}}catch(e){if(e instanceof Error&&e.name==='AbortError')return;setShareStatus('Could not share; copy the URL from your browser.');}}
  const available=reward?.status==='available';const label=market?.base?.symbol||'TOKEN';const quote=reward?.quoteSymbol||market?.quote?.symbol||'—';
- return <main className="terminal">
+ return <main id="scout-content" tabIndex={-1} className="terminal">
  <header className="masthead"><div className="brandmark">◉</div><div><div className="brandname">SCOUT<span className="branddot">.</span></div><div className="brandtag">FOLLOW THE MONEY</div></div><div className="live-tag">PUBLIC ALPHA</div></header>
  <div className="hero"><div className="kicker">INTELLIGENCE TERMINAL / V1</div><h1>Every token has<br/><em>a paper trail.</em></h1><p>Onchain market context and reported reward distributions. Evidence over hype.</p></div>
+ <FirstSteps/>
  <Link href="/radar" className="radar-home-link">◈ INTELLIGENCE RADAR · MULTI-TOKEN OBSERVATIONS ↗</Link>
  <Link href="/brief" className="radar-dossier-link">DAILY RESEARCH BRIEF · RECORDED EVIDENCE ↗</Link>
  <Link href="/status" className="radar-dossier-link">DATA HEALTH · FRESHNESS & COLLECTION EVIDENCE ↗</Link>

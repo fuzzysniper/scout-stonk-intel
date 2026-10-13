@@ -47,3 +47,5 @@ Approved daily editions preserve exact source bytes and calculation evidence at 
 ## Archive release verification
 
 `npm run verify:release` performs bounded GET-only checks; `npm run archive:dry-run` replays reviewed inputs in a removed local checkout without GitHub writes or working-archive changes. See [operations, physical-phone QA, approval gates and rollback](docs/RELEASE_VERIFICATION.md). A local pass is not production or phone proof; archive automation remains off until separately approved.
+
+First-time readers can use `/research` for evidence and limitations. The [first-user readiness and consent-based feedback plan](docs/FIRST_USER_READINESS.md) documents navigation, QA gates and rollback; no telemetry or feedback form is enabled.

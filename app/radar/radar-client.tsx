@@ -59,7 +59,7 @@ export default function RadarClient() {
  const recorded = report?.rows.filter(row => row.observationCount > 0).length ?? 0;
  const ready = report?.rows.filter(row => row.signals.status === 'available').length ?? 0;
 
- return <main className="radar-shell">
+ return <main id="scout-content" tabIndex={-1} className="radar-shell">
   <header className="radar-nav"><Link href="/" className="radar-brand">◉ SCOUT<span>.</span></Link><span>READ-ONLY RESEARCH</span><Link href="/">TOKEN DOSSIER ↗</Link></header>
   <section className="radar-hero"><div className="kicker">SIGNAL LAB / V1 · INTELLIGENCE RADAR</div><h1>What changed?<br/><em>Show the evidence.</em></h1><p>Observed reward velocity across verified StonkFun tokens. Matched periods, dated evidence, and clear limits while history builds.</p></section>
   <Link href="/brief" className="radar-home-link">DAILY RESEARCH BRIEF · EVIDENCE & COVERAGE ↗</Link>
