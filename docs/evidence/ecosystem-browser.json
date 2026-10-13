@@ -1,0 +1,131 @@
+{
+  "target": "local-built-preview",
+  "base": "http://127.0.0.1:3137",
+  "finishedAt": "2026-10-13T15:01:14.054609+00:00",
+  "checks": [
+    {
+      "width": 320,
+      "path": "/",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 320,
+      "path": "/radar",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 320,
+      "path": "/brief/2026-10-11",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 320,
+      "path": "/status",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 320,
+      "path": "/research",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 320,
+      "path": "/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 320,
+      "result": "PASS",
+      "checks": "relationship click; fragment; browser Back; enlarged-text reflow; no page errors"
+    },
+    {
+      "width": 390,
+      "path": "/",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 390,
+      "path": "/radar",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 390,
+      "path": "/brief/2026-10-11",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 390,
+      "path": "/status",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 390,
+      "path": "/research",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 390,
+      "path": "/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 390,
+      "result": "PASS",
+      "checks": "relationship click; fragment; browser Back; enlarged-text reflow; no page errors"
+    },
+    {
+      "width": 1280,
+      "path": "/",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 1280,
+      "path": "/radar",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 1280,
+      "path": "/brief/2026-10-11",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 1280,
+      "path": "/status",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 1280,
+      "path": "/research",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 1280,
+      "path": "/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+      "result": "PASS",
+      "checks": "footer without data; external destination; 44px targets; keyboard focus; no horizontal overflow"
+    },
+    {
+      "width": 1280,
+      "result": "PASS",
+      "checks": "relationship click; fragment; browser Back; enlarged-text reflow; no page errors"
+    }
+  ],
+  "limitations": "Chromium only; simulated aborted client API requests; no substitute observations; no physical phone, production or external STORK site verification"
+}
