@@ -79,3 +79,7 @@ Revert this feature commit through a reviewed PR, then perform an approved deplo
 ## Data Health operational monitoring
 
 [Data Health V1](DATA_HEALTH.md) documents per-token freshness/coverage, dated scheduler evidence, bounded collection summaries, optional daily operational alerts and human-approved verification. This operational view does not change the historical or Signal Lab calculations.
+
+## Calendar-day research briefs
+
+[Research Briefs V1](BRIEFS.md) reuses the history normalizer and actual boundary selector for provisional UTC-day comparisons. Briefs add explicit quote identity, strict gap/duration gates and versioned sharing; existing history and Signal Lab calculations are unchanged.

@@ -1,0 +1,72 @@
+'use client';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import type { BriefReport, BriefRow } from '../../lib/brief';
+const utc = (value: string | null) => value ? value.replace('T',' ').replace(/(?:\.000)?Z|\+00:00$/, ' UTC') : 'Unavailable';
+const number = (value: number) => new Intl.NumberFormat('en-US', { maximumSignificantDigits: 12 }).format(value);
+const reasons: Record<string,string> = {
+ day_in_progress: 'The UTC day is still in progress; daily totals are withheld.', no_history: 'No recorded observations for this token.', insufficient_history: 'No complete 24h comparison is supported by the recorded points.',
+ missing_start_boundary: 'The start boundary is more than two hours from a recorded baseline.', missing_end_boundary: 'No end observation within two hours of the day boundary.', stale_period_end: 'The last available endpoint is over three hours behind the day boundary.',
+ gapped_history: 'An interior observation gap is two hours or longer.', unmatched_duration: 'The actual interval does not meet the 24h matching tolerance.', source_unavailable: 'The snapshot source is unavailable or degraded; totals are withheld.',
+ quote_identity_mismatch: 'Recorded quote identity does not match the verified token configuration.', counter_decrease: 'A cumulative counter decreased; no comparison crosses this reset.',
+ stale_provider: 'Provider generation was too old at observation time.', invalid_provider_metadata: 'Provider generation or reward mode could not be verified.', invalid_data: 'Malformed or conflicting records prevent a supported comparison.',
+ malformed_timestamp: 'A malformed observation time creates an ordering barrier.', future_timestamp: 'A future observation time creates an ordering barrier.', missing_data: 'Required observation fields are missing.',
+ conflicting_duplicate: 'Conflicting records share a timestamp.', inconsistent_quote_asset: 'Quote assets changed within the comparison.', non_finite_calculation: 'The result exceeds safe numeric representation.',
+};
+function TokenBrief({ row }: { row: BriefRow }) {
+ return <article className="brief-token"><div className="brief-token-heading"><div><span className="radar-symbol">{row.symbol} / {row.quoteSymbol}</span><h3>{row.name}</h3></div><span className={'radar-badge ' + (row.status === 'verified' ? 'radar-fresh' : '')}>{row.status === 'verified' ? 'COVERAGE PASSED' : 'WITHHELD'}</span></div>
+  {row.status === 'verified' ? <div className="brief-finding"><strong>{number(row.distributedTokens!)} {row.quoteSymbol}</strong><p>{row.distributedTokens === 0 ? 'No increase in the recorded distribution counter over the covered actual interval.' : 'Increase in the recorded quote-distribution counter over the covered actual interval.'} {row.payoutCountChange === null ? 'Reported payout-count change is unavailable.' : `${number(row.payoutCountChange)} API-reported payout-counter changes.`}</p></div> : <p className="brief-withheld">{row.reasons.map(reason => reasons[reason] ?? reason.replaceAll('_',' ')).join(' ')}</p>}
+  <p className="brief-point-note">{row.pointsInDay} unique points in this UTC day · latest in-day observation {utc(row.latestObservedAt)}</p>
+  <details className="brief-evidence"><summary>Actual interval & evidence</summary><dl className="health-facts">
+   <div><dt>Requested UTC day</dt><dd>{utc(row.requestedStartAt)} → {utc(row.requestedEndAt)}</dd></div>
+   <div><dt>Actual comparison endpoints</dt><dd>{utc(row.startAt)} → {utc(row.endAt)}</dd></div>
+   <div><dt>Actual span / comparison points</dt><dd>{row.observedSeconds === null ? 'Unavailable' : number(row.observedSeconds / 3600) + ' hours'} / {row.comparisonPointCount}</dd></div>
+   <div><dt>Start / end offsets from UTC boundary</dt><dd>{row.startOffsetSeconds ?? 'Unavailable'} / {row.endOffsetSeconds ?? 'Unavailable'} seconds</dd></div>
+   <div><dt>Largest interior gap</dt><dd>{row.maxGapSeconds === null ? 'Unavailable' : number(row.maxGapSeconds / 3600) + ' hours'}</dd></div>
+   <div><dt>Verified quote mint</dt><dd className="radar-mint">{row.quoteMint}</dd></div>
+   {row.status === 'verified' && <div><dt>Counter subtraction</dt><dd>{number(row.endCounter!)} − {number(row.baselineCounter!)} {row.quoteSymbol}</dd></div>}
+  </dl>{row.warnings.length > 0 && <p>Identical duplicates were collapsed; no duplicate payout is counted.</p>}<p>Observed API reports; no transaction reconciliation or holder-return claim. Quotes remain separate.</p></details>
+  <div className="radar-links"><a href={row.evidence.brief} target="_blank" rel="noopener noreferrer">VERSIONED JSON ↗</a><Link href={row.evidence.dossier}>DOSSIER ↗</Link><a href={row.evidence.official} target="_blank" rel="noopener noreferrer">OFFICIAL ↗</a><a href={row.evidence.history} target="_blank" rel="noopener noreferrer">LIVE HISTORY ↗</a></div>
+ </article>;
+}
+export default function BriefClient({ date, version, invalidQuery }: { date: string; version?: string; invalidQuery: boolean }) {
+ const [refresh,setRefresh] = useState(0), [report,setReport] = useState<BriefReport | null>(null);
+ const [loading,setLoading] = useState(true), [error,setError] = useState(''), [changed,setChanged] = useState(false), [shareMessage,setShareMessage] = useState('');
+ useEffect(() => {
+  const controller = new AbortController();setReport(null);setError('');setChanged(false);setLoading(true);setShareMessage('');
+  if (invalidQuery) { setError('Invalid brief version. Open the canonical day to continue.');setLoading(false);return () => controller.abort(); }
+  void fetch('/api/brief?date=' + date + (version ? '&v=' + version : ''), { cache:'no-store',signal:controller.signal }).then(async response => {
+   const value = await response.json();
+   if (response.status === 409) { if (!controller.signal.aborted) {setChanged(true);setError('This provisional brief has a different current revision. The shared version is no longer available; no replacement claims are shown.');}return; }
+   if ((!response.ok && response.status !== 503) || !Array.isArray(value.rows) || value.date !== date) throw Error('Unavailable');
+   if (!controller.signal.aborted) setReport(value);
+  }).catch(() => { if (!controller.signal.aborted) setError('Brief evidence is temporarily unavailable. Retry to check the source.'); }).finally(() => { if (!controller.signal.aborted) setLoading(false); });
+  return () => controller.abort();
+ },[date,version,refresh,invalidQuery]);
+ async function copyLink() {
+  if (!report?.sharePath) return;
+  const url = new URL(report.sharePath,window.location.origin).href;
+  try { await navigator.clipboard.writeText(url);setShareMessage('Versioned link copied.'); } catch { setShareMessage('Copy unavailable. Select the versioned link below.'); }
+ }
+ async function shareBrief() {
+  if (!report?.sharePath) return;
+  const url = new URL(report.sharePath,window.location.origin).href;
+  if (!navigator.share) {await copyLink();return;}
+  try { await navigator.share({ title:`SCOUT Research Brief · ${date} UTC`,text:`Provisional · ${report.headline}. Recorded evidence and coverage limitations.`,url });setShareMessage('Share sheet completed.'); }
+  catch (error) { if (!(error instanceof Error && error.name === 'AbortError')) setShareMessage('Sharing unavailable. Use Copy link.'); }
+ }
+ const q=report?.quality;
+ return <main className="radar-shell brief-shell"><header className="radar-nav"><Link href="/" className="radar-brand">◉ SCOUT<span>.</span></Link><span>DAILY RESEARCH</span><Link href="/radar">RADAR ↗</Link></header>
+  <section className="brief-hero"><div className="kicker">RESEARCH BRIEF / {date} UTC</div><h1>Evidence for<br/><em>the daily read.</em></h1><p>A concise record of tracked reward observations. Every finding starts with coverage, an actual interval, and a source.</p><div className="brief-date-nav"><Link href={'/brief/' + new Date(Date.parse(date + 'T00:00:00Z') - 86400000).toISOString().slice(0,10)}>← PREVIOUS DAY</Link><Link href="/brief">TODAY ↗</Link></div></section>
+  <div className="radar-status" role="status">{loading ? 'Checking recorded evidence…' : error || (report?.dataset.sourceStatus === 'unavailable' ? 'Snapshot source unavailable. Findings are withheld.' : 'Provisional edition. New snapshots may produce a new version; current data quality is checked separately.')}</div>
+  {(changed || invalidQuery) && <div className="brief-revision-warning"><h2>{changed ? 'The shared revision has changed.' : 'Version unavailable.'}</h2><p>{error}</p><Link href={'/brief/' + date}>OPEN CURRENT PROVISIONAL BRIEF ↗</Link></div>}
+  {!changed && !invalidQuery && <button className="brief-refresh" type="button" onClick={() => setRefresh(n=>n+1)} disabled={loading}>{loading ? 'CHECKING…' : 'REFRESH EVIDENCE ↻'}</button>}
+  {report && <>
+   <section className="brief-share-card" aria-label="Brief share card"><div className="brief-share-top"><span>SCOUT / {date} UTC</span><span>PROVISIONAL</span></div><h2>{report.headline}</h2><p>{report.findingCount ? `${report.findingCount} token(s) have evidence-backed positive distribution-counter changes.` : 'No supported positive daily distribution change meets the evidence gates.'} {report.verifiedCount} of {report.rows.length} comparisons passed coverage. Missing data does not mean zero payouts.</p><div className="brief-share-actions"><button type="button" onClick={() => void shareBrief()} disabled={!report.sharePath || report.dataset.sourceStatus === 'unavailable'}>SHARE BRIEF ↗</button><button type="button" onClick={() => void copyLink()} disabled={!report.sharePath || report.dataset.sourceStatus === 'unavailable'}>COPY LINK</button></div><p className="brief-share-message" role="status">{shareMessage}</p>{shareMessage.startsWith('Copy unavailable') && report.sharePath && <a className="brief-fallback-link" href={report.sharePath}>{new URL(report.sharePath,window.location.origin).href}</a>}</section>
+   <section className="brief-edition" aria-label="Edition provenance"><dl className="health-facts"><div><dt>UTC day target</dt><dd>{date} 00:00 UTC → next day 00:00 UTC</dd></div><div><dt>Edition state</dt><dd>{report.dayClosed ? 'Closed UTC day · provisional source read' : 'Day in progress · daily totals withheld'}</dd></div><div><dt>Dataset retrieved / source</dt><dd>{utc(report.dataset.dataFetchedAt)} / {report.dataset.sourceStatus}</dd></div><div><dt>Evaluation time</dt><dd>{utc(report.evaluatedAt)}</dd></div></dl><details className="brief-evidence"><summary>Dataset revision & brief version</summary><p className="radar-mint">Dataset: {report.dataset.revision ?? 'Unavailable'}<br/>Brief: {report.version ?? 'Unavailable'}<br/>Method: {report.method}</p><p>This is an evolving dataset, including historical days. Shared version links refuse changed input rather than silently displaying a replacement. No immutable daily archive is promised. Data Health below is a current check, not the historical day’s collector state.</p><a href={report.dataset.source} target="_blank" rel="noopener noreferrer">GITHUB SNAPSHOTS ↗</a></details></section>
+   <section className="brief-findings" aria-label="Daily token observations"><div className="brief-section-title"><span>01 / RECORDED OBSERVATIONS</span><h2>Coverage before conclusions.</h2><p>24h targets use actual points near UTC boundaries. Actual times, gaps and quote units are disclosed per token; assets are never summed or ranked by amount.</p></div>{report.rows.map(row=><TokenBrief key={row.mint} row={row}/>)}</section>
+   {q && <section className="brief-quality" aria-label="Data Quality"><div className="brief-section-title"><span>02 / DATA QUALITY</span><h2>The collection context.</h2><p>Current operational check at {utc(q.checkedAt)}. These warnings describe collection now, independently of this day’s dated findings.</p></div><p>Snapshot source: <strong>{q.sourceStatus}</strong>. Audit: <strong>{q.auditState}</strong> at {utc(q.auditCheckedAt)} ({q.auditOrigin === 'github' ? 'GitHub-hosted evidence' : 'dated bundled investigation'}). Scheduled count at that audit: {q.scheduledRunCount ?? 'Unknown'}; no uptime claim.</p><p>Instrumented attempt: <strong>{q.attemptOverall ?? 'Unknown'}</strong> / {q.attemptState.replaceAll('_',' ')} at {utc(q.attemptFinishedAt)}. Missing summaries cannot establish all-token success.</p><details className="brief-evidence"><summary>Per-token freshness, missing slots & partial outcomes</summary><ul className="brief-quality-list">{q.rows.map(row=><li key={row.mint}><strong>{row.symbol}</strong><span>{row.state.replaceAll('_',' ')} · {row.ageSeconds === null ? 'age unknown' : number(row.ageSeconds/3600) + ' hours old'}</span><small>Latest actual record: {utc(row.latestObservedAt)}<br/>Expected slots without a newer point: {row.missedScheduledSlots === null ? 'Unknown' : (row.estimateCapped ? 'at least ' : '') + row.missedScheduledSlots} (estimate, not confirmed failed runs)<br/>Dated attempt: {row.attempt ? row.attempt.status + ' / ' + row.attempt.reason.replaceAll('_',' ') : 'Unknown'}</small></li>)}</ul><p>Fresh ≤75 minutes; delayed ≤3 hours; stale &gt;3 hours. Expected minute-17 slots have 15-minute grace. Summaries older than three hours and audits older than 26 hours are overdue.</p><p>Audit file: {q.diagnosticSources?.audit.sourceStatus ?? 'Unknown'} / retrieved {utc(q.diagnosticSources?.audit.dataFetchedAt ?? null)}. Attempt file: {q.diagnosticSources?.attempt.sourceStatus ?? 'Unknown'} / retrieved {utc(q.diagnosticSources?.attempt.dataFetchedAt ?? null)}.</p></details><div className="radar-links"><Link href="/status">FULL DATA HEALTH ↗</Link><a href="/api/status" target="_blank" rel="noopener noreferrer">LIVE HEALTH JSON ↗</a><Link href="/radar">SIGNAL LAB / RADAR ↗</Link></div></section>}
+   <footer><div>SCOUT / EVIDENCE OVER HYPE</div><p>Recorded API counter changes, with missing-data limits. No future yield, individual profit or full-ecosystem coverage is implied. <a href="https://github.com/fuzzysniper/scout-stonk-intel/blob/main/docs/BRIEFS.md" target="_blank" rel="noopener noreferrer">METHODOLOGY ↗</a></p></footer>
+  </>}
+ </main>;
+}
