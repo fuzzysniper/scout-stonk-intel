@@ -35,3 +35,7 @@ The Radar compares observed distributions over consecutive 24h targets, with act
 ## Data Health
 
 `/status` exposes per-token actual observation freshness, coverage and dated collector/publication evidence. See [methodology, operational verification, optional alerts and rollback](docs/DATA_HEALTH.md). No uptime or production reliability claim follows from a green workflow alone.
+
+## Daily research briefs
+
+`/brief` opens today's UTC edition; `/brief/YYYY-MM-DD` is the canonical day URL. Provisional briefs report only coverage-backed recorded quote-distribution changes, with missing-data explanations and current Data Quality. Share links carry a version and warn if the edition changes. See [brief methodology, verification and rollback](docs/BRIEFS.md).

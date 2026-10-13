@@ -18,6 +18,7 @@ export default function ScoutClient(){
  <header className="masthead"><div className="brandmark">◉</div><div><div className="brandname">SCOUT<span className="branddot">.</span></div><div className="brandtag">FOLLOW THE MONEY</div></div><div className="live-tag">PUBLIC ALPHA</div></header>
  <div className="hero"><div className="kicker">INTELLIGENCE TERMINAL / V1</div><h1>Every token has<br/><em>a paper trail.</em></h1><p>Onchain market context and reported reward distributions. Evidence over hype.</p></div>
  <Link href="/radar" className="radar-home-link">◈ INTELLIGENCE RADAR · MULTI-TOKEN OBSERVATIONS ↗</Link>
+ <Link href="/brief" className="radar-dossier-link">DAILY RESEARCH BRIEF · RECORDED EVIDENCE ↗</Link>
  <Link href="/status" className="radar-dossier-link">DATA HEALTH · FRESHNESS & COLLECTION EVIDENCE ↗</Link>
  <form className="lookup" onSubmit={e=>{e.preventDefault();void inspect(mint);}}><label htmlFor="mint">TOKEN MINT ADDRESS</label><div className="lookuprow"><input id="mint" placeholder="Paste Solana token address…" value={mint} onChange={e=>setMint(e.target.value)} autoComplete="off" spellCheck={false}/><button type="submit" disabled={loading}>{loading?'SCANNING…':'SCAN ↗'}</button></div></form>
  {error&&<p role="alert" className="error">{error}</p>}
