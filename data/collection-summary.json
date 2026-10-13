@@ -1,53 +1,53 @@
 {
   "version": 1,
-  "startedAt": "2026-10-13T19:19:34+00:00",
-  "finishedAt": "2026-10-13T19:19:35+00:00",
+  "startedAt": "2026-10-13T23:44:35+00:00",
+  "finishedAt": "2026-10-13T23:44:37+00:00",
   "event": "schedule",
-  "runId": 38453921067,
+  "runId": 38486060353,
   "overall": "complete",
-  "expectedDatasetRevision": "sha256:8252f9d79b49c9ef0e8a0a378a1f98fa314698b164d07b483062146d076f9a8c",
+  "expectedDatasetRevision": "sha256:2047872698c6d5093ff008f943ff84886561c7a79fdae0bab4ff1d16ac26eb61",
   "results": [
     {
       "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
       "status": "collected",
       "reason": "collected",
-      "observedAt": "2026-10-13T19:19:34+00:00"
+      "observedAt": "2026-10-13T23:44:36+00:00"
     },
     {
       "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
       "status": "collected",
       "reason": "collected",
-      "observedAt": "2026-10-13T19:19:34+00:00"
+      "observedAt": "2026-10-13T23:44:36+00:00"
     },
     {
       "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
       "status": "collected",
       "reason": "collected",
-      "observedAt": "2026-10-13T19:19:35+00:00"
+      "observedAt": "2026-10-13T23:44:36+00:00"
     },
     {
       "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
       "status": "collected",
       "reason": "collected",
-      "observedAt": "2026-10-13T19:19:35+00:00"
+      "observedAt": "2026-10-13T23:44:36+00:00"
     },
     {
       "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
       "status": "collected",
       "reason": "collected",
-      "observedAt": "2026-10-13T19:19:35+00:00"
+      "observedAt": "2026-10-13T23:44:36+00:00"
     },
     {
       "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
       "status": "collected",
       "reason": "collected",
-      "observedAt": "2026-10-13T19:19:35+00:00"
+      "observedAt": "2026-10-13T23:44:37+00:00"
     },
     {
       "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
       "status": "collected",
       "reason": "collected",
-      "observedAt": "2026-10-13T19:19:35+00:00"
+      "observedAt": "2026-10-13T23:44:37+00:00"
     }
   ]
 }
