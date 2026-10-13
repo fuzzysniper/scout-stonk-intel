@@ -29,3 +29,7 @@ No production secrets in agent prompts or pull-request logs. No autonomous trans
 ## Data Health operational monitoring
 
 [Data Health V1](DATA_HEALTH.md) documents per-token freshness/coverage, dated scheduler evidence, bounded collection summaries, optional daily operational alerts and human-approved verification. This operational view does not change the historical or Signal Lab calculations.
+
+## Proposed independent collection trigger
+
+[ADR 0001](decisions/0001-collection-trigger.md) compares scheduler alternatives, App privileges, costs and threats, with inactive offline preparation, mandatory setup gates, a 48-hour proving period and rollback. This is a recommendation for human review; no external scheduler, credentials, live workflow changes or activation is authorized by it.

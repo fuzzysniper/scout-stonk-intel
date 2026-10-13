@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "note": "Public official documentation only; source byte hashes identify retrieved versions. Costs are dated estimates, not account quotes. No endpoint was dispatched.",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/workers/platform/pricing.mdx",
+      "retrievedAt": "2026-10-13T17:07:15.162319+00:00",
+      "sha256": "433c1ef43e3adc53b7272a02b0ddb893f9514ac99c949635f7ff90423f819d75",
+      "bytes": 18602
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/workers/platform/limits.mdx",
+      "retrievedAt": "2026-10-13T17:10:08.830053+00:00",
+      "sha256": "707eb71f26a93061771979b386ebce8374680f64864d61f750d20f265ec62a3e",
+      "bytes": 22880
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/workers/configuration/cron-triggers.mdx",
+      "retrievedAt": "2026-10-13T17:07:15.423997+00:00",
+      "sha256": "b39c900e0661fed4092938a88defae82f5858e574783e369dce669e903cbdf74",
+      "bytes": 10338
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/durable-objects/platform/pricing.mdx",
+      "retrievedAt": "2026-10-13T17:07:15.682354+00:00",
+      "sha256": "4124b71645e69aadde371fc99c88609b8bdc52be66b5bab84819709be073d92c",
+      "bytes": 6917
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/partials/durable-objects/durable-objects-pricing.mdx",
+      "retrievedAt": "2026-10-13T17:09:34.684941+00:00",
+      "sha256": "ddd7d4d294d07c1ab0169eab62f33f1d71a1d6bf6baae22e744a1639bb4fe978",
+      "bytes": 8540
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/partials/durable-objects/do-plans-note.mdx",
+      "retrievedAt": "2026-10-13T17:09:34.957729+00:00",
+      "sha256": "bfa43e61ab5d654bf56de60dbce0f3c7d6625a28371a76e797e7a0c39d4140c1",
+      "bytes": 754
+    },
+    {
+      "url": "https://raw.githubusercontent.com/github/docs/main/content/billing/concepts/product-billing/github-actions.md",
+      "retrievedAt": "2026-10-13T17:07:36.247746+00:00",
+      "sha256": "a40dc1897d605b0c6b3780523260180780649741a27ce47ce12b8e964e14342c",
+      "bytes": 14678
+    },
+    {
+      "url": "https://raw.githubusercontent.com/github/docs/main/data/reusables/billing/actions-included-quotas.md",
+      "retrievedAt": "2026-10-13T17:09:35.201551+00:00",
+      "sha256": "cbeecf86285fc2c38b34fc8fc7c399594b24d00e5ab5cd12cac1b64edf1ae862",
+      "bytes": 616
+    },
+    {
+      "url": "https://raw.githubusercontent.com/github/docs/main/data/reusables/billing/actions-standard-runner-prices.md",
+      "retrievedAt": "2026-10-13T17:09:35.495914+00:00",
+      "sha256": "fcd8be869b32fcac55ba16f365991d960605ca3878c7fdc9f4cfd6b651303df8",
+      "bytes": 712
+    },
+    {
+      "url": "https://raw.githubusercontent.com/github/docs/main/data/reusables/apps/generate-installation-access-token.md",
+      "retrievedAt": "2026-10-13T17:09:35.775499+00:00",
+      "sha256": "71a995a16ec1345afcfb9f9cda11b06bf541d804c8f7d91275ea5b4161db00c5",
+      "bytes": 3415
+    },
+    {
+      "url": "https://raw.githubusercontent.com/github/docs/main/src/github-apps/data/fpt-2026-03-10/server-to-server-permissions.json",
+      "retrievedAt": "2026-10-13T17:10:08.561934+00:00",
+      "sha256": "728bd73356f9cc20b650055b06f9a2cdf4da071c0b54491ce1433e71e4dc9aee",
+      "bytes": 420581
+    },
+    {
+      "url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json",
+      "retrievedAt": "2026-10-13T17:08:13.607875+00:00",
+      "sha256": "3362dfd392091ca44506f5958dbc9bdbf57a463103f98079417f2555089b8831",
+      "bytes": 13487900
+    }
+  ]
+}
