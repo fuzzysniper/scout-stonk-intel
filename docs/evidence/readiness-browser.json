@@ -1,0 +1,150 @@
+{
+  "target": "local-preview",
+  "base": "http://127.0.0.1:3137",
+  "finishedAt": "2026-10-13T14:00:56.790276+00:00",
+  "checks": [
+    {
+      "width": 320,
+      "path": "/",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 320,
+      "path": "/radar",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 320,
+      "path": "/brief",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 320,
+      "path": "/status",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 320,
+      "path": "/research",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 320,
+      "path": "/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 320,
+      "check": "Home onboarding click, primary navigation, browser back",
+      "result": "PASS"
+    },
+    {
+      "width": 320,
+      "check": "200% 16px text baseline simulation: guide/nav reflow",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "path": "/",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "path": "/radar",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "path": "/brief",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "path": "/status",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "path": "/research",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "path": "/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "check": "Home onboarding click, primary navigation, browser back",
+      "result": "PASS"
+    },
+    {
+      "width": 390,
+      "check": "200% 16px text baseline simulation: guide/nav reflow",
+      "result": "PASS"
+    },
+    {
+      "width": 1280,
+      "path": "/",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 1280,
+      "path": "/radar",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 1280,
+      "path": "/brief",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 1280,
+      "path": "/status",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 1280,
+      "path": "/research",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 1280,
+      "path": "/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+      "check": "navigation, active state, landmark, skip/focus, 44px targets, no overflow",
+      "result": "PASS"
+    },
+    {
+      "width": 1280,
+      "check": "Home onboarding click, primary navigation, browser back",
+      "result": "PASS"
+    },
+    {
+      "width": 1280,
+      "check": "200% 16px text baseline simulation: guide/nav reflow",
+      "result": "PASS"
+    },
+    {
+      "check": "guide reachable after simulated Radar API failure; no substituted observations",
+      "result": "PASS"
+    }
+  ],
+  "scope": "Chromium only; no WCAG certification, VoiceOver, physical phone, production HTTP or native-share proof"
+}

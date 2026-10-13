@@ -1,0 +1,23 @@
+import Link from 'next/link';
+import type { Metadata } from 'next';
+export const metadata: Metadata = { title: 'Research guide | SCOUT', description: 'Read SCOUT observations, evidence, coverage and limitations.' };
+const repository = 'https://github.com/fuzzysniper/scout-stonk-intel/blob/main/docs/';
+export default function ResearchGuide() {
+ return <main id="scout-content" tabIndex={-1} className="research-shell">
+  <div className="kicker">SCOUT / READ-ONLY RESEARCH</div><h1>Read the record.<br/><em>Know its limits.</em></h1>
+  <p className="research-intro">SCOUT organizes public market context and recorded StonkFun reward-counter observations for a reviewed set of tokens. It helps you inspect evidence; it does not execute trades or connect wallets.</p>
+  <section aria-labelledby="read-evidence"><h2 id="read-evidence">Before drawing a conclusion</h2><ol>
+   <li><strong>Check actual observation times.</strong> Dataset retrieval and page refresh times describe reads, not new payouts or fresh observations. GitHub snapshots are periodically collected and cached; this is not a real-time feed.</li>
+   <li><strong>Check coverage separately from freshness.</strong> A recent record may still lack the comparable boundaries or intervening points needed for a period. Missing, stale, invalid or unavailable evidence can withhold a change. Missing is not zero.</li>
+   <li><strong>Read the actual interval and quote units.</strong> Comparisons use recorded counter endpoints, not interpolated payouts. Different quote assets are kept separate; amounts are not a return ranking.</li>
+   <li><strong>Identify the edition.</strong> A provisional brief can change as evidence changes. A finalized archive preserves a dated source capture at a permanent ID URL; it does not prove current collection health. Explicit corrections remain separate.</li>
+  </ol></section>
+  <section aria-labelledby="find-source"><h2 id="find-source">Follow the evidence</h2><p>Open a token’s interval disclosure and JSON/source links to inspect timestamps, coverage reasons and recorded inputs. Archived briefs link their self-contained evidence and pinned source commit. <Link href="/status">Data Health</Link> describes current observation and collector evidence independently.</p><p>If a source is unavailable, retry later and keep conclusions withheld. This guide remains available without a successful data response; it does not supply substitute observations.</p></section>
+  <section aria-labelledby="not-proven"><h2 id="not-proven">What SCOUT does not prove</h2><p>Public API counter reports are not independently reconciled blockchain transfers, individual holder returns, APY or promised future yield. A no-finding day means no supported positive change passed the evidence gates; it does not establish that no payouts occurred. The tracked set is not the whole ecosystem.</p><p>There are no investment recommendations, wallet connections, trades, payments or automated research posts in this first-user release.</p></section>
+  <section aria-labelledby="methods"><h2 id="methods">Methodology in detail</h2><ul className="research-docs">
+   {[[ 'HISTORY.md','History: sources, timing & coverage'],['RADAR.md','Radar: tracked identities & evidence'],['SIGNALS.md','Signal Lab: matched-period comparisons'],['BRIEFS.md','Daily Brief: UTC targets & limitations'],['ARCHIVES.md','Archives: preserved evidence & corrections'],['DATA_HEALTH.md','Data Health: freshness & collection diagnostics']].map(([file,label])=><li key={file}><a href={repository+file}>{label} ↗</a></li>)}
+  </ul><p>These links open public GitHub documentation. No feedback or personal data is submitted by this guide.</p></section>
+  <section aria-labelledby="feedback"><h2 id="feedback">Help test the first-user journey</h2><p>A proposed, opt-in pilot asks whether readers can find evidence and explain missing data. There is no feedback form or analytics collection here. Participation is optional; do not share wallet addresses, balances, transactions or personal information.</p><a href={repository+'FIRST_USER_READINESS.md'}>Read the consent-based feedback plan ↗</a></section>
+  <Link href="/radar" className="research-next">START WITH RADAR →</Link>
+ </main>;
+}

@@ -37,7 +37,7 @@ export default function StatusClient() {
  const report = state.report, collector = report?.collector;
  const current = report?.rows.filter(row => row.state === 'current').length ?? 0;
  const stale = report?.rows.filter(row => row.state === 'stale' || row.state === 'missing').length ?? 0;
- return <main className="radar-shell health-shell"><header className="radar-nav"><Link href="/" className="radar-brand">◉ SCOUT<span>.</span></Link><span>OPERATIONAL EVIDENCE</span><Link href="/radar">RADAR ↗</Link></header>
+ return <main id="scout-content" tabIndex={-1} className="radar-shell health-shell"><header className="radar-nav"><Link href="/" className="radar-brand">◉ SCOUT<span>.</span></Link><span>OPERATIONAL EVIDENCE</span><Link href="/radar">RADAR ↗</Link></header>
   <section className="radar-hero"><div className="kicker">DATA HEALTH / V1</div><h1>Trust the record.<br/><em>Check the gaps.</em></h1><p>Actual observations, coverage and collector evidence. A successful workflow is not proof that every token was collected or a dataset was published.</p></section>
   <div className="radar-summary"><div><strong>{report ? current : '—'}</strong><span>CURRENT RECORDS</span></div><div><strong>{report ? stale : '—'}</strong><span>STALE / MISSING</span></div><div><strong>{report ? report.rows.length : '—'}</strong><span>TRACKED TOKENS</span></div></div>
   <div className="radar-toolbar"><p className="radar-notice">Current: up to 75 minutes · delayed: 75 minutes to 3 hours · stale: over 3 hours.</p><button type="button" disabled={state.loading} onClick={() => setRefresh(n => n + 1)}>{state.loading ? 'CHECKING…' : 'REFRESH HEALTH ↻'}</button></div>
