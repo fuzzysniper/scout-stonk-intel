@@ -39,3 +39,7 @@ The Radar compares observed distributions over consecutive 24h targets, with act
 ## Daily research briefs
 
 `/brief` opens today's UTC edition; `/brief/YYYY-MM-DD` is the canonical day URL. Provisional briefs report only coverage-backed recorded quote-distribution changes, with missing-data explanations and current Data Quality. Share links carry a version and warn if the edition changes. See [brief methodology, verification and rollback](docs/BRIEFS.md).
+
+## Immutable research publication
+
+Approved daily editions preserve exact source bytes and calculation evidence at `/brief/DATE/editions/ID`. Originals never become silent corrections. See [architecture, opt-in draft-PR workflow, operations and rollback](docs/ARCHIVES.md). The automation defaults off and never merges or posts to social platforms.

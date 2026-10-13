@@ -21,10 +21,10 @@ export type BriefRow = {
  evidence: { brief: string; history: string; dossier: string; official: string; identity: string };
 };
 export type BriefReport = {
- date: string; method: typeof BRIEF_METHOD; provisional: true; dayClosed: boolean; evaluatedAt: string;
+ date: string; method: typeof BRIEF_METHOD; provisional: boolean; publication?: { state: 'finalized'; id: string; eligibleAt: string; inputCommit: string; inputCommittedAt: string; method: string; correction: {parent:string;notice:string} | null; related: string[]; evidence: string }; dayClosed: boolean; evaluatedAt: string;
  canonicalPath: string; version: string | null; sharePath: string | null; dataset: Dataset;
  headline: string; findingCount: number; verifiedCount: number; rows: BriefRow[];
- quality: { checkedAt: string; sourceStatus: Dataset['sourceStatus']; auditOrigin: HealthReport['collector']['auditOrigin']; auditState: string;
+ quality?: { checkedAt: string; sourceStatus: Dataset['sourceStatus']; auditOrigin: HealthReport['collector']['auditOrigin']; auditState: string;
   auditCheckedAt: string; scheduledRunCount: number | null; attemptState: string; attemptOverall: string | null; attemptFinishedAt: string | null;
   diagnosticSources: HealthReport['collector']['diagnosticSources']; rows: { mint: string; symbol: string; state: string; latestObservedAt: string | null; ageSeconds: number | null; missedScheduledSlots: number | null; estimateCapped: boolean; attempt: HealthReport['rows'][number]['attempt'] }[] };
 };

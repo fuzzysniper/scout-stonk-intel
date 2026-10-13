@@ -64,3 +64,7 @@ Local production smoke at 23:26:52 UTC used the built app with Node 24.19.0 `--u
 ## Rollback and approval
 
 Revert this feature through a reviewed PR and separately approve any application rollout. Remove `/status` navigation/API, restore the prior source wrapper/collector workflow and disable the daily audit workflow or alert variable if required. Preserve genuine reward snapshots and later observations; do not blindly roll back subsequent bot commits. Public diagnostic files/artifacts can remain as dated evidence or be removed in a reviewed change without deleting history. No schema migration, credential revocation, payment cancellation, DNS or transaction rollback is required. Workflow permissions, diagnostic contract and notification policy are submitted for explicit human review under AGENTS.md; no merge, production deployment or alert opt-in is performed here.
+
+## Research archive health
+
+[Publication V2](ARCHIVES.md) adds a separate archive-health section: source/index availability, latest grace-eligible and approved UTC dates, bounded missing dates, retention limits and publication-attempt/artifact links. Unknown source is not an empty archive; an absent approved edition does not prove a failed scheduled attempt. Review and disabled automation remain separate from collector freshness.
