@@ -1,0 +1,1057 @@
+{
+  "version": 1,
+  "analysisCutoff": "2026-10-13T16:29:25Z",
+  "baseCommit": "47391568c28aeb7fa90f5dcde2dcfb08ffd44ce7",
+  "collectorWorkflow": {
+    "id": 382300817,
+    "state": "active",
+    "created_at": "2026-10-12T15:42:15.000Z",
+    "updated_at": "2026-10-12T15:42:15.000Z",
+    "path": ".github/workflows/reward-snapshots.yml"
+  },
+  "runListing": {
+    "api": "https://api.github.com/repos/fuzzysniper/scout-stonk-intel/actions/workflows/reward-snapshots.yml/runs?per_page=100",
+    "totalCount": 5,
+    "returnedCount": 5,
+    "capturedAt": "2026-10-13T16:29:12.459964+00:00"
+  },
+  "cadence": {
+    "state": "checked",
+    "windowStart": "2026-10-12T16:29:25+00:00",
+    "windowEnd": "2026-10-13T16:29:25+00:00",
+    "nominalSlots": 24,
+    "matureSlots": 23,
+    "graceSeconds": 900,
+    "listedScheduledRuns": 3,
+    "listedManualRuns": 1,
+    "matureSlotsWithoutRunCreation": 20,
+    "creationOffsets": [
+      {
+        "id": 38393086625,
+        "secondsAfterPriorSlot": 2050
+      },
+      {
+        "id": 38342446125,
+        "secondsAfterPriorSlot": 1121
+      },
+      {
+        "id": 38319900484,
+        "secondsAfterPriorSlot": 2652
+      }
+    ],
+    "intendedSlotsKnown": false
+  },
+  "collectorRuns": [
+    {
+      "id": 38393086625,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-13T11:51:10Z",
+      "run_started_at": "2026-10-13T11:51:10Z",
+      "updated_at": "2026-10-13T11:51:23Z",
+      "head_sha": "8acf10352cb5f8804d4310758dadb495df376332",
+      "run_attempt": 1,
+      "html_url": "https://github.com/fuzzysniper/scout-stonk-intel/actions/runs/38393086625",
+      "jobs": [
+        {
+          "id": 115281432007,
+          "name": "collect",
+          "conclusion": "success",
+          "started_at": "2026-10-13T11:51:12Z",
+          "completed_at": "2026-10-13T11:51:23Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-13T11:51:13Z",
+              "completed_at": "2026-10-13T11:51:14Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-13T11:51:14Z",
+              "completed_at": "2026-10-13T11:51:16Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-13T11:51:16Z",
+              "completed_at": "2026-10-13T11:51:16Z"
+            },
+            {
+              "name": "Collect observations",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-13T11:51:16Z",
+              "completed_at": "2026-10-13T11:51:18Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-13T11:51:18Z",
+              "completed_at": "2026-10-13T11:51:19Z"
+            },
+            {
+              "name": "Preserve diagnostic evidence",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-10-13T11:51:19Z",
+              "completed_at": "2026-10-13T11:51:20Z"
+            },
+            {
+              "name": "Fail when collection failed",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 7,
+              "started_at": "2026-10-13T11:51:20Z",
+              "completed_at": "2026-10-13T11:51:20Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13,
+              "started_at": "2026-10-13T11:51:20Z",
+              "completed_at": "2026-10-13T11:51:20Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14,
+              "started_at": "2026-10-13T11:51:20Z",
+              "completed_at": "2026-10-13T11:51:20Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15,
+              "started_at": "2026-10-13T11:51:20Z",
+              "completed_at": "2026-10-13T11:51:21Z"
+            }
+          ]
+        }
+      ],
+      "matchedDatasetCommit": "fdce3c1d95e1d4cf1d78ddf5c56aab6c5dcc4e1a",
+      "datasetCommitParentMatchesRunHead": true,
+      "logsAvailable": false,
+      "logAccessReason": "environment_proxy_destination_denied"
+    },
+    {
+      "id": 38342446125,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-13T03:35:41Z",
+      "run_started_at": "2026-10-13T03:35:41Z",
+      "updated_at": "2026-10-13T03:35:56Z",
+      "head_sha": "13413ae71cd5f560c20259d3907ea50f9536cdaf",
+      "run_attempt": 1,
+      "html_url": "https://github.com/fuzzysniper/scout-stonk-intel/actions/runs/38342446125",
+      "jobs": [
+        {
+          "id": 115116244812,
+          "name": "collect",
+          "conclusion": "success",
+          "started_at": "2026-10-13T03:35:43Z",
+          "completed_at": "2026-10-13T03:35:56Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-13T03:35:44Z",
+              "completed_at": "2026-10-13T03:35:45Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-13T03:35:45Z",
+              "completed_at": "2026-10-13T03:35:47Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-13T03:35:47Z",
+              "completed_at": "2026-10-13T03:35:47Z"
+            },
+            {
+              "name": "Collect observations",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-13T03:35:47Z",
+              "completed_at": "2026-10-13T03:35:51Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-13T03:35:51Z",
+              "completed_at": "2026-10-13T03:35:52Z"
+            },
+            {
+              "name": "Preserve diagnostic evidence",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-10-13T03:35:52Z",
+              "completed_at": "2026-10-13T03:35:53Z"
+            },
+            {
+              "name": "Fail when collection failed",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 7,
+              "started_at": "2026-10-13T03:35:53Z",
+              "completed_at": "2026-10-13T03:35:53Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13,
+              "started_at": "2026-10-13T03:35:53Z",
+              "completed_at": "2026-10-13T03:35:53Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14,
+              "started_at": "2026-10-13T03:35:53Z",
+              "completed_at": "2026-10-13T03:35:54Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15,
+              "started_at": "2026-10-13T03:35:54Z",
+              "completed_at": "2026-10-13T03:35:54Z"
+            }
+          ]
+        }
+      ],
+      "matchedDatasetCommit": "9d458ffc943dfbda584743f5da8f93e5e984e132",
+      "datasetCommitParentMatchesRunHead": true,
+      "logsAvailable": false,
+      "logAccessReason": "environment_proxy_destination_denied"
+    },
+    {
+      "id": 38319900484,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T23:01:12Z",
+      "run_started_at": "2026-10-12T23:01:12Z",
+      "updated_at": "2026-10-12T23:01:24Z",
+      "head_sha": "2037a7fb18946bf510dd46a27dfaecddf97d859f",
+      "run_attempt": 1,
+      "html_url": "https://github.com/fuzzysniper/scout-stonk-intel/actions/runs/38319900484",
+      "jobs": [
+        {
+          "id": 115045204384,
+          "name": "collect",
+          "conclusion": "success",
+          "started_at": "2026-10-12T23:01:14Z",
+          "completed_at": "2026-10-12T23:01:23Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-12T23:01:16Z",
+              "completed_at": "2026-10-12T23:01:16Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-12T23:01:16Z",
+              "completed_at": "2026-10-12T23:01:18Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-12T23:01:18Z",
+              "completed_at": "2026-10-12T23:01:18Z"
+            },
+            {
+              "name": "Run python scripts/collect_rewards.py",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-12T23:01:18Z",
+              "completed_at": "2026-10-12T23:01:19Z"
+            },
+            {
+              "name": "Commit observed data",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-12T23:01:19Z",
+              "completed_at": "2026-10-12T23:01:20Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-10-12T23:01:20Z",
+              "completed_at": "2026-10-12T23:01:20Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10,
+              "started_at": "2026-10-12T23:01:20Z",
+              "completed_at": "2026-10-12T23:01:21Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-10-12T23:01:21Z",
+              "completed_at": "2026-10-12T23:01:21Z"
+            }
+          ]
+        }
+      ],
+      "matchedDatasetCommit": "b4ad30fb49226b2de86fef5ce30b7acc70018857",
+      "datasetCommitParentMatchesRunHead": true,
+      "logsAvailable": false,
+      "logAccessReason": "environment_proxy_destination_denied"
+    },
+    {
+      "id": 38304889111,
+      "event": "workflow_dispatch",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T20:32:28Z",
+      "run_started_at": "2026-10-12T20:32:28Z",
+      "updated_at": "2026-10-12T20:32:37Z",
+      "head_sha": "5bd7b6a5b7963021992a8c0ef6e22656228bacd9",
+      "run_attempt": 1,
+      "html_url": "https://github.com/fuzzysniper/scout-stonk-intel/actions/runs/38304889111",
+      "jobs": [
+        {
+          "id": 114996406818,
+          "name": "collect",
+          "conclusion": "success",
+          "started_at": "2026-10-12T20:32:31Z",
+          "completed_at": "2026-10-12T20:32:36Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-12T20:32:32Z",
+              "completed_at": "2026-10-12T20:32:32Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-12T20:32:32Z",
+              "completed_at": "2026-10-12T20:32:33Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-12T20:32:33Z",
+              "completed_at": "2026-10-12T20:32:33Z"
+            },
+            {
+              "name": "Run python scripts/collect_rewards.py",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-12T20:32:33Z",
+              "completed_at": "2026-10-12T20:32:33Z"
+            },
+            {
+              "name": "Commit observed data",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-12T20:32:33Z",
+              "completed_at": "2026-10-12T20:32:34Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-10-12T20:32:34Z",
+              "completed_at": "2026-10-12T20:32:34Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10,
+              "started_at": "2026-10-12T20:32:34Z",
+              "completed_at": "2026-10-12T20:32:35Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-10-12T20:32:35Z",
+              "completed_at": "2026-10-12T20:32:35Z"
+            }
+          ]
+        }
+      ],
+      "matchedDatasetCommit": "027ab3eb95acce515beb79dc74e5764036384759",
+      "datasetCommitParentMatchesRunHead": true,
+      "logsAvailable": false,
+      "logAccessReason": "environment_proxy_destination_denied"
+    },
+    {
+      "id": 38272331847,
+      "event": "workflow_dispatch",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-12T15:43:36Z",
+      "run_started_at": "2026-10-12T15:43:36Z",
+      "updated_at": "2026-10-12T15:43:45Z",
+      "head_sha": "13d8d81bcb56187255ac1a7032603220509faf21",
+      "run_attempt": 1,
+      "html_url": "https://github.com/fuzzysniper/scout-stonk-intel/actions/runs/38272331847",
+      "jobs": [
+        {
+          "id": 114889370887,
+          "name": "collect",
+          "conclusion": "success",
+          "started_at": "2026-10-12T15:43:39Z",
+          "completed_at": "2026-10-12T15:43:44Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-12T15:43:39Z",
+              "completed_at": "2026-10-12T15:43:40Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-12T15:43:40Z",
+              "completed_at": "2026-10-12T15:43:40Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-12T15:43:40Z",
+              "completed_at": "2026-10-12T15:43:40Z"
+            },
+            {
+              "name": "Run python scripts/collect_rewards.py",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-12T15:43:40Z",
+              "completed_at": "2026-10-12T15:43:41Z"
+            },
+            {
+              "name": "Commit observed data",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-12T15:43:41Z",
+              "completed_at": "2026-10-12T15:43:42Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9,
+              "started_at": "2026-10-12T15:43:42Z",
+              "completed_at": "2026-10-12T15:43:42Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10,
+              "started_at": "2026-10-12T15:43:42Z",
+              "completed_at": "2026-10-12T15:43:42Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11,
+              "started_at": "2026-10-12T15:43:42Z",
+              "completed_at": "2026-10-12T15:43:42Z"
+            }
+          ]
+        }
+      ],
+      "matchedDatasetCommit": "804c6ee7d882c52fd334c2df3f3f132a9a9c2dff",
+      "datasetCommitParentMatchesRunHead": true,
+      "logsAvailable": false,
+      "logAccessReason": "environment_proxy_destination_denied"
+    }
+  ],
+  "auditRuns": [
+    {
+      "id": 38420708084,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-13T15:16:59Z",
+      "run_started_at": "2026-10-13T15:16:59Z",
+      "updated_at": "2026-10-13T15:17:16Z",
+      "head_sha": "38d74112461bb96d7bad08a6c306e25bdccf3a6b",
+      "run_attempt": 1,
+      "html_url": "https://github.com/fuzzysniper/scout-stonk-intel/actions/runs/38420708084",
+      "jobs": [
+        {
+          "id": 115376945749,
+          "name": "audit",
+          "conclusion": "success",
+          "started_at": "2026-10-13T15:17:01Z",
+          "completed_at": "2026-10-13T15:17:15Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1,
+              "started_at": "2026-10-13T15:17:02Z",
+              "completed_at": "2026-10-13T15:17:03Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2,
+              "started_at": "2026-10-13T15:17:03Z",
+              "completed_at": "2026-10-13T15:17:05Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3,
+              "started_at": "2026-10-13T15:17:05Z",
+              "completed_at": "2026-10-13T15:17:06Z"
+            },
+            {
+              "name": "Bounded read-only audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4,
+              "started_at": "2026-10-13T15:17:06Z",
+              "completed_at": "2026-10-13T15:17:09Z"
+            },
+            {
+              "name": "Publish audit evidence",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5,
+              "started_at": "2026-10-13T15:17:09Z",
+              "completed_at": "2026-10-13T15:17:10Z"
+            },
+            {
+              "name": "Preserve audit evidence",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6,
+              "started_at": "2026-10-13T15:17:10Z",
+              "completed_at": "2026-10-13T15:17:11Z"
+            },
+            {
+              "name": "Optional daily operational failure notification",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 7,
+              "started_at": "2026-10-13T15:17:11Z",
+              "completed_at": "2026-10-13T15:17:11Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13,
+              "started_at": "2026-10-13T15:17:11Z",
+              "completed_at": "2026-10-13T15:17:11Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14,
+              "started_at": "2026-10-13T15:17:11Z",
+              "completed_at": "2026-10-13T15:17:12Z"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15,
+              "started_at": "2026-10-13T15:17:12Z",
+              "completed_at": "2026-10-13T15:17:12Z"
+            }
+          ]
+        }
+      ],
+      "logsAvailable": false,
+      "logAccessReason": "environment_proxy_destination_denied"
+    }
+  ],
+  "datasetRevisions": [
+    {
+      "commit": "fdce3c1d95e1d4cf1d78ddf5c56aab6c5dcc4e1a",
+      "committedAt": "2026-10-13T11:51:18Z",
+      "revision": "sha256:6952f44f1eaf69a0f3eab67f87b62cbcfaa6d214e51d0f5cf0dd7602b141fdb1",
+      "storedCounts": {
+        "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS": 6,
+        "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8": 4,
+        "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR": 4,
+        "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu": 4,
+        "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr": 4,
+        "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7": 4,
+        "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP": 4
+      },
+      "addedObservationTimes": {
+        "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS": [
+          "2026-10-13T11:51:17+00:00"
+        ],
+        "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8": [
+          "2026-10-13T11:51:17+00:00"
+        ],
+        "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR": [
+          "2026-10-13T11:51:17+00:00"
+        ],
+        "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu": [
+          "2026-10-13T11:51:17+00:00"
+        ],
+        "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr": [
+          "2026-10-13T11:51:17+00:00"
+        ],
+        "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7": [
+          "2026-10-13T11:51:18+00:00"
+        ],
+        "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP": [
+          "2026-10-13T11:51:18+00:00"
+        ]
+      },
+      "collectionSummary": {
+        "runId": 38393086625,
+        "startedAt": "2026-10-13T11:51:17+00:00",
+        "finishedAt": "2026-10-13T11:51:18+00:00",
+        "overall": "complete",
+        "expectedDatasetRevision": "sha256:6952f44f1eaf69a0f3eab67f87b62cbcfaa6d214e51d0f5cf0dd7602b141fdb1",
+        "results": [
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:17+00:00"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:17+00:00"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:17+00:00"
+          },
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:17+00:00"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:17+00:00"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:18+00:00"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:18+00:00"
+          }
+        ]
+      }
+    },
+    {
+      "commit": "9d458ffc943dfbda584743f5da8f93e5e984e132",
+      "committedAt": "2026-10-13T03:35:51Z",
+      "revision": "sha256:addb5fe82419c92c34ceba94774fb91609f63f6ee4f553439b1bf9180eff8fa7",
+      "storedCounts": {
+        "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS": 5,
+        "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8": 3,
+        "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR": 3,
+        "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu": 3,
+        "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr": 3,
+        "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7": 3,
+        "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP": 3
+      },
+      "addedObservationTimes": {
+        "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS": [
+          "2026-10-13T03:35:50+00:00"
+        ],
+        "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8": [
+          "2026-10-13T03:35:49+00:00"
+        ],
+        "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR": [
+          "2026-10-13T03:35:50+00:00"
+        ],
+        "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu": [
+          "2026-10-13T03:35:50+00:00"
+        ],
+        "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr": [
+          "2026-10-13T03:35:50+00:00"
+        ],
+        "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7": [
+          "2026-10-13T03:35:50+00:00"
+        ],
+        "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP": [
+          "2026-10-13T03:35:51+00:00"
+        ]
+      },
+      "collectionSummary": {
+        "runId": 38342446125,
+        "startedAt": "2026-10-13T03:35:49+00:00",
+        "finishedAt": "2026-10-13T03:35:51+00:00",
+        "overall": "complete",
+        "expectedDatasetRevision": "sha256:addb5fe82419c92c34ceba94774fb91609f63f6ee4f553439b1bf9180eff8fa7",
+        "results": [
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:49+00:00"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:50+00:00"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:50+00:00"
+          },
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:50+00:00"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:50+00:00"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:50+00:00"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:51+00:00"
+          }
+        ]
+      }
+    },
+    {
+      "commit": "b4ad30fb49226b2de86fef5ce30b7acc70018857",
+      "committedAt": "2026-10-12T23:01:19Z",
+      "revision": "sha256:ef971b99e0014c7bdbf498e50e0725e5e6f79c678c5d719394436d677e0e4b00",
+      "storedCounts": {
+        "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS": 4,
+        "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8": 2,
+        "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR": 2,
+        "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu": 2,
+        "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr": 2,
+        "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7": 2,
+        "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP": 2
+      },
+      "addedObservationTimes": {
+        "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS": [
+          "2026-10-12T23:01:19+00:00"
+        ],
+        "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8": [
+          "2026-10-12T23:01:18+00:00"
+        ],
+        "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR": [
+          "2026-10-12T23:01:18+00:00"
+        ],
+        "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu": [
+          "2026-10-12T23:01:19+00:00"
+        ],
+        "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr": [
+          "2026-10-12T23:01:19+00:00"
+        ],
+        "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7": [
+          "2026-10-12T23:01:19+00:00"
+        ],
+        "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP": [
+          "2026-10-12T23:01:19+00:00"
+        ]
+      }
+    },
+    {
+      "commit": "47bdc17f114362a37b036e61bfc5494477830839",
+      "committedAt": "2026-10-12T15:59:15-05:00",
+      "revision": "sha256:ca6cec900d453852f709532ee707df1570afdaefe505b48282090ad4739b9b22",
+      "storedCounts": {
+        "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS": 3,
+        "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8": 1,
+        "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR": 1,
+        "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu": 1,
+        "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr": 1,
+        "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7": 1,
+        "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP": 1
+      },
+      "addedObservationTimes": {
+        "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS": [
+          "2026-10-12T20:41:28+00:00"
+        ],
+        "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8": [
+          "2026-10-12T20:41:27+00:00"
+        ],
+        "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR": [
+          "2026-10-12T20:41:27+00:00"
+        ],
+        "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu": [
+          "2026-10-12T20:41:28+00:00"
+        ],
+        "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr": [
+          "2026-10-12T20:41:28+00:00"
+        ],
+        "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7": [
+          "2026-10-12T20:41:29+00:00"
+        ],
+        "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP": [
+          "2026-10-12T20:41:29+00:00"
+        ]
+      }
+    },
+    {
+      "commit": "027ab3eb95acce515beb79dc74e5764036384759",
+      "committedAt": "2026-10-12T20:32:33Z",
+      "revision": "sha256:4928c873487d0536dcedfbf299fed1e1d92c9caabdc5bc1d07ddaef890a5bb92",
+      "storedCounts": {
+        "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS": 2
+      },
+      "addedObservationTimes": {
+        "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS": [
+          "2026-10-12T20:32:33+00:00"
+        ]
+      }
+    },
+    {
+      "commit": "804c6ee7d882c52fd334c2df3f3f132a9a9c2dff",
+      "committedAt": "2026-10-12T15:43:41Z",
+      "revision": "sha256:6b953a9a00719e23e55eae1de23fb5379d685c2f958b2fb6365b440484eda103",
+      "storedCounts": {
+        "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS": 1
+      },
+      "addedObservationTimes": {
+        "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS": [
+          "2026-10-12T15:43:41+00:00"
+        ]
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+      "symbol": "ALLINU",
+      "verifiedAt": "2026-10-12T20:36:37+00:00",
+      "storedCount": 4,
+      "observationTimes": [
+        "2026-10-12T20:41:27+00:00",
+        "2026-10-12T23:01:18+00:00",
+        "2026-10-13T03:35:49+00:00",
+        "2026-10-13T11:51:17+00:00"
+      ],
+      "gapSeconds": [
+        8391.0,
+        16471.0,
+        29728.0
+      ],
+      "ageSecondsAtCutoff": 16688.0
+    },
+    {
+      "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+      "symbol": "ZCAT",
+      "verifiedAt": "2026-10-12T20:36:36+00:00",
+      "storedCount": 4,
+      "observationTimes": [
+        "2026-10-12T20:41:27+00:00",
+        "2026-10-12T23:01:18+00:00",
+        "2026-10-13T03:35:50+00:00",
+        "2026-10-13T11:51:17+00:00"
+      ],
+      "gapSeconds": [
+        8391.0,
+        16472.0,
+        29727.0
+      ],
+      "ageSecondsAtCutoff": 16688.0
+    },
+    {
+      "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+      "symbol": "BANKROLL",
+      "verifiedAt": "2026-10-12T20:36:37+00:00",
+      "storedCount": 4,
+      "observationTimes": [
+        "2026-10-12T20:41:28+00:00",
+        "2026-10-12T23:01:19+00:00",
+        "2026-10-13T03:35:50+00:00",
+        "2026-10-13T11:51:17+00:00"
+      ],
+      "gapSeconds": [
+        8391.0,
+        16471.0,
+        29727.0
+      ],
+      "ageSecondsAtCutoff": 16688.0
+    },
+    {
+      "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+      "symbol": "KNOTS",
+      "verifiedAt": "2026-10-12T20:36:37+00:00",
+      "storedCount": 6,
+      "observationTimes": [
+        "2026-10-12T15:43:41+00:00",
+        "2026-10-12T20:32:33+00:00",
+        "2026-10-12T20:41:28+00:00",
+        "2026-10-12T23:01:19+00:00",
+        "2026-10-13T03:35:50+00:00",
+        "2026-10-13T11:51:17+00:00"
+      ],
+      "gapSeconds": [
+        17332.0,
+        535.0,
+        8391.0,
+        16471.0,
+        29727.0
+      ],
+      "ageSecondsAtCutoff": 16688.0
+    },
+    {
+      "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+      "symbol": "NEARKAT",
+      "verifiedAt": "2026-10-12T20:36:37+00:00",
+      "storedCount": 4,
+      "observationTimes": [
+        "2026-10-12T20:41:28+00:00",
+        "2026-10-12T23:01:19+00:00",
+        "2026-10-13T03:35:50+00:00",
+        "2026-10-13T11:51:17+00:00"
+      ],
+      "gapSeconds": [
+        8391.0,
+        16471.0,
+        29727.0
+      ],
+      "ageSecondsAtCutoff": 16688.0
+    },
+    {
+      "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+      "symbol": "MASK",
+      "verifiedAt": "2026-10-12T20:36:36+00:00",
+      "storedCount": 4,
+      "observationTimes": [
+        "2026-10-12T20:41:29+00:00",
+        "2026-10-12T23:01:19+00:00",
+        "2026-10-13T03:35:50+00:00",
+        "2026-10-13T11:51:18+00:00"
+      ],
+      "gapSeconds": [
+        8390.0,
+        16471.0,
+        29728.0
+      ],
+      "ageSecondsAtCutoff": 16687.0
+    },
+    {
+      "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "symbol": "SI",
+      "verifiedAt": "2026-10-12T20:36:36+00:00",
+      "storedCount": 4,
+      "observationTimes": [
+        "2026-10-12T20:41:29+00:00",
+        "2026-10-12T23:01:19+00:00",
+        "2026-10-13T03:35:51+00:00",
+        "2026-10-13T11:51:18+00:00"
+      ],
+      "gapSeconds": [
+        8390.0,
+        16472.0,
+        29727.0
+      ],
+      "ageSecondsAtCutoff": 16687.0
+    }
+  ],
+  "rawSource": {
+    "url": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/main/data/reward-snapshots.json",
+    "revision": "sha256:6952f44f1eaf69a0f3eab67f87b62cbcfaa6d214e51d0f5cf0dd7602b141fdb1",
+    "retrievedAt": "2026-10-13T16:33:47.606511+00:00",
+    "matchesLatestDatasetCommit": true,
+    "deployedApplicationNotInspected": true
+  }
+}

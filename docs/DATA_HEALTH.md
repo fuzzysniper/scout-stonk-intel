@@ -68,3 +68,7 @@ Revert this feature through a reviewed PR and separately approve any application
 ## Research archive health
 
 [Publication V2](ARCHIVES.md) adds a separate archive-health section: source/index availability, latest grace-eligible and approved UTC dates, bounded missing dates, retention limits and publication-attempt/artifact links. Unknown source is not an empty archive; an absent approved edition does not prove a failed scheduled attempt. Review and disabled automation remain separate from collector freshness.
+
+## Collector reliability follow-up
+
+[Issue #22 operator report](COLLECTOR_RELIABILITY.md) compares all scheduled runs, job timestamps, actual dataset commits/hashes and per-token gaps at a dated October 13 cutoff. The bounded audit now lists up to 48 recent run candidates (still six GETs, existing limits, twelve published phase-detail rows) and adds operator-only 24-hour opportunity/creation diagnostics to its artifact and job summary. Incomplete evidence remains unknown; creation buckets are not proof of intended or dropped cron events. Public status/history calculations, collector behavior, workflow schedules/permissions and archive enablement are unchanged.
