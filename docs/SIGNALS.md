@@ -97,3 +97,7 @@ Revert the Signal Lab feature commit through a reviewed PR, then perform a human
 ## Data Health operational monitoring
 
 [Data Health V1](DATA_HEALTH.md) documents per-token freshness/coverage, dated scheduler evidence, bounded collection summaries, optional daily operational alerts and human-approved verification. This operational view does not change the historical or Signal Lab calculations.
+
+## UX V2 presentation
+
+[UX V2](UX_V2.md) supersedes the original Home onboarding and expanded Radar card presentation. Compact rows retain quote units, actual observation times and withholding reasons; existing research calculations and provenance remain behind Evidence / Details. Source/API/calculation policies in this document are unchanged.
