@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "scout-scheduler-staging",
+  "main": "staging-entry.ts",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "vars": { "ACTIVATION": "disabled" },
+  "durable_objects": {
+    "bindings": [{ "name": "SLOTS", "class_name": "SlotCoordinator" }]
+  },
+  "exports": {
+    "SlotCoordinator": { "type": "durable-object", "storage": "sqlite" }
+  }
+}

@@ -37,3 +37,7 @@ No production secrets in agent prompts or pull-request logs. No autonomous trans
 [ADR 0002](decisions/0002-staged-trigger-adapter.md) documents the inactive Cloudflare/SQLite adapter, shared claim-before-collect policy, local CPU evidence, maximum $5/month engineering target and separate human setup/activation blockers.
 
 [Shared collection gate](COLLECTION_GATE.md), issue #28, adds opt-in authenticated Git claim/confirmation wiring. Ordinary native/manual collection skips the integration while its flag is unset/false. The Cloudflare adapter remains inactive, and enabling the guard or any external pilot requires separate explicit human approval.
+
+## Inactive Cloudflare staging preparation
+
+[Issue #32 staging runbook](CLOUDFLARE_STAGING.md) prepares a standalone, SQLite-backed Worker package with current Wrangler, local-only dry-run and separate human PC deployment/removal instructions. No Cron, routes, credentials, dispatch or collection-gate activation is included. App CI and collector workflows remain unchanged.
