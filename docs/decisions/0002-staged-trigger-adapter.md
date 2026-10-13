@@ -2,6 +2,8 @@
 
 Status: **implemented offline; NOT approved for activation**. Issue [#26](https://github.com/fuzzysniper/scout-stonk-intel/issues/26). Base `a4b54a28f2590dfe6b16b65840541238a2c242a1`, including merged PR #25. Extends [ADR 0001](0001-collection-trigger.md); its threat model, alternative comparison and no-fabrication rules still apply. $5/month is a maximum engineering target, **not authorization to provision, purchase or activate**.
 
+Follow-up: [issue #28 shared workflow integration](../COLLECTION_GATE.md) implements the missing authenticated Git claim/confirmation entry behind an opt-in flag, default off. Existing native/manual collection bypasses that gate while off; external activation is still blocked. The implementation/verification statements below describe merged PR #27 before that follow-up, not a completed hosted pilot.
+
 ## Implementation and security decisions
 
 Use the scheduled-only [Worker](../../scheduler/worker.ts) and one named SQLite Durable Object. No Worker public `fetch`, route, deployment manifest, Cron registration or real secret is supplied. `ACTIVATION` defaults off and must equal `human-approved` to act; setting that value is a future approved operation, not an authorization mechanism by itself. The test-only HTTP facade/clock/storage injection in `tests/scheduler-harness.mjs` must **never** be deployed. Production time is the Durable Object clock. The Worker requires the exact hourly Cron string and singleton name.
