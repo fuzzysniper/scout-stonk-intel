@@ -33,3 +33,5 @@ No production secrets in agent prompts or pull-request logs. No autonomous trans
 ## Proposed independent collection trigger
 
 [ADR 0001](decisions/0001-collection-trigger.md) compares scheduler alternatives, App privileges, costs and threats, with inactive offline preparation, mandatory setup gates, a 48-hour proving period and rollback. This is a recommendation for human review; no external scheduler, credentials, live workflow changes or activation is authorized by it.
+
+[ADR 0002](decisions/0002-staged-trigger-adapter.md) documents the inactive Cloudflare/SQLite adapter, shared claim-before-collect gate, local CPU evidence, maximum $5/month engineering target and separate human setup/activation blockers. Existing collection workflows do not call the adapter or shared gate.

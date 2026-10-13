@@ -1,0 +1,19 @@
+{
+  "purpose": "CPU boundary clarification: Cron Worker forwards, App signing runs in SQLite Durable Object. Account metering still requires separately approved hosted validation.",
+  "sources": [
+    {
+      "retrieved_at": "2026-10-13T18:15:48.412048Z",
+      "url": "https://developers.cloudflare.com/durable-objects/platform/limits/",
+      "retrieved_source": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/durable-objects/platform/limits.mdx",
+      "bytes": 6813,
+      "sha256": "3659c0f0abc2ca951ea6b7086768b2696a8f726b7f4be0920c05b451f479302f"
+    },
+    {
+      "retrieved_at": "2026-10-13T18:15:48.412048Z",
+      "url": "https://developers.cloudflare.com/workers/platform/limits/",
+      "retrieved_source": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/workers/platform/limits.mdx",
+      "bytes": 22880,
+      "sha256": "707eb71f26a93061771979b386ebce8374680f64864d61f750d20f265ec62a3e"
+    }
+  ]
+}
