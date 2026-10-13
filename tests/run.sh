@@ -7,3 +7,6 @@ trap 'rm -rf "$build_dir"' EXIT
 NODE_PATH="$PWD/node_modules" HISTORY_TEST_BUILD="$build_dir" node --test tests/history.test.mjs tests/history-api.test.mjs tests/history-source.test.mjs tests/radar.test.mjs tests/radar-api.test.mjs tests/signals.test.mjs tests/data-health.test.mjs tests/status-api.test.mjs tests/brief.test.mjs tests/brief-api.test.mjs tests/archive.test.mjs tests/archive-source.test.mjs tests/release-verification.test.mjs tests/readiness.test.mjs tests/ecosystem.test.mjs
 
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p "*_test.py"
+
+./node_modules/.bin/tsc scheduler/worker.ts --target ES2022 --module esnext --moduleResolution bundler --lib ES2022,DOM --strict --skipLibCheck --outDir "$build_dir/scheduler"
+SCHEDULER_TEST_BUILD="$build_dir/scheduler" node --test tests/scheduler.test.mjs

@@ -1,0 +1,107 @@
+{
+  "measured_at": "2026-10-13T18:16:07.275Z",
+  "node": "v20.20.2",
+  "miniflare": "3.20250718.3",
+  "workerd": "1.20250718.0",
+  "compatibility_date": "2025-07-18",
+  "platform": "linux",
+  "arch": "x64",
+  "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+  "clock_ticks_per_second": 100,
+  "ephemeral_rsa_bits": 2048,
+  "cold_samples": [
+    {
+      "readiness_wall_ms": 117.306059,
+      "startup_workerd_cpu_ms": 20,
+      "first_sqlite_dispatch": {
+        "count": 1,
+        "workerd_cpu_ms": 10,
+        "workerd_cpu_ms_per_operation": 10,
+        "node_harness_cpu_ms": 34.693,
+        "wall_ms": 39.502746
+      }
+    },
+    {
+      "readiness_wall_ms": 5062.030634,
+      "startup_workerd_cpu_ms": 30,
+      "first_sqlite_dispatch": {
+        "count": 1,
+        "workerd_cpu_ms": 10,
+        "workerd_cpu_ms_per_operation": 10,
+        "node_harness_cpu_ms": 12.067,
+        "wall_ms": 16.33629799999926
+      }
+    },
+    {
+      "readiness_wall_ms": 47.28408899999977,
+      "startup_workerd_cpu_ms": 20,
+      "first_sqlite_dispatch": {
+        "count": 1,
+        "workerd_cpu_ms": 10,
+        "workerd_cpu_ms_per_operation": 10,
+        "node_harness_cpu_ms": 9.263,
+        "wall_ms": 17.28690099999949
+      }
+    },
+    {
+      "readiness_wall_ms": 5061.574478999999,
+      "startup_workerd_cpu_ms": 20,
+      "first_sqlite_dispatch": {
+        "count": 1,
+        "workerd_cpu_ms": 20,
+        "workerd_cpu_ms_per_operation": 20,
+        "node_harness_cpu_ms": 9.568,
+        "wall_ms": 18.465312000000267
+      }
+    },
+    {
+      "readiness_wall_ms": 49.965234999999666,
+      "startup_workerd_cpu_ms": 20,
+      "first_sqlite_dispatch": {
+        "count": 1,
+        "workerd_cpu_ms": 10,
+        "workerd_cpu_ms_per_operation": 10,
+        "node_harness_cpu_ms": 10.557,
+        "wall_ms": 17.621914000001198
+      }
+    }
+  ],
+  "warm": {
+    "signing": {
+      "count": 200,
+      "workerd_cpu_ms": 340,
+      "workerd_cpu_ms_per_operation": 1.7,
+      "node_harness_cpu_ms": 430.522,
+      "wall_ms": 627.2890199999983
+    },
+    "fresh_sqlite_dispatch": {
+      "count": 100,
+      "workerd_cpu_ms": 450,
+      "workerd_cpu_ms_per_operation": 4.5,
+      "node_harness_cpu_ms": 588.117,
+      "wall_ms": 884.6666270000023
+    },
+    "same_slot_duplicate": {
+      "count": 100,
+      "workerd_cpu_ms": 70,
+      "workerd_cpu_ms_per_operation": 0.7,
+      "node_harness_cpu_ms": 178.365,
+      "wall_ms": 190.767828
+    },
+    "scheduled_same_slot": {
+      "count": 100,
+      "workerd_cpu_ms": 60,
+      "workerd_cpu_ms_per_operation": 0.6,
+      "node_harness_cpu_ms": 209.02,
+      "wall_ms": 185.6639189999987
+    }
+  },
+  "limitations": [
+    "Synthetic 2099 trigger metadata and in-memory mock key; no real data/credentials/API calls.",
+    "Aggregate workerd process CPU includes test facade, HTTP, SQLite, crypto and runtime/proxy overhead; Node mock CPU separate.",
+    "CPU resolution is OS clock ticks, not per-invocation Cloudflare metering. Wall time includes mock I/O.",
+    "Cron Worker forwards to Durable Object; signing runs inside DO. Aggregate CPU cannot separate their billable limits.",
+    "Fresh objects isolate cold ledger work; production has one singleton. Cold startup differs from Cloudflare edge/account.",
+    "Local compatibility date/version pinned for Node 20 CI; not proof of current hosted limits or reliability."
+  ]
+}

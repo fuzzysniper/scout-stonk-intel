@@ -2,6 +2,8 @@
 
 Status: **proposed for human review; no activation authorized**. Issue [#24](https://github.com/fuzzysniper/scout-stonk-intel/issues/24). Base main `8012318bce8a1a21a96a5ce87afe74586760c77a`, including merged PR #23. This decision and threat model were written before preparatory code.
 
+Follow-up: [ADR 0002](0002-staged-trigger-adapter.md), issue #26, implements/tests the inactive runtime adapter and shared claim policy with approximate CPU evidence. It places signing inside the Durable Object (30s default CPU/request documented separately from the thin Free Cron Worker’s 10ms limit), correcting the initial combined CPU assumption below. It does not authorize or wire production activation; the historical verification below describes PR #25.
+
 ## Decision and alternatives
 
 Recommend a **conditional 48-hour pilot of one Cloudflare Cron Worker + SQLite-backed Durable Object + GitHub App**, while keeping provider collection, allowlist validation and Git publication in the existing GitHub workflow. An independent clock is warranted for a pilot because [PR #23's evidence](../COLLECTOR_RELIABILITY.md) shows 3 scheduled creations over 25 nominal opportunities, despite successful observed collection/persistence. It removes dependence on GitHub's cron emitter, **not** on GitHub API availability, runner capacity, provider health or branch rules. No option supplies an unconditional hourly guarantee.
