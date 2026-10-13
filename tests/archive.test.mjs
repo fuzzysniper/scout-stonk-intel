@@ -76,9 +76,19 @@ test('git append-only check rejects edition edits and index replacement with an 
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'scout-archive-check-'));
  try{
   const git=async(...args)=>(await execute('git',args,{cwd:dir})).stdout;await git('init');await git('config','user.name','Test');await git('config','user.email','test@example.invalid');
-  const e=make(),folder=path.join(dir,'data/brief-archive',date);fs.mkdirSync(folder,{recursive:true});fs.writeFileSync(path.join(folder,e.id+'.json'),JSON.stringify(e));fs.writeFileSync(path.join(dir,'data/brief-archive/index.json'),JSON.stringify(appendEdition(empty,e).index));await git('add','.');await git('commit','-m','real isolated fixture baseline');const base=(await git('rev-parse','HEAD')).trim();
+  fs.mkdirSync(path.join(dir,'data'),{recursive:true});const sourceBytes=Buffer.from(JSON.stringify(store())),allowlistBytes=Buffer.from(JSON.stringify(tokens));
+  fs.writeFileSync(path.join(dir,'data/reward-snapshots.json'),sourceBytes);fs.writeFileSync(path.join(dir,'data/tracked-mints.json'),allowlistBytes);await git('add','.');await git('commit','-m','Explicitly artificial isolated input fixture');
+  const sourceCommit=(await git('rev-parse','HEAD')).trim(),sourceAt=new Date((await git('show','-s','--format=%cI','HEAD')).trim()).toISOString();
+  const e=createEdition({date,snapshot:sourceBytes,allowlist:allowlistBytes,commit:sourceCommit,committedAt:sourceAt},new Date()),folder=path.join(dir,'data/brief-archive',date);fs.mkdirSync(folder,{recursive:true});fs.writeFileSync(path.join(folder,e.id+'.json'),JSON.stringify(e));fs.writeFileSync(path.join(dir,'data/brief-archive/index.json'),JSON.stringify(appendEdition(empty,e).index));await git('add','.');await git('commit','-m','real isolated fixture baseline');const base=(await git('rev-parse','HEAD')).trim();
   const tool=path.join(process.env.HISTORY_TEST_BUILD,'scripts/archive-tool.js'),env={...process.env,NODE_PATH:path.join(process.cwd(),'node_modules')};
   await execute(process.execPath,[tool,'check',base],{cwd:dir,env});
+  const forged=createEdition({date,snapshot:Buffer.from('{}'),allowlist:allowlistBytes,commit:sourceCommit,committedAt:sourceAt},new Date());
+  fs.writeFileSync(path.join(folder,forged.id+'.json'),JSON.stringify(forged));fs.writeFileSync(path.join(dir,'data/brief-archive/index.json'),JSON.stringify(appendEdition(appendEdition(empty,e).index,createEdition({date,snapshot:Buffer.from('{}'),allowlist:allowlistBytes,commit:sourceCommit,committedAt:sourceAt,correction:{parent:e.id,notice:'Artificial forged evidence must fail actual Git proof.'}},new Date())).index));
+  // Ensure the staged forged correction is structurally reproducible yet does not match its claimed Git source.
+  const fakeCorrection=createEdition({date,snapshot:Buffer.from('{}'),allowlist:allowlistBytes,commit:sourceCommit,committedAt:sourceAt,correction:{parent:e.id,notice:'Artificial forged evidence must fail actual Git proof.'}},new Date());
+  fs.unlinkSync(path.join(folder,forged.id+'.json'));fs.writeFileSync(path.join(folder,fakeCorrection.id+'.json'),JSON.stringify(fakeCorrection));await git('add','.');
+  await assert.rejects(()=>execute(process.execPath,[tool,'check',base],{cwd:dir,env}));
+  fs.unlinkSync(path.join(folder,fakeCorrection.id+'.json'));fs.writeFileSync(path.join(dir,'data/brief-archive/index.json'),JSON.stringify(appendEdition(empty,e).index));await git('add','.');
   fs.appendFileSync(path.join(folder,e.id+'.json'),'\n');await assert.rejects(()=>execute(process.execPath,[tool,'check',base],{cwd:dir,env}));
   fs.writeFileSync(path.join(folder,e.id+'.json'),JSON.stringify(e));fs.writeFileSync(path.join(dir,'data/brief-archive/index.json'),JSON.stringify({schema:1,dates:{}}));await assert.rejects(()=>execute(process.execPath,[tool,'check',base],{cwd:dir,env}));
  }finally{fs.rmSync(dir,{recursive:true,force:true});}

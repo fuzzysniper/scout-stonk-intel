@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { appendEdition,createEdition,validateEdition,validateIndex,canonical,MAX_ARCHIVE_BYTES } from '../lib/archive';
+import { appendEdition,createEdition,validateEdition,validateIndex,canonical,MAX_ARCHIVE_BYTES,sha } from '../lib/archive';
 import type { ArchiveIndex } from '../lib/archive';
 const root=process.cwd(),directory=path.join(root,'data/brief-archive');
 const git=async(...args:string[])=>{const result=await promisify(execFile)('git',args,{cwd:root,maxBuffer:8*1024*1024,encoding:'buffer'});return result.stdout;};
@@ -23,6 +23,17 @@ export async function checkAppendOnly(base:string) {
   for(const id of [row.original,...row.corrections]){
    const file=path.join(directory,date,id+'.json');if(fs.statSync(file).size>MAX_ARCHIVE_BYTES)throw Error('oversized_edition');
    const edition=validateEdition(JSON.parse(fs.readFileSync(file,'utf8')));if(edition.id!==id||edition.body.date!==date)throw Error('index_mismatch');
+   const captured=edition.body.inputCommit;
+   const snapshot=await git('show',captured+':data/reward-snapshots.json'),allowlist=await git('show',captured+':data/tracked-mints.json');
+   if('sha256:'+sha(snapshot)!==edition.body.snapshotRevision||'sha256:'+sha(allowlist)!==edition.body.allowlistRevision)throw Error('git_evidence_mismatch');
+   const actualCommitAt=new Date((await git('show','-s','--format=%cI',captured)).toString().trim()).toISOString();
+   if(actualCommitAt!==edition.body.inputCommittedAt)throw Error('git_timestamp_mismatch');
+   let approvedAncestor=false;
+   try{await git('merge-base','--is-ancestor',captured,base);approvedAncestor=true;}catch{/* A feature capture needs identical approved base inputs, not merely a claimed commit. */}
+   if(!approvedAncestor){
+    const approvedSnapshot=await git('show',base+':data/reward-snapshots.json'),approvedAllowlist=await git('show',base+':data/tracked-mints.json');
+    if(sha(approvedSnapshot)!==sha(snapshot)||sha(approvedAllowlist)!==sha(allowlist))throw Error('unapproved_source_inputs');
+   }
    if(seen.size===0 && edition.body.correction)throw Error('original_is_correction');
    if(seen.size>0 && (!edition.body.correction||!seen.has(edition.body.correction.parent)))throw Error('correction_chain');seen.add(id);
   }
