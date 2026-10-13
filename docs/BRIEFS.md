@@ -73,3 +73,7 @@ A final follow-up at **2026-10-13 00:07:21 UTC** verified the real UTC rollover 
 ## Rollback and approval
 
 Revert the reviewed brief feature through a new PR; separately approve any application rollout. This removes brief routes, navigation, share UI/image, deterministic calculation and new tests/docs, while preserving genuine history, Signal Lab, Data Health, diagnostics, collector jobs, allowlist and the lockfile. Existing brief links become unavailable; do not quietly repoint them to unrelated/current claims. No data deletion, schema migration, dependency rollback, secret revocation, payments or transaction operation is needed. Human review explicitly covers financial wording, evidence gates and the new public JSON contract. This task opens a PR only: no merge, production deployment, wallet access, trade, token issuance or payment occurs.
+
+## Publication V2
+
+[Immutable archive architecture and operations](ARCHIVES.md) add a three-hour UTC closure grace, self-contained evidence bundles, original ID URLs and explicit separate correction editions. Approved originals take precedence at the canonical date; remaining unapproved/current days stay provisional, and unreadable past-day archive sources fail closed. Publication is a draft-PR-only opt-in workflow, requiring human approval to merge. V1 methodology and financial gates remain unchanged.

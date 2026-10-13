@@ -16,7 +16,7 @@ export type HealthRow = TrackedToken & {
 };
 type Coverage = { status: string; observationCount: number; observedSeconds: number | null; maxGapSeconds: number | null; startAt: string | null; endAt: string | null };
 export type HealthReport = {
- status: 'available' | 'degraded' | 'unavailable'; checkedAt: string; dataset: Dataset;
+ archive?: {source:Dataset;state:string;latestEligibleDate:string;latestApprovedDate:string|null;approvedDateCount:number|null;missingEligibleDates:string[]|null;graceDeadline:string;diagnostic:string;retentionWarning:string}; status: 'available' | 'degraded' | 'unavailable'; checkedAt: string; dataset: Dataset;
  collector: { audit: Audit; auditOrigin: 'github' | 'dated_investigation'; auditAgeSeconds: number | null; auditState: 'recent' | 'overdue' | 'unavailable' | 'invalid_time';
   diagnosticSources?: { audit: Dataset; attempt: Dataset }; attempt: Attempt | null; attemptState: 'matched_dataset' | 'unconfirmed' | 'missing' | 'overdue' | 'invalid_time'; commitMatchesDataset: boolean | null };
  rows: HealthRow[];

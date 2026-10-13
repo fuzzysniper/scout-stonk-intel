@@ -16,7 +16,7 @@ test('source outage, recovery, exact versioned JSON and changed version refusal 
  // Artificial API fixture only: complete closed historical day, confined to this isolated process.
  const date='2026-10-10',start=Date.parse(date+'T00:00:00Z');
  const store=Object.fromEntries(tokens.map(t=>[t.mint,Array.from({length:25},(_,h)=>({observedAt:new Date(start+h*3600000).toISOString(),distributedTokens:h+1,payoutCount:h+1,quoteMint:t.quoteMint,quoteSymbol:t.quoteSymbol,source:t.source}))]));body=JSON.stringify(store);
- globalThis.fetch=async url=>{if(fail)throw Error('secret upstream exception');if(url.includes('/reward-snapshots.json'))return new Response(body);return new Response('missing',{status:404});};
+ globalThis.fetch=async url=>{if(url.includes('/brief-archive/index.json'))return new Response(JSON.stringify({schema:1,dates:{}}));if(fail)throw Error('secret upstream exception');if(url.includes('/reward-snapshots.json'))return new Response(body);return new Response('missing',{status:404});};
  try{
   let r=await GET(request('?date='+date));assert.equal(r.status,503);let b=await r.json();assert.equal(b.dataset.sourceStatus,'unavailable');assert.ok(b.rows.every(row=>row.distributedTokens===null));assert.ok(!JSON.stringify(b).includes('secret upstream'));
   clock+=60001;fail=false;r=await GET(request('?date='+date));assert.equal(r.status,200);assert.equal(r.headers.get('cache-control'),'no-store');b=await r.json();assert.equal(b.verifiedCount,7);assert.equal(b.provisional,true);assert.equal(b.dataset.revision,'sha256:'+createHash('sha256').update(body).digest('hex'));const version=b.version;

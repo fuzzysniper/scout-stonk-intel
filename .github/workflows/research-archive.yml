@@ -1,0 +1,102 @@
+name: Propose daily research archive
+on:
+  schedule:
+    - cron: '43 3 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: research-archive
+  cancel-in-progress: false
+jobs:
+  generate:
+    if: github.ref == 'refs/heads/main' && vars.SCOUT_ARCHIVE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    outputs:
+      date: ${{ steps.day.outputs.date }}
+      changed: ${{ steps.check.outputs.changed }}
+      base: ${{ steps.day.outputs.base }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - name: Pin UTC date and capture
+        id: day
+        run: |
+          echo "date=$(date -u -d yesterday +%F)" >> "$GITHUB_OUTPUT"
+          echo "base=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Generate deterministic proposal
+        run: bash scripts/archive-tool.sh generate "${{ steps.day.outputs.date }}"
+      - name: Check proposal and summarize
+        id: check
+        run: |
+          git add data/brief-archive
+          bash scripts/archive-tool.sh check "${{ steps.day.outputs.base }}"
+          if git diff --cached --quiet; then
+            echo 'changed=false' >> "$GITHUB_OUTPUT"
+            echo 'Duplicate run: approved original preserved. No new proposal.' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
+            echo 'Validated archive candidate. Not published until human-reviewed merge.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Preserve bounded evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: archive-proposal-${{ github.run_id }}
+          path: |
+            data/brief-archive/index.json
+            data/brief-archive/${{ steps.day.outputs.date }}/*.json
+          retention-days: 7
+  propose:
+    needs: generate
+    if: needs.generate.outputs.changed == 'true'
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.generate.outputs.base }}
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          name: archive-proposal-${{ github.run_id }}
+          path: data/brief-archive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - name: Verify and propose feature branch only
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARCHIVE_DATE: ${{ needs.generate.outputs.date }}
+          ARCHIVE_BASE: ${{ needs.generate.outputs.base }}
+        run: |
+          set -euo pipefail
+          git add data/brief-archive
+          bash scripts/archive-tool.sh check "$ARCHIVE_BASE"
+          proposal_branch="archive-proposal/$ARCHIVE_DATE"
+          if git ls-remote --exit-code origin "refs/heads/$proposal_branch" >/dev/null; then
+            echo 'Pending proposal branch preserved. No overwrite; newer candidate remains in run artifacts for human inspection.' >> "$GITHUB_STEP_SUMMARY"
+            existing_pr=$(gh pr list --repo fuzzysniper/scout-stonk-intel --head "$proposal_branch" --state open --json number --jq 'length')
+            if [ "$existing_pr" = '0' ]; then
+              gh pr create --draft --repo fuzzysniper/scout-stonk-intel --base main --head "$proposal_branch" --title "Archive research edition $ARCHIVE_DATE" --body 'Recovering a previously pushed proposal branch. Review its preserved source evidence; current run artifacts may differ. No branch overwrite, merge, deployment or social post.'
+            fi
+            exit 0
+          fi
+          git checkout -b "$proposal_branch"
+          git config user.name scout-archive-bot
+          git config user.email scout-archive-bot@users.noreply.github.com
+          git commit -m "research: propose immutable UTC edition $ARCHIVE_DATE"
+          git push origin "HEAD:refs/heads/$proposal_branch"
+          gh pr create --draft --repo fuzzysniper/scout-stonk-intel --base main --head "$proposal_branch" --title "Archive research edition $ARCHIVE_DATE" --body 'Deterministic evidence-backed candidate. Review source hashes, coverage, append-only checks and correction policy before merging. No automatic merge, deployment or social posting.'

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { readArchived } from '../../../lib/archive-source';
+import { notFound, redirect } from 'next/navigation';
 import { validBriefDate } from '../../../lib/brief';
 import BriefClient from '../brief-client';
 export const dynamic = 'force-dynamic';
@@ -14,6 +15,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BriefPage({ params, searchParams }: Props) {
  const { date } = await params, query = await searchParams;
  if (!validBriefDate(date)) notFound();
+ const archived=await readArchived(date);
+ if(query.v===undefined&&archived.report)redirect(archived.report.sharePath!);
  const invalid = Object.keys(query).some(key => key !== 'v') || (query.v !== undefined && (typeof query.v !== 'string' || !/^[a-f0-9]{64}$/.test(query.v)));
  return <BriefClient date={date} version={typeof query.v === 'string' ? query.v : undefined} invalidQuery={invalid}/>;
 }
