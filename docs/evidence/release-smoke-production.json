@@ -1,0 +1,18 @@
+{
+  "target": "production",
+  "base": "https://scout.storkcoin.xyz",
+  "startedAt": "2026-10-13T01:43:18.701Z",
+  "finishedAt": "2026-10-13T01:43:18.724Z",
+  "outcome": "incomplete",
+  "exitCode": 2,
+  "evidence": [
+    {
+      "level": "WARN",
+      "code": "host_or_network_unreachable",
+      "url": "https://scout.storkcoin.xyz/brief/2026-10-11",
+      "at": "2026-10-13T01:43:18.724Z",
+      "note": "No valid application response: DNS, TLS, timeout, proxy or connection failure. No provider error/body/credential is printed."
+    }
+  ],
+  "scope": "Read-only HTTP/JSON/hash/metadata verification. No JavaScript interaction, physical-phone, workflow execution or publication approval proof."
+}

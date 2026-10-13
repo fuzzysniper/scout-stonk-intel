@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "test": "bash tests/run.sh"
+    "test": "bash tests/run.sh",
+    "verify:release": "bash scripts/run-verification.sh smoke",
+    "archive:dry-run": "bash scripts/run-verification.sh dry-run"
   },
   "dependencies": {
     "next": "15.5.9",
