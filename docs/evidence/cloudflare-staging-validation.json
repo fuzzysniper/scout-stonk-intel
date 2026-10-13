@@ -1,0 +1,36 @@
+{
+  "checkedAt": "2026-10-13T22:24:45.507109+00:00",
+  "node": "24.19.0",
+  "wrangler": "4.150.0",
+  "workerd": "1.20261006.1",
+  "miniflare": "5.20261006.2-beta",
+  "compatibilityDate": "2026-10-01",
+  "dryRun": {
+    "command": "npm --prefix scheduler run dry-run",
+    "exitCode": 0,
+    "stdoutAndStderr": "\n> scout-scheduler-staging@0.1.0 dry-run\n> node dry-run.mjs\n\n\n \u26c5\ufe0f wrangler 4.150.0\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nTotal Upload: 14.66 KiB / gzip: 4.74 KiB\nYour Worker has access to the following bindings:\nBinding                               Resource                  \nenv.SLOTS (SlotCoordinator)           Durable Object            \nenv.ACTIVATION (\"disabled\")           Environment Variable      \n\n--dry-run: exiting now.\n\u25b2 [WARNING] Proxy environment variables detected. We'll use your proxy for fetch requests.\n\n\nInactive staging bundle verified; temporary output removed. No deployment performed.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n",
+    "bundleBytes": "14.66 KiB / gzip 4.74 KiB (Wrangler estimate)",
+    "remoteDeployment": false
+  },
+  "runtime": {
+    "command": "npm --prefix scheduler test",
+    "exitCode": 0,
+    "tests": 1,
+    "actualClass": "SlotCoordinator",
+    "storage": "SQLite",
+    "forcedScheduledEvent": "disabled",
+    "internalTicks": 10,
+    "outboundRequests": 0,
+    "slotReceipt": null,
+    "localHttpProbeStatus": 500,
+    "note": "Expected missing-fetch-handler diagnostic. Temporary local runtime, not a public route or hosted validation."
+  },
+  "releaseSmoke": {
+    "command": "SCOUT_VERIFY_ENV_PROXY=1 npm run verify:release",
+    "exitCode": 2,
+    "outcome": "incomplete",
+    "utc": "2026-10-13T22:23:02.703Z",
+    "code": "host_or_network_unreachable",
+    "note": "No valid application response; does not establish production health or a regression."
+  }
+}

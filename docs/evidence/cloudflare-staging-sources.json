@@ -1,0 +1,64 @@
+{
+  "checkedAt": "2026-10-13T22:23:04.460387+00:00",
+  "officialRepository": "cloudflare/cloudflare-docs",
+  "commit": "54c04c9ce04f19791192257b9962b28a14764f60",
+  "directDocsAccess": "Direct documentation GET returned HTTP 403 in this managed environment; official GitHub sources read without bypass",
+  "sources": [
+    {
+      "officialUrl": "https://developers.cloudflare.com/workers/wrangler/configuration/",
+      "officialGithubSource": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/54c04c9ce04f19791192257b9962b28a14764f60/src/content/docs/workers/wrangler/configuration.mdx",
+      "retrievedAt": "2026-10-13T22:23:02.853435+00:00",
+      "bytes": 94250,
+      "sha256": "b85b655a2934d451e40b0e793e1680dc98755a48abaca4d84b2f362588625d9b"
+    },
+    {
+      "officialUrl": "https://developers.cloudflare.com/durable-objects/reference/durable-objects-migrations/",
+      "officialGithubSource": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/54c04c9ce04f19791192257b9962b28a14764f60/src/content/docs/durable-objects/reference/durable-objects-migrations.mdx",
+      "retrievedAt": "2026-10-13T22:23:03.106591+00:00",
+      "bytes": 36420,
+      "sha256": "0d27d9b29296a8ca4595ca32498f16eba3de433de6c7da35653fd537a8048d68"
+    },
+    {
+      "officialUrl": "https://developers.cloudflare.com/changelog/post/2026-07-09-restrict-new-kv-backed-namespaces/",
+      "officialGithubSource": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/54c04c9ce04f19791192257b9962b28a14764f60/src/content/changelog/durable-objects/2026-07-09-restrict-new-kv-backed-namespaces.mdx",
+      "retrievedAt": "2026-10-13T22:23:03.323241+00:00",
+      "bytes": 2336,
+      "sha256": "a4e476ffd5de4ccfeba32516925af79ab71e4fa43f6c49124b42e1ec6e8d0871"
+    },
+    {
+      "officialUrl": "https://developers.cloudflare.com/durable-objects/platform/limits/",
+      "officialGithubSource": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/54c04c9ce04f19791192257b9962b28a14764f60/src/content/docs/durable-objects/platform/limits.mdx",
+      "retrievedAt": "2026-10-13T22:23:03.569047+00:00",
+      "bytes": 6813,
+      "sha256": "3659c0f0abc2ca951ea6b7086768b2696a8f726b7f4be0920c05b451f479302f"
+    },
+    {
+      "officialUrl": "https://developers.cloudflare.com/durable-objects/platform/pricing/",
+      "officialGithubSource": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/54c04c9ce04f19791192257b9962b28a14764f60/src/content/docs/durable-objects/platform/pricing.mdx",
+      "retrievedAt": "2026-10-13T22:23:03.807155+00:00",
+      "bytes": 6917,
+      "sha256": "4124b71645e69aadde371fc99c88609b8bdc52be66b5bab84819709be073d92c"
+    },
+    {
+      "officialUrl": "https://developers.cloudflare.com/workers/platform/pricing/",
+      "officialGithubSource": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/54c04c9ce04f19791192257b9962b28a14764f60/src/content/docs/workers/platform/pricing.mdx",
+      "retrievedAt": "2026-10-13T22:23:04.049531+00:00",
+      "bytes": 18602,
+      "sha256": "433c1ef43e3adc53b7272a02b0ddb893f9514ac99c949635f7ff90423f819d75"
+    },
+    {
+      "officialUrl": "https://developers.cloudflare.com/workers/wrangler/commands/workers/",
+      "officialGithubSource": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/54c04c9ce04f19791192257b9962b28a14764f60/src/content/docs/workers/wrangler/commands/workers.mdx",
+      "retrievedAt": "2026-10-13T22:23:04.251875+00:00",
+      "bytes": 36113,
+      "sha256": "065e6c7af2db26a46fa008157558e34be12797be185938371289a4fb39225390"
+    },
+    {
+      "officialUrl": "https://developers.cloudflare.com/workers/wrangler/commands/general/",
+      "officialGithubSource": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/54c04c9ce04f19791192257b9962b28a14764f60/src/content/docs/workers/wrangler/commands/general.mdx",
+      "retrievedAt": "2026-10-13T22:23:04.460330+00:00",
+      "bytes": 16484,
+      "sha256": "5f2e726af529af9d819ae47e32aa627f9e956cc1d7c9c07cf6b05c5fba61b5aa"
+    }
+  ]
+}
