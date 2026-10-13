@@ -72,15 +72,17 @@ class DiagnosticsTests(unittest.TestCase):
         run = {'id':1,'head_branch':'main','path':'.github/workflows/reward-snapshots.yml','event':'schedule','status':'completed','conclusion':'success','created_at':NOW.isoformat(),'updated_at':NOW.isoformat()}
         def get(url, token=None, limit=None):
             calls.append(url)
-            if url.endswith('/reward-snapshots.yml'):value={'state':'active'}
+            if url.endswith('/reward-snapshots.yml'):value={'state':'active','created_at':(NOW-dt.timedelta(hours=24)).isoformat()}
             elif 'event=schedule' in url:value={'total_count':1}
-            elif '/runs?branch=' in url:value={'workflow_runs':[run]}
+            elif '/runs?branch=' in url:value={'workflow_runs':[run],'total_count':1}
             elif '/jobs?' in url:value={'jobs':[{'steps':[{'name':'Collect observations','conclusion':'success'},{'name':'Persist observations and summary','conclusion':'success'}]}]}
             elif '/commits?' in url:value=[{'sha':'a'*40,'commit':{'committer':{'date':NOW.isoformat()}}}]
             else:value={TOKENS[0]['mint']:[record(TOKENS[0])]}
             return json.dumps(value).encode()
         result=audit.audit(get,NOW,'test-fixture-token')
         self.assertEqual(result['state'],'checked');self.assertEqual(result['scheduledRunCount'],1)
+        self.assertEqual(result['cadence']['state'],'checked');self.assertEqual(result['cadence']['nominalSlots'],24)
+        self.assertTrue(any('per_page=48' in url for url in calls))
         self.assertTrue(result['latestDatasetCommit']['revision'].startswith('sha256:'))
         self.assertEqual(len(calls),6);self.assertNotIn('test-fixture-token',json.dumps(result))
 
