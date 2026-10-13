@@ -1,0 +1,41 @@
+# Research Publication V2: architecture and privilege review
+
+Issue [#14](https://github.com/fuzzysniper/scout-stonk-intel/issues/14). This document is written **before archive implementation** for human review. It proposes append-only GitHub-backed research editions. This task changes a feature branch and opens a PR; it neither activates publishing nor writes a protected branch.
+
+## Architecture decision
+
+Store one self-contained JSON edition at `data/brief-archive/YYYY-MM-DD/<edition-id>.json`. Preserve exact snapshot bytes (base64), exact allowlist bytes, snapshot Git commit/permalink, SHA-256 revisions, algorithm identifier, UTC day/end/grace, actual observation timestamps and deterministic claim rows. Embed the complete bounded source snapshot so later collector retention cannot destroy reproduction evidence. A small index maps each date to its **original** edition plus explicitly separate correction IDs. Serving an edition verifies its hash, source hashes and recalculated claim rows. No live collector status is substituted into historical claims.
+
+The canonical date stays `/brief/YYYY-MM-DD`; approved original editions take precedence. Permanent edition paths `/brief/YYYY-MM-DD/editions/<id>` and JSON equivalents identify exact content. Corrections never replace the original date mapping or file; original and corrected views disclose the correction relationship and notice. A reviewed index is a discovery aid, not permission to replace the content at an ID. No-finding editions archive real source evidence and null unsupported figures, not synthesized observations.
+
+## UTC finalization and reproducibility gates
+
+A UTC day closes at next midnight. Wait **three hours** for collector/data arrival; proposed daily check is 03:43 UTC for the previous date. Before the grace deadline, no finalization is permitted. Finalization uses a pinned repository commit's exact public input files, not an evolving branch fetch, an inferred timestamp or a fabricated empty dataset on source failure. Missing/malformed source, invalid configuration, unverifiable commit identity, hash disagreement or nonreproducible output blocks publication. Insufficient coverage is a valid **no-finding** publication with explicit reasons. Only the existing brief financial gates may publish counters; no thresholds are loosened.
+
+A run captures one input commit. Later observations/corrections cannot mutate that capture. Late recovery after the grace period is possible as a new proposal; a previously finalized day requires an explicit correction notice and separate revision. Backfill is bounded to the prior eight UTC days, disclosing retention limits. No broad historical reconstruction is attempted. Input records remain actual observed reports. Any older-day recovery must use preserved genuine evidence through human review, not invent missing points.
+
+## Idempotency and append-only policy
+
+The original edition is deterministic for date, method, pinned input evidence and original/correction relationship. Evaluation is fixed to the grace deadline for factual calculations; operational attempt time stays outside the edition identity. A duplicate run for an existing original is a no-op and never promotes newer input silently. A differing candidate is a conflict requiring an explicit correction. Existing bytes and index primary mappings must remain unchanged. Corrections carry parent ID and a nonempty bounded human notice, append a new ID and keep the original reachable. Exclusive file creation, content/hash checks, bounded index validation and PR diff checks prevent overwrite/deletion in the supported workflow. Concurrency serializes proposal jobs; normal Git push rejects races, with no force push or automatic conflict resolution.
+
+Bound discovery to **366 dates and four editions per date**; refuse new proposals when full rather than evicting old archives. Each evidence bundle is at most 4 MiB and inputs retain existing 2 MiB snapshot limits. These are safety limits, not promises of perpetual free storage. Long-term capacity increases/migration require review; no automatic garbage collection deletes editions.
+
+## Proposed GitHub privilege model and review gate
+
+Two jobs separate read-only generation from branch/PR proposal. Generation needs `contents: read`, uses checkout at pinned main, Node 20 and the existing lockfile, performs deterministic checks, and uploads seven-day proposal/diagnostic artifacts. Proposal alone needs `contents: write` and `pull-requests: write` with the existing ephemeral GitHub token. It may push only a deterministic feature branch and create a **draft PR**, never `main`, merge, deploy or post externally. No new secret, paid integration or LLM is required. Use fixed repository/origin, main-only dispatch guard, concurrency and job timeouts. No `pull_request_target`, arbitrary user command, branch input, unchecked artifact path or credential-bearing network redirect exists.
+
+The schedule and manual job remain **OFF by default**, requiring human opt-in through repository variable `SCOUT_ARCHIVE_ENABLED=true` after reviewing this architecture/permissions and repository Actions PR-creation settings. Enabling proposal creation does not authorize merge. Protected main and normal human review retain control of publication. Existing collector privileges are unchanged. Draft PRs must pass append-only verification and standard tests. Proposals are not public finalized editions until approved/merged; artifact or green generation alone is not publication proof.
+
+Issue #14's review gate applies before protected-branch changes or automated publishing. Neither occurs in this task. The feature PR provides the concrete architecture, schema, workflow and checks for approval before any activation/merge. AGENTS.md additionally requires explicit human review of financial wording, the public JSON contract and security changes.
+
+## Diagnostics, serving and failure policy
+
+Expose separate archive source/index status, latest approved date, latest eligible UTC date, grace-pending state, missing date list (bounded eight-day range), insufficient-coverage/no-finding counts and proposal-attempt status in Data Health. A missing approved edition is not a failed workflow: it may await review, disabled automation, failed generation or source failure. Unknown/unreadable source must remain unknown, never be interpreted as an empty archive or permission to regenerate/overwrite. Duplicate/conflict/retention/source failures use fixed sanitized codes and artifacts; no credentials, arbitrary error messages or provider bodies enter public logs.
+
+Reads use fixed GitHub URLs and bounded shared server caches. Requested IDs/dates cannot choose origins. Unavailable/corrupt indexed editions fail closed and never silently fall back to provisional findings. Immutable edition previews are generic dated/versioned metadata, avoiding stale dynamic financial claims. Current operational status stays linked and separately labeled. No social posting, wallet/treasury access, trades, launches or payments are part of the design.
+
+## Operational and rollback proposal
+
+Review/merge this code separately, verify Actions is enabled and branch protection intact, then opt in only if desired. Inspect a genuine post-grace candidate, compare exact source hashes/commit and every claim, verify no-finding days, approve archive proposal separately and verify stable serving from main without redeploy. Exercise duplicates/conflicts/outages in isolated tests. Actual activation, daily execution, merge and deployed propagation are unverified by this task.
+
+Rollback disables the opt-in variable/workflow and reverts serving code through a reviewed PR plus separately approved app rollout. Preserve approved edition files and evidence; do not delete archives or later genuine snapshots. Corrections remain explicit append-only publications. No DNS, migrations, secret revocation or asset operation is required. Costs are one short daily bounded computation, existing Actions minutes/artifacts and bounded GitHub/hosting reads; repeated full source bundles grow repository storage (worst case about 1.46 GiB at 366 × 4 MiB before corrections). Review capacity well before this ceiling; no paid service is enabled automatically.
