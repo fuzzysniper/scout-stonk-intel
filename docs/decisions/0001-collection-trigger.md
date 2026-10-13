@@ -4,6 +4,8 @@ Status: **proposed for human review; no activation authorized**. Issue [#24](htt
 
 Follow-up: [ADR 0002](0002-staged-trigger-adapter.md), issue #26, implements/tests the inactive runtime adapter and shared claim policy with approximate CPU evidence. It places signing inside the Durable Object (30s default CPU/request documented separately from the thin Free Cron Worker’s 10ms limit), correcting the initial combined CPU assumption below. It does not authorize or wire production activation; the historical verification below describes PR #25.
 
+[Issue #28](../COLLECTION_GATE.md) adds the opt-in GitHub-side shared gate, default off, with unchanged permissions and original native/manual collection while off. Enabling that migration or the external pilot remains a separate human stop/go decision.
+
 ## Decision and alternatives
 
 Recommend a **conditional 48-hour pilot of one Cloudflare Cron Worker + SQLite-backed Durable Object + GitHub App**, while keeping provider collection, allowlist validation and Git publication in the existing GitHub workflow. An independent clock is warranted for a pilot because [PR #23's evidence](../COLLECTOR_RELIABILITY.md) shows 3 scheduled creations over 25 nominal opportunities, despite successful observed collection/persistence. It removes dependence on GitHub's cron emitter, **not** on GitHub API availability, runner capacity, provider health or branch rules. No option supplies an unconditional hourly guarantee.

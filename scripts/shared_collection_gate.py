@@ -1,8 +1,8 @@
-"""INACTIVE pure claim planner; existing workflows do not import this module.
+"""Pure claim planner, used only by the separately opt-in workflow integration.
 
 Every trigger must commit the proposed journal to main BEFORE provider access.
 The Git compare-and-swap push is the lock, not concurrency or a local file.
-Only trusted GitHub REST run metadata may be supplied by the future workflow.
+Only validated GitHub REST run metadata may be supplied by the workflow adapter.
 No HTTP, credential loading, Git mutation or command-line activation here.
 """
 import datetime as dt
@@ -38,8 +38,11 @@ def plan_claim(journal, run, now, expected_app_actor_id, *, enabled=False):
             if slot_key(scheduled) != supplied:
                 return 'reject_slot', None
         else:
-            if source not in (None, '', 'native', 'manual') or run.get('collection_slot'):
+            allowed_sources = (None, '', 'native') if run['event'] == 'schedule' else (None, '', 'manual')
+            if source not in allowed_sources or run.get('collection_slot'):
                 return 'reject_slot', None
+            if run['actor_id'] == expected_app_actor_id:
+                return 'reject_external_actor', None  # App cannot masquerade as ungated/manual/native.
             if run['event'] not in ('schedule', 'workflow_dispatch'):
                 return 'reject_event', None
             # Attribution policy, not proof of GitHub's intended/dropped cron slot.

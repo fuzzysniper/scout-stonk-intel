@@ -1,6 +1,17 @@
 name: Collect reward snapshots
 on:
   workflow_dispatch:
+    inputs:
+      collection_slot:
+        description: 'Canonical slot for the separately approved external pilot; empty for ordinary manual runs'
+        required: false
+        type: string
+        default: ''
+      trigger_source:
+        description: 'external only for the approved App; empty for ordinary manual runs'
+        required: false
+        type: string
+        default: ''
   schedule:
     - cron: '17 * * * *'
 permissions:
@@ -21,12 +32,34 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Shared claim gate (default off)
+        id: gate
+        # Ordinary native/manual collection skips this step while integration is off.
+        # External inputs, configured App actor and invalid flag values fail closed.
+        if: >-
+          vars.SCOUT_COLLECTION_GATE_ENABLED == 'true' ||
+          (vars.SCOUT_COLLECTION_GATE_ENABLED != '' && vars.SCOUT_COLLECTION_GATE_ENABLED != 'false') ||
+          inputs.collection_slot != '' || inputs.trigger_source != '' ||
+          (vars.SCOUT_COLLECTION_APP_ACTOR_ID != '' && github.actor_id == vars.SCOUT_COLLECTION_APP_ACTOR_ID)
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          SCOUT_COLLECTION_GATE_ENABLED: ${{ vars.SCOUT_COLLECTION_GATE_ENABLED }}
+          SCOUT_COLLECTION_APP_ACTOR_ID: ${{ vars.SCOUT_COLLECTION_APP_ACTOR_ID }}
+          SCOUT_COLLECTION_SLOT: ${{ inputs.collection_slot }}
+          SCOUT_TRIGGER_SOURCE: ${{ inputs.trigger_source }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -m scripts.collection_gate
       - name: Collect observations
         id: collect
+        if: >-
+          (steps.gate.outcome == 'skipped' &&
+          (vars.SCOUT_COLLECTION_GATE_ENABLED == '' || vars.SCOUT_COLLECTION_GATE_ENABLED == 'false')) ||
+          steps.gate.outputs.collect == 'true'
         continue-on-error: true
         run: python scripts/collect_rewards.py
       - name: Persist observations and summary
         id: persist
+        if: steps.collect.outcome == 'success' || steps.collect.outcome == 'failure'
         run: |
           set -euo pipefail
           git config user.name "scout-data-bot"
@@ -46,6 +79,16 @@ jobs:
           path: |
             data/collection-summary.json
             data/reward-snapshots.json
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Preserve gate claim evidence
+        if: always() && steps.gate.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: collection-gate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            data/collection-slots.json
+            ${{ runner.temp }}/scout-collection-gate.json
           retention-days: 7
           if-no-files-found: warn
       - name: Fail when collection failed
