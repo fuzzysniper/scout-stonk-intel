@@ -1,11 +1,31 @@
 {
   "version": 1,
-  "checkedAt": "2026-10-12T23:27:21Z",
+  "checkedAt": "2026-10-13T15:17:06+00:00",
   "state": "checked",
   "reason": null,
-  "workflowState": "unknown",
-  "scheduledRunCount": 1,
+  "workflowState": "active",
+  "scheduledRunCount": 3,
   "runs": [
+    {
+      "id": 38393086625,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-13T11:51:10Z",
+      "updatedAt": "2026-10-13T11:51:23Z",
+      "collectionStep": "success",
+      "commitStep": "success"
+    },
+    {
+      "id": 38342446125,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-13T03:35:41Z",
+      "updatedAt": "2026-10-13T03:35:56Z",
+      "collectionStep": null,
+      "commitStep": null
+    },
     {
       "id": 38319900484,
       "event": "schedule",
@@ -13,10 +33,8 @@
       "conclusion": "success",
       "createdAt": "2026-10-12T23:01:12Z",
       "updatedAt": "2026-10-12T23:01:24Z",
-      "collectionStep": "success",
-      "commitStep": "success",
-      "confirmedCommit": "b4ad30fb49226b2de86fef5ce30b7acc70018857",
-      "recordedCount": 7
+      "collectionStep": null,
+      "commitStep": null
     },
     {
       "id": 38304889111,
@@ -25,10 +43,8 @@
       "conclusion": "success",
       "createdAt": "2026-10-12T20:32:28Z",
       "updatedAt": "2026-10-12T20:32:37Z",
-      "collectionStep": "success",
-      "commitStep": "success",
-      "confirmedCommit": "027ab3eb95acce515beb79dc74e5764036384759",
-      "recordedCount": 1
+      "collectionStep": null,
+      "commitStep": null
     },
     {
       "id": 38272331847,
@@ -37,15 +53,13 @@
       "conclusion": "success",
       "createdAt": "2026-10-12T15:43:36Z",
       "updatedAt": "2026-10-12T15:43:45Z",
-      "collectionStep": "success",
-      "commitStep": "success",
-      "confirmedCommit": "804c6ee7d882c52fd334c2df3f3f132a9a9c2dff",
-      "recordedCount": 1
+      "collectionStep": null,
+      "commitStep": null
     }
   ],
   "latestDatasetCommit": {
-    "sha": "b4ad30fb49226b2de86fef5ce30b7acc70018857",
-    "committedAt": "2026-10-12T23:01:19Z",
-    "revision": "sha256:ef971b99e0014c7bdbf498e50e0725e5e6f79c678c5d719394436d677e0e4b00"
+    "sha": "fdce3c1d95e1d4cf1d78ddf5c56aab6c5dcc4e1a",
+    "committedAt": "2026-10-13T11:51:18Z",
+    "revision": "sha256:6952f44f1eaf69a0f3eab67f87b62cbcfaa6d214e51d0f5cf0dd7602b141fdb1"
   }
 }
