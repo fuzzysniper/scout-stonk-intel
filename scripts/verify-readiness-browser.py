@@ -60,13 +60,13 @@ with sync_playwright() as p:
         # Navigate by actual clicks and preserve history/deep links.
         page.get_by_role('navigation',name='Primary').get_by_role('link',name='Home',exact=True).click()
         page.wait_for_url(base+'/')
-        page.get_by_role('link', name='Browse Radar',exact=True).click()
+        page.get_by_role('link', name='Open Radar',exact=True).click()
         page.wait_for_url(base+'/radar')
         page.get_by_role('navigation',name='Primary').get_by_role('link',name='Daily Brief',exact=True).click()
         page.wait_for_url('**/brief/*')
         page.go_back()
         page.wait_for_url(base+'/radar')
-        checks.append({'width':width,'check':'Home onboarding click, primary navigation, browser back','result':'PASS'})
+        checks.append({'width':width,'check':'Home Radar entry, primary navigation, browser back','result':'PASS'})
         # Enlarged text checks for added guide and navigation only (not OS/device zoom).
         page.goto(base+'/research')
         page.add_style_tag(content='.research-shell{font-size:32px}.research-shell p,.research-shell li{font-size:32px}.site-navigation a{font-size:24px}')

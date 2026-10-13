@@ -1,0 +1,2283 @@
+{
+  "baseCommit": "60b190e2e41eda02eb42ef3d142358e90d440bee",
+  "target": "local production build, real main-backed responses",
+  "captures": [
+    {
+      "width": 320,
+      "capturedAt": "2026-10-13T21:14:50.038404+00:00",
+      "report": {
+        "status": "available",
+        "fetchedAt": "2026-10-13T21:14:50.032Z",
+        "dataset": {
+          "kind": "github_snapshot",
+          "source": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/main/data/reward-snapshots.json",
+          "revision": "sha256:8252f9d79b49c9ef0e8a0a378a1f98fa314698b164d07b483062146d076f9a8c",
+          "dataFetchedAt": "2026-10-13T21:14:49.477Z",
+          "sourceStatus": "cached",
+          "cacheSeconds": 300,
+          "continuouslyUpdated": false
+        },
+        "sort": "coverage",
+        "quoteMint": null,
+        "quotes": [
+          {
+            "mint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "symbol": "DKNG"
+          },
+          {
+            "mint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "symbol": "NEAR"
+          },
+          {
+            "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "symbol": "NVDAX"
+          },
+          {
+            "mint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "symbol": "STONK"
+          },
+          {
+            "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "symbol": "USDC"
+          },
+          {
+            "mint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "symbol": "ZEC"
+          }
+        ],
+        "rows": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "name": "KNOTS",
+            "symbol": "KNOTS",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK",
+            "poolMint": "GeNDy5afAWz7S9w2tMLgpK3xQqXjeDaCvYV9h8joEmjo",
+            "verifiedAt": "2026-10-12T20:36:37+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "missing_current_boundary",
+                "gapped_current_history",
+                "unmatched_duration",
+                "inconsistent_quote_asset",
+                "inconsistent_verified_quote",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T15:43:41.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": -12954,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 99354,
+                "observationCount": 7,
+                "maxGapSeconds": 29727,
+                "timing": "nearest_snapshot",
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": "2026-10-11T15:43:41.000Z",
+                "requestedEndAt": "2026-10-12T15:43:41.000Z",
+                "startAt": "2026-10-12T15:43:41.000Z",
+                "endAt": "2026-10-12T15:43:41.000Z",
+                "startBoundaryOffsetSeconds": 86400,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 0,
+                "observationCount": 1,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:50.032Z"
+            },
+            "observationCount": 7,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [
+              "inconsistent_quote_asset"
+            ],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26898
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T15:43:41.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 99354,
+                "boundaryOffsetSeconds": -12954,
+                "timing": null,
+                "observationCount": 7,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T15:43:41.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 99354,
+                "boundaryOffsetSeconds": 505446,
+                "timing": null,
+                "observationCount": 7,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "evidence": "/api/history?mint=8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "onchain": "https://solscan.io/token/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "name": "Bankroll",
+            "symbol": "BANKROLL",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC",
+            "poolMint": "Go3LWorTNzDAdeQhR32ovVrCSyizj9eD3NpLL3WNhLAi",
+            "verifiedAt": "2026-10-12T20:36:37+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": 4913,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81487,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:50.032Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26898
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 4913,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 523313,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "evidence": "/api/history?mint=B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "onchain": "https://solscan.io/token/B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "name": "NearKat",
+            "symbol": "NEARKAT",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR",
+            "poolMint": "F5kpA8oXhgaPKEyoyMRwaZSkQpo4f1YBsMaNjtrhhBrA",
+            "verifiedAt": "2026-10-12T20:36:37+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": 4913,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81487,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:50.032Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26898
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 4913,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 523313,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "evidence": "/api/history?mint=6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "onchain": "https://solscan.io/token/6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "name": "Nullmask",
+            "symbol": "MASK",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC",
+            "poolMint": "HGMEiG5yyYPx7NYJeeugSQbxXEVEEkQt8yG63rrBbq6",
+            "verifiedAt": "2026-10-12T20:36:36+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": 4914,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81486,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:50.032Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:18.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26897
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81486,
+                "boundaryOffsetSeconds": 4914,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81486,
+                "boundaryOffsetSeconds": 523314,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "evidence": "/api/history?mint=HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "onchain": "https://solscan.io/token/HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "name": "Super Inu",
+            "symbol": "SI",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX",
+            "poolMint": "5aBH535rESkhjVb2nEaMPfyjiTw3uK57vE6c5uhZHjPY",
+            "verifiedAt": "2026-10-12T20:36:36+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": 4914,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81486,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:50.032Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:18.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26897
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81486,
+                "boundaryOffsetSeconds": 4914,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81486,
+                "boundaryOffsetSeconds": 523314,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "evidence": "/api/history?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "onchain": "https://solscan.io/token/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "name": "ALLINU",
+            "symbol": "ALLINU",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG",
+            "poolMint": "7ixRTR9qJipFLaY9XXYtYdoRWRbvqQTEdS6YGNPFtHjX",
+            "verifiedAt": "2026-10-12T20:36:37+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:34.000Z",
+                "requestedEndAt": "2026-10-13T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "startBoundaryOffsetSeconds": 4913,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81487,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:34.000Z",
+              "evaluatedAt": "2026-10-13T21:14:50.032Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:34.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:34.000Z",
+              "observedSeconds": 26897
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 4913,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 523313,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "evidence": "/api/history?mint=4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "onchain": "https://solscan.io/token/4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "name": "Anonymous Cat",
+            "symbol": "ZCAT",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC",
+            "poolMint": "BTccxxTFi7a9xJTE1exKn38Jgie35s6gNeRxd8DM61Rc",
+            "verifiedAt": "2026-10-12T20:36:36+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:34.000Z",
+                "requestedEndAt": "2026-10-13T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "startBoundaryOffsetSeconds": 4913,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81487,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:34.000Z",
+              "evaluatedAt": "2026-10-13T21:14:50.032Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:34.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:34.000Z",
+              "observedSeconds": 26897
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 4913,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 523313,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "evidence": "/api/history?mint=HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "onchain": "https://solscan.io/token/HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR"
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "capturedAt": "2026-10-13T21:14:52.033304+00:00",
+      "report": {
+        "status": "available",
+        "fetchedAt": "2026-10-13T21:14:52.029Z",
+        "dataset": {
+          "kind": "github_snapshot",
+          "source": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/main/data/reward-snapshots.json",
+          "revision": "sha256:8252f9d79b49c9ef0e8a0a378a1f98fa314698b164d07b483062146d076f9a8c",
+          "dataFetchedAt": "2026-10-13T21:14:49.477Z",
+          "sourceStatus": "cached",
+          "cacheSeconds": 300,
+          "continuouslyUpdated": false
+        },
+        "sort": "coverage",
+        "quoteMint": null,
+        "quotes": [
+          {
+            "mint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "symbol": "DKNG"
+          },
+          {
+            "mint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "symbol": "NEAR"
+          },
+          {
+            "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "symbol": "NVDAX"
+          },
+          {
+            "mint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "symbol": "STONK"
+          },
+          {
+            "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "symbol": "USDC"
+          },
+          {
+            "mint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "symbol": "ZEC"
+          }
+        ],
+        "rows": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "name": "KNOTS",
+            "symbol": "KNOTS",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK",
+            "poolMint": "GeNDy5afAWz7S9w2tMLgpK3xQqXjeDaCvYV9h8joEmjo",
+            "verifiedAt": "2026-10-12T20:36:37+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "missing_current_boundary",
+                "gapped_current_history",
+                "unmatched_duration",
+                "inconsistent_quote_asset",
+                "inconsistent_verified_quote",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T15:43:41.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": -12954,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 99354,
+                "observationCount": 7,
+                "maxGapSeconds": 29727,
+                "timing": "nearest_snapshot",
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": "2026-10-11T15:43:41.000Z",
+                "requestedEndAt": "2026-10-12T15:43:41.000Z",
+                "startAt": "2026-10-12T15:43:41.000Z",
+                "endAt": "2026-10-12T15:43:41.000Z",
+                "startBoundaryOffsetSeconds": 86400,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 0,
+                "observationCount": 1,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:52.029Z"
+            },
+            "observationCount": 7,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [
+              "inconsistent_quote_asset"
+            ],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26898
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T15:43:41.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 99354,
+                "boundaryOffsetSeconds": -12954,
+                "timing": null,
+                "observationCount": 7,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T15:43:41.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 99354,
+                "boundaryOffsetSeconds": 505446,
+                "timing": null,
+                "observationCount": 7,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "evidence": "/api/history?mint=8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "onchain": "https://solscan.io/token/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "name": "Bankroll",
+            "symbol": "BANKROLL",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC",
+            "poolMint": "Go3LWorTNzDAdeQhR32ovVrCSyizj9eD3NpLL3WNhLAi",
+            "verifiedAt": "2026-10-12T20:36:37+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": 4913,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81487,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:52.029Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26898
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 4913,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 523313,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "evidence": "/api/history?mint=B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "onchain": "https://solscan.io/token/B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "name": "NearKat",
+            "symbol": "NEARKAT",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR",
+            "poolMint": "F5kpA8oXhgaPKEyoyMRwaZSkQpo4f1YBsMaNjtrhhBrA",
+            "verifiedAt": "2026-10-12T20:36:37+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": 4913,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81487,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:52.029Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26898
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 4913,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 523313,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "evidence": "/api/history?mint=6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "onchain": "https://solscan.io/token/6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "name": "Nullmask",
+            "symbol": "MASK",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC",
+            "poolMint": "HGMEiG5yyYPx7NYJeeugSQbxXEVEEkQt8yG63rrBbq6",
+            "verifiedAt": "2026-10-12T20:36:36+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": 4914,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81486,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:52.029Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:18.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26897
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81486,
+                "boundaryOffsetSeconds": 4914,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81486,
+                "boundaryOffsetSeconds": 523314,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "evidence": "/api/history?mint=HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "onchain": "https://solscan.io/token/HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "name": "Super Inu",
+            "symbol": "SI",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX",
+            "poolMint": "5aBH535rESkhjVb2nEaMPfyjiTw3uK57vE6c5uhZHjPY",
+            "verifiedAt": "2026-10-12T20:36:36+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": 4914,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81486,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:52.029Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:18.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26897
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81486,
+                "boundaryOffsetSeconds": 4914,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81486,
+                "boundaryOffsetSeconds": 523314,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "evidence": "/api/history?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "onchain": "https://solscan.io/token/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "name": "ALLINU",
+            "symbol": "ALLINU",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG",
+            "poolMint": "7ixRTR9qJipFLaY9XXYtYdoRWRbvqQTEdS6YGNPFtHjX",
+            "verifiedAt": "2026-10-12T20:36:37+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:34.000Z",
+                "requestedEndAt": "2026-10-13T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "startBoundaryOffsetSeconds": 4913,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81487,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:34.000Z",
+              "evaluatedAt": "2026-10-13T21:14:52.029Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:34.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:34.000Z",
+              "observedSeconds": 26897
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 4913,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 523313,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "evidence": "/api/history?mint=4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "onchain": "https://solscan.io/token/4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "name": "Anonymous Cat",
+            "symbol": "ZCAT",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC",
+            "poolMint": "BTccxxTFi7a9xJTE1exKn38Jgie35s6gNeRxd8DM61Rc",
+            "verifiedAt": "2026-10-12T20:36:36+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:34.000Z",
+                "requestedEndAt": "2026-10-13T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "startBoundaryOffsetSeconds": 4913,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81487,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:34.000Z",
+              "evaluatedAt": "2026-10-13T21:14:52.029Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:34.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:34.000Z",
+              "observedSeconds": 26897
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 4913,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 523313,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "evidence": "/api/history?mint=HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "onchain": "https://solscan.io/token/HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1280,
+      "capturedAt": "2026-10-13T21:14:54.097142+00:00",
+      "report": {
+        "status": "available",
+        "fetchedAt": "2026-10-13T21:14:54.093Z",
+        "dataset": {
+          "kind": "github_snapshot",
+          "source": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/main/data/reward-snapshots.json",
+          "revision": "sha256:8252f9d79b49c9ef0e8a0a378a1f98fa314698b164d07b483062146d076f9a8c",
+          "dataFetchedAt": "2026-10-13T21:14:49.477Z",
+          "sourceStatus": "cached",
+          "cacheSeconds": 300,
+          "continuouslyUpdated": false
+        },
+        "sort": "coverage",
+        "quoteMint": null,
+        "quotes": [
+          {
+            "mint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "symbol": "DKNG"
+          },
+          {
+            "mint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "symbol": "NEAR"
+          },
+          {
+            "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "symbol": "NVDAX"
+          },
+          {
+            "mint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "symbol": "STONK"
+          },
+          {
+            "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "symbol": "USDC"
+          },
+          {
+            "mint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "symbol": "ZEC"
+          }
+        ],
+        "rows": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "name": "KNOTS",
+            "symbol": "KNOTS",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK",
+            "poolMint": "GeNDy5afAWz7S9w2tMLgpK3xQqXjeDaCvYV9h8joEmjo",
+            "verifiedAt": "2026-10-12T20:36:37+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "missing_current_boundary",
+                "gapped_current_history",
+                "unmatched_duration",
+                "inconsistent_quote_asset",
+                "inconsistent_verified_quote",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T15:43:41.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": -12954,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 99354,
+                "observationCount": 7,
+                "maxGapSeconds": 29727,
+                "timing": "nearest_snapshot",
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": "2026-10-11T15:43:41.000Z",
+                "requestedEndAt": "2026-10-12T15:43:41.000Z",
+                "startAt": "2026-10-12T15:43:41.000Z",
+                "endAt": "2026-10-12T15:43:41.000Z",
+                "startBoundaryOffsetSeconds": 86400,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 0,
+                "observationCount": 1,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:54.093Z"
+            },
+            "observationCount": 7,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [
+              "inconsistent_quote_asset"
+            ],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26898
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T15:43:41.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 99354,
+                "boundaryOffsetSeconds": -12954,
+                "timing": null,
+                "observationCount": 7,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T15:43:41.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 99354,
+                "boundaryOffsetSeconds": 505446,
+                "timing": null,
+                "observationCount": 7,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "evidence": "/api/history?mint=8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "onchain": "https://solscan.io/token/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "name": "Bankroll",
+            "symbol": "BANKROLL",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC",
+            "poolMint": "Go3LWorTNzDAdeQhR32ovVrCSyizj9eD3NpLL3WNhLAi",
+            "verifiedAt": "2026-10-12T20:36:37+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": 4913,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81487,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:54.093Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26898
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 4913,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 523313,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "evidence": "/api/history?mint=B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "onchain": "https://solscan.io/token/B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "name": "NearKat",
+            "symbol": "NEARKAT",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR",
+            "poolMint": "F5kpA8oXhgaPKEyoyMRwaZSkQpo4f1YBsMaNjtrhhBrA",
+            "verifiedAt": "2026-10-12T20:36:37+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": 4913,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81487,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:54.093Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26898
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 4913,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:28.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 523313,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "evidence": "/api/history?mint=6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "onchain": "https://solscan.io/token/6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "name": "Nullmask",
+            "symbol": "MASK",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC",
+            "poolMint": "HGMEiG5yyYPx7NYJeeugSQbxXEVEEkQt8yG63rrBbq6",
+            "verifiedAt": "2026-10-12T20:36:36+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": 4914,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81486,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:54.093Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:18.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26897
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81486,
+                "boundaryOffsetSeconds": 4914,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81486,
+                "boundaryOffsetSeconds": 523314,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "evidence": "/api/history?mint=HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "onchain": "https://solscan.io/token/HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "name": "Super Inu",
+            "symbol": "SI",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX",
+            "poolMint": "5aBH535rESkhjVb2nEaMPfyjiTw3uK57vE6c5uhZHjPY",
+            "verifiedAt": "2026-10-12T20:36:36+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "requestedEndAt": "2026-10-13T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "startBoundaryOffsetSeconds": 4914,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81486,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:35.000Z",
+              "evaluatedAt": "2026-10-13T21:14:54.093Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:35.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:18.000Z",
+              "endAt": "2026-10-13T19:19:35.000Z",
+              "observedSeconds": 26897
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81486,
+                "boundaryOffsetSeconds": 4914,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:35.000Z",
+                "startAt": "2026-10-12T20:41:29.000Z",
+                "endAt": "2026-10-13T19:19:35.000Z",
+                "observedSeconds": 81486,
+                "boundaryOffsetSeconds": 523314,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "evidence": "/api/history?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "onchain": "https://solscan.io/token/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "name": "ALLINU",
+            "symbol": "ALLINU",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG",
+            "poolMint": "7ixRTR9qJipFLaY9XXYtYdoRWRbvqQTEdS6YGNPFtHjX",
+            "verifiedAt": "2026-10-12T20:36:37+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:34.000Z",
+                "requestedEndAt": "2026-10-13T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "startBoundaryOffsetSeconds": 4913,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81487,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:34.000Z",
+              "evaluatedAt": "2026-10-13T21:14:54.093Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:34.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:34.000Z",
+              "observedSeconds": 26897
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 4913,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 523313,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29728,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "evidence": "/api/history?mint=4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "onchain": "https://solscan.io/token/4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "name": "Anonymous Cat",
+            "symbol": "ZCAT",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC",
+            "poolMint": "BTccxxTFi7a9xJTE1exKn38Jgie35s6gNeRxd8DM61Rc",
+            "verifiedAt": "2026-10-12T20:36:36+00:00",
+            "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR/rewards",
+            "discoverySource": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+            "signals": {
+              "status": "unavailable",
+              "confidence": "withheld",
+              "reasons": [
+                "insufficient_current_history",
+                "gapped_current_history",
+                "insufficient_previous_history"
+              ],
+              "warnings": [],
+              "current": {
+                "requestedStartAt": "2026-10-12T19:19:34.000Z",
+                "requestedEndAt": "2026-10-13T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "startBoundaryOffsetSeconds": 4913,
+                "endBoundaryOffsetSeconds": 0,
+                "observedSeconds": 81487,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "previous": {
+                "requestedStartAt": null,
+                "requestedEndAt": null,
+                "startAt": null,
+                "endAt": null,
+                "startBoundaryOffsetSeconds": null,
+                "endBoundaryOffsetSeconds": null,
+                "observedSeconds": null,
+                "observationCount": 0,
+                "maxGapSeconds": null,
+                "timing": null,
+                "distributedTokens": null,
+                "tokensPerHour": null,
+                "payoutCountChange": null
+              },
+              "accelerationPercent": null,
+              "category": "unavailable",
+              "payoutCountStatus": "unavailable",
+              "payoutCountReason": "comparison_withheld",
+              "latestObservedAt": "2026-10-13T19:19:34.000Z",
+              "evaluatedAt": "2026-10-13T21:14:54.093Z"
+            },
+            "observationCount": 5,
+            "latestObservedAt": "2026-10-13T19:19:34.000Z",
+            "freshness": "fresh",
+            "quality": [],
+            "pointChange": {
+              "status": "long_interval",
+              "distributedTokens": null,
+              "startAt": "2026-10-13T11:51:17.000Z",
+              "endAt": "2026-10-13T19:19:34.000Z",
+              "observedSeconds": 26897
+            },
+            "windows": {
+              "24h": {
+                "status": "insufficient_history",
+                "requestedSeconds": 86400,
+                "requestedStartAt": "2026-10-12T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 4913,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              },
+              "7d": {
+                "status": "insufficient_history",
+                "requestedSeconds": 604800,
+                "requestedStartAt": "2026-10-06T19:19:34.000Z",
+                "startAt": "2026-10-12T20:41:27.000Z",
+                "endAt": "2026-10-13T19:19:34.000Z",
+                "observedSeconds": 81487,
+                "boundaryOffsetSeconds": 523313,
+                "timing": null,
+                "observationCount": 5,
+                "maxGapSeconds": 29727,
+                "distributedTokens": null,
+                "issues": []
+              }
+            },
+            "dossier": "/?mint=HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "evidence": "/api/history?mint=HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "onchain": "https://solscan.io/token/HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR"
+          }
+        ]
+      }
+    }
+  ]
+}

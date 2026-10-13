@@ -3,7 +3,7 @@ import {useCallback,useEffect,useState} from 'react';
 import {isSolanaMint} from '../lib/solana';
 import HistoryPanel from './history-panel';
 import Link from 'next/link';
-import FirstSteps from './first-steps';
+import EcosystemPreview from './ecosystem-preview';
 type Reward={status:string;quoteSymbol?:string|null;distributedTokens?:number|null;payoutCount?:number|null;holderCount?:number|null;lastPayoutAt?:string|null;source?:string;fetchedAt?:string};
 type Market={found:boolean;source:string;fetchedAt:string;pairUrl?:string|null;base?:{name:string;symbol:string};quote?:{symbol:string};priceUsd?:string|null;liquidityUsd?:number|null;volume24h?:number|null;change24h?:number|null;marketCap?:number|null;note?:string};
 const compact=(n:number|null|undefined)=>n==null?'—':new Intl.NumberFormat('en-US',{notation:'compact',maximumFractionDigits:2}).format(n);
@@ -15,16 +15,16 @@ export default function ScoutClient(){
  useEffect(()=>{const value=new URLSearchParams(window.location.search).get('mint');if(value&&isSolanaMint(value))void inspect(value);},[inspect]);
  async function share(){if(!selected)return;const url=new URL(window.location.href);url.searchParams.set('mint',selected);const text='SCOUT token dossier — sourced market and reward intelligence';try{if(navigator.share){await navigator.share({title:'SCOUT Token Dossier',text,url:url.toString()});setShareStatus('Shared');}else{await navigator.clipboard.writeText(url.toString());setShareStatus('Report link copied');}}catch(e){if(e instanceof Error&&e.name==='AbortError')return;setShareStatus('Could not share; copy the URL from your browser.');}}
  const available=reward?.status==='available';const label=market?.base?.symbol||'TOKEN';const quote=reward?.quoteSymbol||market?.quote?.symbol||'—';
- return <main id="scout-content" tabIndex={-1} className="terminal">
- <header className="masthead"><div className="brandmark">◉</div><div><div className="brandname">SCOUT<span className="branddot">.</span></div><div className="brandtag">FOLLOW THE MONEY</div></div><div className="live-tag">PUBLIC ALPHA</div></header>
- <div className="hero"><div className="kicker">INTELLIGENCE TERMINAL / V1</div><h1>Every token has<br/><em>a paper trail.</em></h1><p>Onchain market context and reported reward distributions. Evidence over hype.</p></div>
- <FirstSteps/>
- <Link href="/radar" className="radar-home-link">◈ INTELLIGENCE RADAR · MULTI-TOKEN OBSERVATIONS ↗</Link>
- <Link href="/brief" className="radar-dossier-link">DAILY RESEARCH BRIEF · RECORDED EVIDENCE ↗</Link>
- <Link href="/status" className="radar-dossier-link">DATA HEALTH · FRESHNESS & COLLECTION EVIDENCE ↗</Link>
+ return <main id="scout-content" tabIndex={-1} className="terminal ux-terminal">
+ <header className="terminal-heading"><Link href="/" className="terminal-wordmark">◉ SCOUT<span>.</span></Link><span className="terminal-mode">READ-ONLY RESEARCH</span></header>
+ {selected && <h1 className="dossier-title">Token dossier</h1>}
+ {!selected && <><section className="terminal-hero"><div className="kicker">STONKFUN INTELLIGENCE</div><h1>Follow the money<span>.</span></h1><p>Research reported StonkFun reward flows with recorded changes, source times and clear limits.</p><Link href="/radar" className="terminal-primary">Open Radar <span aria-hidden="true">↗</span></Link></section><EcosystemPreview/></>}
+ <details className="lookup-disclosure" open={selected ? true : undefined}><summary>{selected ? 'Inspect another token' : 'Inspect a token by mint'}</summary>
  <form className="lookup" onSubmit={e=>{e.preventDefault();void inspect(mint);}}><label htmlFor="mint">TOKEN MINT ADDRESS</label><div className="lookuprow"><input id="mint" placeholder="Paste Solana token address…" value={mint} onChange={e=>setMint(e.target.value)} autoComplete="off" spellCheck={false}/><button type="submit" disabled={loading}>{loading?'SCANNING…':'SCAN ↗'}</button></div></form>
+ </details>
  {error&&<p role="alert" className="error">{error}</p>}
  {selected&&<section className="dossier" aria-live="polite"><div className="reporttop"><span>SCOUT DOSSIER / PUBLIC RECORD</span><span className="reportstate">{loading?'● SCANNING':'● READ ONLY'}</span></div><div className="tokenhead"><div><div className="kicker">SOLANA / TOKEN INTELLIGENCE</div><h2>{market?.found?label:'TOKEN'} <span>/ {market?.found?quote:'UNCONFIRMED'}</span></h2><div className="address">{selected}</div></div><button type="button" className="share" onClick={()=>void share()}>↗ SHARE REPORT</button></div>{shareStatus&&<p className="notice" role="status">{shareStatus}</p>}
+ <details className="dossier-details"><summary>Evidence / Details for this token</summary>
  <div className="hero-metric"><div className="metriclabel">LIFETIME REWARD DISTRIBUTIONS · API-REPORTED</div><div className="metricvalue">{available?compact(reward?.distributedTokens):'—'} <span>{available?reward?.quoteSymbol||'QUOTE':''}</span></div><div className="metricnote">{available?full(reward?.distributedTokens)+' '+(reward?.quoteSymbol||'quote tokens')+' cumulatively distributed':'No verified reward total available'} · Not APY or holder profit</div></div>
  <div className="metrics">
  <div className="metric"><span>PAYOUT COUNT</span><strong>{available?compact(reward?.payoutCount):'—'}</strong></div>
@@ -35,9 +35,9 @@ export default function ScoutClient(){
  <div className="metric"><span>24H PRICE MOVE</span><strong>{market?.change24h==null?'—':(market.change24h>0?'+':'')+market.change24h+'%'}</strong></div>
  </div>
  <div className="verdict"><div className="verdicthead">◈ SCOUT OBSERVATION <span>FACTS ONLY</span></div><p>{available?'StonkFun reports cumulative reward distributions for this token. These figures do not establish any individual holder’s profitability.':'Reward activity is unverified or unavailable for this mint. No yield conclusion can be drawn.'}</p></div>
- <Link href="/radar" className="radar-dossier-link">◈ EXPLORE THE INTELLIGENCE RADAR ↗</Link>
  <HistoryPanel mint={selected}/>
  <details className="evidence"><summary>DATA SOURCES & METHODOLOGY <span>+</span></summary><div className="evidencebody"><p>Market data: DexScreener, highest reported-liquidity Solana pool. This pool is not necessarily an official StonkFun market. Reward data: StonkFun public API, not independently reconciled against transactions. *Holder count is API-reported, not a verified count of unique paid wallets.</p><p>Lifetime reward totals are not yield. Accurate holder returns require cost basis, payout valuations, trades, and fees. Recorded-point comparisons and their coverage limitations are shown in the historical panel. They are not individual holder returns.</p><p>Market data retrieved: {market?.fetchedAt?new Date(market.fetchedAt).toLocaleString():'Unavailable'}<br/>Reward data retrieved: {reward?.fetchedAt?new Date(reward.fetchedAt).toLocaleString():'Unavailable'}<br/>Last payout: {reward?.lastPayoutAt?new Date(reward.lastPayoutAt).toLocaleString():'Unavailable'}</p><div className="sourcelinks"><a href={'https://solscan.io/token/'+encodeURIComponent(selected)} target="_blank" rel="noopener noreferrer">SOLSCAN ↗</a>{market?.pairUrl&&<a href={market.pairUrl} target="_blank" rel="noopener noreferrer">DEXSCREENER ↗</a>}{reward?.source&&<a href={reward.source} target="_blank" rel="noopener noreferrer">STONKFUN API ↗</a>}<a href={'https://stonk.fyi/tokens/'+encodeURIComponent(selected)} target="_blank" rel="noopener noreferrer">INDEPENDENT RECORD ↗</a></div></div></details>
+ </details>
  </section>}
  <footer><div>SCOUT / OPEN-SOURCE INTELLIGENCE</div><p>Research only. No wallet connection, trading, token gating, or investment recommendations. <a href="https://github.com/fuzzysniper/scout-stonk-intel" target="_blank" rel="noopener noreferrer">SOURCE CODE ↗</a></p></footer>
  </main>;
