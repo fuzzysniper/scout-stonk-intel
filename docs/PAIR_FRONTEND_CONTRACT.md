@@ -1,59 +1,41 @@
-# Issue #39 → #38: Day 1 frontend integration
+# Pair Explorer consumer contract — Day 2, issue #42
 
-Frontend base: `70bd6ca56e12efec51d821dc0726e88390cba020` (latest main verified October 14, 2026). Backend/API/lib/data are unchanged. This document belongs to #39; it is a proposed consumer contract, not a claim that #38 already implements it.
+Frontend base: `179265e` (latest main at task start, including merged #40/#41). Canonical types are imported **as types only** from `lib/pairs-contract.ts`; this frontend change does not edit those types, the API, backend tests or calculations. The earlier Day 1 proposed interface was superseded by the merged canonical schema; its screenshots remain dated evidence.
 
-## Current reads
+## Reads and identity
 
-Home receives the existing validated `trackedTokens()` allowlist through server props. Six verified quote mints and seven tracked memecoins are labeled **Limited sample**; no catalog discovery, ticker guessing, or client-side provider calls. NVDAX is the initial selection only when present in that allowlist. Chips sort by symbol/mint, tokens by symbol/mint, never payout totals.
+`app/pairs/client.ts` is the sole consumer adapter for `/api/pairs` and `/api/radar?sort=name`. Entry/manual refresh makes one global catalog and one independent Radar read, followed by one selected exact-mint catalog read. Selection makes at most one catalog read; text search stays local. There is no polling, direct provider access or per-token request fanout. Reads abort after 15 seconds/unmount. JSON bodies are bounded to 2 MiB. Exact-mint results are cached for five minutes, at most twelve selections; manual refresh clears this cache without changing selection. A retry cancels the previous selection request and ignores late responses.
 
-One `/api/radar?sort=name` and one `/api/status` request on entry or manual refresh. Pair selection and case-insensitive symbol/name/mint search filter locally. No polling. Requests abort on unmount or after 15 seconds; Radar renders independently of slow Health. Health is diagnostic, never a substitute for metric readiness. Mint-linked dossiers bypass explorer reads.
+`parseCatalog(unknown)` validates schema 1, canonical object coverage and explicit nulls, bounded records, UTC timestamps, unique valid mints, exact group/token quote identities, official HTTPS provenance and byte revisions, mode evidence, USD snapshot units and unavailable historical comparison fields. Genuine Unicode symbols and names up to the backend's 32/160-character bounds survive. Invalid packets fail closed; individual forged records are not silently dropped into a seemingly valid catalog. This is defensive consumption of the trusted server response, not independent chain verification.
 
-`app/pairs/adapter.ts` joins Radar by **token mint + quote mint + quote symbol** against allowlisted identity. No join means no observed count, date, or amount. A failed source retains only previously verified identities; it never promotes counts to live coverage. Radar response time and dataset retrieval time stay inside source scope; actual observation timestamps stay on rows.
+Groups/select/cache keys are **quoteMint**, never ticker. Names/symbols are search labels; full mint remains in the selected identity and accessible button name. Ambiguous/same-symbol chips have visible mint abbreviations; native picker entries always show mint abbreviations. Token rows sort alphabetically, then mint, not price/rewards. NVDAX is a convenience selection inherited from the dated allowlist, not a recommendation.
 
-`flowReading()` is the existing frontend reader of backend gates, not a new calculation: matched-period amount, otherwise supported 24h-window amount, otherwise supported point change, otherwise withheld. Source degraded/unavailable and stale records withhold amounts. Actual interval appears with any amount. Matched current/previous values appear only behind Evidence when `signals.status === 'available'` and Radar status is available. No cross-token ranking or synchronized return comparison is implied by sharing a quote mint.
+## Bounded coverage and the registry gap
 
-## #38 group boundary
+Main's endpoint returns quote groups matched in at most two global catalog pages of 25 records. Its `?quoteMint=...` filters those pages locally; a verified registry-only quote can return an empty group. Neither zero sampled tokens nor a successful lookup proves ecosystem absence. Coverage stays `complete=false`, `atomic=false`, `historyScope=tracked_sample`; provider totals describe the upstream query, not verified unique holdings or ecosystem size.
 
-The exported `PairCatalog` type and `fromCatalog()` accept the proposed group structure:
+The full registry is **not** exposed: `registryCount` is a number, not a list of identities. Chips/search/native picker therefore cover returned verified records only. An exact-mint lookup can verify another registry identity and show an honest empty sample. The UI does not invent all 587 identities, use static registry evidence as application data or bypass the server. Full symbol/name discovery for unreturned registry records remains blocked on a separately reviewed backend extension. Coordination: [#43 registry gap](https://github.com/fuzzysniper/scout-stonk-intel/issues/43#issuecomment-6173947115), [#42 scope agreement](https://github.com/fuzzysniper/scout-stonk-intel/issues/42#issuecomment-6174210200).
+
+Backend [PR #44](https://github.com/fuzzysniper/scout-stonk-intel/pull/44), unmerged at validation, proposes opt-in `discovery=pair` and optional `dataset.coverage.discovery`:
 
 ```ts
-type PairCatalog = {
-  groups: {
-    quoteMint: string;
-    quoteSymbol: string;
-    verifiedAt: string; // ISO timestamp of identity verification, not price freshness
-    source: string;     // HTTPS identity/catalog provenance
-    tokens: {
-      mint: string;
-      symbol: string;
-      name: string;
-      quoteMint: string;
-      quoteSymbol: string;
-      rewardModeVerified: boolean;
-      observationCount?: number;
-      lastObservedAt?: string | null;
-      comparisonStatus?: string;
-    }[];
-  }[];
-  dataset: {
-    sourceStatus: string;
-    fetchedAt: string;
-    scope: string;
-    coverage: string;
-  };
+type DiscoveryEvidence = {
+  strategy: 'global_sample' | 'provider_quote_mint';
+  quoteMint: string | null;
+  providerReportedTotalScope: 'catalog' | 'quote_mint';
 };
 ```
 
-Group identity must be verified by #38; `fromCatalog()` cannot independently prove provenance. It filters malformed identity/date/source, mixed quote tokens and duplicate token mints. Counts must be nonnegative safe integers; invalid dates/counts become null. Tickers are labels, never keys. `rewardModeVerified: false` must remain unverified. `comparisonStatus` alone **cannot** unlock any metric; catalog rows carry `radar: null` until a documented metric gate is connected.
+The frontend uses this opt-in only after a valid global response carries the capability marker. An opted-in response must prove `provider_quote_mint`, the requested exact mint and quote-mint total scope; all returned groups must match. Without the marker, no unsupported parameter is sent and evidence explicitly describes local global-sample filtering. A scoped failure retains earlier identity only, withholds figures and says source unavailable; there is no silent global fallback pretending to be wider discovery. Compatibility is covered by offline tests; a real integrated #44 proving run remains pending separate backend review. No shared schema change is made here.
 
-Day 2 integration: agree #38's final types, coverage shape and bounds; validate its JSON at the fetch boundary, retain the explicit scope/failure/freshness semantics, then replace the allowlist grouping with `fromCatalog()`. No `/api/pairs` fetch exists in this branch. Do not interpret a failed catalog read as an empty ecosystem or retain a successful source state after refresh failure. Empty groups require an explicit no-verified-tokens state. Preserve duplicate ticker/different quote-mint groups as distinct chips and show mint identity.
+## Units, times and reward gates
 
-## Metrics withheld pending confirmed sources
+Market rows consume only canonical `reported_snapshot` values in **USD**. Null is Unavailable; a genuine numeric zero is US$0; tiny nonzero values retain a scientific representation. The visible time is provider response generation, **not** a price tick, live quote, observation time or quote-token unit. Source/retrieval times and SHA-256 byte revisions appear behind Evidence. Historical quote-relative return, quote-asset benchmark return and holder-attributable rewards stay Unavailable.
 
-Liquidity/market context, historical quote-relative return and holder-attributable rewards are explicitly Unavailable. Existing generic dossier market data is not reused: its highest-liquidity DexScreener pool need not be the verified StonkFun quote pair.
+Reward flow joins existing Radar only for the existing tracked seven using token mint, quote mint/symbol, pool and official reward-source identity. Current catalog mode must be verified reward, history recorded and fresh, and catalog pool must match the allowlist. Existing `flowReading()` freshness, source, reset/gap and matched/window/point gates remain authoritative; no new backend or financial calculation is introduced. Actual positive-duration start/end intervals accompany every displayed amount. Matched current/previous details are disclosed, never turned into a cross-token ranking. Sharing a quote mint does not synchronize observation periods. Distributed counter changes are not individual investment returns or holder entitlement.
 
-Before connecting a market metric, #38 must supply exact base/quote/pool identity, unit, source, fetchedAt/observedAt, validity status and coverage. Historical returns additionally need synchronized start/end price observations. Modeled attributable rewards need holdings/entitlement and valuation assumptions. Nullable values must remain Unavailable, never zero; freshness or attribution failures must withhold them. No universal rank, total-market coverage, APR, yield or holder profit may be inferred from distributed pool counters.
+Catalog failure/503/malformed JSON shows a separately labeled dated seven-token sample, with no catalog snapshots. Radar failure is independent and prevents reward comparisons. Selection-source failure withholds displayed snapshots/flow. Catalog-mode unavailability is visible rather than promoted to a verified state. Missing observations never become zero.
 
-## Preserved surfaces / rollback
+## Preserved surfaces and rollback
 
-`/brief`, `/radar`, `/research`, `/status`, immutable archive routes, query-based token dossier/OG metadata, STORK footer and disclosures remain available. Roll back by reverting this frontend commit; no data migration, deployment or backend rollback is needed.
+Home uses the existing explorer entry point; `app/page.tsx` is unchanged. `/radar`, `/brief`, `/research`, `/status`, immutable editions, query dossiers/metadata/OG image and STORK footer/disclosures are preserved. Dossiers bypass explorer reads. Native buttons, search label, pressed states, details/summary and the inherited skip link/main landmark remain accessible. Revert the frontend commit through human review; no data migration, archive rollback or backend/scheduler change is needed. [QA and limitations](PAIR_DAY2_UX_REVIEW.md).
