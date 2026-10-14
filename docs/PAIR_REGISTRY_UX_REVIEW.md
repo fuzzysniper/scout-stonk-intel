@@ -1,5 +1,7 @@
 # Registry-first Pair Explorer — PR #45 review and methodology
 
+> Historical PR #45 milestone. Issue #48 replaces the search-only landing and row layout; see [current homepage simplification](PAIR_HOME_SIMPLIFICATION.md). Its original evidence and screenshots remain dated records.
+
 Frontend only, rebased onto main `7368c6e6a1b125ed5a6f473e209669cd0a46884d`, including merged backend #47/#44 and real observation update `d77ba92`. Both existing frontend commits applied cleanly. Backend/API/tests, data/math/allowlist/archive, collector/workflows, scheduler/Cloudflare, dependencies and app/page.tsx remain unchanged. [Consumer contract](PAIR_FRONTEND_CONTRACT.md).
 
 ## Product flow and identity boundary
