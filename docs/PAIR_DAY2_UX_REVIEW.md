@@ -1,3 +1,5 @@
+> Historical pre-registry milestone. Current #47 integration, screenshots and methodology are documented in [Pair Registry UX review](PAIR_REGISTRY_UX_REVIEW.md). The earlier unsupported-registry-search limitation below describes that dated build.
+
 # Pair Explorer Day 2 — combined #44 integration and critical UX review
 
 Issue [#42](https://github.com/fuzzysniper/scout-stonk-intel/issues/42), FRONTEND only, [PR #45](https://github.com/fuzzysniper/scout-stonk-intel/pull/45). Rebased onto latest main `156c9bed1d6bc394f6639a05d6661e0d46d63613`, including merged #40/#41/**#44**. Backend sources were not edited. [Consumer contract](PAIR_FRONTEND_CONTRACT.md).

@@ -1,3 +1,5 @@
+import { parseRegistry, registrySearch } from './registry';
+import type { PairQuoteRegistry } from './registry';
 import { parseCatalog, validMint, discoveryEvidence } from './adapter';
 import type { PairCatalog } from './adapter';
 import type { RadarReport } from '../../lib/radar';
@@ -31,4 +33,15 @@ export async function fetchRadar(signal:AbortSignal):Promise<RadarReport> {
  if(!['available','degraded','unavailable'].includes(r.status) || !Array.isArray(r.rows) || r.rows.length>10 || !r.dataset ||
     r.rows.some(row=>!row || !row.signals?.current || !row.signals?.previous || !row.windows?.['24h'] || !row.windows?.['7d'] || !row.pointChange))throw Error('Invalid observations');
  return r;
+}
+
+export async function fetchQuoteRegistry(signal:AbortSignal,query:string,offset=0):Promise<PairQuoteRegistry> {
+ const expected=registrySearch(query,offset),params=new URLSearchParams({limit:String(expected.limit),offset:String(offset)});
+ // Let the server normalize text; pre-normalization could reinterpret Unicode text as a mint.
+ params.set(expected.mint?'mint':'query',expected.mint??query);
+ const response=await fetch('/api/pair-quotes?'+params,{signal,cache:'no-store'});
+ if(!response.ok && response.status!==404 && response.status!==503)throw Error('Registry unavailable');
+ const result=parseRegistry(await boundedJson(response));
+ if(Object.entries(expected).some(([key,value])=>result.search[key as keyof typeof expected]!==value) || (response.status===404)!==(result.status==='not_found') || (response.status===503)!==(result.status==='unavailable'))throw Error('Invalid registry search');
+ return result;
 }

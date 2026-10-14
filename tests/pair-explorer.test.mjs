@@ -7,7 +7,8 @@ import {renderToStaticMarkup} from 'react-dom/server';
 const load=async file=>(await import(pathToFileURL(path.join(process.env.HISTORY_TEST_BUILD,file+'.js')).href)).default;
 const {parseCatalog,fromCatalog,fromTracked,discoveryEvidence,mergePairGroups,searchPairs,visibleTokens}=await load('app/pairs/adapter');
 const {default:Explorer,PairTokenRow,usd}=await load('app/pairs/explorer');
-const {fetchCatalog}=await load('app/pairs/client');
+const {fetchCatalog,fetchQuoteRegistry}=await load('app/pairs/client');
+const {parseRegistry,registrySearch,appendRegistryPage,catalogMatchesQuote}=await load('app/pairs/registry');
 const {trackedTokens}=await load('lib/tracked-tokens');
 const {summarizeRadar}=await load('lib/radar');
 const tokens=trackedTokens(),t=tokens.at(-1),now=new Date('2030-01-01T12:00:00Z');
@@ -86,8 +87,8 @@ test('tracked fallback stays a distinct dated sample, preserves exact identities
  const groups=fromTracked(tokens,null);assert.equal(groups.length,6);assert.equal(groups.flatMap(g=>g.tokens).length,7);
  assert.deepEqual(groups.find(g=>g.quoteSymbol==='ZEC').tokens.map(t=>t.symbol),['MASK','ZCAT']);
  assert.ok(groups.every(g=>g.tokens.every(t=>t.radar===null && t.catalog===null && t.observationCount===null)));
- const html=renderToStaticMarkup(React.createElement(Explorer,{tokens}));for(const term of ['Choose your pair.','Compare the evidence.','Catalog loading','tracked sample','Historical return','holder entitlement unavailable'])assert.ok(html.includes(term),term);
- assert.equal((html.match(/aria-pressed="true"/g)||[]).length,1);assert.ok(!/<details[^>]*\bopen/.test(html));
+ const html=renderToStaticMarkup(React.createElement(Explorer,{tokens}));for(const term of ['Find your pair.','Search an asset. See its memecoins.','Search pair','Name, ticker or exact quote mint','Choose a verified quote asset'])assert.ok(html.includes(term),term);
+ assert.equal((html.match(/aria-pressed="true"/g)||[]).length,0);assert.ok(!html.includes('Reported USD snapshot'));assert.ok(!/<details[^>]*\bopen/.test(html));
 });
 test('existing matched/point/zero gates remain authoritative; reset/stale/degraded/identity/gap failures withhold flows',()=>{
  const point=(hours,total,extra={})=>({observedAt:new Date(now.getTime()+hours*3600000).toISOString(),distributedTokens:total,quoteMint:t.quoteMint,quoteSymbol:t.quoteSymbol,source:t.source,...extra});
@@ -153,4 +154,64 @@ test('429 and 503 scoped reads fail closed with no automatic retry or upstream m
  try {for(const status of [429,503]){globalThis.fetch=async()=>{calls++;return Response.json({error:'synthetic-upstream-message'},{status,headers:{'retry-after':'3600'}});};
  assert.deepEqual(await fetchCatalog(new AbortController().signal,t.quoteMint,true),{status:'unavailable'});}
  assert.equal(calls,2);}finally{globalThis.fetch=original;}
+});
+
+// Frontend-only synthetic canonical packets; never application data or screenshots.
+function quoteFixture({query='',mint=null,offset=0,limit=12}={}) {
+ const all=[
+  {quoteMint:tokens[0].mint,quoteSymbol:'STONK',quoteName:'Synthetic first'},
+  {quoteMint:tokens[1].mint,quoteSymbol:'stonk',quoteName:'Synthetic second'},
+  {quoteMint:tokens[2].mint,quoteSymbol:'熊猫',quoteName:'Synthetic モモ太'},
+ ].map(q=>({...q,decimals:9,tokenProgram:'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',symbolAmbiguous:q.quoteSymbol.toLowerCase()==='stonk',providerSymbolAmbiguous:q.quoteSymbol.toLowerCase()==='stonk',symbolMatchCount:q.quoteSymbol.toLowerCase()==='stonk'?2:1,verification:'official_registry_only',verifiedAt:iso}));
+ const matched=all.filter(q=>mint?q.quoteMint===mint:[q.quoteSymbol,q.quoteName].some(v=>v.normalize('NFKC').toLowerCase().includes(query)));
+ const quotes=matched.slice(offset,offset+limit);
+ return {schemaVersion:1,status:mint&&!matched.length?'not_found':'available',search:{query,mint,offset,limit},quotes,dataset:{sourceStatus:'available',fetchedAt:iso,dataFetchedAt:iso,scope:'official_quote_registry',provenance:structuredClone(source),coverage:{registryResponse:'validated_unpaginated',registryCount:all.length,matchedCount:matched.length,returnedCount:quotes.length,responseLimit:limit,nextOffset:offset+quotes.length<matched.length?offset+quotes.length:null,resultTruncated:quotes.length<matched.length,providerAmbiguousSymbolCount:1,tokenCatalogComplete:false}}};
+}
+test('registry search normalizes Unicode/name/ticker but preserves exact original mint case; client always encodes parameters',async()=>{
+ assert.equal(registrySearch('  ＳＴＯＮＫ ').query,'stonk');assert.equal(registrySearch('モモ太').query,'モモ太');
+ assert.deepEqual(registrySearch(tokens[0].mint),{query:'',mint:tokens[0].mint,offset:0,limit:12});
+ for(const value of ['a'.repeat(65),'\u0000','\ud800','ﷺ'.repeat(64)])assert.throws(()=>registrySearch(value));
+ const original=globalThis.fetch,calls=[];globalThis.fetch=async(url)=>{calls.push(url);return Response.json(quoteFixture({mint:tokens[0].mint}));};
+ try {const r=await fetchQuoteRegistry(new AbortController().signal,tokens[0].mint);assert.equal(r.quotes[0].quoteMint,tokens[0].mint);
+ const u=new URL(calls[0],'http://localhost');assert.equal(u.pathname,'/api/pair-quotes');assert.equal(u.searchParams.get('mint'),tokens[0].mint);assert.ok(!u.searchParams.has('query'));assert.equal(calls.length,1);
+ }finally{globalThis.fetch=original;}
+});
+test('verified registry is independent of token catalog and keeps identical/case/Unicode tickers separate',()=>{
+ const r=parseRegistry(quoteFixture({query:'stonk'}));assert.equal(r.quotes.length,2);assert.notEqual(r.quotes[0].quoteMint,r.quotes[1].quoteMint);
+ assert.ok(r.quotes.every(q=>q.symbolAmbiguous && q.symbolMatchCount===2));assert.equal(r.dataset.coverage.tokenCatalogComplete,false);
+ assert.equal(parseRegistry(quoteFixture({query:'モモ太'})).quotes[0].quoteSymbol,'熊猫');
+ assert.equal(parseRegistry(quoteFixture({query:'synthetic first'})).quotes.length,1);
+ assert.equal(parseRegistry(quoteFixture({query:'no matching asset'})).dataset.coverage.matchedCount,0);
+});
+test('registry forgery, wrong scope/counts/ambiguity/units of identity, duplicate mints and invalid provenance fail closed',()=>{
+ const changes=[f=>f.dataset.coverage.tokenCatalogComplete=true,f=>f.dataset.coverage.registryCount=null,f=>f.dataset.provenance.source='https://evil.invalid',f=>f.quotes[0].verification='verified_reward',f=>f.quotes[0].symbolAmbiguous=false,f=>f.quotes[1].quoteMint=f.quotes[0].quoteMint,f=>f.dataset.coverage.matchedCount=999,f=>f.dataset.coverage.nextOffset=12];
+ for(const change of changes){const f=quoteFixture();change(f);assert.throws(()=>parseRegistry(f),/Invalid registry/);}
+});
+test('registry pagination keeps snapshots separate and rejects refresh/repeated/forged windows',()=>{
+ const a=parseRegistry(quoteFixture({limit:1})),b=parseRegistry(quoteFixture({limit:1,offset:1}));
+ const pages=appendRegistryPage([a],b);assert.equal(pages.flatMap(p=>p.quotes).length,2);assert.equal(a.dataset.coverage.returnedCount,1);
+ assert.throws(()=>appendRegistryPage([a],a),/Registry changed/);
+ const changed=structuredClone(b);changed.dataset.provenance.revision='sha256:'+'c'.repeat(64);assert.throws(()=>appendRegistryPage([a],changed),/Registry changed/);
+ const end=parseRegistry(quoteFixture({limit:1,offset:2}));assert.equal(end.dataset.coverage.nextOffset,null);assert.equal(end.dataset.coverage.resultTruncated,true);
+});
+test('registry 404 stays verified membership absence;429/503 never become healthy empty counts or automatic retries',async()=>{
+ const original=globalThis.fetch;let calls=0;
+ try {
+  globalThis.fetch=async()=>{calls++;return Response.json(quoteFixture({mint:t.quoteMint}),{status:404});};
+  assert.equal((await fetchQuoteRegistry(new AbortController().signal,t.quoteMint)).status,'not_found');
+  for(const status of [429,503]){globalThis.fetch=async()=>{calls++;return Response.json({status:'unavailable',error:'synthetic-provider-detail'},{status});};await assert.rejects(fetchQuoteRegistry(new AbortController().signal,'STONK'));}
+  assert.equal(calls,3);
+  globalThis.fetch=async()=>Response.json(quoteFixture({query:'not-the-request'}));await assert.rejects(fetchQuoteRegistry(new AbortController().signal,'stonk'),/Invalid registry search/);
+ }finally{globalThis.fetch=original;}
+});
+test('selected registry identity must match every catalog identity field before displaying token figures',()=>{
+ const c=scopedFixture(),g=c.groups[0],q={quoteMint:g.quoteMint,quoteSymbol:g.quoteSymbol,quoteName:g.quoteName,decimals:g.decimals,tokenProgram:g.tokenProgram};
+ assert.equal(catalogMatchesQuote(c,q),true);
+ for(const key of ['quoteMint','quoteSymbol','quoteName','decimals','tokenProgram'])assert.equal(catalogMatchesQuote(c,{...q,[key]:key==='decimals'?3:'wrong'}),false);
+});
+
+test('Unicode text resembling a mint is sent literally instead of silently becoming a canonical mint alias',async()=>{
+ const raw='１'.repeat(31)+'２',expected=registrySearch(raw);assert.equal(expected.mint,null);
+ const original=globalThis.fetch;globalThis.fetch=async url=>{const params=new URL(url,'http://localhost').searchParams;assert.equal(params.get('query'),raw);assert.ok(!params.has('mint'));return Response.json(quoteFixture({query:expected.query}));};
+ try {const result=await fetchQuoteRegistry(new AbortController().signal,raw);assert.equal(result.search.mint,null);assert.equal(result.dataset.coverage.matchedCount,0);}finally{globalThis.fetch=original;}
 });
