@@ -4,7 +4,7 @@ import Link from 'next/link';
 import type { TrackedToken } from '../../lib/tracked-tokens';
 import type { RadarReport } from '../../lib/radar';
 import { flowReading, utc } from '../radar/evidence-view';
-import { fromCatalog, fromTracked, discoveryEvidence, searchPairs, validMint, visibleTokens } from './adapter';
+import { fromCatalog, fromTracked, discoveryEvidence, mergePairGroups, searchPairs, validMint, visibleTokens } from './adapter';
 import type { PairCatalog, PairToken } from './adapter';
 import { fetchCatalog, fetchRadar } from './client';
 
@@ -48,10 +48,11 @@ export default function PairExplorer({tokens}:{tokens:TrackedToken[]}) {
  const [loading,setLoading]=useState(true),[catalogFailed,setCatalogFailed]=useState(false),[radarFailed,setRadarFailed]=useState(false),[refresh,setRefresh]=useState(0);
  const [query,setQuery]=useState(''),[selected,setSelected]=useState(()=>tokens.find(t=>t.quoteSymbol==='NVDAX')?.quoteMint??tokens[0]?.quoteMint??'');
  const [scoped,setScoped]=useState<PairCatalog|null>(null),[scopeLoading,setScopeLoading]=useState(false),[scopeFailed,setScopeFailed]=useState(false),[lookupError,setLookupError]=useState(''),[lookupNonce,setLookupNonce]=useState(0);
+ const [knownScopes,setKnownScopes]=useState<PairCatalog[]>([]);
  const cache=useRef(new Map<string,{at:number;value:PairCatalog}>());
  useEffect(()=>{
   let disposed=false;const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
-  cache.current.clear();setLoading(true);setCatalog(null);setReport(null);setCatalogFailed(false);setRadarFailed(false);setScoped(null);setScopeFailed(false);setScopeLoading(false);
+  cache.current.clear();setKnownScopes([]);setLoading(true);setCatalog(null);setReport(null);setCatalogFailed(false);setRadarFailed(false);setScoped(null);setScopeFailed(false);setScopeLoading(false);
   void Promise.allSettled([
    fetchCatalog(controller.signal).then(r=>{if(!disposed){if(r.status==='ready')setCatalog(r.catalog);else setCatalogFailed(true);}}).catch(()=>{if(!disposed)setCatalogFailed(true);}).finally(()=>{if(!disposed)setLoading(false);}),
    fetchRadar(controller.signal).then(r=>{if(!disposed)setReport(r);}).catch(()=>{if(!disposed)setRadarFailed(true);}),
@@ -70,13 +71,14 @@ export default function PairExplorer({tokens}:{tokens:TrackedToken[]}) {
    if(r.status==='ready'){
     cache.current.set(selected,{at:Date.now(),value:r.catalog});if(cache.current.size>12)cache.current.delete(cache.current.keys().next().value!);
     setScoped(r.catalog);
+    setKnownScopes(prior=>[...prior.filter(c=>c.groups[0]?.quoteMint!==selected),r.catalog].slice(-12));
    }else{setScopeFailed(true);if(r.status==='not_found')setLookupError('This mint is not in the verified registry response.');}
   }).catch(()=>{if(!disposed)setScopeFailed(true);}).finally(()=>{clearTimeout(timer);if(!disposed)setScopeLoading(false);});
   return()=>{disposed=true;clearTimeout(timer);controller.abort();};
  },[catalog,selected,lookupNonce]);
  const globalGroups=useMemo(()=>catalog?fromCatalog(catalog,report,tokens):fromTracked(tokens,report),[catalog,report,tokens]);
  const scopedGroups=useMemo(()=>scoped?fromCatalog(scoped,report,tokens):[],[scoped,report,tokens]);
- const groups=useMemo(()=>[...globalGroups,...scopedGroups.filter(g=>!globalGroups.some(p=>p.quoteMint===g.quoteMint))],[globalGroups,scopedGroups]);
+ const groups=useMemo(()=>mergePairGroups(globalGroups,knownScopes.map(c=>fromCatalog(c,report,tokens))),[globalGroups,knownScopes,report,tokens]);
  const matches=searchPairs(groups,query);
  const group=scopedGroups.find(g=>g.quoteMint===selected)??groups.find(g=>g.quoteMint===selected);
  const rows=group?visibleTokens(group,query):[];
@@ -95,7 +97,7 @@ export default function PairExplorer({tokens}:{tokens:TrackedToken[]}) {
    {matches.length>0 && !visible && <p role="status">Choose a matching quote asset.</p>}
    {lookupError && <p role="status">{lookupError}</p>}
   </div>
-  <div className="pair-scope"><span>{catalog?'Bounded official catalog':loading?'Catalog loading · tracked sample':'Catalog unavailable · dated tracked sample'} · {catalog?catalog.dataset.coverage.tokensReturned:tokens.length} {catalog?'sampled':'tracked'} tokens</span><button type="button" disabled={loading} onClick={()=>setRefresh(v=>v+1)}>{loading?'Reading…':catalogFailed?'Retry catalog':'Refresh'}</button></div>
+  <div className="pair-scope"><span>{catalog?discovery?.strategy==='provider_quote_mint'?'Bounded exact-mint query':'Bounded global catalog':loading?'Catalog loading · tracked sample':'Catalog unavailable · dated tracked sample'} · {catalog?coverage?.tokensReturned??catalog.dataset.coverage.tokensReturned:tokens.length} {catalog?'sampled':'tracked'} tokens</span><button type="button" disabled={loading} onClick={()=>setRefresh(v=>v+1)}>{loading?'Reading…':catalogFailed?'Retry catalog':'Refresh'}</button></div>
   <p className="pair-load-state" role="status">{loading?'Reading official discovery…':catalogFailed?'Official catalog unavailable. Showing the separate seven-token tracked sample.':scopeFailed?'Selected-pair source unavailable. Earlier identities retained; snapshot and flow figures withheld.':scopeLoading?'Checking selected pair…':partial?'Partial source / mode checks · sampled tokens only.':'Bounded sample · incomplete ecosystem coverage.'}</p>
   {visible && group && <>
    <div className="pair-selected"><h2>{group.quoteSymbol}<span> / {rows.length} {query?'matching':'returned'} {rows.length===1?'token':'tokens'} in sample{rows.length>0?<> · {rows.filter(t=>t.rewardModeVerified).length} {catalog?'reward-mode verified':'dated tracked mode'}</>:null}</span></h2><p>Quote mint <a href={'https://solscan.io/token/'+group.quoteMint}>{group.quoteMint}</a>{group.symbolAmbiguous?' · ticker is ambiguous; mint selects identity':''}</p><p>Quote token identity; no underlying equity/metal ownership implied.</p></div>

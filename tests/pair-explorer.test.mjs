@@ -5,7 +5,7 @@ import {pathToFileURL} from 'node:url';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 const load=async file=>(await import(pathToFileURL(path.join(process.env.HISTORY_TEST_BUILD,file+'.js')).href)).default;
-const {parseCatalog,fromCatalog,fromTracked,discoveryEvidence,searchPairs,visibleTokens}=await load('app/pairs/adapter');
+const {parseCatalog,fromCatalog,fromTracked,discoveryEvidence,mergePairGroups,searchPairs,visibleTokens}=await load('app/pairs/adapter');
 const {default:Explorer,PairTokenRow,usd}=await load('app/pairs/explorer');
 const {fetchCatalog}=await load('app/pairs/client');
 const {trackedTokens}=await load('lib/tracked-tokens');
@@ -102,6 +102,9 @@ test('existing matched/point/zero gates remain authoritative; reset/stale/degrad
 test('optional #43 evidence enables exact scoped query only with verified scope; legacy API never receives opt-in flags',async()=>{
  const f=fixture();assert.equal(discoveryEvidence(parseCatalog(f)),null);
  f.dataset.coverage.discovery={strategy:'provider_quote_mint',quoteMint:t.quoteMint,providerReportedTotalScope:'quote_mint'};
+ const page=f.dataset.sources.find(p=>p.source.includes('/v1/tokens'));
+ page.source+='&quoteMint='+t.quoteMint;f.groups[0].tokens[0].source=page.source;
+ f.dataset.sources.push({...page,source:page.source.replace('page=1','page=2')});
  assert.equal(discoveryEvidence(parseCatalog(f)).quoteMint,t.quoteMint);
  const original=globalThis.fetch,calls=[];globalThis.fetch=async(url)=>{calls.push(url);return Response.json(f);};
  try {
@@ -111,4 +114,43 @@ test('optional #43 evidence enables exact scoped query only with verified scope;
   f.dataset.coverage.discovery={strategy:'provider_quote_mint',quoteMint:tokens[0].quoteMint,providerReportedTotalScope:'quote_mint'};
   assert.throws(()=>parseCatalog(f),/Invalid catalog/);
  }finally{globalThis.fetch=original;}
+});
+
+function scopedFixture() {
+ const f=fixture(),page=f.dataset.sources.find(p=>p.source.includes('/v1/tokens'));
+ page.source+='&quoteMint='+t.quoteMint;f.groups[0].tokens[0].source=page.source;
+ f.dataset.sources.push({...page,source:page.source.replace('page=1','page=2')});
+ f.dataset.coverage.discovery={strategy:'provider_quote_mint',quoteMint:t.quoteMint,providerReportedTotalScope:'quote_mint'};
+ return f;
+}
+test('scoped counts/search replace global rows without ticker joins and retain separately verified quotes',()=>{
+ const global=fromCatalog(parseCatalog(fixture())),f=scopedFixture(),extra=structuredClone(f.groups[0].tokens[0]);
+ extra.mint=tokens[0].mint;extra.rewardModeVerified=false;extra.modeVerification='catalog_only';extra.rewardSource=null;extra.symbol='SYNTHETIC-EXTRA';extra.name='Synthetic wider scoped token';
+ f.groups[0].tokens.push(extra);f.dataset.coverage.tokensReturned=2;
+ const merged=mergePairGroups(global,[fromCatalog(parseCatalog(f))]);
+ assert.equal(merged[0].tokens.length,2);assert.equal(searchPairs(merged,'SYNTHETIC-EXTRA').length,1);
+ const other=structuredClone(global[0]);other.quoteMint=tokens[0].quoteMint;other.tokens=[];
+ const distinct=mergePairGroups(merged,[[other]]);assert.equal(distinct.length,2);assert.equal(distinct[0].quoteSymbol,distinct[1].quoteSymbol);
+});
+test('scope proof rejects global mint claims, mixed upstream queries, missing pages and substituted token provenance',()=>{
+ const mutations=[f=>f.dataset.coverage.discovery.quoteMint=tokens[0].quoteMint,
+  f=>f.dataset.coverage.discovery.providerReportedTotalScope='catalog',
+  f=>f.dataset.sources.pop(),f=>f.dataset.sources[1].source=f.dataset.sources[1].source.replace(t.quoteMint,tokens[0].quoteMint),
+  f=>f.groups[0].tokens[0].source=f.groups[0].tokens[0].provenance.source=f.groups[0].tokens[0].source.split('&quoteMint=')[0]];
+ for(const mutate of mutations){const f=scopedFixture();mutate(f);assert.throws(()=>parseCatalog(f),/Invalid catalog/);}
+ const global=fixture();global.dataset.coverage.discovery={strategy:'global_sample',quoteMint:t.quoteMint,providerReportedTotalScope:'catalog'};
+ assert.throws(()=>parseCatalog(global),/Invalid catalog/);
+});
+test('one-page and empty scoped results retain false complete/atomic gates; valid scope cannot masquerade as global',async()=>{
+ const f=scopedFixture();f.dataset.sources.pop();f.dataset.coverage.pagesFetched=1;
+ f.groups[0].tokens=[];f.groups[0].availability='no_tokens_in_bounded_sample';f.groups[0].verification='official_registry_only';f.dataset.coverage.tokensReturned=0;f.dataset.coverage.providerReportedTotal=0;
+ const c=parseCatalog(f);assert.equal(c.dataset.coverage.complete,false);assert.equal(c.dataset.coverage.atomic,false);
+ const original=globalThis.fetch;globalThis.fetch=async()=>Response.json(f);
+ try {assert.equal((await fetchCatalog(new AbortController().signal,t.quoteMint,true)).status,'ready');await assert.rejects(fetchCatalog(new AbortController().signal),/Invalid global discovery scope/);}finally{globalThis.fetch=original;}
+});
+test('429 and 503 scoped reads fail closed with no automatic retry or upstream message exposure',async()=>{
+ const original=globalThis.fetch;let calls=0;
+ try {for(const status of [429,503]){globalThis.fetch=async()=>{calls++;return Response.json({error:'synthetic-upstream-message'},{status,headers:{'retry-after':'3600'}});};
+ assert.deepEqual(await fetchCatalog(new AbortController().signal,t.quoteMint,true),{status:'unavailable'});}
+ assert.equal(calls,2);}finally{globalThis.fetch=original;}
 });

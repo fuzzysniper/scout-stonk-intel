@@ -18,6 +18,7 @@ export async function fetchCatalog(signal:AbortSignal,quoteMint?:string,pairScop
  if(!response.ok)return {status:'unavailable'};
  const catalog=parseCatalog(await boundedJson(response));
  if(catalog.status==='unavailable')return {status:'unavailable'};
+ if(!quoteMint && discoveryEvidence(catalog)?.strategy==='provider_quote_mint')throw Error('Invalid global discovery scope');
  if(quoteMint && (catalog.groups.length!==1 || catalog.groups[0].quoteMint!==quoteMint))throw Error('Invalid quote identity');
  if(pairScoped){const proof=discoveryEvidence(catalog);if(!quoteMint || proof?.strategy!=='provider_quote_mint' || proof.quoteMint!==quoteMint)throw Error('Unverified discovery scope');}
  return {status:'ready',catalog};

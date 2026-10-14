@@ -87,15 +87,28 @@ export function parseCatalog(value:unknown):PairCatalog {
  const catalog=v as PairCatalog;discoveryEvidence(catalog);return catalog;
 }
 
-export type DiscoveryEvidence={strategy:'global_sample'|'provider_quote_mint';quoteMint:string|null;providerReportedTotalScope:'catalog'|'quote_mint'};
+export type DiscoveryEvidence=NonNullable<PairCatalog['dataset']['coverage']['discovery']>;
 export function discoveryEvidence(catalog:PairCatalog):DiscoveryEvidence|null {
  const c=catalog.dataset.coverage as unknown as ObjectValue;
  if(c.discovery===undefined)return null;
  const d=object(c.discovery);
  requireValue(state(d.strategy,['global_sample','provider_quote_mint']) && (d.quoteMint===null || validMint(d.quoteMint)));
  requireValue(d.providerReportedTotalScope===(d.strategy==='provider_quote_mint'?'quote_mint':'catalog'));
- if(d.strategy==='provider_quote_mint')requireValue(validMint(d.quoteMint) && catalog.groups.every(g=>g.quoteMint===d.quoteMint));
+ if(d.strategy==='global_sample')requireValue(d.quoteMint===null);
+ if(d.strategy==='provider_quote_mint'){
+  requireValue(validMint(d.quoteMint) && catalog.groups.every(g=>g.quoteMint===d.quoteMint));
+  const pages=catalog.dataset.sources.filter(p=>new URL(p.source).pathname==='/api/public/v1/tokens');
+  requireValue(pages.length===catalog.dataset.coverage.pagesFetched && pages.length>0);
+  for(const p of pages)requireValue(new URL(p.source).searchParams.getAll('quoteMint').length===1 && new URL(p.source).searchParams.get('quoteMint')===d.quoteMint);
+  for(const g of catalog.groups)for(const t of g.tokens)requireValue(new URL(t.source).pathname==='/api/public/v1/tokens' && new URL(t.source).searchParams.getAll('quoteMint').length===1 && new URL(t.source).searchParams.get('quoteMint')===d.quoteMint);
+ }
  return d as DiscoveryEvidence;
+}
+/** Replace global groups with actual scoped results; counts/search share the same evidence. */
+export function mergePairGroups(global:PairGroup[],scopes:PairGroup[][]):PairGroup[] {
+ const groups=new Map(global.map(g=>[g.quoteMint,g]));
+ for(const scope of scopes)for(const group of scope)groups.set(group.quoteMint,group);
+ return [...groups.values()].sort((a,b)=>a.quoteSymbol.localeCompare(b.quoteSymbol,'en')||a.quoteMint.localeCompare(b.quoteMint,'en'));
 }
 function joinRadar(token:PairToken,report:RadarReport|null,tracked:TrackedToken[]) {
  const expected=tracked.find(t=>t.mint===token.mint && t.quoteMint===token.quoteMint && t.quoteSymbol===token.quoteSymbol);
