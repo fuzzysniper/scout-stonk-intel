@@ -57,3 +57,24 @@ export type PairCatalog = {
 
 export type PairCatalogNotFound = Omit<PairCatalog, 'status'> & { status: 'not_found'; error: string };
 export type PairCatalogParameterError = { error: string };
+
+/** Independent quote identities, never token/market coverage or launch permission. */
+export type PairQuote = Pick<PairGroup, 'quoteMint' | 'quoteSymbol' | 'quoteName' | 'decimals' | 'tokenProgram' | 'symbolAmbiguous'> & {
+ providerSymbolAmbiguous: boolean; symbolMatchCount: number;
+ verification: 'official_registry_only'; verifiedAt: string;
+};
+export type PairQuoteSearch = { query: string; mint: string | null; offset: number; limit: number };
+export type PairQuoteRegistry = {
+ schemaVersion: 1; status: 'available' | 'not_found' | 'unavailable';
+ search: PairQuoteSearch; quotes: PairQuote[];
+ dataset: {
+  sourceStatus: 'available' | 'cached' | 'unavailable'; fetchedAt: string; dataFetchedAt: string | null;
+  scope: 'official_quote_registry'; provenance: PairSource | null;
+  coverage: {
+   registryResponse: 'validated_unpaginated' | 'unavailable'; registryCount: number | null;
+   matchedCount: number | null; returnedCount: number; responseLimit: number; nextOffset: number | null;
+   resultTruncated: boolean | null; providerAmbiguousSymbolCount: number | null; tokenCatalogComplete: false;
+  };
+ };
+ error?: string;
+};

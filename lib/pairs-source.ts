@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { isSolanaMint } from './solana';
 import { parseHistoryTimestamp } from './history';
 import { trackedTokens } from './tracked-tokens';
-import type { PairCatalog, PairSource, PairToken } from './pairs-contract';
+import type { PairCatalog, PairQuote, PairSource, PairToken } from './pairs-contract';
 export const PAIR_REGISTRY_URL = 'https://www.stonkfun.xyz/api/public/v1/pairs';
 export const TOKEN_CATALOG_URL = 'https://www.stonkfun.xyz/api/public/v1/tokens';
 export const REWARD_V2_URL = 'https://www.stonkfun.xyz/api/v2/tokens/';
@@ -60,6 +60,97 @@ export function parsePairRegistry(value: unknown): QuoteRecord[] {
   return {mint:address,symbol:text(p.symbol,32),name:text(p.name,160),decimals:integer(p.decimals,18),
    tokenProgram:String(p.tokenProgram),symbolAmbiguous:p.symbolAmbiguous};
  });
+}
+export const QUOTE_REGISTRY_MAX_BYTES=512*1024;
+export const QUOTE_REGISTRY_MAX_RECORDS=1024;
+export const normalizeQuoteSearch=(value:string)=>value.normalize('NFKC').toLowerCase();
+type QuoteRegistrySnapshot = { quotes: PairQuote[]; provenance: PairSource; providerAmbiguousSymbolCount: number };
+export type QuoteRegistrySourceResult = { value: QuoteRegistrySnapshot | null; sourceStatus: 'available' | 'cached' | 'unavailable' };
+export function parseQuoteRegistry(value: unknown, provenance: PairSource): QuoteRegistrySnapshot {
+ const root=object(value),data=object(root.data),meta=object(root.meta);
+ const records=parsePairRegistry(value);
+ if (!records.length || records.length>QUOTE_REGISTRY_MAX_RECORDS) throw Error('invalid_registry');
+ // The inspected endpoint is one unpaginated array. Refuse a future partial
+ // response rather than guessing paging semantics or silently claiming scope.
+ for (const envelope of [root,data,meta]) {
+  if (envelope.error!=null) throw Error('invalid_registry');
+  for (const key of ['pagination','page','nextCursor','nextPage','next'])
+   if (envelope[key]!=null) throw Error('incomplete_registry');
+  for (const key of ['hasMore','partial','truncated'])
+   if (envelope[key]!=null && envelope[key]!==false) throw Error('incomplete_registry');
+  if (envelope.complete!=null && envelope.complete!==true) throw Error('incomplete_registry');
+  for (const key of ['count','total','totalCount'])
+   if (envelope[key]!=null && integer(envelope[key],QUOTE_REGISTRY_MAX_RECORDS)!==records.length) throw Error('incomplete_registry');
+ }
+ const providerCounts=new Map<string,number>(),searchCounts=new Map<string,number>();
+ for (const row of records) {
+  if (row.mint!==row.mint.trim() || row.symbol!==row.symbol.trim() ||
+      /[\p{Cc}\p{Cs}]/u.test(row.symbol+row.name)) throw Error('invalid_registry');
+  const key=row.symbol.toLowerCase(),searchKey=normalizeQuoteSearch(row.symbol);
+  providerCounts.set(key,(providerCounts.get(key)??0)+1);searchCounts.set(searchKey,(searchCounts.get(searchKey)??0)+1);
+ }
+ const ambiguous=integer(data.ambiguousSymbolCount,QUOTE_REGISTRY_MAX_RECORDS);
+ if (ambiguous!==[...providerCounts.values()].filter(count=>count>1).length ||
+     records.some(row=>row.symbolAmbiguous!==(providerCounts.get(row.symbol.toLowerCase())!>1))) throw Error('invalid_registry_ambiguity');
+ const quotes=records.map(row=>({quoteMint:row.mint,quoteSymbol:row.symbol,quoteName:row.name,decimals:row.decimals,
+  tokenProgram:row.tokenProgram,symbolAmbiguous:row.symbolAmbiguous || searchCounts.get(normalizeQuoteSearch(row.symbol))!>1,
+  providerSymbolAmbiguous:row.symbolAmbiguous,symbolMatchCount:searchCounts.get(normalizeQuoteSearch(row.symbol))!,
+  verification:'official_registry_only' as const,verifiedAt:provenance.fetchedAt}));
+ const compare=(a:string,b:string)=>a<b?-1:a>b?1:0;
+ quotes.sort((a,b)=>compare(normalizeQuoteSearch(a.quoteSymbol),normalizeQuoteSearch(b.quoteSymbol)) || compare(a.quoteMint,b.quoteMint));
+ return {quotes,provenance,providerAmbiguousSymbolCount:ambiguous};
+}
+function retrySeconds(value:string|null):number|null {
+ return value===null?60:/^[1-9]\d{0,3}$/.test(value) && Number(value)<=3600?Number(value):null;
+}
+function hasNextRegistryLink(value:string|null):boolean {
+ for (const match of (value??'').matchAll(/\brel\s*=\s*(?:"([^"]*)"|'([^']*)'|([^,;\s]+))/gi))
+  if ((match[1]??match[2]??match[3]).toLowerCase().split(/\s+/).includes('next'))return true;
+ return false;
+}
+export function createQuoteRegistrySource(fetcher:typeof fetch=fetch,clock:()=>number=()=>Date.now(),deadlineMs=3000) {
+ if (!Number.isSafeInteger(deadlineMs) || deadlineMs<1 || deadlineMs>3000) throw Error('invalid_deadline');
+ let entry:QuoteRegistrySnapshot|null=null,retryAt=0;
+ let pending:Promise<QuoteRegistrySourceResult>|null=null;
+ const result=(sourceStatus:QuoteRegistrySourceResult['sourceStatus']):QuoteRegistrySourceResult=>({value:sourceStatus==='unavailable'?null:entry,sourceStatus});
+ async function refresh():Promise<QuoteRegistrySourceResult> {
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),deadlineMs);
+  const stopped=new Promise<never>((_,reject)=>controller.signal.addEventListener('abort',()=>reject(Error('deadline')),{once:true}));
+  try {
+   const response=await Promise.race([fetcher(PAIR_REGISTRY_URL,{method:'GET',redirect:'error',cache:'no-store',signal:controller.signal,headers:{accept:'application/json'}}),stopped]);
+   if (response.status===429) {
+    const seconds=retrySeconds(response.headers.get('retry-after'));
+    retryAt=seconds===null?Infinity:Math.max(retryAt,clock()+seconds*1000);throw Error('rate_limited');
+   }
+   if (response.status!==200 || !response.body || !/^application\/json(?:\s*;|$)/i.test(response.headers.get('content-type')??'') ||
+       Number(response.headers.get('content-length'))>QUOTE_REGISTRY_MAX_BYTES || response.headers.has('content-range') ||
+       hasNextRegistryLink(response.headers.get('link'))) throw Error('invalid_registry_response');
+   for (const name of ['age','source-age']) {
+    const age=response.headers.get(name);
+    if (age!==null && (!/^\d+$/.test(age) || Number(age)>300)) throw Error('stale_transport');
+   }
+   const reader=response.body.getReader(),chunks:Uint8Array[]=[];let size=0;
+   try {
+    while (true) {
+     const part=await Promise.race([reader.read(),stopped]);if (part.done)break;
+     size+=part.value.byteLength;if (size>QUOTE_REGISTRY_MAX_BYTES)throw Error('oversized_registry');chunks.push(part.value);
+    }
+   } finally {void reader.cancel().catch(()=>{});}
+   const bytes=Buffer.concat(chunks),value:unknown=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bytes));
+   const providerGeneratedAt=generated(object(object(value).meta).generatedAt,clock());
+   entry=parseQuoteRegistry(value,{source:PAIR_REGISTRY_URL,fetchedAt:new Date(clock()).toISOString(),providerGeneratedAt,
+    revision:'sha256:'+createHash('sha256').update(bytes).digest('hex')});
+   return result('available');
+  } catch {entry=null;retryAt=Math.max(retryAt,clock()+60_000);return result('unavailable');}
+  finally {clearTimeout(timer);controller.abort();}
+ }
+ return async ():Promise<QuoteRegistrySourceResult>=>{
+  if (entry && (clock()-Date.parse(entry.provenance.providerGeneratedAt)>3*3600_000 || Date.parse(entry.provenance.providerGeneratedAt)-clock()>60_000))entry=null;
+  if (entry && clock()-Date.parse(entry.provenance.fetchedAt)<PAIR_CACHE_MS)return result('cached');
+  if (clock()<retryAt)return result('unavailable');
+  if (pending)return pending;
+  pending=refresh();try{return await pending;}finally{pending=null;}
+ };
 }
 export function parseCatalogPage(value: unknown, page: number, quotes: QuoteRecord[], provenance: PairSource, quoteMint: string | null = null) {
  const data = object(object(value).data), pagination = object(data.pagination);
@@ -239,7 +330,7 @@ export function createPairSources(fetcher: typeof fetch = fetch, clock: () => nu
   const response=await fetcher(...args);
   if (response.status===429) {
    const retry=response.headers.get('retry-after');
-   const seconds=retry===null?60:/^[1-9]\d{0,3}$/.test(retry) && Number(retry)<=3600?Number(retry):null;
+   const seconds=retrySeconds(retry);
    blockedUntil=seconds===null?Infinity:Math.max(blockedUntil,clock()+seconds*1000);
   }
   return response;
@@ -272,8 +363,9 @@ export function createPairSources(fetcher: typeof fetch = fetch, clock: () => nu
    return result;
   } finally {slot.busy--;}
  }
- return {global:createPairSource(cooledFetch,clock),scoped};
+ return {global:createPairSource(cooledFetch,clock),scoped,quotes:createQuoteRegistrySource(cooledFetch,clock)};
 }
 const pairSources=createPairSources((...args)=>fetch(...args));
 export const readPairSource=pairSources.global;
 export const readScopedPairSource=pairSources.scoped;
+export const readPairQuoteRegistry=pairSources.quotes;
