@@ -9,11 +9,15 @@ const { Miniflare, convertV4MiniflareOptions } = require('miniflare'); // Exact 
 const config = JSON.parse(await readFile(new URL('./wrangler.json',import.meta.url),'utf8'));
 const { bundle } = await dryRun();
 
-test('actual Wrangler bundle on current workerd: no public fetch, forced schedule disabled, SQLite receipt readable', async () => {
+for(const activation of ['disabled', undefined, '', 'enabled', 'human-approved ', 'true']) {
+test(`actual Wrangler bundle: fail closed with approved IDs and activation ${JSON.stringify(activation)}`, async () => {
  const calls=[];
+ const bindings={...config.vars,APP_PRIVATE_KEY:'offline-invalid-sentinel-not-a-key'};
+ if(activation===undefined) { delete bindings.ACTIVATION; delete bindings.APP_PRIVATE_KEY; }
+ else bindings.ACTIVATION=activation;
  const options=convertV4MiniflareOptions({name:config.name,modules:true,script:bundle,compatibilityDate:config.compatibility_date,
   durableObjects:{ SLOTS:{className:config.durable_objects.bindings[0].class_name,useSQLite:config.exports.SlotCoordinator.storage==='sqlite'} },
-  bindings:config.vars,cf:false,
+  bindings,cf:false,
   outboundService:request=>{calls.push({method:request.method,url:request.url});throw new Error('offline_outbound_forbidden');},
  });
  options.telemetry={enabled:false};
@@ -36,3 +40,4 @@ test('actual Wrangler bundle on current workerd: no public fetch, forced schedul
   assert.deepEqual(calls,[],'No GitHub/provider request is permitted by inactive staging');
  } finally {await mf.dispose();}
 });
+}
