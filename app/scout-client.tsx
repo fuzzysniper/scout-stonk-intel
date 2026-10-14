@@ -3,14 +3,15 @@ import {useCallback,useEffect,useState} from 'react';
 import {isSolanaMint} from '../lib/solana';
 import HistoryPanel from './history-panel';
 import Link from 'next/link';
-import EcosystemPreview from './ecosystem-preview';
+import PairExplorer from './pairs/explorer';
+import type { TrackedToken } from '../lib/tracked-tokens';
 type Reward={status:string;quoteSymbol?:string|null;distributedTokens?:number|null;payoutCount?:number|null;holderCount?:number|null;lastPayoutAt?:string|null;source?:string;fetchedAt?:string};
 type Market={found:boolean;source:string;fetchedAt:string;pairUrl?:string|null;base?:{name:string;symbol:string};quote?:{symbol:string};priceUsd?:string|null;liquidityUsd?:number|null;volume24h?:number|null;change24h?:number|null;marketCap?:number|null;note?:string};
 const compact=(n:number|null|undefined)=>n==null?'—':new Intl.NumberFormat('en-US',{notation:'compact',maximumFractionDigits:2}).format(n);
 const money=(n:number|null|undefined)=>n==null?'—':'$'+compact(n);
 const full=(n:number|null|undefined)=>n==null?'—':new Intl.NumberFormat('en-US',{maximumFractionDigits:3}).format(n);
-export default function ScoutClient(){
- const [mint,setMint]=useState('');const [selected,setSelected]=useState('');const [error,setError]=useState('');const [loading,setLoading]=useState(false);const [market,setMarket]=useState<Market|null>(null);const [reward,setReward]=useState<Reward|null>(null);const [shareStatus,setShareStatus]=useState('');
+export default function ScoutClient({tokens,initialMint=''}:{tokens:TrackedToken[];initialMint?:string}){
+ const [mint,setMint]=useState(initialMint);const [selected,setSelected]=useState(initialMint);const [error,setError]=useState('');const [loading,setLoading]=useState(false);const [market,setMarket]=useState<Market|null>(null);const [reward,setReward]=useState<Reward|null>(null);const [shareStatus,setShareStatus]=useState('');
  const inspect=useCallback(async(value:string)=>{const address=value.trim();if(!isSolanaMint(address)){setError('Enter a valid Solana token mint address.');return;}setMint(address);setSelected(address);setError('');setLoading(true);setMarket(null);setReward(null);try{const [m,r]=await Promise.allSettled([fetch('/api/token?mint='+encodeURIComponent(address)).then(async res=>{if(!res.ok)throw Error('Market feed unavailable');return res.json() as Promise<Market>}),fetch('/api/rewards?mint='+encodeURIComponent(address)).then(async res=>{if(!res.ok)throw Error('Reward feed unavailable');return res.json() as Promise<Reward>})]);if(m.status==='fulfilled')setMarket(m.value);else setError('Market feed temporarily unavailable.');setReward(r.status==='fulfilled'?r.value:{status:'unavailable'});}finally{setLoading(false);}},[]);
  useEffect(()=>{const value=new URLSearchParams(window.location.search).get('mint');if(value&&isSolanaMint(value))void inspect(value);},[inspect]);
  async function share(){if(!selected)return;const url=new URL(window.location.href);url.searchParams.set('mint',selected);const text='SCOUT token dossier — sourced market and reward intelligence';try{if(navigator.share){await navigator.share({title:'SCOUT Token Dossier',text,url:url.toString()});setShareStatus('Shared');}else{await navigator.clipboard.writeText(url.toString());setShareStatus('Report link copied');}}catch(e){if(e instanceof Error&&e.name==='AbortError')return;setShareStatus('Could not share; copy the URL from your browser.');}}
@@ -18,7 +19,7 @@ export default function ScoutClient(){
  return <main id="scout-content" tabIndex={-1} className="terminal ux-terminal flow-first">
  {selected && <header className="terminal-heading"><Link href="/" className="terminal-wordmark">◉ SCOUT<span>.</span></Link><span className="terminal-mode">READ-ONLY RESEARCH</span></header>}
  {selected && <h1 className="dossier-title">Token dossier</h1>}
- {!selected && <><header className="flow-heading"><span className="flow-brand">SCOUT / STONKFUN</span><h1>StonkFun reward flows</h1></header><EcosystemPreview/></>}
+ {!selected && <PairExplorer tokens={tokens}/>}
  <details className="lookup-disclosure" open={selected ? true : undefined}><summary>{selected ? 'Inspect another token' : 'Inspect a token by mint'}</summary>
  <form className="lookup" onSubmit={e=>{e.preventDefault();void inspect(mint);}}><label htmlFor="mint">TOKEN MINT ADDRESS</label><div className="lookuprow"><input id="mint" placeholder="Paste Solana token address…" value={mint} onChange={e=>setMint(e.target.value)} autoComplete="off" spellCheck={false}/><button type="submit" disabled={loading}>{loading?'SCANNING…':'SCAN ↗'}</button></div></form>
  </details>

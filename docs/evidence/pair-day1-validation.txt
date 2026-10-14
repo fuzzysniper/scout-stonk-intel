@@ -1,0 +1,265 @@
+SCOUT Issue #39 — local validation
+Base: 70bd6ca56e12efec51d821dc0726e88390cba020
+Finished: 2026-10-14T16:22:25.494831+00:00
+No deployment or staging activation.
+
+$ npm ci --cache /tmp/scout-npm-cache
+Exit: 0
+npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+added 336 packages in 10s
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+
+$ npm test (local network/socket access for existing harness)
+Exit: 0
+
+> scout-stonk-intel@0.1.0 test
+> bash tests/run.sh
+
+✔ archive source outage, recovery, immutable serving, missing edition and corruption never substitute live claims (69.025144ms)
+✔ UTC closure plus three-hour grace is mandatory, delayed genuine data changes new candidates (51.406005ms)
+✔ full immutable evidence reproduces after live snapshots change or expire (43.495738ms)
+✔ repeated runs ignore wall-clock attempt time and identical append is a no-op (52.109353ms)
+✔ conflicting originals cannot overwrite and explicit corrections preserve original plus notices (76.873507ms)
+✔ insufficient, empty and covered zero days archive honestly without invented payouts (17.60643ms)
+✔ malformed source, missing evidence, tampering and outdated methods fail reproduction (21.833433ms)
+✔ retention backfill, future input and archive capacities are bounded safely (105.994609ms)
+✔ later-day observations are preserved but do not change historical claim gates (27.762978ms)
+✔ publication workflow stays opt-in, read-only generation, draft branch PR only (0.590239ms)
+✔ git append-only check rejects edition edits and index replacement with an isolated repository (495.888201ms)
+✔ reject unsupported/repeated date or version before any source access (6.229877ms)
+✔ source outage, recovery, exact versioned JSON and changed version refusal expose no private errors or replacement amounts (63.350312ms)
+✔ no observations gives honest no verified change and never substitutes zero payouts (9.558868ms)
+✔ short histories and open UTC days withhold all daily financial findings (4.372872ms)
+✔ covered actual day reports counter deltas and separate quote identities without ecosystem unit totals (9.880342ms)
+✔ zero covered distribution is a supported no increase, not a material finding or missing-data zero (1.189ms)
+✔ calendar boundaries use actual pre-boundary observations with disclosed offsets, never a shorter fake day (8.890071ms)
+✔ stale period endpoints, degraded/unavailable source and stale provider never produce amounts (6.787306ms)
+✔ archived endpoint freshness is evaluated at its day boundary; current health stays separately stale (1.926449ms)
+✔ distribution and payout resets, quote transition and missing provenance are barriers (13.927538ms)
+✔ malformed/future timestamps and conflicting duplicates withhold; identical duplicates collapse (10.872164ms)
+✔ strict gaps and optional payout counts retain coverage safeguards (2.885273ms)
+✔ brief versions and evidence attribution are stable across retrieval time, input order and current warnings (5.319657ms)
+✔ partial collection is attributed per token and never turns matching content into all-token success (1.714531ms)
+✔ date validation rejects invalid calendars, future dates and non-date inputs (0.362726ms)
+✔ a provisional version changes when the day closes or source gates change without different snapshot bytes (3.84659ms)
+✔ real workflow: unset/false, missing schedule inputs and empty manual inputs preserve legacy path (8.328726ms)
+✔ real workflow: external inputs/configured App actor invoke disabled gate and cannot collect (2.2924ms)
+✔ real workflow: opt-in requires successful gate authorization, never skipped/duplicate/failed fallback (1.362021ms)
+✔ real workflow: gate receipt/output failure blocks even a stray collect=true output (0.414564ms)
+✔ real workflow: invalid opt-in setting runs gate and has no legacy fallback (1.104363ms)
+✔ real workflow: continue-on-error provider failure retains diagnostic publication; skipped collector cannot publish (1.477353ms)
+✔ real workflow: existing collector artifact remains separate from outside-checkout gate evidence (0.446512ms)
+✔ missing, current, delayed and stale observations have independent coverage states (16.243248ms)
+✔ complete actual windows require real gap coverage and matching recorded quote identity (10.627105ms)
+✔ expected missed slots are grace-aware estimates and recover with a real observation (1.00265ms)
+✔ partial attempts are not upgraded by a matching dataset hash or fresh prior record (0.501004ms)
+✔ source outage, provider staleness and invalid counters cannot imply healthy collection (0.674415ms)
+✔ dated investigation, overdue audits and future attempts retain explicit unknown/freshness distinctions (0.528445ms)
+✔ diagnostic schemas reject malformed fields and strip unknown/private attributes (0.980786ms)
+✔ shared bounded diagnostics reader backs off malformed responses and preserves valid retrieval times (23.556031ms)
+✔ ecosystem connection renders without user, ownership or data inputs (9.531646ms)
+✔ relationship explains independence, open access and financial limitations (2.973696ms)
+✔ loading and failure use unknown coverage without empty KPI cards or invented timestamps (10.469629ms)
+✔ missing histories retain quote identity with a single plain insufficient state and no fabricated figure (14.240785ms)
+✔ valid point zero or change has one quoted readout with its actual interval, never a 24h rate (34.676799ms)
+✔ matched coverage chooses one existing current-period counter delta instead of showing competing figures (9.85871ms)
+✔ stale, failed source, resets, identity errors and irregular 8h gaps show one honest state (20.136468ms)
+✔ all advanced provenance and interval barriers remain behind closed native disclosures (4.918533ms)
+✔ coverage, actual timestamp age and collection reliability stay separate from source retrieval (1.464865ms)
+✔ HTTP 503 identity-only rows have known tracking scope and unknown observations/coverage (3.016379ms)
+✔ small positive comparable amounts do not become a false zero when displayed (3.017512ms)
+✔ valid 24h archive coverage remains useful when paired 48h coverage is not yet available (3.816103ms)
+✔ history API rejects invalid parameters before accessing the source (17.561953ms)
+✔ cold failure, real records, missing mint and degraded cache have safe API semantics (16.142337ms)
+✔ same deployed reader discovers new snapshots after bounded cache expires (28.985348ms)
+✔ fresh retrieval of stale observations never makes complete windows fresh (0.88359ms)
+✔ outages retain original retrieval time briefly, back off, expire, and recover (1.041067ms)
+✔ cold outage never falls back to the deployment checkout (0.208644ms)
+✔ invalid responses, missing files, redirects and oversized bodies fail closed (6.871232ms)
+✔ empty/missing mints and invalid observations preserve calculator safeguards (0.908047ms)
+✔ concurrent requests share one refresh and distinct refreshes use distinct CDN keys (1.364183ms)
+✔ aborted body read does not replace the last successful dataset (1.179345ms)
+✔ network deadline aborts an unresponsive fetch and returns sanitized unavailability (8000.116581ms)
+✔ strict mint validation rejects non-base58, wrong byte length and traversal (1.44843ms)
+✔ two real recorded points produce a nonnegative delta with their actual interval (1.071853ms)
+✔ missing history never produces zero totals or invented observations (0.291999ms)
+✔ identical duplicates collapse; conflicting duplicates prevent comparison (0.529597ms)
+✔ counter resets are not clamped to zero or bridged by window endpoints (0.675937ms)
+✔ payout counter decrease also invalidates a comparison (0.175715ms)
+✔ 23-hour coverage and sparse endpoints cannot claim 24 hours (0.322035ms)
+✔ hourly recorded coverage supports exact 24h and 7d comparisons (2.642197ms)
+✔ nearest boundary is at or before target and reports actual extended interval (0.439712ms)
+✔ missing counters and quote changes block bridging invalid records (2.262987ms)
+✔ malformed, calendar-invalid and future timestamps are detected, never guessed (2.115544ms)
+✔ stale data has an explicit age and does not claim a current complete period (0.292941ms)
+✔ zero delta is valid; NaN, Infinity, negatives, booleans and numeric strings are missing (0.17896ms)
+✔ UTC offsets from the actual collector are normalized and the real store is not synthesized (0.885473ms)
+✔ changed quote mint and unverified source never produce a comparable asset total (1.831647ms)
+✔ malformed stores and all-invalid rows are distinguished from absent history (0.196286ms)
+✔ coverage metadata exposes gaps and boundary approximation limits (0.331569ms)
+✔ three-hour freshness boundary and stale incomplete windows are explicit (0.269976ms)
+✔ tracked fallback groups only exact quote identities; ZEC contains two tokens (1.735833ms)
+✔ search finds symbols, token names and full quote or token mints, without introducing pairs (0.492412ms)
+✔ forged or mixed radar identity is ignored even when ticker matches; absent data is not zero (0.351549ms)
+✔ future catalog drops mixed quote identities and duplicate tokens and never promotes comparisonStatus into metrics (0.207673ms)
+✔ first screen is pair-first on server render with verified sample identity and no fabricated market values (13.472614ms)
+✔ synthetic matched evidence renders only backend-gated periods; reset/stale/failed/identity data withholds amounts (28.898417ms)
+✔ radar endpoint rejects unsafe or repeated sort before source access (7.200919ms)
+✔ source outages expose dated allowlist with no invented observations and recover safely (25.528049ms)
+✔ quote filters use allowlisted mint identity and expose only matching currency rows (4.115615ms)
+✔ empty histories retain all verified identities with null changes and coverage (8.731873ms)
+✔ actual two-point change reports its exact interval without pretending 24h coverage (2.093681ms)
+✔ quote mismatch, symbol-only legacy points, reset, invalid source and conflicts withhold deltas (2.127392ms)
+✔ long actual intervals cannot become short-period activity or window totals (0.347153ms)
+✔ stale observations and degraded/unavailable source withhold changes independently (1.160076ms)
+✔ hourly full coverage remains valid only with explicitly matching quote identities (13.971489ms)
+✔ future/malformed timestamps cannot be bridged and invalid counters never become zero (1.797545ms)
+✔ sorts are name/freshness, not incomparable reward amounts; source evidence links survive (1.997337ms)
+✔ allowlist rejects excessive, duplicate, invalid and unverified addresses (1.419517ms)
+✔ checked-in observations are genuine initial samples; legacy rows are never backfilled (4.642017ms)
+✔ default coverage order promotes comparable evidence rather than reward magnitude (2.779894ms)
+✔ navigation identifies exactly one destination on nested immutable and provisional brief URLs (13.56672ms)
+✔ first-use starting path works without a mint and preserves missing-data and profit limitations (1.151724ms)
+✔ guide renders source-independent evidence and limitations with no collection form (2.364759ms)
+✔ read-only complete archive, metadata, raw provenance and guarded failure responses pass independently (43.200414ms)
+✔ unreachable host is incomplete, not an application defect or fabricated live pass (0.428134ms)
+✔ valid application 404/409/503 remain different from network failure and source outages block release proof (11.419419ms)
+✔ proxy denial and access restriction never masquerade as application success (4.592232ms)
+✔ known archived date cannot silently be a provisional page or cross-origin redirect (7.503004ms)
+✔ source-byte mismatch, edition tampering and substituted report claims fail without leaking payloads (9.75946ms)
+✔ pinned source unavailable is a provenance warning, not made-up source bytes (2.939063ms)
+✔ UTC redirect accepts the real request rollover only, never local-date or stale-day redirects (5.146256ms)
+✔ target validation rejects credential URLs, insecure remote targets and arbitrary paths before reads (0.376216ms)
+✔ dry-run rejects unknown reviewed days and leaves working archive byte inventory unchanged (13.764498ms)
+✔ server-streamed same-origin canonical redirect is recognized, not mislabeled as provisional (4.090286ms)
+✔ standalone inactive Worker has actual SQLite export, only approved nonsecret App IDs, no trigger, route, account, secret or deploy script (14.466073ms)
+✔ policy rejects activation, surfaces, extra credentials, legacy storage and destructive lifecycle drift (4.911833ms)
+✔ dry-run arguments cannot omit dry-run or pass an environment/deploy override (49.880519ms)
+✔ tracked files contain no private key envelope; local credential files are ignored (518.147374ms)
+✔ policy rejection diagnostics never serialize an accidentally configured secret (0.555837ms)
+✔ exact adjacent periods share boundary and calculate distributions, actual velocity and payout deltas (8.957582ms)
+✔ bounded nearest boundaries disclose actual consecutive spans and normalize velocity, not fake equal totals (1.667169ms)
+✔ zero baseline has defined new/no-activity categories without infinite or fake percentages (7.78621ms)
+✔ current-only and missing histories withhold all metrics instead of treating missing prior period as zero (1.439397ms)
+✔ exactly two-hour or larger gaps in either period fail the stricter Signal Lab safeguard (4.324138ms)
+✔ matching tolerance is inclusive at one minute and rejects excessive boundary drift (3.749483ms)
+✔ source failure and observation/provider staleness cannot be hidden by fresh retrieval (8.117919ms)
+✔ resets of distribution or payout counters anywhere across both periods are barriers (3.595902ms)
+✔ every compared point requires the same verified quote mint, including legacy symbol-only records (7.712498ms)
+✔ identical duplicates collapse; conflicting totals or payout counts block comparisons (3.12936ms)
+✔ malformed/future timestamps, invalid metadata, bad provenance and counters never turn into signals (9.585939ms)
+✔ payout counter changes are independently unavailable when optional counter coverage is incomplete (4.057537ms)
+✔ overflow and positive-velocity underflow are withheld instead of serializing invalid or fake zero metrics (2.339301ms)
+✔ calculation is deterministic and does not mutate source records (2.819634ms)
+✔ status exposes missing diagnostics honestly, recovers history, and never implies workflow success from source success (27.835526ms)
+ℹ tests 137
+ℹ suites 0
+ℹ pass 137
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8751.524681
+..............................................................
+----------------------------------------------------------------------
+Ran 62 tests in 3.089s
+
+OK
+✔ adapter has no public fetch entrypoint; disabled means zero GitHub calls (147.392805ms)
+✔ real SQLite Durable Object concurrent claims: one dispatch, redacted durable receipt after restart (5148.867145ms)
+✔ legacy 204 and malformed 200 remain terminal acceptance, never retried (10220.617683ms)
+✔ ambiguous 5xx/connection failure/redirect cannot authorize retry (5228.715407ms)
+✔ explicit 429 permits only one bounded retry; concurrent retries single winner (5108.505559ms)
+✔ invalid retry delays and exhausted original window deny rather than loop (10367.047454ms)
+✔ future/late/malformed slots and unavailable storage fail before dispatch (5096.022076ms)
+✔ scope/configuration drift pauses durably without dispatch or secret leakage (20458.164896ms)
+✔ 401/403/404/422 stop circuit and never reinterpret rejection as a rate retry (10332.35278ms)
+✔ scheduled handler routes through singleton; wrong cron never invokes credentials (84.745429ms)
+✔ expired reservation remains uncertain after restart; delayed alarm cannot replay (10186.955168ms)
+✔ SQLite capacity, retention, clock regression and lost table fail closed (5833.923875ms)
+✔ durable alarm after restart retries once; alarm redelivery never repeats accepted dispatch (5136.930872ms)
+✔ scope expiry/oversized body cannot reach dispatch (5127.021172ms)
+✔ disabled auth handoff IDs cannot wake a persisted retry alarm or scheduled dispatch (5066.269656ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 103926.862703
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+
+$ npx tsc --noEmit
+Exit: 0
+
+$ npm run lint
+Exit: 0
+
+> scout-stonk-intel@0.1.0 lint
+> eslint .
+
+
+$ npm run build
+Exit: 0
+
+> scout-stonk-intel@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.9
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 2.7s
+   Linting and checking validity of types ...
+   Collecting page data ...
+ ⚠ Using edge runtime on a page currently disables static generation for that page
+   Generating static pages (0/9) ...
+   Generating static pages (2/9)
+   Generating static pages (4/9)
+   Generating static pages (6/9)
+ ✓ Generating static pages (9/9)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                         Size  First Load JS
+┌ ƒ /                                            8.82 kB         120 kB
+├ ○ /_not-found                                    993 B         103 kB
+├ ƒ /api/archive                                   153 B         102 kB
+├ ƒ /api/brief                                     153 B         102 kB
+├ ƒ /api/history                                   153 B         102 kB
+├ ƒ /api/og                                        153 B         102 kB
+├ ƒ /api/radar                                     153 B         102 kB
+├ ƒ /api/rewards                                   153 B         102 kB
+├ ƒ /api/status                                    153 B         102 kB
+├ ƒ /api/token                                     153 B         102 kB
+├ ƒ /brief                                         153 B         102 kB
+├ ƒ /brief/[date]                                  124 B         111 kB
+├ ƒ /brief/[date]/editions/[id]                    124 B         111 kB
+├ ƒ /brief/[date]/editions/[id]/opengraph-image    153 B         102 kB
+├ ƒ /brief/[date]/opengraph-image                  153 B         102 kB
+├ ƒ /opengraph-image                               153 B         102 kB
+├ ○ /radar                                       1.29 kB         112 kB
+├ ○ /research                                      161 B         106 kB
+└ ○ /status                                      4.17 kB         110 kB
++ First Load JS shared by all                     102 kB
+  ├ chunks/255-cb395327542b56ef.js               45.9 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js          54.2 kB
+  └ other shared chunks (total)                  1.93 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+$ python tests/pair-explorer-browser.py --axe /tmp/scout-qa/package/axe.min.js
+Exit: 0
+33 responsive browser checks passed; genuine production screenshots saved
