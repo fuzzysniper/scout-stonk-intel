@@ -248,19 +248,6 @@
 .pair-result-heading>button{font-size:12px;flex-shrink:0}
 .pair-simple .pair-load-state{margin:6px 0;color:#f4dcaa}
 .pair-simple .pair-snapshot-note{margin:6px 0 8px;color:#bdd0da;font-size:11px}
-.pair-simple .pair-token{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5px 16px;padding:14px 0}
-.pair-simple .pair-token-name h3{font-size:16px;line-height:1.4;overflow-wrap:anywhere}
-.pair-simple .pair-token-name>span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:12px}
-.pair-simple .pair-market{grid-column:2;grid-row:1}
-.pair-simple .pair-market dl{grid-template-columns:repeat(2,minmax(0,1fr));margin:0;gap:6px}
-.pair-simple .pair-market dd{font-size:16px;line-height:1.4;margin:4px 0 0}
-.pair-simple .pair-market dt{font-size:11px}
-.pair-simple .pair-reward{grid-column:1/-1;grid-row:auto;display:flex;flex-wrap:wrap;gap:2px 12px;align-items:baseline}
-.pair-simple .pair-reward .pair-mode{font-size:12px!important;margin:0}
-.pair-simple .pair-reward strong{font-size:12px;line-height:1.5}
-.pair-simple .pair-token-evidence{margin:0}
-.pair-simple .pair-token-evidence>summary{padding:12px 0;font-size:12px}
-.pair-quality-warning{color:#f4dcaa!important}
 @media(max-width:620px){
  .home-navigation{padding:4px 12px 0}
  .home-navigation nav{gap:4px}
@@ -269,8 +256,31 @@
  .pair-simple .pair-heading h1{font-size:29px}
  .pair-simple .pair-heading p{font-size:14px}
  .pair-simple .pair-featured{margin-bottom:14px}
- .pair-simple .pair-token{gap:5px 10px}
- .pair-simple .pair-market dd{font-size:14px}
  .pair-simple .pair-evidence-body dl>div{grid-template-columns:1fr;gap:2px}
 }
-@media(max-width:620px){.pair-simple .pair-token{grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr)}}
+/* Selected-pair results: two scan lines, native evidence disclosure. */
+.pair-results-sort{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin:8px 0;border-bottom:1px solid #334d58;padding-bottom:8px}
+.pair-results-sort label{font-size:12px;color:#bdd0da}
+.pair-results-sort select{width:auto;max-width:100%;min-width:0;min-height:44px;background:#0d2027;border:1px solid #45636b;border-radius:6px;padding:8px;color:#eff8f6;font:inherit;font-size:13px}
+.pair-simple .pair-token{display:grid;grid-template-columns:minmax(0,1fr);gap:2px;padding:8px 0;border-bottom:1px solid #334d58;align-items:start}
+.pair-row-main{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:12px;align-items:start}
+.pair-simple .pair-token-name h3{font-size:15px;line-height:1.4;margin:0;overflow-wrap:anywhere}
+.pair-simple .pair-token-name>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;line-height:1.5}
+.pair-simple .pair-market{grid-column:auto;grid-row:auto}
+.pair-simple .pair-market dl{grid-template-columns:repeat(2,minmax(0,1fr));margin:0;gap:8px}
+.pair-simple .pair-market dd{font-size:14px;line-height:1.5;margin:0;letter-spacing:-.02em}
+.pair-simple .pair-market dt{font-size:11px;line-height:1.5}
+.pair-row-reward{min-width:0;font-size:12px;line-height:1.5;color:#f4dcaa;overflow-wrap:anywhere}
+.pair-simple .pair-token-evidence{grid-column:1/-1;margin:0;min-width:0}
+.pair-simple .pair-token-evidence>summary{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:44px;padding:4px 0;font-size:12px;line-height:20px;color:#c9ebe0;cursor:pointer;list-style:none}
+.pair-token-evidence>summary::-webkit-details-marker{display:none}
+.pair-details-label{flex-shrink:0;min-width:76px;text-align:center}
+.pair-details-arrow{display:inline-block}
+.pair-token-evidence[open]>summary .pair-details-arrow{transform:rotate(90deg)}
+.pair-token-evidence a{display:inline-flex;align-items:center;min-height:44px;max-width:100%;overflow-wrap:anywhere}
+.pair-token-evidence .pair-evidence-body{margin-top:4px}
+@media(min-width:760px){
+ .pair-row-main{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ .pair-simple .pair-token-name{display:flex;align-items:baseline;gap:10px}
+ .pair-simple .pair-token-name>span{min-width:0}
+}

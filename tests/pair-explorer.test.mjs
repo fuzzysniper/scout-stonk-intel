@@ -7,6 +7,7 @@ import {renderToStaticMarkup} from 'react-dom/server';
 const load=async file=>(await import(pathToFileURL(path.join(process.env.HISTORY_TEST_BUILD,file+'.js')).href)).default;
 const {parseCatalog,fromCatalog,fromTracked,discoveryEvidence,mergePairGroups,searchPairs,visibleTokens}=await load('app/pairs/adapter');
 const {default:Explorer,PairTokenRow,usd}=await load('app/pairs/explorer');
+const {sortSample,marketValue}=await load('app/pairs/results');
 const {fetchCatalog,fetchQuoteRegistry}=await load('app/pairs/client');
 const {parseRegistry,registrySearch,appendRegistryPage,catalogMatchesQuote}=await load('app/pairs/registry');
 const {trackedTokens}=await load('lib/tracked-tokens');
@@ -240,14 +241,43 @@ test('featured choices are four explicit original-case mint candidates, never ti
 test('compact row retains null/zero, unverified modes and stale/invalid warnings while moving identity/time/returns to closed evidence',()=>{
  const f=fixture();f.groups[0].tokens[0].market.liquidityUsd=0;
  let token=fromCatalog(parseCatalog(f))[0].tokens[0],html=render(token);
- const visible=html.split('<details')[0],details=html.slice(html.indexOf('<details'));
+ const visible=html.split('<div class="pair-evidence-body"')[0],details=html.slice(html.indexOf('<details'));
  assert.ok(visible.includes('US$0'));assert.ok(visible.includes('US$12'));assert.ok(visible.includes('Reward mode verified'));
  for(const hidden of [token.mint,token.quoteMint,iso,'Historical quote-relative return','Holder-attributable rewards']){
   assert.ok(!visible.replace(/<[^>]*>/g,'').includes(hidden),hidden);assert.ok(details.includes(hidden),hidden);
  }
  assert.equal((html.match(/<summary>/g)||[]).length,1);assert.ok(!/<details[^>]*\bopen/.test(html));assert.ok(details.includes('token dossier') || details.includes('Token dossier'));
  const ct=f.groups[0].tokens[0];ct.rewardModeVerified=false;ct.modeVerification='source_unavailable';ct.rewardSource=null;ct.historyStatus='invalid_data';ct.historyFreshness='stale';
- html=render(fromCatalog(parseCatalog(f))[0].tokens[0]).split('<details')[0];
- for(const warning of ['Reward mode unverified','Invalid reward history','Stale reward history'])assert.ok(html.includes(warning));
+ html=render(fromCatalog(parseCatalog(f))[0].tokens[0]).split('<div class="pair-evidence-body"')[0];
+ for(const warning of ['Reward mode unverified','invalid / stale history'])assert.ok(html.includes(warning));
  assert.ok(!html.includes('distributed'));
+});
+
+test('sample sorts keep exact quote identity, zero before unknown, name ties deterministic and input untouched',()=>{
+ const base=fromCatalog(parseCatalog(fixture()))[0].tokens[0];
+ const make=(mint,name,symbol,value)=>({...structuredClone(base),mint,name,symbol,catalog:{...structuredClone(base.catalog),market:{...base.catalog.market,liquidityUsd:value,volume24hUsd:value===null?null:20-value}}});
+ const a=make('c','Alpha','Z',0),b=make('b','Beta','A',10),c=make('a','Alpha','Z',null),d=make('d','Alpha','Z',10);
+ const other={...make('e','Other quote','X',999999),quoteMint:tokens[0].quoteMint};
+ const input=[a,b,c,d,other],before=structuredClone(input);
+ assert.deepEqual(sortSample(input,t.quoteMint,'name').map(t=>t.mint),['a','c','d','b']);
+ assert.deepEqual(sortSample(input,t.quoteMint,'liquidity').map(t=>t.mint),['d','b','c','a']);
+ assert.deepEqual(sortSample(input,t.quoteMint,'volume').map(t=>t.mint),['c','d','b','a']);
+ assert.deepEqual(input,before);assert.deepEqual(sortSample(input,'another-exact-mint','liquidity'),[]);
+ assert.equal(marketValue(a,'liquidity'),0);assert.equal(marketValue(c,'liquidity'),null);
+ for(const bad of [NaN,Infinity,-1]){const token=make('f','Invalid','I',bad);assert.equal(marketValue(token,'liquidity'),null);}
+ const absent=make('f','Absent','I',900);absent.catalog.market.status='unavailable';assert.equal(marketValue(absent,'liquidity'),null);
+});
+
+test('one reward state distinguishes verified mode from activity; source/quality gates and native disclosure remain',()=>{
+ const f=fixture(),ct=f.groups[0].tokens[0];
+ const visible=()=>render(fromCatalog(parseCatalog(f))[0].tokens[0]).split('<div class="pair-evidence-body"')[0];
+ assert.ok(visible().includes('Reward mode verified · no tracked history'));assert.ok(!visible().includes('flow recorded'));
+ ct.historyFreshness='stale';assert.ok(visible().includes('stale history'));
+ ct.historyFreshness='unavailable';ct.historyStatus='invalid_data';assert.ok(visible().includes('invalid history'));
+ ct.historyStatus='not_tracked';ct.rewardModeVerified=false;ct.modeVerification='source_unavailable';ct.rewardSource=null;
+ assert.ok(visible().includes('Reward mode unverified · source unavailable'));
+ ct.mode='standard';ct.modeVerification='verified_standard';ct.rewardSource={...source,source:'https://www.stonkfun.xyz/api/v2/tokens/'+t.mint+'/rewards'};
+ assert.ok(visible().includes('No holder rewards · verified mode'));
+ const html=render(fromCatalog(parseCatalog(f))[0].tokens[0]);assert.ok(html.includes('Details<span class="sr-only"> for 🧪 · Synthetic test token'));
+ assert.ok(!/<details[^>]*\bopen/.test(html));assert.ok(html.includes(ct.mint));assert.ok(html.includes(ct.source.replaceAll('&','&amp;')));
 });

@@ -74,7 +74,7 @@ with sync_playwright() as pw:
    rules=audit(page);snap(page,f'pair-simple-after-home-{w}.png');captures.append({'width':w,'state':'landing','firstActionReadySeconds':elapsed,'chips':buttons.evaluate_all('(bs)=>bs.map(b=>({top:b.getBoundingClientRect().top,bottom:b.getBoundingClientRect().bottom,height:b.getBoundingClientRect().height}))'),'heading':page.locator('h1').bounding_box(),'search':page.locator('#pair-search').bounding_box(),'axePassedRules':rules})
    check(w,'four verified choices and one search in first viewport; no token fanout; landmarks,skip link,axe,reflow')
    result=select(page,'NVDAX');data=scope(result,MINTS['NVDAX']);assert page.locator('.pair-token').count()==len(data['groups'][0]['tokens'])
-   assert 'Incomplete sample' in page.locator('.pair-load-state').inner_text();assert 'not live quotes' in page.locator('.pair-snapshot-note').inner_text()
+   assert 'sampled · incomplete' in page.locator('.pair-snapshot-note').inner_text();assert 'not live' in page.locator('.pair-snapshot-note').inner_text()
    assert page.locator('.pair-token time:visible,.pair-selected a:visible').count()==0
    rows=page.locator('.pair-token');first_row=rows.first;mint=first_row.get_attribute('aria-labelledby').removeprefix('pair-token-');token=next(t for t in data['groups'][0]['tokens'] if t['mint']==mint)
    for displayed,value in zip(first_row.locator('.pair-market dd').all_inner_texts(),[token['market']['liquidityUsd'],token['market']['volume24hUsd']]):
@@ -162,7 +162,7 @@ with sync_playwright() as pw:
     else:
      assert page.locator('.pair-token').count()==len(catalog['groups'][0]['tokens'])
      if state=='samplenulls':assert all(v=='Unavailable' for v in page.locator('.pair-market dd').all_inner_texts())
-     if state=='sampleunverified':assert all('unverified' in v for v in page.locator('.pair-reward').all_inner_texts())
+     if state=='sampleunverified':assert all('unverified' in v for v in page.locator('.pair-row-reward').all_inner_texts())
    assert 'synthetic-private-detail' not in page.locator('body').inner_text();before=len(reads);page.wait_for_timeout(350);assert len(reads)==before;audit(page);check(w,'isolated '+state+':fail-closed/no automatic retries/accessible');c.close()
  # A failed preset registry read recovers only through an explicit retry.
  c=context(b,390);counts={'n':0}
