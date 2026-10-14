@@ -258,29 +258,59 @@
  .pair-simple .pair-featured{margin-bottom:14px}
  .pair-simple .pair-evidence-body dl>div{grid-template-columns:1fr;gap:2px}
 }
-/* Selected-pair results: two scan lines, native evidence disclosure. */
-.pair-results-sort{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin:8px 0;border-bottom:1px solid #334d58;padding-bottom:8px}
-.pair-results-sort label{font-size:12px;color:#bdd0da}
-.pair-results-sort select{width:auto;max-width:100%;min-width:0;min-height:44px;background:#0d2027;border:1px solid #45636b;border-radius:6px;padding:8px;color:#eff8f6;font:inherit;font-size:13px}
-.pair-simple .pair-token{display:grid;grid-template-columns:minmax(0,1fr);gap:2px;padding:8px 0;border-bottom:1px solid #334d58;align-items:start}
-.pair-row-main{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:12px;align-items:start}
-.pair-simple .pair-token-name h3{font-size:15px;line-height:1.4;margin:0;overflow-wrap:anywhere}
-.pair-simple .pair-token-name>span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;line-height:1.5}
-.pair-simple .pair-market{grid-column:auto;grid-row:auto}
-.pair-simple .pair-market dl{grid-template-columns:repeat(2,minmax(0,1fr));margin:0;gap:8px}
-.pair-simple .pair-market dd{font-size:14px;line-height:1.5;margin:0;letter-spacing:-.02em}
-.pair-simple .pair-market dt{font-size:11px;line-height:1.5}
-.pair-row-reward{min-width:0;font-size:12px;line-height:1.5;color:#f4dcaa;overflow-wrap:anywhere}
-.pair-simple .pair-token-evidence{grid-column:1/-1;margin:0;min-width:0}
-.pair-simple .pair-token-evidence>summary{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:44px;padding:4px 0;font-size:12px;line-height:20px;color:#c9ebe0;cursor:pointer;list-style:none}
-.pair-token-evidence>summary::-webkit-details-marker{display:none}
-.pair-details-label{flex-shrink:0;min-width:76px;text-align:center}
-.pair-details-arrow{display:inline-block}
-.pair-token-evidence[open]>summary .pair-details-arrow{transform:rotate(90deg)}
-.pair-token-evidence a{display:inline-flex;align-items:center;min-height:44px;max-width:100%;overflow-wrap:anywhere}
-.pair-token-evidence .pair-evidence-body{margin-top:4px}
+/* Selected-pair screener only. The verified landing and selection styles stay above. */
+.pair-results{container-type:inline-size;margin-top:20px}
+.pair-results .pair-result-heading{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0;padding:18px 0 8px;border-top:1px solid #334d58}
+.pair-results .pair-result-heading h2{font-size:24px;line-height:1.25;letter-spacing:-.035em;margin:0;font-weight:400}
+.pair-results .pair-result-heading h2 strong{font-weight:700;color:#f1f6fa}
+.pair-results .pair-result-heading h2>span:not(.sr-only){color:#a5b8c4}
+.pair-results .pair-result-count{font-size:12px;color:#a5b8c4;white-space:nowrap}
+.pair-results-toolbar{display:flex;align-items:center;gap:12px;margin:4px 0 10px}
+.pair-results-sort{display:flex;flex:1;gap:4px;min-width:0}
+.pair-results-sort button{flex:1;min-width:0;min-height:44px;padding:8px 4px;background:none;border:0;border-bottom:2px solid transparent;color:#a5b8c4;font-size:13px;font-weight:600;overflow-wrap:anywhere}
+.pair-results-sort button[aria-pressed=true]{border-bottom-color:#d2e3ed;color:#f1f6fa}
+.pair-results-sort button:hover,.pair-detail-toggle:hover{background:#13242f}
+.pair-results .pair-sample-refresh{flex-shrink:0;width:44px;min-height:44px;padding:4px;background:none;border:1px solid #334d58;border-radius:6px;color:#bfced7;font-size:23px;line-height:1}
+.pair-results button:disabled{opacity:.55;cursor:default}
+.pair-results .pair-snapshot-note{font-size:12px;line-height:1.5;color:#a5b8c4;margin:10px 0 6px}
+.pair-results .pair-load-state{font-size:12px;line-height:1.5;color:#dfc89e;margin:4px 0 10px}
+.pair-results .pair-column-head,.pair-results .pair-row-main{display:grid;grid-template-columns:minmax(0,1fr) 108px 44px;column-gap:8px;align-items:center}
+.pair-results .pair-column-head{font-size:12px;color:#a5b8c4;padding:12px 0 8px;border-bottom:1px solid #334d58}
+.pair-results .pair-market-head{text-align:right}
+.pair-results[data-metric=liquidity] .pair-market-head .pair-volume,.pair-results[data-metric=volume] .pair-market-head .pair-liquidity,.pair-results .pair-evidence-head{display:none}
+.pair-results .pair-token{display:block;margin:0;padding:0;border-bottom:1px solid #263944}
+.pair-results .pair-row-main{grid-template-areas:'name market toggle' 'name state toggle';grid-template-rows:auto auto;min-height:64px;padding:10px 0;row-gap:0}
+.pair-results .pair-token-name{grid-area:name;display:flex;flex-direction:column;justify-content:center;min-height:44px;min-width:0;color:#eff5f9;text-decoration:none;overflow:hidden}
+.pair-results .pair-token-name:hover h3{text-decoration:underline;text-underline-offset:4px}
+.pair-results .pair-token-name h3{font-size:16px;font-weight:650;line-height:24px;letter-spacing:-.015em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0}
+.pair-results .pair-token-name>span{display:block;font-size:12px;line-height:20px;color:#a5b8c4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pair-results .pair-market{grid-area:market;min-width:0;margin:0;text-align:right}
+.pair-results .pair-market>div:not(.is-active){display:none}
+.pair-results .pair-market dd{font-size:16px;font-weight:600;line-height:24px;letter-spacing:-.025em;font-variant-numeric:tabular-nums;margin:0;color:#eff5f9;overflow-wrap:anywhere}
+.pair-results .pair-row-state{grid-area:state;min-width:0;font-size:12px;line-height:20px;color:#a5b8c4;text-align:right;white-space:nowrap}
+.pair-results .pair-row-state.is-exception{color:#dfc89e}
+.pair-results .pair-detail-toggle{grid-area:toggle;display:flex;align-items:center;justify-content:center;width:44px;min-height:44px;padding:0;border:0;border-radius:5px;background:none;color:#a5b8c4;line-height:1}
+.pair-results .pair-detail-toggle[aria-expanded=true]{color:#eff5f9;background:#13242f}
+.pair-results .pair-detail-toggle[aria-expanded=true] svg{transform:rotate(90deg)}
+.pair-results .pair-evidence-body{margin:0 0 12px;padding:14px;background:#0b1b24;border-color:#334d58}
+.pair-results .pair-evidence-body[hidden]{display:none}
+.pair-results .pair-evidence-body a{display:inline-flex;align-items:center;min-height:44px;max-width:100%;overflow-wrap:anywhere}
+.pair-results .pair-dataset{margin-top:16px}
+.pair-results .pair-dataset>summary{font-size:12px;color:#a5b8c4;min-height:44px}
 @media(min-width:760px){
- .pair-row-main{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
- .pair-simple .pair-token-name{display:flex;align-items:baseline;gap:10px}
- .pair-simple .pair-token-name>span{min-width:0}
+ .pair-results .pair-results-sort{flex:none;min-width:320px}
+ .pair-results .pair-results-toolbar{justify-content:space-between}
+ .pair-results .pair-column-head,.pair-results .pair-row-main{grid-template-columns:minmax(0,1fr) 254px 132px 44px;column-gap:12px}
+ .pair-results .pair-row-main{grid-template-areas:'name market state toggle';grid-template-rows:auto}
+ .pair-results .pair-market,.pair-results .pair-market-head{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+ .pair-results .pair-market>div:not(.is-active),.pair-results[data-metric] .pair-market-head .pair-volume,.pair-results[data-metric] .pair-market-head .pair-liquidity,.pair-results .pair-evidence-head{display:block}
+ .pair-results .pair-row-state,.pair-results .pair-evidence-head{text-align:left;padding-left:12px}
+}
+@container(max-width:260px){
+ .pair-results .pair-results-toolbar{flex-wrap:wrap}
+ .pair-results .pair-results-sort{flex-basis:100%}
+ .pair-results .pair-column-head{display:none}
+ .pair-results .pair-row-main{grid-template-columns:minmax(0,1fr) 44px;grid-template-areas:'name toggle' 'market toggle' 'state toggle';padding:12px 0;row-gap:4px}
+ .pair-results .pair-market,.pair-results .pair-row-state{text-align:left;white-space:normal}
+ .pair-results .pair-token-name h3,.pair-results .pair-token-name>span{white-space:normal;overflow:visible;overflow-wrap:anywhere}
 }

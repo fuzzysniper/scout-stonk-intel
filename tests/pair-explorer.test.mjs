@@ -7,7 +7,7 @@ import {renderToStaticMarkup} from 'react-dom/server';
 const load=async file=>(await import(pathToFileURL(path.join(process.env.HISTORY_TEST_BUILD,file+'.js')).href)).default;
 const {parseCatalog,fromCatalog,fromTracked,discoveryEvidence,mergePairGroups,searchPairs,visibleTokens}=await load('app/pairs/adapter');
 const {default:Explorer,PairTokenRow,usd}=await load('app/pairs/explorer');
-const {sortSample,marketValue}=await load('app/pairs/results');
+const {sortSample,marketValue,screenUsd,DEFAULT_SAMPLE_SORT}=await load('app/pairs/results');
 const {fetchCatalog,fetchQuoteRegistry}=await load('app/pairs/client');
 const {parseRegistry,registrySearch,appendRegistryPage,catalogMatchesQuote}=await load('app/pairs/registry');
 const {trackedTokens}=await load('lib/tracked-tokens');
@@ -238,18 +238,20 @@ test('featured choices are four explicit original-case mint candidates, never ti
  assert.equal((html.match(/type="search"/g)||[]).length,1);
  assert.ok(!html.includes('US$'));assert.ok(html.includes('not equity ownership'));assert.ok(html.includes('role="group" aria-label="Featured reward assets"'));
 });
-test('compact row retains null/zero, unverified modes and stale/invalid warnings while moving identity/time/returns to closed evidence',()=>{
+test('screener row retains zero and exceptional warnings; full identity/time/returns stay in controlled hidden evidence',()=>{
  const f=fixture();f.groups[0].tokens[0].market.liquidityUsd=0;
  let token=fromCatalog(parseCatalog(f))[0].tokens[0],html=render(token);
- const visible=html.split('<div class="pair-evidence-body"')[0],details=html.slice(html.indexOf('<details'));
- assert.ok(visible.includes('US$0'));assert.ok(visible.includes('US$12'));assert.ok(visible.includes('Reward mode verified'));
+ const visible=html.split('<div class="pair-evidence-body"')[0],details=html.slice(html.indexOf('<div class="pair-evidence-body"'));
+ assert.ok(visible.includes('$0'));assert.ok(visible.includes('$12'));assert.ok(visible.includes('Mode checked'));
  for(const hidden of [token.mint,token.quoteMint,iso,'Historical quote-relative return','Holder-attributable rewards']){
   assert.ok(!visible.replace(/<[^>]*>/g,'').includes(hidden),hidden);assert.ok(details.includes(hidden),hidden);
  }
- assert.equal((html.match(/<summary>/g)||[]).length,1);assert.ok(!/<details[^>]*\bopen/.test(html));assert.ok(details.includes('token dossier') || details.includes('Token dossier'));
+ assert.equal((html.match(/aria-expanded="false"/g)||[]).length,1);assert.ok(details.includes('hidden=""'));assert.ok(details.includes('Token dossier'));
+ assert.ok(visible.includes('aria-controls="pair-detail-'+token.mint+'"'));assert.ok(details.includes('id="pair-detail-'+token.mint+'"'));
+ assert.ok(visible.includes('href="/?mint='+token.mint+'"'));assert.ok(visible.includes('Open 🧪 · Synthetic test token dossier'));
  const ct=f.groups[0].tokens[0];ct.rewardModeVerified=false;ct.modeVerification='source_unavailable';ct.rewardSource=null;ct.historyStatus='invalid_data';ct.historyFreshness='stale';
  html=render(fromCatalog(parseCatalog(f))[0].tokens[0]).split('<div class="pair-evidence-body"')[0];
- for(const warning of ['Reward mode unverified','invalid / stale history'])assert.ok(html.includes(warning));
+ assert.ok(html.includes('Invalid / stale'));assert.ok(!html.includes('Mode checked'));
  assert.ok(!html.includes('distributed'));
 });
 
@@ -261,6 +263,7 @@ test('sample sorts keep exact quote identity, zero before unknown, name ties det
  const input=[a,b,c,d,other],before=structuredClone(input);
  assert.deepEqual(sortSample(input,t.quoteMint,'name').map(t=>t.mint),['a','c','d','b']);
  assert.deepEqual(sortSample(input,t.quoteMint,'liquidity').map(t=>t.mint),['d','b','c','a']);
+ assert.equal(DEFAULT_SAMPLE_SORT,'liquidity');assert.deepEqual(sortSample(input,t.quoteMint).map(t=>t.mint),['d','b','c','a']);
  assert.deepEqual(sortSample(input,t.quoteMint,'volume').map(t=>t.mint),['c','d','b','a']);
  assert.deepEqual(input,before);assert.deepEqual(sortSample(input,'another-exact-mint','liquidity'),[]);
  assert.equal(marketValue(a,'liquidity'),0);assert.equal(marketValue(c,'liquidity'),null);
@@ -268,16 +271,26 @@ test('sample sorts keep exact quote identity, zero before unknown, name ties det
  const absent=make('f','Absent','I',900);absent.catalog.market.status='unavailable';assert.equal(marketValue(absent,'liquidity'),null);
 });
 
-test('one reward state distinguishes verified mode from activity; source/quality gates and native disclosure remain',()=>{
+test('short evidence states distinguish catalog, mechanism and recorded activity without dropping exceptional gates',()=>{
  const f=fixture(),ct=f.groups[0].tokens[0];
  const visible=()=>render(fromCatalog(parseCatalog(f))[0].tokens[0]).split('<div class="pair-evidence-body"')[0];
- assert.ok(visible().includes('Reward mode verified · no tracked history'));assert.ok(!visible().includes('flow recorded'));
- ct.historyFreshness='stale';assert.ok(visible().includes('stale history'));
- ct.historyFreshness='unavailable';ct.historyStatus='invalid_data';assert.ok(visible().includes('invalid history'));
+ assert.ok(visible().includes('Mode checked'));assert.ok(!visible().includes('Flow recorded'));
+ ct.historyFreshness='stale';assert.ok(visible().includes('Stale history'));
+ ct.historyFreshness='unavailable';ct.historyStatus='invalid_data';assert.ok(visible().includes('Invalid history'));
  ct.historyStatus='not_tracked';ct.rewardModeVerified=false;ct.modeVerification='source_unavailable';ct.rewardSource=null;
- assert.ok(visible().includes('Reward mode unverified · source unavailable'));
+ assert.ok(visible().includes('Check failed'));
  ct.mode='standard';ct.modeVerification='verified_standard';ct.rewardSource={...source,source:'https://www.stonkfun.xyz/api/v2/tokens/'+t.mint+'/rewards'};
- assert.ok(visible().includes('No holder rewards · verified mode'));
- const html=render(fromCatalog(parseCatalog(f))[0].tokens[0]);assert.ok(html.includes('Details<span class="sr-only"> for 🧪 · Synthetic test token'));
- assert.ok(!/<details[^>]*\bopen/.test(html));assert.ok(html.includes(ct.mint));assert.ok(html.includes(ct.source.replaceAll('&','&amp;')));
+ assert.ok(visible().includes('Standard mode'));
+ const html=render(fromCatalog(parseCatalog(f))[0].tokens[0]);assert.ok(html.includes('aria-label="Details for 🧪 · Synthetic test token"'));
+ assert.ok(html.includes('aria-expanded="false"'));assert.ok(html.includes(ct.mint));assert.ok(html.includes(ct.source.replaceAll('&','&amp;')));
+ ct.modeVerification='catalog_only';ct.rewardSource=null;assert.ok(visible().includes('Market only'));
+ ct.market={...ct.market,status:'unavailable',priceUsd:null,liquidityUsd:null,volume24hUsd:null};assert.ok(visible().includes('Catalog only'));
+ ct.modeVerification='identity_mismatch';assert.ok(visible().includes('Identity issue'));
+});
+
+test('scan USD formatting separates unknown and zero and never rounds a small positive to zero',()=>{
+ assert.equal(screenUsd(null),'—');assert.equal(screenUsd(0),'$0');assert.equal(screenUsd(541630),'$541.6K');
+ assert.equal(screenUsd(315.08),'$315.08');assert.equal(screenUsd(1e-12),'$1.00e-12');
+ for(const v of [-1,Infinity,NaN])assert.equal(screenUsd(v),'—');
+ for(const v of [0.00001,0.009,0.01,0.1])assert.notEqual(screenUsd(v),'$0');
 });

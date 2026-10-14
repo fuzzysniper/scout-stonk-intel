@@ -1,4 +1,5 @@
-"""Genuine issue #50 captures. Run against local production main (before) or this branch (after).
+"""Historical issue #50 captures for pinned PR #52; #55 uses pair-screener-capture.py.
+Run against its original main (before) or PR #52 (after).
 Public source egress required. No mocked requests or altered screenshots.
 """
 import argparse,json,re
