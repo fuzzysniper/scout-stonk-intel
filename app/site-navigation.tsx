@@ -9,6 +9,14 @@ const destinations = [
  { href: '/status', label: 'Data Health' },
 ];
 export function NavigationLinks({ pathname }: { pathname: string }) {
+ if(pathname==='/')return <div className="site-navigation home-navigation">
+  <a className="skip-content" href="#scout-content">Skip to content</a>
+  <nav aria-label="Primary">
+   <Link href="/" className="home-brand" aria-current="page" aria-label="SCOUT home">SCOUT<span>.</span></Link>
+   <Link href="/research">Research</Link><Link href="/status">Status</Link>
+   <details className="home-more"><summary>More</summary><div><Link href="/radar">Radar</Link><Link href="/brief">Daily Brief &amp; public archive</Link></div></details>
+  </nav>
+ </div>;
  return <div className="site-navigation">
   <a className="skip-content" href="#scout-content">Skip to content</a>
   <nav aria-label="Primary"><ul>{destinations.map(({href,label}) => {
