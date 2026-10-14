@@ -2,9 +2,35 @@
 import { trackedTokens } from './tracked-tokens';
 import { summarizeHistory } from './history';
 import type { SourceResult } from './history-source';
-import type { PairCatalog, PairGroup, PairToken } from './pairs-contract';
-import type { PairSourceResult } from './pairs-source';
-import { PAIR_REGISTRY_URL } from './pairs-source';
+import type { PairCatalog, PairGroup, PairQuoteRegistry, PairQuoteSearch, PairToken } from './pairs-contract';
+import type { PairSourceResult, QuoteRegistrySourceResult } from './pairs-source';
+import { PAIR_REGISTRY_URL, normalizeQuoteSearch } from './pairs-source';
+import { isSolanaMint } from './solana';
+export function parsePairQuoteSearch(params:URLSearchParams):PairQuoteSearch|null {
+ if (params.toString().length>2048 || [...params.keys()].some(key=>!['query','mint','limit','offset'].includes(key)) ||
+     [...params.keys()].some(key=>params.getAll(key).length!==1) || (params.has('query') && params.has('mint')))return null;
+ const raw=params.get('query')??'',mint=params.get('mint');
+ if ([...raw].length>64 || /[\p{Cc}\p{Cs}]/u.test(raw) || (mint!==null && (mint!==mint.trim() || !isSolanaMint(mint))))return null;
+ const trimmed=raw.trim(),exact=trimmed && isSolanaMint(trimmed)?trimmed:null;
+ const query=exact??normalizeQuoteSearch(trimmed);
+ if ([...query].length>64)return null;
+ const limit=params.get('limit')??'25',offset=params.get('offset')??'0';
+ if (!/^[1-9]\d{0,2}$/.test(limit) || Number(limit)>100 || !/^(0|[1-9]\d{0,3})$/.test(offset) || Number(offset)>1024)return null;
+ return {query,mint:mint??exact,limit:Number(limit),offset:Number(offset)};
+}
+export function pairQuoteRegistryReport(source:QuoteRegistrySourceResult,search:PairQuoteSearch,now=new Date()):PairQuoteRegistry {
+ const value=source.sourceStatus==='unavailable'?null:source.value;
+ const matches=value?.quotes.filter(quote=>search.mint!==null?quote.quoteMint===search.mint:
+  [quote.quoteSymbol,quote.quoteName].some(text=>normalizeQuoteSearch(text).includes(search.query)))??[];
+ const quotes=matches.slice(search.offset,search.offset+search.limit);
+ const status=!value?'unavailable':search.mint!==null && !search.query && !matches.length?'not_found':'available';
+ return {schemaVersion:1,status,search,quotes,dataset:{sourceStatus:value?source.sourceStatus:'unavailable',fetchedAt:now.toISOString(),
+  dataFetchedAt:value?.provenance.fetchedAt??null,scope:'official_quote_registry',provenance:value?.provenance??null,
+  coverage:{registryResponse:value?'validated_unpaginated':'unavailable',registryCount:value?.quotes.length??null,
+   matchedCount:value?matches.length:null,returnedCount:quotes.length,responseLimit:search.limit,
+   nextOffset:value && search.offset+quotes.length<matches.length?search.offset+quotes.length:null,
+   resultTruncated:value?quotes.length<matches.length:null,providerAmbiguousSymbolCount:value?.providerAmbiguousSymbolCount??null,tokenCatalogComplete:false}}};
+}
 export function pairCatalogReport(catalog: PairSourceResult, history: SourceResult, now = new Date(), filter: string | null = null): PairCatalog {
  const value=catalog.value, tracked=new Map((value?.tokens.length?trackedTokens():[]).map(t=>[t.mint,t]));
  const historyGood=history.dataset.sourceStatus==='available' || history.dataset.sourceStatus==='cached';
