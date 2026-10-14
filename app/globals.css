@@ -156,3 +156,64 @@
 .pair-scope{font-size:11px}
 .pair-scope>span{max-width:70%}
 }
+
+/* Day 2 verified catalog: compact snapshots and mint-disambiguated selection. */
+.pair-heading{margin-bottom:14px}
+.pair-heading h1{font-size:clamp(28px,4vw,38px);line-height:1.08}
+.pair-controls{margin-bottom:10px}
+.pair-chips button{display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-height:44px}
+.pair-chips button small{font-size:10px;flex-basis:100%;text-align:left;font-family:monospace;overflow-wrap:anywhere}
+.pair-picker{margin:4px 0}
+.pair-picker>summary{min-height:44px;padding:12px 0;cursor:pointer;color:#c9ebe0;font-size:12px}
+.pair-picker label{display:block;font-size:12px;margin:8px 0}
+.pair-picker select{width:100%;min-width:0;min-height:44px;background:#0d2027;border:1px solid #45636b;border-radius:6px;color:#eff8f6;padding:8px;font-size:14px}
+.pair-picker p,.pair-snapshot-note{font-size:11px;color:#bdd0da;line-height:1.5}
+.pair-selected{margin:12px 0 8px}
+.pair-selected p{margin:4px 0}
+.pair-availability{padding-bottom:8px}
+.pair-snapshot-note{margin:8px 0}
+.pair-token{grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,1.4fr);gap:8px 16px;padding:12px 0}
+.pair-token-name,.pair-market,.pair-reward{min-width:0;overflow-wrap:anywhere}
+.pair-mode{margin-top:4px;color:#c9ebe0!important;font-size:11px!important}
+.pair-mode-limited{color:#f4dcaa!important}
+.pair-market .pair-label,.pair-market>span{font-size:11px;color:#bdd0da;line-height:1.6;display:block}
+.pair-market dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:5px 0}
+.pair-market dt{font-size:11px;color:#bdd0da}
+.pair-market dd{font-size:14px;margin:4px 0;color:#eff8f6;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.pair-reward strong{font-size:14px}
+.pair-empty{font-size:14px;line-height:1.6;color:#f4dcaa;border:1px solid #334d58;border-radius:6px;padding:16px}
+.pair-token-evidence>summary{padding:10px 0}
+.pair-range{font-size:10px!important}
+@media(max-width:620px){
+ .pair-heading h1{font-size:27px}
+ .pair-heading p{margin:8px 0}
+ .pair-token{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:8px 12px}
+ .pair-market{grid-column:1/-1}
+ .pair-reward{grid-column:2;grid-row:1}
+ .pair-market dl{margin:4px 0}
+ .pair-market dd{font-size:15px}
+ .pair-token-evidence{margin-top:-4px}
+ .pair-scope>span{max-width:calc(100% - 86px)}
+ .pair-availability{gap:5px 12px}
+ .pair-selected h2 span{display:block;margin-top:4px}
+}
+.pair-controls{gap:7px;margin-bottom:8px}
+.pair-heading{margin:10px 0 12px}
+.pair-selected h2 span{font-size:12px}
+.pair-selected p{font-size:10px}
+.pair-snapshot-note{font-size:11px;line-height:1.5}
+
+/* Verified registry search: one search, explicit mint selection, then evidence. */
+.pair-search-hint,.pair-registry-count,.pair-start{color:#bdd0da;font-size:12px;line-height:1.6;margin:8px 0}
+.pair-browse{margin:4px 0 12px}
+.pair-registry-state{color:#f4dcaa;font-size:13px;line-height:1.6;margin:10px 0}
+.pair-registry-list{list-style:none;padding:0;margin:8px 0 12px;max-height:360px;overflow-y:auto;border:1px solid #45636b;border-radius:7px}
+.pair-registry-list li+li{border-top:1px solid #334d58}
+.pair-registry-list button{display:block;width:100%;min-height:56px;border:0;background:#0d2027;color:#eff8f6;text-align:left;padding:10px 12px;overflow-wrap:anywhere;cursor:pointer;font:inherit;font-size:13px}
+.pair-registry-list button:hover,.pair-registry-list button[aria-pressed=true]{background:#173c35}
+.pair-registry-list strong{font-size:14px;margin-right:8px}
+.pair-registry-list small{display:block;font-size:11px;color:#bdd0da;line-height:1.6;margin-top:4px}
+.pair-start{margin:20px 0 28px;padding-top:16px;border-top:1px solid #334d58}
+.pair-scope{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px}
+.pair-scope>span{max-width:none;min-width:0}
+.pair-scope>button{max-width:126px}
