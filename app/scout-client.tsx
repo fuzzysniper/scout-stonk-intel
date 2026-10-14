@@ -15,10 +15,10 @@ export default function ScoutClient(){
  useEffect(()=>{const value=new URLSearchParams(window.location.search).get('mint');if(value&&isSolanaMint(value))void inspect(value);},[inspect]);
  async function share(){if(!selected)return;const url=new URL(window.location.href);url.searchParams.set('mint',selected);const text='SCOUT token dossier — sourced market and reward intelligence';try{if(navigator.share){await navigator.share({title:'SCOUT Token Dossier',text,url:url.toString()});setShareStatus('Shared');}else{await navigator.clipboard.writeText(url.toString());setShareStatus('Report link copied');}}catch(e){if(e instanceof Error&&e.name==='AbortError')return;setShareStatus('Could not share; copy the URL from your browser.');}}
  const available=reward?.status==='available';const label=market?.base?.symbol||'TOKEN';const quote=reward?.quoteSymbol||market?.quote?.symbol||'—';
- return <main id="scout-content" tabIndex={-1} className="terminal ux-terminal">
- <header className="terminal-heading"><Link href="/" className="terminal-wordmark">◉ SCOUT<span>.</span></Link><span className="terminal-mode">READ-ONLY RESEARCH</span></header>
+ return <main id="scout-content" tabIndex={-1} className="terminal ux-terminal flow-first">
+ {selected && <header className="terminal-heading"><Link href="/" className="terminal-wordmark">◉ SCOUT<span>.</span></Link><span className="terminal-mode">READ-ONLY RESEARCH</span></header>}
  {selected && <h1 className="dossier-title">Token dossier</h1>}
- {!selected && <><section className="terminal-hero"><div className="kicker">STONKFUN INTELLIGENCE</div><h1>Follow the money<span>.</span></h1><p>Research reported StonkFun reward flows with recorded changes, source times and clear limits.</p><Link href="/radar" className="terminal-primary">Open Radar <span aria-hidden="true">↗</span></Link></section><EcosystemPreview/></>}
+ {!selected && <><header className="flow-heading"><span className="flow-brand">SCOUT / STONKFUN</span><h1>StonkFun reward flows</h1></header><EcosystemPreview/></>}
  <details className="lookup-disclosure" open={selected ? true : undefined}><summary>{selected ? 'Inspect another token' : 'Inspect a token by mint'}</summary>
  <form className="lookup" onSubmit={e=>{e.preventDefault();void inspect(mint);}}><label htmlFor="mint">TOKEN MINT ADDRESS</label><div className="lookuprow"><input id="mint" placeholder="Paste Solana token address…" value={mint} onChange={e=>setMint(e.target.value)} autoComplete="off" spellCheck={false}/><button type="submit" disabled={loading}>{loading?'SCANNING…':'SCAN ↗'}</button></div></form>
  </details>

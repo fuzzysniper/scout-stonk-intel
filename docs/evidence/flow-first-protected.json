@@ -1,0 +1,235 @@
+{
+  "baseCommit": "219c6a46540470677762426f2f8d0aa1759d59e1",
+  "checkedAt": "2026-10-14T00:13:21.080877+00:00",
+  "scope": "all real data/archive/allowlist, backend APIs/math, workflows, scheduler/staging, root dependencies and backend scripts; UI browser harness excluded",
+  "files": [
+    {
+      "path": ".github/ISSUE_TEMPLATE/feature.md",
+      "sha256": "9c5f68ef85b4700f283f212bc36876043499993a081fccf675066f3784198670"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "a15150bc49b10a814ba74c2d8f33f87803d2f30c6f5353187ac27be3ef54acce"
+    },
+    {
+      "path": ".github/workflows/data-health.yml",
+      "sha256": "e3084fb26bfff110271c783a80eb7cb778c8b797c3bb308b2381c6c79de1c8c3"
+    },
+    {
+      "path": ".github/workflows/research-archive.yml",
+      "sha256": "9c692ca4a9e3a278e671a9d730b664cf4e69f6f54f601a199e0f4f189483cf62"
+    },
+    {
+      "path": ".github/workflows/reward-snapshots.yml",
+      "sha256": "14005c5d6a7c6e8c9034a8a918cff2164bbd9d4ab596a82450325f2c311f353a"
+    },
+    {
+      "path": "app/api/archive/route.ts",
+      "sha256": "70e8e93cba0aa01c278b0b87729f6256156f81debf0cc30f147ad1ec76c6196d"
+    },
+    {
+      "path": "app/api/brief/route.ts",
+      "sha256": "7269040aec6a334b17787ceaa66b8626d037403847b10a4176d95a0198c6db88"
+    },
+    {
+      "path": "app/api/history/route.ts",
+      "sha256": "5ac5180d17e756a8383838463033d66aa5876407ff07e33de6b0248041d2dc0c"
+    },
+    {
+      "path": "app/api/og/route.tsx",
+      "sha256": "fb8b8503d630d060633eb0c05656151752b9eedce2a0f99ce6813932365c944e"
+    },
+    {
+      "path": "app/api/radar/route.ts",
+      "sha256": "a884b95cc9af72695c43c3a1914115c1b2547569f5d368c4ab99e4a63d9b9f3d"
+    },
+    {
+      "path": "app/api/rewards/route.ts",
+      "sha256": "4580f7e8223c1b94464586667b7b46d90bb490ecf58c144387b319678d03a54e"
+    },
+    {
+      "path": "app/api/status/route.ts",
+      "sha256": "d8ad4948101b3b98e6bab47be6344e4c5ec7cff6d418f7c45ae7bb216f52730d"
+    },
+    {
+      "path": "app/api/token/route.ts",
+      "sha256": "8044564c0663a8b938d54b2f27a62650eca44deaee0685dac0a3638b5e69bcb0"
+    },
+    {
+      "path": "data/brief-archive/2026-10-11/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63.json",
+      "sha256": "1078ab9b5e771f7ed24c9d6bde3f6005436d5ae37e41739e18fb0e558384cef2"
+    },
+    {
+      "path": "data/brief-archive/index.json",
+      "sha256": "fa0d6bb2497102731a3e38038b46cd8f63d28527964d7f2fee6e4e13e126adb1"
+    },
+    {
+      "path": "data/collection-slots.json",
+      "sha256": "d6338b854958de31d9c9f6eff39ac74c2fb383328903fd393adc79416a345730"
+    },
+    {
+      "path": "data/collection-summary.json",
+      "sha256": "ecd30b7be89671e02e02bb0ade1466d52f7bb4584fac75aaf4cc200cf664166e"
+    },
+    {
+      "path": "data/collector-audit.json",
+      "sha256": "46869c70a10be959948086dbac8ab3601a1b8cafd3981334efecae0c0fbee3e8"
+    },
+    {
+      "path": "data/reward-snapshots.json",
+      "sha256": "2047872698c6d5093ff008f943ff84886561c7a79fdae0bab4ff1d16ac26eb61"
+    },
+    {
+      "path": "data/tracked-mints.json",
+      "sha256": "e6a94dc0962ca3b4336dd2d97ab879aef542062b39cee93994bd9a96698814a5"
+    },
+    {
+      "path": "lib/archive-source.ts",
+      "sha256": "85e6ef8ef239b97c5f86def1f3046e59f59c7b5d057d2692f6e828702cb109b9"
+    },
+    {
+      "path": "lib/archive.ts",
+      "sha256": "5ce229b0d59c8d6c0abb179088be5b019e0dfdce1ee027cf9fa698481e73b499"
+    },
+    {
+      "path": "lib/brief-source.ts",
+      "sha256": "cbfe344ce6d77cab901187d19fafe0da7181b8717e19395c737d5d759ac5d5af"
+    },
+    {
+      "path": "lib/brief.ts",
+      "sha256": "e284e17e8c312300ef2b4df0cf0b32fed7f98a41a66ffa1f0fb88c4b83e0f77a"
+    },
+    {
+      "path": "lib/collector-diagnostics.ts",
+      "sha256": "0a9655fc640e42f784e220961a782c09400d787d58b9c3135a997f4c74365f7b"
+    },
+    {
+      "path": "lib/data-health.ts",
+      "sha256": "3b549b542e8531db413a0a7e33d4ee40d1882bba386cd0e53fafe5c870efd728"
+    },
+    {
+      "path": "lib/history-source.ts",
+      "sha256": "80118196a8c77df7c291b347944a88921bc5a7dcea77abdea4ba25d9d1394b9c"
+    },
+    {
+      "path": "lib/history.ts",
+      "sha256": "e7beeff4acaf31e5e8ea143f9ffb4afc742eba24f934c104a74384bd2a9d1348"
+    },
+    {
+      "path": "lib/radar.ts",
+      "sha256": "f2b87334457ade3bc492824f8f1ec3528ba7b8bbeb504400f17e48ebdf73eb15"
+    },
+    {
+      "path": "lib/signals.ts",
+      "sha256": "b5721de28198db66e5f1028cee296b5664b0b47b02b36110177117d5d422c368"
+    },
+    {
+      "path": "lib/solana.ts",
+      "sha256": "acb648033fccf86d8057118e0c0ed0b07e8d5a0dc33d98ca4535992981a26aac"
+    },
+    {
+      "path": "lib/tracked-tokens.ts",
+      "sha256": "dda89d5ada8ac29f21071c904a7eca6458a38c0d3f0a53c8900fc0262c52753b"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "a75e95cf620e87e10256848e88c14569cade6fbec5a51b2a1b625010a15e9134"
+    },
+    {
+      "path": "package.json",
+      "sha256": "303996d9a16dec601f63ab65e1d842cc466b850ce77312d4a129be62e82e64ef"
+    },
+    {
+      "path": "scheduler/.npmrc",
+      "sha256": "7151cf397def0c2cb0ab65643701d27d335a72c90f775675b5f826bc7005818a"
+    },
+    {
+      "path": "scheduler/README.md",
+      "sha256": "8502cbb41a803420f935ac3690827ade328e3caef7e32c0c23d292432f48be71"
+    },
+    {
+      "path": "scheduler/dry-run.mjs",
+      "sha256": "c08216076e45ef9cf1ac116238b9403278d54a14494d2d81d94d83c040112130"
+    },
+    {
+      "path": "scheduler/package-lock.json",
+      "sha256": "77b3c0b51f74ba8d444f4736072927776649ee308ad1094c5cee91f22fdf53a3"
+    },
+    {
+      "path": "scheduler/package.json",
+      "sha256": "b32c7e55198b6c2c36a3601d9bbfac376e8cca6b7669fa9fcf00bfc954728fdf"
+    },
+    {
+      "path": "scheduler/staging-entry.ts",
+      "sha256": "33a9eef933f42039163ad67f3aa99698fdc014e55d3d3b83d98623520ed48524"
+    },
+    {
+      "path": "scheduler/staging-policy.mjs",
+      "sha256": "3679f8da5077ab90b7567924830e245380c2bd3c57f5a077084cd5b5f5720398"
+    },
+    {
+      "path": "scheduler/staging-runtime.test.mjs",
+      "sha256": "0b93f1dc79287b30d3ccdbc3e7238dd358ef46283bf9ba60a0c124a7d27592a4"
+    },
+    {
+      "path": "scheduler/worker.ts",
+      "sha256": "aebe1572e31da0d925ad6447eb9279bb69e556b572176e8db958655eae666c8f"
+    },
+    {
+      "path": "scheduler/wrangler.json",
+      "sha256": "86b2f1c0fd6e07a6cbbaf8e1abd1d60fc318da586428ac1cd3d8564b17f9318e"
+    },
+    {
+      "path": "scripts/archive-tool.sh",
+      "sha256": "6af5e07c0a246aea4cb87fc8186d8da82d02e8e63654033d17af3844b7423fe2"
+    },
+    {
+      "path": "scripts/archive-tool.ts",
+      "sha256": "18105a7cbf2a70e57eb26df30a355d178b4226fea3324417994db7c7a174148d"
+    },
+    {
+      "path": "scripts/audit_collector.py",
+      "sha256": "55a3bf2c00d1b1345c33f434660e2d7285e3b5dc2bcd67a9083b3ccfdcb9c0e4"
+    },
+    {
+      "path": "scripts/benchmark-scheduler.mjs",
+      "sha256": "6173cf632ca1164dd267876933d04f64d0bd9cc733e302338e1d5bacf87cf6a5"
+    },
+    {
+      "path": "scripts/benchmark-scheduler.sh",
+      "sha256": "49943f0ce930056c9179839747ff6986572f89544f6f8d2276c4995bd1e1968f"
+    },
+    {
+      "path": "scripts/collect_rewards.py",
+      "sha256": "8db2c3d5c0eb6817efea7f25cef2686152cd88ce2e20d800b65f030e2c8db579"
+    },
+    {
+      "path": "scripts/collection_gate.py",
+      "sha256": "858be4bb1122661c0fda1efe2c869062ab14b5238d56109be48e757937040c69"
+    },
+    {
+      "path": "scripts/publication-dry-run.ts",
+      "sha256": "430f01fa8dd56737ccfd4cfc8a4fd4dab23a6dc3697e950e4806a38f04b03622"
+    },
+    {
+      "path": "scripts/run-verification.sh",
+      "sha256": "1ec4aa732f7ea7e9fed9090c888189f8aed81e9e7200e923a19bc31881ec1651"
+    },
+    {
+      "path": "scripts/shared_collection_gate.py",
+      "sha256": "d5be0c3dab43cf335a103699e3478c2b18314f62b0edf3ad002c42b513035ac5"
+    },
+    {
+      "path": "scripts/trigger_contract.py",
+      "sha256": "c77a37d6e7aebdf2a928cf7012a816b44bfb1acda5a1b22518fb08047d323465"
+    },
+    {
+      "path": "scripts/verify-ecosystem-browser.py",
+      "sha256": "de5110239d79cf38c791c524275571125f5c32a6b6aaaf17b53886377afeb90f"
+    },
+    {
+      "path": "scripts/verify-release.ts",
+      "sha256": "92ad7a2413fdde7de9fcd51c44a4ff901e9cae3920ced42c703d636145c2ba95"
+    }
+  ]
+}
