@@ -60,7 +60,7 @@ with sync_playwright() as p:
         # Navigate by actual clicks and preserve history/deep links.
         page.get_by_role('navigation',name='Primary').get_by_role('link',name='Home',exact=True).click()
         page.wait_for_url(base+'/')
-        page.get_by_role('link', name='Open Radar',exact=True).click()
+        page.get_by_role('link', name='Full Radar →',exact=True).click()
         page.wait_for_url(base+'/radar')
         page.get_by_role('navigation',name='Primary').get_by_role('link',name='Daily Brief',exact=True).click()
         page.wait_for_url('**/brief/*')
@@ -79,7 +79,7 @@ with sync_playwright() as p:
     page = context.new_page()
     page.route('**/api/radar*', lambda route: route.abort())
     page.goto(base+'/radar')
-    page.get_by_text('Radar is temporarily unavailable. Refresh to retry.',exact=True).wait_for()
+    page.get_by_text('Source unavailable. Refresh to retry.',exact=True).wait_for()
     assert page.locator('.radar-card').count() == 0
     banner(page, True)
     page.screenshot(path=str(shots/'readiness-radar-failure-390.png'), full_page=True)

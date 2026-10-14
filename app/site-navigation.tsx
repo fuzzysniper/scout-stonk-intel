@@ -15,7 +15,7 @@ export function NavigationLinks({ pathname }: { pathname: string }) {
    const active = href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(href + '/');
    return <li key={href}><Link href={href} aria-current={active ? 'page' : undefined}>{label}</Link></li>;
   })}</ul></nav>
-  <Link className="research-guide-link" href="/research" aria-current={pathname === '/research' ? 'page' : undefined}>Research guide · evidence & limitations</Link>
+  <Link className="research-guide-link" href="/research" aria-label="Research guide · evidence & limitations" aria-current={pathname === '/research' ? 'page' : undefined}>Guide</Link>
  </div>;
 }
 export default function SiteNavigation() { return <NavigationLinks pathname={usePathname()}/>; }

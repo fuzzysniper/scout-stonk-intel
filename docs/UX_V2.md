@@ -88,3 +88,7 @@ Local checks used Node 20.20.2 / npm 11.9.0. The production-preview server used 
 Eight new rendered-evidence tests are included in the 124 app/workflow cases. All normal screenshot responses have the same real byte revision as baseline; an independent bounded GitHub GET matches it. Exact capture/retrieval/evaluation times remain in the response evidence, and every displayed observation matches its response field. Browser checks finished at 2026-10-13T21:29:26.270153+00:00.
 
 A byte inventory confirmed 46 existing files under `data`, `lib`, `app/api`, `.github`, `scripts` and `scheduler` are unchanged, including the original archived edition and collection gate. The older readiness browser harness only updates its Home CTA locator/label for Open Radar; it changes no application contract. Build-only generated `next-env.d.ts` changes were removed. Home's reported first-load bundle is 117 kB (baseline 112 kB), Radar 112 kB (baseline 111 kB); these are build estimates, not device performance benchmarks. Human Safari/VoiceOver/comprehension approval remains pending. No manual deployment, merge, workflow dispatch, service activation or credential configuration occurred.
+
+## Flow-First follow-up
+
+[UX V2.1](FLOW_FIRST_RADAR.md) supersedes the KPI/hero and tall-row presentation with a compact record list. All original backend calculations, source/data contracts and advanced evidence are preserved. Prior screenshots/results above remain historical evidence, not QA of the follow-up.

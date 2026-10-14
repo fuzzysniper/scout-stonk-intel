@@ -1,10 +1,13 @@
-"""Local built-app UI integration QA; normal screenshots use real upstream records.
+"""Flow-First built-app UI integration QA; normal screenshots use real upstream records.
 Requires existing Python Playwright, Chromium and an independently installed axe-core.
 Artificial empty response is confined to the explicit test case below, never screenshots.
 """
 import argparse
 import json
 import re
+import os
+import subprocess
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
@@ -61,30 +64,32 @@ with sync_playwright() as p:
                 card=page.locator('.radar-card').nth(i)
                 assert card.locator('.token-unit strong').inner_text()==row['quoteSymbol']
                 if row['latestObservedAt']:
-                    assert card.locator('time').get_attribute('datetime')==row['latestObservedAt']
-                if row['pointChange']['distributedTokens'] is None:
-                    assert card.locator('.token-row-reading strong').inner_text() in ['Change withheld','Not enough history']
+                    assert card.locator('.token-observed time').get_attribute('datetime')==row['latestObservedAt']
+                if row['signals']['status'] != 'available' and row['pointChange']['status'] != 'available':
+                    assert card.locator('.token-row-reading strong').inner_text() in ['Insufficient comparable history','Stale observations','Source unavailable']
                 assert card.locator('.token-evidence').get_attribute('open') is None
-            assert page.locator('.overview-metrics dt').count()==3
+            assert page.locator('.overview-metrics').count()==0
+            assert page.get_by_role('link',name='Collection reliability').count()==1
             assert page.locator('main#scout-content').count()==1
             assert page.get_by_role('heading',level=1).count()==1
-            for target in page.locator('.site-navigation nav a, .terminal-primary, .token-evidence>summary, .radar-toolbar select, .radar-toolbar button').all():
+            for target in page.locator('.site-navigation nav a, .research-guide-link, .token-row-heading h2 a, .flow-more, .token-evidence>summary, .radar-toolbar select, .radar-toolbar button').all():
                 assert target.bounding_box()['height']>=44
             skip(page)
             no_overflow(page)
             passes=axe(page)
             page.evaluate('document.activeElement.blur();window.scrollTo(0,0)')
-            page.screenshot(path=str(root/f'docs/screenshots/ux-v2-after-{name}-{width}.png'),full_page=True)
-            captures.append({'width':width,'path':path,'capturedAt':datetime.now(timezone.utc).isoformat(),'report':report})
-            record(width,path,f'real-source row/unit/timestamp assertions; 3 metrics; landmarks; skip/focus; 44px controls; no overflow; axe {passes} rules passed')
+            page.screenshot(path=str(root/f'docs/screenshots/flow-first-after-{name}-{width}.png'),full_page=True)
+            captures.append({'width':width,'path':path,'capturedAt':datetime.now(timezone.utc).isoformat(),'report':report,'collapsedMainTextWords':len(page.locator('main').inner_text().split()),'firstRowY':page.locator('.radar-card').first.bounding_box()['y'],'rowHeights':[c.bounding_box()['height'] for c in page.locator('.radar-card').all()]})
+            record(width,path,f'real-source row/unit/timestamp assertions; compact timestamp / coverage line; no KPI deck; landmarks; skip/focus; 44px controls; no overflow; axe {passes} rules passed')
             if name=='home':
-                assert page.locator('.terminal-primary').bounding_box()['y']<500
+                assert page.locator('.radar-card').nth(2).bounding_box()['y'] < 844
+                assert page.locator('.radar-card').first.bounding_box()['y'] < 450
                 assert page.locator('.ecosystem-overview').bounding_box()['y']<550
-                page.get_by_role('link',name='Open Radar',exact=True).click()
+                page.get_by_role('link',name='Full Radar →',exact=True).click()
                 page.wait_for_url(base+'/radar')
                 page.go_back()
                 page.wait_for_url(re.compile(re.escape(base)+r'/(#scout-content)?$'))
-                record(width,path,'Radar entry and evidence overview in first 844px screen; click / back')
+                record(width,path,'three token entries in first 844px screen; Full Radar entry; click / back')
             else:
                 # Native disclosure: real keyboard, closed metrics not accidentally exposed.
                 summary=page.locator('.token-evidence>summary').first
@@ -112,7 +117,7 @@ with sync_playwright() as p:
                 assert all(row['quoteMint']==quote['mint'] for row in filtered['rows'])
                 assert page.locator('.radar-card').count()==len(filtered['rows'])
                 with page.expect_response(re.compile('/api/radar')):
-                    page.get_by_role('button',name='Refresh observations',exact=True).click()
+                    page.get_by_role('button',name='Refresh',exact=True).click()
                 page.wait_for_function('document.querySelector(".radar-toolbar button").disabled===false')
                 assert page.locator('#radar-quote').input_value()==quote['mint']
                 record(width,path,'real freshness sort, exact quote-mint filter, manual refresh preserves choice')
@@ -138,7 +143,12 @@ with sync_playwright() as p:
         assert page.get_by_text('LIFETIME REWARD DISTRIBUTIONS · API-REPORTED',exact=True).is_visible()
         assert page.locator('meta[property="og:image"]').get_attribute('content').endswith('/api/og?mint='+mint)
         no_overflow(page)
-        record(width,'/?mint=allowlisted','real dossier sources remain accessible; query metadata; disclosure; no overflow')
+        context.grant_permissions(['clipboard-read','clipboard-write'])
+        page.evaluate('Object.defineProperty(navigator,"share",{value:undefined,configurable:true})')
+        page.get_by_role('button',name='SHARE REPORT').click()
+        page.get_by_text('Report link copied',exact=True).wait_for()
+        assert page.evaluate('navigator.clipboard.readText()')==base+'/?mint='+mint
+        record(width,'/?mint=allowlisted','real dossier sources remain accessible; query metadata; disclosure; actual local clipboard dossier sharing; no overflow')
         assert not errors,errors
         context.close()
     # Client outage and recovery: abort requests; no invented history or source timestamp.
@@ -148,12 +158,13 @@ with sync_playwright() as p:
             page=context.new_page()
             page.route('**/api/radar*',lambda route:route.abort())
             page.goto(base+path,wait_until='networkidle')
-            page.locator('.overview-time').filter(has_text='Unavailable').wait_for()
+            page.locator('.overview-time').filter(has_text='Observation source unavailable').wait_for()
             assert page.locator('.radar-card').count()==0
-            assert page.locator('.overview-metrics dd').all_text_contents()==['—','—','—']
+            assert 'Tracked tokens —' in page.locator('.flow-evidence-line').inner_text()
+            assert 'Coverage unknown' in page.locator('.flow-coverage-line').inner_text()
             no_overflow(page);axe(page)
             page.unroute('**/api/radar*')
-            page.get_by_role('button',name='Retry observations' if path=='/' else 'Refresh observations',exact=True).click()
+            page.get_by_role('button',name='Retry observations' if path=='/' else 'Refresh',exact=True).click()
             page.locator('.radar-card').first.wait_for()
             record(width,path,'aborted request: unknown metrics, no fake rows; accessible retry / genuine recovery')
             context.close()
@@ -163,7 +174,7 @@ with sync_playwright() as p:
         fixture={'status':'available','rows':[],'quotes':[],'sort':'coverage','quoteMint':None,'fetchedAt':'2026-01-01T00:00:00Z','dataset':{'sourceStatus':'available','dataFetchedAt':None,'revision':None,'source':'https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/main/data/reward-snapshots.json'}}
         page.route('**/api/radar*',lambda route:route.fulfill(json=fixture))
         page.goto(base+'/radar',wait_until='networkidle')
-        page.get_by_text('No tracked tokens match this filter.',exact=True).wait_for()
+        page.get_by_text('No tokens match this filter.',exact=True).wait_for()
         assert page.locator('.radar-card').count()==0
         assert page.locator('time').count()==0
         no_overflow(page);axe(page)
@@ -174,14 +185,41 @@ with sync_playwright() as p:
         page=context.new_page();pending=[]
         page.route('**/api/radar*',lambda route:pending.append(route))
         page.goto(base+'/radar',wait_until='domcontentloaded')
-        page.get_by_text('Reading sourced observations…',exact=True).wait_for()
-        assert page.locator('.overview-metrics dd').all_text_contents()==['—','—','—']
+        page.locator('.terminal-status').filter(has_text='Reading observations…').wait_for()
+        assert 'Tracked tokens —' in page.locator('.flow-evidence-line').inner_text()
+        assert 'Coverage pending' in page.locator('.flow-coverage-line').inner_text()
         assert page.get_by_role('button',name='Checking…',exact=True).is_disabled()
         assert page.locator('.token-list').get_attribute('aria-busy')=='true'
         record(width,'/radar','loading: busy region, unknown counts, disabled refresh')
         for route in pending:route.abort()
         context.close()
+    with tempfile.TemporaryDirectory(prefix='scout-flow-ui-test-') as directory:
+        subprocess.run([str(root/'node_modules/.bin/tsc'),'lib/radar.ts','--resolveJsonModule','--target','ES2023','--module','commonjs','--strict','--skipLibCheck','--esModuleInterop','--rootDir','.', '--outDir',directory],cwd=root,check=True,capture_output=True)
+        fixtures=json.loads(subprocess.check_output(['node',str(root/'tests/flow-first-fixtures.mjs')],env={**os.environ,'HISTORY_TEST_BUILD':directory},cwd=root))
+        for width in [320,390,1280]:
+            for name,fixture in fixtures.items():
+                context=browser.new_context(viewport={'width':width,'height':844})
+                page=context.new_page()
+                page.route('**/api/radar*',lambda route,request,data=fixture:route.fulfill(status=503 if data['status']=='unavailable' else 200,json=data))
+                page.goto(base+'/radar',wait_until='networkidle')
+                card=page.locator('.radar-card').first
+                if name in ['matched','window','zero']:
+                    assert card.locator('.flow-value').count()==1
+                    assert card.locator('.flow-value').inner_text().startswith('24 ' if name in ['matched','window'] else '0 ')
+                    assert card.locator('.flow-range').is_visible()
+                    row=fixture['rows'][0]
+                    expected=row['signals']['current'] if name=='matched' else row['windows']['24h'] if name=='window' else row['pointChange']
+                    assert card.locator('.flow-range time').first.get_attribute('datetime')==expected['startAt']
+                    assert card.locator('.flow-range time').last.get_attribute('datetime')==expected['endAt']
+                else:
+                    assert card.locator('.flow-value').count()==0
+                    assert card.locator('.flow-limited').inner_text()==('Source unavailable' if name=='unavailable' else 'Stale observations' if name=='stale' else 'Insufficient comparable history')
+                no_overflow(page);axe(page)
+                page.add_style_tag(content='.flow-first p,.flow-first span,.flow-first summary,.flow-first time,.flow-first small,.flow-first strong{font-size:24px!important}')
+                no_overflow(page)
+                record(width,'/radar','ISOLATED SYNTHETIC '+name+': one guarded readout / state, actual interval, quote units, axe / enlarged reflow; never screenshot')
+                context.close()
     browser.close()
 result={'target':'local production build; real records for all normal screenshots','base':base,'finishedAt':datetime.now(timezone.utc).isoformat(),'checks':checks,'captures':captures,'axeVersion':'4.10.3','limitations':'Chromium, not physical iPhone / Safari / VoiceOver or WCAG certification. Text-size simulation, not OS zoom. No production activation.'}
-(root/'docs/evidence/ux-v2-browser.json').write_text(json.dumps(result,indent=2)+'\n')
+(root/'docs/evidence/flow-first-browser.json').write_text(json.dumps(result,indent=2)+'\n')
 print(f'{len(checks)} browser checks passed; six real-source after screenshots saved')

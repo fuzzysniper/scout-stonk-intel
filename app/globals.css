@@ -28,3 +28,70 @@
 /* Reflow when users enlarge text; retain narrow-view targets without clipping words. */
 .site-navigation nav a{overflow-wrap:anywhere}.preview-title{flex-wrap:wrap}.overview-metrics dt{overflow-wrap:anywhere}.token-row-heading>div:first-child{min-width:0;overflow-wrap:anywhere}.token-unit{flex-shrink:1;min-width:0;max-width:45%;overflow-wrap:anywhere}.terminal-heading>span{overflow-wrap:anywhere}.ux-terminal select{width:100%}
 .ux-terminal{overflow-wrap:anywhere}.token-row-heading h2 a{display:inline-flex;align-items:center;min-height:44px}
+
+/* Flow-First Radar: a record list, with financial detail disclosed on demand. */
+.site-navigation{display:grid;grid-template-columns:minmax(0,1fr) 48px;gap:8px;align-items:center;padding-top:8px}
+.site-navigation nav a{border-color:transparent;background:transparent;border-radius:4px;font-size:12px;min-height:48px}
+.site-navigation nav a[aria-current=page]{background:#173c35;color:#b0f0d7;border-bottom:2px solid #b0f0d7}
+.site-navigation .research-guide-link{display:flex;align-items:center;justify-content:center;min-width:44px;min-height:48px;padding:8px 0;font-size:12px;text-decoration:none}
+.flow-first.terminal,.flow-first.radar-shell{max-width:1040px;padding:12px 20px 32px}
+.flow-heading{margin:10px 0 18px}
+.flow-brand{font-size:11px;font-weight:700;color:#adc6d0;letter-spacing:.08em}
+.flow-heading h1{font-size:32px;line-height:1.15;letter-spacing:-.035em;margin:7px 0 0;color:#eff8f6}
+.flow-first .ecosystem-overview{margin:0 0 12px;padding:12px 0;border-top:1px solid #334d58;border-bottom:1px solid #334d58;font-size:12px;line-height:1.5}
+.flow-evidence-line,.flow-coverage-line{margin:0;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline}
+.flow-evidence-line strong{font-size:12px;font-weight:600;color:#d8e8e5}
+.flow-first .overview-time{font-size:12px;line-height:1.5;margin:0;color:#bdd0da}
+.flow-coverage-line{color:#f4dcaa;margin-top:6px;font-size:12px}
+.flow-coverage-line a{color:#bdd0da;min-height:32px;display:inline-flex;align-items:center;font-size:12px}
+.flow-first .preview-title{margin:0 0 4px;font-size:11px;color:#bdd0da}
+.flow-more{display:inline-flex;align-items:center;min-height:44px;font-size:13px;font-weight:600;text-decoration:none;color:#b0f0d7}
+.flow-first .terminal-status:empty{display:none}
+.flow-first .terminal-status{font-size:13px;margin:10px 0;color:#f4dcaa}
+.flow-first .token-list{border:0;border-top:1px solid #334d58;border-radius:0;background:transparent;overflow:visible}
+.flow-first .token-list .radar-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);column-gap:12px;align-items:start;padding:10px 0;border-bottom:1px solid #334d58}
+.flow-first .token-row-heading{justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:0 8px;min-width:0}
+.flow-first .token-row-heading h2{font-size:17px!important;line-height:1.2;margin:0!important}
+.flow-first .token-row-heading h2 a{min-height:44px;display:inline-flex;align-items:center}
+.flow-first .token-unit{max-width:none;flex-shrink:0;display:inline-flex;background:#142e31;border:1px solid #355457;border-radius:4px;padding:3px 6px;margin:0}
+.flow-first .token-unit strong{font-size:11px;color:#c9ebe0;margin:0;font-weight:600}
+.flow-first .token-row-reading{margin:0;min-height:44px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.flow-first .token-row-reading strong{margin:0;font-size:14px;line-height:1.4;font-weight:600;color:#eef4f6}
+.flow-first .token-row-reading .flow-limited{color:#f4dcaa;font-size:13px;font-weight:500}
+.flow-basis{font-size:11px;color:#bdd0da;margin:3px 0}
+.flow-range{display:block;font-size:11px;line-height:1.5;color:#bdd0da;overflow-wrap:anywhere}
+.flow-range time{display:inline}
+.flow-first .token-observed{grid-column:1/-1;margin:1px 0 0;color:#bdd0da;font-size:11px;line-height:1.5}
+.flow-first .token-observed time{display:inline;font-size:11px}
+.flow-first .token-observed .observation-age{display:inline;color:#bdd0da;margin:0;font-size:11px}
+.flow-first .token-evidence{grid-column:1/-1;margin:0;font-size:12px}
+.flow-first .token-evidence>summary{font-size:11px;font-weight:500;min-height:44px;padding:12px 0}
+.flow-first .dataset-evidence{margin:8px 0 20px;font-size:12px}
+.flow-first .dataset-evidence>summary{font-size:12px;min-height:44px}
+.flow-first .radar-toolbar{margin:12px 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;align-items:end;gap:8px}
+.flow-first .radar-toolbar label{font-size:11px;letter-spacing:0;font-weight:500;margin-bottom:5px}
+.flow-first .radar-toolbar select{width:100%;min-height:44px;font-size:12px;padding:10px 6px;border-radius:4px}
+.flow-first .radar-toolbar button{grid-column:auto;min-height:44px;padding:10px 8px;font-size:12px;border-radius:4px;background:#1a3534;color:#c9ebe0}
+.flow-first .lookup-disclosure{margin-top:20px}
+@media(min-width:760px){
+ .flow-first .token-list .radar-card{grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) minmax(0,1fr);column-gap:20px}
+ .flow-first .token-observed{grid-column:auto;padding-top:8px}
+ .flow-first .token-evidence>summary{padding:8px 0}
+}
+@media(max-width:620px){
+ .flow-first.terminal,.flow-first.radar-shell{padding:8px 12px 24px}
+ .flow-heading{margin:8px 0 14px}
+ .flow-heading h1{font-size:28px;max-width:340px}
+ .flow-first .overview-time time{display:inline}
+ .flow-first .radar-toolbar button{font-size:11px;padding:10px 5px}
+ .flow-first .radar-toolbar label{font-size:10px}
+}
+@media(max-width:360px){
+ .flow-first .token-row-heading{gap:0 4px}
+ .flow-first .token-row-heading h2{font-size:15px!important}
+ .flow-first .token-unit{padding:3px 4px}
+ .flow-first .token-unit strong{font-size:10px}
+ .flow-first .radar-toolbar{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ .flow-first .radar-toolbar button{grid-column:1/-1}
+}
+.site-navigation .research-guide-link{width:100%;overflow-wrap:anywhere}
