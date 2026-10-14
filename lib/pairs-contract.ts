@@ -45,6 +45,10 @@ export type PairCatalog = {
    rejectedRecords: number; providerReportedTotal: number | null;
    modeChecks: number; modeCheckLimit: 12; historyScope: 'tracked_sample';
    warnings: string[];
+   discovery?: {
+    strategy: 'global_sample' | 'provider_quote_mint'; quoteMint: string | null;
+    providerReportedTotalScope: 'catalog' | 'quote_mint';
+   };
   };
   sources: PairSource[];
   history: { sourceStatus: PairSourceStatus; source: string; revision: string | null; dataFetchedAt: string | null };

@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { isSolanaMint } from './solana';
 import { parseHistoryTimestamp } from './history';
 import { trackedTokens } from './tracked-tokens';
-import type { PairSource, PairToken } from './pairs-contract';
+import type { PairCatalog, PairSource, PairToken } from './pairs-contract';
 export const PAIR_REGISTRY_URL = 'https://www.stonkfun.xyz/api/public/v1/pairs';
 export const TOKEN_CATALOG_URL = 'https://www.stonkfun.xyz/api/public/v1/tokens';
 export const REWARD_V2_URL = 'https://www.stonkfun.xyz/api/v2/tokens/';
@@ -21,6 +21,7 @@ export type PairSnapshot = {
  quotes: QuoteRecord[]; tokens: CatalogToken[]; sources: PairSource[]; warnings: string[];
  pagesFetched: number; recordsReceived: number; rejectedRecords: number;
  providerReportedTotal: number | null; modeChecks: number; fetchedAt: string;
+ discovery?: NonNullable<PairCatalog['dataset']['coverage']['discovery']>;
 };
 export type PairSourceResult = { value: PairSnapshot | null; sourceStatus: 'available' | 'cached' | 'degraded' | 'unavailable' };
 function object(value: unknown): Record<string, unknown> {
@@ -60,12 +61,18 @@ export function parsePairRegistry(value: unknown): QuoteRecord[] {
    tokenProgram:String(p.tokenProgram),symbolAmbiguous:p.symbolAmbiguous};
  });
 }
-export function parseCatalogPage(value: unknown, page: number, quotes: QuoteRecord[], provenance: PairSource) {
+export function parseCatalogPage(value: unknown, page: number, quotes: QuoteRecord[], provenance: PairSource, quoteMint: string | null = null) {
  const data = object(object(value).data), pagination = object(data.pagination);
  if (data.network !== 'mainnet-beta' || pagination.page !== page || pagination.pageSize !== 25 ||
      !Array.isArray(data.tokens) || data.tokens.length > 25) throw Error('invalid_pagination');
  const total = integer(pagination.total,100_000_000);
  if (pagination.totalPages !== Math.ceil(total/25)) throw Error('invalid_pagination');
+ if (quoteMint !== null) {
+  // A 200 is not proof the upstream applied a filter. Reject the whole page;
+  // never silently turn an ignored provider parameter into a local sample.
+  if (data.tokens.some(raw => object(object(raw).quote).mint !== quoteMint)) throw Error('pair_filter_mismatch');
+  if (data.tokens.length !== Math.min(25, Math.max(0, total - (page - 1) * 25))) throw Error('incomplete_pair_page');
+ }
  const registry = new Map(quotes.map(q=>[q.mint,q]));
  let rejected = 0;
  const tokens: CatalogToken[] = [];
@@ -96,8 +103,11 @@ export function verifyMode(value: unknown, token: CatalogToken): PairToken['mode
  // Verification is mode/quote identity, not a promise of payouts. Awaiting totals remain missing.
  return 'verified_reward';
 }
-export function createPairSource(fetcher: typeof fetch = fetch, clock: () => number = () => Date.now(), deadlineMs = 10_000) {
+export function createPairSource(fetcher: typeof fetch = fetch, clock: () => number = () => Date.now(), deadlineMs = 10_000, quoteMint: string | null = null) {
  if (!Number.isSafeInteger(deadlineMs) || deadlineMs < 1 || deadlineMs > 10_000) throw Error('invalid_deadline');
+ if (quoteMint !== null && !isSolanaMint(quoteMint)) throw Error('invalid_quote_mint');
+ const discovery: NonNullable<PairSnapshot['discovery']> = { strategy: quoteMint === null ? 'global_sample' : 'provider_quote_mint',
+  quoteMint, providerReportedTotalScope: quoteMint === null ? 'catalog' : 'quote_mint' };
  let entry: PairSnapshot | null = null, fetched = 0, retryAt = 0;
  let pending: Promise<PairSourceResult> | null = null;
  const result = (sourceStatus: PairSourceResult['sourceStatus']): PairSourceResult => ({
@@ -151,12 +161,19 @@ export function createPairSource(fetcher: typeof fetch = fetch, clock: () => num
   try {
    const registry=await read(PAIR_REGISTRY_URL,512*1024),quotes=parsePairRegistry(registry.value);
    const sources=[registry.source],warnings=['bounded_catalog','non_atomic_pagination','market_observation_time_unavailable'];
+   if (quoteMint !== null && !quotes.some(q => q.mint === quoteMint)) {
+    // A verified registry miss can support the existing 404 contract without
+    // sending a token query or treating it as an empty verified pair.
+    entry={quotes,tokens:[],sources,warnings,pagesFetched:0,recordsReceived:0,rejectedRecords:0,
+     providerReportedTotal:null,modeChecks:0,fetchedAt:new Date(clock()).toISOString(),discovery};
+    fetched=clock();return result('available');
+   }
    const found=new Map<string,CatalogToken>(),conflicts=new Set<string>();
    let pagesFetched=0,recordsReceived=0,rejectedRecords=0,providerReportedTotal:number|null=null;
    for(let page=1;page<=2;page++) {
     try {
-     const url=TOKEN_CATALOG_URL+'?sort=marketCap&page='+page+'&pageSize=25';
-     const raw=await read(url,128*1024),parsed=parseCatalogPage(raw.value,page,quotes,raw.source);
+     const url=TOKEN_CATALOG_URL+'?sort=marketCap&page='+page+'&pageSize=25'+(quoteMint === null ? '' : '&quoteMint='+encodeURIComponent(quoteMint));
+     const raw=await read(url,128*1024),parsed=parseCatalogPage(raw.value,page,quotes,raw.source,quoteMint);
      sources.push(raw.source);pagesFetched++;recordsReceived+=parsed.received;rejectedRecords+=parsed.rejected;
      if(providerReportedTotal!==null && providerReportedTotal!==parsed.total)warnings.push('pagination_total_changed');
      providerReportedTotal=parsed.total;
@@ -169,7 +186,10 @@ export function createPairSource(fetcher: typeof fetch = fetch, clock: () => num
       else warnings.push('duplicate_catalog_record');
      }
      if(page>=parsed.totalPages)break;
-    } catch { warnings.push('catalog_page_unavailable');break; }
+    } catch (error) {
+     if (error instanceof Error && ['pair_filter_mismatch','incomplete_pair_page'].includes(error.message)) warnings.push(error.message);
+     warnings.push('catalog_page_unavailable');break;
+    }
    }
    if(!pagesFetched)throw Error('catalog_unavailable');
    if(rejectedRecords)warnings.push('rejected_catalog_records');
@@ -191,7 +211,7 @@ export function createPairSource(fetcher: typeof fetch = fetch, clock: () => num
     }
    }));
    entry={quotes,tokens:[...found.values()].sort((a,b)=>a.mint.localeCompare(b.mint,'en')),sources:sources.sort((a,b)=>a.source.localeCompare(b.source,'en')),
-    warnings:[...new Set(warnings)].sort(),pagesFetched,recordsReceived,rejectedRecords,providerReportedTotal,modeChecks,fetchedAt:new Date(clock()).toISOString()};
+    warnings:[...new Set(warnings)].sort(),pagesFetched,recordsReceived,rejectedRecords,providerReportedTotal,modeChecks,fetchedAt:new Date(clock()).toISOString(),discovery};
    fetched=clock();
    const degraded=entry.warnings.some(w=>!['bounded_catalog','non_atomic_pagination','market_observation_time_unavailable','duplicate_catalog_record'].includes(w));
    if(degraded)retryAt=Math.max(retryAt,clock()+60_000);
@@ -210,4 +230,50 @@ export function createPairSource(fetcher: typeof fetch = fetch, clock: () => num
   pending=refresh();try{return await pending;}finally{pending=null;}
  };
 }
-export const readPairSource=createPairSource((...args)=>fetch(...args));
+export const PAIR_SCOPE_CACHE_LIMIT=4;
+export const PAIR_SCOPE_REFRESH_MS=60_000;
+export function createPairSources(fetcher: typeof fetch = fetch, clock: () => number = () => Date.now()) {
+ let blockedUntil=0, nextScopedRefresh=0;
+ const cooledFetch: typeof fetch = async (...args) => {
+  if (clock()<blockedUntil) throw Error('provider_cooldown');
+  const response=await fetcher(...args);
+  if (response.status===429) {
+   const retry=response.headers.get('retry-after');
+   const seconds=retry===null?60:/^[1-9]\d{0,3}$/.test(retry) && Number(retry)<=3600?Number(retry):null;
+   blockedUntil=seconds===null?Infinity:Math.max(blockedUntil,clock()+seconds*1000);
+  }
+  return response;
+ };
+ type Slot = { read: ReturnType<typeof createPairSource>; expires: number; busy: number };
+ const scopes=new Map<string,Slot>();
+ const unavailable = ():PairSourceResult => ({value:null,sourceStatus:'unavailable'});
+ async function scoped(mint: string):Promise<PairSourceResult> {
+  if (!isSolanaMint(mint)) return unavailable();
+  let slot=scopes.get(mint);
+  if (!slot) {
+   if (clock()<blockedUntil || clock()<nextScopedRefresh) return unavailable();
+   for (const [key,entry] of scopes) if (!entry.busy && clock()>=entry.expires) scopes.delete(key);
+   if (scopes.size>=PAIR_SCOPE_CACHE_LIMIT) return unavailable();
+   const created:Slot={read:async()=>unavailable(),expires:clock()+PAIR_CACHE_MS,busy:0};
+   const boundedFetch: typeof fetch = async (...args) => {
+    if (String(args[0])===PAIR_REGISTRY_URL) {
+     if (clock()<nextScopedRefresh) throw Error('scoped_refresh_budget');
+     nextScopedRefresh=clock()+PAIR_SCOPE_REFRESH_MS;created.expires=clock()+PAIR_CACHE_MS;
+    }
+    return cooledFetch(...args);
+   };
+   created.read=createPairSource(boundedFetch,clock,10_000,mint);
+   scopes.set(mint,created);slot=created;
+  }
+  slot.busy++;
+  try {
+   const result=await slot.read();
+   if (result.value) slot.expires=Date.parse(result.value.fetchedAt)+PAIR_CACHE_MS;
+   return result;
+  } finally {slot.busy--;}
+ }
+ return {global:createPairSource(cooledFetch,clock),scoped};
+}
+const pairSources=createPairSources((...args)=>fetch(...args));
+export const readPairSource=pairSources.global;
+export const readScopedPairSource=pairSources.scoped;

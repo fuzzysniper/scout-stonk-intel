@@ -56,7 +56,8 @@ export function pairCatalogReport(catalog: PairSourceResult, history: SourceResu
    coverage:{complete:false,atomic:false,registryCount:quoteMap.size,pagesFetched:value?.pagesFetched??0,pageLimit:2,pageSize:25,
     recordsReceived:value?.recordsReceived??0,tokensReturned:groups.reduce((n,g)=>n+g.tokens.length,0),rejectedRecords:value?.rejectedRecords??0,
     providerReportedTotal:value?.providerReportedTotal??null,modeChecks:value?.modeChecks??0,modeCheckLimit:12,historyScope:'tracked_sample',
-    warnings:[...new Set([...(value?.warnings??['catalog_source_unavailable']),...(!historyGood?['tracked_history_source_unavailable']:[])])].sort()},
+    warnings:[...new Set([...(value?.warnings??['catalog_source_unavailable']),...(!historyGood?['tracked_history_source_unavailable']:[])])].sort(),
+    ...(value?.discovery ? {discovery:value.discovery} : {})},
    sources:value?.sources??[],history:{sourceStatus:history.dataset.sourceStatus,source:history.dataset.source,revision:history.dataset.revision,dataFetchedAt:history.dataset.dataFetchedAt}}};
 }
 // Catalog selection and output order express identity/coverage, never alpha or reward ranking.
