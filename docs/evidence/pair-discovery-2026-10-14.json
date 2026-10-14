@@ -1,0 +1,397 @@
+{
+  "issue": 38,
+  "baseCommit": "70bd6ca56e12efec51d821dc0726e88390cba020",
+  "captureMethod": "Bounded HTTPS GETs; source timestamps from response. captureCompletedAt is local capture-file mtime. No wallet/payout-row requests. Selected actual identity fields only; no synthetic application records.",
+  "sources": [
+    {
+      "source": "https://www.stonkfun.xyz/developers",
+      "captureCompletedAt": "2026-10-14T16:03:04.916Z",
+      "revision": "sha256:7105178346e2dc6d87a40846852a6a315e0dd5f9056d23fe723e40fd9f24e4a5"
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/public/v1/openapi.json",
+      "captureCompletedAt": "2026-10-14T16:05:11.030Z",
+      "revision": "sha256:95e88bc9c042e597e4ed81eb980e12240bd288dff47180015420d02c1e17ab2a",
+      "providerGeneratedAt": null
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/public/v1/pairs",
+      "captureCompletedAt": "2026-10-14T16:03:13.872Z",
+      "revision": "sha256:e1ac46d616a3a3b1e131e44d7b1c226c95f84b7d42c9ada9d023021e47b41744",
+      "providerGeneratedAt": "2026-10-14T16:02:45.114Z"
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens?limit=20",
+      "captureCompletedAt": "2026-10-14T16:02:08.537Z",
+      "revision": "sha256:83638cefb93b2fd2d8220ea76d9458df2b6c9ca5849867ff1ea01b425b0bd61e",
+      "providerGeneratedAt": "2026-10-14T16:02:08.520Z"
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens?page=2&pageSize=25",
+      "captureCompletedAt": "2026-10-14T16:02:54.650Z",
+      "revision": "sha256:24ce8e7c7c7b4557e31d811506307d9855bb8876894fc4495556bc92844150c0",
+      "providerGeneratedAt": "2026-10-14T16:02:54.633Z"
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "captureCompletedAt": "2026-10-14T16:05:02.619Z",
+      "revision": "sha256:3c4c09b56335ad5c2516ce162ea820408930d0e03b5fb45ff3f96faa7b9dc0a8",
+      "providerGeneratedAt": "2026-10-14T16:04:47.567Z"
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+      "captureCompletedAt": "2026-10-14T16:05:02.446Z",
+      "revision": "sha256:c1bc1ef32ed302a1995ad187f3362d82da43457255e7238cc0fc74a65a29c142",
+      "providerGeneratedAt": "2026-10-14T16:05:02.432Z"
+    },
+    {
+      "source": "https://api.dexscreener.com/latest/dex/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "captureCompletedAt": "2026-10-14T16:16:02.567Z",
+      "revision": "sha256:501b678c49dc3f6be8ec9b03947388b2919aa921edac437d6a466f13d2cd4025",
+      "providerGeneratedAt": null
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS/rewards",
+      "captureCompletedAt": "2026-10-14T16:16:02.097Z",
+      "revision": "sha256:4046dda51ac2cfd15e4eabb864f1d3a2f7dad0d8a4f9edcf24ddf8d9afb6f730",
+      "providerGeneratedAt": "2026-10-14T16:16:02.074Z"
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ/rewards",
+      "captureCompletedAt": "2026-10-14T16:16:02.107Z",
+      "revision": "sha256:019a5aece6d8e50ef83401e243193e059a48b065e23164c68a08b84e930105be",
+      "providerGeneratedAt": "2026-10-14T16:16:02.090Z"
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/68AGsjomsgTtiTaDhF6XGCeVJDnFeh415ngYYgVxGzns/rewards",
+      "captureCompletedAt": "2026-10-14T16:16:02.100Z",
+      "revision": "sha256:9837614ff21e3a7372c94a033a6e0785f9883660a00bdcc09a2bc8ee28a34b18",
+      "providerGeneratedAt": "2026-10-14T16:16:02.085Z"
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu/rewards",
+      "captureCompletedAt": "2026-10-14T16:16:02.333Z",
+      "revision": "sha256:a3925c131eef56c5d4e20f09e2969ad827a5afef606113d335fdce41f06f81f3",
+      "providerGeneratedAt": "2026-10-14T16:16:02.318Z"
+    }
+  ],
+  "registryObservedCount": 587,
+  "registryTickerAmbiguity": "STONK has multiple mints; exact mint is group identity.",
+  "verifiedExamples": [
+    {
+      "token": {
+        "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+        "pool": "5aBH535rESkhjVb2nEaMPfyjiTw3uK57vE6c5uhZHjPY",
+        "symbol": "SI",
+        "name": "Super Inu",
+        "mode": "reward"
+      },
+      "quote": {
+        "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+        "symbol": "NVDAX",
+        "name": "NVIDIA",
+        "decimals": 8,
+        "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+        "symbolAmbiguous": false
+      },
+      "rewardModeSource": "https://www.stonkfun.xyz/api/v2/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+      "rewardProviderGeneratedAt": "2026-10-14T16:05:02.432Z",
+      "basis": "ledger",
+      "verification": "official_registry_catalog_and_mode_identity_match_not_independent_onchain"
+    },
+    {
+      "token": {
+        "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+        "pool": "GeNDy5afAWz7S9w2tMLgpK3xQqXjeDaCvYV9h8joEmjo",
+        "symbol": "KNOTS",
+        "name": "KNOTS",
+        "mode": "reward"
+      },
+      "quote": {
+        "mint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+        "symbol": "STONK",
+        "name": "STONK",
+        "decimals": 9,
+        "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "symbolAmbiguous": true
+      },
+      "rewardModeSource": "https://www.stonkfun.xyz/api/v2/tokens/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS/rewards",
+      "rewardProviderGeneratedAt": "2026-10-14T16:16:02.074Z",
+      "basis": "ledger",
+      "verification": "official_registry_catalog_and_mode_identity_match_not_independent_onchain"
+    },
+    {
+      "token": {
+        "mint": "HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ",
+        "pool": "FE1kGMg4PCLbbz2AMBaHSiG3USXpVNtUVKDFrC7E3fco",
+        "symbol": "GP",
+        "name": "RuneScape Gold",
+        "mode": "reward"
+      },
+      "quote": {
+        "mint": "Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re",
+        "symbol": "GLDX",
+        "name": "GOLD",
+        "decimals": 8,
+        "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+        "symbolAmbiguous": false
+      },
+      "rewardModeSource": "https://www.stonkfun.xyz/api/v2/tokens/HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ/rewards",
+      "rewardProviderGeneratedAt": "2026-10-14T16:16:02.090Z",
+      "basis": "ledger",
+      "verification": "official_registry_catalog_and_mode_identity_match_not_independent_onchain"
+    },
+    {
+      "token": {
+        "mint": "68AGsjomsgTtiTaDhF6XGCeVJDnFeh415ngYYgVxGzns",
+        "pool": "7KVCC9iQfEH93p9kXAguuuZ6TU2GwwhCdzUUvEK9dteP",
+        "symbol": "OWL",
+        "name": "Superintelligence Owl",
+        "mode": "reward"
+      },
+      "quote": {
+        "mint": "Xs3oZwbHvqis4NYcf4YKWmEia2eC84wSiVrcYcTqpH8",
+        "symbol": "SPCXX",
+        "name": "SPACEX",
+        "decimals": 8,
+        "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+        "symbolAmbiguous": false
+      },
+      "rewardModeSource": "https://www.stonkfun.xyz/api/v2/tokens/68AGsjomsgTtiTaDhF6XGCeVJDnFeh415ngYYgVxGzns/rewards",
+      "rewardProviderGeneratedAt": "2026-10-14T16:16:02.085Z",
+      "basis": "ledger",
+      "verification": "official_registry_catalog_and_mode_identity_match_not_independent_onchain"
+    },
+    {
+      "token": {
+        "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+        "pool": "Go3LWorTNzDAdeQhR32ovVrCSyizj9eD3NpLL3WNhLAi",
+        "symbol": "BANKROLL",
+        "name": "Bankroll",
+        "mode": "reward"
+      },
+      "quote": {
+        "mint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "symbol": "USDC",
+        "name": "USDC",
+        "decimals": 6,
+        "tokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "symbolAmbiguous": false
+      },
+      "rewardModeSource": "https://www.stonkfun.xyz/api/v2/tokens/B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu/rewards",
+      "rewardProviderGeneratedAt": "2026-10-14T16:16:02.318Z",
+      "basis": "ledger",
+      "verification": "official_registry_catalog_and_mode_identity_match_not_independent_onchain"
+    }
+  ],
+  "protectedExistingFileCount": 83,
+  "initialLocalBuiltApi": {
+    "capturedAt": "2026-10-14T16:17:09.914Z",
+    "status": "degraded",
+    "headers": {
+      "status": 200,
+      "cacheControl": "no-store"
+    },
+    "groupCount": 36,
+    "coverage": {
+      "complete": false,
+      "atomic": false,
+      "registryCount": 587,
+      "pagesFetched": 2,
+      "pageLimit": 2,
+      "pageSize": 25,
+      "recordsReceived": 50,
+      "tokensReturned": 50,
+      "rejectedRecords": 0,
+      "providerReportedTotal": 178028,
+      "modeChecks": 12,
+      "modeCheckLimit": 12,
+      "historyScope": "tracked_sample",
+      "warnings": [
+        "bounded_catalog",
+        "market_observation_time_unavailable",
+        "mode_check_unavailable",
+        "non_atomic_pagination"
+      ]
+    },
+    "sources": [
+      {
+        "source": "https://www.stonkfun.xyz/api/public/v1/pairs",
+        "fetchedAt": "2026-10-14T16:17:08.851Z",
+        "providerGeneratedAt": "2026-10-14T16:12:53.861Z",
+        "revision": "sha256:e63d0c5f381b4a43636e17d4ff3229b8edd81b72d7c457ef448429a434ee2e7c"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=1&pageSize=25",
+        "fetchedAt": "2026-10-14T16:17:09.049Z",
+        "providerGeneratedAt": "2026-10-14T16:17:09.029Z",
+        "revision": "sha256:24197ea5e18630800b4fed3fea2a4f9884248a0a5d6d1432a3e9f5a8426a717d"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=2&pageSize=25",
+        "fetchedAt": "2026-10-14T16:17:09.232Z",
+        "providerGeneratedAt": "2026-10-14T16:17:09.215Z",
+        "revision": "sha256:e2c1e5f50b3b2a524643eb0e3512453eb23216881b2602cc3bcb045c7c4c7858"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/2pouN3by7twkiZGy5aEKYUpf78ALDpKRTNu2WsQkpkqt/rewards",
+        "fetchedAt": "2026-10-14T16:17:09.635Z",
+        "providerGeneratedAt": "2026-10-14T16:17:09.622Z",
+        "revision": "sha256:65f156481995574855667e9cd30090dbcff2eb822ec1c1102070414039a156f1"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/3c7mmVSyEH8jfZXgxvpLsETtko1Y16DyRJ5XYB4snhGt/rewards",
+        "fetchedAt": "2026-10-14T16:17:09.733Z",
+        "providerGeneratedAt": "2026-10-14T16:17:09.718Z",
+        "revision": "sha256:3841a5dba0e639c0fc0ee96d978cf1689f340c085251873affb49fb611423ab4"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/3J1MYQPC2VFPfwzshXLiKYwyUF5xo9xxzH1dNjpd62kF/rewards",
+        "fetchedAt": "2026-10-14T16:17:09.794Z",
+        "providerGeneratedAt": "2026-10-14T16:17:09.780Z",
+        "revision": "sha256:461d8e3c7fc6fd59a3f46702f19859b95b8b298241bc5f94b61f058d6e671dc4"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/3nqHijNUExsnjNBb15WJsJ2xisyMVGN6FK4aUgZk1Rwj/rewards",
+        "fetchedAt": "2026-10-14T16:17:09.724Z",
+        "providerGeneratedAt": "2026-10-14T16:17:09.705Z",
+        "revision": "sha256:2f872d0c90eb348b2edf1bbfbb2eeaba87ad3efe5d29d9ff018b9a4d29b05a51"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/4kjruqGHDsSqkMdFfCjV7Vb62HPFhtXyWc2t6JpQzDnz/rewards",
+        "fetchedAt": "2026-10-14T16:17:09.913Z",
+        "providerGeneratedAt": "2026-10-14T16:17:09.897Z",
+        "revision": "sha256:cf2cc3d84b8b291e9f7f4b130f59ff853ff105d5af6f0e48f8c767b517f1318a"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8/rewards",
+        "fetchedAt": "2026-10-14T16:17:09.496Z",
+        "providerGeneratedAt": "2026-10-14T16:17:09.479Z",
+        "revision": "sha256:4d4209998c8c559fcb5c76896f5624c0c5093e1f40bdb7876dc7f7d3258d089d"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr/rewards",
+        "fetchedAt": "2026-10-14T16:17:09.427Z",
+        "providerGeneratedAt": "2026-10-14T16:17:09.409Z",
+        "revision": "sha256:ed4cb31fb0835cce7f35fb4ac1e050a5de370993662f5f6ea57da5b75d119331"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS/rewards",
+        "fetchedAt": "2026-10-14T16:17:09.385Z",
+        "providerGeneratedAt": "2026-10-14T16:16:02.074Z",
+        "revision": "sha256:4046dda51ac2cfd15e4eabb864f1d3a2f7dad0d8a4f9edcf24ddf8d9afb6f730"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu/rewards",
+        "fetchedAt": "2026-10-14T16:17:09.525Z",
+        "providerGeneratedAt": "2026-10-14T16:16:02.318Z",
+        "revision": "sha256:a3925c131eef56c5d4e20f09e2969ad827a5afef606113d335fdce41f06f81f3"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR/rewards",
+        "fetchedAt": "2026-10-14T16:17:09.634Z",
+        "providerGeneratedAt": "2026-10-14T16:17:09.616Z",
+        "revision": "sha256:00f1e23b9e2735c2532613c7c630c98c3ce83a5be89c02dfd3deaa8502cdea82"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7/rewards",
+        "fetchedAt": "2026-10-14T16:17:09.604Z",
+        "providerGeneratedAt": "2026-10-14T16:17:09.584Z",
+        "revision": "sha256:2ee51648bc83b35d69f8974993fadd3ddb1b97e03bb3e256e40a9e4059f4c1ef"
+      }
+    ],
+    "historySource": {
+      "sourceStatus": "available",
+      "source": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/main/data/reward-snapshots.json",
+      "revision": "sha256:fb707bf665522082d3478e810d4c3a1e3a762d5f6e923a43b86b9fac9e8ed7d9",
+      "dataFetchedAt": "2026-10-14T16:17:08.906Z"
+    },
+    "modeUnavailableSymbols": [
+      "SI"
+    ],
+    "allHistoricalReturnAndEntitlementFiguresNull": true,
+    "probeStatuses": {
+      "invalidQuote": 400,
+      "NVDAX": 200,
+      "unknownRegistryMint": 404,
+      "POST": 405
+    },
+    "limitations": "Local built API using Node24 --use-env-proxy for managed environment egress. Not production validation. One mode read failed verification; no cause inferred. Independent dated SI rewards capture verifies identity, not the failed runtime read."
+  },
+  "localBuiltApi": {
+    "capturedAt": "2026-10-14T16:30:37.133Z",
+    "status": "degraded",
+    "headers": {
+      "status": 200,
+      "cacheControl": "no-store"
+    },
+    "groupCount": 36,
+    "coverage": {
+      "complete": false,
+      "atomic": false,
+      "registryCount": 587,
+      "pagesFetched": 2,
+      "pageLimit": 2,
+      "pageSize": 25,
+      "recordsReceived": 50,
+      "tokensReturned": 50,
+      "rejectedRecords": 0,
+      "providerReportedTotal": 178031,
+      "modeChecks": 12,
+      "modeCheckLimit": 12,
+      "historyScope": "tracked_sample",
+      "warnings": [
+        "bounded_catalog",
+        "market_observation_time_unavailable",
+        "mode_check_unavailable",
+        "non_atomic_pagination"
+      ]
+    },
+    "sources": [
+      {
+        "source": "https://www.stonkfun.xyz/api/public/v1/pairs",
+        "fetchedAt": "2026-10-14T16:30:36.229Z",
+        "providerGeneratedAt": "2026-10-14T16:27:55.306Z",
+        "revision": "sha256:81ebb34be05c6fbbd8e5a00cdb32458b7e9ee3b643dcc1d02c3a3c10427f78f2"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=1&pageSize=25",
+        "fetchedAt": "2026-10-14T16:30:36.370Z",
+        "providerGeneratedAt": "2026-10-14T16:30:36.351Z",
+        "revision": "sha256:8ac1f322d526a2f82372f453b6896174c724db4312e52942623204854b9b38de"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=2&pageSize=25",
+        "fetchedAt": "2026-10-14T16:30:36.546Z",
+        "providerGeneratedAt": "2026-10-14T16:30:36.530Z",
+        "revision": "sha256:53a47fe5220115dc31b7e2260ca942d80ab9ee5be26546abef16e9e859023290"
+      }
+    ],
+    "historySource": {
+      "sourceStatus": "available",
+      "source": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/main/data/reward-snapshots.json",
+      "revision": "sha256:fb707bf665522082d3478e810d4c3a1e3a762d5f6e923a43b86b9fac9e8ed7d9",
+      "dataFetchedAt": "2026-10-14T16:30:36.225Z"
+    },
+    "modeUnavailableSymbols": [
+      "ALLINU",
+      "SANTA",
+      "NEARKAT",
+      "SI",
+      "KEK",
+      "KNOTS",
+      "BUTT",
+      "GTA6",
+      "BANKROLL",
+      "TACZ",
+      "MASK",
+      "ZCAT"
+    ],
+    "historyIssuesPreserved": true,
+    "allHistoricalReturnAndEntitlementFiguresNull": true,
+    "limitations": "Final built local API, real records, no response fixtures. Multiple mode checks unavailable; no specific cause inferred. Strict age/deadline/identity checks are not weakened for availability. No production verification."
+  },
+  "rebasedMainCommit": "441255292f220c61cae651c04b831713d1c403c6",
+  "rebasedProtectedExistingFileCount": 85,
+  "rebaseReason": "Main merged frontend PR40 during backend work. Shared test runner registrations combined; frontend code unchanged from rebased main."
+}
