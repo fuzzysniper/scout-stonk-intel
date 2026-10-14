@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { Response } from 'miniflare';
 import { readFile } from 'node:fs/promises';
-import { harness, AT } from './scheduler-harness.mjs';
+import { harness, AT, TARGET } from './scheduler-harness.mjs';
 
 test('adapter has no public fetch entrypoint; disabled means zero GitHub calls', async () => {
   const source = await readFile(new URL('../scheduler/worker.ts', import.meta.url), 'utf8');
@@ -199,4 +199,18 @@ test('scope expiry/oversized body cannot reach dispatch', async () => {
     try { assert.equal((await h.send('tick')).body.action, 'denied'); assert.equal(h.dispatchCount(), 0); }
     finally { await h.close(); }
   }
+});
+
+test('disabled auth handoff IDs cannot wake a persisted retry alarm or scheduled dispatch', async () => {
+ const h=await harness({activation:'disabled',bindings:{APP_ID:'5310753',INSTALLATION_ID:'171233795',REPOSITORY_ID:'1415026436',APP_PRIVATE_KEY:'offline-invalid-sentinel-not-a-key'}});
+ try {
+  const seed={slot:TARGET+'|'+new Date(AT).toISOString().replace('.000Z','Z'),scheduled:AT,state:'retry_wait',claimed:AT,updated:AT,retry:AT+1000};
+  await h.mf.dispatchFetch('https://test.invalid/test-storage',{method:'POST',body:JSON.stringify({seed})});
+  const before=(await h.send('receipt')).body;
+  await h.mf.dispatchFetch('https://test.invalid/test-storage',{method:'POST',headers:{'x-test-time':String(AT+2000)},body:JSON.stringify({alarm:true})});
+  await h.mf.dispatchFetch('https://test.invalid/scheduled',{method:'POST',body:JSON.stringify({cron:'17 * * * *',scheduledTime:AT})});
+  assert.equal((await h.send('tick',AT+2000)).body.action,'disabled');
+  assert.deepEqual((await h.send('receipt',AT+2000)).body,before,'Inactive auth update preserves existing receipt state');
+  assert.deepEqual(h.calls,[]);
+ } finally {await h.close();}
 });

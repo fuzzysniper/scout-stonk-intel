@@ -7,3 +7,10 @@ out
 /scheduler/.wrangler/
 /scheduler/.dev.vars*
 /scheduler/dist/
+
+# App signing material must stay on the owner PC, outside this checkout.
+*.pem
+*.key
+*.p8
+*.p12
+*.pfx
