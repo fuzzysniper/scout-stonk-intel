@@ -6,9 +6,10 @@ from pathlib import Path
 from datetime import datetime,timezone
 from urllib.parse import urlparse
 from playwright.sync_api import sync_playwright
-p=argparse.ArgumentParser();p.add_argument('--base',required=True);p.add_argument('--axe',required=True);p.add_argument('--fixtures',required=True);a=p.parse_args();u=urlparse(a.base)
+p=argparse.ArgumentParser();p.add_argument('--base',required=True);p.add_argument('--axe',required=True);p.add_argument('--fixtures',required=True);p.add_argument('--prefix',default='dossier-evidence');a=p.parse_args();u=urlparse(a.base)
 assert u.scheme=='http' and u.hostname in ['localhost','127.0.0.1'] and u.path in ['', '/'] and not u.query and not u.fragment
-root=Path(__file__).resolve().parents[1];proof=json.loads((root/'docs/evidence/dossier-evidence-after.json').read_text());offline=json.loads(Path(a.fixtures).read_text());assert offline['kind']=='synthetic_frontend_test_cases_never_screenshots'
+assert re.fullmatch('[a-z][a-z0-9-]{0,39}',a.prefix)
+root=Path(__file__).resolve().parents[1];proof=json.loads((root/f'docs/evidence/{a.prefix}-after.json').read_text());offline=json.loads(Path(a.fixtures).read_text());assert offline['kind']=='synthetic_frontend_test_cases_never_screenshots'
 checks=[];genuine=[];SI='DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP';CHONK='FeAWY9L9hr82TvTuEyi328V9FP7GxVuGLx7xNg6kzWVa';QUOTE='Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh'
 packets=proof['captures'][0]['dossierResponses'];market=next(p['json'] for p in packets if p['url']=='/api/token?mint='+SI);legacy=next(p['json'] for p in packets if p['url']=='/api/rewards?mint='+SI);history=next(p['json'] for p in packets if p['url']=='/api/history?mint='+SI)
 recorder='''(()=>{const f=window.fetch.bind(window);window.__packets=[];window.fetch=async(...args)=>{const r=await f(...args);r.clone().json().then(json=>window.__packets.push({url:String(args[0]),status:r.status,json})).catch(()=>{});return r;};})();'''
@@ -49,7 +50,7 @@ with sync_playwright() as pw:
     stamp=datetime.fromisoformat(h['latestObservedAt'].replace('Z','+00:00')).strftime('%d %b %Y, %H:%M UTC');assert stamp in page.locator('.brief-qualifier').inner_text()
    genuine.append({'width':w,'mint':mint,'finding':page.locator('.brief-conclusion').inner_text(),'official':href,'responses':captured})
    if mint==CHONK:
-    page.screenshot(path=str(root/f'docs/screenshots/dossier-evidence-unverified-{w}.png'))
+    page.screenshot(path=str(root/f'docs/screenshots/{a.prefix}-unverified-{w}.png'))
    # Same-tab reading must not be hijacked; keyboard activates a genuine new-tab link.
    link.focus();assert page.evaluate('document.activeElement.classList.contains("brief-official")')
    page.keyboard.press('Tab');assert page.evaluate('document.activeElement===document.querySelector(".brief-sharing>summary")')
@@ -105,5 +106,5 @@ with sync_playwright() as pw:
    if name=='fresh-retrieval-old-observation':assert 'stale' in page.locator('.brief-qualifier').inner_text();assert datetime.fromisoformat(h['latestObservedAt'].replace('Z','+00:00')).strftime('%d %b %Y, %H:%M UTC') in page.locator('.brief-qualifier').inner_text()
    assert 'private fixture error' not in page.locator('main').inner_text();audit(page);check(w,'isolated '+name+': no false source action, freshness reset, market identity or absence claim; axe');c.close()
  b.close()
-(root/'docs/evidence/dossier-evidence-semantic-browser.json').write_text(json.dumps({'at':datetime.now(timezone.utc).isoformat(),'engine':'Chromium / axe-core 4.10.3','limits':'Touch viewport/keyboard automation, not physical iPhone/Safari system keyboard or VoiceOver acceptance. Fixtures isolated and never screenshot sources.','checks':checks,'genuine':genuine},separators=(',',':'))+'\n')
+(root/f'docs/evidence/{a.prefix}-semantic-browser.json').write_text(json.dumps({'at':datetime.now(timezone.utc).isoformat(),'engine':'Chromium / axe-core 4.10.3','limits':'Touch viewport/keyboard automation, not physical iPhone/Safari system keyboard or VoiceOver acceptance. Fixtures isolated and never screenshot sources.','checks':checks,'genuine':genuine},separators=(',',':'))+'\n')
 print('PASS',len(checks),'dossier evidence browser checks',flush=True)

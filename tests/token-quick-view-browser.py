@@ -15,8 +15,8 @@ def check(w,name,**extras):checks.append({'width':w,'check':name,'result':'PASS'
 def audit(page):
  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),page.evaluate('[innerWidth,document.documentElement.scrollWidth]')
  page.add_script_tag(path=a.axe);r=page.evaluate("async()=>axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}})");assert not r['violations'],[(v['id'],[n['target'] for n in v['nodes']]) for v in r['violations']]
-def ready(page):page.wait_for_function("document.querySelector('.pair-featured')?.getAttribute('aria-busy')==='false'",timeout=60000)
-def selected(page):page.get_by_role('button',name=re.compile('^Choose NVDAX')).click();page.locator('.pair-sample-refresh:not([disabled])').wait_for(timeout=60000)
+def ready(page):page.wait_for_function("document.querySelector('[data-registry-state]')?.dataset.registryState==='ready'",timeout=60000)
+def selected(page):page.locator('#pair-search').fill(QUOTE);page.get_by_role('option',name=re.compile('^NVDAX')).wait_for();page.keyboard.press('ArrowDown');page.keyboard.press('Enter');page.locator('.pair-sample-refresh:not([disabled])').wait_for(timeout=60000)
 def loaded(page):
  page.locator('.token-brief[aria-busy=false]').wait_for(timeout=60000)
  # Next streams metadata separately from client data. Audit the completed page,

@@ -90,7 +90,7 @@ test('tracked fallback stays a distinct dated sample, preserves exact identities
  const groups=fromTracked(tokens,null);assert.equal(groups.length,6);assert.equal(groups.flatMap(g=>g.tokens).length,7);
  assert.deepEqual(groups.find(g=>g.quoteSymbol==='ZEC').tokens.map(t=>t.symbol),['MASK','ZCAT']);
  assert.ok(groups.every(g=>g.tokens.every(t=>t.radar===null && t.catalog===null && t.observationCount===null)));
- const html=renderToStaticMarkup(React.createElement(Explorer,{tokens}));for(const term of ['Find memecoins that reward holders in the assets you follow.','Choose a reward asset.','Find another reward asset','Search name, ticker or mint','Verifying pair choices'])assert.ok(html.includes(term),term);
+ const html=renderToStaticMarkup(React.createElement(Explorer,{tokens}));for(const term of ['Memecoin research, by quote asset.','Search quote assets','Name, ticker or exact mint','Reading verified registry'])assert.ok(html.includes(term),term);
  assert.equal((html.match(/aria-pressed="true"/g)||[]).length,0);assert.ok(!html.includes('Reported USD snapshot'));assert.ok(!/<details[^>]*\bopen/.test(html));
 });
 test('existing matched/point/zero gates remain authoritative; reset/stale/degraded/identity/gap failures withhold flows',()=>{
@@ -220,26 +220,14 @@ test('Unicode text resembling a mint is sent literally instead of silently becom
  try {const result=await fetchQuoteRegistry(new AbortController().signal,raw);assert.equal(result.search.mint,null);assert.equal(result.dataset.coverage.matchedCount,0);}finally{globalThis.fetch=original;}
 });
 
-const {PRESET_CANDIDATES,verifiedPreset}=await load('app/pairs/presets');
-function presetFixture(candidate) {
- const f=quoteFixture({mint:tokens[0].mint});
- f.search.mint=candidate.mint;
- Object.assign(f.quotes[0],{quoteMint:candidate.mint,quoteSymbol:candidate.symbol});
- return parseRegistry(f);
-}
-test('featured choices are four explicit original-case mint candidates, never ticker aliases or static registry fallbacks',()=>{
- assert.deepEqual(PRESET_CANDIDATES.map(p=>p.symbol),['NVDAX','GLDX','STONK','SPCXX']);
- assert.equal(new Set(PRESET_CANDIDATES.map(p=>p.mint)).size,4);
- for(const candidate of PRESET_CANDIDATES){
-  const f=presetFixture(candidate);assert.equal(verifiedPreset(candidate,f).quote.quoteMint,candidate.mint);
-  for(const mutate of [f=>f.search.mint=tokens[0].mint,f=>f.search.query=candidate.symbol.toLowerCase(),f=>f.quotes[0].quoteMint=tokens[0].mint,f=>f.quotes[0].quoteSymbol='Other ticker',f=>f.status='not_found',f=>f.dataset.coverage.matchedCount=2,f=>f.quotes.push({...f.quotes[0]}),f=>f.quotes=[]]){
-   const bad=structuredClone(f);mutate(bad);assert.equal(verifiedPreset(candidate,bad),null);
-  }
- }
+test('search-first landing has one labelled, keyboard-enabled universal combobox and no fixed pair universe',()=>{
  const html=renderToStaticMarkup(React.createElement(Explorer,{tokens}));
- assert.equal((html.match(/disabled=""/g)||[]).length,4);
+ assert.equal((html.match(/role="combobox"/g)||[]).length,1);
  assert.equal((html.match(/type="search"/g)||[]).length,1);
- assert.ok(!html.includes('US$'));assert.ok(html.includes('not equity ownership'));assert.ok(html.includes('role="group" aria-label="Featured reward assets"'));
+ for(const attribute of ['aria-expanded="false"','aria-autocomplete="list"','aria-controls="quote-options"','aria-keyshortcuts="Control+K Meta+K"','role="listbox"','aria-label="Verified quote assets"'])assert.ok(html.includes(attribute),attribute);
+ for(const old of ['pair-featured','Featured reward assets','Choose NVDAX','Choose GLDX','Choose STONK','Choose SPCXX'])assert.ok(!html.includes(old),old);
+ assert.ok(!html.includes('US$'));assert.ok(!html.includes('role="option"'));assert.ok(!html.includes('autofocus'));
+ assert.ok(html.includes('Registry membership does not verify rewards or ownership'));
 });
 test('screener row retains zero and exceptional warnings; full identity/time/returns stay in controlled hidden evidence',()=>{
  const f=fixture();f.groups[0].tokens[0].market.liquidityUsd=0;
