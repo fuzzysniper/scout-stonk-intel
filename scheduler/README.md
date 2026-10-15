@@ -17,3 +17,5 @@ public fetch, routes, previews, Cron, credentials or enabled activation are supp
 [Human PC deployment/removal, approvals, CPU/budget limits and exact results](../docs/CLOUDFLARE_STAGING.md).
 No deploy script, auto-upgrade or scheduler activation is included. Human approval
 of a staging deployment does not authorize App/secrets setup or an hourly pilot.
+
+[Issue #68 hourly pilot NO-GO checklist and owner-only auth proof](../docs/HOURLY_PILOT_READINESS.md). The auth CLI is not a deployment hook and must never be run by Codex with a real key; it requires separate owner consent. No activation or Cron command is provided.

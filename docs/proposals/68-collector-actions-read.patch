@@ -1,0 +1,11 @@
+diff --git a/.github/workflows/reward-snapshots.yml b/.github/workflows/reward-snapshots.yml
+--- a/.github/workflows/reward-snapshots.yml
++++ b/.github/workflows/reward-snapshots.yml
+@@ -16,6 +16,7 @@ on:
+     - cron: '17 * * * *'
+ permissions:
+   contents: write
++  actions: read
+ concurrency:
+   group: reward-snapshots
+   cancel-in-progress: false

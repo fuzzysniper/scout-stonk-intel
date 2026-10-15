@@ -1,5 +1,7 @@
 # Shared collection claims — inactive workflow integration
 
+Issue #68 follow-up: [hourly pilot readiness](HOURLY_PILOT_READINESS.md) records current NO-GO gates, staged Windows approval scopes, an owner-only no-dispatch PC auth probe, the inert Actions-read proposal and corrected GitHub-token/Vercel build-cost evidence. Earlier setup instructions are not activation approval.
+
 Issue [#28](https://github.com/fuzzysniper/scout-stonk-intel/issues/28), based on main `82731c69096ed250c4393b1de186a3f25653e07b`, including merged PR #27. Extends [ADR 0001](decisions/0001-collection-trigger.md) and [ADR 0002](decisions/0002-staged-trigger-adapter.md). **PR review only. No gate flag, credentials, permissions, external service or pilot is activated here.** Merging code and approving a migration are separate decisions.
 
 ## Default-off behavior and workflow wiring

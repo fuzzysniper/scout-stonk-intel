@@ -15,6 +15,7 @@ import signal
 import subprocess
 import tempfile
 import urllib.request
+import urllib.error
 
 from scripts.shared_collection_gate import plan_claim, publication_authorized
 from scripts.trigger_contract import MAX_LATE, utc, slot_key
@@ -65,6 +66,8 @@ class GitHubIdentity:
             'Authorization': 'Bearer ' + self.token, 'X-GitHub-Api-Version': '2026-03-10'})
         try:
             with self.opener.open(request, timeout=8) as response:
+                if response.status in (401, 403):
+                    raise GateStop('identity_read_unauthorized' if response.status == 401 else 'identity_read_forbidden')
                 if response.status != 200 or response.geturl() != API + path:
                     raise GateStop('identity_response_rejected')
                 data = response.read(MAX_BYTES + 1)
@@ -76,6 +79,10 @@ class GitHubIdentity:
                 return value
         except GateStop:
             raise
+        except urllib.error.HTTPError as exc:
+            # Status only; a 403 is not proof of its cause. Never echo bodies/headers.
+            reason = {401: 'identity_read_unauthorized', 403: 'identity_read_forbidden'}.get(exc.code, 'identity_unavailable')
+            raise GateStop(reason) from None
         except Exception:
             raise GateStop('identity_unavailable') from None
 

@@ -1,0 +1,830 @@
+{
+  "kind": "inactive_hourly_pilot_readiness_audit",
+  "recordedAt": "2026-10-15T06:34:29.767796+00:00",
+  "baseCommit": "633ca3efc317c1d505405a0d925b77f0dac1ce15",
+  "readiness": "NO_GO_FOR_ACTIVATION",
+  "liveCloudflareInspected": false,
+  "realKeyAccessed": false,
+  "liveAppAuthRequests": 0,
+  "liveDispatches": 0,
+  "providerRequests": 0,
+  "permissionsChanged": false,
+  "protectedFiles": [
+    {
+      "path": ".github/ISSUE_TEMPLATE/feature.md",
+      "sha256": "9c5f68ef85b4700f283f212bc36876043499993a081fccf675066f3784198670"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "a15150bc49b10a814ba74c2d8f33f87803d2f30c6f5353187ac27be3ef54acce"
+    },
+    {
+      "path": ".github/workflows/data-health.yml",
+      "sha256": "e3084fb26bfff110271c783a80eb7cb778c8b797c3bb308b2381c6c79de1c8c3"
+    },
+    {
+      "path": ".github/workflows/research-archive.yml",
+      "sha256": "9c692ca4a9e3a278e671a9d730b664cf4e69f6f54f601a199e0f4f189483cf62"
+    },
+    {
+      "path": ".github/workflows/reward-snapshots.yml",
+      "sha256": "14005c5d6a7c6e8c9034a8a918cff2164bbd9d4ab596a82450325f2c311f353a"
+    },
+    {
+      "path": "app/api/archive/route.ts",
+      "sha256": "70e8e93cba0aa01c278b0b87729f6256156f81debf0cc30f147ad1ec76c6196d"
+    },
+    {
+      "path": "app/api/brief/route.ts",
+      "sha256": "7269040aec6a334b17787ceaa66b8626d037403847b10a4176d95a0198c6db88"
+    },
+    {
+      "path": "app/api/history/route.ts",
+      "sha256": "5ac5180d17e756a8383838463033d66aa5876407ff07e33de6b0248041d2dc0c"
+    },
+    {
+      "path": "app/api/og/route.tsx",
+      "sha256": "704103363e1194f7129d3cd1f7378d45a261a79164b7affb8668ec6a808223c0"
+    },
+    {
+      "path": "app/api/pair-quotes/route.ts",
+      "sha256": "c706d82a9166c11ae5863f2bb7154ac8f9959142d4528d8235bd2c612e4cbe60"
+    },
+    {
+      "path": "app/api/pairs/route.ts",
+      "sha256": "4b9492177b7a17dc0b1f49d298d79300a6164d911fe4e9f457395537c81f13c7"
+    },
+    {
+      "path": "app/api/radar/route.ts",
+      "sha256": "a884b95cc9af72695c43c3a1914115c1b2547569f5d368c4ab99e4a63d9b9f3d"
+    },
+    {
+      "path": "app/api/rewards/route.ts",
+      "sha256": "4580f7e8223c1b94464586667b7b46d90bb490ecf58c144387b319678d03a54e"
+    },
+    {
+      "path": "app/api/status/route.ts",
+      "sha256": "d8ad4948101b3b98e6bab47be6344e4c5ec7cff6d418f7c45ae7bb216f52730d"
+    },
+    {
+      "path": "app/api/token/route.ts",
+      "sha256": "8044564c0663a8b938d54b2f27a62650eca44deaee0685dac0a3638b5e69bcb0"
+    },
+    {
+      "path": "app/brief/[date]/editions/[id]/opengraph-image.tsx",
+      "sha256": "c7e10a26db89006e245fdee41a4726a813dbfff8cdfd9ccc435254e5a743bc36"
+    },
+    {
+      "path": "app/brief/[date]/editions/[id]/page.tsx",
+      "sha256": "885080b4924554e92b1fc38e1519eb1c252e5e5e301032bc2e86e53bf40887b5"
+    },
+    {
+      "path": "app/brief/[date]/opengraph-image.tsx",
+      "sha256": "dccadfbd61abd5d1b4a9b688853ee433ea3cf1be079521d17f993219fb8642fd"
+    },
+    {
+      "path": "app/brief/[date]/page.tsx",
+      "sha256": "f844a663daa5bb947df98d7998a42ee76ab4eae80df6cbbe64bcbef17d93d7a2"
+    },
+    {
+      "path": "app/brief/brief-client.tsx",
+      "sha256": "b3a44766598dbb0976dd86d26b17db5efc542782c5451609f401191eeee05902"
+    },
+    {
+      "path": "app/brief/page.tsx",
+      "sha256": "b4dbf95820c47f190d8791fb1aa27c518f24d80ee21f7bcaaed6c02530f7b7c4"
+    },
+    {
+      "path": "app/ecosystem-footer.tsx",
+      "sha256": "1ce6858891f9bb4a992faca3a5468e900fcfc96acea997e634d8b8b96b38365b"
+    },
+    {
+      "path": "app/ecosystem-preview.tsx",
+      "sha256": "9d9a11560197edca7a1cc8f7e7292b3e63de20b761a0cb3badab856451181294"
+    },
+    {
+      "path": "app/first-steps.tsx",
+      "sha256": "062429a73cc0647ed4ad274d5c335adcc6e88f8bf5be5af740cd69b95fbc7177"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "9424129e9a176364a615532f07f243433bc875d7b2c9c81febb7ef4b2e765199"
+    },
+    {
+      "path": "app/history-panel.tsx",
+      "sha256": "d87aeb756c2fdcacd176370895703c6f2f9d5ae0ba2d1a7a2b2803b2c098de92"
+    },
+    {
+      "path": "app/layout.tsx",
+      "sha256": "be357163ef1a4dc4d696a28e86c1c32b2ba856e663bc9acba412e5e7fcc09d88"
+    },
+    {
+      "path": "app/opengraph-image.tsx",
+      "sha256": "7ff4c7a911dbe78c12534236ff958b07168cf5acac55398307047a18191d2dd8"
+    },
+    {
+      "path": "app/page.tsx",
+      "sha256": "fd929ef3ad3a8f1d4fb5b1b8c1a86b53154335e0922633d123c1f0e68337b9bd"
+    },
+    {
+      "path": "app/pairs/adapter.ts",
+      "sha256": "782dca78c13f2bf2983517563c6e2372808cfcd6cc7c65b1f924648c8ac88fc3"
+    },
+    {
+      "path": "app/pairs/client.ts",
+      "sha256": "94e176c33dc9b5681c4cac124d44c80523eea5e7b1a93f412f180c9e1c422eee"
+    },
+    {
+      "path": "app/pairs/explorer.tsx",
+      "sha256": "5897f0ddbb81c0b96696eb580b7db846b23734304bf1fc693f8e1235d16098ea"
+    },
+    {
+      "path": "app/pairs/presets.ts",
+      "sha256": "cd5475e0c4cd95b68380d6790c433a2be0fc7f364b1ac92338932fb2811fe6e4"
+    },
+    {
+      "path": "app/pairs/registry.ts",
+      "sha256": "ef31a844a2ee76e47dea24d3d6e69cbca010615af9c555c9448870097d29332a"
+    },
+    {
+      "path": "app/pairs/results.ts",
+      "sha256": "a8c8bfca54c81a308e0d081f8d5ef9180acf5458b06727040e29909c68c0225b"
+    },
+    {
+      "path": "app/radar/evidence-view.tsx",
+      "sha256": "762967f7f17ddeece56a172e0678a731d81284ff1c015bac773ec65d80668ca2"
+    },
+    {
+      "path": "app/radar/page.tsx",
+      "sha256": "b7679b00d2e3baa0107a156ea39005155e80da537f9ddade8ce3ab88382fa583"
+    },
+    {
+      "path": "app/radar/radar-client.tsx",
+      "sha256": "d3b1b2d51ca43e1e14459396013be4325e4625f68f3e9e97b37b551cc8192bc6"
+    },
+    {
+      "path": "app/radar/signal-panel.tsx",
+      "sha256": "c8c94fe6cc16f6e10fa7cda0c09062027579dac279b0ede154e744c558de762b"
+    },
+    {
+      "path": "app/radar/use-radar.ts",
+      "sha256": "799a4680555934af6683b0cbf852a701cd5c0f22997bd9dc395568b8e347efa7"
+    },
+    {
+      "path": "app/research-actions.tsx",
+      "sha256": "98f01a5bd3e2f904aa0f00745d691699b375200c69070a1e41ad5c6b7cb8a58f"
+    },
+    {
+      "path": "app/research/page.tsx",
+      "sha256": "49832867fbe5de0678f5326d35d526b1eb9d8abb0a3a046e5533c315f7c6f6d5"
+    },
+    {
+      "path": "app/scout-client.tsx",
+      "sha256": "cbcc185aaca10c507cef33c153cead3e17974f9783bfc0e1ba0a5a5edc4b926e"
+    },
+    {
+      "path": "app/site-navigation.tsx",
+      "sha256": "5f5505bbb1d405e94eb6b807e1c6d13e602fc117eae002e14054bb2337df76fc"
+    },
+    {
+      "path": "app/status/page.tsx",
+      "sha256": "36fa37052b985b7481b5b9b1e31189e8e89dc37c17296fd278345f151f4357ea"
+    },
+    {
+      "path": "app/status/status-client.tsx",
+      "sha256": "30d50090eda3bb1112de7a725be6a88cb9ed31669c6fbfde71363b972361b334"
+    },
+    {
+      "path": "data/brief-archive/2026-10-11/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63.json",
+      "sha256": "1078ab9b5e771f7ed24c9d6bde3f6005436d5ae37e41739e18fb0e558384cef2"
+    },
+    {
+      "path": "data/brief-archive/index.json",
+      "sha256": "fa0d6bb2497102731a3e38038b46cd8f63d28527964d7f2fee6e4e13e126adb1"
+    },
+    {
+      "path": "data/collection-slots.json",
+      "sha256": "d6338b854958de31d9c9f6eff39ac74c2fb383328903fd393adc79416a345730"
+    },
+    {
+      "path": "data/collection-summary.json",
+      "sha256": "24bd1abcb9f81be1f5ab2a3a075280c016be09c7ca9a5e83ddbc6cb0a744822e"
+    },
+    {
+      "path": "data/collector-audit.json",
+      "sha256": "a425b381874136f0c4b49825eef880de64f0a6632bec56d656c9a115e8303a59"
+    },
+    {
+      "path": "data/reward-snapshots.json",
+      "sha256": "d9b2dc915f5802903c3d2ef15d2ef8d31ffc6d95e268954e1505c6e2f574579c"
+    },
+    {
+      "path": "data/tracked-mints.json",
+      "sha256": "e6a94dc0962ca3b4336dd2d97ab879aef542062b39cee93994bd9a96698814a5"
+    },
+    {
+      "path": "lib/archive-source.ts",
+      "sha256": "85e6ef8ef239b97c5f86def1f3046e59f59c7b5d057d2692f6e828702cb109b9"
+    },
+    {
+      "path": "lib/archive.ts",
+      "sha256": "5ce229b0d59c8d6c0abb179088be5b019e0dfdce1ee027cf9fa698481e73b499"
+    },
+    {
+      "path": "lib/brief-source.ts",
+      "sha256": "cbfe344ce6d77cab901187d19fafe0da7181b8717e19395c737d5d759ac5d5af"
+    },
+    {
+      "path": "lib/brief.ts",
+      "sha256": "e284e17e8c312300ef2b4df0cf0b32fed7f98a41a66ffa1f0fb88c4b83e0f77a"
+    },
+    {
+      "path": "lib/collector-diagnostics.ts",
+      "sha256": "0a9655fc640e42f784e220961a782c09400d787d58b9c3135a997f4c74365f7b"
+    },
+    {
+      "path": "lib/data-health.ts",
+      "sha256": "3b549b542e8531db413a0a7e33d4ee40d1882bba386cd0e53fafe5c870efd728"
+    },
+    {
+      "path": "lib/history-source.ts",
+      "sha256": "80118196a8c77df7c291b347944a88921bc5a7dcea77abdea4ba25d9d1394b9c"
+    },
+    {
+      "path": "lib/history.ts",
+      "sha256": "e7beeff4acaf31e5e8ea143f9ffb4afc742eba24f934c104a74384bd2a9d1348"
+    },
+    {
+      "path": "lib/pair-pulse-contract.ts",
+      "sha256": "3550949ff04158b678f6a416aec30b1407ef00d9d3b7d2fb6ba29169e6909343"
+    },
+    {
+      "path": "lib/pair-pulse.ts",
+      "sha256": "ffa275c2bf6274a1d32a676383475a38491191944827f1fd6f46d921e1fc95e2"
+    },
+    {
+      "path": "lib/pair-reward-audit-contract.ts",
+      "sha256": "b2aa2805bbefcb22dea70dbed62ec2c95aa9a26cf6c6db78c7a9a8ee9a195231"
+    },
+    {
+      "path": "lib/pair-reward-audit.ts",
+      "sha256": "41d52af957c3cbd17317000b01c62149547c7c50aec46b46a91bc8523b095286"
+    },
+    {
+      "path": "lib/pairs-contract.ts",
+      "sha256": "0302018703d7cfbb85081bac28b633616322c089a85bf459671b8b8e69e6fab1"
+    },
+    {
+      "path": "lib/pairs-source.ts",
+      "sha256": "80d00d509e74a556277be114c120239e0f224d67973de403d9d39732ad35eed0"
+    },
+    {
+      "path": "lib/pairs.ts",
+      "sha256": "d46d51b62c05b67f7bd960b9e61ac2a040fd045aec6860c97ad28428f5f7a6d8"
+    },
+    {
+      "path": "lib/radar.ts",
+      "sha256": "f2b87334457ade3bc492824f8f1ec3528ba7b8bbeb504400f17e48ebdf73eb15"
+    },
+    {
+      "path": "lib/reward-evidence-contract.ts",
+      "sha256": "3e8fc2a3850841ab46f743c942831205cdd2c2250e8956e81cb9fd2f95b10854"
+    },
+    {
+      "path": "lib/reward-evidence.ts",
+      "sha256": "383499510b13ed5b81643c28541f16a3130bdab55e23093c77180ac84748f4ff"
+    },
+    {
+      "path": "lib/reward-lifetime.ts",
+      "sha256": "a21cf8af7947f37f0a133cf276eb11d4e3ce1ee75bc353f4bd539c7c231be411"
+    },
+    {
+      "path": "lib/reward-source-diagnostics.ts",
+      "sha256": "c9768d61a234a5d2248676e36533edc5ceb1e0cebc59f8bfddd2563347d6dccf"
+    },
+    {
+      "path": "lib/signals.ts",
+      "sha256": "b5721de28198db66e5f1028cee296b5664b0b47b02b36110177117d5d422c368"
+    },
+    {
+      "path": "lib/solana.ts",
+      "sha256": "acb648033fccf86d8057118e0c0ed0b07e8d5a0dc33d98ca4535992981a26aac"
+    },
+    {
+      "path": "lib/tracked-tokens.ts",
+      "sha256": "dda89d5ada8ac29f21071c904a7eca6458a38c0d3f0a53c8900fc0262c52753b"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "a75e95cf620e87e10256848e88c14569cade6fbec5a51b2a1b625010a15e9134"
+    },
+    {
+      "path": "package.json",
+      "sha256": "303996d9a16dec601f63ab65e1d842cc466b850ce77312d4a129be62e82e64ef"
+    },
+    {
+      "path": "scheduler/dry-run.mjs",
+      "sha256": "c08216076e45ef9cf1ac116238b9403278d54a14494d2d81d94d83c040112130"
+    },
+    {
+      "path": "scheduler/package-lock.json",
+      "sha256": "77b3c0b51f74ba8d444f4736072927776649ee308ad1094c5cee91f22fdf53a3"
+    },
+    {
+      "path": "scheduler/staging-entry.ts",
+      "sha256": "33a9eef933f42039163ad67f3aa99698fdc014e55d3d3b83d98623520ed48524"
+    },
+    {
+      "path": "scheduler/staging-policy.mjs",
+      "sha256": "e94bed12c6621c280a3981412347e7889b89ebd32a2ff9a6d98116c769720b28"
+    },
+    {
+      "path": "scheduler/wrangler.json",
+      "sha256": "cded2792b79612ece762b59db24857d10a9d937ad1772842c8eca29c548dd46b"
+    },
+    {
+      "path": "scripts/audit_collector.py",
+      "sha256": "55a3bf2c00d1b1345c33f434660e2d7285e3b5dc2bcd67a9083b3ccfdcb9c0e4"
+    },
+    {
+      "path": "scripts/collect_rewards.py",
+      "sha256": "8db2c3d5c0eb6817efea7f25cef2686152cd88ce2e20d800b65f030e2c8db579"
+    }
+  ],
+  "declaredStaging": {
+    "$schema": "./node_modules/wrangler/config-schema.json",
+    "name": "scout-scheduler-staging",
+    "main": "staging-entry.ts",
+    "compatibility_date": "2026-10-01",
+    "workers_dev": false,
+    "preview_urls": false,
+    "vars": {
+      "ACTIVATION": "disabled",
+      "APP_ID": "5310753",
+      "INSTALLATION_ID": "171233795",
+      "REPOSITORY_ID": "1415026436"
+    },
+    "durable_objects": {
+      "bindings": [
+        {
+          "name": "SLOTS",
+          "class_name": "SlotCoordinator"
+        }
+      ]
+    },
+    "exports": {
+      "SlotCoordinator": {
+        "type": "durable-object",
+        "storage": "sqlite"
+      }
+    }
+  },
+  "blockers": [
+    "hosted_configuration_and_secret_binding_unverified",
+    "workflow_token_actions_read_not_declared_or_hosted_proven",
+    "hosted_auth_and_workflow_token_identity_proof_missing",
+    "native_gate_migration_and_actor_id_not_authorized",
+    "evidence_export_and_circuit_recovery_not_hosted_proven",
+    "main_push_hosting_policy_and_account_usage_unreviewed",
+    "hosted_free_cpu_and_account_quota_unmeasured"
+  ],
+  "mainPushEvidence": {
+    "githubDocumentation": {
+      "url": "https://raw.githubusercontent.com/github/docs/main/data/reusables/actions/actions-do-not-trigger-workflows.md",
+      "status": 200,
+      "retrievedAt": "2026-10-15T06:30:25.338285+00:00",
+      "sha256": "2077c4672482dd746c60cd2f75e62e394dd668b74fdd73338d5a895523fafdef",
+      "text": "When you use the repository's `GITHUB_TOKEN` to perform tasks, events triggered by the `GITHUB_TOKEN` will not create a new workflow run, with the following exceptions:\n\n* `workflow_dispatch` and `repository_dispatch` events always create workflow runs.{% ifversion actions-github-token-pull-request-approval %}\n* `pull_request` events with the `opened`, `synchronize`, or `reopened` activity types: when a workflow using `GITHUB_TOKEN` creates or updates a pull request, the resulting `pull_request` event creates workflow runs in an **approval-required** state. The pull request displays a banner in the merge box, and a user with write access to the repository can start the runs by selecting **Approve workflows to run**. Other `pull_request` activity types (such as `labeled`, `edited`, or `closed`) do not create workflow runs. This prevents recursive workflow runs while still allowing CI workflows to run on pull requests created by automation. For more information about approving workflow runs, see [AUTOTITLE](/actions/how-tos/manage-workflow-runs/approve-runs-from-forks).{% endif %}\n\nFor all other events, this behavior prevents you from accidentally creating recursive workflow runs. For example, if a workflow run pushes code using the repository's `GITHUB_TOKEN`, a new workflow will not run even when the repository contains a workflow configured to run when `push` events occur.\n"
+    },
+    "pushRunListing": {
+      "totalCount": 64,
+      "returnedCount": 64,
+      "matchingBotDataCommitRuns": []
+    },
+    "dataCommit": "93b1769e56b296c13f9f4d78a8971b5259a1df79",
+    "vercelStatuses": [
+      {
+        "context": "Vercel",
+        "state": "success",
+        "description": "Deployment has completed",
+        "created_at": "2026-10-15T01:35:25Z",
+        "updated_at": "2026-10-15T01:35:25Z",
+        "target_url": "https://vercel.com/riskledgerapp/scout-stonk-intel/5DsNfGqyn6JuoPgvXETdHr2bUGEj"
+      }
+    ]
+  },
+  "officialCloudflareSources": [
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/workers/platform/limits.mdx",
+      "retrievedAt": "2026-10-15T06:28:39.170653+00:00",
+      "status": 200,
+      "sha256": "707eb71f26a93061771979b386ebce8374680f64864d61f750d20f265ec62a3e",
+      "bytes": 22880,
+      "excerpts": [
+        {
+          "line": 21,
+          "text": " | Feature                                                                          | Workers Free | Workers Paid   | | -------------------------------------------------------------------------------- | ------------ | -------------- |"
+        },
+        {
+          "line": 23,
+          "text": "| -------------------------------------------------------------------------------- | ------------ | -------------- | | [Requests](#daily-requests)                                                      | 100,000/day  | No limit       | | [CPU time](#cpu-time)                                                            | 10 ms        | 5 min          |"
+        },
+        {
+          "line": 24,
+          "text": "| [Requests](#daily-requests)                                                      | 100,000/day  | No limit       | | [CPU time](#cpu-time)                                                            | 10 ms        | 5 min          | | [Memory](#memory)                                                                | 128 MB       | 128 MB         |"
+        },
+        {
+          "line": 34,
+          "text": "| Number of [Cron Triggers](/workers/configuration/cron-triggers/)<br/>per account | 5            | 250            | | Number of [Static Asset](#static-assets) files per Worker version                | 20,000       | 100,000        | | Individual [Static Asset](#static-assets) file size                              | 25 MiB       | 25 MiB         |"
+        },
+        {
+          "line": 67,
+          "text": " ## CPU time "
+        },
+        {
+          "line": 69,
+          "text": " CPU time measures how long the CPU spends executing your Worker code. Waiting on network requests (such as `fetch()` calls, KV reads, or database queries) does **not** count toward CPU time. "
+        },
+        {
+          "line": 71,
+          "text": " | Limit                     | Workers Free | Workers Paid                                                     | | ------------------------- | ------------ | ---------------------------------------------------------------- |"
+        },
+        {
+          "line": 73,
+          "text": "| ------------------------- | ------------ | ---------------------------------------------------------------- | | CPU time per HTTP request | 10 ms        | 5 min (default: 30 seconds)                                      | | CPU time per Cron Trigger | 10 ms        | 30 seconds (< 1 hour interval) <br/> 15 min (>= 1 hour interval) |"
+        },
+        {
+          "line": 74,
+          "text": "| CPU time per HTTP request | 10 ms        | 5 min (default: 30 seconds)                                      | | CPU time per Cron Trigger | 10 ms        | 30 seconds (< 1 hour interval) <br/> 15 min (>= 1 hour interval) | "
+        },
+        {
+          "line": 76,
+          "text": " Most Workers consume very little CPU time. The average Worker uses approximately 2.2 ms per request. Heavier workloads that handle authentication, server-side rendering, or parse large payloads typically use 10-20 ms. "
+        },
+        {
+          "line": 80,
+          "text": " #### Error: exceeded CPU time limit {/* exceeded-cpu */} "
+        },
+        {
+          "line": 82,
+          "text": " When a Worker exceeds its CPU time limit, Cloudflare returns [Error 1102](/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1102/#error-1102-worker-exceeded-resource-limits) to the client with the message `Worker exceeded resource limits`. In the dashboard, this appears as `Exceeded CPU Time Limits` under **Metrics** > **Errors** > **Invocation Statuses**. In analytics and Logpush, the invocation outcome is `exceededCpu`. "
+        },
+        {
+          "line": 84,
+          "text": " To resolve a CPU time limit error: "
+        },
+        {
+          "line": 86,
+          "text": " 1. **Increase the CPU time limit** \u2014 On the Workers Paid plan, you can raise the limit from the default 30 seconds up to 5 minutes (300,000 ms). Set this in your Wrangler configuration or in the dashboard. 2. **Optimize your code** \u2014 Use [CPU profiling with DevTools](/workers/observability/dev-tools/cpu-usage/) to identify CPU-intensive sections of your code."
+        },
+        {
+          "line": 90,
+          "text": " #### Increasing the CPU time limit "
+        },
+        {
+          "line": 92,
+          "text": " On the Workers Paid plan, you can increase the maximum CPU time from the default 30 seconds to 5 minutes (300,000 ms). "
+        },
+        {
+          "line": 100,
+          "text": "\t\"limits\": { \t\t\"cpu_ms\": 300000, // default is 30000 (30 seconds) \t},"
+        },
+        {
+          "line": 108,
+          "text": " You can also change this in the dashboard: go to **Workers & Pages** > select your Worker > **Settings** > adjust the CPU time limit. "
+        },
+        {
+          "line": 112,
+          "text": " - **Workers Logs** \u2014 CPU time and wall time appear in the [invocation log](/workers/observability/logs/workers-logs/#invocation-logs). - **Tail Workers / Logpush** \u2014 CPU time and wall time appear at the top level of the [Workers Trace Events object](/logs/logpush/logpush-job/datasets/account/workers_trace_events/)."
+        },
+        {
+          "line": 113,
+          "text": "- **Workers Logs** \u2014 CPU time and wall time appear in the [invocation log](/workers/observability/logs/workers-logs/#invocation-logs). - **Tail Workers / Logpush** \u2014 CPU time and wall time appear at the top level of the [Workers Trace Events object](/logs/logpush/logpush-job/datasets/account/workers_trace_events/). - **DevTools** \u2014 Use [CPU profiling with DevTools](/workers/observability/dev-tools/cpu-usage/) locally to identify CPU-intensive sections of your code."
+        },
+        {
+          "line": 152,
+          "text": " ## Duration "
+        },
+        {
+          "line": 154,
+          "text": " Duration measures wall-clock time from start to end of a Worker invocation. "
+        },
+        {
+          "line": 156,
+          "text": " | Trigger type                                                      | Duration limit | | ----------------------------------------------------------------- | -------------- |"
+        },
+        {
+          "line": 163,
+          "text": " There is no hard limit on duration for HTTP-triggered Workers. As long as the client remains connected, the Worker can continue processing, making subrequests, and streaming a response body. When the client disconnects or the response is complete, tasks associated with that request may be canceled. Use [`ctx.waitUntil()`](/workers/runtime-apis/context/#waituntil) to perform work after returning a response. `waitUntil()` can extend execution for up to 30 seconds after the response is sent or the client disconnects. "
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/durable-objects/platform/limits.mdx",
+      "retrievedAt": "2026-10-15T06:28:39.365326+00:00",
+      "status": 200,
+      "sha256": "3659c0f0abc2ca951ea6b7086768b2696a8f726b7f4be0920c05b451f479302f",
+      "bytes": 6813,
+      "excerpts": [
+        {
+          "line": 4,
+          "text": "title: Limits description: Account, storage, CPU, and SQL limits for Durable Objects on Free and Workers Paid plans. sidebar:"
+        },
+        {
+          "line": 15,
+          "text": " ## SQLite-backed Durable Objects general limits "
+        },
+        {
+          "line": 20,
+          "text": "| Number of Objects                            | Unlimited (within an account or of a given class)                                                              | | Maximum Durable Object classes (per account) | 500 (Workers Paid) / 100 (Free) [^1]                                                                           | | Storage per account                          | Unlimited (Workers Paid) / 5GB (Free) [^2]                                                                     |"
+        },
+        {
+          "line": 21,
+          "text": "| Maximum Durable Object classes (per account) | 500 (Workers Paid) / 100 (Free) [^1]                                                                           | | Storage per account                          | Unlimited (Workers Paid) / 5GB (Free) [^2]                                                                     | | Storage per class                            | Unlimited [^3]                                                                                                 |"
+        },
+        {
+          "line": 27,
+          "text": "| WebSocket message size                       | 32 MiB (only for received messages)                                                                            | | CPU per request                              | 30 seconds (default) / configurable to 5 minutes of [active CPU time](/workers/platform/limits/#cpu-time) [^4] | | Simultaneous outgoing connections/request    | 6 (same as [Workers](/workers/platform/limits/#simultaneous-open-connections)) |"
+        },
+        {
+          "line": 32,
+          "text": " [^2]: Durable Objects both bills and measures storage based on a gigabyte <br/> (1 GB = 1,000,000,000 bytes) and not a gibibyte (GiB). <br/> "
+        },
+        {
+          "line": 34,
+          "text": " [^3]: Accounts on the Workers Free plan are limited to 5 GB total Durable Objects storage. "
+        },
+        {
+          "line": 36,
+          "text": " [^4]: Each incoming HTTP request or WebSocket _message_ resets the remaining available CPU time to 30 seconds. This allows the Durable Object to consume up to 30 seconds of compute after each incoming network request, with each new network request resetting the timer. If you consume more than 30 seconds of compute between incoming network requests, there is a heightened chance that the individual Durable Object is evicted and reset. CPU time per request invocation [can be increased](/durable-objects/platform/limits/#can-i-increase-durable-objects-cpu-limit). "
+        },
+        {
+          "line": 40,
+          "text": " For Durable Object classes with [SQLite storage](/durable-objects/api/sqlite-storage-api/) these SQL limits apply: "
+        },
+        {
+          "line": 59,
+          "text": "| Number of Objects                            | Unlimited (within an account or of a given class)   | | Maximum Durable Object classes (per account) | 500 (Workers Paid) / 100 (Free) [^5]                | | Storage per account                          | 50 GB (can be raised by contacting Cloudflare) [^6] |"
+        },
+        {
+          "line": 71,
+          "text": " [^6]: Durable Objects both bills and measures storage based on a gigabyte <br/> (1 GB = 1,000,000,000 bytes) and not a gibibyte (GiB). <br/> "
+        },
+        {
+          "line": 73,
+          "text": " [^7]: Each incoming HTTP request or WebSocket _message_ resets the remaining available CPU time to 30 seconds. This allows the Durable Object to consume up to 30 seconds of compute after each incoming network request, with each new network request resetting the timer. If you consume more than 30 seconds of compute between incoming network requests, there is a heightened chance that the individual Durable Object is evicted and reset. CPU time per request invocation [can be increased](/durable-objects/platform/limits/#can-i-increase-durable-objects-cpu-limit). "
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/workers/platform/pricing.mdx",
+      "retrievedAt": "2026-10-15T06:28:39.582084+00:00",
+      "status": 200,
+      "sha256": "433c1ef43e3adc53b7272a02b0ddb893f9514ac99c949635f7ff90423f819d75",
+      "bytes": 18602,
+      "excerpts": [
+        {
+          "line": 14,
+          "text": " By default, users have access to the Workers Free plan. The Workers Free plan includes limited usage of Workers, Pages Functions, Workers KV and Hyperdrive. Read more about the [Free plan limits](/workers/platform/limits/#account-plan-limits). "
+        },
+        {
+          "line": 16,
+          "text": " The Workers Paid plan includes Workers, Pages Functions, Workers KV, Hyperdrive, and Durable Objects usage for a minimum charge of $5 USD per month for an account. The plan includes increased initial usage allotments, with clear charges for usage that exceeds the base plan. There are no additional charges for data transfer (egress) or throughput (bandwidth). "
+        },
+        {
+          "line": 28,
+          "text": " Users on the Workers Paid plan have access to the Standard usage model. Workers Enterprise accounts are billed based on the usage model specified in their contract. To switch to the Standard usage model, contact your Account Manager. "
+        },
+        {
+          "line": 30,
+          "text": " |              | Requests<sup>1, 2, 3, 4</sup>                                      | Duration                        | CPU time                                                                                                                                                                                                                                                                                                                                                                                                        | | ------------ | ------------------------------------------------------------------ | ------------------------------- | -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+        },
+        {
+          "line": 32,
+          "text": "| ------------ | ------------------------------------------------------------------ | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | | **Free**     | 100,000 per day                                                    | No charge for duration          | 10 milliseconds of CPU time per invocation                                                                                                                                                                                                                        "
+        },
+        {
+          "line": 33,
+          "text": "| **Free**     | 100,000 per day                                                    | No charge for duration          | 10 milliseconds of CPU time per invocation                                                                                                                                                                                                                                                                                                                                                                      | | **Standard** | 10 million included per month <br /> +$0.30 per additional million | No charge or limit for duration | 30 million CPU milliseconds included per month<br /> +$0.02 per additional million CPU milliseconds<br /><br/> Max of [5 minutes of CPU time](/workers/platform/limits/#account-plan-limits) per invocation (default: 30 seconds)<br /> Max of 15 minutes of CPU t"
+        },
+        {
+          "line": 49,
+          "text": "invocations](/workers/platform/pricing/#service-bindings). CPU time is only billed when the Worker runs (on a cache miss or bypass)."
+        },
+        {
+          "line": 56,
+          "text": " A Worker that serves 15 million requests per month, and uses an average of 7 milliseconds (ms) of CPU time per request, would have the following estimated costs: "
+        },
+        {
+          "line": 60,
+          "text": "| ---------------- | ------------- | --------------------------------------------------------------------------------------------------------- | | **Subscription** | $5.00         |                                                                                                           | | **Requests**     | $1.50         | (15,000,000 requests - 10,000,000 included requests) / 1,000,000 \\* $0.30                                 |"
+        },
+        {
+          "line": 62,
+          "text": "| **Requests**     | $1.50         | (15,000,000 requests - 10,000,000 included requests) / 1,000,000 \\* $0.30                                 | | **CPU time**     | $1.50         | ((7 ms of CPU time per request \\* 15,000,000 requests) - 30,000,000 included CPU ms) / 1,000,000 \\* $0.02 | | **Total**        | $8.00         |                                                                                                           |"
+        },
+        {
+          "line": 73,
+          "text": "| ----------------------------- | ------------- | ------- | | **Subscription**              | $5.00         |         | | **Requests to static assets** | $0            | -       |"
+        },
+        {
+          "line": 76,
+          "text": "| **Requests to Worker**        | $0            | -       | | **CPU time**                  | $0            | -       | | **Total**                     | $5.00         |"
+        },
+        {
+          "line": 77,
+          "text": "| **CPU time**                  | $0            | -       | | **Total**                     | $5.00         | |                               |"
+        },
+        {
+          "line": 85,
+          "text": "- 720 requests/month - 3 minutes (180,000ms) of CPU time per request "
+        },
+        {
+          "line": 91,
+          "text": "| ---------------- | ------------- | -------------------------------------------------------------------------------------------------------- | | **Subscription** | $5.00         |                                                                                                          | | **Requests**     | $0.00         | -                                                                                                        |"
+        },
+        {
+          "line": 93,
+          "text": "| **Requests**     | $0.00         | -                                                                                                        | | **CPU time**     | $1.99         | ((180,000 ms of CPU time per request \\* 720 requests) - 30,000,000 included CPU ms) / 1,000,000 \\* $0.02 | | **Total**        | $6.99         |                                                                                                          |"
+        },
+        {
+          "line": 99,
+          "text": " A high traffic Worker that serves 100 million requests per month, and uses an average of 7 milliseconds (ms) of CPU time per request, would have the following estimated costs: "
+        },
+        {
+          "line": 103,
+          "text": "| ---------------- | ------------- | ---------------------------------------------------------------------------------------------------------- | | **Subscription** | $5.00         |                                                                                                            | | **Requests**     | $27.00        | (100,000,000 requests - 10,000,000 included requests) / 1,000,000 \\* $0.30                                 |"
+        },
+        {
+          "line": 104,
+          "text": "| **Subscription** | $5.00         |                                                                                                            | | **Requests**     | $27.00        | (100,000,000 requests - 10,000,000 included requests) / 1,000,000 \\* $0.30                                 | | **CPU time**     | $13.40        | ((7 ms of CPU time per request \\* 100,000,000 requests) - 30,000,000 included CPU ms) / 1,000,000 \\* $0.02 |"
+        },
+        {
+          "line": 105,
+          "text": "| **Requests**     | $27.00        | (100,000,000 requests - 10,000,000 included requests) / 1,000,000 \\* $0.30                                 | | **CPU time**     | $13.40        | ((7 ms of CPU time per request \\* 100,000,000 requests) - 30,000,000 included CPU ms) / 1,000,000 \\* $0.02 | | **Total**        | $45.40        |                                                                                                            |"
+        },
+        {
+          "line": 110,
+          "text": " The same Worker as Example 4, but with [Workers Caching](/workers/cache/) enabled and an 80% cache hit rate. 80 million requests are served from cache and 20 million invoke the Worker. Cache hits count as requests but do not consume CPU time. "
+        },
+        {
+          "line": 114,
+          "text": "| ---------------- | ------------- | --------------------------------------------------------------------------------------------------------- | | **Subscription** | $5.00         |                                                                                                           | | **Requests**     | $27.00        | (100,000,000 requests - 10,000,000 included requests) / 1,000,000 \\* $0.30                                |"
+        },
+        {
+          "line": 115,
+          "text": "| **Subscription** | $5.00         |                                                                                                           | | **Requests**     | $27.00        | (100,000,000 requests - 10,000,000 included requests) / 1,000,000 \\* $0.30                                | | **CPU time**     | $2.20         | ((7 ms of CPU time per request \\* 20,000,000 requests) - 30,000,000 included CPU ms) / 1,000,000 \\* $0.02 |"
+        },
+        {
+          "line": 116,
+          "text": "| **Requests**     | $27.00        | (100,000,000 requests - 10,000,000 included requests) / 1,000,000 \\* $0.30                                | | **CPU time**     | $2.20         | ((7 ms of CPU time per request \\* 20,000,000 requests) - 30,000,000 included CPU ms) / 1,000,000 \\* $0.02 | | **Total**        | $34.20        |                                                                                                           |"
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/durable-objects/platform/pricing.mdx",
+      "retrievedAt": "2026-10-15T06:28:39.775728+00:00",
+      "status": 200,
+      "sha256": "4124b71645e69aadde371fc99c88609b8bdc52be66b5bab84819709be073d92c",
+      "bytes": 6917,
+      "excerpts": [
+        {
+          "line": 17,
+          "text": " On Workers Free plan: "
+        },
+        {
+          "line": 32,
+          "text": " - Inactive objects receiving no requests do not incur any duration charges. - The [WebSocket Hibernation API](/durable-objects/best-practices/websockets/#durable-objects-hibernation-websocket-api) can dramatically reduce duration-related charges for Durable Objects communicating with clients over the WebSocket protocol, especially if messages are only transmitted occasionally at sparse intervals."
+        },
+        {
+          "line": 33,
+          "text": "- Inactive objects receiving no requests do not incur any duration charges. - The [WebSocket Hibernation API](/durable-objects/best-practices/websockets/#durable-objects-hibernation-websocket-api) can dramatically reduce duration-related charges for Durable Objects communicating with clients over the WebSocket protocol, especially if messages are only transmitted occasionally at sparse intervals. - Pending I/O operations keep an object in memory for up to 15 minutes each. The object incurs duration charges during that time. For more information, refer to [Lifecycle of a Durable Object](/durable-objects/concepts/durable-object-lifecycle/)."
+        },
+        {
+          "line": 34,
+          "text": "- The [WebSocket Hibernation API](/durable-objects/best-practices/websockets/#durable-objects-hibernation-websocket-api) can dramatically reduce duration-related charges for Durable Objects communicating with clients over the WebSocket protocol, especially if messages are only transmitted occasionally at sparse intervals. - Pending I/O operations keep an object in memory for up to 15 minutes each. The object incurs duration charges during that time. For more information, refer to [Lifecycle of a Durable Object](/durable-objects/concepts/durable-object-lifecycle/). "
+        },
+        {
+          "line": 50,
+          "text": " **Compute Duration**: "
+        },
+        {
+          "line": 52,
+          "text": " - 1,000,000 seconds \\* 128 MB / 1 GB = 128,000 GB-s. - 128,000 GB-s is within the 400,000 GB-s included allocation = $0.00."
+        },
+        {
+          "line": 55,
+          "text": " **Estimated total**: $0.15 (requests) + $0.00 (compute duration) + minimum $5/mo usage = $5.15 per month "
+        },
+        {
+          "line": 74,
+          "text": " **Compute Duration**: "
+        },
+        {
+          "line": 77,
+          "text": "- 100 Durable Objects \\* 60 seconds \\* 60 minutes \\* 8 hours \\* 30 days = 86,400,000 seconds. - 86,400,000 seconds \\* 128 MB / 1 GB = 11,059,200 GB-s. - 11,059,200 GB-s - included 400,000 GB-s = 10,659,200 GB-s"
+        },
+        {
+          "line": 81,
+          "text": " **Estimated total**: $0.45 (requests) + $137.50 (compute duration) + minimum $5/mo usage = $142.95 per month. "
+        },
+        {
+          "line": 100,
+          "text": " **Compute Duration**: "
+        },
+        {
+          "line": 103,
+          "text": "- 100 Durable Objects \\* 60 seconds \\* 60 minutes \\* 24 hours \\* 30 days = 259,200,000 seconds - 259,200,000 seconds \\* 128 MB / 1 GB = 33,177,600 GB-s - 33,177,600 GB-s - included 400,000 GB-s = 32,777,600 GB-s"
+        },
+        {
+          "line": 107,
+          "text": " **Estimated total**: $1.80 (requests) + $412.50 (compute duration) + minimum $5/mo usage = $419.30 per month "
+        },
+        {
+          "line": 114,
+          "text": "- 100 Durable Objects each have 100 Hibernatable WebSocket connections established to each of them. - Clients send one message per minute, and it takes 10ms to process a single message in the `webSocketMessage()` handler. Since each Durable Object handles 100 WebSockets, cumulatively each Durable Object will be actively executing JS for 1 second each minute (100 WebSockets \\* 10ms). "
+        },
+        {
+          "line": 126,
+          "text": " **Compute Duration**: "
+        },
+        {
+          "line": 129,
+          "text": "- 100 Durable Objects \\* 1 second<sup>2</sup> \\* 60 minutes \\* 24 hours \\* 30 days = 4,320,000 seconds - 4,320,000 seconds \\* 128 MB / 1 GB = 552,960 GB-s - 552,960 GB-s - included 400,000 GB-s = 152,960 GB-s"
+        },
+        {
+          "line": 133,
+          "text": " **Estimated total**: $3.15 (requests) + $12.50 (compute duration) + minimum $5/mo usage = $20.65 per month "
+        },
+        {
+          "line": 140,
+          "text": "1 second per minute. This can also be thought of as 432 million requests that each take 10 ms to execute (4,320,000 seconds). "
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Public documentation and repository bytes are not hosted account inspection.",
+    "Mock-key/API and temporary-Git tests do not establish real App authentication or a 48-slot pilot.",
+    "GitHub push recursion suppression does not suppress third-party hosting deployments."
+  ],
+  "localValidation": {
+    "appNode": "20.20.2",
+    "stagingNode": "24.19.0",
+    "npm": "11.9.0",
+    "appInstallPackages": 336,
+    "stagingInstallPackages": 40,
+    "tests": {
+      "appJs": 433,
+      "python": 64,
+      "adapterAndCombinedIntegration": 18,
+      "stagingAndOwnerGuards": 9,
+      "failures": 0,
+      "skips": 0
+    },
+    "commandsExit0": [
+      "npm ci",
+      "npm test",
+      "npx tsc --noEmit",
+      "npm run lint",
+      "npm run build",
+      "bash scripts/archive-tool.sh check origin/main",
+      "npm run archive:dry-run",
+      "npm --prefix scheduler ci",
+      "npm --prefix scheduler run dry-run",
+      "npm --prefix scheduler test"
+    ],
+    "wrangler": "4.150.0",
+    "currentWorkerd": "1.20261006.1",
+    "bundleKiB": 14.77,
+    "gzipKiB": 4.77,
+    "authHelperInProductionEntry": false,
+    "disabledRuntimeOutboundCalls": 0,
+    "hostedReadinessEstablished": false
+  },
+  "combinedOfflineProof": {
+    "test": "tests/scheduler-pilot.test.mjs",
+    "bridge": "tests/scheduler-pilot-bridge.py",
+    "inputs": "actual mocked Worker dispatch body, independent authenticated REST fixtures",
+    "git": "real temporary bare remotes and clones; no production writes",
+    "cases": [
+      "native_first",
+      "manual_first",
+      "external_first",
+      "lost_response_after_accepted_git_push",
+      "all_cross_source_same_slot_duplicates",
+      "next_slot_recovery_without_replay"
+    ],
+    "providerQueriesPerClaimedFixtureSlotAtMost": 1,
+    "providerQueriesOnUnconfirmedClaim": 0,
+    "actualLiveRequests": 0,
+    "is48SlotProvingEvidence": false
+  },
+  "changedImplementationHashes": {
+    "scheduler/worker.ts": "864e662e2e38bcc4a4070885c10935b3a7751267c479feca16c0e96d0c785101",
+    "scheduler/auth-readiness.mjs": "a63538e5918a683979fca654ed3b1709d17b1497172070305143a9564c07f2b3",
+    "scripts/collection_gate.py": "4029d09e79e00ba923d69130fc5e17a1eac8d9198e1fde10da0338d77c3a43cf",
+    "docs/proposals/68-collector-actions-read.patch": "73fb104e084d645eee0b33cf6b3f6500e00bea5c9861ec3688552c00da1150d3"
+  },
+  "validationRecordedAt": "2026-10-15T06:44:25.951097+00:00"
+}

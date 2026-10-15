@@ -16,7 +16,7 @@ export async function harness(options = {}) {
   const source = await readFile(join(process.env.SCHEDULER_TEST_BUILD, 'worker.js'), 'utf8');
   await writeFile(join(directory, 'worker.mjs'), source);
   await writeFile(join(directory, 'harness.mjs'), `
-import worker, {SlotCoordinator, appJwt} from './worker.mjs';
+import worker, {SlotCoordinator, appJwt, inspectAppReadiness} from './worker.mjs';
 export class TestCoordinator extends SlotCoordinator {
   clock() { return this.testTime ?? ${AT}; }
   async fetch(request) {
@@ -34,6 +34,10 @@ export class TestCoordinator extends SlotCoordinator {
   }
 }
 export default { async fetch(request, env) {
+  if (new URL(request.url).pathname === '/auth-readiness') {
+    try { return Response.json(await inspectAppReadiness(env, ${AT})); }
+    catch { return Response.json({error:'auth_readiness_unavailable'},{status:503}); }
+  }
   if (new URL(request.url).pathname === '/jwt') {
     return new Response(await appJwt(env.APP_PRIVATE_KEY, Number(env.APP_ID), ${AT}));
   }
@@ -59,7 +63,7 @@ export default { async fetch(request, env) {
       assert.equal(body.ref, 'main'); assert.equal(body.return_run_details, true);
       assert.equal(body.inputs.trigger_source, 'external');
       assert.match(body.inputs.collection_slot, /^fuzzysniper\/scout-stonk-intel\|reward-snapshots.yml\|main\|\d{4}-\d{2}-\d{2}T\d{2}:17:00Z$/);
-      if (options.dispatch) return options.dispatch(dispatchCount, request);
+      if (options.dispatch) return options.dispatch(dispatchCount, request, body);
       return Response.json({ workflow_run_id: 123456789 }, { status: 200 });
     }
     if (path === '/app/installations/22') {
@@ -77,6 +81,10 @@ export default { async fetch(request, env) {
       return Response.json(options.token || { token: 'synthetic-opaque-token-variable-length',
         expires_at: new Date(AT + 3600_000).toISOString(), permissions: { actions: 'write', metadata: 'read' } }, { status: 201 });
     }
+    if (path === '/repos/fuzzysniper/scout-stonk-intel/actions/workflows/reward-snapshots.yml') {
+      return options.workflowResponse || Response.json({id:44,path:'.github/workflows/reward-snapshots.yml',state:'active'});
+    }
+    if (path === '/installation/token' && request.method === 'DELETE') return options.revokeResponse || new Response(null,{status:204});
     if (path === '/installation/repositories') {
       assert.equal(url.search, '?per_page=2');
       return Response.json(options.repositories || { total_count: 1, repositories: [{ id: 33, full_name: 'fuzzysniper/scout-stonk-intel' }] });

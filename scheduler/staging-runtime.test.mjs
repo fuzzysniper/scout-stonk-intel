@@ -8,6 +8,7 @@ const require = createRequire(import.meta.url);
 const { Miniflare, convertV4MiniflareOptions } = require('miniflare'); // Exact runtime dependency in Wrangler's separate lockfile.
 const config = JSON.parse(await readFile(new URL('./wrangler.json',import.meta.url),'utf8'));
 const { bundle } = await dryRun();
+assert.doesNotMatch(bundle,/owner_app_auth_readiness|auth_readiness_unavailable/,'Owner-only helper is not a deployed entrypoint or reachable handler');
 
 for(const activation of ['disabled', undefined, '', 'enabled', 'human-approved ', 'true']) {
 test(`actual Wrangler bundle: fail closed with approved IDs and activation ${JSON.stringify(activation)}`, async () => {

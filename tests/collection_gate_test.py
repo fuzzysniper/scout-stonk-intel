@@ -419,6 +419,20 @@ class IdentityTransportTests(unittest.TestCase):
             self.assertNotIn('offline-mock', str(caught.exception))
         with self.assertRaises(adapter.GateStop): adapter.NoRedirect().redirect_request(None, None, 302, '', {}, 'https://other.invalid/')
 
+    def test_actions_read_denials_are_redacted_and_stop_before_git_or_provider(self):
+        env = {'GITHUB_REPOSITORY': adapter.REPO, 'GITHUB_REF': 'refs/heads/main',
+               'GITHUB_WORKFLOW_REF': adapter.WORKFLOW_REF, 'GITHUB_JOB': 'collect',
+               'GITHUB_EVENT_NAME': 'schedule', 'GITHUB_RUN_ID': '1', 'GITHUB_ACTOR_ID': str(USER),
+               'GITHUB_REPOSITORY_ID': str(REPOSITORY), 'GITHUB_RUN_ATTEMPT': '1', 'GITHUB_SHA': 'a'*40,
+               'SCOUT_COLLECTION_GATE_ENABLED': 'true'}
+        for status, reason in ((401, 'identity_read_unauthorized'), (403, 'identity_read_forbidden'), (404, 'identity_unavailable')):
+            class Opener:
+                def open(self, *_args, **_kwargs):
+                    raise adapter.urllib.error.HTTPError(adapter.API, status, 'private-body', {'Authorization': 'private-header'}, io.BytesIO(b'private-body'))
+            code, receipt = adapter.gate(env, lambda: adapter.GitHubIdentity('offline-token', Opener()), None, lambda: NOW)
+            self.assertEqual(code, 1); self.assertFalse(receipt['collect']); self.assertEqual(receipt['decision'], reason)
+            self.assertNotIn('private', json.dumps(receipt)); self.assertNotIn('offline-token', json.dumps(receipt))
+
     def test_receipt_failure_or_api_failure_cannot_emit_collection_authorization(self):
         with tempfile.TemporaryDirectory() as directory:
             env = {'RUNNER_TEMP': directory, 'GITHUB_OUTPUT': str(Path(directory) / 'outputs')}

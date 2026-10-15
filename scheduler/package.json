@@ -6,7 +6,7 @@
   "engines": { "node": ">=22.0.0" },
   "scripts": {
     "dry-run": "node dry-run.mjs",
-    "test": "node --test staging-runtime.test.mjs"
+    "test": "node --test staging-runtime.test.mjs auth-readiness.test.mjs"
   },
   "devDependencies": { "wrangler": "4.150.0" }
 }
