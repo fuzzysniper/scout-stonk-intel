@@ -6,6 +6,7 @@ import type { PairCatalog, PairGroup, PairQuoteRegistry, PairQuoteSearch, PairTo
 import type { PairSourceResult, QuoteRegistrySourceResult } from './pairs-source';
 import { PAIR_REGISTRY_URL, normalizeQuoteSearch } from './pairs-source';
 import { isSolanaMint } from './solana';
+import { summarizeRewardEvidence } from './reward-evidence';
 export function parsePairQuoteSearch(params:URLSearchParams):PairQuoteSearch|null {
  if (params.toString().length>2048 || [...params.keys()].some(key=>!['query','mint','limit','offset'].includes(key)) ||
      [...params.keys()].some(key=>params.getAll(key).length!==1) || (params.has('query') && params.has('mint')))return null;
@@ -77,7 +78,7 @@ export function pairCatalogReport(catalog: PairSourceResult, history: SourceResu
    availability:rows.length?'tokens_in_bounded_sample':'no_tokens_in_bounded_sample',tokens:rows} as PairGroup];
  }).sort((a,b)=>a.quoteSymbol.localeCompare(b.quoteSymbol,'en')||a.quoteMint.localeCompare(b.quoteMint,'en')):[];
  const degraded=catalog.sourceStatus==='degraded' || !historyGood;
- return {schemaVersion:1,status:catalog.sourceStatus==='unavailable'?'unavailable':degraded?'degraded':'available',groups,
+ const report:PairCatalog={schemaVersion:1,status:catalog.sourceStatus==='unavailable'?'unavailable':degraded?'degraded':'available',groups,
   dataset:{sourceStatus:catalog.sourceStatus,fetchedAt:now.toISOString(),dataFetchedAt:value?.fetchedAt??null,scope:'bounded_official_catalog',
    coverage:{complete:false,atomic:false,registryCount:quoteMap.size,pagesFetched:value?.pagesFetched??0,pageLimit:2,pageSize:25,
     recordsReceived:value?.recordsReceived??0,tokensReturned:groups.reduce((n,g)=>n+g.tokens.length,0),rejectedRecords:value?.rejectedRecords??0,
@@ -85,5 +86,18 @@ export function pairCatalogReport(catalog: PairSourceResult, history: SourceResu
     warnings:[...new Set([...(value?.warnings??['catalog_source_unavailable']),...(!historyGood?['tracked_history_source_unavailable']:[])])].sort(),
     ...(value?.discovery ? {discovery:value.discovery} : {})},
    sources:value?.sources??[],history:{sourceStatus:history.dataset.sourceStatus,source:history.dataset.source,revision:history.dataset.revision,dataFetchedAt:history.dataset.dataFetchedAt}}};
+ for(const group of groups) {
+  const registry=value?.registryEvidence?pairQuoteRegistryReport({value:value.registryEvidence,sourceStatus:catalog.sourceStatus==='cached'?'cached':'available'},
+   {query:'',mint:group.quoteMint,limit:1,offset:0},now):null;
+  for(const token of group.tokens)token.rewardEvidence=summarizeRewardEvidence({token,group,catalog:report,registry,history,
+   tracked:[...tracked.values()],receipt:value?.tokens.find(t=>t.mint===token.mint)?.lifetimeReceipt,modeFailure:value?.tokens.find(t=>t.mint===token.mint)?.modeFailure,asOf:now.toISOString()});
+  const evidence=group.tokens.map(t=>t.rewardEvidence!);
+  for(const e of evidence) {
+   e.scope.sameQuoteModeVerified=evidence.filter(e=>e.mechanism.state!=='unverified').length;
+   e.scope.sameQuoteLifetimesReported=evidence.filter(e=>e.lifetime.state==='reported').length;
+   e.scope.sameQuoteIntervalsCovered=evidence.filter(e=>e.interval.state==='covered').length;
+  }
+ }
+ return report;
 }
 // Catalog selection and output order express identity/coverage, never alpha or reward ranking.
