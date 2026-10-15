@@ -1,0 +1,45 @@
+{
+  "asOf": "2026-10-15T00:17:04.853Z",
+  "receipts": [
+    {
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+      "receivedAt": "2026-10-15T00:12:06.896Z",
+      "providerGeneratedAt": "2026-10-15T00:10:53.901Z",
+      "headers": {
+        "age": "73",
+        "cache-control": "public, max-age=60",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Thu, 15 Oct 2026 00:10:53 GMT",
+        "x-ratelimit-limit": "240",
+        "x-ratelimit-remaining": "239",
+        "content-length": "398"
+      },
+      "bodySha256": "30cb652d069374ad5159997b9e93ff1b09bc5c69485d9909ad201e5fe867ec6c"
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+      "receivedAt": "2026-10-15T00:14:52.999Z",
+      "providerGeneratedAt": "2026-10-15T00:10:53.901Z",
+      "headers": {
+        "age": "239",
+        "content-length": "398",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Thu, 15 Oct 2026 00:10:53 GMT"
+      },
+      "bodySha256": "30cb652d069374ad5159997b9e93ff1b09bc5c69485d9909ad201e5fe867ec6c"
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+      "receivedAt": "2026-10-15T00:17:04.853Z",
+      "providerGeneratedAt": "2026-10-15T00:10:53.901Z",
+      "headers": {
+        "age": "371",
+        "content-length": "398",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Thu, 15 Oct 2026 00:10:53 GMT"
+      },
+      "bodySha256": "30cb652d069374ad5159997b9e93ff1b09bc5c69485d9909ad201e5fe867ec6c",
+      "requestStartedAt": "2026-10-15T00:17:04.715Z"
+    }
+  ]
+}

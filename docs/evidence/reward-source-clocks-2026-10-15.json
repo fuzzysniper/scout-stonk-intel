@@ -1,0 +1,106 @@
+{
+  "kind": "offline_recorded_reward_clocks",
+  "asOf": "2026-10-15T00:17:04.853Z",
+  "eligibility": "not_evaluated",
+  "receipts": [
+    {
+      "state": "diagnosed",
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+      "receivedAt": "2026-10-15T00:12:06.896Z",
+      "providerGeneratedAt": "2026-10-15T00:10:53.901Z",
+      "bodySha256": "30cb652d069374ad5159997b9e93ff1b09bc5c69485d9909ad201e5fe867ec6c",
+      "transport": {
+        "age": {
+          "state": "reported",
+          "seconds": 73
+        },
+        "sourceAge": {
+          "state": "not_recorded",
+          "seconds": null
+        },
+        "atReceipt": "within_recorded_limit",
+        "lowerBoundSecondsAtAnalysis": 370.957
+      },
+      "clocks": {
+        "residenceSeconds": 297.957,
+        "providerAgeSecondsAtReceipt": 72.995,
+        "providerAgeSecondsAtAnalysis": 370.952,
+        "dateAgeSecondsAtReceipt": 73.896,
+        "requestDurationSeconds": null
+      },
+      "lifetimeClock": "stale",
+      "advertisedMaxAgeSeconds": 60,
+      "pastAdvertisedMaxAge": true,
+      "knownVisibilityBudgetAtReceiptSeconds": 227,
+      "heldPastKnownVisibilityBudget": true,
+      "conditionalValidatorsRecorded": false,
+      "eligibility": "not_evaluated"
+    },
+    {
+      "state": "diagnosed",
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+      "receivedAt": "2026-10-15T00:14:52.999Z",
+      "providerGeneratedAt": "2026-10-15T00:10:53.901Z",
+      "bodySha256": "30cb652d069374ad5159997b9e93ff1b09bc5c69485d9909ad201e5fe867ec6c",
+      "transport": {
+        "age": {
+          "state": "reported",
+          "seconds": 239
+        },
+        "sourceAge": {
+          "state": "not_recorded",
+          "seconds": null
+        },
+        "atReceipt": "within_recorded_limit",
+        "lowerBoundSecondsAtAnalysis": 370.85400000000004
+      },
+      "clocks": {
+        "residenceSeconds": 131.854,
+        "providerAgeSecondsAtReceipt": 239.098,
+        "providerAgeSecondsAtAnalysis": 370.952,
+        "dateAgeSecondsAtReceipt": 239.999,
+        "requestDurationSeconds": null
+      },
+      "lifetimeClock": "stale",
+      "advertisedMaxAgeSeconds": null,
+      "pastAdvertisedMaxAge": null,
+      "knownVisibilityBudgetAtReceiptSeconds": 60.90199999999999,
+      "heldPastKnownVisibilityBudget": true,
+      "conditionalValidatorsRecorded": false,
+      "eligibility": "not_evaluated"
+    },
+    {
+      "state": "diagnosed",
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+      "receivedAt": "2026-10-15T00:17:04.853Z",
+      "providerGeneratedAt": "2026-10-15T00:10:53.901Z",
+      "bodySha256": "30cb652d069374ad5159997b9e93ff1b09bc5c69485d9909ad201e5fe867ec6c",
+      "transport": {
+        "age": {
+          "state": "reported",
+          "seconds": 371
+        },
+        "sourceAge": {
+          "state": "not_recorded",
+          "seconds": null
+        },
+        "atReceipt": "stale",
+        "lowerBoundSecondsAtAnalysis": 371
+      },
+      "clocks": {
+        "residenceSeconds": 0,
+        "providerAgeSecondsAtReceipt": 370.952,
+        "providerAgeSecondsAtAnalysis": 370.952,
+        "dateAgeSecondsAtReceipt": 371.853,
+        "requestDurationSeconds": 0.138
+      },
+      "lifetimeClock": "stale",
+      "advertisedMaxAgeSeconds": null,
+      "pastAdvertisedMaxAge": null,
+      "knownVisibilityBudgetAtReceiptSeconds": 0,
+      "heldPastKnownVisibilityBudget": false,
+      "conditionalValidatorsRecorded": false,
+      "eligibility": "not_evaluated"
+    }
+  ]
+}
