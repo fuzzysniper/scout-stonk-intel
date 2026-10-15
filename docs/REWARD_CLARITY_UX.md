@@ -1,5 +1,7 @@
 # Issue #59: reward clarity and research links
 
+> Historical first pass of PR #60, before optional reward-evidence integration. The current implementation and new captures are documented in [Reward Evidence Integration](REWARD_EVIDENCE_INTEGRATION.md); the independent OG status is in [OG QA Status](OG_QA_STATUS.md). The original recordings below are retained unchanged as dated evidence.
+
 Frontend only, based on main `49ab560dde396d302f62dd21c7897379cccec75d` (includes PRs #56/#57). Human review only; no deployment or merge.
 
 ## What the screen establishes

@@ -4,10 +4,12 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
+import {writeFileSync} from 'node:fs';
+import {rewardUiFixture,rewardUiScenarios} from './reward-evidence-ui-fixtures.mjs';
 const load=async file=>(await import(pathToFileURL(path.join(process.env.HISTORY_TEST_BUILD,file+'.js')).href)).default;
 const {parseCatalog,fromCatalog,fromTracked,discoveryEvidence,mergePairGroups,searchPairs,visibleTokens}=await load('app/pairs/adapter');
 const {default:Explorer,PairTokenRow,RewardEvidenceKey,TokenIdentityMark,usd}=await load('app/pairs/explorer');
-const {sortSample,marketValue,screenUsd,DEFAULT_SAMPLE_SORT,tokenResearchPath,tokenResearchUrl}=await load('app/pairs/results');
+const {sortSample,marketValue,screenUsd,DEFAULT_SAMPLE_SORT,tokenResearchPath,tokenResearchUrl,readRewardEvidence}=await load('app/pairs/results');
 const {fetchCatalog,fetchQuoteRegistry}=await load('app/pairs/client');
 const {parseRegistry,registrySearch,appendRegistryPage,catalogMatchesQuote}=await load('app/pairs/registry');
 const {trackedTokens}=await load('lib/tracked-tokens');
@@ -96,9 +98,9 @@ test('existing matched/point/zero gates remain authoritative; reset/stale/degrad
  const make=(points,status='available')=>summarizeRadar({[t.mint]:points},tokens,{...dataset,sourceStatus:status},'name',now);
  const output=report=>render(fromTracked(tokens,report).find(g=>g.quoteMint===t.quoteMint).tokens[0],report);
  const primary=html=>html.match(/<span class="pair-row-state"[^>]*>([^<]*)/)[1];
- const matched=output(make(Array.from({length:49},(_,i)=>point(i-48,i))));assert.ok(matched.includes('24 NVDAX'));assert.ok(matched.includes('Current matched period'));assert.ok(matched.includes('Actual interval:'));assert.equal(primary(matched),'Flow recorded');
- for(const report of [make([point(-1,2),point(0,1)]),make([point(-5,1),point(-4,2)]),make([point(-1,1),point(0,2)],'degraded'),make([point(-1,1),point(0,2,{quoteMint:tokens[0].quoteMint})]),make([point(-8,1),point(0,2)])]){assert.ok(!output(report).includes('Distributed counter change'));assert.notEqual(primary(output(report)),'Flow recorded');}
- const zero=output(make([point(-1,1),point(0,1)]));assert.ok(zero.includes('0 NVDAX'));assert.equal(primary(zero),'Flow recorded');
+ const matched=output(make(Array.from({length:49},(_,i)=>point(i-48,i))));assert.ok(matched.includes('24 NVDAX'));assert.ok(matched.includes('Current matched period'));assert.ok(matched.includes('Actual interval:'));assert.equal(primary(matched),'Settings verified');assert.ok(matched.includes('Legacy recorded counter change'));
+ for(const report of [make([point(-1,2),point(0,1)]),make([point(-5,1),point(-4,2)]),make([point(-1,1),point(0,2)],'degraded'),make([point(-1,1),point(0,2,{quoteMint:tokens[0].quoteMint})]),make([point(-8,1),point(0,2)])]){assert.ok(!output(report).includes('Distributed counter change'));assert.notEqual(primary(output(report)),'Interval covered');}
+ const zero=output(make([point(-1,1),point(0,1)]));assert.ok(zero.includes('0 NVDAX'));assert.equal(primary(zero),'Settings verified');
  const blocked=render(fromTracked(tokens,make([point(-1,1),point(0,2)])).find(g=>g.quoteMint===t.quoteMint).tokens[0],make([point(-1,1),point(0,2)]),true);assert.ok(!blocked.includes('Distributed counter change'));assert.ok(!blocked.includes('US$'));
 });
 
@@ -275,7 +277,7 @@ test('sample sorts keep exact quote identity, zero before unknown, name ties det
 test('short evidence states distinguish catalog, mechanism and recorded activity without dropping exceptional gates',()=>{
  const f=fixture(),ct=f.groups[0].tokens[0];
  const visible=()=>render(fromCatalog(parseCatalog(f))[0].tokens[0]).split('<div class="pair-evidence-body"')[0];
- assert.ok(visible().includes('Settings verified'));assert.ok(!visible().includes('Flow recorded'));
+ assert.ok(visible().includes('Settings verified'));assert.ok(!visible().includes('Interval covered'));
  ct.historyFreshness='stale';assert.ok(visible().includes('Stale history'));assert.ok(visible().includes('Settings verified'));
  ct.historyFreshness='unavailable';ct.historyStatus='invalid_data';assert.ok(visible().includes('Invalid history'));assert.ok(visible().includes('Settings verified'));
  ct.historyStatus='not_tracked';ct.rewardModeVerified=false;ct.modeVerification='source_unavailable';ct.rewardSource=null;
@@ -298,7 +300,7 @@ test('scan USD formatting separates unknown and zero and never rounds a small po
 
 test('one plain-language key separates official settings, counter flow and holder payments',()=>{
  const html=renderToStaticMarkup(React.createElement(RewardEvidenceKey));
- for(const phrase of ['official reward settings','a measured counter change, not proof holders were paid','Neither proves returns','Missing evidence is not zero','Lifetime distributions are not shown in this pair view'])assert.ok(html.includes(phrase),phrase);
+ for(const phrase of ['Settings verified','Lifetime reported','Interval covered','Holder returns unavailable','none verifies paid holders or profit','Missing evidence is not zero','not a recent earning rate'])assert.ok(html.includes(phrase),phrase);
  assert.equal((html.match(/id="pair-reward-key"/g)||[]).length,1);assert.ok(!/<details[^>]*\bopen/.test(html));
 });
 
@@ -320,3 +322,56 @@ test('generated mint marks are stable visual aids with no logo URLs, network ass
  assert.ok(!/href=|<image|<img/.test(html));
  const key=renderToStaticMarkup(React.createElement(RewardEvidenceKey));assert.ok(key.includes('not official logos or proof of identity'));
 });
+
+const uiCases=await rewardUiScenarios();
+const evidenceToken=c=>fromCatalog(parseCatalog(c),null,tokens)[0].tokens[0];
+const evidenceRender=c=>renderToStaticMarkup(React.createElement(PairTokenRow,{token:evidenceToken(c),catalog:c,report:null}));
+const primaryEvidence=html=>html.match(/<span class="pair-row-state"[^>]*>([^<]*)/)[1];
+for(const [name,label] of Object.entries({covered:'Interval covered','covered-zero':'Interval covered',lifetime:'Lifetime reported',zero:'Lifetime reported',settings:'Settings verified',standard:'No reward mode','stale-lifetime':'Settings verified','stale-source':'Unverified','stale-evaluation':'Unverified','rate-limited':'Unverified','precise-lifetime':'Lifetime reported'}))test('optional merged reward evidence: '+name+' has an accurate compact state and unavailable holder returns',()=>{
+ const c=uiCases[name].catalog,t=evidenceToken(c),read=readRewardEvidence(t,c);assert.equal(read.state,'ready',name);
+ const html=evidenceRender(c);assert.equal(primaryEvidence(html),label);for(const term of ['Reported lifetime distribution','Covered interval flow','Holder returns','Unavailable','Token / quote mint',t.mint,t.quoteMint])assert.ok(html.includes(term),term);
+ assert.ok(!html.includes('top earner'));assert.ok(!html.includes('Paid holders verified'));assert.ok(html.includes('aria-expanded="false"'));
+ if(name==='covered'){assert.ok(html.includes('24.00000000 NVDAX'));assert.ok(html.includes('25 points'));assert.ok(html.includes('3600s'));assert.ok(html.includes('Provider boundaries'));assert.ok(html.includes('2030-01-02T00:00:00.000Z'));}
+ if(name==='covered-zero'){assert.ok(html.includes('Current: 0.00000000 NVDAX'));assert.ok(html.includes('Previous: 0.00000000 NVDAX'));assert.equal(read.value.holderReturn.value,null);}
+ if(name==='zero'){assert.ok(html.includes('0.00000000 NVDAX'));assert.ok(html.includes('Last reported payout: Not reported'));assert.ok(html.includes('recipients 0'));}
+ if(name==='precise-lifetime')assert.ok(html.includes('119954640.83712182 NVDAX'));
+ if(['lifetime','zero','precise-lifetime'].includes(name)){assert.ok(html.includes('Lifetime start and reconciliation cutoff unknown'));assert.equal(read.value.interval.value,null);assert.ok(!html.includes('24.00000000 NVDAX'));}
+ if(name==='stale-source' || name==='stale-evaluation'){if(name==='stale-evaluation')assert.equal(t.rewardModeVerified,true);assert.equal(read.value.mechanism.quality,'stale');assert.ok(html.includes('Stale evidence'));assert.ok(!html.includes('Reward settings verified'));}
+ if(name==='rate-limited'){assert.ok(html.includes('rate limited'));assert.ok(html.includes('lookup only, not read evidence'));}
+});
+test('older response compatibility retains dated settings and gated legacy observations without new financial evidence',()=>{
+ const c=structuredClone(uiCases.covered.catalog);delete c.groups[0].tokens[0].rewardEvidence;
+ const token=evidenceToken(c);assert.equal(readRewardEvidence(token,c).state,'absent');assert.equal(primaryEvidence(evidenceRender(c)),'Settings verified');
+ assert.ok(evidenceRender(c).includes('Unavailable from this older response'));assert.ok(!evidenceRender(c).includes('100.00000000 NVDAX'));
+});
+for(const [name,change] of [
+ ['different token mint',e=>e.tokenMint=tokens[0].mint],['same ticker different quote mint',e=>e.unit.mint=tokens[0].quoteMint],['wrong decimals',e=>e.unit.decimals=9],
+ ['version',e=>e.schemaVersion=2],['future source',e=>e.mechanism.source.providerGeneratedAt='2031-01-01T00:00:00.000Z'],
+ ['foreign mode source',e=>e.mechanism.source.source='https://evil.invalid/rewards'],['source lookup query injection',e=>e.mechanism.referenceUrl+='?key=bad'],
+ ['source hash mismatch',e=>e.lifetime.source.revision='sha256:'+'f'.repeat(64)],['forged covered summary',e=>e.summary='mechanism_verified'],
+ ['unknown as zero',e=>e.lifetime.value=null],['false current stale lifetime',e=>e.lifetime.quality='stale'],
+ ['rounded exact amount',e=>e.lifetime.value.distributedTokens='100'],['negative lifetime',e=>e.lifetime.value.distributedRaw='-1'],
+ ['unsafe payout count',e=>e.lifetime.value.payoutCount=Number.MAX_SAFE_INTEGER+1],['payout after source',e=>e.lifetime.value.lastPayoutAt='2031-01-01T00:00:00.000Z'],
+ ['invented lifetime window',e=>e.lifetime.value.startAt='2029-01-01T00:00:00.000Z'],['ROI',e=>e.holderReturn.value=12],
+ ['complete coverage',e=>e.scope.complete=true],['ticker universe',e=>e.scope.providerReportedUniverse=999999],['earning leader',e=>e.scope.ranking.ecosystemLeader=t.mint],
+ ['missing covered interval',e=>e.interval.value=null],['one short interval',e=>e.interval.value.current.seconds=3600],
+ ['changed interval quote',e=>e.interval.value.quoteMint=tokens[0].quoteMint],['disjoint windows',e=>e.interval.value.previous.endAt=e.interval.value.current.endAt],
+ ['unsupported interval history revision',e=>e.interval.historySource.revision='sha256:'+'f'.repeat(64)],['gap exactly two hours',e=>e.interval.value.current.maxGapSeconds=7200],
+ ['rounded interval amount',e=>e.interval.value.current.distributed.tokens='24'],['forged counter difference',e=>e.interval.value.change.atomic='1'],
+])test('frontend optional evidence rejects '+name+' without a stronger legacy fallback',()=>{
+ const c=structuredClone(uiCases.covered.catalog);c.groups[0].tokens[0].rewardEvidence=structuredClone(c.groups[0].tokens[0].rewardEvidence);change(c.groups[0].tokens[0].rewardEvidence);
+ const token=evidenceToken(c);assert.equal(readRewardEvidence(token,c).state,'invalid');const html=evidenceRender(c);
+ assert.equal(primaryEvidence(html),'Unverified');assert.ok(html.includes('Reward evidence failed validation'));assert.ok(!html.includes('100.00000000 NVDAX'));assert.ok(!html.includes('24.00000000 NVDAX'));
+});
+test('invalid/null optional evidence and missing catalog context do not crash or masquerade as legacy absence',()=>{
+ for(const raw of [null,{},[],true,'untrusted']){const c=structuredClone(uiCases.covered.catalog);c.groups[0].tokens[0].rewardEvidence=raw;assert.equal(readRewardEvidence(evidenceToken(c),c).state,'invalid');}
+ assert.equal(readRewardEvidence(evidenceToken(uiCases.covered.catalog)).state,'invalid');
+});
+test('partial lifetime evidence is usable for its token without promoting catalog coverage or interval claims',async()=>{
+ const {catalog:c}=await rewardUiFixture(f=>{f.store={};f.rows.push({...f.rows[0],mint:tokens[0].mint});const original=f.fetcher;f.fetcher=async(...args)=>String(args[0]).includes('/api/v2/tokens/'+tokens[0].mint+'/')?new Response(null,{status:503}):original(...args);});
+ const row=fromCatalog(parseCatalog(c),null,tokens)[0].tokens.find(v=>v.mint===uiCases.covered.catalog.groups[0].tokens[0].mint);
+ const read=readRewardEvidence(row,c);assert.equal(read.state,'ready');assert.equal(read.value.lifetime.state,'reported');assert.equal(read.value.lifetime.quality,'partial');assert.equal(read.value.scope.complete,false);assert.equal(read.value.interval.value,null);
+});
+if(process.env.SCOUT_REWARD_UI_FIXTURES){
+ assert.ok(process.env.SCOUT_REWARD_UI_FIXTURES.startsWith('/tmp/'));writeFileSync(process.env.SCOUT_REWARD_UI_FIXTURES,JSON.stringify({kind:'synthetic_frontend_test_cases_never_screenshots',cases:uiCases})+'\n');
+}

@@ -8,9 +8,10 @@ from pathlib import Path
 from datetime import datetime,timezone
 from urllib.parse import urlparse,parse_qs
 from playwright.sync_api import sync_playwright,Error as PlaywrightError
-p=argparse.ArgumentParser();p.add_argument('--base',required=True);p.add_argument('--axe',required=True);a=p.parse_args();u=urlparse(a.base)
+p=argparse.ArgumentParser();p.add_argument('--base',required=True);p.add_argument('--axe',required=True);p.add_argument('--prefix',default='reward-clarity');p.add_argument('--reward-fixtures');a=p.parse_args();u=urlparse(a.base)
+assert re.fullmatch('[a-z][a-z0-9-]{0,39}',a.prefix)
 assert u.scheme=='http' and u.hostname in ['localhost','127.0.0.1'] and not u.username and not u.password and u.path in ['','/'] and not u.query and not u.fragment
-root=Path(__file__).resolve().parents[1];proof=json.loads((root/'docs/evidence/reward-clarity-after.json').read_text());packets=proof['captures'][0]['responses'];checks=[];journey=[];preview=None
+root=Path(__file__).resolve().parents[1];proof=json.loads((root/f'docs/evidence/{a.prefix}-after.json').read_text());packets=proof['captures'][0]['responses'];checks=[];journey=[];genuine_details=[];preview=None
 registry={parse_qs(urlparse(p['url']).query)['mint'][0]:p['json'] for p in packets if '/api/pair-quotes?' in p['url']}
 catalog=next(p['json'] for p in packets if '/api/pairs?' in p['url']);radar=next(p['json'] for p in packets if '/api/radar?' in p['url']);mint=catalog['groups'][0]['quoteMint'];assert len(registry)==4
 recorder='''(()=>{const f=window.fetch.bind(window);window.__packets=[];window.fetch=async(...args)=>{const r=await f(...args);r.clone().json().then(json=>window.__packets.push({url:String(args[0]),status:r.status,json})).catch(()=>{});return r;};})();'''
@@ -39,7 +40,7 @@ with sync_playwright() as pw:
  for w in [320,390,1280]:
   c=context(b,w);page=c.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)));page.goto(a.base);ready(page)
   # Allow only tiny one-channel rasterization differences at rounded edges, never layout/text changes.
-  before=root/f'docs/screenshots/reward-clarity-before-home-{w}.png';after=root/f'docs/screenshots/reward-clarity-after-home-{w}.png'
+  before=root/f'docs/screenshots/{a.prefix}-before-home-{w}.png';after=root/f'docs/screenshots/{a.prefix}-after-home-{w}.png'
   same=hashlib.sha256(before.read_bytes()).digest()==hashlib.sha256(after.read_bytes()).digest()
   difference=ImageChops.difference(Image.open(before).convert('RGB'),Image.open(after).convert('RGB'))
   changed=sum(pixel!=(0,0,0) for pixel in difference.getdata());largest=max(high for low,high in difference.getextrema())
@@ -49,11 +50,16 @@ with sync_playwright() as pw:
   page.keyboard.press('Tab');assert page.evaluate('document.activeElement.classList.contains("skip-content")');page.keyboard.press('Enter');assert page.evaluate('document.activeElement.id==="scout-content"')
   check(w,'landing unchanged within one-channel rasterization tolerance; four verified choices; skip link; no token fanout',identicalPngHash=same,changedPixels=changed,largestChannelDifference=largest)
   select(page);data=next(p['json'] for p in page.evaluate('window.__packets') if '/api/pairs?' in p['url']);assert data['groups'][0]['quoteMint']==mint
+  expected_labels={'observed_interval':'Interval covered','reported_lifetime':'Lifetime reported','mechanism_verified':'Settings verified','standard_mode':'No reward mode','unverified':'Unverified'}
+  for token in data['groups'][0]['tokens']:
+   if 'rewardEvidence' in token:
+    actual=page.locator('[aria-labelledby="pair-token-'+token['mint']+'"] .pair-row-state').evaluate('s=>s.childNodes[0].textContent')
+    assert actual==expected_labels[token['rewardEvidence']['summary']],[token['mint'],actual,token['rewardEvidence']['summary']]
   assert page.get_by_role('button',name='Sort sample by liquidity, high to low',exact=True).get_attribute('aria-pressed')=='true';sorting(page,data);rules=audit(page)
   assert page.locator('.pair-column-head .pair-liquidity').is_visible()
   assert page.locator('.pair-column-head .pair-volume').is_visible()==(w>=760)
   assert page.locator('.pair-results-sort [aria-pressed=true]').count()==1
-  assert page.locator('#pair-reward-key').count()==1 and 'not proof holders were paid' in page.locator('#pair-reward-key').inner_text()
+  assert page.locator('#pair-reward-key').count()==1 and 'none verifies paid holders or profit' in page.locator('#pair-reward-key').inner_text()
   assert page.locator('.pair-token-name').evaluate_all('ls=>ls.every(a=>a.getBoundingClientRect().height>=44)')
   assert page.locator('.pair-token-mark[data-identity-mark=generated]').count()==len(data['groups'][0]['tokens'])
   assert page.locator('.pair-token-mark').evaluate_all('ms=>ms.every(m=>m.getAttribute("aria-hidden")==="true" && !m.querySelector("image"))')
@@ -64,6 +70,14 @@ with sync_playwright() as pw:
   assert first.locator('.pair-row-state').count()==1;assert first.locator('.pair-row-main').bounding_box()['height']<=66;assert not first.locator('time:visible').count()
   summary.focus();page.keyboard.press('Enter');assert summary.get_attribute('aria-expanded')=='true' and first.locator('.pair-evidence-body').is_visible()
   detail=first.locator('.pair-evidence-body');assert token['mint'] in detail.inner_text() and mint in detail.inner_text();assert detail.get_by_role('link',name='Official token catalog',exact=False).get_attribute('href')==token['source']
+  evidence=token.get('rewardEvidence')
+  if evidence:
+   assert 'Holder returns' in detail.inner_text() and 'Holder entitlement, costs and cashflows are missing' in detail.inner_text()
+   if evidence['lifetime']['state']=='reported':assert evidence['lifetime']['value']['distributedTokens']+' '+token['quoteSymbol'] in detail.inner_text()
+   for metric in ['mechanism','lifetime']:
+    source=evidence[metric]['source']
+    if source:assert detail.locator('time[datetime="'+source['providerGeneratedAt']+'"]').count()>0 and detail.locator('time[datetime="'+source['fetchedAt']+'"]').count()>0
+  genuine_details.append({'width':w,'tokenMint':token['mint'],'quoteMint':mint,'catalogEvaluatedAt':data['dataset']['fetchedAt'],'tokenSource':token['provenance'],'rewardEvidence':evidence,'renderedLabel':first.locator('.pair-row-state').evaluate('s=>s.childNodes[0].textContent')})
   for label in ['Historical quote-relative return','Quote-asset benchmark return','Holder-attributable rewards']:assert label in detail.inner_text()
   for key,selector in [('liquidityUsd','.pair-liquidity'),('volume24hUsd','.pair-volume')]:
    dd=first.locator('.pair-market '+selector+' dd');value=token['market'][key]
@@ -81,7 +95,7 @@ with sync_playwright() as pw:
   summary.focus();page.keyboard.press('Tab');assert page.evaluate('document.activeElement.tagName==="A"')
   audit(page)
   if w==390:
-   page.evaluate("document.activeElement.blur();scrollTo(0,document.querySelector('.pair-result-heading').getBoundingClientRect().top+scrollY-12)");page.screenshot(path=str(root/'docs/screenshots/reward-clarity-after-details-390.png'))
+   page.evaluate("document.activeElement.blur();scrollTo(0,document.querySelector('.pair-result-heading').getBoundingClientRect().top+scrollY-12)");page.screenshot(path=str(root/f'docs/screenshots/{a.prefix}-after-details-390.png'))
   detail.locator('a').first.focus();page.keyboard.press('Escape');assert page.evaluate('document.activeElement.classList.contains("pair-detail-toggle")');assert summary.get_attribute('aria-expanded')=='false' and not first.locator('.pair-evidence-body').is_visible()
   summary.focus();page.keyboard.press('Space');assert summary.get_attribute('aria-expanded')=='true';page.keyboard.press('Space');assert summary.get_attribute('aria-expanded')=='false'
   if w<=390:
@@ -97,7 +111,7 @@ with sync_playwright() as pw:
   check(w,'200% zoom reflow including open evidence; no horizontal overflow; axe A/AA; no browser exceptions')
   page.evaluate("document.documentElement.style.zoom='1'");summary.click();page.locator('.pair-reward-key summary').focus();page.keyboard.press('Enter');assert page.locator('.pair-reward-key details').get_attribute('open') is not None;audit(page)
   if w==390:
-   page.evaluate("document.activeElement.blur();scrollTo(0,document.querySelector('.pair-reward-key').getBoundingClientRect().top+scrollY-12)");page.screenshot(path=str(root/'docs/screenshots/reward-clarity-after-key-390.png'))
+   page.evaluate("document.activeElement.blur();scrollTo(0,document.querySelector('.pair-reward-key').getBoundingClientRect().top+scrollY-12)");page.screenshot(path=str(root/f'docs/screenshots/{a.prefix}-after-key-390.png'))
   check(w,'single persistent reward key; expanded plain-language definitions and real clipboard research URL')
   c.close()
  # Two real, source-backed research candidates. These are not an earnings shortlist.
@@ -136,7 +150,7 @@ with sync_playwright() as pw:
    except PlaywrightError as error:
     preview={'url':image_url,'result':'FAIL','transportError':str(error)}
    print('Existing social preview:',preview['result'],flush=True)
-  journey.append({'tokenMint':token_mint,'quoteMint':mint,'symbol':token['symbol'],'url':expected,'modeVerification':token['modeVerification'],'reportedMarket':token['market'],'source':token['source'],'provenance':token['provenance'],'shareScope':'Current token dossier, not frozen pair sample or comparison'})
+  journey.append({'tokenMint':token_mint,'quoteMint':mint,'symbol':token['symbol'],'url':expected,'modeVerification':token['modeVerification'],'rewardEvidence':token.get('rewardEvidence'),'reportedMarket':token['market'],'source':token['source'],'provenance':token['provenance'],'shareScope':'Current token dossier, not frozen pair sample or comparison'})
   dossier.close();row.locator('.pair-detail-toggle').click();check(390,'real research candidate '+token['symbol']+': clipboard/reopen exact mint, dossier metadata, native picker payload/cancel/denial; no external share sent; image delivery reported separately')
  c.close()
  # Clipboard failures: capability fixtures only, with genuine saved source packets.
@@ -148,10 +162,11 @@ with sync_playwright() as pw:
   assert field.input_value()==a.base+'/?mint='+token_mint and field.get_attribute('readonly') is not None
   assert 'Copy unavailable' in row.get_by_role('status').inner_text() and 'copied' not in row.get_by_role('status').inner_text().lower()
   field.focus();assert field.evaluate('i=>i.selectionStart===0 && i.selectionEnd===i.value.length');audit(page);check(390,'isolated clipboard '+capability+': selectable exact URL fallback, no false copy success');c.close()
- # Isolated fixtures are derivatives of the saved real contract, explicitly synthetic.
+ # Isolated legacy fixtures derive from saved packets with optional evidence removed.
  for w in [320,390,1280]:
   for state in ['zero-null','reward-states','stale','invalid','degraded','long-name','503','429','empty','identity','scope','missing-mode-source']:
    c=context(b,w);data=copy.deepcopy(catalog);g=data['groups'][0];status=200
+   for token in g['tokens']:token.pop('rewardEvidence',None)
    if state=='zero-null':
     g['tokens'][0]['market'].update(status='reported_snapshot',priceUsd=0,liquidityUsd=0,volume24hUsd=0)
     g['tokens'][1]['market'].update(status='unavailable',priceUsd=None,liquidityUsd=None,volume24hUsd=None)
@@ -186,7 +201,44 @@ with sync_playwright() as pw:
     if state in ['stale','invalid']:assert state.capitalize()+' history' in page.locator('[aria-labelledby="pair-token-'+g['tokens'][0]['mint']+'"] .pair-row-state').inner_text();assert 'Settings verified' in page.locator('[aria-labelledby="pair-token-'+g['tokens'][0]['mint']+'"] .pair-row-state').inner_text()
     if state=='degraded':assert 'Source gaps in this sample' in page.locator('.pair-load-state').inner_text()
    before=len(page.evaluate('window.__packets'));page.wait_for_timeout(350);assert before==len(page.evaluate('window.__packets'));audit(page);check(w,'isolated '+state+': truthful states, no retries, accessible');c.close()
+ # New optional contract scenarios are generated through the merged backend with an OFFLINE synthetic fetcher.
+ if a.reward_fixtures:
+  fixtures=json.loads(Path(a.reward_fixtures).read_text());assert fixtures['kind']=='synthetic_frontend_test_cases_never_screenshots'
+  typed_cases=copy.deepcopy(fixtures['cases'])
+  for name in ['forged-quote','forged-source','forged-return','forged-amount','unknown-null']:
+   data=copy.deepcopy(fixtures['cases']['covered']);e=data['catalog']['groups'][0]['tokens'][0]['rewardEvidence']
+   if name=='forged-quote':e['unit']['mint']=next(m for m in registry if m!=mint)
+   if name=='forged-source':e['mechanism']['source']['source']='https://evil.invalid/rewards'
+   if name=='forged-return':e['holderReturn']['value']=50
+   if name=='forged-amount':e['lifetime']['value']['distributedTokens']='100'
+   if name=='unknown-null':data['catalog']['groups'][0]['tokens'][0]['rewardEvidence']=None
+   typed_cases[name]=data
+  labels={'covered':'Interval covered','covered-zero':'Interval covered','lifetime':'Lifetime reported','zero':'Lifetime reported','settings':'Settings verified','standard':'No reward mode','stale-lifetime':'Settings verified','precise-lifetime':'Lifetime reported'}
+  for w in [320,390,1280]:
+   for name,data in typed_cases.items():
+    c=context(b,w)
+    c.route('**/api/pair-quotes?*',lambda r:r.fulfill(json=data['registry'] if parse_qs(urlparse(r.request.url).query)['mint'][0]==mint else registry[parse_qs(urlparse(r.request.url).query)['mint'][0]]))
+    c.route('**/api/pairs?*',lambda r:r.fulfill(json=data['catalog']));c.route('**/api/radar?*',lambda r:r.fulfill(json=radar))
+    page=c.new_page();page.goto(a.base);ready(page);select(page);row=page.locator('.pair-token');assert row.count()==1
+    state=row.locator('.pair-row-state');assert state.evaluate('s=>s.childNodes[0].textContent')==labels.get(name,'Unverified')
+    assert row.locator('.pair-row-main').bounding_box()['height']<=66
+    if 'stale' in name or name.startswith('forged') or name in ['unknown-null','rate-limited']:assert row.locator('.pair-evidence-warning').is_visible()
+    row.locator('.pair-detail-toggle').click();facts=row.locator('.pair-reward-facts')
+    if name.startswith('forged') or name=='unknown-null':assert facts.count()==0 and 'values withheld after validation' in row.inner_text()
+    else:
+     text=facts.inner_text();assert 'Reported lifetime distribution' in text and 'Covered interval flow' in text and 'Holder returns' in text and 'Unavailable. Holder entitlement' in text
+     if name=='covered':assert '24.00000000 NVDAX' in text and '25 points' in text and 'Provider boundaries' in text
+     if name=='covered-zero':assert 'Current: 0.00000000 NVDAX' in text and 'Previous: 0.00000000 NVDAX' in text
+     if name=='zero':assert '0.00000000 NVDAX' in text and 'Last reported payout: Not reported' in text
+     if name=='precise-lifetime':assert '119954640.83712182 NVDAX' in text
+     if name in ['lifetime','zero','precise-lifetime']:assert 'Lifetime start and reconciliation cutoff unknown' in text and 'Current: 24' not in text
+     if name=='rate-limited':assert 'lookup only, not read evidence' in text
+     if name=='stale-evaluation':assert data['catalog']['groups'][0]['tokens'][0]['rewardModeVerified'] and 'Reward settings verified' not in text
+    sorting(page,data['catalog']);audit(page);page.evaluate("document.documentElement.style.zoom='2'");audit(page)
+    check(w,'isolated optional reward evidence '+name+': exact states/units, no invented return or time period, 65px row, zoom/a11y; no fixture screenshot');c.close()
  b.close()
-(root/'docs/evidence/reward-clarity-qa.json').write_text(json.dumps({'at':datetime.now(timezone.utc).isoformat(),'engine':'Chromium / axe-core 4.10.3','limits':'Automated browser, keyboard, touch, real clipboard and semantic checks; not physical-device or VoiceOver testing. Native picker intercepted to prevent external sending; no fixture screenshots.','checks':checks,'researchJourney':journey,'existingSocialPreview':preview},separators=(',',':'))+'\n')
+at=datetime.now(timezone.utc).isoformat()
+(root/f'docs/evidence/{a.prefix}-og.json').write_text(json.dumps({'at':at,'issue':62,'scope':'Separate existing token social preview; no API edits in this frontend branch','probe':preview},separators=(',',':'))+'\n')
+(root/f'docs/evidence/{a.prefix}-qa.json').write_text(json.dumps({'at':at,'engine':'Chromium / axe-core 4.10.3','limits':'Automated browser, keyboard, touch, real clipboard and semantic checks; not physical-device or VoiceOver testing. Native picker intercepted to prevent external sending; no fixture screenshots.','checks':checks,'genuineExpandedDetails':genuine_details,'researchJourney':journey,'existingSocialPreview':preview,'socialPreviewEvidenceFile':a.prefix+'-og.json'},separators=(',',':'))+'\n')
 print('PASS',len(checks),'frontend checks; existing social preview:',preview['result'])
 if preview['result']!='PASS':raise SystemExit(1)
