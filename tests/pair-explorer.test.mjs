@@ -4,7 +4,7 @@ import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
-import {writeFileSync} from 'node:fs';
+import {readFileSync,writeFileSync} from 'node:fs';
 import {rewardUiFixture,rewardUiScenarios} from './reward-evidence-ui-fixtures.mjs';
 const load=async file=>(await import(pathToFileURL(path.join(process.env.HISTORY_TEST_BUILD,file+'.js')).href)).default;
 const {parseCatalog,fromCatalog,fromTracked,discoveryEvidence,mergePairGroups,searchPairs,visibleTokens}=await load('app/pairs/adapter');
@@ -371,6 +371,19 @@ test('partial lifetime evidence is usable for its token without promoting catalo
  const {catalog:c}=await rewardUiFixture(f=>{f.store={};f.rows.push({...f.rows[0],mint:tokens[0].mint});const original=f.fetcher;f.fetcher=async(...args)=>String(args[0]).includes('/api/v2/tokens/'+tokens[0].mint+'/')?new Response(null,{status:503}):original(...args);});
  const row=fromCatalog(parseCatalog(c),null,tokens)[0].tokens.find(v=>v.mint===uiCases.covered.catalog.groups[0].tokens[0].mint);
  const read=readRewardEvidence(row,c);assert.equal(read.state,'ready');assert.equal(read.value.lifetime.state,'reported');assert.equal(read.value.lifetime.quality,'partial');assert.equal(read.value.scope.complete,false);assert.equal(read.value.interval.value,null);
+});
+test('dated genuine #61 wire response replays supported lifetime strings without becoming a current fallback or covered interval',()=>{
+ const recording=JSON.parse(readFileSync('docs/evidence/reward-integration-before.json','utf8'));
+ const c=recording.captures[0].responses.find(p=>p.url.includes('/api/pairs?')).json;
+ const rows=fromCatalog(parseCatalog(c),null,tokens);let reported=0;
+ for(const row of rows.flatMap(g=>g.tokens)){
+  const read=readRewardEvidence(row,c);assert.equal(read.state,'ready');assert.equal(read.value.evaluatedAt,c.dataset.fetchedAt);assert.equal(read.value.holderReturn.value,null);
+  if(read.value.lifetime.state==='reported'){
+   reported++;const html=renderToStaticMarkup(React.createElement(PairTokenRow,{token:row,catalog:c,report:null}));
+   assert.equal(primaryEvidence(html),'Lifetime reported');assert.ok(html.includes(read.value.lifetime.value.distributedTokens+' '+row.quoteSymbol));assert.equal(read.value.interval.value,null);
+  }
+ }
+ assert.ok(reported>0);assert.equal(c.dataset.coverage.complete,false);
 });
 if(process.env.SCOUT_REWARD_UI_FIXTURES){
  assert.ok(process.env.SCOUT_REWARD_UI_FIXTURES.startsWith('/tmp/'));writeFileSync(process.env.SCOUT_REWARD_UI_FIXTURES,JSON.stringify({kind:'synthetic_frontend_test_cases_never_screenshots',cases:uiCases})+'\n');

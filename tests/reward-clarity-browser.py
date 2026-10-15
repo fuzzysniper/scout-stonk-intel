@@ -2,7 +2,7 @@
 Run after reward-clarity-capture.py --phase after. Fixtures are never screenshot sources.
 Requires Playwright, Chromium and axe 4.10.3; no repository dependency changes.
 """
-import argparse,copy,json,re,hashlib
+import argparse,copy,json,re,hashlib,base64
 from PIL import Image,ImageChops
 from pathlib import Path
 from datetime import datetime,timezone
@@ -146,7 +146,12 @@ with sync_playwright() as pw:
    try:
     image=dossier.request.get(image_url,timeout=15000)
     passed=image.status==200 and image.headers.get('content-type','').startswith('image/png') and image.body().startswith(b'\x89PNG\r\n\x1a\n')
-    preview={'url':image_url,'result':'PASS' if passed else 'FAIL','status':image.status,'contentType':image.headers.get('content-type')}
+    preview={'url':image_url,'result':'PASS' if passed else 'FAIL','status':image.status,'contentType':image.headers.get('content-type'),'cacheControl':image.headers.get('cache-control')}
+    if passed:
+     body=image.body();dimensions=dossier.evaluate('async data=>{const image=new Image();image.src="data:image/png;base64,"+data;await image.decode();return [image.naturalWidth,image.naturalHeight];}',base64.b64encode(body).decode())
+     assert dimensions==[1200,630],dimensions
+     (root/f'docs/evidence/{a.prefix}-og-image.png').write_bytes(body)
+     preview.update(decodedDimensions=dimensions,sha256=hashlib.sha256(body).hexdigest(),bytes=len(body),exactTokenMint=token_mint)
    except PlaywrightError as error:
     preview={'url':image_url,'result':'FAIL','transportError':str(error)}
    print('Existing social preview:',preview['result'],flush=True)
