@@ -1,7 +1,19 @@
 import type { PairToken } from './adapter';
+import { validMint } from './adapter';
 
 export type SampleSort = 'name' | 'liquidity' | 'volume';
 export const DEFAULT_SAMPLE_SORT: SampleSort = 'liquidity';
+
+/** Existing dossier route: token identity only, never a frozen pair selection or sample. */
+export function tokenResearchPath(mint: string): string {
+ if(!validMint(mint))throw Error('Invalid token identity');
+ return '/?mint='+encodeURIComponent(mint);
+}
+export function tokenResearchUrl(mint: string, origin: string): string {
+ const base=new URL(origin);
+ if(!['https:','http:'].includes(base.protocol) || base.username || base.password || base.pathname!=='/' || base.search || base.hash)throw Error('Invalid research origin');
+ return new URL(tokenResearchPath(mint),base.origin).href;
+}
 
 /** Scan precision only; greater precision, raw source links and dates remain in Details. */
 export function screenUsd(value: number | null): string {

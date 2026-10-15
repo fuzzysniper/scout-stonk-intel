@@ -6,8 +6,8 @@ import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 const load=async file=>(await import(pathToFileURL(path.join(process.env.HISTORY_TEST_BUILD,file+'.js')).href)).default;
 const {parseCatalog,fromCatalog,fromTracked,discoveryEvidence,mergePairGroups,searchPairs,visibleTokens}=await load('app/pairs/adapter');
-const {default:Explorer,PairTokenRow,usd}=await load('app/pairs/explorer');
-const {sortSample,marketValue,screenUsd,DEFAULT_SAMPLE_SORT}=await load('app/pairs/results');
+const {default:Explorer,PairTokenRow,RewardEvidenceKey,TokenIdentityMark,usd}=await load('app/pairs/explorer');
+const {sortSample,marketValue,screenUsd,DEFAULT_SAMPLE_SORT,tokenResearchPath,tokenResearchUrl}=await load('app/pairs/results');
 const {fetchCatalog,fetchQuoteRegistry}=await load('app/pairs/client');
 const {parseRegistry,registrySearch,appendRegistryPage,catalogMatchesQuote}=await load('app/pairs/registry');
 const {trackedTokens}=await load('lib/tracked-tokens');
@@ -95,9 +95,10 @@ test('existing matched/point/zero gates remain authoritative; reset/stale/degrad
  const point=(hours,total,extra={})=>({observedAt:new Date(now.getTime()+hours*3600000).toISOString(),distributedTokens:total,quoteMint:t.quoteMint,quoteSymbol:t.quoteSymbol,source:t.source,...extra});
  const make=(points,status='available')=>summarizeRadar({[t.mint]:points},tokens,{...dataset,sourceStatus:status},'name',now);
  const output=report=>render(fromTracked(tokens,report).find(g=>g.quoteMint===t.quoteMint).tokens[0],report);
- const matched=output(make(Array.from({length:49},(_,i)=>point(i-48,i))));assert.ok(matched.includes('24 NVDAX'));assert.ok(matched.includes('Current matched period'));assert.ok(matched.includes('Actual interval:'));
- for(const report of [make([point(-1,2),point(0,1)]),make([point(-5,1),point(-4,2)]),make([point(-1,1),point(0,2)],'degraded'),make([point(-1,1),point(0,2,{quoteMint:tokens[0].quoteMint})]),make([point(-8,1),point(0,2)])])assert.ok(!output(report).includes('Distributed counter change'));
- assert.ok(output(make([point(-1,1),point(0,1)])).includes('0 NVDAX'));
+ const primary=html=>html.match(/<span class="pair-row-state"[^>]*>([^<]*)/)[1];
+ const matched=output(make(Array.from({length:49},(_,i)=>point(i-48,i))));assert.ok(matched.includes('24 NVDAX'));assert.ok(matched.includes('Current matched period'));assert.ok(matched.includes('Actual interval:'));assert.equal(primary(matched),'Flow recorded');
+ for(const report of [make([point(-1,2),point(0,1)]),make([point(-5,1),point(-4,2)]),make([point(-1,1),point(0,2)],'degraded'),make([point(-1,1),point(0,2,{quoteMint:tokens[0].quoteMint})]),make([point(-8,1),point(0,2)])]){assert.ok(!output(report).includes('Distributed counter change'));assert.notEqual(primary(output(report)),'Flow recorded');}
+ const zero=output(make([point(-1,1),point(0,1)]));assert.ok(zero.includes('0 NVDAX'));assert.equal(primary(zero),'Flow recorded');
  const blocked=render(fromTracked(tokens,make([point(-1,1),point(0,2)])).find(g=>g.quoteMint===t.quoteMint).tokens[0],make([point(-1,1),point(0,2)]),true);assert.ok(!blocked.includes('Distributed counter change'));assert.ok(!blocked.includes('US$'));
 });
 
@@ -242,7 +243,7 @@ test('screener row retains zero and exceptional warnings; full identity/time/ret
  const f=fixture();f.groups[0].tokens[0].market.liquidityUsd=0;
  let token=fromCatalog(parseCatalog(f))[0].tokens[0],html=render(token);
  const visible=html.split('<div class="pair-evidence-body"')[0],details=html.slice(html.indexOf('<div class="pair-evidence-body"'));
- assert.ok(visible.includes('$0'));assert.ok(visible.includes('$12'));assert.ok(visible.includes('Mode checked'));
+ assert.ok(visible.includes('$0'));assert.ok(visible.includes('$12'));assert.ok(visible.includes('Settings verified'));
  for(const hidden of [token.mint,token.quoteMint,iso,'Historical quote-relative return','Holder-attributable rewards']){
   assert.ok(!visible.replace(/<[^>]*>/g,'').includes(hidden),hidden);assert.ok(details.includes(hidden),hidden);
  }
@@ -251,7 +252,7 @@ test('screener row retains zero and exceptional warnings; full identity/time/ret
  assert.ok(visible.includes('href="/?mint='+token.mint+'"'));assert.ok(visible.includes('Open 🧪 · Synthetic test token dossier'));
  const ct=f.groups[0].tokens[0];ct.rewardModeVerified=false;ct.modeVerification='source_unavailable';ct.rewardSource=null;ct.historyStatus='invalid_data';ct.historyFreshness='stale';
  html=render(fromCatalog(parseCatalog(f))[0].tokens[0]).split('<div class="pair-evidence-body"')[0];
- assert.ok(html.includes('Invalid / stale'));assert.ok(!html.includes('Mode checked'));
+ assert.ok(html.includes('Invalid / stale'));assert.ok(html.includes('Unverified'));
  assert.ok(!html.includes('distributed'));
 });
 
@@ -274,17 +275,17 @@ test('sample sorts keep exact quote identity, zero before unknown, name ties det
 test('short evidence states distinguish catalog, mechanism and recorded activity without dropping exceptional gates',()=>{
  const f=fixture(),ct=f.groups[0].tokens[0];
  const visible=()=>render(fromCatalog(parseCatalog(f))[0].tokens[0]).split('<div class="pair-evidence-body"')[0];
- assert.ok(visible().includes('Mode checked'));assert.ok(!visible().includes('Flow recorded'));
- ct.historyFreshness='stale';assert.ok(visible().includes('Stale history'));
- ct.historyFreshness='unavailable';ct.historyStatus='invalid_data';assert.ok(visible().includes('Invalid history'));
+ assert.ok(visible().includes('Settings verified'));assert.ok(!visible().includes('Flow recorded'));
+ ct.historyFreshness='stale';assert.ok(visible().includes('Stale history'));assert.ok(visible().includes('Settings verified'));
+ ct.historyFreshness='unavailable';ct.historyStatus='invalid_data';assert.ok(visible().includes('Invalid history'));assert.ok(visible().includes('Settings verified'));
  ct.historyStatus='not_tracked';ct.rewardModeVerified=false;ct.modeVerification='source_unavailable';ct.rewardSource=null;
- assert.ok(visible().includes('Check failed'));
+ assert.ok(visible().includes('Unverified'));
  ct.mode='standard';ct.modeVerification='verified_standard';ct.rewardSource={...source,source:'https://www.stonkfun.xyz/api/v2/tokens/'+t.mint+'/rewards'};
- assert.ok(visible().includes('Standard mode'));
+ assert.ok(visible().includes('No reward mode'));
  const html=render(fromCatalog(parseCatalog(f))[0].tokens[0]);assert.ok(html.includes('aria-label="Details for 🧪 · Synthetic test token"'));
  assert.ok(html.includes('aria-expanded="false"'));assert.ok(html.includes(ct.mint));assert.ok(html.includes(ct.source.replaceAll('&','&amp;')));
- ct.modeVerification='catalog_only';ct.rewardSource=null;assert.ok(visible().includes('Market only'));
- ct.market={...ct.market,status:'unavailable',priceUsd:null,liquidityUsd:null,volume24hUsd:null};assert.ok(visible().includes('Catalog only'));
+ ct.modeVerification='catalog_only';ct.rewardSource=null;assert.ok(visible().includes('Unverified'));
+ ct.market={...ct.market,status:'unavailable',priceUsd:null,liquidityUsd:null,volume24hUsd:null};assert.ok(visible().includes('Unverified'));
  ct.modeVerification='identity_mismatch';assert.ok(visible().includes('Identity issue'));
 });
 
@@ -293,4 +294,29 @@ test('scan USD formatting separates unknown and zero and never rounds a small po
  assert.equal(screenUsd(315.08),'$315.08');assert.equal(screenUsd(1e-12),'$1.00e-12');
  for(const v of [-1,Infinity,NaN])assert.equal(screenUsd(v),'—');
  for(const v of [0.00001,0.009,0.01,0.1])assert.notEqual(screenUsd(v),'$0');
+});
+
+test('one plain-language key separates official settings, counter flow and holder payments',()=>{
+ const html=renderToStaticMarkup(React.createElement(RewardEvidenceKey));
+ for(const phrase of ['official reward settings','a measured counter change, not proof holders were paid','Neither proves returns','Missing evidence is not zero','Lifetime distributions are not shown in this pair view'])assert.ok(html.includes(phrase),phrase);
+ assert.equal((html.match(/id="pair-reward-key"/g)||[]).length,1);assert.ok(!/<details[^>]*\bopen/.test(html));
+});
+
+test('research URLs use only the tested exact token dossier route and never encode a pair selection or snapshot',()=>{
+ for(const token of tokens){
+  assert.equal(tokenResearchPath(token.mint),'/?mint='+token.mint);
+  assert.equal(tokenResearchUrl(token.mint,'https://scout.storkcoin.xyz'),'https://scout.storkcoin.xyz/?mint='+token.mint);
+  const u=new URL(tokenResearchUrl(token.mint,'http://127.0.0.1:3160'));assert.equal(u.searchParams.get('mint'),token.mint);assert.deepEqual([...u.searchParams.keys()],['mint']);
+ }
+ for(const bad of ['NVDAX','/wrong?mint='+t.mint,''])assert.throws(()=>tokenResearchPath(bad));
+ for(const bad of ['javascript:alert(1)','https://user:pass@example.test','https://example.test/path','https://example.test/?quoteMint='+t.quoteMint,'https://example.test/#snapshot'])assert.throws(()=>tokenResearchUrl(t.mint,bad));
+});
+
+test('generated mint marks are stable visual aids with no logo URLs, network assets or verification claim',()=>{
+ const mark=mint=>renderToStaticMarkup(React.createElement(TokenIdentityMark,{mint}));
+ assert.equal(mark(t.mint),mark(t.mint));assert.notEqual(mark(t.mint),mark(tokens[0].mint));
+ assert.notEqual(mark(t.mint),mark(t.mint.toUpperCase()));
+ const html=mark(t.mint);assert.ok(html.includes('aria-hidden="true"'));assert.ok(html.includes('data-identity-mark="generated"'));
+ assert.ok(!/href=|<image|<img/.test(html));
+ const key=renderToStaticMarkup(React.createElement(RewardEvidenceKey));assert.ok(key.includes('not official logos or proof of identity'));
 });

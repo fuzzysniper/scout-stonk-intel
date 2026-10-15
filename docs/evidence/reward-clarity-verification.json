@@ -1,0 +1,328 @@
+{
+  "at": "2026-10-15T00:21:39.234822+00:00",
+  "baselineCommit": "49ab560dde396d302f62dd21c7897379cccec75d",
+  "branch": "feat/59-reward-evidence-clarity",
+  "commands": [
+    {
+      "command": "npm ci --cache /tmp/scout59-npm-cache",
+      "exitCode": 0,
+      "result": "PASS",
+      "packages": 336
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "result": "PASS",
+      "nodeTests": 326,
+      "pythonTests": 62,
+      "schedulerTests": 15
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "bash scripts/archive-tool.sh check origin/main",
+      "exitCode": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "npm run archive:dry-run",
+      "exitCode": 0,
+      "result": "PASS",
+      "scope": "Disposable local rehearsal; no publication or network operations"
+    },
+    {
+      "command": "SCOUT_VERIFY_ENV_PROXY=1 npm run verify:release -- --base http://127.0.0.1:3162 --target preview",
+      "exitCode": 0,
+      "result": "PASS",
+      "scope": "Local release/archive smoke; does not cover token social-image delivery"
+    },
+    {
+      "command": "python3 tests/reward-clarity-capture.py --base http://127.0.0.1:3162 --phase after",
+      "exitCode": 0,
+      "result": "PASS",
+      "scope": "Real source screenshots at 320/390/1280; no route interception or image alteration"
+    },
+    {
+      "command": "python3 tests/reward-clarity-browser.py --base http://127.0.0.1:3162 --axe /tmp/scout-qa/package/axe.min.js",
+      "exitCode": 1,
+      "result": "FAIL",
+      "frontendChecksPassed": 55,
+      "failure": "Existing token social preview image connection terminates; independently reproduced on unmodified pinned main",
+      "baselineEvidence": "reward-clarity-baseline-social-preview.json",
+      "qaEvidence": "reward-clarity-qa.json"
+    }
+  ],
+  "productionFiles": [
+    "app/globals.css",
+    "app/pairs/explorer.tsx",
+    "app/pairs/results.ts"
+  ],
+  "protectedScopeUnchanged": [
+    "homepage and first-screen controls",
+    "lib and API",
+    "pair adapters, registry, client and presets",
+    "actual data and documentary public evidence",
+    "collector/scheduler and scripts",
+    "workflows and Cloudflare"
+  ],
+  "limits": [
+    "Reader feedback is inconclusive, not a human comprehension/shareability pass.",
+    "Final cold-reader, physical iPhone/VoiceOver and social-app preview validation remain pending.",
+    "Native share picker is a capability stub, not an external post.",
+    "Generated mint marks are not official logos or verified identity.",
+    "No deployment, merge, collection or financial operation."
+  ],
+  "localReleaseSmoke": {
+    "target": "preview",
+    "base": "http://127.0.0.1:3162",
+    "startedAt": "2026-10-15T00:17:37.655Z",
+    "finishedAt": "2026-10-15T00:17:41.372Z",
+    "outcome": "pass",
+    "exitCode": 0,
+    "evidence": [
+      {
+        "level": "PASS",
+        "code": "canonical_archived_redirect",
+        "url": "http://127.0.0.1:3162/brief/2026-10-11",
+        "at": "2026-10-15T00:17:38.760Z",
+        "status": 307,
+        "note": "Exact original edition HTTP redirect; no redirect followed automatically."
+      },
+      {
+        "level": "PASS",
+        "code": "edition_html",
+        "url": "http://127.0.0.1:3162/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+        "at": "2026-10-15T00:17:38.783Z",
+        "status": 200,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "edition_share_metadata",
+        "url": "http://127.0.0.1:3162/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+        "at": "2026-10-15T00:17:38.784Z",
+        "note": "Checks date/ID canonical and Open Graph image paths, not physical-phone rendering. Preview may deliberately use production metadata origin."
+      },
+      {
+        "level": "PASS",
+        "code": "edition_share_png",
+        "url": "http://127.0.0.1:3162/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63/opengraph-image",
+        "at": "2026-10-15T00:17:38.916Z",
+        "status": 200,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "png_signature",
+        "url": "http://127.0.0.1:3162/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63/opengraph-image",
+        "at": "2026-10-15T00:17:38.916Z",
+        "note": "Bounded share preview has PNG media type and signature."
+      },
+      {
+        "level": "PASS",
+        "code": "archive_api",
+        "url": "http://127.0.0.1:3162/api/archive?date=2026-10-11&id=d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+        "at": "2026-10-15T00:17:38.930Z",
+        "status": 200,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "edition_hash_and_claims",
+        "url": "http://127.0.0.1:3162/api/archive?date=2026-10-11&id=d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+        "at": "2026-10-15T00:17:38.953Z",
+        "note": "Canonical edition hash, method, preserved source hashes and API claims independently reproduce."
+      },
+      {
+        "level": "PASS",
+        "code": "utc_grace",
+        "url": "http://127.0.0.1:3162/api/archive?date=2026-10-11&id=d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+        "at": "2026-10-15T00:17:38.953Z",
+        "note": "Day closure plus three-hour grace checked; eligibleAt is not a fake publication timestamp."
+      },
+      {
+        "level": "PASS",
+        "code": "api_no_store",
+        "url": "http://127.0.0.1:3162/api/archive?date=2026-10-11&id=d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+        "at": "2026-10-15T00:17:38.953Z",
+        "note": "Archive API transport metadata stays separate from immutable body."
+      },
+      {
+        "level": "PASS",
+        "code": "pinned_source_hash",
+        "url": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/e3de19169c844f85f06d0cabe7a4c9682d68d8ac/data/reward-snapshots.json",
+        "at": "2026-10-15T00:17:39.906Z",
+        "status": 200,
+        "note": "Compare actual pinned GitHub bytes with preserved evidence revision."
+      },
+      {
+        "level": "PASS",
+        "code": "pinned_source_hash",
+        "url": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/e3de19169c844f85f06d0cabe7a4c9682d68d8ac/data/tracked-mints.json",
+        "at": "2026-10-15T00:17:40.837Z",
+        "status": 200,
+        "note": "Compare actual pinned GitHub bytes with preserved evidence revision."
+      },
+      {
+        "level": "PASS",
+        "code": "utc_today_redirect",
+        "url": "http://127.0.0.1:3162/brief",
+        "at": "2026-10-15T00:17:40.860Z",
+        "status": 307,
+        "note": "Accept only UTC date before/after this bounded request, including midnight rollover."
+      },
+      {
+        "level": "PASS",
+        "code": "status_html",
+        "url": "http://127.0.0.1:3162/status",
+        "at": "2026-10-15T00:17:40.867Z",
+        "status": 200,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "status_markup",
+        "url": "http://127.0.0.1:3162/status",
+        "at": "2026-10-15T00:17:40.867Z",
+        "note": "HTML route checked; client hydration, touch and native sharing require separate browser/phone QA."
+      },
+      {
+        "level": "PASS",
+        "code": "status_api",
+        "url": "http://127.0.0.1:3162/api/status",
+        "at": "2026-10-15T00:17:41.359Z",
+        "status": 200,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "archive_health",
+        "url": "http://127.0.0.1:3162/api/status",
+        "at": "2026-10-15T00:17:41.360Z",
+        "note": "Current archive source state recorded separately from frozen daily claims."
+      },
+      {
+        "level": "PASS",
+        "code": "invalid_date_rejected",
+        "url": "http://127.0.0.1:3162/api/archive?date=2026-02-30",
+        "at": "2026-10-15T00:17:41.364Z",
+        "status": 400,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "missing_edition_not_replaced",
+        "url": "http://127.0.0.1:3162/api/archive?date=2026-10-11&id=0000000000000000000000000000000000000000000000000000000000000000",
+        "at": "2026-10-15T00:17:41.368Z",
+        "status": 404,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "failure_has_no_replacement_claims",
+        "url": "http://127.0.0.1:3162/api/archive?date=2026-10-11&id=0000000000000000000000000000000000000000000000000000000000000000",
+        "at": "2026-10-15T00:17:41.368Z",
+        "note": "Failure response contains no substituted financial rows."
+      },
+      {
+        "level": "PASS",
+        "code": "outdated_version_not_replaced",
+        "url": "http://127.0.0.1:3162/api/brief?date=2026-10-11&v=0000000000000000000000000000000000000000000000000000000000000000",
+        "at": "2026-10-15T00:17:41.372Z",
+        "status": 409,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "failure_has_no_replacement_claims",
+        "url": "http://127.0.0.1:3162/api/brief?date=2026-10-11&v=0000000000000000000000000000000000000000000000000000000000000000",
+        "at": "2026-10-15T00:17:41.372Z",
+        "note": "Failure response contains no substituted financial rows."
+      }
+    ],
+    "scope": "Read-only HTTP/JSON/hash/metadata verification. No JavaScript interaction, physical-phone, workflow execution or publication approval proof."
+  },
+  "screenshots": {
+    "docs/screenshots/reward-clarity-after-1280.png": {
+      "sha256": "4f9120bac9c8999205a851976f4a276652ac783b4edba09e0eecdcc379593b89",
+      "bytes": 432142
+    },
+    "docs/screenshots/reward-clarity-after-320.png": {
+      "sha256": "aa8824c8a7abcd115f06f82c0b8cb0424638587574383d17dc5239315a7b0f78",
+      "bytes": 167905
+    },
+    "docs/screenshots/reward-clarity-after-390.png": {
+      "sha256": "6d5458b5743f2416c51711bc5cfb072ea8635f039c1b77d489aa601b0fca3e97",
+      "bytes": 192741
+    },
+    "docs/screenshots/reward-clarity-after-details-390.png": {
+      "sha256": "c687d9e5f871d7aec29dc3ec3f62369d45b319a212feffb1bae4cffe1a7edf9c",
+      "bytes": 136929
+    },
+    "docs/screenshots/reward-clarity-after-home-1280.png": {
+      "sha256": "01aa2637674601dd1ba03484fdfbd5c677b2891a0eb026602dc58db6ab0a4ca9",
+      "bytes": 201755
+    },
+    "docs/screenshots/reward-clarity-after-home-320.png": {
+      "sha256": "03c3a2551ea955f7f4eff2a8a97bf8f6de5d35e7d9a87adc5376e0a53b8d550b",
+      "bytes": 100007
+    },
+    "docs/screenshots/reward-clarity-after-home-390.png": {
+      "sha256": "d8b4973e2a1155ae65ec5781681aa6ab4299dce6394667dcd22a020a0c37e4c5",
+      "bytes": 108082
+    },
+    "docs/screenshots/reward-clarity-after-key-390.png": {
+      "sha256": "043c392847cbef85707ab2c14ab1d202cd4de7a6ee8604d134568bcba814189e",
+      "bytes": 122671
+    },
+    "docs/screenshots/reward-clarity-after-volume-1280.png": {
+      "sha256": "0b5e781b1f0ef0abc380290581b5ffd5141c94fabb8e5c5177106279b7268b27",
+      "bytes": 430126
+    },
+    "docs/screenshots/reward-clarity-after-volume-320.png": {
+      "sha256": "2887a3ea8e490bbb047a0c391cf60b97540c4aebd9659460c9a3bbfa23cae2fd",
+      "bytes": 170403
+    },
+    "docs/screenshots/reward-clarity-after-volume-390.png": {
+      "sha256": "fa5661965538f3895ec92f371a42e2399128b9d960fb0e833ab4b0459baeb2c9",
+      "bytes": 194637
+    },
+    "docs/screenshots/reward-clarity-before-1280.png": {
+      "sha256": "df8ec224e770418bd231c677c563a9e60aa71576ab9e5c99f160a77e3309b3af",
+      "bytes": 419632
+    },
+    "docs/screenshots/reward-clarity-before-320.png": {
+      "sha256": "89dd0689dfe4ce28145760c34a157b423fd93b502680319c2924b062dd96103f",
+      "bytes": 160263
+    },
+    "docs/screenshots/reward-clarity-before-390.png": {
+      "sha256": "3736a669afb8a800e713a428db207dd42dca00d1ba756a7f1028f103cab69e62",
+      "bytes": 182895
+    },
+    "docs/screenshots/reward-clarity-before-home-1280.png": {
+      "sha256": "e15cdf3170002e6d7753ba3756c130b1fb50362b7684fd16d12e751e95cffbd8",
+      "bytes": 201788
+    },
+    "docs/screenshots/reward-clarity-before-home-320.png": {
+      "sha256": "03c3a2551ea955f7f4eff2a8a97bf8f6de5d35e7d9a87adc5376e0a53b8d550b",
+      "bytes": 100007
+    },
+    "docs/screenshots/reward-clarity-before-home-390.png": {
+      "sha256": "d8b4973e2a1155ae65ec5781681aa6ab4299dce6394667dcd22a020a0c37e4c5",
+      "bytes": 108082
+    }
+  }
+}
