@@ -3,6 +3,7 @@ import {useCallback,useEffect,useRef,useState} from 'react';
 import type {KeyboardEvent} from 'react';
 import {isSolanaMint} from '../lib/solana';
 import HistoryPanel from './history-panel';
+import Link from 'next/link';
 import PairExplorer,{TokenIdentityMark} from './pairs/explorer';
 import {CopyResearchLink,dismissResearchKeyboard} from './research-actions';
 import {screenUsd,tokenResearchUrl} from './pairs/results';
@@ -54,7 +55,7 @@ export default function ScoutClient({tokens,initialMint=''}:{tokens:TrackedToken
  const label=baseSelected?market?.base?.symbol:quoteSelected?market?.quote?.symbol:null;
  const name=baseSelected?market?.base?.name:null;
  const quote=pair.state==='ready'?pair.token.quoteSymbol:legacyRecord(selected,reward)?reward.quoteSymbol:null;
- return <main id="scout-content" tabIndex={-1} className={'terminal ux-terminal flow-first'+(selected?' token-dossier':'')}>
+ return <main id="scout-content" tabIndex={-1} className={'terminal ux-terminal flow-first'+(selected?' token-dossier':' terminal-v3')}>
  {selected && <><h1 tabIndex={-1} className="dossier-title">Token dossier</h1><p className="dossier-context">Read-only research</p></>}
  {!selected && <PairExplorer tokens={tokens}/>}
  {error&&<p role="alert" className="error">{error}</p>}
@@ -96,6 +97,7 @@ export default function ScoutClient({tokens,initialMint=''}:{tokens:TrackedToken
  <details ref={lookup} className="lookup-disclosure"><summary>{selected?'Inspect another token':'Token research by mint'}</summary>
  <form className="lookup" onSubmit={e=>{e.preventDefault();submit();}}><label htmlFor="mint">TOKEN MINT ADDRESS</label><div className="lookuprow"><input id="mint" placeholder="Paste Solana token address…" value={mint} onChange={e=>setMint(e.target.value)} autoComplete="off" spellCheck={false}/><button type="submit" disabled={loading}>{loading?'SCANNING…':'SCAN ↗'}</button></div></form>
  </details>
+ {!selected && <footer className="terminal-utilities"><Link prefetch={false} href="/status">Data status</Link><Link prefetch={false} href="/brief">Archive</Link><Link prefetch={false} href="/radar">Radar</Link><Link prefetch={false} href="/research#stork-relationship">About</Link></footer>}
  {selected && <footer><p>Research only · no verified holder returns. <a href="https://github.com/fuzzysniper/scout-stonk-intel" target="_blank" rel="noopener noreferrer">Source code ↗</a></p></footer>}
  </main>;
 }

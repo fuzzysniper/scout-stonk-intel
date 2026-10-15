@@ -14,7 +14,7 @@ test('navigation identifies exactly one destination on nested immutable and prov
   const html = renderToStaticMarkup(React.createElement(NavigationLinks, { pathname }));
   assert.equal((html.match(/aria-current="page"/g) || []).length, 1);
   assert.match(html, /aria-label="Primary"/);
-  for (const href of ['/', '/radar', '/brief', '/status', '/research', '#scout-content']) assert.ok(html.includes('href="'+href+'"'));
+  for (const href of (pathname==='/'?['/','/research','#scout-content']:['/', '/radar', '/brief', '/status', '/research', '#scout-content'])) assert.ok(html.includes('href="'+href+'"'));
   if (pathname.startsWith('/brief')) assert.match(html, /<a(?=[^>]*href="\/brief")(?=[^>]*aria-current="page")[^>]*>/);
  }
  // Prefix siblings must not impersonate a real destination.
@@ -38,9 +38,9 @@ test('guide renders source-independent evidence and limitations with no collecti
  assert.ok(!/<(?:form|input|iframe)/.test(html));
  assert.match(html, /FIRST_USER_READINESS.md/);
 });
-test('home navigation gives SCOUT one pair-first destination, secondary Research/Status and keyboard-native access to the archive',()=>{
+test('home navigation keeps one brand and guide; secondary routes stay off the primary search task',()=>{
  const html=renderToStaticMarkup(React.createElement(NavigationLinks,{pathname:'/'}));
- assert.ok(html.includes('home-navigation'));assert.ok(html.includes('SCOUT'));assert.ok(html.includes('Research'));assert.ok(html.includes('Status'));
- const visible=html.split('<details')[0];assert.ok(!visible.includes('Daily Brief'));assert.ok(!visible.includes('Radar'));
- assert.ok(html.includes('<summary>More</summary>'));assert.ok(html.includes('Daily Brief &amp; public archive'));assert.ok(!/<details[^>]*\bopen/.test(html));
+ assert.ok(html.includes('home-navigation'));assert.ok(html.includes('SCOUT'));assert.ok(html.includes('Guide'));
+ assert.equal((html.match(/<nav/g)||[]).length,1);assert.ok(!html.includes('<details'));
+ for(const clutter of ['More','Daily Brief','Radar','Status'])assert.ok(!html.includes(clutter));
 });

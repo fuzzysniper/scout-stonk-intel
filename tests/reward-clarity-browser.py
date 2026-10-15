@@ -12,8 +12,9 @@ p=argparse.ArgumentParser();p.add_argument('--base',required=True);p.add_argumen
 assert re.fullmatch('[a-z][a-z0-9-]{0,39}',a.prefix)
 assert u.scheme=='http' and u.hostname in ['localhost','127.0.0.1'] and not u.username and not u.password and u.path in ['','/'] and not u.query and not u.fragment
 root=Path(__file__).resolve().parents[1];proof=json.loads((root/f'docs/evidence/{a.prefix}-after.json').read_text());packets=proof['captures'][0]['responses'];checks=[];journey=[];genuine_details=[];preview=None
-registry={parse_qs(urlparse(p['url']).query)['mint'][0]:p['json'] for p in packets if '/api/pair-quotes?' in p['url']}
-catalog=next(p['json'] for p in packets if '/api/pairs?' in p['url']);radar=next(p['json'] for p in packets if '/api/radar?' in p['url']);mint=catalog['groups'][0]['quoteMint'];assert len(registry)==4
+registry={parse_qs(urlparse(p['url']).query).get('mint',[''])[0]:p['json'] for p in packets if '/api/pair-quotes?' in p['url'] and (p['json']['search']['mint'] is not None or p['json']['search']['query']=='')}
+def registry_response(route):return registry[parse_qs(urlparse(route.request.url).query).get('mint',[''])[0]]
+catalog=next(p['json'] for p in packets if '/api/pairs?' in p['url']);radar=next(p['json'] for p in packets if '/api/radar?' in p['url']);mint=catalog['groups'][0]['quoteMint'];assert mint in registry and '' in registry
 recorder='''(()=>{const f=window.fetch.bind(window);window.__packets=[];window.fetch=async(...args)=>{const r=await f(...args);r.clone().json().then(json=>window.__packets.push({url:String(args[0]),status:r.status,json})).catch(()=>{});return r;};})();'''
 def check(w,name,**extra):
  checks.append({'width':w,'check':name,'result':'PASS',**extra});print(w,name,flush=True)
@@ -22,9 +23,9 @@ def audit(page):
  page.add_script_tag(path=a.axe);r=page.evaluate("async()=>axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}})");assert not r['violations'],[(v['id'],[n['target'] for n in v['nodes']]) for v in r['violations']];return len(r['passes'])
 def context(b,w):
  c=b.new_context(viewport={'width':w,'height':844},reduced_motion='reduce',has_touch=w<=390,is_mobile=w<=390,permissions=['clipboard-read','clipboard-write']);c.add_init_script(recorder);return c
-def ready(page):page.wait_for_function("document.querySelector('.pair-featured')?.getAttribute('aria-busy')==='false'")
+def ready(page):page.wait_for_function("document.querySelector('[data-registry-state]')?.dataset.registryState==='ready'")
 def select(page):
- page.get_by_role('button',name=re.compile('^Choose NVDAX')).click();page.locator('.pair-sample-refresh:not([disabled])').wait_for();page.wait_for_timeout(100)
+ page.locator('#pair-search').fill(mint);page.get_by_role('option',name=re.compile('^NVDAX')).wait_for();page.keyboard.press('ArrowDown');page.keyboard.press('Enter');page.locator('.pair-sample-refresh:not([disabled])').wait_for();page.wait_for_timeout(100)
 def ids(page):return page.locator('.pair-token').evaluate_all("rs=>rs.map(r=>r.getAttribute('aria-labelledby').replace('pair-token-',''))")
 def sorting(page,data):
  rows=data['groups'][0]['tokens'];original=set(t['mint'] for t in rows);before=len(page.evaluate('window.__packets'));assert set(ids(page))==original
@@ -39,16 +40,16 @@ with sync_playwright() as pw:
  b=pw.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox','--disable-gpu','--disable-gpu-compositing','--disable-features=PaintHolding'])
  for w in [320,390,1280]:
   c=context(b,w);page=c.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)));page.goto(a.base);ready(page)
-  # Allow only tiny one-channel rasterization differences at rounded edges, never layout/text changes.
+  # V3 intentionally changes the landing; preserve identity/data journeys below.
   before=root/f'docs/screenshots/{a.prefix}-before-home-{w}.png';after=root/f'docs/screenshots/{a.prefix}-after-home-{w}.png'
   same=hashlib.sha256(before.read_bytes()).digest()==hashlib.sha256(after.read_bytes()).digest()
   difference=ImageChops.difference(Image.open(before).convert('RGB'),Image.open(after).convert('RGB'))
   changed=sum(pixel!=(0,0,0) for pixel in difference.getdata());largest=max(high for low,high in difference.getextrema())
-  assert largest<=1 and changed<=w*844*0.0001,{'changedPixels':changed,'largestChannelDifference':largest}
-  assert page.locator('.pair-chips button:not([disabled])').count()==4
+  assert largest>1 and changed>w*844*0.01,{'changedPixels':changed,'largestChannelDifference':largest}
+  assert page.get_by_role('combobox',name='Search quote assets').count()==1 and page.locator('.pair-featured').count()==0
   assert not any('/api/pairs?' in p['url'] or '/api/radar?' in p['url'] for p in page.evaluate('window.__packets'))
   page.keyboard.press('Tab');assert page.evaluate('document.activeElement.classList.contains("skip-content")');page.keyboard.press('Enter');assert page.evaluate('document.activeElement.id==="scout-content"')
-  check(w,'landing unchanged within one-channel rasterization tolerance; four verified choices; skip link; no token fanout',identicalPngHash=same,changedPixels=changed,largestChannelDifference=largest)
+  check(w,'intentional search-first visual redesign; one universal search; skip link; no token fanout',identicalPngHash=same,changedPixels=changed,largestChannelDifference=largest)
   select(page);data=next(p['json'] for p in page.evaluate('window.__packets') if '/api/pairs?' in p['url']);assert data['groups'][0]['quoteMint']==mint
   expected_labels={'observed_interval':'Interval covered','reported_lifetime':'Lifetime reported','mechanism_verified':'Settings verified','standard_mode':'No reward mode','unverified':'Unverified'}
   for token in data['groups'][0]['tokens']:
@@ -59,7 +60,7 @@ with sync_playwright() as pw:
   assert page.locator('.pair-column-head .pair-liquidity').is_visible()
   assert page.locator('.pair-column-head .pair-volume').is_visible()==(w>=760)
   assert page.locator('.pair-results-sort [aria-pressed=true]').count()==1
-  assert page.locator('#pair-reward-key').count()==1 and 'none verifies paid holders or profit' in page.locator('#pair-reward-key').inner_text()
+  assert page.locator('#pair-reward-key').count()==1 and 'none verifies paid holders or profit' in page.locator('#pair-reward-key').text_content()
   assert page.locator('.pair-token-name').evaluate_all('ls=>ls.every(a=>a.getBoundingClientRect().height>=44)')
   assert page.locator('.pair-token-mark[data-identity-mark=generated]').count()==len(data['groups'][0]['tokens'])
   assert page.locator('.pair-token-mark').evaluate_all('ms=>ms.every(m=>m.getAttribute("aria-hidden")==="true" && !m.querySelector("image"))')
@@ -112,7 +113,7 @@ with sync_playwright() as pw:
   page.evaluate("document.documentElement.style.zoom='1'");summary.click();page.locator('.pair-reward-key summary').focus();page.keyboard.press('Enter');assert page.locator('.pair-reward-key details').get_attribute('open') is not None;audit(page)
   if w==390:
    page.evaluate("document.activeElement.blur();scrollTo(0,document.querySelector('.pair-reward-key').getBoundingClientRect().top+scrollY-12)");page.screenshot(path=str(root/f'docs/screenshots/{a.prefix}-after-key-390.png'))
-  check(w,'single persistent reward key; expanded plain-language definitions and real clipboard research URL')
+  check(w,'single folded reward key; expanded plain-language definitions and real clipboard research URL')
   c.close()
  # Two real, source-backed research candidates. These are not an earnings shortlist.
  c=context(b,390);page=c.new_page();page.goto(a.base);ready(page);select(page)
@@ -162,7 +163,7 @@ with sync_playwright() as pw:
  c.close()
  # Clipboard failures: capability fixtures only, with genuine saved source packets.
  for capability in ['missing','denied']:
-  c=context(b,390);c.route('**/api/pair-quotes?*',lambda r:r.fulfill(json=registry[parse_qs(urlparse(r.request.url).query)['mint'][0]]));c.route('**/api/pairs?*',lambda r:r.fulfill(json=catalog));c.route('**/api/radar?*',lambda r:r.fulfill(json=radar))
+  c=context(b,390);c.route('**/api/pair-quotes?*',lambda r:r.fulfill(json=registry_response(r)));c.route('**/api/pairs?*',lambda r:r.fulfill(json=catalog));c.route('**/api/radar?*',lambda r:r.fulfill(json=radar))
   page=c.new_page();page.goto(a.base);ready(page);select(page);row=page.locator('.pair-token').first;token_mint=ids(page)[0];row.locator('.pair-detail-toggle').click()
   page.evaluate('Object.defineProperty(navigator,"clipboard",{value:undefined,configurable:true})' if capability=='missing' else 'Object.defineProperty(navigator,"clipboard",{value:{writeText:async()=>{throw new DOMException("Denied","NotAllowedError")}},configurable:true})')
   row.get_by_role('button',name=re.compile('^Copy research link for ')).click();field=row.get_by_role('region',name=re.compile('^Research link for '));field.wait_for()
@@ -191,9 +192,9 @@ with sync_playwright() as pw:
    if state=='empty':
     g.update(tokens=[],verification='official_registry_only',availability='no_tokens_in_bounded_sample');data['dataset']['coverage'].update(tokensReturned=0)
    if state=='identity':g['quoteName']='Synthetic wrong quote identity'
-   if state=='scope':data['dataset']['coverage']['discovery']['quoteMint']=next(m for m in registry if m!=mint)
+   if state=='scope':data['dataset']['coverage']['discovery']['quoteMint']=next(q['quoteMint'] for q in registry['']['quotes'] if q['quoteMint']!=mint)
    if state=='missing-mode-source':g['tokens'][0].update(mode='reward',rewardModeVerified=True,modeVerification='verified_reward',rewardSource=None)
-   c.route('**/api/pair-quotes?*',lambda route:route.fulfill(json=registry[parse_qs(urlparse(route.request.url).query)['mint'][0]]))
+   c.route('**/api/pair-quotes?*',lambda route:route.fulfill(json=registry_response(route)))
    c.route('**/api/pairs?*',lambda route:route.fulfill(status=status,json=data));c.route('**/api/radar?*',lambda route:route.fulfill(json=radar));page=c.new_page();page.goto(a.base);ready(page);select(page)
    if state in ['503','429','identity','scope','missing-mode-source']:
     assert page.locator('.pair-token').count()==0;assert 'synthetic-private-error' not in page.locator('body').inner_text();assert 'Identity changed' in page.locator('.pair-load-state').inner_text() if state=='identity' else 'temporarily unavailable' in page.locator('.pair-load-state').inner_text()
@@ -214,7 +215,7 @@ with sync_playwright() as pw:
   typed_cases=copy.deepcopy(fixtures['cases'])
   for name in ['forged-quote','forged-source','forged-return','forged-amount','unknown-null']:
    data=copy.deepcopy(fixtures['cases']['covered']);e=data['catalog']['groups'][0]['tokens'][0]['rewardEvidence']
-   if name=='forged-quote':e['unit']['mint']=next(m for m in registry if m!=mint)
+   if name=='forged-quote':e['unit']['mint']=next(q['quoteMint'] for q in registry['']['quotes'] if q['quoteMint']!=mint)
    if name=='forged-source':e['mechanism']['source']['source']='https://evil.invalid/rewards'
    if name=='forged-return':e['holderReturn']['value']=50
    if name=='forged-amount':e['lifetime']['value']['distributedTokens']='100'
@@ -224,7 +225,7 @@ with sync_playwright() as pw:
   for w in [320,390,1280]:
    for name,data in typed_cases.items():
     c=context(b,w)
-    c.route('**/api/pair-quotes?*',lambda r:r.fulfill(json=data['registry'] if parse_qs(urlparse(r.request.url).query)['mint'][0]==mint else registry[parse_qs(urlparse(r.request.url).query)['mint'][0]]))
+    c.route('**/api/pair-quotes?*',lambda r:r.fulfill(json=data['registry'] if parse_qs(urlparse(r.request.url).query).get('mint',[''])[0]==mint else registry_response(r)))
     c.route('**/api/pairs?*',lambda r:r.fulfill(json=data['catalog']));c.route('**/api/radar?*',lambda r:r.fulfill(json=radar))
     page=c.new_page();page.goto(a.base);ready(page);select(page);row=page.locator('.pair-token');assert row.count()==1
     state=row.locator('.pair-row-state');assert state.evaluate('s=>s.childNodes[0].textContent')==labels.get(name,'Unverified')

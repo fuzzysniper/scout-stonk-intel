@@ -7,12 +7,11 @@ import type { PairSource } from '../../lib/pairs-contract';
 import type { RewardEvidence } from '../../lib/reward-evidence-contract';
 import { flowReading, utc } from '../radar/evidence-view';
 import { fromCatalog } from './adapter';
-import { appendRegistryPage, catalogMatchesQuote, registrySearch, REGISTRY_WINDOW_LIMIT } from './registry';
-import type { PairQuote, PairQuoteRegistry } from './registry';
+import { catalogMatchesQuote } from './registry';
 import type { PairCatalog, PairToken } from './adapter';
-import { fetchCatalog, fetchRadar, fetchQuoteRegistry } from './client';
-import { PRESET_CANDIDATES, verifiedPreset } from './presets';
-import type { VerifiedChoice } from './presets';
+import { fetchCatalog, fetchRadar } from './client';
+import QuoteSearch from './quote-search';
+import type { VerifiedChoice } from './quote-search';
 import { DEFAULT_SAMPLE_SORT, readRewardEvidence, screenUsd, sortSample, tokenResearchPath } from './results';
 import type { RewardEvidenceRead, SampleSort } from './results';
 import {CopyResearchLink,dismissResearchKeyboard} from '../research-actions';
@@ -63,8 +62,8 @@ function rewardSummary(token:PairToken,reading:ReturnType<typeof rewardReading>,
 }
 export function RewardEvidenceKey() {
  return <aside className="pair-reward-key" aria-label="Reward evidence key">
-  <p id="pair-reward-key"><strong>Settings verified</strong> confirms setup. <strong>Lifetime reported</strong> is cumulative. <strong>Interval covered</strong> is dated counter flow. <strong>Holder returns unavailable</strong> — none verifies paid holders or profit.</p>
-  <details><summary>How to read the reward evidence</summary><div className="pair-evidence-body">
+  <details><summary>Evidence key</summary><div className="pair-evidence-body"><p id="pair-reward-key"><strong>Settings verified</strong> confirms setup. <strong>Lifetime reported</strong> is cumulative. <strong>Interval covered</strong> is dated counter flow. <strong>Holder returns unavailable</strong> — none verifies paid holders or profit.</p>
+
    <p><strong>Settings verified:</strong> the official response confirms reward settings for this exact token and quote. <strong>Lifetime reported:</strong> a provider-reported lifetime distribution, not a recent earning rate; its start and reconciliation cutoff are unknown. <strong>Interval covered:</strong> counter observations pass the strict coverage gates for the actual current and previous windows. Exact amounts, quote units, coverage, original source timestamps and last reported payout time are one tap deeper in token Details.</p>
    <p><strong>Unverified:</strong> the sample has no usable official mode verification. <strong>No reward mode:</strong> the official response confirms standard mode. An amber ! flags a source or history problem; open that row’s Details for its reason. A history problem does not erase separately verified reward settings, but it withholds usable flow.</p>
    <p><strong>Holder returns unavailable:</strong> entitlement, costs and holder cashflows are missing. Neither settings, reported totals nor covered flow verifies holder receipts or ROI. A reported zero stays zero; unavailable data stays unavailable. Missing evidence is not zero. Older responses supply only dated settings and legacy observations, not the new lifetime or covered-interval evidence.</p>
@@ -139,39 +138,10 @@ export function PairTokenRow({token,report,catalog=null,blocked=false,metric='li
 }
 export default function PairExplorer({tokens}:{tokens:TrackedToken[]}) {
  const [sort,setSort]=useState<SampleSort>(DEFAULT_SAMPLE_SORT);
- const [query,setQuery]=useState(''),[offset,setOffset]=useState(0),[registryRetry,setRegistryRetry]=useState(0);
- const [pages,setPages]=useState<PairQuoteRegistry[]>([]),[registryState,setRegistryState]=useState<'idle'|'loading'|'ready'|'unavailable'|'invalid'>('idle');
- const [registryError,setRegistryError]=useState('');
- const registryPages=useRef<PairQuoteRegistry[]>([]);
  const [choice,setChoice]=useState<VerifiedChoice|null>(null);
- const [presets,setPresets]=useState<VerifiedChoice[]>([]),[presetState,setPresetState]=useState<'loading'|'ready'>('loading'),[presetRetry,setPresetRetry]=useState(0);
+ const resultHeading=useRef<HTMLHeadingElement>(null);
  const [catalog,setCatalog]=useState<PairCatalog|null>(null),[report,setReport]=useState<RadarReport|null>(null),[sampleLoading,setSampleLoading]=useState(false),[sampleError,setSampleError]=useState(''),[refresh,setRefresh]=useState(0);
  const cache=useRef(new Map<string,{at:number;value:PairCatalog}>());
- useEffect(()=>{
-  let disposed=false;const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
-  setPresetState('loading');setPresets([]);
-  void Promise.allSettled(PRESET_CANDIDATES.map(async candidate=>verifiedPreset(candidate,await fetchQuoteRegistry(controller.signal,candidate.mint)))).then(results=>{
-   if(disposed)return;
-   setPresets(results.flatMap(r=>r.status==='fulfilled' && r.value?[r.value]:[]));setPresetState('ready');
-  }).finally(()=>clearTimeout(timer));
-  return()=>{disposed=true;controller.abort();clearTimeout(timer);};
- },[presetRetry]);
- useEffect(()=>{
-  if(!query.trim()){setPages([]);setRegistryState('idle');return;}
-  let disposed=false;const controller=new AbortController();let deadline:ReturnType<typeof setTimeout>|undefined;
-  setRegistryState('loading');setRegistryError('');
-  try{registrySearch(query,offset);}catch{setRegistryState('invalid');setPages([]);return;}
-  const debounce=setTimeout(()=>{
-   deadline=setTimeout(()=>controller.abort(),15000);
-   void fetchQuoteRegistry(controller.signal,query,offset).then(result=>{
-    if(disposed)return;
-    if(result.status==='unavailable'){setPages([]);setRegistryState('unavailable');return;}
-    try{const nextPages=appendRegistryPage(offset?registryPages.current:[],result);registryPages.current=nextPages;setPages(nextPages);}catch{setPages([]);setRegistryError('Registry refreshed. Restart this search.');}
-    setRegistryState('ready');
-   }).catch(()=>{if(!disposed){setPages([]);setRegistryState('unavailable');}}).finally(()=>clearTimeout(deadline));
-  },300);
-  return()=>{disposed=true;clearTimeout(debounce);clearTimeout(deadline);controller.abort();};
- },[query,offset,registryRetry]);
  useEffect(()=>{
   if(!choice)return;
   let disposed=false;const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
@@ -196,37 +166,13 @@ export default function PairExplorer({tokens}:{tokens:TrackedToken[]}) {
  const active=catalog && choice && catalogMatchesQuote(catalog,choice.quote)?catalog:null;
  const group=useMemo(()=>active?fromCatalog(active,report,tokens)[0]:null,[active,report,tokens]);
  const rows=useMemo(()=>sortSample(group?.tokens??[],choice?.quote.quoteMint??'',sort),[group,choice,sort]);
- const quotes=pages.flatMap(p=>p.quotes),registry=pages.at(-1),next=registry?.dataset.coverage.nextOffset;
- const select=(quote:PairQuote,page:PairQuoteRegistry)=>{setChoice({quote,registry:page});setQuery('');setOffset(0);setPages([]);};
- const retryRegistry=()=>{setOffset(0);setPages([]);setRegistryError('');setRegistryRetry(v=>v+1);};
+ const select=(value:VerifiedChoice)=>{setChoice(value);requestAnimationFrame(()=>resultHeading.current?.focus({preventScroll:true}));};
  const coverage=active?.dataset.coverage;
  return <section className="pair-explorer pair-simple" aria-label="Pair intelligence explorer">
-  <header className="pair-heading"><h1>Find memecoins that reward holders in the assets you follow.</h1><p>Choose a reward asset. Explore its memecoins.</p></header>
-  <div className="pair-featured" role="group" aria-label="Featured reward assets" aria-busy={presetState==='loading'}>
-   <div className="pair-chips">{PRESET_CANDIDATES.map(candidate=>{
-    const verified=presets.find(p=>p.quote.quoteMint===candidate.mint);
-    return <button key={candidate.mint} type="button" disabled={!verified} aria-pressed={candidate.mint===choice?.quote.quoteMint} aria-label={'Choose '+candidate.symbol+(verified?.quote.symbolAmbiguous?' · featured identity, other assets share this ticker':'')} onClick={()=>{if(verified)select(verified.quote,verified.registry);}}>{candidate.symbol}{verified?.quote.symbolAmbiguous && <span aria-hidden="true">*</span>}</button>;
-   })}</div>
-   {presetState==='loading'?<p className="pair-search-hint" role="status">Verifying pair choices…</p>:presets.length<PRESET_CANDIDATES.length?<p className="pair-registry-state" role="status">Some pair choices unavailable. Search below or <button className="pair-inline-retry" type="button" onClick={()=>setPresetRetry(v=>v+1)}>Retry choices</button>.</p>:<p className="pair-search-hint" role="status">Verified assets · reward evidence varies. *Shared ticker.</p>}
-  </div>
-  <div className="pair-controls">
-   <label htmlFor="pair-search">Find another reward asset</label><input id="pair-search" type="search" value={query} onChange={e=>{setQuery(e.target.value);setRegistryError('');setOffset(0);setPages([]);}} placeholder="Search name, ticker or mint…" maxLength={128} aria-describedby="pair-search-hint" autoComplete="off" spellCheck={false}/>
-   <p id="pair-search-hint" className="sr-only">Search verified assets by name, ticker or exact mint. Shared tickers are listed separately.</p>
-   <div id="pair-registry-results" aria-busy={registryState==='loading'}>
-    {registryState==='loading' && <p className="pair-registry-state" role="status">Searching verified registry…</p>}
-    {registryState==='invalid' && <p className="pair-registry-state" role="status">Use up to 64 characters without control characters.</p>}
-    {(registryState==='unavailable' || registryError) && <div className="pair-registry-state" role="status"><p>{registryError || 'Asset search temporarily unavailable. Try again later.'}</p><button className="pair-clear" type="button" onClick={retryRegistry}>Retry registry</button></div>}
-    {registryState==='ready' && registry && !registryError && <>
-     <p className="pair-registry-count" role="status">{registry.dataset.coverage.matchedCount} registry {registry.dataset.coverage.matchedCount===1?'match':'matches'} · {quotes.length} shown</p>
-     {quotes.length>0?<ul className="pair-registry-list" aria-label="Verified quote assets">{pages.flatMap(page=>page.quotes.map(q=><li key={q.quoteMint}><button type="button" aria-pressed={q.quoteMint===choice?.quote.quoteMint} aria-label={'Select '+q.quoteSymbol+' · '+q.quoteName+' · quote mint '+q.quoteMint} onClick={()=>select(q,page)}><span><strong>{q.quoteSymbol}</strong> {q.quoteName}</span><small>{shortMint(q.quoteMint)}{q.symbolAmbiguous?' · same ticker, distinct mint':''}</small></button></li>))}</ul>:<p className="pair-registry-state">{registry.status==='not_found'?'This mint is absent from the verified registry response.':'No matching identity in the verified registry response.'} This does not establish absence elsewhere.</p>}
-     {next!==null && next!==undefined && (quotes.length<REGISTRY_WINDOW_LIMIT?<button type="button" className="pair-clear" onClick={()=>setOffset(next)}>Show more assets</button>:<p className="pair-search-hint">Refine your search to see more matches.</p>)}
-
-    </>}
-   </div>
-  </div>
-  {!choice && <p className="pair-start">Pair assets are tokens, not equity ownership. Reward mechanisms are not proof of holder returns.</p>}
+  <header className={'pair-heading'+(choice?' has-selection':'')}><h1>Memecoin research, by quote asset.</h1></header>
+  <QuoteSearch selected={!!choice} onSelect={select}/>
   {choice && <div className="pair-results" data-metric={sort==='volume'?'volume':'liquidity'}>
-   <div className="pair-result-heading"><h2><strong>{choice.quote.quoteSymbol}{choice.quote.symbolAmbiguous?'*':''}</strong> <span>projects</span><span className="sr-only"> · {choice.quote.quoteName}</span></h2>{active && <span className="pair-result-count">{rows.length} sampled</span>}</div>
+   <div className="pair-result-heading"><h2 ref={resultHeading} tabIndex={-1}><strong>{choice.quote.quoteSymbol}</strong><span title={choice.quote.quoteName}>{choice.quote.quoteName}</span><small title={choice.quote.quoteMint}>{shortMint(choice.quote.quoteMint)}</small></h2>{active && <span className="pair-result-count">{rows.length} sampled</span>}</div>
    <div className="pair-results-toolbar">
     <div className="pair-results-sort" role="group" aria-label="Sort sampled tokens" aria-describedby={active?'pair-sample-scope':undefined}>{([['liquidity','Liquidity','high to low'],['volume','Volume','high to low'],['name','Name','A to Z']] as const).map(([value,label,order])=><button key={value} type="button" disabled={sampleLoading || !rows.length} aria-pressed={sort===value} aria-label={'Sort sample by '+value+', '+order} onClick={()=>setSort(value)}>{label}<span aria-hidden="true">{sort===value?(value==='name'?' ↑':' ↓'):''}</span></button>)}</div>
     <button className="pair-sample-refresh" type="button" disabled={sampleLoading} aria-label={sampleLoading?'Loading sample':sampleError?'Retry sample':'Refresh sampled results'} onClick={()=>{cache.current.delete(choice.quote.quoteMint);setRefresh(v=>v+1);}}><span aria-hidden="true">↻</span></button>
@@ -234,7 +180,7 @@ export default function PairExplorer({tokens}:{tokens:TrackedToken[]}) {
    </div>
    {(sampleError || sampleLoading || !active) && <p className="pair-load-state" role="status">{sampleError || (sampleLoading?'Loading matching memecoins…':'Sample not loaded.')}</p>}
    {active && <>
-    <p id="pair-sample-scope" className="pair-snapshot-note">StonkFun · incomplete sample · USD snapshots, not live. — unknown; holder returns unknown.</p>
+    <p id="pair-sample-scope" className="pair-snapshot-note">StonkFun · limited sample · USD snapshots, not live · — unknown</p>
     {(active.status==='degraded' || report?.status==='degraded' || report?.status==='unavailable' || group?.tokens.some(t=>t.catalog?.historyFreshness==='stale')) && <p className="pair-load-state" role="status">{active.status==='degraded'?'Source gaps in this sample. ':''}{report?.status==='degraded' || report?.status==='unavailable'?'Reward history degraded; flows withheld.':group?.tokens.some(t=>t.catalog?.historyFreshness==='stale')?'Stale reward history; flows withheld.':''}</p>}
     <RewardEvidenceKey/>
    </>}
@@ -243,7 +189,7 @@ export default function PairExplorer({tokens}:{tokens:TrackedToken[]}) {
     <div className="pair-token-list" aria-busy={sampleLoading}>{rows.map(t=><PairTokenRow key={t.mint} token={t} report={report} catalog={active} metric={sort==='volume'?'volume':'liquidity'}/>)}</div>
    </>:<p className="pair-empty" role="status">No matching memecoins within this bounded sample. Tokens may exist outside these fetched pages.</p>)}
    <details className="pair-dataset"><summary>Sources &amp; sampling details</summary><div className="pair-evidence-body">
-    <p>{choice.quote.quoteName} · quote mint <a href={'https://solscan.io/token/'+choice.quote.quoteMint}>{choice.quote.quoteMint}</a>. {choice.quote.symbolAmbiguous?'* Multiple assets share this ticker. The featured choice selects only this exact mint; use search to choose another. ':''}Pair assets are tokens; no underlying equity/metal ownership or holder entitlement is implied.</p>
+    <p>{choice.quote.quoteName} · quote mint <a href={'https://solscan.io/token/'+choice.quote.quoteMint}>{choice.quote.quoteMint}</a>. {choice.quote.symbolAmbiguous?'Multiple assets share this ticker. This selection uses only this exact mint; use search to choose another. ':''}Pair assets are tokens; no underlying equity/metal ownership or holder entitlement is implied.</p>
     <p>Identity from the <a href={choice.registry.dataset.provenance!.source}>official quote registry</a> · {choice.registry.dataset.coverage.registryCount} identities in the validated unpaginated response, not independently proven universal coverage. Verified {utc(choice.quote.verifiedAt)} · provider response {utc(choice.registry.dataset.provenance!.providerGeneratedAt)} · byte revision {choice.registry.dataset.provenance!.revision}. Registry membership does not establish a token market, launch readiness, reward eligibility or underlying ownership.</p>
     {coverage && <p>Fetched {coverage.pagesFetched}/{coverage.pageLimit} pages × {coverage.pageSize} records for this exact quote mint. {coverage.recordsReceived} inputs; {coverage.tokensReturned} returned; {coverage.rejectedRecords} rejected. Provider-reported total {coverage.providerReportedTotal??'Unavailable'} applies to this quote-mint query, not a verified complete ecosystem. Coverage is incomplete and pagination non-atomic, even when a small result fits one page. Mode checks {coverage.modeChecks}/{coverage.modeCheckLimit} · {coverage.warnings.join(', ')}.</p>}
     <p>Catalog response evaluated {utc(active?.dataset.fetchedAt??null)} · retrieved {utc(active?.dataset.dataFetchedAt??null)}. Individual market response dates are in row Details; market observation times remain unknown. Provider market-cap pages select the sample. Sorting only reorders these fetched rows for this exact quote mint, never the whole market. Default: reported liquidity, high to low. Unavailable values last, ties by name then symbol and mint. Name sort is A–Z. Mobile shows liquidity, or 24h volume when volume sort is active; both reported metrics are always in token Details. Scan values are rounded; Details keeps more precision. No reward or ROI ranking.</p>
