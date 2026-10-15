@@ -1,4 +1,5 @@
 'use client';
+import {HistoricalResearchLink} from '../historical-research-link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { TrackedToken } from '../../lib/tracked-tokens';
@@ -118,6 +119,7 @@ export function PairTokenRow({token,report,catalog=null,blocked=false,metric='li
    <div className="quick-conclusion"><strong>{evidence.label}</strong><p>{evidence.description}</p></div>
    {evidence.warning && <p className="pair-detail-warning">{evidence.warning}</p>}
    <div className="pair-research-actions"><Link href={researchPath} onClick={dismissResearchKeyboard}>Open dossier →</Link><CopyResearchLink mint={token.mint} label={token.symbol+' · '+token.name}/></div>
+   <HistoricalResearchLink mint={token.mint} quoteMint={token.quoteMint}/>
    <details ref={technical} className="quick-technical"><summary>Technical evidence</summary><div className="quick-technical-body">
    <p>Links identify this token, not frozen figures. The dossier reads separate market and reward sources.</p>
    {typed.state==='ready'?<RewardEvidenceFacts evidence={typed.value}/>:typed.state==='absent'?<dl className="pair-reward-facts"><div><dt>Official reward settings</dt><dd>{modeLabel(token)}<RewardSource source={t?.rewardSource??null} label="Official mode source"/></dd></div><div><dt>Reported lifetime distribution</dt><dd>Unavailable from this older response.</dd></div><div><dt>Covered interval flow</dt><dd>Unavailable from this older response. Legacy observations do not establish strict covered windows.</dd></div><div><dt>Legacy recorded counter change</dt><dd>{'state' in reading?reading.state:<>Distributed counter change: {number(reading.value)} {token.quoteSymbol}</>}</dd></div><div><dt>Holder returns</dt><dd>Unavailable. Holder entitlement, costs and cashflows are missing.</dd></div></dl>:<p>Reward evidence unavailable; values withheld after validation. Holder returns unavailable.</p>}

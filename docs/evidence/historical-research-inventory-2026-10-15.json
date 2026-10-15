@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "baseCommit": "5ff8d4563acb4fba729f3f27e1d43c2cb334e232",
+  "reviewDate": "2026-10-15",
+  "newRewardProviderRequests": 0,
+  "newDocumentationRequests": 1,
+  "sourceFamilies": [
+    {
+      "path": "docs/evidence/pair-reward-audit-2026-10-14.json",
+      "bytes": 500861,
+      "sha256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+      "pinnedUrl": "https://github.com/fuzzysniper/scout-stonk-intel/blob/5ff8d4563acb4fba729f3f27e1d43c2cb334e232/docs/evidence/pair-reward-audit-2026-10-14.json",
+      "purpose": "Primary retained raw bodies: 28 packets, 16 per-token reward aggregates in four exact-quote samples; deterministic original-time replay."
+    },
+    {
+      "path": "docs/evidence/pair-discovery-2026-10-14.json",
+      "bytes": 17285,
+      "sha256": "d60163053f1f97e6ee1303a7d1f5d097d50db923cc77bd54bf41561f8b1308c7",
+      "pinnedUrl": "https://github.com/fuzzysniper/scout-stonk-intel/blob/5ff8d4563acb4fba729f3f27e1d43c2cb334e232/docs/evidence/pair-discovery-2026-10-14.json",
+      "purpose": "Earlier source hashes/capture metadata and API QA, not a complete retained raw-body history."
+    },
+    {
+      "path": "docs/evidence/pair-pulse-research.json",
+      "bytes": 109832,
+      "sha256": "30e0c093e736175f26c49f199a925e4ab31675e12f3e4decfd462a14b53436e3",
+      "pinnedUrl": "https://github.com/fuzzysniper/scout-stonk-intel/blob/5ff8d4563acb4fba729f3f27e1d43c2cb334e232/docs/evidence/pair-pulse-research.json",
+      "purpose": "Dated feasibility/API/source analysis; not covered comparative reward flow."
+    },
+    {
+      "path": "docs/evidence/reward-evidence-2026-10-15.json",
+      "bytes": 331276,
+      "sha256": "2e2332a3c7cf4dfadde84c557f05b9056950b266e4cb4bf34edfda4a7aa61a8c",
+      "pinnedUrl": "https://github.com/fuzzysniper/scout-stonk-intel/blob/5ff8d4563acb4fba729f3f27e1d43c2cb334e232/docs/evidence/reward-evidence-2026-10-15.json",
+      "purpose": "Dated real API responses, direct Python/Node/Next reward body receipts and freshness diagnosis; not a common payout interval."
+    },
+    {
+      "path": "docs/evidence/reward-source-receipts-2026-10-15.json",
+      "bytes": 1755,
+      "sha256": "d98f8dc035a022eb199fd965855d66f1167293a3e5ce4c4488ee61154d0d9640",
+      "pinnedUrl": "https://github.com/fuzzysniper/scout-stonk-intel/blob/5ff8d4563acb4fba729f3f27e1d43c2cb334e232/docs/evidence/reward-source-receipts-2026-10-15.json",
+      "purpose": "Original source cache clocks and body hashes; overlaps reward-evidence receipts, not independent new payouts."
+    },
+    {
+      "path": "docs/evidence/reward-source-clocks-2026-10-15.json",
+      "bytes": 3667,
+      "sha256": "97579eba9eb2984af4df9c39a9fba9940c140c429bea4b4b8052eacac697f6c9",
+      "pinnedUrl": "https://github.com/fuzzysniper/scout-stonk-intel/blob/5ff8d4563acb4fba729f3f27e1d43c2cb334e232/docs/evidence/reward-source-clocks-2026-10-15.json",
+      "purpose": "Normalized diagnostic clock metadata from same receipts; eligibility not evaluated."
+    },
+    {
+      "path": "docs/evidence/data-health-v2-2026-10-15.json",
+      "bytes": 102263,
+      "sha256": "2d9efb165d7417b67f9c9efbd937eb2817fd613cdad641194d45c04edd1f6efb",
+      "pinnedUrl": "https://github.com/fuzzysniper/scout-stonk-intel/blob/5ff8d4563acb4fba729f3f27e1d43c2cb334e232/docs/evidence/data-health-v2-2026-10-15.json",
+      "purpose": "Dated Actions runs/commit/coverage analysis; scheduler evidence, not reconstructed missing observations."
+    },
+    {
+      "path": "docs/evidence/dossier-evidence-official-source.json",
+      "bytes": 804,
+      "sha256": "2134b1e6e8cb1354991ee260cac14afc444bcb22e0f43b7889bac926c6583435",
+      "pinnedUrl": "https://github.com/fuzzysniper/scout-stonk-intel/blob/5ff8d4563acb4fba729f3f27e1d43c2cb334e232/docs/evidence/dossier-evidence-official-source.json",
+      "purpose": "Dated mode-verification source metadata, not complete payouts."
+    },
+    {
+      "path": "docs/evidence/token-og-before.json",
+      "bytes": 1522,
+      "sha256": "b515e3eb00e99b934ed6d8387444b1eb7a9fc188be48011ddece2ee4ea20f5ad",
+      "pinnedUrl": "https://github.com/fuzzysniper/scout-stonk-intel/blob/5ff8d4563acb4fba729f3f27e1d43c2cb334e232/docs/evidence/token-og-before.json",
+      "purpose": "HTTP/render diagnostics only, not a price history."
+    },
+    {
+      "path": "docs/evidence/token-og-after.json",
+      "bytes": 5796,
+      "sha256": "720529ad087bfb37f21162286e5d44a2b4b63f185f2c3e1ed6389996d29c6d37",
+      "pinnedUrl": "https://github.com/fuzzysniper/scout-stonk-intel/blob/5ff8d4563acb4fba729f3f27e1d43c2cb334e232/docs/evidence/token-og-after.json",
+      "purpose": "HTTP/render diagnostics only, not a price history."
+    },
+    {
+      "path": "data/reward-snapshots.json",
+      "bytes": 50534,
+      "sha256": "acb6b88f94656bc669dce4c094940e31e8752908f4cb30d98eebca85158d312c",
+      "pinnedUrl": "https://github.com/fuzzysniper/scout-stonk-intel/blob/5ff8d4563acb4fba729f3f27e1d43c2cb334e232/data/reward-snapshots.json",
+      "purpose": "Genuine sparse v1 cumulative counter observations; never splice float counters into v2 integer ledger history."
+    },
+    {
+      "path": "data/brief-archive/index.json",
+      "bytes": 172,
+      "sha256": "fa0d6bb2497102731a3e38038b46cd8f63d28527964d7f2fee6e4e13e126adb1",
+      "pinnedUrl": "https://github.com/fuzzysniper/scout-stonk-intel/blob/5ff8d4563acb4fba729f3f27e1d43c2cb334e232/data/brief-archive/index.json",
+      "purpose": "One indexed immutable original edition, not a populated historical return series."
+    },
+    {
+      "path": "data/brief-archive/2026-10-11/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63.json",
+      "bytes": 23490,
+      "sha256": "1078ab9b5e771f7ed24c9d6bde3f6005436d5ae37e41739e18fb0e558384cef2",
+      "pinnedUrl": "https://github.com/fuzzysniper/scout-stonk-intel/blob/5ff8d4563acb4fba729f3f27e1d43c2cb334e232/data/brief-archive/2026-10-11/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63.json",
+      "purpose": "Self-contained original UTC-day edition, zero verified findings, all rows withheld; no observation points in target day."
+    }
+  ],
+  "snapshot": {
+    "observations": 100,
+    "tokens": [
+      {
+        "tokenMint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+        "points": 16,
+        "firstObservedAt": "2026-10-12T15:43:41+00:00",
+        "lastObservedAt": "2026-10-15T13:28:39+00:00",
+        "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+        "maxActualGapSeconds": 29727.0
+      },
+      {
+        "tokenMint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+        "points": 14,
+        "firstObservedAt": "2026-10-12T20:41:27+00:00",
+        "lastObservedAt": "2026-10-15T13:28:39+00:00",
+        "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+        "maxActualGapSeconds": 29728.0
+      },
+      {
+        "tokenMint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+        "points": 14,
+        "firstObservedAt": "2026-10-12T20:41:27+00:00",
+        "lastObservedAt": "2026-10-15T13:28:39+00:00",
+        "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+        "maxActualGapSeconds": 29727.0
+      },
+      {
+        "tokenMint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+        "points": 14,
+        "firstObservedAt": "2026-10-12T20:41:28+00:00",
+        "lastObservedAt": "2026-10-15T13:28:39+00:00",
+        "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        "maxActualGapSeconds": 29727.0
+      },
+      {
+        "tokenMint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+        "points": 14,
+        "firstObservedAt": "2026-10-12T20:41:28+00:00",
+        "lastObservedAt": "2026-10-15T13:28:39+00:00",
+        "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+        "maxActualGapSeconds": 29727.0
+      },
+      {
+        "tokenMint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+        "points": 14,
+        "firstObservedAt": "2026-10-12T20:41:29+00:00",
+        "lastObservedAt": "2026-10-15T13:28:39+00:00",
+        "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+        "maxActualGapSeconds": 29728.0
+      },
+      {
+        "tokenMint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+        "points": 14,
+        "firstObservedAt": "2026-10-12T20:41:29+00:00",
+        "lastObservedAt": "2026-10-15T13:28:40+00:00",
+        "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+        "maxActualGapSeconds": 29727.0
+      }
+    ]
+  },
+  "archive": {
+    "id": "d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+    "date": "2026-10-11",
+    "inputCommit": "e3de19169c844f85f06d0cabe7a4c9682d68d8ac",
+    "findingCount": 0,
+    "verifiedCount": 0,
+    "indexedOriginals": 1,
+    "publishedApprovalProven": false
+  },
+  "rightsReview": {
+    "state": "unverified",
+    "retention": "requires_owner_review_existing_evidence_unchanged",
+    "commercialRedistribution": "not_approved",
+    "currentDocumentationProbe": {
+      "url": "https://www.stonkfun.xyz/developers",
+      "retrievalFileCompletedAt": "2026-10-15T17:06:42.130594+00:00",
+      "timePrecision": "local_file_write_completion_not_provider_generation",
+      "status": 200,
+      "bytes": 83524,
+      "sha256": "ead8027eada78f8d7a7cf3f1fdf963fca2876cedbd206c499aedfd7f586b6a05",
+      "httpDate": "Thu, 15 Oct 2026 17:06:42 GMT",
+      "age": "0",
+      "rawDocumentRetainedInRepository": false
+    },
+    "termsSource": "docs/PAIR_DISCOVERY_COVERAGE.md#published-access-terms",
+    "termsLastUpdatedReported": "2026-09-18",
+    "termsRevalidatedThisIssue": false,
+    "conclusion": "Public informational/API access is not a verified retention or commercial redistribution grant. Financial publication remains gated; owner/provider decision required."
+  },
+  "marketHistory": {
+    "supportedHistoricalSeries": false,
+    "reason": "Retained market receipts are point-in-time responses; provider generation/retrieval is not trade observation time. No exact-quote aligned price history or chain-validated payout sequence retained."
+  }
+}

@@ -1,4 +1,5 @@
 'use client';
+import {HistoricalResearchLink} from './historical-research-link';
 import {useCallback,useEffect,useRef,useState} from 'react';
 import type {KeyboardEvent} from 'react';
 import {isSolanaMint} from '../lib/solana';
@@ -65,6 +66,7 @@ export default function ScoutClient({tokens,initialMint=''}:{tokens:TrackedToken
   <p className="brief-source">DexScreener · highest-liquidity Solana pool, not necessarily StonkFun. Snapshot, not live.</p>
   {market?.found && !matchingMarket && <p className="brief-warning" role="status">Market identity could not be matched; USD values withheld.</p>}
   <DossierEvidenceFinding mint={selected} reward={reward} pair={pair} history={history}/>
+  <HistoricalResearchLink mint={selected}/>
   <details className="brief-sharing" onKeyDown={foldOnEscape}><summary>Share research link</summary><div className="brief-actions"><CopyResearchLink key={selected} mint={selected} label={label||selected}/><button type="button" onClick={()=>void share()}>Share report</button></div>{shareStatus&&<p className="research-feedback" role="status">{shareStatus}</p>}</details>
   <details className="dossier-details quick-technical" onKeyDown={foldOnEscape}><summary>Technical Evidence</summary><div className="brief-evidence">
    <p>Research links identify this exact token, not a frozen sample. The dossier reads DexScreener, a legacy StonkFun ledger and bounded pair evidence separately. Their clocks and verification levels differ.</p>
