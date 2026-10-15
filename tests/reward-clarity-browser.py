@@ -128,6 +128,7 @@ with sync_playwright() as pw:
   assert dossier.locator('meta[property="og:image"]').get_attribute('content').endswith('/api/og?mint='+token_mint)
   assert dossier.locator('meta[name="twitter:card"]').get_attribute('content')=='summary_large_image'
   # Real clipboard fallback on the existing dossier; no recipient or posting UI is used.
+  dossier.locator('.token-brief[aria-busy=false]').wait_for(timeout=60000);dossier.locator('.brief-sharing>summary').click()
   dossier.evaluate('Object.defineProperty(navigator,"share",{value:undefined,configurable:true})')
   dossier.get_by_role('button',name=re.compile('Share report')).click();dossier.get_by_text('Report link copied',exact=True).wait_for()
   assert dossier.evaluate('navigator.clipboard.readText()')==expected
@@ -136,6 +137,7 @@ with sync_playwright() as pw:
   dossier.get_by_role('button',name=re.compile('Share report')).click();dossier.get_by_text('Shared',exact=True).wait_for()
   payload=dossier.evaluate('window.__sharePayload');assert payload['url']==expected and payload['title']=='SCOUT Token Dossier'
   dossier.reload(wait_until='domcontentloaded');dossier.get_by_role('heading',name='Token dossier',exact=True).wait_for()
+  dossier.locator('.token-brief[aria-busy=false]').wait_for(timeout=60000);dossier.locator('.brief-sharing>summary').click()
   dossier.evaluate('Object.defineProperty(navigator,"share",{value:async()=>{throw new DOMException("Cancelled","AbortError")},configurable:true})')
   dossier.get_by_role('button',name=re.compile('Share report')).click();dossier.wait_for_timeout(150)
   assert dossier.locator('.research-feedback').count()==0 and dossier.url==expected
