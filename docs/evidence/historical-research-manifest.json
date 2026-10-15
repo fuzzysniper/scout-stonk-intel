@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "evidenceCommit": "df4e87658c5dd64fef9461d174333d824c8b1c7c",
+  "evidencePath": "docs/evidence/pair-reward-audit-2026-10-14.json",
+  "evidenceSha256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+  "auditAsOf": "2026-10-14T22:34:25.223Z",
+  "rights": {
+    "state": "unverified",
+    "retention": "owner_review_required_existing_records_preserved",
+    "commercialRedistribution": "withheld",
+    "ownerApproval": null,
+    "permissionReceipt": null
+  },
+  "records": [
+    {
+      "tokenMint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "symbol": "SI",
+      "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+      "quoteSymbol": "NVDAX",
+      "decimals": 8,
+      "quoteSymbolAmbiguous": false,
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+      "capturedAt": "2026-10-14T22:34:07.070Z",
+      "originalCapturedAt": "2026-10-14T22:34:07.070444+00:00",
+      "providerGeneratedAt": "2026-10-14T22:34:07.055Z",
+      "receiptSha256": "d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2"
+    },
+    {
+      "tokenMint": "HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ",
+      "symbol": "GP",
+      "quoteMint": "Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re",
+      "quoteSymbol": "GLDX",
+      "decimals": 8,
+      "quoteSymbolAmbiguous": false,
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ/rewards",
+      "capturedAt": "2026-10-14T22:34:11.763Z",
+      "originalCapturedAt": "2026-10-14T22:34:11.763783+00:00",
+      "providerGeneratedAt": "2026-10-14T22:34:11.750Z",
+      "receiptSha256": "d10a02c5dd19ec7926c7292928cef977e70a108150214626bd2929716828b324"
+    },
+    {
+      "tokenMint": "6HU4CmRb15C2nQDx8Ld2f2W2wTdmog6aZiiXdrT5Pzi8",
+      "symbol": "GROK",
+      "quoteMint": "Xs3oZwbHvqis4NYcf4YKWmEia2eC84wSiVrcYcTqpH8",
+      "quoteSymbol": "SPCXX",
+      "decimals": 8,
+      "quoteSymbolAmbiguous": false,
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/6HU4CmRb15C2nQDx8Ld2f2W2wTdmog6aZiiXdrT5Pzi8/rewards",
+      "capturedAt": "2026-10-14T22:34:17.512Z",
+      "originalCapturedAt": "2026-10-14T22:34:17.512424+00:00",
+      "providerGeneratedAt": "2026-10-14T22:34:17.495Z",
+      "receiptSha256": "b7688baa90343e23a8499cf8938bf034c78e4528631023a222ed566c791d58d2"
+    },
+    {
+      "tokenMint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+      "symbol": "KNOTS",
+      "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+      "quoteSymbol": "STONK",
+      "decimals": 9,
+      "quoteSymbolAmbiguous": true,
+      "source": "https://www.stonkfun.xyz/api/v2/tokens/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS/rewards",
+      "capturedAt": "2026-10-14T22:34:21.017Z",
+      "originalCapturedAt": "2026-10-14T22:34:21.017218+00:00",
+      "providerGeneratedAt": "2026-10-14T22:34:21.003Z",
+      "receiptSha256": "5ce2184979663af729b99f0551fb537a135a01ba6d45bad904c4c4bacb78052d"
+    }
+  ]
+}

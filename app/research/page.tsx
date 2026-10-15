@@ -6,6 +6,7 @@ export default function ResearchGuide() {
  return <main id="scout-content" tabIndex={-1} className="research-shell">
   <div className="kicker">SCOUT / READ-ONLY RESEARCH</div><h1>Read the record.<br/><em>Know its limits.</em></h1>
   <p className="research-intro">SCOUT organizes public market context and recorded StonkFun reward-counter observations for a reviewed set of tokens. It helps you inspect evidence; it does not execute trades or connect wallets.</p>
+  <section aria-labelledby="historical-research"><h2 id="historical-research">Historical Research</h2><p>Dated source records for SI/NVDAX, GP/GLDX, GROK/SPCXX and KNOTS/STONK. Historical, not current; financial figures gated pending rights approval.</p><Link href="/research/history">View historical sources →</Link></section>
   <section aria-labelledby="read-evidence"><h2 id="read-evidence">Before drawing a conclusion</h2><ol>
    <li><strong>Check actual observation times.</strong> Dataset retrieval and page refresh times describe reads, not new payouts or fresh observations. GitHub snapshots are periodically collected and cached; this is not a real-time feed.</li>
    <li><strong>Check coverage separately from freshness.</strong> A recent record may still lack the comparable boundaries or intervening points needed for a period. Missing, stale, invalid or unavailable evidence can withhold a change. Missing is not zero.</li>

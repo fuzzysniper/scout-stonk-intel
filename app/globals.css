@@ -469,3 +469,7 @@ body:has(.terminal-v3)>.ecosystem-footer{display:none}
  .terminal-v3 .pair-result-heading h2>span{min-width:0}
  .terminal-v3 .pair-result-heading h2 small{flex-basis:auto;flex-shrink:0;font-size:9px;line-height:18px}
 }
+
+/* Compact dated-research entry; full provenance stays in the source index. */
+.historical-research-link{font-size:12px;line-height:1.6;color:#a0a8b5;margin:12px 0}
+.historical-research-link a{display:inline-flex;align-items:center;min-height:44px;color:#b5dfc9;text-underline-offset:4px}
