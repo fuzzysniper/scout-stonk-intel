@@ -1,5 +1,7 @@
 # Hourly collection pilot preflight — issue #68
 
+Issue [#76](https://github.com/fuzzysniper/scout-stonk-intel/issues/76) records owner-reported Stage B/B2 completion and C1 PC authentication success, with its temporary token revoked. [Stage C2's inactive proof and owner decisions](STAGE_C2_AUTH_PROOF.md) supersede the PC-authentication status below only. Hosted binding/current collector workflow-token permissions remain unverified; pilot remains **NO-GO**.
+
 **Decision: NO-GO for live activation.** Offline integration is verified; the hosted prerequisites below are not. Human review/merge of this PR authorizes none of the owner operations. Stage A consent does not authorize B, C or D. No actual key, account configuration, secret, live dispatch, workflow permission or scheduler setting was accessed/changed by this work.
 
 Base main: `633ca3efc317c1d505405a0d925b77f0dac1ce15`, including merged #66 Data Health V2 and #67 Token Quick View. Agent A owns infrastructure/offline readiness; Agent B #69 owns frontend/dossier. [Audit, protected hashes, fresh official documentation and hosting evidence](evidence/hourly-pilot-readiness-2026-10-15.json).
