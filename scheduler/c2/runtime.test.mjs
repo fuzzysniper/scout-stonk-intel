@@ -13,6 +13,7 @@ const require=createRequire(new URL('../package.json',import.meta.url));
 const {Miniflare,convertV4MiniflareOptions,Log,LogLevel}=require('miniflare');
 const core=await proofBundle(true),integration=await proofBundle(),sealed=await proofBundle(false,true);
 assert.doesNotMatch(core.bundle,/SlotCoordinator|CREATE TABLE IF NOT EXISTS slots|\/dispatches|collect_rewards|collection-slots/);
+assert.doesNotMatch(core.bundle,/console\.(log|error|warn|debug)|JSON\.stringify\(env\)/);
 assert.match(integration.bundle,/SlotCoordinator/);
 assert.doesNotMatch(sealed.bundle,/one-private-auth-proof|INSERT INTO c2_once|C2_ONCE\.get/);
 function setup(bundle,env,calls,mutate,extra={}){
@@ -32,6 +33,8 @@ async function stateContainsNoCredentials(dir,key){
    const bytes=await readFile(path);
    assert.ok(!bytes.includes(Buffer.from(FAKE_TOKEN)),'persisted state must exclude token');
    assert.ok(!bytes.includes(Buffer.from(key)),'persisted state must exclude private key');
+   assert.ok(!bytes.includes(Buffer.from(key.split('\n')[1])),'persisted state must exclude encoded key');
+   assert.ok(!bytes.includes(Buffer.from('eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.')),'persisted state must exclude signing JWT');
    assert.ok(!bytes.includes(Buffer.from('offline-sensitive-error')),'persisted state must exclude raw errors');
   }
  }

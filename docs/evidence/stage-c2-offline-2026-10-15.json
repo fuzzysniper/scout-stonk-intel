@@ -1,0 +1,153 @@
+{
+  "kind": "stage_c2_offline_review_evidence",
+  "recordedAt": "2026-10-15T18:12:24.330578Z",
+  "baseMain": "5205bb468c46084d959f5db1214b2f5e8b530ea4",
+  "includesMergedPRs": [
+    73,
+    75
+  ],
+  "branch": "security/76-stage-c2-auth-proofs",
+  "scope": "scheduler/security/ops only",
+  "checks": [
+    {
+      "command": "npm ci",
+      "exitCode": 0
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run archive:dry-run",
+      "exitCode": 0
+    },
+    {
+      "command": "bash scripts/archive-tool.sh check origin/main",
+      "exitCode": 0
+    },
+    {
+      "command": "npm --prefix scheduler ci",
+      "exitCode": 0
+    },
+    {
+      "command": "npm --prefix scheduler run dry-run",
+      "exitCode": 0
+    },
+    {
+      "command": "npm --prefix scheduler test",
+      "exitCode": 0
+    },
+    {
+      "command": "npm --prefix scheduler run c2:dry-run",
+      "exitCode": 0
+    },
+    {
+      "command": "npm --prefix scheduler run c2:test",
+      "exitCode": 0
+    }
+  ],
+  "testCounts": {
+    "appNode": 502,
+    "appPython": 64,
+    "schedulerNodeIncludingC2": 29,
+    "focusedC2Node": 20,
+    "isolatedPythonMethodsInvokedByC2": 5
+  },
+  "runtime": {
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "wrangler": "4.150.0",
+    "workerd": "1.20261006.1",
+    "compatibilityDate": "2026-10-01"
+  },
+  "packaging": {
+    "kind": "offline_c2_packaging",
+    "liveAuthRun": false,
+    "deployed": false,
+    "core": {
+      "sha256": "649b19c6e2537600199d2cdcba6b73ace509b39484847a7a49659391004050b4",
+      "bytes": 14019
+    },
+    "integration": {
+      "sha256": "a59f08887bccb2769b7f2bd639ea90e2466008b7a7b4b30f0802bd683dc9e568",
+      "bytes": 27422
+    },
+    "sealed": {
+      "sha256": "4e78241b8b3056ea2f87473d19496075aa26109b9bb801d276a276b007427f3e",
+      "bytes": 17164
+    }
+  },
+  "protectedTree": {
+    "baseline": "5205bb468c46084d959f5db1214b2f5e8b530ea4",
+    "filesComparedByteForByte": 649,
+    "allEqual": true,
+    "sha256PathNullContentDigest": "df374dbe98b21ef21705bfe85d44251c06d51360c475ae36d72b8cb233749ac7",
+    "excludesOnlyOwnedOpsPaths": true
+  },
+  "dependencies": {
+    "changed": false,
+    "rootLockedInstallPackages": 336,
+    "schedulerLockedInstallPackages": 40,
+    "lockfilesUnchangedThroughRebase": true
+  },
+  "ownerReportedC1": {
+    "source": "https://github.com/fuzzysniper/scout-stonk-intel/issues/76",
+    "agentIndependentlyVerified": false,
+    "checkedAt": "2026-10-15T17:23:20Z",
+    "workflowId": 382300817,
+    "dispatches": 0,
+    "temporaryTokenRevoked": true,
+    "hostedBindingVerified": false,
+    "workflowTokenVerified": false
+  },
+  "securityEvidence": [
+    "Synthetic RSA key only; mock server verifies signature and rejects different valid key",
+    "All packaged runtime outbound traffic intercepted; Python suite blocks sockets",
+    "Actual packaged Workflow and SQLite RPC, disabled production handler and separate SLOTS tested",
+    "Permanent consumed record survives process restart, concurrency, Workflow restart and sealed rollback",
+    "Missing/malformed key, guard/actor/time/instance and installation/repository/branch/scope/workflow drift reject",
+    "401/403/429/503, redirect, lost issuance, real AbortSignal deadlines, stalled body and uncertain revoke fail closed",
+    "No raw exceptions or production proof console calls; fixed receipts exclude credential sentinels",
+    "Persisted Workflow/SQLite files scanned for synthetic private key, encoded key, signing JWT and temporary token",
+    "Inert job condition evaluated with GitHub expression engine; proposal applied only to disposable manifest"
+  ],
+  "liveState": {
+    "inspectedHostedAccount": false,
+    "realPrivateKeyAccessed": false,
+    "hostedCredentialsModified": false,
+    "workflowPermissionsModified": false,
+    "liveAuthenticationRun": false,
+    "hostedBindingVerified": false,
+    "isolatedWorkflowTokenIdentityVerified": false,
+    "collectorWorkflowTokenVerified": false,
+    "deployed": false,
+    "activation": "disabled",
+    "cronAdded": false,
+    "routesAdded": false,
+    "dispatches": 0,
+    "collectionClaims": 0,
+    "providerQueries": 0,
+    "repositoryDataWrites": 0,
+    "pilotReady": false
+  },
+  "limitations": [
+    "Offline tests are not hosted proof",
+    "Whole installation scope, actual guard/actor state, existing hosted bindings and remaining Free quotas require owner inspection",
+    "Uncertain token issuance/revocation or hard CPU termination requires separate owner reconciliation, never retry",
+    "Workflow-token proposal proves only its own future isolated job, not current collector token",
+    "No hosted CPU/cost or Windows PowerShell procedure execution verified",
+    "All future account/resource/arming/permission/invocation changes need independent explicit owner approval"
+  ]
+}
