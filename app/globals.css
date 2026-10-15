@@ -314,3 +314,23 @@
  .pair-results .pair-market,.pair-results .pair-row-state{text-align:left;white-space:normal}
  .pair-results .pair-token-name h3,.pair-results .pair-token-name>span{white-space:normal;overflow:visible;overflow-wrap:anywhere}
 }
+/* Reward clarity: same scan geometry, one shared key and progressive research actions. */
+.pair-results .pair-token-name{flex-direction:row;align-items:center;justify-content:flex-start;gap:8px}
+.pair-results .pair-token-mark{flex-shrink:0}
+.pair-results .pair-token-label{min-width:0;flex:1}
+.pair-results .pair-token-label>span{display:block;font-size:12px;line-height:20px;color:#a5b8c4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pair-results .pair-row-state{display:flex;align-items:center;justify-content:flex-end;gap:4px}
+.pair-results .pair-evidence-warning,.pair-results .pair-detail-warning{color:#dfc89e}
+.pair-results .pair-evidence-warning{font-size:12px;font-weight:700}
+.pair-results .pair-reward-key{margin:8px 0 0;font-size:12px;line-height:1.5;color:#bdcbd5}
+.pair-results .pair-reward-key>p{margin:0}
+.pair-results .pair-reward-key strong{color:#eff5f9;font-weight:600}
+.pair-results .pair-reward-key>details>summary{display:flex;align-items:center;min-height:44px;cursor:pointer;color:#bdcbd5;text-decoration:underline;text-underline-offset:3px}
+.pair-results .pair-reward-key>details>summary::after{content:' ›';margin-left:6px;text-decoration:none}
+.pair-results .pair-research-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
+.pair-results .pair-research-actions button{min-height:44px;padding:8px 12px;border:1px solid #45636b;border-radius:5px;background:transparent;color:#c9ebe0;font:inherit}
+.pair-results .pair-manual-link{display:block}
+.pair-results .pair-manual-link input{display:block;width:100%;min-width:0;min-height:44px;margin:6px 0;padding:8px;background:#0b1b24;border:1px solid #45636b;border-radius:5px;color:#eff5f9;font:inherit}
+@media(min-width:760px){.pair-results .pair-row-state{justify-content:flex-start}}
+@container(max-width:260px){.pair-results .pair-row-state{justify-content:flex-start;flex-wrap:wrap}}
+@container(max-width:260px){.pair-results .pair-token-label>span{white-space:normal;overflow:visible;overflow-wrap:anywhere}}

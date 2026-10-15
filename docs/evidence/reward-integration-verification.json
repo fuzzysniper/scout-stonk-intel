@@ -1,0 +1,361 @@
+{
+  "at": "2026-10-15T01:16:40.703111+00:00",
+  "mainCommit": "f269ce3362ca2bd9cfb428454df0715c517a530c",
+  "includesMergedPrs": [
+    61,
+    63
+  ],
+  "branch": "feat/59-reward-evidence-clarity",
+  "runtime": {
+    "node": "24.19.0",
+    "npm": "11.9.0"
+  },
+  "commands": [
+    {
+      "command": "npm ci --cache /tmp/scout59-npm-cache",
+      "result": "PASS",
+      "exitCode": 0,
+      "packages": 336
+    },
+    {
+      "command": "SCOUT_REWARD_UI_FIXTURES=/tmp/scout60-ui-fixtures.json npm test",
+      "result": "PASS",
+      "exitCode": 0,
+      "appJavaScriptTests": 421,
+      "pythonTests": 62,
+      "schedulerTests": 15
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run lint",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run build",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    {
+      "command": "bash scripts/archive-tool.sh check origin/main",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run archive:dry-run",
+      "result": "PASS",
+      "exitCode": 0,
+      "scope": "Disposable local offline rehearsal, no publication/network operations"
+    },
+    {
+      "command": "SCOUT_VERIFY_ENV_PROXY=1 npm run verify:release -- --base http://127.0.0.1:3176 --target preview",
+      "result": "PASS",
+      "exitCode": 0
+    },
+    {
+      "command": "python3 tests/reward-clarity-capture.py --base http://127.0.0.1:3176 --phase after --prefix reward-integration",
+      "result": "PASS",
+      "exitCode": 0,
+      "scope": "Genuine live-source screenshots, no route interception or image editing"
+    },
+    {
+      "command": "python3 tests/reward-clarity-browser.py --base http://127.0.0.1:3176 --axe /tmp/scout-qa/package/axe.min.js --prefix reward-integration --reward-fixtures /tmp/scout60-ui-fixtures.json",
+      "result": "PASS",
+      "exitCode": 0,
+      "frontendChecksPassed": 103,
+      "realSocialImage": {
+        "url": "http://127.0.0.1:3176/api/og?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+        "result": "PASS",
+        "status": 200,
+        "contentType": "image/png",
+        "cacheControl": "public, max-age=60, s-maxage=60",
+        "decodedDimensions": [
+          1200,
+          630
+        ],
+        "sha256": "94d8979a5260de8b783d39b200c00527a9af0bce56e59a251d32cb0a4fc8ef92",
+        "bytes": 135028,
+        "exactTokenMint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP"
+      },
+      "scope": "Entire suite rerun after #63 merged; not a targeted-only check"
+    }
+  ],
+  "protectedPathsEqualToMain": [
+    "app/api",
+    "lib",
+    "data",
+    "public/evidence",
+    "scheduler",
+    "scripts",
+    ".github",
+    "package.json",
+    "package-lock.json",
+    "app/page.tsx",
+    "app/scout-client.tsx",
+    "app/pairs/adapter.ts",
+    "app/pairs/client.ts",
+    "app/pairs/registry.ts",
+    "app/pairs/presets.ts"
+  ],
+  "ogRouteSha256FromMergedMain": "704103363e1194f7129d3cd1f7378d45a261a79164b7affb8668ec6a808223c0",
+  "preFixEvidence": [
+    "reward-integration-og-before-fix.json",
+    "reward-integration-qa-before-og-fix.json",
+    "reward-clarity-baseline-social-preview.json"
+  ],
+  "localReleaseSmoke": {
+    "target": "preview",
+    "base": "http://127.0.0.1:3176",
+    "startedAt": "2026-10-15T01:09:52.684Z",
+    "finishedAt": "2026-10-15T01:09:57.208Z",
+    "outcome": "pass",
+    "exitCode": 0,
+    "evidence": [
+      {
+        "level": "PASS",
+        "code": "canonical_archived_redirect",
+        "url": "http://127.0.0.1:3176/brief/2026-10-11",
+        "at": "2026-10-15T01:09:54.671Z",
+        "status": 307,
+        "note": "Exact original edition HTTP redirect; no redirect followed automatically."
+      },
+      {
+        "level": "PASS",
+        "code": "edition_html",
+        "url": "http://127.0.0.1:3176/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+        "at": "2026-10-15T01:09:54.688Z",
+        "status": 200,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "edition_share_metadata",
+        "url": "http://127.0.0.1:3176/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+        "at": "2026-10-15T01:09:54.689Z",
+        "note": "Checks date/ID canonical and Open Graph image paths, not physical-phone rendering. Preview may deliberately use production metadata origin."
+      },
+      {
+        "level": "PASS",
+        "code": "edition_share_png",
+        "url": "http://127.0.0.1:3176/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63/opengraph-image",
+        "at": "2026-10-15T01:09:54.793Z",
+        "status": 200,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "png_signature",
+        "url": "http://127.0.0.1:3176/brief/2026-10-11/editions/d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63/opengraph-image",
+        "at": "2026-10-15T01:09:54.794Z",
+        "note": "Bounded share preview has PNG media type and signature."
+      },
+      {
+        "level": "PASS",
+        "code": "archive_api",
+        "url": "http://127.0.0.1:3176/api/archive?date=2026-10-11&id=d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+        "at": "2026-10-15T01:09:54.802Z",
+        "status": 200,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "edition_hash_and_claims",
+        "url": "http://127.0.0.1:3176/api/archive?date=2026-10-11&id=d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+        "at": "2026-10-15T01:09:54.820Z",
+        "note": "Canonical edition hash, method, preserved source hashes and API claims independently reproduce."
+      },
+      {
+        "level": "PASS",
+        "code": "utc_grace",
+        "url": "http://127.0.0.1:3176/api/archive?date=2026-10-11&id=d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+        "at": "2026-10-15T01:09:54.820Z",
+        "note": "Day closure plus three-hour grace checked; eligibleAt is not a fake publication timestamp."
+      },
+      {
+        "level": "PASS",
+        "code": "api_no_store",
+        "url": "http://127.0.0.1:3176/api/archive?date=2026-10-11&id=d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+        "at": "2026-10-15T01:09:54.820Z",
+        "note": "Archive API transport metadata stays separate from immutable body."
+      },
+      {
+        "level": "PASS",
+        "code": "pinned_source_hash",
+        "url": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/e3de19169c844f85f06d0cabe7a4c9682d68d8ac/data/reward-snapshots.json",
+        "at": "2026-10-15T01:09:55.837Z",
+        "status": 200,
+        "note": "Compare actual pinned GitHub bytes with preserved evidence revision."
+      },
+      {
+        "level": "PASS",
+        "code": "pinned_source_hash",
+        "url": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/e3de19169c844f85f06d0cabe7a4c9682d68d8ac/data/tracked-mints.json",
+        "at": "2026-10-15T01:09:56.114Z",
+        "status": 200,
+        "note": "Compare actual pinned GitHub bytes with preserved evidence revision."
+      },
+      {
+        "level": "PASS",
+        "code": "utc_today_redirect",
+        "url": "http://127.0.0.1:3176/brief",
+        "at": "2026-10-15T01:09:56.134Z",
+        "status": 307,
+        "note": "Accept only UTC date before/after this bounded request, including midnight rollover."
+      },
+      {
+        "level": "PASS",
+        "code": "status_html",
+        "url": "http://127.0.0.1:3176/status",
+        "at": "2026-10-15T01:09:56.140Z",
+        "status": 200,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "status_markup",
+        "url": "http://127.0.0.1:3176/status",
+        "at": "2026-10-15T01:09:56.140Z",
+        "note": "HTML route checked; client hydration, touch and native sharing require separate browser/phone QA."
+      },
+      {
+        "level": "PASS",
+        "code": "status_api",
+        "url": "http://127.0.0.1:3176/api/status",
+        "at": "2026-10-15T01:09:57.165Z",
+        "status": 200,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "archive_health",
+        "url": "http://127.0.0.1:3176/api/status",
+        "at": "2026-10-15T01:09:57.166Z",
+        "note": "Current archive source state recorded separately from frozen daily claims."
+      },
+      {
+        "level": "PASS",
+        "code": "invalid_date_rejected",
+        "url": "http://127.0.0.1:3176/api/archive?date=2026-02-30",
+        "at": "2026-10-15T01:09:57.185Z",
+        "status": 400,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "missing_edition_not_replaced",
+        "url": "http://127.0.0.1:3176/api/archive?date=2026-10-11&id=0000000000000000000000000000000000000000000000000000000000000000",
+        "at": "2026-10-15T01:09:57.197Z",
+        "status": 404,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "failure_has_no_replacement_claims",
+        "url": "http://127.0.0.1:3176/api/archive?date=2026-10-11&id=0000000000000000000000000000000000000000000000000000000000000000",
+        "at": "2026-10-15T01:09:57.197Z",
+        "note": "Failure response contains no substituted financial rows."
+      },
+      {
+        "level": "PASS",
+        "code": "outdated_version_not_replaced",
+        "url": "http://127.0.0.1:3176/api/brief?date=2026-10-11&v=0000000000000000000000000000000000000000000000000000000000000000",
+        "at": "2026-10-15T01:09:57.208Z",
+        "status": 409,
+        "note": "Expected application HTTP response."
+      },
+      {
+        "level": "PASS",
+        "code": "failure_has_no_replacement_claims",
+        "url": "http://127.0.0.1:3176/api/brief?date=2026-10-11&v=0000000000000000000000000000000000000000000000000000000000000000",
+        "at": "2026-10-15T01:09:57.208Z",
+        "note": "Failure response contains no substituted financial rows."
+      }
+    ],
+    "scope": "Read-only HTTP/JSON/hash/metadata verification. No JavaScript interaction, physical-phone, workflow execution or publication approval proof."
+  },
+  "screenshots": {
+    "docs/screenshots/reward-integration-after-1280.png": {
+      "sha256": "a0a7e7761023c60321b94c78f3f5167b00ce33a9801672d4773b3e22465275cf",
+      "bytes": 432898
+    },
+    "docs/screenshots/reward-integration-after-320.png": {
+      "sha256": "77813886b8f5229b8a4dcdac635eee7b11461387917e8d9c6946f7343eb1365d",
+      "bytes": 166791
+    },
+    "docs/screenshots/reward-integration-after-390.png": {
+      "sha256": "4d892b6e7887f797979750f73cd932ec8862290de02a1483fd15757d3bfad179",
+      "bytes": 193335
+    },
+    "docs/screenshots/reward-integration-after-details-390.png": {
+      "sha256": "1674f83df58df89057299dbc7e59c03dcd74a8142dcde2741c0648e4f73b28de",
+      "bytes": 134475
+    },
+    "docs/screenshots/reward-integration-after-home-1280.png": {
+      "sha256": "01aa2637674601dd1ba03484fdfbd5c677b2891a0eb026602dc58db6ab0a4ca9",
+      "bytes": 201755
+    },
+    "docs/screenshots/reward-integration-after-home-320.png": {
+      "sha256": "b44ebe427419591fd163a2d214a74223ab967b93c5cbe375f4cb4c8743aebe2b",
+      "bytes": 100005
+    },
+    "docs/screenshots/reward-integration-after-home-390.png": {
+      "sha256": "d8b4973e2a1155ae65ec5781681aa6ab4299dce6394667dcd22a020a0c37e4c5",
+      "bytes": 108082
+    },
+    "docs/screenshots/reward-integration-after-key-390.png": {
+      "sha256": "c3d2b453ed5b3d78e6684b140dfe84cba808c486f4beebb90d1678c1486e38d0",
+      "bytes": 121687
+    },
+    "docs/screenshots/reward-integration-after-volume-1280.png": {
+      "sha256": "757497602290d769a9e1b376d8c7d2669ce19a188634300bddce418af7a96e86",
+      "bytes": 430639
+    },
+    "docs/screenshots/reward-integration-after-volume-320.png": {
+      "sha256": "fc9a2c1566b330da53407fdd2521f033a23d0ae8e6fc79b6551f2b859f2deac5",
+      "bytes": 169288
+    },
+    "docs/screenshots/reward-integration-after-volume-390.png": {
+      "sha256": "c5dcfaad43e209dabc42d88fc1e5f72ae6bab407309d37ed83d5c6e51b1e4bca",
+      "bytes": 194712
+    },
+    "docs/screenshots/reward-integration-before-1280.png": {
+      "sha256": "c77acccb1eff26115f27facefb379fc82792d0606e108c41cd121955709db424",
+      "bytes": 392537
+    },
+    "docs/screenshots/reward-integration-before-320.png": {
+      "sha256": "26778409a1d6979f373200884350df91d832fdaed26a637316e03b17ed38d708",
+      "bytes": 166941
+    },
+    "docs/screenshots/reward-integration-before-390.png": {
+      "sha256": "7171bc54d8b18bfeb2466a3a034d12dbcdd190fe844316bc6c68a0b6461b7b4a",
+      "bytes": 190970
+    },
+    "docs/screenshots/reward-integration-before-home-1280.png": {
+      "sha256": "e15cdf3170002e6d7753ba3756c130b1fb50362b7684fd16d12e751e95cffbd8",
+      "bytes": 201788
+    },
+    "docs/screenshots/reward-integration-before-home-320.png": {
+      "sha256": "03c3a2551ea955f7f4eff2a8a97bf8f6de5d35e7d9a87adc5376e0a53b8d550b",
+      "bytes": 100007
+    },
+    "docs/screenshots/reward-integration-before-home-390.png": {
+      "sha256": "d8b4973e2a1155ae65ec5781681aa6ab4299dce6394667dcd22a020a0c37e4c5",
+      "bytes": 108082
+    }
+  },
+  "boundaries": [
+    "No backend/lib/API/OG edits relative to main; backend changes arrived only through the user-requested rebase.",
+    "Locked dependencies unchanged by either backend merge.",
+    "Latest live pair sample has 50 Unverified rows: 11 stale sources, one unavailable, 38 unchecked. No current lifetime/interval/holder-return values.",
+    "Dated genuine response replay is test-only, never production fallback. Synthetic scenarios are test-only, never screenshots.",
+    "Holder returns remain unavailable/null; no earning-rate or ROI inference.",
+    "Dossier/OG is a current independent source view, not a frozen pair sample.",
+    "Native share picker intercepted to avoid external sends.",
+    "Physical iPhone/VoiceOver, cold-reader comprehension and social-app unfurl remain human QA.",
+    "No merge, manual deployment, scheduling/Cloudflare activation, wallet/treasury/trading operation."
+  ]
+}

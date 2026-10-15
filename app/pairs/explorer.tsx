@@ -3,6 +3,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { TrackedToken } from '../../lib/tracked-tokens';
 import type { RadarReport } from '../../lib/radar';
+import type { PairSource } from '../../lib/pairs-contract';
+import type { RewardEvidence } from '../../lib/reward-evidence-contract';
 import { flowReading, utc } from '../radar/evidence-view';
 import { fromCatalog } from './adapter';
 import { appendRegistryPage, catalogMatchesQuote, registrySearch, REGISTRY_WINDOW_LIMIT } from './registry';
@@ -11,12 +13,25 @@ import type { PairCatalog, PairToken } from './adapter';
 import { fetchCatalog, fetchRadar, fetchQuoteRegistry } from './client';
 import { PRESET_CANDIDATES, verifiedPreset } from './presets';
 import type { VerifiedChoice } from './presets';
-import { DEFAULT_SAMPLE_SORT, screenUsd, sortSample } from './results';
-import type { SampleSort } from './results';
+import { DEFAULT_SAMPLE_SORT, readRewardEvidence, screenUsd, sortSample, tokenResearchPath, tokenResearchUrl } from './results';
+import type { RewardEvidenceRead, SampleSort } from './results';
 
 const number=(v:number)=>new Intl.NumberFormat('en-US',{maximumSignificantDigits:6}).format(v);
 export const usd=(v:number|null)=>v===null?'Unavailable':'US$'+(v>0 && v<0.001?v.toExponential(3):new Intl.NumberFormat('en-US',{maximumSignificantDigits:5,notation:v>=10000?'compact':'standard'}).format(v));
 const shortMint=(v:string)=>v.slice(0,6)+'…'+v.slice(-4);
+// Visual mnemonic only: exact mint/source verification still lives in Details.
+export function TokenIdentityMark({mint}:{mint:string}) {
+ let seed=2166136261;
+ for(const char of mint)seed=Math.imul(seed^char.charCodeAt(0),16777619)>>>0;
+ const color=['#a1c5d8','#b0d6c8','#c5bedf','#d7c7ac'][seed%4];
+ return <svg className="pair-token-mark" data-identity-mark="generated" viewBox="0 0 28 28" width="28" height="28" aria-hidden="true" focusable="false">
+  <rect width="28" height="28" rx="7" fill="#1b2e3b"/>
+  {Array.from({length:15},(_,i)=>{
+   const x=i%3,y=Math.floor(i/3);
+   return (seed>>>(i+2)&1)?<g key={i} fill={color}><rect x={4+x*4} y={4+y*4} width="3" height="3" rx=".75"/>{x<2 && <rect x={20-x*4} y={4+y*4} width="3" height="3" rx=".75"/>}</g>:null;
+  })}
+ </svg>;
+}
 function rewardReading(token:PairToken,report:RadarReport|null,blocked:boolean) {
  if(blocked)return {state:'Source unavailable'} as const;
  if(token.catalog && !token.rewardModeVerified)return {state:token.catalog.modeVerification==='verified_standard'?'No holder reward mode':'Reward mode unverified'} as const;
@@ -26,45 +41,99 @@ function rewardReading(token:PairToken,report:RadarReport|null,blocked:boolean) 
  return reading;
 }
 const modeLabel=(token:PairToken)=>!token.catalog?'Tracked mode · dated verification':token.catalog.modeVerification==='verified_reward'?'Reward mode verified':token.catalog.modeVerification==='verified_standard'?'No holder reward mode (verified)':'Reward mode unverified';
-function rewardSummary(token:PairToken,reading:ReturnType<typeof rewardReading>,blocked:boolean) {
- const state=(label:string,description:string,exceptional=false)=>({label,description,exceptional});
- if(blocked)return state('Source failed','Source unavailable; reward evidence and market values withheld.',true);
+function rewardSummary(token:PairToken,reading:ReturnType<typeof rewardReading>,blocked:boolean,typed:RewardEvidenceRead) {
+ const state=(label:string,description:string,warning:string|null=null)=>({label,description,warning});
+ if(blocked)return state('Unverified','Source unavailable; reward evidence and market values withheld.','Source unavailable');
+ if(typed.state==='invalid')return state('Unverified','Reward evidence did not pass identity, source or contract checks. Values withheld.','Reward evidence failed validation');
  const t=token.catalog;
- if(t?.modeVerification==='identity_mismatch' || t?.historyStatus==='identity_mismatch')return state('Identity issue','Reward identity mismatch; distributions withheld.',true);
- if(t?.historyStatus==='invalid_data')return state(t.historyFreshness==='stale'?'Invalid / stale':'Invalid history','Invalid reward history; distributions withheld.',true);
- if(t?.historyFreshness==='stale' || 'state' in reading && reading.state==='Stale observations')return state('Stale history','Stale reward observations; distributions withheld.',true);
- if(t?.modeVerification==='source_unavailable')return state('Check failed','Reward mode unverified because its source check was unavailable.',true);
- if(t?.modeVerification==='verified_standard')return state('Standard mode','Verified mechanism has no holder reward mode.');
- if(!token.rewardModeVerified)return state(t?.market.status==='reported_snapshot'?'Market only':'Catalog only','Official catalog evidence; reward mode and distributions are unverified.');
- if(!('state' in reading))return state('Flow recorded','Recorded reward-counter change passes existing history gates; not a holder return.');
- if(t?.historyStatus==='source_unavailable' || reading.state==='Source unavailable')return state('History failed','Reward mode verified, but recorded history source unavailable; distributions withheld.',true);
- return state('Mode checked','Reward mechanism verified; no usable recorded distribution evidence.');
+ const warning=t?.modeVerification==='identity_mismatch' || t?.historyStatus==='identity_mismatch'?'Identity issue; flow withheld':t?.historyStatus==='invalid_data'?'Invalid'+(t.historyFreshness==='stale'?' / stale':'')+' history; flow withheld':t?.historyFreshness==='stale' || 'state' in reading && reading.state==='Stale observations'?'Stale history; flow withheld':t?.modeVerification==='source_unavailable'?'Official mode check unavailable':t?.historyStatus==='source_unavailable' || 'state' in reading && reading.state==='Source unavailable'?'History source unavailable; flow withheld':null;
+ if(typed.state==='ready'){
+  const e=typed.value;
+  const quality=[e.mechanism.quality,e.lifetime.quality,e.interval.quality].includes('stale')?'Stale evidence; unavailable values withheld':e.mechanism.reason==='source_rate_limited'?'Official source rate limited':e.mechanism.reason==='source_unavailable'?'Official mode source unavailable':e.mechanism.reason==='registry_unverified' || e.mechanism.reason==='invalid_source'?'Official identity/source verification unavailable':warning;
+  if(e.interval.state==='covered')return state('Interval covered','Covered interval flow: recorded counter changes across the stated current and previous windows. Not verified holder payments or returns.',quality);
+  if(e.lifetime.state==='reported')return state('Lifetime reported','Reported lifetime distribution: a cumulative provider ledger total with unknown start and cutoff. Not recent earnings, verified holder payments or returns.',quality);
+  if(e.mechanism.state==='verified_reward')return state('Settings verified','Official reward settings verified; lifetime distribution and covered interval flow are unavailable. Holder returns remain unavailable.',quality);
+  if(e.mechanism.state==='verified_standard')return state('No reward mode','Official standard mode, without a holder reward mechanism.',quality);
+  return state('Unverified','No usable official reward verification in this response. Distribution and holder returns are unavailable.',quality);
+ }
+ if(t?.modeVerification==='verified_standard')return state('No reward mode','StonkFun confirms standard mode, without a holder reward mechanism.',warning);
+ if(!token.rewardModeVerified)return state('Unverified','No usable official reward-mode verification in this sample; payments and returns are not established.',warning);
+ return state('Settings verified','Dated official reward settings. This older response supplies no typed lifetime or covered interval evidence; holder payments and returns are not verified.',warning);
 }
-export function PairTokenRow({token,report,blocked=false,metric='liquidity'}:{token:PairToken;report:RadarReport|null;blocked?:boolean;metric?:'liquidity'|'volume'}) {
+export function RewardEvidenceKey() {
+ return <aside className="pair-reward-key" aria-label="Reward evidence key">
+  <p id="pair-reward-key"><strong>Settings verified</strong> confirms setup. <strong>Lifetime reported</strong> is cumulative. <strong>Interval covered</strong> is dated counter flow. <strong>Holder returns unavailable</strong> — none verifies paid holders or profit.</p>
+  <details><summary>How to read the reward evidence</summary><div className="pair-evidence-body">
+   <p><strong>Settings verified:</strong> the official response confirms reward settings for this exact token and quote. <strong>Lifetime reported:</strong> a provider-reported lifetime distribution, not a recent earning rate; its start and reconciliation cutoff are unknown. <strong>Interval covered:</strong> counter observations pass the strict coverage gates for the actual current and previous windows. Exact amounts, quote units, coverage, original source timestamps and last reported payout time are one tap deeper in token Details.</p>
+   <p><strong>Unverified:</strong> the sample has no usable official mode verification. <strong>No reward mode:</strong> the official response confirms standard mode. An amber ! flags a source or history problem; open that row’s Details for its reason. A history problem does not erase separately verified reward settings, but it withholds usable flow.</p>
+   <p><strong>Holder returns unavailable:</strong> entitlement, costs and holder cashflows are missing. Neither settings, reported totals nor covered flow verifies holder receipts or ROI. A reported zero stays zero; unavailable data stays unavailable. Missing evidence is not zero. Older responses supply only dated settings and legacy observations, not the new lifetime or covered-interval evidence.</p>
+   <p>Research two projects in this same-quote sample by opening their Details. Inspect the official source, then open or copy each token’s dossier link. Links identify a token; they do not freeze these figures or share this pair selection.</p>
+   <p>Token marks are generated from each mint, not official logos or proof of identity. Exact mints and sources are in Details.</p>
+  </div></details>
+ </aside>;
+}
+const evidenceReason=(reason:string|null)=>reason?.replaceAll('_',' ')??'Not reported';
+function RewardSource({source,label,reference=null}:{source:PairSource|null;label:string;reference?:string|null}) {
+ return <p className="pair-reward-source">{source?<>Response <time dateTime={source.providerGeneratedAt}>{utc(source.providerGeneratedAt)}</time><br/>Retrieved <time dateTime={source.fetchedAt}>{utc(source.fetchedAt)}</time> · <a href={source.source}>{label} ↗</a><br/>Byte revision {source.revision}</>:<>No successful source read captured.{reference && <> <a href={reference}>Official lookup ↗</a> (lookup only, not read evidence).</>}</>}</p>;
+}
+function RewardEvidenceFacts({evidence:e}:{evidence:RewardEvidence}) {
+ const lifetime=e.lifetime.value,interval=e.interval.value;
+ return <dl className="pair-reward-facts" aria-label="Reward evidence">
+  <div><dt>Official reward settings</dt><dd>{e.mechanism.state==='verified_reward'?'Reward settings verified':e.mechanism.state==='verified_standard'?'No holder reward mode (verified)':'Unverified'} · {e.mechanism.quality}{e.mechanism.reason && <> · {evidenceReason(e.mechanism.reason)}</>}</dd></div>
+  <div><dt>Reported lifetime distribution</dt><dd>{e.lifetime.state==='reported' && lifetime?<>
+   <strong>{lifetime.distributedTokens} {e.unit.symbol}</strong> · provider ledger, cumulative<br/>Raw amount {lifetime.distributedRaw} · {e.unit.decimals} decimals<br/>Reported ledger events {lifetime.payoutCount}; recipients {lifetime.walletsPaid} (provider counts, not verified receipts).<br/>Last reported payout: {lifetime.lastPayoutAt?<time dateTime={lifetime.lastPayoutAt}>{utc(lifetime.lastPayoutAt)}</time>:'Not reported'}<br/>Lifetime start and reconciliation cutoff unknown. Not recent flow or an earning rate.
+  </>:<>Unavailable · {evidenceReason(e.lifetime.reason)} · {e.lifetime.quality}</>}</dd></div>
+  <div><dt>Covered interval flow</dt><dd>{e.interval.state==='covered' && interval?<>
+   {(['current','previous'] as const).map(key=>{const p=interval[key];return <p key={key}><strong>{key==='current'?'Current':'Previous'}: {p.distributed.tokens} {e.unit.symbol}</strong> · counter change<br/>Actual observations <time dateTime={p.startAt}>{utc(p.startAt)}</time> → <time dateTime={p.endAt}>{utc(p.endAt)}</time> · {p.seconds} seconds<br/>Provider boundaries <time dateTime={p.providerStartAt}>{utc(p.providerStartAt)}</time> → <time dateTime={p.providerEndAt}>{utc(p.providerEndAt)}</time><br/>{p.observationCount} points · maximum gap {p.maxGapSeconds}s · raw amount {p.distributed.atomic}</p>;})}
+   <p>Current minus previous counter change: {interval.change.tokens} {e.unit.symbol} (raw {interval.change.atomic}). Not a return.</p>
+  </>:<>{e.interval.state==='insufficient_history'?'Insufficient history':'Unavailable'} · {e.interval.quality}{e.interval.reasons.length>0 && <> · {e.interval.reasons.map(evidenceReason).join('; ')}</>}{e.interval.details.length>0 && <p>{e.interval.details.join('; ')}</p>}</>}
+   <p>History {e.interval.historySource.sourceStatus}{e.interval.historySource.dataFetchedAt && <> · retrieved <time dateTime={e.interval.historySource.dataFetchedAt}>{utc(e.interval.historySource.dataFetchedAt)}</time></>}{e.interval.historySource.source && <> · <a href={e.interval.historySource.source}>Recorded counter source ↗</a></>}{e.interval.historySource.revision && <><br/>Byte revision {e.interval.historySource.revision}</>}</p>
+  </dd></div>
+  <div><dt>Holder returns</dt><dd>Unavailable. Holder entitlement, costs and cashflows are missing. Provider counts and counter changes do not verify holder payments or ROI.</dd></div>
+  <div><dt>Evidence evaluated</dt><dd><time dateTime={e.evaluatedAt}>{utc(e.evaluatedAt)}</time> · calculation time, not a payout observation. Quote-token units: {e.unit.symbol} · {e.unit.mint} · {e.unit.decimals} decimals. Coverage incomplete and non-atomic; earning rankings withheld.</dd></div>
+  <div><dt>Official response provenance</dt><dd><RewardSource source={e.mechanism.source} reference={e.mechanism.referenceUrl} label="Official mode source"/>{e.lifetime.source && (e.mechanism.source && e.lifetime.source.revision===e.mechanism.source.revision && e.lifetime.source.fetchedAt===e.mechanism.source.fetchedAt?<p>Lifetime evidence uses this same original official response.</p>:<RewardSource source={e.lifetime.source} label="Official lifetime source"/>)}</dd></div>
+  {e.interval.state==='covered' && interval && <div><dt>Interval source receipts</dt><dd><RewardSource source={interval.modeSource} label="Interval mode source"/><RewardSource source={interval.catalogSource} label="Interval catalog source"/></dd></div>}
+ </dl>;
+}
+export function PairTokenRow({token,report,catalog=null,blocked=false,metric='liquidity'}:{token:PairToken;report:RadarReport|null;catalog?:PairCatalog|null;blocked?:boolean;metric?:'liquidity'|'volume'}) {
  const [open,setOpen]=useState(false),toggle=useRef<HTMLButtonElement>(null);
+ const [copyStatus,setCopyStatus]=useState(''),[manualLink,setManualLink]=useState('');
  const reading=rewardReading(token,report,blocked),t=token.catalog;
  const market=!blocked && t?.market.status==='reported_snapshot'?t.market:null;
- const evidence=rewardSummary(token,reading,blocked),detailId='pair-detail-'+token.mint;
+ const typed=blocked?{state:'invalid',value:null} as const:readRewardEvidence(token,catalog);
+ const evidence=rewardSummary(token,reading,blocked,typed),detailId='pair-detail-'+token.mint;
+ const researchPath=tokenResearchPath(token.mint);
+ const copyResearch=async()=>{
+  const url=tokenResearchUrl(token.mint,window.location.origin);setCopyStatus('');setManualLink('');
+  try{await navigator.clipboard.writeText(url);setCopyStatus('Research link copied. Opens this token dossier.');}
+  catch{setManualLink(url);setCopyStatus('Copy unavailable. Select the research link below.');}
+ };
  return <article className="pair-token" aria-labelledby={'pair-token-'+token.mint} onKeyDown={e=>{if(open && e.key==='Escape'){e.preventDefault();setOpen(false);toggle.current?.focus();}}}>
   <div className="pair-row-main">
-   <Link className="pair-token-name" href={'/?mint='+token.mint} aria-label={'Open '+token.symbol+' · '+token.name+' dossier'}><h3 id={'pair-token-'+token.mint}>{token.symbol}</h3><span title={token.name}>{token.name}</span></Link>
+   <Link className="pair-token-name" href={researchPath} aria-label={'Open '+token.symbol+' · '+token.name+' dossier'}><TokenIdentityMark mint={token.mint}/><div className="pair-token-label"><h3 id={'pair-token-'+token.mint}>{token.symbol}</h3><span title={token.name}>{token.name}</span></div></Link>
    <dl className="pair-market">{([['liquidity','Liquidity',market?.liquidityUsd??null],['volume','24h volume',market?.volume24hUsd??null]] as const).map(([key,label,value])=><div className={'pair-'+key+(metric===key?' is-active':'')} key={key}><dt className="sr-only">Reported {label}, USD snapshot</dt><dd title={usd(value)}>{value===null?<><span aria-hidden="true">—</span><span className="sr-only">Unavailable</span></>:screenUsd(value)}</dd></div>)}</dl>
-   <span className={'pair-row-state'+(evidence.exceptional?' is-exception':'')} title={evidence.description}>{evidence.label}<span className="sr-only"> · {evidence.description}</span></span>
+   <span className="pair-row-state" title={evidence.description+(evidence.warning?' '+evidence.warning:'')}>{evidence.label}{evidence.warning && <span className="pair-evidence-warning" aria-hidden="true">!</span>}<span className="sr-only"> · {evidence.description}{evidence.warning?' '+evidence.warning:''}</span></span>
    <button ref={toggle} className="pair-detail-toggle" type="button" aria-expanded={open} aria-controls={detailId} aria-label={'Details for '+token.symbol+' · '+token.name} onClick={()=>setOpen(v=>!v)}><svg aria-hidden="true" focusable="false" viewBox="0 0 16 16" width="16" height="16"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg></button>
   </div>
   <div className="pair-evidence-body" id={detailId} hidden={!open}>
    <p>{evidence.description}</p>
-   <dl><div><dt>Token / quote mint</dt><dd>{token.name} · {token.mint}<br/>{token.quoteMint} · {token.quoteSymbol}</dd></div><div><dt>Mode evidence</dt><dd>{modeLabel(token)}{t?.rewardSource && <> · response {utc(t.rewardSource.providerGeneratedAt)} · <a href={t.rewardSource.source}>Official mode source ↗</a></>}</dd></div><div><dt>Recorded reward flow</dt><dd>{'state' in reading?reading.state:<>Distributed counter change: {number(reading.value)} {token.quoteSymbol}</>}</dd></div><div><dt>Recorded history</dt><dd>{token.observationCount??'Unavailable'} points · {t?.historyStatus??'Tracked sample'}{t?.historyIssues.length?<> · {t.historyIssues.join(', ')}</>:null}<br/>{token.lastObservedAt?<>Observed <time dateTime={token.lastObservedAt}>{utc(token.lastObservedAt)}</time></>:'Observation unavailable'}</dd></div>
+   {evidence.warning && <p className="pair-detail-warning">{evidence.warning}</p>}
+   <div className="pair-research-actions"><Link href={researchPath}>Token dossier →</Link><button type="button" onClick={()=>void copyResearch()} aria-label={'Copy research link for '+token.symbol+' · '+token.name}>Copy research link</button></div>
+   {copyStatus && <p role="status">{copyStatus}</p>}
+   {manualLink && <label className="pair-manual-link">Research link<input type="text" readOnly value={manualLink} onFocus={e=>e.currentTarget.select()} aria-label={'Research link for '+token.symbol}/></label>}
+   <p>Link opens this token’s current dossier; it does not freeze these figures.</p>
+   {typed.state==='ready'?<RewardEvidenceFacts evidence={typed.value}/>:typed.state==='absent'?<dl className="pair-reward-facts"><div><dt>Official reward settings</dt><dd>{modeLabel(token)}<RewardSource source={t?.rewardSource??null} label="Official mode source"/></dd></div><div><dt>Reported lifetime distribution</dt><dd>Unavailable from this older response.</dd></div><div><dt>Covered interval flow</dt><dd>Unavailable from this older response. Legacy observations do not establish strict covered windows.</dd></div><div><dt>Legacy recorded counter change</dt><dd>{'state' in reading?reading.state:<>Distributed counter change: {number(reading.value)} {token.quoteSymbol}</>}</dd></div><div><dt>Holder returns</dt><dd>Unavailable. Holder entitlement, costs and cashflows are missing.</dd></div></dl>:<p>Reward evidence unavailable; values withheld after validation. Holder returns unavailable.</p>}
+   <dl><div><dt>Token / quote mint</dt><dd>{token.name} · {token.mint}<br/>{token.quoteMint} · {token.quoteSymbol}</dd></div><div><dt>Recorded history</dt><dd>{token.observationCount??'Unavailable'} points · {t?.historyStatus??'Tracked sample'}{t?.historyIssues.length?<> · {t.historyIssues.join(', ')}</>:null}<br/>{token.lastObservedAt?<>Observed <time dateTime={token.lastObservedAt}>{utc(token.lastObservedAt)}</time></>:'Observation unavailable'}</dd></div>
     <div><dt>Reported USD snapshot</dt><dd>{market?<>Liquidity {usd(market.liquidityUsd)} · 24h volume {usd(market.volume24hUsd)} · price {usd(market.priceUsd)} · response generated <time dateTime={market.providerGeneratedAt}>{utc(market.providerGeneratedAt)}</time></>:'Market snapshot unavailable'}</dd></div>
     <div><dt>Pool account</dt><dd>{t?.poolMint??token.radar?.poolMint??'Unavailable'} · provider catalog account; not independently reconciled to a trading pool</dd></div>
     <div><dt>Price observation time</dt><dd>Unavailable. Response generation/retrieval is not a market tick time. USD snapshots are not quote-token prices or live quotes.</dd></div>
     <div><dt>Historical quote-relative return</dt><dd>Unavailable</dd></div><div><dt>Quote-asset benchmark return</dt><dd>Unavailable</dd></div><div><dt>Holder-attributable rewards</dt><dd>Unavailable</dd></div>
    </dl>
    {t && <p>Catalog response {utc(t.provenance.providerGeneratedAt)} · retrieved {utc(t.provenance.fetchedAt)} · <a href={t.source}>Official token catalog ↗</a><br/>Byte revision {t.provenance.revision}</p>}
-   {!('state' in reading) && <p>Actual interval: <time dateTime={reading.startAt}>{utc(reading.startAt)}</time> → <time dateTime={reading.endAt}>{utc(reading.endAt)}</time> ({number(reading.seconds/3600)} hours). Distributed amounts are not an individual return.</p>}
-   {!('state' in reading) && reading.kind==='matched' && token.radar && <dl>{([['Current',token.radar.signals.current],['Previous',token.radar.signals.previous]] as const).map(([label,period])=><div key={label}><dt>{label} matched period</dt><dd>{period.distributedTokens===null?'Unavailable':number(period.distributedTokens)+' '+token.quoteSymbol} · {utc(period.startAt)} → {utc(period.endAt)} · {period.observationCount} points · maximum gap {period.maxGapSeconds??'unknown'}s</dd></div>)}</dl>}
+   {typed.state==='absent' && !('state' in reading) && <p>Actual interval: <time dateTime={reading.startAt}>{utc(reading.startAt)}</time> → <time dateTime={reading.endAt}>{utc(reading.endAt)}</time> ({number(reading.seconds/3600)} hours). Legacy counter change, not covered interval evidence or an individual return.</p>}
+   {typed.state==='absent' && !('state' in reading) && reading.kind==='matched' && token.radar && <dl>{([['Current',token.radar.signals.current],['Previous',token.radar.signals.previous]] as const).map(([label,period])=><div key={label}><dt>{label} matched period</dt><dd>{period.distributedTokens===null?'Unavailable':number(period.distributedTokens)+' '+token.quoteSymbol} · {utc(period.startAt)} → {utc(period.endAt)} · {period.observationCount} points · maximum gap {period.maxGapSeconds??'unknown'}s</dd></div>)}</dl>}
    <p>Same quote does not establish synchronized periods between tokens. Missing observations are not zero rewards. No holder entitlement, historical return or underlying equity/metal ownership is inferred.</p>
-   <div className="pair-source-links">{token.radar && <><a href={token.radar.source}>Official rewards ↗</a><a href={'/api/history?mint='+token.mint}>Recorded history ↗</a></>}<Link href={'/?mint='+token.mint}>Token dossier →</Link></div>
+   <div className="pair-source-links">{token.radar && <><a href={token.radar.source}>Official rewards ↗</a><a href={'/api/history?mint='+token.mint}>Recorded history ↗</a></>}</div>
   </div>
  </article>;
 }
@@ -167,13 +236,13 @@ export default function PairExplorer({tokens}:{tokens:TrackedToken[]}) {
    {active && <>
     <p id="pair-sample-scope" className="pair-snapshot-note">StonkFun · incomplete sample · USD snapshots, not live. — unknown; holder returns unknown.</p>
     {(active.status==='degraded' || report?.status==='degraded' || report?.status==='unavailable' || group?.tokens.some(t=>t.catalog?.historyFreshness==='stale')) && <p className="pair-load-state" role="status">{active.status==='degraded'?'Source gaps in this sample. ':''}{report?.status==='degraded' || report?.status==='unavailable'?'Reward history degraded; flows withheld.':group?.tokens.some(t=>t.catalog?.historyFreshness==='stale')?'Stale reward history; flows withheld.':''}</p>}
+    <RewardEvidenceKey/>
    </>}
    {group && (rows.length>0?<>
-    <div className="pair-column-head" aria-hidden="true"><span>Project</span><div className="pair-market-head"><span className="pair-liquidity">Liquidity</span><span className="pair-volume">24h volume</span></div><span className="pair-evidence-head">Evidence</span></div>
-    <div className="pair-token-list" aria-busy={sampleLoading}>{rows.map(t=><PairTokenRow key={t.mint} token={t} report={report} metric={sort==='volume'?'volume':'liquidity'}/>)}</div>
+    <div className="pair-column-head" aria-hidden="true"><span>Project</span><div className="pair-market-head"><span className="pair-liquidity">Liquidity</span><span className="pair-volume">24h volume</span></div><span className="pair-evidence-head">Reward evidence</span></div>
+    <div className="pair-token-list" aria-busy={sampleLoading}>{rows.map(t=><PairTokenRow key={t.mint} token={t} report={report} catalog={active} metric={sort==='volume'?'volume':'liquidity'}/>)}</div>
    </>:<p className="pair-empty" role="status">No matching memecoins within this bounded sample. Tokens may exist outside these fetched pages.</p>)}
    <details className="pair-dataset"><summary>Sources &amp; sampling details</summary><div className="pair-evidence-body">
-    <p>Market only: reported market snapshot, unverified reward mode. Catalog only: no reported market snapshot. Mode checked: verified mechanism, not usable distribution evidence. Flow recorded: existing history gates passed; amounts and intervals are in token Details. These markers are evidence states, not investment scores. Standard mode has no verified holder reward mechanism. Check failed, History failed, Identity issue, Stale history and Invalid history disclose exceptional quality limits.</p>
     <p>{choice.quote.quoteName} · quote mint <a href={'https://solscan.io/token/'+choice.quote.quoteMint}>{choice.quote.quoteMint}</a>. {choice.quote.symbolAmbiguous?'* Multiple assets share this ticker. The featured choice selects only this exact mint; use search to choose another. ':''}Pair assets are tokens; no underlying equity/metal ownership or holder entitlement is implied.</p>
     <p>Identity from the <a href={choice.registry.dataset.provenance!.source}>official quote registry</a> · {choice.registry.dataset.coverage.registryCount} identities in the validated unpaginated response, not independently proven universal coverage. Verified {utc(choice.quote.verifiedAt)} · provider response {utc(choice.registry.dataset.provenance!.providerGeneratedAt)} · byte revision {choice.registry.dataset.provenance!.revision}. Registry membership does not establish a token market, launch readiness, reward eligibility or underlying ownership.</p>
     {coverage && <p>Fetched {coverage.pagesFetched}/{coverage.pageLimit} pages × {coverage.pageSize} records for this exact quote mint. {coverage.recordsReceived} inputs; {coverage.tokensReturned} returned; {coverage.rejectedRecords} rejected. Provider-reported total {coverage.providerReportedTotal??'Unavailable'} applies to this quote-mint query, not a verified complete ecosystem. Coverage is incomplete and pagination non-atomic, even when a small result fits one page. Mode checks {coverage.modeChecks}/{coverage.modeCheckLimit} · {coverage.warnings.join(', ')}.</p>}
