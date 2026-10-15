@@ -390,3 +390,16 @@
 .token-dossier :focus-visible,.pair-results .quick-close:focus-visible,.research-link-fallback:focus-visible{outline:2px solid #b0f0d7;outline-offset:3px}
 @media(max-width:360px){.token-dossier .token-brief{padding:16px}.brief-market dd{font-size:26px}.brief-identity h2{font-size:25px}}
 .token-dossier.terminal{max-width:780px}
+
+/* Dossier finding only (#69): one conclusion, one dated source, one evidence action. */
+.token-dossier .brief-conclusion h3{font-size:21px;line-height:1.3;margin:0 0 8px}
+.token-dossier .brief-conclusion .brief-qualifier{font-size:12px;line-height:1.55;color:#a5b8c4;margin-top:12px}
+.token-dossier .brief-conclusion{margin-bottom:16px}
+.token-dossier .brief-official{display:flex;justify-content:center;align-items:center;gap:10px;min-height:48px;padding:10px 12px;border:1px solid #c4e5d8;border-radius:5px;background:#c4e5d8;color:#10251f;text-decoration:none;font-size:14px;font-weight:650;line-height:1.5}
+.token-dossier .brief-official-unavailable{font-size:13px;line-height:1.5;color:#a5b8c4;padding:10px 0;margin:0}
+.token-dossier .brief-sharing>summary{min-height:44px;display:list-item;cursor:pointer;padding:13px 0;font-size:12px;line-height:1.5;color:#bdcbd5}
+.token-dossier .brief-sharing .brief-actions{margin:4px 0 12px}
+.token-dossier .quick-technical{margin-top:4px}
+.token-dossier .brief-warning{margin:0 0 14px}
+.token-dossier .dossier-strict-evidence h3{font-size:15px;color:#eff5f9;margin-top:20px}
+.token-dossier .brief-conclusion p{overflow-wrap:anywhere}

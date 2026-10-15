@@ -1,0 +1,87 @@
+{
+  "at": "2026-10-15T06:42:11.197946+00:00",
+  "main": "633ca3efc317c1d505405a0d925b77f0dac1ce15",
+  "branch": "feat/69-dossier-reward-conclusion",
+  "productionBuildId": "nQnR_7nThrehP57ACTtkj",
+  "sourceSha256": {
+    "app/dossier/evidence.tsx": "2c7e7132be4b22a1c0b4b21bdc9b37c8934b62a0307b54c5b8e6ffc8bc9c7513",
+    "app/scout-client.tsx": "eb7a5ca297f198101747f1209e38321d9dbd0a990f8a41d76192257154514a0e",
+    "app/history-panel.tsx": "d735284200b67b2c86b5e371db7886f2dbce205a24c7c56cfe522884f5c46711",
+    "app/globals.css": "9310cc9d2bb5876ab227ba35cbfa0dc2ca0c82b9c066da3b6819bfd71285c081"
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "browser": "Chromium / axe-core 4.10.3"
+  },
+  "checks": [
+    {
+      "command": "npm ci --cache /tmp/scout64-npm-cache",
+      "result": "PASS",
+      "installedPackages": 336
+    },
+    {
+      "command": "SCOUT_REWARD_UI_FIXTURES=/tmp/scout69-reward-fixtures.json npm test",
+      "result": "PASS",
+      "javascriptTests": 462,
+      "pythonTests": 62,
+      "isolatedSchedulerTests": 15,
+      "total": 539
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "result": "PASS"
+    },
+    {
+      "command": "npm run lint",
+      "result": "PASS",
+      "warnings": 0
+    },
+    {
+      "command": "npm run build",
+      "result": "PASS"
+    },
+    {
+      "command": "npm run archive:dry-run",
+      "result": "PASS",
+      "evidence": "dossier-evidence-archive-dry-run.json"
+    },
+    {
+      "command": "SCOUT_VERIFY_ENV_PROXY=1 npm run verify:release -- --target preview --base http://localhost:3193",
+      "result": "pass",
+      "evidence": "dossier-evidence-local-release.json"
+    },
+    {
+      "command": "python3 tests/token-quick-view-browser.py --base http://localhost:3193 --axe /tmp/scout-qa/package/axe.min.js --prefix dossier-evidence",
+      "result": "PASS",
+      "checks": 43,
+      "evidence": "dossier-evidence-browser.json"
+    },
+    {
+      "command": "python3 tests/dossier-evidence-browser.py --base http://localhost:3193 --axe /tmp/scout-qa/package/axe.min.js --fixtures /tmp/scout69-reward-fixtures.json",
+      "result": "PASS",
+      "checks": 84,
+      "evidence": "dossier-evidence-semantic-browser.json"
+    },
+    {
+      "check": "one bounded real official source GET",
+      "result": "PASS",
+      "http": 200,
+      "exactMintMatched": true,
+      "evidence": "dossier-evidence-official-source.json"
+    },
+    {
+      "command": "python3 tests/reward-clarity-browser.py --base http://localhost:3193 --axe /tmp/scout-qa/package/axe.min.js --prefix dossier-evidence --reward-fixtures /tmp/scout69-reward-fixtures.json",
+      "result": "PASS",
+      "checks": 103,
+      "socialPreview": "PASS",
+      "evidence": "dossier-evidence-qa.json"
+    }
+  ],
+  "limits": [
+    "Screenshots use genuine local production responses without mocks or image editing; mobile/touch viewport emulation is not physical iPhone/Safari keyboard or VoiceOver evidence.",
+    "Physical-device accessibility and cold-reader acceptance remain human review items; no unanswered invitation counted as approval.",
+    "No backend/API/lib, pair UI/validators, data, scheduler, Cloudflare, dependency or wallet/treasury changes."
+  ],
+  "totalBrowserChecks": 230
+}
