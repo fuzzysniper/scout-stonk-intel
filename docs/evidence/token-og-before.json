@@ -1,0 +1,38 @@
+{
+  "phase": "before",
+  "baseCommit": "c50569b",
+  "routeSha256": "fb8b8503d630d060633eb0c05656151752b9eedce2a0f99ce6813932365c944e",
+  "http": [
+    {
+      "path": "/api/og?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "startedAt": "2026-10-15T00:42:47.012695+00:00",
+      "errorType": "RemoteDisconnected",
+      "error": "Remote end closed connection without response",
+      "completedAt": "2026-10-15T00:42:47.480012+00:00"
+    },
+    {
+      "path": "/api/og?mint=invalid",
+      "startedAt": "2026-10-15T00:42:47.480075+00:00",
+      "status": 400,
+      "contentType": "text/plain;charset=UTF-8",
+      "bytes": 12,
+      "bodySha256": "7f619de5df5381b71132e038b420aa55a98207ed99f4a16ef11db5d9430cbe37",
+      "isPng": false,
+      "completedAt": "2026-10-15T00:42:47.509584+00:00"
+    }
+  ],
+  "browser": {
+    "capturedAt": "2026-10-15T00:43:26.417386+00:00",
+    "result": "failed",
+    "errors": [
+      "Page.goto: net::ERR_EMPTY_RESPONSE at http://127.0.0.1:3190/api/og?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP\nCall log:\n  - navigating to \"http://127.0.0.1:3190/api/og?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP\", waiting until \"load\"\n"
+    ],
+    "title": "127.0.0.1",
+    "screenshot": "docs/screenshots/token-og-before-browser.png"
+  },
+  "serverErrors": [
+    "failed to pipe response",
+    "Expected <div> to have explicit \"display: flex\" or \"display: none\" if it has more than one child node.",
+    "Failed to load dynamic font for \u25c9: fetch failed"
+  ]
+}
