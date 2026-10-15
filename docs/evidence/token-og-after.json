@@ -1,0 +1,151 @@
+{
+  "phase": "after",
+  "capturedAt": "2026-10-15T00:52:08.434601+00:00",
+  "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+  "baseCommit": "c50569bbddd43a21638a7bec2113c340dbba7a48",
+  "routeSha256": "704103363e1194f7129d3cd1f7378d45a261a79164b7affb8668ec6a808223c0",
+  "limitations": [
+    "Local production runtime, not a deployment or physical social-app fetch.",
+    "API source captures and image generation are separate real requests; live market values can differ.",
+    "fetchedAt is an API retrieval time, not a market observation or verified payout coverage interval."
+  ],
+  "mode": "local production build, real provider responses",
+  "http": [
+    {
+      "path": "/api/og?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "startedAt": "2026-10-15T00:52:08.890670+00:00",
+      "status": 200,
+      "contentType": "image/png",
+      "cacheControl": "public, max-age=60, s-maxage=60",
+      "bytes": 135058,
+      "bodySha256": "c06ce7b9a01d0827fe5875a2d66342c7568cada8e08cda86178e0d80379d67dd",
+      "isPng": true,
+      "completedAt": "2026-10-15T00:52:09.028962+00:00",
+      "decodedDimensions": [
+        1200,
+        630
+      ]
+    },
+    {
+      "path": "/api/og?mint=invalid",
+      "startedAt": "2026-10-15T00:52:09.043471+00:00",
+      "status": 400,
+      "contentType": "text/plain;charset=UTF-8",
+      "cacheControl": "no-store",
+      "bytes": 12,
+      "bodySha256": "7f619de5df5381b71132e038b420aa55a98207ed99f4a16ef11db5d9430cbe37",
+      "isPng": false,
+      "completedAt": "2026-10-15T00:52:09.047065+00:00"
+    },
+    {
+      "path": "/api/og?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP&mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "startedAt": "2026-10-15T00:52:09.047081+00:00",
+      "status": 400,
+      "contentType": "text/plain;charset=UTF-8",
+      "cacheControl": "no-store",
+      "bytes": 12,
+      "bodySha256": "7f619de5df5381b71132e038b420aa55a98207ed99f4a16ef11db5d9430cbe37",
+      "isPng": false,
+      "completedAt": "2026-10-15T00:52:09.049082+00:00"
+    }
+  ],
+  "sources": {
+    "token": {
+      "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "found": true,
+      "source": "DexScreener",
+      "fetchedAt": "2026-10-15T00:52:08.442Z",
+      "dex": "meteora",
+      "pairAddress": "AG1EhPjsBrkxQWkViuLXF6pQnHwfr9f9sdNneeoykcEJ",
+      "pairUrl": "https://dexscreener.com/solana/ag1ehpjsbrkxqwkviulxf6pqnhwfr9f9sdnneeoykcej",
+      "base": {
+        "symbol": "SI",
+        "name": "Super Inu",
+        "address": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP"
+      },
+      "quote": {
+        "symbol": "SOL",
+        "address": "So11111111111111111111111111111111111111112"
+      },
+      "priceUsd": "0.01336",
+      "liquidityUsd": 706286.14,
+      "volume24h": 1810975.94,
+      "change24h": -9.42,
+      "marketCap": 13361727,
+      "note": "Highest reported liquidity Solana pool, not necessarily StonkFun. Reward statistics are retrieved separately from the StonkFun public API."
+    },
+    "rewards": {
+      "status": "available",
+      "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "mode": "reward",
+      "quoteSymbol": "NVDAX",
+      "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+      "distributedTokens": 15582.59589888,
+      "payoutCount": 4049218,
+      "holderCount": 60024,
+      "lastPayoutAt": "2026-10-15T00:33:56.208Z",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+      "fetchedAt": "2026-10-15T00:52:08.539Z",
+      "message": null
+    }
+  },
+  "browser": [
+    {
+      "width": 320,
+      "imageStatus": 200,
+      "decoded": [
+        true,
+        1200,
+        630
+      ],
+      "screenshot": "docs/screenshots/token-og-after-browser-320.png",
+      "dossierStatus": 200,
+      "dossierMint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "metadataImages": {
+        "og:image": "https://scout.storkcoin.xyz/api/og?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+        "twitter:image": "https://scout.storkcoin.xyz/api/og?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP"
+      },
+      "copiedDossierUrl": "http://127.0.0.1:3191/?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "pageErrors": [],
+      "capturedAt": "2026-10-15T00:52:10.327015+00:00"
+    },
+    {
+      "width": 390,
+      "imageStatus": 200,
+      "decoded": [
+        true,
+        1200,
+        630
+      ],
+      "screenshot": "docs/screenshots/token-og-after-browser-390.png",
+      "dossierStatus": 200,
+      "dossierMint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "metadataImages": {
+        "og:image": "https://scout.storkcoin.xyz/api/og?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+        "twitter:image": "https://scout.storkcoin.xyz/api/og?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP"
+      },
+      "copiedDossierUrl": "http://127.0.0.1:3191/?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "pageErrors": [],
+      "capturedAt": "2026-10-15T00:52:11.067095+00:00"
+    },
+    {
+      "width": 1280,
+      "imageStatus": 200,
+      "decoded": [
+        true,
+        1200,
+        630
+      ],
+      "screenshot": "docs/screenshots/token-og-after-browser-1280.png",
+      "dossierStatus": 200,
+      "dossierMint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "metadataImages": {
+        "og:image": "https://scout.storkcoin.xyz/api/og?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+        "twitter:image": "https://scout.storkcoin.xyz/api/og?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP"
+      },
+      "copiedDossierUrl": "http://127.0.0.1:3191/?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "pageErrors": [],
+      "capturedAt": "2026-10-15T00:52:11.769501+00:00"
+    }
+  ]
+}
