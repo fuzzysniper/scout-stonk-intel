@@ -5,7 +5,7 @@ import { calculateSignals, SIGNAL_PERIOD_MS } from './signals';
 import type { PairCatalog, PairGroup, PairQuote, PairQuoteRegistry, PairSource, PairToken } from './pairs-contract';
 import type { SourceResult } from './history-source';
 import type { TrackedToken } from './tracked-tokens';
-import type { PulseAmount, PulseCandidate, PulseDistribution, PulseInput, PulseMetric, PulsePeriod, PulseRead, PulseReason, PulseReport, PulseSnapshot } from './pair-pulse-contract';
+import type { PulseAmount, PulseCandidate, PulseCandidateInput, PulseCandidateReport, PulseDistribution, PulseInput, PulseMetric, PulsePeriod, PulseRead, PulseReason, PulseReport, PulseSnapshot } from './pair-pulse-contract';
 export type * from './pair-pulse-contract';
 
 export const PULSE_LIMITS = Object.freeze({ catalogTokens: 50, registryQuotes: 100, trackedTokens: 10,
@@ -153,6 +153,21 @@ function distribution(t:PairToken,c:PairCatalog,q:PairQuote,h:SourceResult,track
   history:{source:h.dataset.source,revision:h.dataset.revision!,dataFetchedAt:h.dataset.dataFetchedAt!},modeSource:mp,catalogSource:source(t.provenance,now)};
 }
 function candidate(m:unknown):PulseCandidate {return {mint:mint(m)?m:null,symbol:null,distribution:withheld('invalid_input'),snapshot:withheld('invalid_input')};}
+/** Same private source/identity/history/precision/period gates as comparePairPulse. */
+export function evaluatePairPulseCandidate(input:PulseCandidateInput):PulseCandidateReport {
+ const report:PulseCandidateReport={policy:'pair-pulse-v0-strict',evaluatedAt:null,endAt:null,candidate:candidate(input?.tokenMint)};
+ try {
+  need(object(input),'invalid_input');const now=time(input.asOf,'invalid_reference_time'),end=time(input.endAt,'invalid_period');report.evaluatedAt=iso(now);report.endAt=iso(end);
+  need(end<=now && now-end<=STALE_AFTER_MS && end>=2*SIGNAL_PERIOD_MS,'invalid_period');need(mint(input.quoteMint),'quote_unverified');need(mint(input.tokenMint),'invalid_input');
+  need(Array.isArray(input.tracked) && input.tracked.length<=PULSE_LIMITS.trackedTokens,'input_limit_exceeded');const seen=new Set<string>();
+  for(const t of input.tracked){need(object(t) && mint(t.mint) && !seen.has(t.mint),'tracked_identity_mismatch');seen.add(t.mint);}
+  const q=verifiedQuote(read(input.registry,'registry'),input.quoteMint,now),c=read(input.catalog,'catalog'),g=catalogGroup(c,q,now);
+  const token=g.tokens.find(t=>t.mint===input.tokenMint);need(token,'candidate_not_in_sample');report.candidate.symbol=token.symbol;
+  report.candidate.snapshot=attempt(()=>snapshot(token,c,now),'snapshot_only');
+  report.candidate.distribution=attempt(()=>distribution(token,c,q,historyInput(read(input.history,'history'),c,now),input.tracked,now,end));
+ } catch(e) {const code=e instanceof Gate?e.reason:'invalid_input';report.candidate.distribution=withheld(code);report.candidate.snapshot=withheld(code);}
+ return report;
+}
 /** Consumers must keep the individual gates AND comparison gate, never sort by a withheld value. */
 export function comparePairPulse(input:PulseInput):PulseReport {
  const report:PulseReport={schemaVersion:1,policy:'pair-pulse-v0-strict',evaluatedAt:null,endAt:null,quote:null,registrySource:null,

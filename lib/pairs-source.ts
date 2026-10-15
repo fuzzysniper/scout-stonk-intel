@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto';
 import { isSolanaMint } from './solana';
 import { parseHistoryTimestamp } from './history';
 import { trackedTokens } from './tracked-tokens';
+import { parseLedgerLifetime } from './reward-lifetime';
+import type { LedgerLifetimeRead } from './reward-lifetime';
 import type { PairCatalog, PairQuote, PairSource, PairToken } from './pairs-contract';
 export const PAIR_REGISTRY_URL = 'https://www.stonkfun.xyz/api/public/v1/pairs';
 export const TOKEN_CATALOG_URL = 'https://www.stonkfun.xyz/api/public/v1/tokens';
@@ -16,12 +18,16 @@ export type CatalogToken = {
  mint: string; symbol: string; name: string; poolMint: string; quoteMint: string; quoteSymbol: string;
  mode: PairToken['mode']; provenance: PairSource; market: PairToken['market'];
  modeVerification: PairToken['modeVerification']; rewardSource: PairSource | null;
+ lifetimeReceipt?: LedgerLifetimeRead;
+ modeFailure?: 'rate_limited'|'provider_cooldown'|'stale_transport'|'stale_source'|'invalid_source'|'deadline'|'oversized_source'|'source_unavailable';
 };
 export type PairSnapshot = {
  quotes: QuoteRecord[]; tokens: CatalogToken[]; sources: PairSource[]; warnings: string[];
  pagesFetched: number; recordsReceived: number; rejectedRecords: number;
  providerReportedTotal: number | null; modeChecks: number; fetchedAt: string;
  discovery?: NonNullable<PairCatalog['dataset']['coverage']['discovery']>;
+ /** Reuses the same registry GET, independently validated for interval gates. */
+ registryEvidence?: QuoteRegistrySnapshot;
 };
 export type PairSourceResult = { value: PairSnapshot | null; sourceStatus: 'available' | 'cached' | 'degraded' | 'unavailable' };
 function object(value: unknown): Record<string, unknown> {
@@ -251,6 +257,8 @@ export function createPairSource(fetcher: typeof fetch = fetch, clock: () => num
   }
   try {
    const registry=await read(PAIR_REGISTRY_URL,512*1024),quotes=parsePairRegistry(registry.value);
+   let registryEvidence:QuoteRegistrySnapshot|undefined;
+   try {registryEvidence=parseQuoteRegistry(registry.value,registry.source);} catch { /* Existing discovery remains backward compatible; intervals fail closed. */ }
    const sources=[registry.source],warnings=['bounded_catalog','non_atomic_pagination','market_observation_time_unavailable'];
    if (quoteMint !== null && !quotes.some(q => q.mint === quoteMint)) {
     // A verified registry miss can support the existing 404 contract without
@@ -290,19 +298,29 @@ export function createPairSource(fetcher: typeof fetch = fetch, clock: () => num
    await Promise.all(Array.from({length:3},async()=>{
     while(next<candidates.length) {
      const token=candidates[next++];
-     if(controller.signal.aborted){token.modeVerification='source_unavailable';warnings.push('mode_check_unavailable');continue;}
+     if(controller.signal.aborted){token.modeVerification='source_unavailable';token.modeFailure='deadline';warnings.push('mode_check_unavailable');continue;}
      modeChecks++;
      try {
       const raw=await read(REWARD_V2_URL+token.mint+'/rewards',32*1024,true);
       token.modeVerification=verifyMode(raw.value,token);token.rewardSource=raw.source;sources.push(raw.source);
+      if(token.modeVerification==='verified_reward') {
+       const data=object(raw.value),q=object(data.quote),verified=quotes.find(q=>q.mint===token.quoteMint);
+       token.lifetimeReceipt=verified && q.decimals===verified.decimals
+        ? parseLedgerLifetime(data,verified.decimals,raw.source.providerGeneratedAt)
+        : {state:'unavailable',value:null,reason:'units_unverified'};
+      }
       if(token.modeVerification==='identity_mismatch') {
        found.delete(token.mint);rejectedRecords++;warnings.push('reward_identity_mismatch');
       }
-     } catch {token.modeVerification='source_unavailable';warnings.push('mode_check_unavailable');}
+     } catch(error) {
+      const code=error instanceof Error?error.message:'';
+      token.modeFailure=(['rate_limited','provider_cooldown','stale_transport','stale_source','invalid_source','deadline','oversized_source'].includes(code)?code:'source_unavailable') as CatalogToken['modeFailure'];
+      token.modeVerification='source_unavailable';warnings.push('mode_check_unavailable');
+     }
     }
    }));
    entry={quotes,tokens:[...found.values()].sort((a,b)=>a.mint.localeCompare(b.mint,'en')),sources:sources.sort((a,b)=>a.source.localeCompare(b.source,'en')),
-    warnings:[...new Set(warnings)].sort(),pagesFetched,recordsReceived,rejectedRecords,providerReportedTotal,modeChecks,fetchedAt:new Date(clock()).toISOString(),discovery};
+    warnings:[...new Set(warnings)].sort(),pagesFetched,recordsReceived,rejectedRecords,providerReportedTotal,modeChecks,fetchedAt:new Date(clock()).toISOString(),discovery,registryEvidence};
    fetched=clock();
    const degraded=entry.warnings.some(w=>!['bounded_catalog','non_atomic_pagination','market_observation_time_unavailable','duplicate_catalog_record'].includes(w));
    if(degraded)retryAt=Math.max(retryAt,clock()+60_000);

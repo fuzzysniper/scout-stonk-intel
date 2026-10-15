@@ -51,6 +51,12 @@ export type PulseCandidate = {
  mint: string | null; symbol: string | null;
  distribution: PulseMetric<PulseDistribution>; snapshot: PulseMetric<PulseSnapshot>;
 };
+/** Single-token evaluation reuses the same V0 gates; no companion token needed. */
+export type PulseCandidateInput = Omit<PulseInput,'leftMint'|'rightMint'> & {tokenMint:string};
+export type PulseCandidateReport = {
+ policy:'pair-pulse-v0-strict'; evaluatedAt:string|null; endAt:string|null;
+ candidate:PulseCandidate;
+};
 export type PulseDifference = {
  kind: 'left_minus_right_observed_distributions'; quoteMint: string; decimals: number;
  leftMint: string; rightMint: string;

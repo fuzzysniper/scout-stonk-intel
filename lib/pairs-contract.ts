@@ -1,4 +1,5 @@
 /** Public Day 1 contract. Types only: safe for a later frontend adapter to import. */
+import type { RewardEvidence } from './reward-evidence-contract';
 export type PairSourceStatus = 'available' | 'cached' | 'degraded' | 'unavailable';
 export type PairSource = {
  source: string; fetchedAt: string; providerGeneratedAt: string; revision: string;
@@ -11,6 +12,8 @@ export type PairToken = {
  rewardModeVerified: boolean;
  modeVerification: 'verified_reward' | 'verified_standard' | 'catalog_only' | 'source_unavailable' | 'identity_mismatch';
  rewardSource: PairSource | null;
+ /** Additive evidence; older consumers can ignore it. No implied payout/return. */
+ rewardEvidence?: RewardEvidence;
  observationCount: number | null; lastObservedAt: string | null;
  historyStatus: 'recorded' | 'no_history' | 'invalid_data' | 'not_tracked' | 'source_unavailable' | 'identity_mismatch';
  historyFreshness: 'fresh' | 'stale' | 'unavailable'; historyIssues: string[];

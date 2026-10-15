@@ -2,10 +2,11 @@
 import { createHash } from 'node:crypto';
 import { parseHistoryTimestamp } from './history';
 import { isSolanaMint } from './solana';
+import { parseLedgerLifetime, LIFETIME_RAW_DIGITS } from './reward-lifetime';
 import { parseCatalogPage, parseQuoteRegistry, PAIR_REGISTRY_URL, TOKEN_CATALOG_URL, REWARD_V2_URL } from './pairs-source';
 import type { PairSource } from './pairs-contract';
 import type { RewardAuditInput, RewardAuditPacket, RewardAuditReason, PairRewardAudit, AuditedRewardCandidate } from './pair-reward-audit-contract';
-export const REWARD_AUDIT_LIMITS = Object.freeze({candidates:4, catalogPageSize:25, sourceAgeMs:300_000, observationSkewMs:60_000, rawDigits:78});
+export const REWARD_AUDIT_LIMITS = Object.freeze({candidates:4, catalogPageSize:25, sourceAgeMs:300_000, observationSkewMs:60_000, rawDigits:LIFETIME_RAW_DIGITS});
 const LIMITATIONS = Object.freeze([
  'Market-cap-selected sample; thousands of uninspected candidates may have larger distributions.',
  'Provider-reported lifetime totals have unknown start/cutoff coverage and unequal launch ages; no common 24h window.',
@@ -43,13 +44,6 @@ function read(packet:RewardAuditPacket|null, expected:string, asOf:number, maxBy
 function reason(error:unknown, fallback:RewardAuditReason):RewardAuditReason {
  return typeof error==='string'?error as RewardAuditReason:fallback;
 }
-function count(value:unknown):number {
- if(typeof value!=='number' || !Number.isSafeInteger(value) || value<0)return fail('invalid_payouts');return value;
-}
-function decimal(raw:string, decimals:number):string {
- if(decimals===0)return raw;
- const digits=raw.padStart(decimals+1,'0');return digits.slice(0,-decimals)+'.'+digits.slice(-decimals);
-}
 export function auditPairRewards(input:RewardAuditInput):PairRewardAudit {
  const result:PairRewardAudit={schemaVersion:1,method:'pair-reward-audit-v1',evaluatedAt:input.asOf,quote:null,catalogSource:null,
   coverage:{complete:false,atomic:false,providerReportedTotal:null,providerReportedTotalScope:'all_modes_live_platform_pools_for_exact_quote',catalogInspected:0,catalogUninspected:null,candidateSelection:'first_four_catalog_reported_reward_tokens_in_market_cap_page_one',candidatesSelected:0,rewardReadsAttempted:0,rewardModeVerified:0,payoutDataAvailable:0,eligibleForComparison:0,rewardsUnassessed:null},
@@ -83,16 +77,9 @@ export function auditPairRewards(input:RewardAuditInput):PairRewardAudit {
     if(data.mint!==token.mint || data.mode!=='reward' || unit.mint!==quote.quoteMint || unit.symbol!==quote.quoteSymbol)return fail('mode_identity_mismatch');
     if(unit.decimals!==quote.decimals)return fail('units_unverified');
     candidate.modeVerification='verified_reward';result.coverage.rewardModeVerified++;
-    if(data.basis!=='ledger')return fail('ledger_unavailable');
-    if(data.rewards==null)return fail('payouts_unavailable');
-    const totals=object(data.rewards),raw=totals.distributedRaw;
-    if(typeof raw!=='string' || raw.length>REWARD_AUDIT_LIMITS.rawDigits || !/^(0|[1-9]\d*)$/.test(raw))return fail('invalid_payouts');
-    const payoutCount=count(totals.payoutCount),walletsPaid=count(totals.walletsPaid);
-    if(walletsPaid>payoutCount || (BigInt(raw)>0n && (payoutCount===0 || walletsPaid===0)))return fail('invalid_payouts');
-    const last=totals.lastPayoutAt===null?null:timestamp(totals.lastPayoutAt);
-    if((last===null && payoutCount>0) || (last!==null && (payoutCount===0 || last>Date.parse(reward.source.providerGeneratedAt))))return fail('invalid_payouts');
-    // Never compare float distributedTokens or add base/pending/fee recipients.
-    candidate.lifetime={basis:'ledger',distributedRaw:raw,distributedTokens:decimal(raw,quote.decimals),payoutCount,walletsPaid,lastPayoutAt:last===null?null:new Date(last).toISOString(),startAt:null,endAt:null,interpretation:'provider_reported_lifetime_holder_distributions'};
+    const totals=parseLedgerLifetime(data,quote.decimals,reward.source.providerGeneratedAt);
+    if(totals.state==='unavailable')return fail(totals.reason);
+    candidate.lifetime=totals.value;
     candidate.state='eligible';result.coverage.payoutDataAvailable++;result.coverage.eligibleForComparison++;
    }catch(error){candidate.reasons.push(reason(error,'invalid_payouts'));}
    return candidate;
