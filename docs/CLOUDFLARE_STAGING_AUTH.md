@@ -1,5 +1,7 @@
 # Inactive staging authentication handoff
 
+Issue #68 follow-up: [hourly pilot readiness](HOURLY_PILOT_READINESS.md) records current NO-GO gates, staged Windows approval scopes, an owner-only no-dispatch PC auth probe, the inert Actions-read proposal and corrected GitHub-token/Vercel build-cost evidence. Earlier setup instructions are not activation approval.
+
 Issue [#36](https://github.com/fuzzysniper/scout-stonk-intel/issues/36), based on main `cf4fb16b4d5804e38d18a10452e78746c26b126d` including PRs #33 and #35. This is preparatory code and an owner runbook. **No hosted mutation, credential operation, deployment, dispatch or activation has been performed by the agent.** Review/merge is not authorization to run the hosted steps. Each hosted action below needs separate explicit owner approval.
 
 ## Decision and exact bindings

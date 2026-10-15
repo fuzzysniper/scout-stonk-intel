@@ -9,4 +9,4 @@ NODE_PATH="$PWD/node_modules" HISTORY_TEST_BUILD="$build_dir" node --test tests/
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p "*_test.py"
 
 ./node_modules/.bin/tsc scheduler/worker.ts --target ES2022 --module esnext --moduleResolution bundler --lib ES2022,DOM --strict --skipLibCheck --outDir "$build_dir/scheduler"
-SCHEDULER_TEST_BUILD="$build_dir/scheduler" node --test tests/scheduler.test.mjs
+SCHEDULER_TEST_BUILD="$build_dir/scheduler" node --test tests/scheduler.test.mjs tests/scheduler-pilot.test.mjs

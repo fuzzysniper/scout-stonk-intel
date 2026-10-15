@@ -91,7 +91,8 @@ async function boundedJson(response: Response): Promise<Record<string, unknown>>
   if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("invalid_response");
   return value as Record<string, unknown>;
 }
-async function installationToken(env: Env, now: number): Promise<string> {
+type AuthEnv = Pick<Env, 'ACTIVATION' | 'APP_ID' | 'INSTALLATION_ID' | 'REPOSITORY_ID' | 'APP_PRIVATE_KEY'>;
+async function installationToken(env: AuthEnv, now: number, onToken?: (token: string) => void): Promise<string> {
   const app = configuredId(env.APP_ID), installation = configuredId(env.INSTALLATION_ID), repo = configuredId(env.REPOSITORY_ID);
   const jwt = await appJwt(env.APP_PRIVATE_KEY || "", app, now);
   // Verify App/account and selected-repository mode. Human must separately verify
@@ -106,6 +107,7 @@ async function installationToken(env: Env, now: number): Promise<string> {
   const response = await request(`/app/installations/${installation}/access_tokens`, jwt, "POST", { repository_ids: [repo], permissions: { actions: "write" } });
   if (response.status !== 201) throw new Error("authentication_rejected");
   const value = await boundedJson(response);
+  if (typeof value.token === "string" && value.token && value.token.length <= 8192) onToken?.(value.token);
   const permissions = value.permissions as Record<string, unknown> | undefined;
   const expires = typeof value.expires_at === "string" ? Date.parse(value.expires_at) : NaN;
   if (typeof value.token !== "string" || !value.token || value.token.length > 8192 || !Number.isFinite(expires) || expires < now + 60_000 || expires > now + 65 * 60_000 ||
@@ -116,6 +118,32 @@ async function installationToken(env: Env, now: number): Promise<string> {
   const list = scope.repositories as Record<string, unknown>[] | undefined;
   if (scope.total_count !== 1 || !Array.isArray(list) || list.length !== 1 || list[0].id !== repo || list[0].full_name !== "fuzzysniper/scout-stonk-intel") throw new Error("scope_rejected");
   return value.token;
+}
+/** Owner-only auth proof seam; NOT an entrypoint, scheduled operation or activation.
+ * The PC CLI invokes this only after separate approval. Tests use mock keys/API.
+ * No dispatch, claims, SLOTS, Cloudflare call or credential escapes this function.
+ */
+export async function inspectAppReadiness(env: AuthEnv, now: number) {
+  let issued: string | undefined;
+  try {
+    if (env.ACTIVATION !== "disabled" || !Number.isSafeInteger(now) || !Number.isFinite(new Date(now).getTime())) throw new Error("configuration_rejected");
+    const token = await installationToken(env, now, value => { issued = value; });
+    const response = await request(`${REPO}/actions/workflows/reward-snapshots.yml`, token);
+    if (response.status !== 200) throw new Error("workflow_read_rejected");
+    const workflow = await boundedJson(response);
+    if (!id(workflow.id) || workflow.path !== ".github/workflows/reward-snapshots.yml" || workflow.state !== "active") throw new Error("workflow_rejected");
+    return { kind: "owner_app_auth_readiness", checkedAt: new Date(now).toISOString(), target: TARGET,
+      appId: configuredId(env.APP_ID), installationId: configuredId(env.INSTALLATION_ID), repositoryId: configuredId(env.REPOSITORY_ID),
+      workflowId: workflow.id, dispatches: 0, temporaryTokenRevoked: true, hostedBindingVerified: false, workflowTokenVerified: false };
+  } catch { throw new Error("auth_readiness_unavailable"); }
+  finally {
+    // Revoke only the temporary token returned to this owner proof, even when a
+    // subsequent scope/workflow check failed. Lost token responses remain unknown.
+    if (issued) {
+      try { if ((await request("/installation/token", issued, "DELETE")).status !== 204) throw new Error("revoke_failed"); }
+      catch { throw new Error("auth_readiness_unavailable"); }
+    }
+  }
 }
 async function dispatch(env: Env, row: Row, clock: () => number): Promise<Outcome> {
   let token: string;
