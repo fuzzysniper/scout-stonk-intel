@@ -132,7 +132,6 @@
     "hostedBindingVerified": false,
     "isolatedWorkflowTokenIdentityVerified": false,
     "collectorWorkflowTokenVerified": false,
-    "deployed": false,
     "activation": "disabled",
     "cronAdded": false,
     "routesAdded": false,
@@ -140,7 +139,8 @@
     "collectionClaims": 0,
     "providerQueries": 0,
     "repositoryDataWrites": 0,
-    "pilotReady": false
+    "pilotReady": false,
+    "cloudflareDeployed": false
   },
   "limitations": [
     "Offline tests are not hosted proof",
@@ -149,5 +149,15 @@
     "Workflow-token proposal proves only its own future isolated job, not current collector token",
     "No hosted CPU/cost or Windows PowerShell procedure execution verified",
     "All future account/resource/arming/permission/invocation changes need independent explicit owner approval"
-  ]
+  ],
+  "publicationObservation": {
+    "source": "GitHub commit status",
+    "commit": "04733715530436e15960b420939bfb8fd89704c3",
+    "context": "Vercel",
+    "state": "success",
+    "existingAutomaticIntegration": true,
+    "agentDeploymentCommandRun": false,
+    "hostingConfigurationChanged": false,
+    "previewCostMeasured": false
+  }
 }
