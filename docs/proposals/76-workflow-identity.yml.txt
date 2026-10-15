@@ -1,0 +1,42 @@
+# INERT PROPOSAL. Not in .github/workflows; no workflow permission is changed.
+# Future use needs separate owner review/approval; never run via workflow_dispatch.
+name: SCOUT C2 isolated token identity
+on:
+  push:
+    branches: [security/c2-workflow-proof]
+permissions: {}
+jobs:
+  identity-only:
+    if: >-
+      github.repository == 'fuzzysniper/scout-stonk-intel' &&
+      github.repository_id == '1415026436' &&
+      github.ref == 'refs/heads/security/c2-workflow-proof' &&
+      github.actor == 'fuzzysniper' && github.actor_id == '58099771' &&
+      github.run_attempt == 1 &&
+      vars.SCOUT_C2_PROOF_ENABLED == 'true' &&
+      github.sha == vars.SCOUT_C2_APPROVED_SHA &&
+      (vars.SCOUT_COLLECTION_GATE_ENABLED == '' || vars.SCOUT_COLLECTION_GATE_ENABLED == 'false') &&
+      vars.SCOUT_COLLECTION_APP_ACTOR_ID != '' &&
+      vars.SCOUT_COLLECTION_APP_ACTOR_ID == vars.SCOUT_C2_EXPECTED_APP_ACTOR_ID
+    permissions:
+      actions: read
+      contents: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Read-only authenticated identity
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          GITHUB_TOKEN: ${{ github.token }}
+          SCOUT_C2_PROOF_ENABLED: ${{ vars.SCOUT_C2_PROOF_ENABLED }}
+          SCOUT_C2_APPROVED_SHA: ${{ vars.SCOUT_C2_APPROVED_SHA }}
+          SCOUT_COLLECTION_GATE_ENABLED: ${{ vars.SCOUT_COLLECTION_GATE_ENABLED }}
+          SCOUT_COLLECTION_APP_ACTOR_ID: ${{ vars.SCOUT_COLLECTION_APP_ACTOR_ID }}
+          C2_EXPECTED_APP_ACTOR_ID: ${{ vars.SCOUT_C2_EXPECTED_APP_ACTOR_ID }}
+          C2_APP_SLUG: ${{ vars.SCOUT_C2_APP_SLUG }}
+        run: python3 scheduler/c2/workflow_identity.py --approved-identity-only
