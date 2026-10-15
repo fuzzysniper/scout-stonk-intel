@@ -69,7 +69,7 @@ with sync_playwright() as pw:
   first=page.locator('.pair-token').first;token=next(t for t in data['groups'][0]['tokens'] if t['mint']==ids(page)[0]);summary=first.locator('.pair-detail-toggle');assert summary.bounding_box()['height']>=44
   assert first.locator('.pair-row-state').count()==1;assert first.locator('.pair-row-main').bounding_box()['height']<=66;assert not first.locator('time:visible').count()
   summary.focus();page.keyboard.press('Enter');assert summary.get_attribute('aria-expanded')=='true' and first.locator('.pair-evidence-body').is_visible()
-  detail=first.locator('.pair-evidence-body');assert token['mint'] in detail.inner_text() and mint in detail.inner_text();assert detail.get_by_role('link',name='Official token catalog',exact=False).get_attribute('href')==token['source']
+  detail=first.locator('.pair-evidence-body');technical=detail.locator('details.quick-technical');assert technical.get_attribute('open') is None;assert not detail.locator('time:visible').count();technical.locator('summary').click();assert token['mint'] in detail.inner_text() and mint in detail.inner_text();assert detail.get_by_role('link',name='Official token catalog',exact=False).get_attribute('href')==token['source']
   evidence=token.get('rewardEvidence')
   if evidence:
    assert 'Holder returns' in detail.inner_text() and 'Holder entitlement, costs and cashflows are missing' in detail.inner_text()
@@ -86,13 +86,13 @@ with sync_playwright() as pw:
    else:
     text=dd.text_content().removeprefix('$').replace(',','');scale={'K':1e3,'M':1e6,'B':1e9,'T':1e12}.get(text[-1],1);number=float(text[:-1] if scale!=1 else text)*scale
     assert abs(number-value)<=max(0.005,0.05*scale),[number,value]
-  assert first.locator('time').count()>0;assert detail.get_by_role('link',name='Token dossier',exact=False).get_attribute('href')=='/?mint='+token['mint']
+  assert first.locator('time').count()>0;assert detail.get_by_role('link',name='Open dossier',exact=False).get_attribute('href')=='/?mint='+token['mint']
   assert detail.get_by_role('button',name=re.compile('^Copy research link for ')).bounding_box()['height']>=44
   detail.get_by_role('button',name=re.compile('^Copy research link for ')).click();page.wait_for_function('(url)=>navigator.clipboard.readText().then(t=>t===url)',arg=a.base+'/?mint='+token['mint'])
   assert 'Research link copied' in detail.get_by_role('status').inner_text()
-  assert detail.locator('a').evaluate_all('ls=>ls.every(a=>a.getBoundingClientRect().height>=44)')
+  assert detail.locator('a:visible').evaluate_all('ls=>ls.every(a=>a.getBoundingClientRect().height>=44)')
   # Source/dossier links are next in keyboard order after the disclosure, with a native focus indicator.
-  summary.focus();page.keyboard.press('Tab');assert page.evaluate('document.activeElement.tagName==="A"')
+  summary.focus();page.keyboard.press('Tab');assert page.evaluate('document.activeElement.classList.contains("quick-close")');page.keyboard.press('Tab');assert page.evaluate('document.activeElement.tagName==="A"')
   audit(page)
   if w==390:
    page.evaluate("document.activeElement.blur();scrollTo(0,document.querySelector('.pair-result-heading').getBoundingClientRect().top+scrollY-12)");page.screenshot(path=str(root/f'docs/screenshots/{a.prefix}-after-details-390.png'))
@@ -129,18 +129,18 @@ with sync_playwright() as pw:
   assert dossier.locator('meta[name="twitter:card"]').get_attribute('content')=='summary_large_image'
   # Real clipboard fallback on the existing dossier; no recipient or posting UI is used.
   dossier.evaluate('Object.defineProperty(navigator,"share",{value:undefined,configurable:true})')
-  dossier.get_by_role('button',name=re.compile('SHARE REPORT')).click();dossier.get_by_text('Report link copied',exact=True).wait_for()
+  dossier.get_by_role('button',name=re.compile('Share report')).click();dossier.get_by_text('Report link copied',exact=True).wait_for()
   assert dossier.evaluate('navigator.clipboard.readText()')==expected
   # Intercept only the native picker API to validate payload and cancellation safely.
   dossier.evaluate('Object.defineProperty(navigator,"share",{value:async payload=>{window.__sharePayload=payload},configurable:true})')
-  dossier.get_by_role('button',name=re.compile('SHARE REPORT')).click();dossier.get_by_text('Shared',exact=True).wait_for()
+  dossier.get_by_role('button',name=re.compile('Share report')).click();dossier.get_by_text('Shared',exact=True).wait_for()
   payload=dossier.evaluate('window.__sharePayload');assert payload['url']==expected and payload['title']=='SCOUT Token Dossier'
   dossier.reload(wait_until='domcontentloaded');dossier.get_by_role('heading',name='Token dossier',exact=True).wait_for()
   dossier.evaluate('Object.defineProperty(navigator,"share",{value:async()=>{throw new DOMException("Cancelled","AbortError")},configurable:true})')
-  dossier.get_by_role('button',name=re.compile('SHARE REPORT')).click();dossier.wait_for_timeout(150)
-  assert dossier.locator('.notice').count()==0 and dossier.url==expected
+  dossier.get_by_role('button',name=re.compile('Share report')).click();dossier.wait_for_timeout(150)
+  assert dossier.locator('.research-feedback').count()==0 and dossier.url==expected
   dossier.evaluate('Object.defineProperty(navigator,"share",{value:async()=>{throw new DOMException("Denied","NotAllowedError")},configurable:true})')
-  dossier.get_by_role('button',name=re.compile('SHARE REPORT')).click();dossier.get_by_text('Could not share; copy the URL from your browser.',exact=True).wait_for()
+  dossier.get_by_role('button',name=re.compile('Share report')).click();dossier.get_by_text('Could not share; use Copy research link.',exact=True).wait_for()
   if not journey:
    image_url=a.base+'/api/og?mint='+token_mint
    try:
@@ -163,10 +163,10 @@ with sync_playwright() as pw:
   c=context(b,390);c.route('**/api/pair-quotes?*',lambda r:r.fulfill(json=registry[parse_qs(urlparse(r.request.url).query)['mint'][0]]));c.route('**/api/pairs?*',lambda r:r.fulfill(json=catalog));c.route('**/api/radar?*',lambda r:r.fulfill(json=radar))
   page=c.new_page();page.goto(a.base);ready(page);select(page);row=page.locator('.pair-token').first;token_mint=ids(page)[0];row.locator('.pair-detail-toggle').click()
   page.evaluate('Object.defineProperty(navigator,"clipboard",{value:undefined,configurable:true})' if capability=='missing' else 'Object.defineProperty(navigator,"clipboard",{value:{writeText:async()=>{throw new DOMException("Denied","NotAllowedError")}},configurable:true})')
-  row.get_by_role('button',name=re.compile('^Copy research link for ')).click();field=row.get_by_role('textbox',name=re.compile('^Research link for '));field.wait_for()
-  assert field.input_value()==a.base+'/?mint='+token_mint and field.get_attribute('readonly') is not None
+  row.get_by_role('button',name=re.compile('^Copy research link for ')).click();field=row.get_by_role('region',name=re.compile('^Research link for '));field.wait_for()
+  assert field.inner_text()==a.base+'/?mint='+token_mint and field.locator('input,textarea,[contenteditable]').count()==0
   assert 'Copy unavailable' in row.get_by_role('status').inner_text() and 'copied' not in row.get_by_role('status').inner_text().lower()
-  field.focus();assert field.evaluate('i=>i.selectionStart===0 && i.selectionEnd===i.value.length');audit(page);check(390,'isolated clipboard '+capability+': selectable exact URL fallback, no false copy success');c.close()
+  field.focus();assert field.evaluate('i=>getSelection().toString()===i.textContent');audit(page);check(390,'isolated clipboard '+capability+': selectable exact URL fallback, no false copy success');c.close()
  # Isolated legacy fixtures derive from saved packets with optional evidence removed.
  for w in [320,390,1280]:
   for state in ['zero-null','reward-states','stale','invalid','degraded','long-name','503','429','empty','identity','scope','missing-mode-source']:
@@ -228,7 +228,7 @@ with sync_playwright() as pw:
     state=row.locator('.pair-row-state');assert state.evaluate('s=>s.childNodes[0].textContent')==labels.get(name,'Unverified')
     assert row.locator('.pair-row-main').bounding_box()['height']<=66
     if 'stale' in name or name.startswith('forged') or name in ['unknown-null','rate-limited']:assert row.locator('.pair-evidence-warning').is_visible()
-    row.locator('.pair-detail-toggle').click();facts=row.locator('.pair-reward-facts')
+    row.locator('.pair-detail-toggle').click();technical=row.locator('details.quick-technical');assert technical.get_attribute('open') is None;assert not row.locator('.pair-reward-facts').is_visible();technical.locator('summary').click();facts=row.locator('.pair-reward-facts')
     if name.startswith('forged') or name=='unknown-null':assert facts.count()==0 and 'values withheld after validation' in row.inner_text()
     else:
      text=facts.inner_text();assert 'Reported lifetime distribution' in text and 'Covered interval flow' in text and 'Holder returns' in text and 'Unavailable. Holder entitlement' in text

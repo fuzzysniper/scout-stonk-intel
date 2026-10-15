@@ -334,3 +334,59 @@
 @media(min-width:760px){.pair-results .pair-row-state{justify-content:flex-start}}
 @container(max-width:260px){.pair-results .pair-row-state{justify-content:flex-start;flex-wrap:wrap}}
 @container(max-width:260px){.pair-results .pair-token-label>span{white-space:normal;overflow:visible;overflow-wrap:anywhere}}
+
+/* Token quick view: three facts, actions, then deliberate audit evidence (#64). */
+.pair-results .quick-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#a5b8c4;font-size:12px}
+.pair-results .quick-close{min-height:44px;min-width:64px;background:none;border:0;color:#c9d8e1;font:inherit;padding:8px 0 8px 12px}
+.quick-close span{margin-left:8px;font-size:20px}
+.pair-results .quick-market,.brief-market{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:8px 0}
+.pair-results .quick-market>div{display:block;padding:0;border:0}
+.pair-results .quick-market dt,.brief-market dt{font-size:12px;color:#a5b8c4}
+.pair-results .quick-market dd,.brief-market dd{margin:4px 0;font-size:24px;font-weight:650;letter-spacing:-.035em;color:#eff5f9;font-variant-numeric:tabular-nums}
+.pair-results .quick-source{margin:4px 0 16px;font-size:11px;color:#a5b8c4}
+.pair-results .quick-conclusion{margin:12px 0 16px}
+.pair-results .quick-conclusion strong{font-size:15px;color:#eff5f9}
+.pair-results .quick-conclusion p{margin:6px 0;line-height:1.55;font-size:13px}
+.pair-results .pair-research-actions{gap:8px}
+.pair-results .pair-research-actions>a,.pair-results .pair-research-actions>button{flex:1;justify-content:center;text-align:center;padding:8px 6px;min-height:44px;border:1px solid #45636b;border-radius:5px;font-size:12px;text-decoration:none}
+.pair-results .pair-research-actions>a{background:#c4e5d8;color:#10251f;border-color:#c4e5d8;font-weight:650}
+.quick-technical{border-top:1px solid #334d58;margin-top:16px;font-size:12px;color:#bdcbd5}
+.quick-technical>summary{display:list-item;min-height:48px;padding:15px 0;cursor:pointer;color:#bdcbd5;line-height:1.5}
+.quick-technical-body{padding-bottom:4px}
+.research-feedback{flex-basis:100%;font-size:12px;line-height:1.5;color:#b8d6c9;margin:4px 0}
+.research-link-fallback{flex-basis:100%;width:100%;overflow-wrap:anywhere;padding:12px;border:1px solid #45636b;border-radius:5px;font-size:12px;line-height:1.6;user-select:text;-webkit-user-select:text}
+.research-link-fallback code{font:inherit}
+.quick-technical-body,.brief-evidence{overflow-wrap:anywhere}
+.token-dossier .dossier-title{font-size:22px;letter-spacing:-.025em;margin:18px 0 6px;padding:0;border:0;scroll-margin-top:16px}
+.token-dossier .dossier-context{font-size:12px;line-height:1.5;color:#a5b8c4;margin:0 0 20px}
+.token-dossier .token-brief{padding:20px;margin-top:0;background:#0b1923;border:1px solid #304653;border-radius:12px}
+.brief-identity{display:flex;align-items:center;gap:12px;min-width:0;margin:0 0 22px}
+.brief-identity .pair-token-mark{flex-shrink:0;width:40px;height:40px}
+.brief-identity>div{min-width:0}
+.brief-identity h2{font-size:28px;line-height:1.2;letter-spacing:-.035em;margin:0;color:#eff5f9;overflow-wrap:anywhere}
+.brief-identity h2 span{font-size:18px;color:#a5b8c4;font-weight:400}
+.brief-identity p{font-size:13px;line-height:1.5;margin:6px 0 0;color:#bdcbd5;overflow-wrap:anywhere}
+.brief-identity p>span{font-size:11px;color:#a5b8c4}
+.brief-market dd{font-size:30px;line-height:1.25;overflow-wrap:anywhere}
+.brief-source{font-size:11px;line-height:1.5;color:#a5b8c4;margin:10px 0 22px}
+.brief-conclusion{padding-top:18px;border-top:1px solid #304653;margin-bottom:20px}
+.brief-conclusion>span{font-size:12px;color:#a5b8c4}
+.brief-conclusion h3{font-size:19px;margin:6px 0;letter-spacing:-.02em;color:#eff5f9}
+.brief-conclusion p{font-size:13px;line-height:1.6;color:#bdcbd5;margin:6px 0 0}
+.brief-warning{font-size:12px;line-height:1.5;color:#dfc89e;margin:8px 0 16px}
+.brief-actions{display:flex;flex-wrap:wrap;gap:8px}
+.brief-actions>button{min-height:46px;flex:1;padding:8px;border:1px solid #45636b;border-radius:5px;background:transparent;color:#c9d8e1;font:inherit;font-size:12px}
+.brief-actions>button:first-child{flex:1.4;background:#c4e5d8;color:#10251f;border-color:#c4e5d8;font-weight:650}
+.token-brief .dossier-details{margin-bottom:-14px}
+.brief-evidence{font-size:12px;line-height:1.65}
+.brief-evidence dl>div{padding:10px 0;border-bottom:1px solid #263944}
+.brief-evidence dt{color:#a5b8c4;margin:0 0 4px}
+.brief-evidence dd{margin:0;color:#d1dfe7;font-variant-numeric:tabular-nums}
+.brief-evidence .sourcelinks{gap:8px 16px;margin:12px 0}
+.brief-evidence a{display:inline-flex;min-height:44px;align-items:center;max-width:100%}
+.brief-evidence .history-panel{margin:16px 0 0;padding:14px}
+.token-dossier .lookup-disclosure{margin:14px 0 0}
+.token-dossier footer{margin-top:14px;font-size:11px}
+.token-dossier :focus-visible,.pair-results .quick-close:focus-visible,.research-link-fallback:focus-visible{outline:2px solid #b0f0d7;outline-offset:3px}
+@media(max-width:360px){.token-dossier .token-brief{padding:16px}.brief-market dd{font-size:26px}.brief-identity h2{font-size:25px}}
+.token-dossier.terminal{max-width:780px}

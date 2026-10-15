@@ -249,7 +249,7 @@ test('screener row retains zero and exceptional warnings; full identity/time/ret
  for(const hidden of [token.mint,token.quoteMint,iso,'Historical quote-relative return','Holder-attributable rewards']){
   assert.ok(!visible.replace(/<[^>]*>/g,'').includes(hidden),hidden);assert.ok(details.includes(hidden),hidden);
  }
- assert.equal((html.match(/aria-expanded="false"/g)||[]).length,1);assert.ok(details.includes('hidden=""'));assert.ok(details.includes('Token dossier'));
+ assert.equal((html.match(/aria-expanded="false"/g)||[]).length,1);assert.ok(details.includes('hidden=""'));assert.ok(details.includes('Open dossier'));
  assert.ok(visible.includes('aria-controls="pair-detail-'+token.mint+'"'));assert.ok(details.includes('id="pair-detail-'+token.mint+'"'));
  assert.ok(visible.includes('href="/?mint='+token.mint+'"'));assert.ok(visible.includes('Open 🧪 · Synthetic test token dossier'));
  const ct=f.groups[0].tokens[0];ct.rewardModeVerified=false;ct.modeVerification='source_unavailable';ct.rewardSource=null;ct.historyStatus='invalid_data';ct.historyFreshness='stale';
@@ -388,3 +388,23 @@ test('dated genuine #61 wire response replays supported lifetime strings without
 if(process.env.SCOUT_REWARD_UI_FIXTURES){
  assert.ok(process.env.SCOUT_REWARD_UI_FIXTURES.startsWith('/tmp/'));writeFileSync(process.env.SCOUT_REWARD_UI_FIXTURES,JSON.stringify({kind:'synthetic_frontend_test_cases_never_screenshots',cases:uiCases})+'\n');
 }
+
+test('quick view keeps its three facts separate from initially folded exact audit evidence',()=>{
+ for(const name of ['covered','lifetime','zero','settings','standard','rate-limited','stale-source']){
+  const html=evidenceRender(uiCases[name].catalog),start=html.indexOf('<div class="pair-evidence-body"'),fold=html.indexOf('<details class="quick-technical"');
+  assert.ok(fold>start);const brief=html.slice(start,fold),audit=html.slice(fold);
+  assert.ok(brief.includes('Quick view'));assert.ok(brief.includes('Close quick view'));assert.ok(brief.includes('Open dossier'));assert.ok(brief.includes('Copy research link'));
+  assert.equal((brief.match(/<dt>/g)||[]).length,2);assert.ok(!brief.includes('<time'));assert.ok(!brief.includes('Byte revision'));assert.ok(!brief.includes('Historical quote-relative return'));
+  assert.ok(audit.startsWith('<details class="quick-technical"><summary>Technical evidence</summary>'));assert.ok(audit.includes('Reported lifetime distribution'));assert.ok(audit.includes('Token / quote mint'));assert.ok(audit.includes('Holder returns'));
+  if(name==='stale-source')assert.ok(brief.includes('Stale evidence'));
+ }
+});
+
+test('copy fallback is noneditable selectable text, never an input or autofocus target',async()=>{
+ const {ResearchLinkFallback,CopyResearchLink}=await load('app/research-actions');
+ const mint=tokens[0].mint,url=tokenResearchUrl(mint,'https://scout.example');
+ const fallback=renderToStaticMarkup(React.createElement(ResearchLinkFallback,{url,label:'Research link for test'}));
+ assert.ok(fallback.includes(url));assert.ok(fallback.includes('role="region"'));assert.ok(fallback.includes('tabindex="0"'));assert.ok(!/<input|<textarea|contenteditable|autofocus/i.test(fallback));
+ const initial=renderToStaticMarkup(React.createElement(CopyResearchLink,{mint,label:'test'}));
+ assert.ok(initial.includes('Copy research link'));assert.ok(!initial.includes('research-link-fallback'));assert.ok(!initial.includes('role="status"'));
+});

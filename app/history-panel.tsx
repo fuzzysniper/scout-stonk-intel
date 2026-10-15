@@ -27,7 +27,7 @@ function Window({ label, window, symbol }: { label: string; window: HistoryWindo
   {window.status === 'insufficient_history' && <p>No complete-period total is claimed. An observation at or before the boundary and gaps of at most 2 hours are required.</p>}
  </div>;
 }
-export default function HistoryPanel({ mint }: { mint: string }) {
+export default function HistoryPanel({ mint, onQuality }: { mint: string; onQuality?: (warning: string | null) => void }) {
  const [refreshToken, setRefreshToken] = useState(0);
  const [state, setState] = useState<{ mint: string; report: HistoryReport | null; failed: boolean }>({ mint, report: null, failed: false });
  useEffect(() => {
@@ -45,6 +45,14 @@ export default function HistoryPanel({ mint }: { mint: string }) {
  const failed = state.mint === mint && state.failed;
  const loading = !report && !failed;
  const symbol = report?.quote?.symbol ?? 'quote tokens';
+ // Surface material existing quality states even when the technical panel is folded.
+ useEffect(() => {
+  const warning=failed?'Recorded history source unavailable; recent flow withheld.':!report?null:
+   report.dataset.sourceStatus==='degraded' || report.dataset.sourceStatus==='unavailable'?'Recorded history source degraded; current windows withheld.':
+   report.status==='invalid_data' || report.issues.some(issue=>issue!=='stale_data')?'Recorded history has quality warnings; inspect evidence.':
+   report.freshness.status==='stale'?'Recorded history stale; current windows withheld.':null;
+  onQuality?.(warning);
+ }, [report,failed,onQuality]);
  return <section className="history-panel" aria-labelledby="history-title" aria-busy={loading}>
   <h3 id="history-title">Historical reward observations</h3>
   <button type="button" className="share" disabled={loading} onClick={() => setRefreshToken(value => value + 1)}>Refresh history</button>

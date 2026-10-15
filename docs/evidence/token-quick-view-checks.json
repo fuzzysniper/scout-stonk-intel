@@ -1,0 +1,78 @@
+{
+  "at": "2026-10-15T02:25:50.187567+00:00",
+  "base": "f4ea31c31ce71846e8a7b85971b702bccd24e792",
+  "branch": "feat/64-token-quick-view",
+  "productionBuildId": "Mone_-s3p-bp0-uRMAiBn",
+  "node": "v24.19.0",
+  "npm": "11.9.0",
+  "sourceSha256": {
+    "app/pairs/explorer.tsx": "5897f0ddbb81c0b96696eb580b7db846b23734304bf1fc693f8e1235d16098ea",
+    "app/scout-client.tsx": "cbcc185aaca10c507cef33c153cead3e17974f9783bfc0e1ba0a5a5edc4b926e",
+    "app/history-panel.tsx": "d87aeb756c2fdcacd176370895703c6f2f9d5ae0ba2d1a7a2b2803b2c098de92",
+    "app/research-actions.tsx": "98f01a5bd3e2f904aa0f00745d691699b375200c69070a1e41ad5c6b7cb8a58f",
+    "app/globals.css": "9424129e9a176364a615532f07f243433bc875d7b2c9c81febb7ef4b2e765199"
+  },
+  "checks": [
+    {
+      "command": "npm ci --cache /tmp/scout64-npm-cache",
+      "result": "PASS",
+      "installedPackages": 336
+    },
+    {
+      "command": "SCOUT_REWARD_UI_FIXTURES=/tmp/scout64-reward-fixtures.json npm test",
+      "result": "PASS",
+      "javascriptAppTests": 423,
+      "pythonTests": 62,
+      "schedulerIsolatedTests": 15,
+      "total": 500
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "result": "PASS"
+    },
+    {
+      "command": "npm run lint",
+      "result": "PASS",
+      "warnings": 0
+    },
+    {
+      "command": "npm run build",
+      "result": "PASS"
+    },
+    {
+      "command": "npm run archive:dry-run",
+      "result": "PASS",
+      "evidence": "token-quick-view-archive-dry-run.json"
+    },
+    {
+      "command": "SCOUT_VERIFY_ENV_PROXY=1 npm run verify:release -- --target preview --base http://localhost:3183",
+      "result": "pass",
+      "evidence": "token-quick-view-local-release.json"
+    },
+    {
+      "command": "SCOUT_VERIFY_ENV_PROXY=1 npm run verify:release",
+      "result": "INCOMPLETE",
+      "reason": "Production host unreachable from this environment; not an application pass",
+      "evidence": "token-quick-view-production-release.json"
+    },
+    {
+      "command": "python3 tests/token-quick-view-browser.py --base http://localhost:3183 --axe /tmp/scout-qa/package/axe.min.js",
+      "result": "PASS",
+      "checks": 43,
+      "genuineOgPngs": 2,
+      "evidence": "token-quick-view-browser.json"
+    },
+    {
+      "command": "python3 tests/reward-clarity-browser.py --base http://localhost:3183 --axe /tmp/scout-qa/package/axe.min.js --prefix token-quick-view --reward-fixtures /tmp/scout64-reward-fixtures.json",
+      "result": "PASS",
+      "checks": 103,
+      "socialPreview": "PASS",
+      "evidence": "token-quick-view-qa.json"
+    }
+  ],
+  "limits": [
+    "Physical iPhone/Safari system keyboard and VoiceOver checks remain human acceptance items.",
+    "No positive cold-reader shareability response assumed.",
+    "Screenshots use unmodified real local production source responses; fixtures isolated, no fixture screenshots."
+  ]
+}
