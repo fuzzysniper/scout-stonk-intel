@@ -1,0 +1,2771 @@
+{
+  "version": 1,
+  "kind": "dated_offline_reward_and_collector_diagnosis",
+  "baseCommit": "f4ea31c31ce71846e8a7b85971b702bccd24e792",
+  "analysisCutoff": "2026-10-15T02:07:59.910Z",
+  "newStonkFunRequests": 0,
+  "operationalGitHubReadBudget": {
+    "workflowMetadata": 1,
+    "runListing": 1,
+    "datasetCommitListing": 1,
+    "collectorJobListings": 13,
+    "auditRunListing": 1,
+    "total": 17
+  },
+  "collectorWorkflow": {
+    "id": 382300817,
+    "state": "active",
+    "created_at": "2026-10-12T15:42:15.000Z",
+    "updated_at": "2026-10-12T15:42:15.000Z",
+    "path": ".github/workflows/reward-snapshots.yml"
+  },
+  "collectorWorkflowRevision": "2aff890a5b3b01c1626f4e97f059150678065eb9",
+  "runListing": {
+    "api": "https://api.github.com/repos/fuzzysniper/scout-stonk-intel/actions/workflows/reward-snapshots.yml/runs?per_page=100",
+    "totalCount": 13,
+    "returnedCount": 13,
+    "completeListedHistory": true,
+    "deletedRunsCannotBeExcluded": true
+  },
+  "cadence": {
+    "trailing24h": {
+      "state": "checked",
+      "windowStart": "2026-10-14T02:07:59+00:00",
+      "windowEnd": "2026-10-15T02:07:59+00:00",
+      "nominalSlots": 24,
+      "matureSlots": 24,
+      "graceSeconds": 900,
+      "listedScheduledRuns": 6,
+      "listedManualRuns": 0,
+      "matureSlotsWithoutRunCreation": 18,
+      "creationOffsets": [
+        {
+          "id": 38666358430,
+          "secondsAfterPriorSlot": 1029
+        },
+        {
+          "id": 38653023256,
+          "secondsAfterPriorSlot": 3550
+        },
+        {
+          "id": 38623893058,
+          "secondsAfterPriorSlot": 658
+        },
+        {
+          "id": 38587535589,
+          "secondsAfterPriorSlot": 3428
+        },
+        {
+          "id": 38548406157,
+          "secondsAfterPriorSlot": 3568
+        },
+        {
+          "id": 38514153980,
+          "secondsAfterPriorSlot": 2479
+        }
+      ],
+      "intendedSlotsKnown": false
+    },
+    "trailing48h": {
+      "windowStart": "2026-10-13T02:07:59.910000+00:00",
+      "windowEnd": "2026-10-15T02:07:59.910Z",
+      "nominalSlots": 48,
+      "matureSlots": 48,
+      "listedScheduledRuns": 10,
+      "matureSlotsWithoutListedCreation": 38,
+      "intendedSlotsKnown": false
+    },
+    "sinceWorkflowIntroduction": {
+      "windowStart": "2026-10-12T15:42:15+00:00",
+      "windowEnd": "2026-10-15T02:07:59.910Z",
+      "nominalSlots": 58,
+      "matureSlots": 58,
+      "listedScheduledRuns": 11,
+      "matureSlotsWithoutListedCreation": 47,
+      "intendedSlotsKnown": false
+    }
+  },
+  "collectorRuns": [
+    {
+      "id": 38666358430,
+      "event": "schedule",
+      "runAttempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-15T01:34:09Z",
+      "runStartedAt": "2026-10-15T01:34:09Z",
+      "updatedAt": "2026-10-15T01:34:21Z",
+      "headSha": "f269ce3362ca2bd9cfb428454df0715c517a530c",
+      "jobs": [
+        {
+          "id": 116199102146,
+          "startedAt": "2026-10-15T01:34:11Z",
+          "completedAt": "2026-10-15T01:34:20Z",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T01:34:15Z",
+              "completed_at": "2026-10-15T01:34:15Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-15T01:34:15Z",
+              "completed_at": "2026-10-15T01:34:17Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-15T01:34:17Z",
+              "completed_at": "2026-10-15T01:34:18Z"
+            }
+          ]
+        }
+      ],
+      "datasetCommit": {
+        "sha": "93b1769e56b296c13f9f4d78a8971b5259a1df79",
+        "parent": "f269ce3362ca2bd9cfb428454df0715c517a530c",
+        "committedAt": "2026-10-15T01:34:17Z",
+        "parentMatchesRunHead": true,
+        "reachableFromPinnedMain": true,
+        "appendOnly": true,
+        "revision": "sha256:d9b2dc915f5802903c3d2ef15d2ef8d31ffc6d95e268954e1505c6e2f574579c",
+        "addedObservations": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "observedAt": "2026-10-15T01:34:16+00:00",
+            "providerGeneratedAt": "2026-10-15T01:33:14.934Z",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "observedAt": "2026-10-15T01:34:16+00:00",
+            "providerGeneratedAt": "2026-10-15T01:33:14.890Z",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "observedAt": "2026-10-15T01:34:16+00:00",
+            "providerGeneratedAt": "2026-10-15T01:33:14.882Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "observedAt": "2026-10-15T01:34:16+00:00",
+            "providerGeneratedAt": "2026-10-15T01:33:14.875Z",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "observedAt": "2026-10-15T01:34:16+00:00",
+            "providerGeneratedAt": "2026-10-15T01:34:01.154Z",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "observedAt": "2026-10-15T01:34:16+00:00",
+            "providerGeneratedAt": "2026-10-15T01:34:02.096Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "observedAt": "2026-10-15T01:34:16+00:00",
+            "providerGeneratedAt": "2026-10-15T01:33:14.933Z",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX"
+          }
+        ]
+      },
+      "summary": {
+        "version": 1,
+        "startedAt": "2026-10-15T01:34:16+00:00",
+        "finishedAt": "2026-10-15T01:34:16+00:00",
+        "event": "schedule",
+        "runId": 38666358430,
+        "overall": "complete",
+        "expectedDatasetRevision": "sha256:d9b2dc915f5802903c3d2ef15d2ef8d31ffc6d95e268954e1505c6e2f574579c",
+        "results": [
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-15T01:34:16+00:00"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-15T01:34:16+00:00"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-15T01:34:16+00:00"
+          },
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-15T01:34:16+00:00"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-15T01:34:16+00:00"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-15T01:34:16+00:00"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-15T01:34:16+00:00"
+          }
+        ]
+      },
+      "summaryHashMatchesCommit": true
+    },
+    {
+      "id": 38653023256,
+      "event": "schedule",
+      "runAttempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-14T23:16:10Z",
+      "runStartedAt": "2026-10-14T23:16:10Z",
+      "updatedAt": "2026-10-14T23:16:24Z",
+      "headSha": "be045ed2839a472b06206f52fb27c8229e319ca3",
+      "jobs": [
+        {
+          "id": 116156108325,
+          "startedAt": "2026-10-14T23:16:13Z",
+          "completedAt": "2026-10-14T23:16:23Z",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-14T23:16:18Z",
+              "completed_at": "2026-10-14T23:16:18Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-14T23:16:18Z",
+              "completed_at": "2026-10-14T23:16:19Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-14T23:16:19Z",
+              "completed_at": "2026-10-14T23:16:20Z"
+            }
+          ]
+        }
+      ],
+      "datasetCommit": {
+        "sha": "49ab560dde396d302f62dd21c7897379cccec75d",
+        "parent": "be045ed2839a472b06206f52fb27c8229e319ca3",
+        "committedAt": "2026-10-14T23:16:19Z",
+        "parentMatchesRunHead": true,
+        "reachableFromPinnedMain": true,
+        "appendOnly": true,
+        "revision": "sha256:06a0e2d5e8979be3a09734229d6d7fdaf46d9b9dd4da5595f5b9ee2fb927ceac",
+        "addedObservations": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "observedAt": "2026-10-14T23:16:18+00:00",
+            "providerGeneratedAt": "2026-10-14T23:16:18.956Z",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "observedAt": "2026-10-14T23:16:18+00:00",
+            "providerGeneratedAt": "2026-10-14T23:16:18.511Z",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "observedAt": "2026-10-14T23:16:18+00:00",
+            "providerGeneratedAt": "2026-10-14T23:15:56.411Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "observedAt": "2026-10-14T23:16:18+00:00",
+            "providerGeneratedAt": "2026-10-14T23:16:18.752Z",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "observedAt": "2026-10-14T23:16:19+00:00",
+            "providerGeneratedAt": "2026-10-14T23:16:19.131Z",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "observedAt": "2026-10-14T23:16:19+00:00",
+            "providerGeneratedAt": "2026-10-14T23:16:19.255Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "observedAt": "2026-10-14T23:16:19+00:00",
+            "providerGeneratedAt": "2026-10-14T23:16:19.522Z",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX"
+          }
+        ]
+      },
+      "summary": {
+        "version": 1,
+        "startedAt": "2026-10-14T23:16:18+00:00",
+        "finishedAt": "2026-10-14T23:16:19+00:00",
+        "event": "schedule",
+        "runId": 38653023256,
+        "overall": "complete",
+        "expectedDatasetRevision": "sha256:06a0e2d5e8979be3a09734229d6d7fdaf46d9b9dd4da5595f5b9ee2fb927ceac",
+        "results": [
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T23:16:18+00:00"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T23:16:18+00:00"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T23:16:18+00:00"
+          },
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T23:16:18+00:00"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T23:16:19+00:00"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T23:16:19+00:00"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T23:16:19+00:00"
+          }
+        ]
+      },
+      "summaryHashMatchesCommit": true
+    },
+    {
+      "id": 38623893058,
+      "event": "schedule",
+      "runAttempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-14T19:27:58Z",
+      "runStartedAt": "2026-10-14T19:27:58Z",
+      "updatedAt": "2026-10-14T19:28:12Z",
+      "headSha": "156c9bed1d6bc394f6639a05d6661e0d46d63613",
+      "jobs": [
+        {
+          "id": 116058036874,
+          "startedAt": "2026-10-14T19:28:00Z",
+          "completedAt": "2026-10-14T19:28:12Z",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-14T19:28:05Z",
+              "completed_at": "2026-10-14T19:28:05Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-14T19:28:05Z",
+              "completed_at": "2026-10-14T19:28:06Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-14T19:28:06Z",
+              "completed_at": "2026-10-14T19:28:08Z"
+            }
+          ]
+        }
+      ],
+      "datasetCommit": {
+        "sha": "d77ba9299cd8b03701b01b4dff19877ff18e0d88",
+        "parent": "156c9bed1d6bc394f6639a05d6661e0d46d63613",
+        "committedAt": "2026-10-14T19:28:07Z",
+        "parentMatchesRunHead": true,
+        "reachableFromPinnedMain": true,
+        "appendOnly": true,
+        "revision": "sha256:61bddcd2beb82d126b7aac9ef5497142db434433492e63afc7e987f2b8cbc214",
+        "addedObservations": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "observedAt": "2026-10-14T19:28:05+00:00",
+            "providerGeneratedAt": "2026-10-14T19:27:48.850Z",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "observedAt": "2026-10-14T19:28:05+00:00",
+            "providerGeneratedAt": "2026-10-14T19:27:59.703Z",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "observedAt": "2026-10-14T19:28:05+00:00",
+            "providerGeneratedAt": "2026-10-14T19:27:52.774Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "observedAt": "2026-10-14T19:28:05+00:00",
+            "providerGeneratedAt": "2026-10-14T19:27:48.750Z",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "observedAt": "2026-10-14T19:28:06+00:00",
+            "providerGeneratedAt": "2026-10-14T19:27:58.880Z",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "observedAt": "2026-10-14T19:28:06+00:00",
+            "providerGeneratedAt": "2026-10-14T19:27:48.689Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "observedAt": "2026-10-14T19:28:06+00:00",
+            "providerGeneratedAt": "2026-10-14T19:27:48.748Z",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX"
+          }
+        ]
+      },
+      "summary": {
+        "version": 1,
+        "startedAt": "2026-10-14T19:28:05+00:00",
+        "finishedAt": "2026-10-14T19:28:06+00:00",
+        "event": "schedule",
+        "runId": 38623893058,
+        "overall": "complete",
+        "expectedDatasetRevision": "sha256:61bddcd2beb82d126b7aac9ef5497142db434433492e63afc7e987f2b8cbc214",
+        "results": [
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T19:28:05+00:00"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T19:28:05+00:00"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T19:28:05+00:00"
+          },
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T19:28:05+00:00"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T19:28:06+00:00"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T19:28:06+00:00"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T19:28:06+00:00"
+          }
+        ]
+      },
+      "summaryHashMatchesCommit": true
+    },
+    {
+      "id": 38587535589,
+      "event": "schedule",
+      "runAttempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-14T15:14:08Z",
+      "runStartedAt": "2026-10-14T15:14:08Z",
+      "updatedAt": "2026-10-14T15:14:20Z",
+      "headSha": "f971a1f90c28bb10e6f8842369e0dace35c65064",
+      "jobs": [
+        {
+          "id": 115933411867,
+          "startedAt": "2026-10-14T15:14:11Z",
+          "completedAt": "2026-10-14T15:14:19Z",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-14T15:14:15Z",
+              "completed_at": "2026-10-14T15:14:15Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-14T15:14:15Z",
+              "completed_at": "2026-10-14T15:14:16Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-14T15:14:16Z",
+              "completed_at": "2026-10-14T15:14:17Z"
+            }
+          ]
+        }
+      ],
+      "datasetCommit": {
+        "sha": "70bd6ca56e12efec51d821dc0726e88390cba020",
+        "parent": "f971a1f90c28bb10e6f8842369e0dace35c65064",
+        "committedAt": "2026-10-14T15:14:16Z",
+        "parentMatchesRunHead": true,
+        "reachableFromPinnedMain": true,
+        "appendOnly": true,
+        "revision": "sha256:fb707bf665522082d3478e810d4c3a1e3a762d5f6e923a43b86b9fac9e8ed7d9",
+        "addedObservations": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "observedAt": "2026-10-14T15:14:15+00:00",
+            "providerGeneratedAt": "2026-10-14T15:14:01.738Z",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "observedAt": "2026-10-14T15:14:15+00:00",
+            "providerGeneratedAt": "2026-10-14T15:14:01.689Z",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "observedAt": "2026-10-14T15:14:15+00:00",
+            "providerGeneratedAt": "2026-10-14T15:14:01.648Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "observedAt": "2026-10-14T15:14:15+00:00",
+            "providerGeneratedAt": "2026-10-14T15:14:01.747Z",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "observedAt": "2026-10-14T15:14:16+00:00",
+            "providerGeneratedAt": "2026-10-14T15:14:00.652Z",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "observedAt": "2026-10-14T15:14:16+00:00",
+            "providerGeneratedAt": "2026-10-14T15:14:01.686Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "observedAt": "2026-10-14T15:14:16+00:00",
+            "providerGeneratedAt": "2026-10-14T15:14:02.057Z",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX"
+          }
+        ]
+      },
+      "summary": {
+        "version": 1,
+        "startedAt": "2026-10-14T15:14:15+00:00",
+        "finishedAt": "2026-10-14T15:14:16+00:00",
+        "event": "schedule",
+        "runId": 38587535589,
+        "overall": "complete",
+        "expectedDatasetRevision": "sha256:fb707bf665522082d3478e810d4c3a1e3a762d5f6e923a43b86b9fac9e8ed7d9",
+        "results": [
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T15:14:15+00:00"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T15:14:15+00:00"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T15:14:15+00:00"
+          },
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T15:14:15+00:00"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T15:14:16+00:00"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T15:14:16+00:00"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T15:14:16+00:00"
+          }
+        ]
+      },
+      "summaryHashMatchesCommit": true
+    },
+    {
+      "id": 38548406157,
+      "event": "schedule",
+      "runAttempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-14T10:16:28Z",
+      "runStartedAt": "2026-10-14T10:16:28Z",
+      "updatedAt": "2026-10-14T10:16:43Z",
+      "headSha": "c36fd952ccf85756498b5aa457b71482a2ea4229",
+      "jobs": [
+        {
+          "id": 115800089436,
+          "startedAt": "2026-10-14T10:16:31Z",
+          "completedAt": "2026-10-14T10:16:42Z",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-14T10:16:36Z",
+              "completed_at": "2026-10-14T10:16:36Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-14T10:16:36Z",
+              "completed_at": "2026-10-14T10:16:37Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-14T10:16:37Z",
+              "completed_at": "2026-10-14T10:16:39Z"
+            }
+          ]
+        }
+      ],
+      "datasetCommit": {
+        "sha": "aa82c21cf09c1ee0d5477445171af34f3bd1395a",
+        "parent": "c36fd952ccf85756498b5aa457b71482a2ea4229",
+        "committedAt": "2026-10-14T10:16:37Z",
+        "parentMatchesRunHead": true,
+        "reachableFromPinnedMain": true,
+        "appendOnly": true,
+        "revision": "sha256:3ac818efdb1f42c776364aadcf946d88c04f5b6d25fbf3fd7de654b1b29e6353",
+        "addedObservations": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "observedAt": "2026-10-14T10:16:37+00:00",
+            "providerGeneratedAt": "2026-10-14T10:16:37.170Z",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "observedAt": "2026-10-14T10:16:36+00:00",
+            "providerGeneratedAt": "2026-10-14T10:15:43.368Z",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "observedAt": "2026-10-14T10:16:36+00:00",
+            "providerGeneratedAt": "2026-10-14T10:16:22.551Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "observedAt": "2026-10-14T10:16:37+00:00",
+            "providerGeneratedAt": "2026-10-14T10:16:36.975Z",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "observedAt": "2026-10-14T10:16:37+00:00",
+            "providerGeneratedAt": "2026-10-14T10:15:44.976Z",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "observedAt": "2026-10-14T10:16:37+00:00",
+            "providerGeneratedAt": "2026-10-14T10:15:42.384Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "observedAt": "2026-10-14T10:16:37+00:00",
+            "providerGeneratedAt": "2026-10-14T10:16:37.623Z",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX"
+          }
+        ]
+      },
+      "summary": {
+        "version": 1,
+        "startedAt": "2026-10-14T10:16:36+00:00",
+        "finishedAt": "2026-10-14T10:16:37+00:00",
+        "event": "schedule",
+        "runId": 38548406157,
+        "overall": "complete",
+        "expectedDatasetRevision": "sha256:3ac818efdb1f42c776364aadcf946d88c04f5b6d25fbf3fd7de654b1b29e6353",
+        "results": [
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T10:16:36+00:00"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T10:16:36+00:00"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T10:16:37+00:00"
+          },
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T10:16:37+00:00"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T10:16:37+00:00"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T10:16:37+00:00"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T10:16:37+00:00"
+          }
+        ]
+      },
+      "summaryHashMatchesCommit": true
+    },
+    {
+      "id": 38514153980,
+      "event": "schedule",
+      "runAttempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-14T04:58:19Z",
+      "runStartedAt": "2026-10-14T04:58:19Z",
+      "updatedAt": "2026-10-14T04:58:32Z",
+      "headSha": "77ff8207064a1046a9dddf163975825174e97582",
+      "jobs": [
+        {
+          "id": 115689065675,
+          "startedAt": "2026-10-14T04:58:21Z",
+          "completedAt": "2026-10-14T04:58:31Z",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-14T04:58:25Z",
+              "completed_at": "2026-10-14T04:58:25Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-14T04:58:25Z",
+              "completed_at": "2026-10-14T04:58:27Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-14T04:58:27Z",
+              "completed_at": "2026-10-14T04:58:28Z"
+            }
+          ]
+        }
+      ],
+      "datasetCommit": {
+        "sha": "cf4fb16b4d5804e38d18a10452e78746c26b126d",
+        "parent": "77ff8207064a1046a9dddf163975825174e97582",
+        "committedAt": "2026-10-14T04:58:27Z",
+        "parentMatchesRunHead": true,
+        "reachableFromPinnedMain": true,
+        "appendOnly": true,
+        "revision": "sha256:4d87afee692ab19070d1a52e9a7aa988d33d73e81e89879dfc0e00e078a50187",
+        "addedObservations": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "observedAt": "2026-10-14T04:58:26+00:00",
+            "providerGeneratedAt": "2026-10-14T04:58:13.996Z",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "observedAt": "2026-10-14T04:58:26+00:00",
+            "providerGeneratedAt": "2026-10-14T04:58:16.870Z",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "observedAt": "2026-10-14T04:58:26+00:00",
+            "providerGeneratedAt": "2026-10-14T04:58:16.844Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "observedAt": "2026-10-14T04:58:26+00:00",
+            "providerGeneratedAt": "2026-10-14T04:58:16.881Z",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "observedAt": "2026-10-14T04:58:26+00:00",
+            "providerGeneratedAt": "2026-10-14T04:58:16.900Z",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "observedAt": "2026-10-14T04:58:26+00:00",
+            "providerGeneratedAt": "2026-10-14T04:58:16.803Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "observedAt": "2026-10-14T04:58:27+00:00",
+            "providerGeneratedAt": "2026-10-14T04:58:16.888Z",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX"
+          }
+        ]
+      },
+      "summary": {
+        "version": 1,
+        "startedAt": "2026-10-14T04:58:26+00:00",
+        "finishedAt": "2026-10-14T04:58:27+00:00",
+        "event": "schedule",
+        "runId": 38514153980,
+        "overall": "complete",
+        "expectedDatasetRevision": "sha256:4d87afee692ab19070d1a52e9a7aa988d33d73e81e89879dfc0e00e078a50187",
+        "results": [
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T04:58:26+00:00"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T04:58:26+00:00"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T04:58:26+00:00"
+          },
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T04:58:26+00:00"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T04:58:26+00:00"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T04:58:26+00:00"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-14T04:58:27+00:00"
+          }
+        ]
+      },
+      "summaryHashMatchesCommit": true
+    },
+    {
+      "id": 38486060353,
+      "event": "schedule",
+      "runAttempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-13T23:44:28Z",
+      "runStartedAt": "2026-10-13T23:44:28Z",
+      "updatedAt": "2026-10-13T23:44:42Z",
+      "headSha": "c975adf85ddd634fc8b2000a415f7cac89f4acda",
+      "jobs": [
+        {
+          "id": 115599880242,
+          "startedAt": "2026-10-13T23:44:30Z",
+          "completedAt": "2026-10-13T23:44:41Z",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-13T23:44:35Z",
+              "completed_at": "2026-10-13T23:44:35Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-13T23:44:35Z",
+              "completed_at": "2026-10-13T23:44:37Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-13T23:44:37Z",
+              "completed_at": "2026-10-13T23:44:38Z"
+            }
+          ]
+        }
+      ],
+      "datasetCommit": {
+        "sha": "219c6a46540470677762426f2f8d0aa1759d59e1",
+        "parent": "c975adf85ddd634fc8b2000a415f7cac89f4acda",
+        "committedAt": "2026-10-13T23:44:37Z",
+        "parentMatchesRunHead": true,
+        "reachableFromPinnedMain": true,
+        "appendOnly": true,
+        "revision": "sha256:2047872698c6d5093ff008f943ff84886561c7a79fdae0bab4ff1d16ac26eb61",
+        "addedObservations": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "observedAt": "2026-10-13T23:44:36+00:00",
+            "providerGeneratedAt": "2026-10-13T23:44:36.725Z",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "observedAt": "2026-10-13T23:44:36+00:00",
+            "providerGeneratedAt": "2026-10-13T23:44:36.069Z",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "observedAt": "2026-10-13T23:44:36+00:00",
+            "providerGeneratedAt": "2026-10-13T23:44:36.294Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "observedAt": "2026-10-13T23:44:36+00:00",
+            "providerGeneratedAt": "2026-10-13T23:44:36.463Z",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "observedAt": "2026-10-13T23:44:36+00:00",
+            "providerGeneratedAt": "2026-10-13T23:44:27.207Z",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "observedAt": "2026-10-13T23:44:37+00:00",
+            "providerGeneratedAt": "2026-10-13T23:44:37.059Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "observedAt": "2026-10-13T23:44:37+00:00",
+            "providerGeneratedAt": "2026-10-13T23:44:37.328Z",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX"
+          }
+        ]
+      },
+      "summary": {
+        "version": 1,
+        "startedAt": "2026-10-13T23:44:35+00:00",
+        "finishedAt": "2026-10-13T23:44:37+00:00",
+        "event": "schedule",
+        "runId": 38486060353,
+        "overall": "complete",
+        "expectedDatasetRevision": "sha256:2047872698c6d5093ff008f943ff84886561c7a79fdae0bab4ff1d16ac26eb61",
+        "results": [
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T23:44:36+00:00"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T23:44:36+00:00"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T23:44:36+00:00"
+          },
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T23:44:36+00:00"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T23:44:36+00:00"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T23:44:37+00:00"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T23:44:37+00:00"
+          }
+        ]
+      },
+      "summaryHashMatchesCommit": true
+    },
+    {
+      "id": 38453921067,
+      "event": "schedule",
+      "runAttempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-13T19:19:27Z",
+      "runStartedAt": "2026-10-13T19:19:27Z",
+      "updatedAt": "2026-10-13T19:19:42Z",
+      "headSha": "82731c69096ed250c4393b1de186a3f25653e07b",
+      "jobs": [
+        {
+          "id": 115491607091,
+          "startedAt": "2026-10-13T19:19:30Z",
+          "completedAt": "2026-10-13T19:19:41Z",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-13T19:19:34Z",
+              "completed_at": "2026-10-13T19:19:35Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-13T19:19:35Z",
+              "completed_at": "2026-10-13T19:19:37Z"
+            }
+          ]
+        }
+      ],
+      "datasetCommit": {
+        "sha": "f6fb803ede1a4bc55309113ad2c1718f320783ef",
+        "parent": "82731c69096ed250c4393b1de186a3f25653e07b",
+        "committedAt": "2026-10-13T19:19:36Z",
+        "parentMatchesRunHead": true,
+        "reachableFromPinnedMain": true,
+        "appendOnly": true,
+        "revision": "sha256:8252f9d79b49c9ef0e8a0a378a1f98fa314698b164d07b483062146d076f9a8c",
+        "addedObservations": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "observedAt": "2026-10-13T19:19:35+00:00",
+            "providerGeneratedAt": "2026-10-13T19:19:35.275Z",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "observedAt": "2026-10-13T19:19:34+00:00",
+            "providerGeneratedAt": "2026-10-13T19:19:34.642Z",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "observedAt": "2026-10-13T19:19:34+00:00",
+            "providerGeneratedAt": "2026-10-13T19:19:34.855Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "observedAt": "2026-10-13T19:19:35+00:00",
+            "providerGeneratedAt": "2026-10-13T19:19:35.070Z",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "observedAt": "2026-10-13T19:19:35+00:00",
+            "providerGeneratedAt": "2026-10-13T19:19:35.478Z",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "observedAt": "2026-10-13T19:19:35+00:00",
+            "providerGeneratedAt": "2026-10-13T19:19:35.717Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "observedAt": "2026-10-13T19:19:35+00:00",
+            "providerGeneratedAt": "2026-10-13T19:19:35.910Z",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX"
+          }
+        ]
+      },
+      "summary": {
+        "version": 1,
+        "startedAt": "2026-10-13T19:19:34+00:00",
+        "finishedAt": "2026-10-13T19:19:35+00:00",
+        "event": "schedule",
+        "runId": 38453921067,
+        "overall": "complete",
+        "expectedDatasetRevision": "sha256:8252f9d79b49c9ef0e8a0a378a1f98fa314698b164d07b483062146d076f9a8c",
+        "results": [
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T19:19:34+00:00"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T19:19:34+00:00"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T19:19:35+00:00"
+          },
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T19:19:35+00:00"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T19:19:35+00:00"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T19:19:35+00:00"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T19:19:35+00:00"
+          }
+        ]
+      },
+      "summaryHashMatchesCommit": true
+    },
+    {
+      "id": 38393086625,
+      "event": "schedule",
+      "runAttempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-13T11:51:10Z",
+      "runStartedAt": "2026-10-13T11:51:10Z",
+      "updatedAt": "2026-10-13T11:51:23Z",
+      "headSha": "8acf10352cb5f8804d4310758dadb495df376332",
+      "jobs": [
+        {
+          "id": 115281432007,
+          "startedAt": "2026-10-13T11:51:12Z",
+          "completedAt": "2026-10-13T11:51:23Z",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-13T11:51:16Z",
+              "completed_at": "2026-10-13T11:51:18Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-13T11:51:18Z",
+              "completed_at": "2026-10-13T11:51:19Z"
+            }
+          ]
+        }
+      ],
+      "datasetCommit": {
+        "sha": "fdce3c1d95e1d4cf1d78ddf5c56aab6c5dcc4e1a",
+        "parent": "8acf10352cb5f8804d4310758dadb495df376332",
+        "committedAt": "2026-10-13T11:51:18Z",
+        "parentMatchesRunHead": true,
+        "reachableFromPinnedMain": true,
+        "appendOnly": true,
+        "revision": "sha256:6952f44f1eaf69a0f3eab67f87b62cbcfaa6d214e51d0f5cf0dd7602b141fdb1",
+        "addedObservations": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "observedAt": "2026-10-13T11:51:17+00:00",
+            "providerGeneratedAt": "2026-10-13T11:51:17.715Z",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "observedAt": "2026-10-13T11:51:17+00:00",
+            "providerGeneratedAt": "2026-10-13T11:51:17.171Z",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "observedAt": "2026-10-13T11:51:17+00:00",
+            "providerGeneratedAt": "2026-10-13T11:51:17.354Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "observedAt": "2026-10-13T11:51:17+00:00",
+            "providerGeneratedAt": "2026-10-13T11:51:17.547Z",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "observedAt": "2026-10-13T11:51:17+00:00",
+            "providerGeneratedAt": "2026-10-13T11:51:17.914Z",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "observedAt": "2026-10-13T11:51:18+00:00",
+            "providerGeneratedAt": "2026-10-13T11:51:18.097Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "observedAt": "2026-10-13T11:51:18+00:00",
+            "providerGeneratedAt": "2026-10-13T11:51:18.281Z",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX"
+          }
+        ]
+      },
+      "summary": {
+        "version": 1,
+        "startedAt": "2026-10-13T11:51:17+00:00",
+        "finishedAt": "2026-10-13T11:51:18+00:00",
+        "event": "schedule",
+        "runId": 38393086625,
+        "overall": "complete",
+        "expectedDatasetRevision": "sha256:6952f44f1eaf69a0f3eab67f87b62cbcfaa6d214e51d0f5cf0dd7602b141fdb1",
+        "results": [
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:17+00:00"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:17+00:00"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:17+00:00"
+          },
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:17+00:00"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:17+00:00"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:18+00:00"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T11:51:18+00:00"
+          }
+        ]
+      },
+      "summaryHashMatchesCommit": true
+    },
+    {
+      "id": 38342446125,
+      "event": "schedule",
+      "runAttempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-13T03:35:41Z",
+      "runStartedAt": "2026-10-13T03:35:41Z",
+      "updatedAt": "2026-10-13T03:35:56Z",
+      "headSha": "13413ae71cd5f560c20259d3907ea50f9536cdaf",
+      "jobs": [
+        {
+          "id": 115116244812,
+          "startedAt": "2026-10-13T03:35:43Z",
+          "completedAt": "2026-10-13T03:35:56Z",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-13T03:35:47Z",
+              "completed_at": "2026-10-13T03:35:51Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-13T03:35:51Z",
+              "completed_at": "2026-10-13T03:35:52Z"
+            }
+          ]
+        }
+      ],
+      "datasetCommit": {
+        "sha": "9d458ffc943dfbda584743f5da8f93e5e984e132",
+        "parent": "13413ae71cd5f560c20259d3907ea50f9536cdaf",
+        "committedAt": "2026-10-13T03:35:51Z",
+        "parentMatchesRunHead": true,
+        "reachableFromPinnedMain": true,
+        "appendOnly": true,
+        "revision": "sha256:addb5fe82419c92c34ceba94774fb91609f63f6ee4f553439b1bf9180eff8fa7",
+        "addedObservations": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "observedAt": "2026-10-13T03:35:50+00:00",
+            "providerGeneratedAt": "2026-10-13T03:35:50.462Z",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "observedAt": "2026-10-13T03:35:49+00:00",
+            "providerGeneratedAt": "2026-10-13T03:35:49.786Z",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "observedAt": "2026-10-13T03:35:50+00:00",
+            "providerGeneratedAt": "2026-10-13T03:35:50.000Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "observedAt": "2026-10-13T03:35:50+00:00",
+            "providerGeneratedAt": "2026-10-13T03:35:50.252Z",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "observedAt": "2026-10-13T03:35:50+00:00",
+            "providerGeneratedAt": "2026-10-13T03:35:50.652Z",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "observedAt": "2026-10-13T03:35:50+00:00",
+            "providerGeneratedAt": "2026-10-13T03:35:50.850Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "observedAt": "2026-10-13T03:35:51+00:00",
+            "providerGeneratedAt": "2026-10-13T03:35:51.131Z",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX"
+          }
+        ]
+      },
+      "summary": {
+        "version": 1,
+        "startedAt": "2026-10-13T03:35:49+00:00",
+        "finishedAt": "2026-10-13T03:35:51+00:00",
+        "event": "schedule",
+        "runId": 38342446125,
+        "overall": "complete",
+        "expectedDatasetRevision": "sha256:addb5fe82419c92c34ceba94774fb91609f63f6ee4f553439b1bf9180eff8fa7",
+        "results": [
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:49+00:00"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:50+00:00"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:50+00:00"
+          },
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:50+00:00"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:50+00:00"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:50+00:00"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "status": "collected",
+            "reason": "collected",
+            "observedAt": "2026-10-13T03:35:51+00:00"
+          }
+        ]
+      },
+      "summaryHashMatchesCommit": true
+    },
+    {
+      "id": 38319900484,
+      "event": "schedule",
+      "runAttempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-12T23:01:12Z",
+      "runStartedAt": "2026-10-12T23:01:12Z",
+      "updatedAt": "2026-10-12T23:01:24Z",
+      "headSha": "2037a7fb18946bf510dd46a27dfaecddf97d859f",
+      "jobs": [
+        {
+          "id": 115045204384,
+          "startedAt": "2026-10-12T23:01:14Z",
+          "completedAt": "2026-10-12T23:01:23Z",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Run python scripts/collect_rewards.py",
+              "conclusion": "success",
+              "started_at": "2026-10-12T23:01:18Z",
+              "completed_at": "2026-10-12T23:01:19Z"
+            },
+            {
+              "name": "Commit observed data",
+              "conclusion": "success",
+              "started_at": "2026-10-12T23:01:19Z",
+              "completed_at": "2026-10-12T23:01:20Z"
+            }
+          ]
+        }
+      ],
+      "datasetCommit": {
+        "sha": "b4ad30fb49226b2de86fef5ce30b7acc70018857",
+        "parent": "2037a7fb18946bf510dd46a27dfaecddf97d859f",
+        "committedAt": "2026-10-12T23:01:19Z",
+        "parentMatchesRunHead": true,
+        "reachableFromPinnedMain": true,
+        "appendOnly": true,
+        "revision": "sha256:ef971b99e0014c7bdbf498e50e0725e5e6f79c678c5d719394436d677e0e4b00",
+        "addedObservations": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "observedAt": "2026-10-12T23:01:19+00:00",
+            "providerGeneratedAt": "2026-10-12T23:01:17.041Z",
+            "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+            "quoteSymbol": "STONK"
+          },
+          {
+            "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+            "observedAt": "2026-10-12T23:01:18+00:00",
+            "providerGeneratedAt": "2026-10-12T23:01:16.927Z",
+            "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+            "quoteSymbol": "DKNG"
+          },
+          {
+            "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+            "observedAt": "2026-10-12T23:01:18+00:00",
+            "providerGeneratedAt": "2026-10-12T23:01:16.198Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+            "observedAt": "2026-10-12T23:01:19+00:00",
+            "providerGeneratedAt": "2026-10-12T23:01:17.367Z",
+            "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "quoteSymbol": "USDC"
+          },
+          {
+            "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+            "observedAt": "2026-10-12T23:01:19+00:00",
+            "providerGeneratedAt": "2026-10-12T23:01:16.827Z",
+            "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+            "quoteSymbol": "NEAR"
+          },
+          {
+            "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+            "observedAt": "2026-10-12T23:01:19+00:00",
+            "providerGeneratedAt": "2026-10-12T23:01:16.754Z",
+            "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+            "quoteSymbol": "ZEC"
+          },
+          {
+            "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+            "observedAt": "2026-10-12T23:01:19+00:00",
+            "providerGeneratedAt": "2026-10-12T23:01:16.502Z",
+            "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "quoteSymbol": "NVDAX"
+          }
+        ]
+      },
+      "summary": null
+    },
+    {
+      "id": 38304889111,
+      "event": "workflow_dispatch",
+      "runAttempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-12T20:32:28Z",
+      "runStartedAt": "2026-10-12T20:32:28Z",
+      "updatedAt": "2026-10-12T20:32:37Z",
+      "headSha": "5bd7b6a5b7963021992a8c0ef6e22656228bacd9",
+      "jobs": [
+        {
+          "id": 114996406818,
+          "startedAt": "2026-10-12T20:32:31Z",
+          "completedAt": "2026-10-12T20:32:36Z",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Run python scripts/collect_rewards.py",
+              "conclusion": "success",
+              "started_at": "2026-10-12T20:32:33Z",
+              "completed_at": "2026-10-12T20:32:33Z"
+            },
+            {
+              "name": "Commit observed data",
+              "conclusion": "success",
+              "started_at": "2026-10-12T20:32:33Z",
+              "completed_at": "2026-10-12T20:32:34Z"
+            }
+          ]
+        }
+      ],
+      "datasetCommit": {
+        "sha": "027ab3eb95acce515beb79dc74e5764036384759",
+        "parent": "5bd7b6a5b7963021992a8c0ef6e22656228bacd9",
+        "committedAt": "2026-10-12T20:32:33Z",
+        "parentMatchesRunHead": true,
+        "reachableFromPinnedMain": true,
+        "appendOnly": true,
+        "revision": "sha256:4928c873487d0536dcedfbf299fed1e1d92c9caabdc5bc1d07ddaef890a5bb92",
+        "addedObservations": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "observedAt": "2026-10-12T20:32:33+00:00",
+            "providerGeneratedAt": null,
+            "quoteMint": null,
+            "quoteSymbol": "STONK"
+          }
+        ]
+      },
+      "summary": null
+    },
+    {
+      "id": 38272331847,
+      "event": "workflow_dispatch",
+      "runAttempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-12T15:43:36Z",
+      "runStartedAt": "2026-10-12T15:43:36Z",
+      "updatedAt": "2026-10-12T15:43:45Z",
+      "headSha": "13d8d81bcb56187255ac1a7032603220509faf21",
+      "jobs": [
+        {
+          "id": 114889370887,
+          "startedAt": "2026-10-12T15:43:39Z",
+          "completedAt": "2026-10-12T15:43:44Z",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Run python scripts/collect_rewards.py",
+              "conclusion": "success",
+              "started_at": "2026-10-12T15:43:40Z",
+              "completed_at": "2026-10-12T15:43:41Z"
+            },
+            {
+              "name": "Commit observed data",
+              "conclusion": "success",
+              "started_at": "2026-10-12T15:43:41Z",
+              "completed_at": "2026-10-12T15:43:42Z"
+            }
+          ]
+        }
+      ],
+      "datasetCommit": {
+        "sha": "804c6ee7d882c52fd334c2df3f3f132a9a9c2dff",
+        "parent": "13d8d81bcb56187255ac1a7032603220509faf21",
+        "committedAt": "2026-10-12T15:43:41Z",
+        "parentMatchesRunHead": true,
+        "reachableFromPinnedMain": true,
+        "appendOnly": true,
+        "revision": "sha256:6b953a9a00719e23e55eae1de23fb5379d685c2f958b2fb6365b440484eda103",
+        "addedObservations": [
+          {
+            "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+            "observedAt": "2026-10-12T15:43:41+00:00",
+            "providerGeneratedAt": null,
+            "quoteMint": null,
+            "quoteSymbol": "STONK"
+          }
+        ]
+      },
+      "summary": null
+    }
+  ],
+  "auditRuns": [
+    {
+      "id": 38568972261,
+      "event": "schedule",
+      "created_at": "2026-10-14T13:05:48Z",
+      "updated_at": "2026-10-14T13:06:08Z",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 38420708084,
+      "event": "schedule",
+      "created_at": "2026-10-13T15:16:59Z",
+      "updated_at": "2026-10-13T15:17:16Z",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "snapshot": {
+    "revision": "sha256:d9b2dc915f5802903c3d2ef15d2ef8d31ffc6d95e268954e1505c6e2f574579c",
+    "actualPointCount": 86,
+    "servedHostRevisionVerified": false
+  },
+  "tokens": [
+    {
+      "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+      "symbol": "ALLINU",
+      "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+      "quoteSymbol": "DKNG",
+      "pointCount": 12,
+      "firstObservedAt": "2026-10-12T20:41:27+00:00",
+      "lastObservedAt": "2026-10-15T01:34:16+00:00",
+      "latestGapSeconds": 8278.0,
+      "maximumGapSeconds": 29728.0,
+      "actualTimes": [
+        {
+          "observedAt": "2026-10-12T20:41:27+00:00",
+          "providerGeneratedAt": "2026-10-12T20:40:59.117Z"
+        },
+        {
+          "observedAt": "2026-10-12T23:01:18+00:00",
+          "providerGeneratedAt": "2026-10-12T23:01:16.927Z"
+        },
+        {
+          "observedAt": "2026-10-13T03:35:49+00:00",
+          "providerGeneratedAt": "2026-10-13T03:35:49.786Z"
+        },
+        {
+          "observedAt": "2026-10-13T11:51:17+00:00",
+          "providerGeneratedAt": "2026-10-13T11:51:17.171Z"
+        },
+        {
+          "observedAt": "2026-10-13T19:19:34+00:00",
+          "providerGeneratedAt": "2026-10-13T19:19:34.642Z"
+        },
+        {
+          "observedAt": "2026-10-13T23:44:36+00:00",
+          "providerGeneratedAt": "2026-10-13T23:44:36.069Z"
+        },
+        {
+          "observedAt": "2026-10-14T04:58:26+00:00",
+          "providerGeneratedAt": "2026-10-14T04:58:16.870Z"
+        },
+        {
+          "observedAt": "2026-10-14T10:16:36+00:00",
+          "providerGeneratedAt": "2026-10-14T10:15:43.368Z"
+        },
+        {
+          "observedAt": "2026-10-14T15:14:15+00:00",
+          "providerGeneratedAt": "2026-10-14T15:14:01.689Z"
+        },
+        {
+          "observedAt": "2026-10-14T19:28:05+00:00",
+          "providerGeneratedAt": "2026-10-14T19:27:59.703Z"
+        },
+        {
+          "observedAt": "2026-10-14T23:16:18+00:00",
+          "providerGeneratedAt": "2026-10-14T23:16:18.511Z"
+        },
+        {
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:33:14.890Z"
+        }
+      ],
+      "unchangedHistoryCoverage": {
+        "status": "unavailable",
+        "confidence": "withheld",
+        "reasons": [
+          "gapped_current_history",
+          "unmatched_duration",
+          "gapped_previous_history"
+        ],
+        "warnings": [],
+        "current": {
+          "requestedStartAt": "2026-10-14T01:34:16.000Z",
+          "requestedEndAt": "2026-10-15T01:34:16.000Z",
+          "startAt": "2026-10-13T23:44:36.000Z",
+          "endAt": "2026-10-15T01:34:16.000Z",
+          "startBoundaryOffsetSeconds": -6580,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 92980,
+          "observationCount": 7,
+          "maxGapSeconds": 19090,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "previous": {
+          "requestedStartAt": "2026-10-12T23:44:36.000Z",
+          "requestedEndAt": "2026-10-13T23:44:36.000Z",
+          "startAt": "2026-10-12T23:01:18.000Z",
+          "endAt": "2026-10-13T23:44:36.000Z",
+          "startBoundaryOffsetSeconds": -2598,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 88998,
+          "observationCount": 5,
+          "maxGapSeconds": 29728,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "accelerationPercent": null,
+        "category": "unavailable",
+        "payoutCountStatus": "unavailable",
+        "payoutCountReason": "comparison_withheld",
+        "latestObservedAt": "2026-10-15T01:34:16.000Z",
+        "evaluatedAt": "2026-10-15T02:07:59.910Z"
+      }
+    },
+    {
+      "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+      "symbol": "ZCAT",
+      "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+      "quoteSymbol": "ZEC",
+      "pointCount": 12,
+      "firstObservedAt": "2026-10-12T20:41:27+00:00",
+      "lastObservedAt": "2026-10-15T01:34:16+00:00",
+      "latestGapSeconds": 8278.0,
+      "maximumGapSeconds": 29727.0,
+      "actualTimes": [
+        {
+          "observedAt": "2026-10-12T20:41:27+00:00",
+          "providerGeneratedAt": "2026-10-12T20:40:42.384Z"
+        },
+        {
+          "observedAt": "2026-10-12T23:01:18+00:00",
+          "providerGeneratedAt": "2026-10-12T23:01:16.198Z"
+        },
+        {
+          "observedAt": "2026-10-13T03:35:50+00:00",
+          "providerGeneratedAt": "2026-10-13T03:35:50.000Z"
+        },
+        {
+          "observedAt": "2026-10-13T11:51:17+00:00",
+          "providerGeneratedAt": "2026-10-13T11:51:17.354Z"
+        },
+        {
+          "observedAt": "2026-10-13T19:19:34+00:00",
+          "providerGeneratedAt": "2026-10-13T19:19:34.855Z"
+        },
+        {
+          "observedAt": "2026-10-13T23:44:36+00:00",
+          "providerGeneratedAt": "2026-10-13T23:44:36.294Z"
+        },
+        {
+          "observedAt": "2026-10-14T04:58:26+00:00",
+          "providerGeneratedAt": "2026-10-14T04:58:16.844Z"
+        },
+        {
+          "observedAt": "2026-10-14T10:16:36+00:00",
+          "providerGeneratedAt": "2026-10-14T10:16:22.551Z"
+        },
+        {
+          "observedAt": "2026-10-14T15:14:15+00:00",
+          "providerGeneratedAt": "2026-10-14T15:14:01.648Z"
+        },
+        {
+          "observedAt": "2026-10-14T19:28:05+00:00",
+          "providerGeneratedAt": "2026-10-14T19:27:52.774Z"
+        },
+        {
+          "observedAt": "2026-10-14T23:16:18+00:00",
+          "providerGeneratedAt": "2026-10-14T23:15:56.411Z"
+        },
+        {
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:33:14.882Z"
+        }
+      ],
+      "unchangedHistoryCoverage": {
+        "status": "unavailable",
+        "confidence": "withheld",
+        "reasons": [
+          "gapped_current_history",
+          "unmatched_duration",
+          "gapped_previous_history"
+        ],
+        "warnings": [],
+        "current": {
+          "requestedStartAt": "2026-10-14T01:34:16.000Z",
+          "requestedEndAt": "2026-10-15T01:34:16.000Z",
+          "startAt": "2026-10-13T23:44:36.000Z",
+          "endAt": "2026-10-15T01:34:16.000Z",
+          "startBoundaryOffsetSeconds": -6580,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 92980,
+          "observationCount": 7,
+          "maxGapSeconds": 19090,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "previous": {
+          "requestedStartAt": "2026-10-12T23:44:36.000Z",
+          "requestedEndAt": "2026-10-13T23:44:36.000Z",
+          "startAt": "2026-10-12T23:01:18.000Z",
+          "endAt": "2026-10-13T23:44:36.000Z",
+          "startBoundaryOffsetSeconds": -2598,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 88998,
+          "observationCount": 5,
+          "maxGapSeconds": 29727,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "accelerationPercent": null,
+        "category": "unavailable",
+        "payoutCountStatus": "unavailable",
+        "payoutCountReason": "comparison_withheld",
+        "latestObservedAt": "2026-10-15T01:34:16.000Z",
+        "evaluatedAt": "2026-10-15T02:07:59.910Z"
+      }
+    },
+    {
+      "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+      "symbol": "BANKROLL",
+      "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "quoteSymbol": "USDC",
+      "pointCount": 12,
+      "firstObservedAt": "2026-10-12T20:41:28+00:00",
+      "lastObservedAt": "2026-10-15T01:34:16+00:00",
+      "latestGapSeconds": 8278.0,
+      "maximumGapSeconds": 29727.0,
+      "actualTimes": [
+        {
+          "observedAt": "2026-10-12T20:41:28+00:00",
+          "providerGeneratedAt": "2026-10-12T20:41:28.596Z"
+        },
+        {
+          "observedAt": "2026-10-12T23:01:19+00:00",
+          "providerGeneratedAt": "2026-10-12T23:01:17.367Z"
+        },
+        {
+          "observedAt": "2026-10-13T03:35:50+00:00",
+          "providerGeneratedAt": "2026-10-13T03:35:50.252Z"
+        },
+        {
+          "observedAt": "2026-10-13T11:51:17+00:00",
+          "providerGeneratedAt": "2026-10-13T11:51:17.547Z"
+        },
+        {
+          "observedAt": "2026-10-13T19:19:35+00:00",
+          "providerGeneratedAt": "2026-10-13T19:19:35.070Z"
+        },
+        {
+          "observedAt": "2026-10-13T23:44:36+00:00",
+          "providerGeneratedAt": "2026-10-13T23:44:36.463Z"
+        },
+        {
+          "observedAt": "2026-10-14T04:58:26+00:00",
+          "providerGeneratedAt": "2026-10-14T04:58:16.881Z"
+        },
+        {
+          "observedAt": "2026-10-14T10:16:37+00:00",
+          "providerGeneratedAt": "2026-10-14T10:16:36.975Z"
+        },
+        {
+          "observedAt": "2026-10-14T15:14:15+00:00",
+          "providerGeneratedAt": "2026-10-14T15:14:01.747Z"
+        },
+        {
+          "observedAt": "2026-10-14T19:28:05+00:00",
+          "providerGeneratedAt": "2026-10-14T19:27:48.750Z"
+        },
+        {
+          "observedAt": "2026-10-14T23:16:18+00:00",
+          "providerGeneratedAt": "2026-10-14T23:16:18.752Z"
+        },
+        {
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:33:14.875Z"
+        }
+      ],
+      "unchangedHistoryCoverage": {
+        "status": "unavailable",
+        "confidence": "withheld",
+        "reasons": [
+          "gapped_current_history",
+          "unmatched_duration",
+          "gapped_previous_history"
+        ],
+        "warnings": [],
+        "current": {
+          "requestedStartAt": "2026-10-14T01:34:16.000Z",
+          "requestedEndAt": "2026-10-15T01:34:16.000Z",
+          "startAt": "2026-10-13T23:44:36.000Z",
+          "endAt": "2026-10-15T01:34:16.000Z",
+          "startBoundaryOffsetSeconds": -6580,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 92980,
+          "observationCount": 7,
+          "maxGapSeconds": 19091,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "previous": {
+          "requestedStartAt": "2026-10-12T23:44:36.000Z",
+          "requestedEndAt": "2026-10-13T23:44:36.000Z",
+          "startAt": "2026-10-12T23:01:19.000Z",
+          "endAt": "2026-10-13T23:44:36.000Z",
+          "startBoundaryOffsetSeconds": -2597,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 88997,
+          "observationCount": 5,
+          "maxGapSeconds": 29727,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "accelerationPercent": null,
+        "category": "unavailable",
+        "payoutCountStatus": "unavailable",
+        "payoutCountReason": "comparison_withheld",
+        "latestObservedAt": "2026-10-15T01:34:16.000Z",
+        "evaluatedAt": "2026-10-15T02:07:59.910Z"
+      }
+    },
+    {
+      "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+      "symbol": "KNOTS",
+      "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+      "quoteSymbol": "STONK",
+      "pointCount": 14,
+      "firstObservedAt": "2026-10-12T15:43:41+00:00",
+      "lastObservedAt": "2026-10-15T01:34:16+00:00",
+      "latestGapSeconds": 8278.0,
+      "maximumGapSeconds": 29727.0,
+      "actualTimes": [
+        {
+          "observedAt": "2026-10-12T15:43:41+00:00",
+          "providerGeneratedAt": null
+        },
+        {
+          "observedAt": "2026-10-12T20:32:33+00:00",
+          "providerGeneratedAt": null
+        },
+        {
+          "observedAt": "2026-10-12T20:41:28+00:00",
+          "providerGeneratedAt": "2026-10-12T20:41:00.780Z"
+        },
+        {
+          "observedAt": "2026-10-12T23:01:19+00:00",
+          "providerGeneratedAt": "2026-10-12T23:01:17.041Z"
+        },
+        {
+          "observedAt": "2026-10-13T03:35:50+00:00",
+          "providerGeneratedAt": "2026-10-13T03:35:50.462Z"
+        },
+        {
+          "observedAt": "2026-10-13T11:51:17+00:00",
+          "providerGeneratedAt": "2026-10-13T11:51:17.715Z"
+        },
+        {
+          "observedAt": "2026-10-13T19:19:35+00:00",
+          "providerGeneratedAt": "2026-10-13T19:19:35.275Z"
+        },
+        {
+          "observedAt": "2026-10-13T23:44:36+00:00",
+          "providerGeneratedAt": "2026-10-13T23:44:36.725Z"
+        },
+        {
+          "observedAt": "2026-10-14T04:58:26+00:00",
+          "providerGeneratedAt": "2026-10-14T04:58:13.996Z"
+        },
+        {
+          "observedAt": "2026-10-14T10:16:37+00:00",
+          "providerGeneratedAt": "2026-10-14T10:16:37.170Z"
+        },
+        {
+          "observedAt": "2026-10-14T15:14:15+00:00",
+          "providerGeneratedAt": "2026-10-14T15:14:01.738Z"
+        },
+        {
+          "observedAt": "2026-10-14T19:28:05+00:00",
+          "providerGeneratedAt": "2026-10-14T19:27:48.850Z"
+        },
+        {
+          "observedAt": "2026-10-14T23:16:18+00:00",
+          "providerGeneratedAt": "2026-10-14T23:16:18.956Z"
+        },
+        {
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:33:14.934Z"
+        }
+      ],
+      "unchangedHistoryCoverage": {
+        "status": "unavailable",
+        "confidence": "withheld",
+        "reasons": [
+          "gapped_current_history",
+          "unmatched_duration",
+          "gapped_previous_history"
+        ],
+        "warnings": [],
+        "current": {
+          "requestedStartAt": "2026-10-14T01:34:16.000Z",
+          "requestedEndAt": "2026-10-15T01:34:16.000Z",
+          "startAt": "2026-10-13T23:44:36.000Z",
+          "endAt": "2026-10-15T01:34:16.000Z",
+          "startBoundaryOffsetSeconds": -6580,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 92980,
+          "observationCount": 7,
+          "maxGapSeconds": 19091,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "previous": {
+          "requestedStartAt": "2026-10-12T23:44:36.000Z",
+          "requestedEndAt": "2026-10-13T23:44:36.000Z",
+          "startAt": "2026-10-12T23:01:19.000Z",
+          "endAt": "2026-10-13T23:44:36.000Z",
+          "startBoundaryOffsetSeconds": -2597,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 88997,
+          "observationCount": 5,
+          "maxGapSeconds": 29727,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "accelerationPercent": null,
+        "category": "unavailable",
+        "payoutCountStatus": "unavailable",
+        "payoutCountReason": "comparison_withheld",
+        "latestObservedAt": "2026-10-15T01:34:16.000Z",
+        "evaluatedAt": "2026-10-15T02:07:59.910Z"
+      }
+    },
+    {
+      "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+      "symbol": "NEARKAT",
+      "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+      "quoteSymbol": "NEAR",
+      "pointCount": 12,
+      "firstObservedAt": "2026-10-12T20:41:28+00:00",
+      "lastObservedAt": "2026-10-15T01:34:16+00:00",
+      "latestGapSeconds": 8277.0,
+      "maximumGapSeconds": 29727.0,
+      "actualTimes": [
+        {
+          "observedAt": "2026-10-12T20:41:28+00:00",
+          "providerGeneratedAt": "2026-10-12T20:40:58.169Z"
+        },
+        {
+          "observedAt": "2026-10-12T23:01:19+00:00",
+          "providerGeneratedAt": "2026-10-12T23:01:16.827Z"
+        },
+        {
+          "observedAt": "2026-10-13T03:35:50+00:00",
+          "providerGeneratedAt": "2026-10-13T03:35:50.652Z"
+        },
+        {
+          "observedAt": "2026-10-13T11:51:17+00:00",
+          "providerGeneratedAt": "2026-10-13T11:51:17.914Z"
+        },
+        {
+          "observedAt": "2026-10-13T19:19:35+00:00",
+          "providerGeneratedAt": "2026-10-13T19:19:35.478Z"
+        },
+        {
+          "observedAt": "2026-10-13T23:44:36+00:00",
+          "providerGeneratedAt": "2026-10-13T23:44:27.207Z"
+        },
+        {
+          "observedAt": "2026-10-14T04:58:26+00:00",
+          "providerGeneratedAt": "2026-10-14T04:58:16.900Z"
+        },
+        {
+          "observedAt": "2026-10-14T10:16:37+00:00",
+          "providerGeneratedAt": "2026-10-14T10:15:44.976Z"
+        },
+        {
+          "observedAt": "2026-10-14T15:14:16+00:00",
+          "providerGeneratedAt": "2026-10-14T15:14:00.652Z"
+        },
+        {
+          "observedAt": "2026-10-14T19:28:06+00:00",
+          "providerGeneratedAt": "2026-10-14T19:27:58.880Z"
+        },
+        {
+          "observedAt": "2026-10-14T23:16:19+00:00",
+          "providerGeneratedAt": "2026-10-14T23:16:19.131Z"
+        },
+        {
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:34:01.154Z"
+        }
+      ],
+      "unchangedHistoryCoverage": {
+        "status": "unavailable",
+        "confidence": "withheld",
+        "reasons": [
+          "gapped_current_history",
+          "unmatched_duration",
+          "gapped_previous_history"
+        ],
+        "warnings": [],
+        "current": {
+          "requestedStartAt": "2026-10-14T01:34:16.000Z",
+          "requestedEndAt": "2026-10-15T01:34:16.000Z",
+          "startAt": "2026-10-13T23:44:36.000Z",
+          "endAt": "2026-10-15T01:34:16.000Z",
+          "startBoundaryOffsetSeconds": -6580,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 92980,
+          "observationCount": 7,
+          "maxGapSeconds": 19091,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "previous": {
+          "requestedStartAt": "2026-10-12T23:44:36.000Z",
+          "requestedEndAt": "2026-10-13T23:44:36.000Z",
+          "startAt": "2026-10-12T23:01:19.000Z",
+          "endAt": "2026-10-13T23:44:36.000Z",
+          "startBoundaryOffsetSeconds": -2597,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 88997,
+          "observationCount": 5,
+          "maxGapSeconds": 29727,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "accelerationPercent": null,
+        "category": "unavailable",
+        "payoutCountStatus": "unavailable",
+        "payoutCountReason": "comparison_withheld",
+        "latestObservedAt": "2026-10-15T01:34:16.000Z",
+        "evaluatedAt": "2026-10-15T02:07:59.910Z"
+      }
+    },
+    {
+      "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+      "symbol": "MASK",
+      "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+      "quoteSymbol": "ZEC",
+      "pointCount": 12,
+      "firstObservedAt": "2026-10-12T20:41:29+00:00",
+      "lastObservedAt": "2026-10-15T01:34:16+00:00",
+      "latestGapSeconds": 8277.0,
+      "maximumGapSeconds": 29728.0,
+      "actualTimes": [
+        {
+          "observedAt": "2026-10-12T20:41:29+00:00",
+          "providerGeneratedAt": "2026-10-12T20:40:54.732Z"
+        },
+        {
+          "observedAt": "2026-10-12T23:01:19+00:00",
+          "providerGeneratedAt": "2026-10-12T23:01:16.754Z"
+        },
+        {
+          "observedAt": "2026-10-13T03:35:50+00:00",
+          "providerGeneratedAt": "2026-10-13T03:35:50.850Z"
+        },
+        {
+          "observedAt": "2026-10-13T11:51:18+00:00",
+          "providerGeneratedAt": "2026-10-13T11:51:18.097Z"
+        },
+        {
+          "observedAt": "2026-10-13T19:19:35+00:00",
+          "providerGeneratedAt": "2026-10-13T19:19:35.717Z"
+        },
+        {
+          "observedAt": "2026-10-13T23:44:37+00:00",
+          "providerGeneratedAt": "2026-10-13T23:44:37.059Z"
+        },
+        {
+          "observedAt": "2026-10-14T04:58:26+00:00",
+          "providerGeneratedAt": "2026-10-14T04:58:16.803Z"
+        },
+        {
+          "observedAt": "2026-10-14T10:16:37+00:00",
+          "providerGeneratedAt": "2026-10-14T10:15:42.384Z"
+        },
+        {
+          "observedAt": "2026-10-14T15:14:16+00:00",
+          "providerGeneratedAt": "2026-10-14T15:14:01.686Z"
+        },
+        {
+          "observedAt": "2026-10-14T19:28:06+00:00",
+          "providerGeneratedAt": "2026-10-14T19:27:48.689Z"
+        },
+        {
+          "observedAt": "2026-10-14T23:16:19+00:00",
+          "providerGeneratedAt": "2026-10-14T23:16:19.255Z"
+        },
+        {
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:34:02.096Z"
+        }
+      ],
+      "unchangedHistoryCoverage": {
+        "status": "unavailable",
+        "confidence": "withheld",
+        "reasons": [
+          "gapped_current_history",
+          "unmatched_duration",
+          "gapped_previous_history"
+        ],
+        "warnings": [],
+        "current": {
+          "requestedStartAt": "2026-10-14T01:34:16.000Z",
+          "requestedEndAt": "2026-10-15T01:34:16.000Z",
+          "startAt": "2026-10-13T23:44:37.000Z",
+          "endAt": "2026-10-15T01:34:16.000Z",
+          "startBoundaryOffsetSeconds": -6579,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 92979,
+          "observationCount": 7,
+          "maxGapSeconds": 19091,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "previous": {
+          "requestedStartAt": "2026-10-12T23:44:37.000Z",
+          "requestedEndAt": "2026-10-13T23:44:37.000Z",
+          "startAt": "2026-10-12T23:01:19.000Z",
+          "endAt": "2026-10-13T23:44:37.000Z",
+          "startBoundaryOffsetSeconds": -2598,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 88998,
+          "observationCount": 5,
+          "maxGapSeconds": 29728,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "accelerationPercent": null,
+        "category": "unavailable",
+        "payoutCountStatus": "unavailable",
+        "payoutCountReason": "comparison_withheld",
+        "latestObservedAt": "2026-10-15T01:34:16.000Z",
+        "evaluatedAt": "2026-10-15T02:07:59.910Z"
+      }
+    },
+    {
+      "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "symbol": "SI",
+      "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+      "quoteSymbol": "NVDAX",
+      "pointCount": 12,
+      "firstObservedAt": "2026-10-12T20:41:29+00:00",
+      "lastObservedAt": "2026-10-15T01:34:16+00:00",
+      "latestGapSeconds": 8277.0,
+      "maximumGapSeconds": 29727.0,
+      "actualTimes": [
+        {
+          "observedAt": "2026-10-12T20:41:29+00:00",
+          "providerGeneratedAt": "2026-10-12T20:40:54.335Z"
+        },
+        {
+          "observedAt": "2026-10-12T23:01:19+00:00",
+          "providerGeneratedAt": "2026-10-12T23:01:16.502Z"
+        },
+        {
+          "observedAt": "2026-10-13T03:35:51+00:00",
+          "providerGeneratedAt": "2026-10-13T03:35:51.131Z"
+        },
+        {
+          "observedAt": "2026-10-13T11:51:18+00:00",
+          "providerGeneratedAt": "2026-10-13T11:51:18.281Z"
+        },
+        {
+          "observedAt": "2026-10-13T19:19:35+00:00",
+          "providerGeneratedAt": "2026-10-13T19:19:35.910Z"
+        },
+        {
+          "observedAt": "2026-10-13T23:44:37+00:00",
+          "providerGeneratedAt": "2026-10-13T23:44:37.328Z"
+        },
+        {
+          "observedAt": "2026-10-14T04:58:27+00:00",
+          "providerGeneratedAt": "2026-10-14T04:58:16.888Z"
+        },
+        {
+          "observedAt": "2026-10-14T10:16:37+00:00",
+          "providerGeneratedAt": "2026-10-14T10:16:37.623Z"
+        },
+        {
+          "observedAt": "2026-10-14T15:14:16+00:00",
+          "providerGeneratedAt": "2026-10-14T15:14:02.057Z"
+        },
+        {
+          "observedAt": "2026-10-14T19:28:06+00:00",
+          "providerGeneratedAt": "2026-10-14T19:27:48.748Z"
+        },
+        {
+          "observedAt": "2026-10-14T23:16:19+00:00",
+          "providerGeneratedAt": "2026-10-14T23:16:19.522Z"
+        },
+        {
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:33:14.933Z"
+        }
+      ],
+      "unchangedHistoryCoverage": {
+        "status": "unavailable",
+        "confidence": "withheld",
+        "reasons": [
+          "gapped_current_history",
+          "unmatched_duration",
+          "gapped_previous_history"
+        ],
+        "warnings": [],
+        "current": {
+          "requestedStartAt": "2026-10-14T01:34:16.000Z",
+          "requestedEndAt": "2026-10-15T01:34:16.000Z",
+          "startAt": "2026-10-13T23:44:37.000Z",
+          "endAt": "2026-10-15T01:34:16.000Z",
+          "startBoundaryOffsetSeconds": -6579,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 92979,
+          "observationCount": 7,
+          "maxGapSeconds": 19090,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "previous": {
+          "requestedStartAt": "2026-10-12T23:44:37.000Z",
+          "requestedEndAt": "2026-10-13T23:44:37.000Z",
+          "startAt": "2026-10-12T23:01:19.000Z",
+          "endAt": "2026-10-13T23:44:37.000Z",
+          "startBoundaryOffsetSeconds": -2598,
+          "endBoundaryOffsetSeconds": 0,
+          "observedSeconds": 88998,
+          "observationCount": 5,
+          "maxGapSeconds": 29727,
+          "timing": "nearest_snapshot",
+          "distributedTokens": null,
+          "tokensPerHour": null,
+          "payoutCountChange": null
+        },
+        "accelerationPercent": null,
+        "category": "unavailable",
+        "payoutCountStatus": "unavailable",
+        "payoutCountReason": "comparison_withheld",
+        "latestObservedAt": "2026-10-15T01:34:16.000Z",
+        "evaluatedAt": "2026-10-15T02:07:59.910Z"
+      }
+    }
+  ],
+  "recordedTransportEvidence": {
+    "file": "docs/evidence/reward-evidence-2026-10-15.json",
+    "fileSha256": "2e2332a3c7cf4dfadde84c557f05b9056950b266e4cb4bf34edfda4a7aa61a8c",
+    "receipts": [
+      {
+        "pointer": "directPythonAggregate",
+        "originalCapturedAt": "2026-10-15T00:12:06.896490+00:00",
+        "status": 200,
+        "headers": {
+          "age": "73",
+          "cache-control": "public, max-age=60",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 00:10:53 GMT",
+          "x-ratelimit-limit": "240",
+          "x-ratelimit-remaining": "239",
+          "content-length": "398"
+        },
+        "bodySha256": "30cb652d069374ad5159997b9e93ff1b09bc5c69485d9909ad201e5fe867ec6c",
+        "bodyHashVerified": true,
+        "providerGeneratedAt": "2026-10-15T00:10:53.901Z",
+        "tokenMint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+        "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh"
+      },
+      {
+        "pointer": "directNodeAggregate",
+        "originalCapturedAt": "2026-10-15T00:14:52.999Z",
+        "status": 200,
+        "headers": {
+          "age": "239",
+          "content-length": "398",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 00:10:53 GMT"
+        },
+        "bodySha256": "30cb652d069374ad5159997b9e93ff1b09bc5c69485d9909ad201e5fe867ec6c",
+        "bodyHashVerified": true,
+        "providerGeneratedAt": "2026-10-15T00:10:53.901Z",
+        "tokenMint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+        "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh"
+      },
+      {
+        "pointer": "nextAggregate",
+        "originalCapturedAt": "2026-10-15T00:17:04.853Z",
+        "status": 200,
+        "headers": {
+          "age": "371",
+          "content-length": "398",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 00:10:53 GMT"
+        },
+        "bodySha256": "30cb652d069374ad5159997b9e93ff1b09bc5c69485d9909ad201e5fe867ec6c",
+        "bodyHashVerified": true,
+        "providerGeneratedAt": "2026-10-15T00:10:53.901Z",
+        "tokenMint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+        "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh"
+      }
+    ],
+    "nvdaxBurst": {
+      "modeReads": 12,
+      "HTTP200": 11,
+      "HTTP404": 1,
+      "staleTransport": 11,
+      "sourceUnavailable": 1,
+      "sourceAgeSeconds": [
+        370,
+        371
+      ],
+      "note": "Observed from safe diagnostic logging inserted only in ignored local build output; no gates or mathematical/source behavior changed. Initial API validation causes were not captured; the later diagnosis does not retroactively identify them. Direct aggregate payload existence is distinct from usable production freshness/mode evidence."
+    },
+    "layerAttribution": "outside_application_cache; CDN_vs_environment_proxy_unknown"
+  },
+  "quoteUniverses": [
+    {
+      "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+      "quoteSymbol": "NVDAX",
+      "decimals": 8,
+      "symbolAmbiguous": false,
+      "datedAuditAsOf": "2026-10-14T22:34:25.223Z",
+      "datedCatalogCoverage": {
+        "complete": false,
+        "atomic": false,
+        "providerReportedTotal": 7663,
+        "providerReportedTotalScope": "all_modes_live_platform_pools_for_exact_quote",
+        "catalogInspected": 25,
+        "catalogUninspected": 7638,
+        "candidateSelection": "first_four_catalog_reported_reward_tokens_in_market_cap_page_one",
+        "candidatesSelected": 4,
+        "rewardReadsAttempted": 4,
+        "rewardModeVerified": 4,
+        "payoutDataAvailable": 4,
+        "eligibleForComparison": 4,
+        "rewardsUnassessed": 7659
+      },
+      "trackedMints": [
+        "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP"
+      ],
+      "historyPointCount": 12,
+      "sameQuoteTrackedPairAvailable": false,
+      "currentRewardTransportStatus": "not_retested",
+      "ecosystemLeader": "unknown"
+    },
+    {
+      "quoteMint": "Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re",
+      "quoteSymbol": "GLDX",
+      "decimals": 8,
+      "symbolAmbiguous": false,
+      "datedAuditAsOf": "2026-10-14T22:34:25.223Z",
+      "datedCatalogCoverage": {
+        "complete": false,
+        "atomic": false,
+        "providerReportedTotal": 1910,
+        "providerReportedTotalScope": "all_modes_live_platform_pools_for_exact_quote",
+        "catalogInspected": 25,
+        "catalogUninspected": 1885,
+        "candidateSelection": "first_four_catalog_reported_reward_tokens_in_market_cap_page_one",
+        "candidatesSelected": 4,
+        "rewardReadsAttempted": 4,
+        "rewardModeVerified": 4,
+        "payoutDataAvailable": 4,
+        "eligibleForComparison": 4,
+        "rewardsUnassessed": 1906
+      },
+      "trackedMints": [],
+      "historyPointCount": 0,
+      "sameQuoteTrackedPairAvailable": false,
+      "currentRewardTransportStatus": "not_retested",
+      "ecosystemLeader": "unknown"
+    },
+    {
+      "quoteMint": "Xs3oZwbHvqis4NYcf4YKWmEia2eC84wSiVrcYcTqpH8",
+      "quoteSymbol": "SPCXX",
+      "decimals": 8,
+      "symbolAmbiguous": false,
+      "datedAuditAsOf": "2026-10-14T22:34:25.223Z",
+      "datedCatalogCoverage": {
+        "complete": false,
+        "atomic": false,
+        "providerReportedTotal": 8656,
+        "providerReportedTotalScope": "all_modes_live_platform_pools_for_exact_quote",
+        "catalogInspected": 25,
+        "catalogUninspected": 8631,
+        "candidateSelection": "first_four_catalog_reported_reward_tokens_in_market_cap_page_one",
+        "candidatesSelected": 4,
+        "rewardReadsAttempted": 4,
+        "rewardModeVerified": 4,
+        "payoutDataAvailable": 4,
+        "eligibleForComparison": 4,
+        "rewardsUnassessed": 8652
+      },
+      "trackedMints": [],
+      "historyPointCount": 0,
+      "sameQuoteTrackedPairAvailable": false,
+      "currentRewardTransportStatus": "not_retested",
+      "ecosystemLeader": "unknown"
+    },
+    {
+      "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+      "quoteSymbol": "STONK",
+      "decimals": 9,
+      "symbolAmbiguous": true,
+      "datedAuditAsOf": "2026-10-14T22:34:25.223Z",
+      "datedCatalogCoverage": {
+        "complete": false,
+        "atomic": false,
+        "providerReportedTotal": 10618,
+        "providerReportedTotalScope": "all_modes_live_platform_pools_for_exact_quote",
+        "catalogInspected": 25,
+        "catalogUninspected": 10593,
+        "candidateSelection": "first_four_catalog_reported_reward_tokens_in_market_cap_page_one",
+        "candidatesSelected": 4,
+        "rewardReadsAttempted": 4,
+        "rewardModeVerified": 4,
+        "payoutDataAvailable": 4,
+        "eligibleForComparison": 4,
+        "rewardsUnassessed": 10614
+      },
+      "trackedMints": [
+        "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS"
+      ],
+      "historyPointCount": 14,
+      "sameQuoteTrackedPairAvailable": false,
+      "currentRewardTransportStatus": "not_retested",
+      "ecosystemLeader": "unknown"
+    }
+  ],
+  "limitations": [
+    "Creation buckets are not intended cron events or proof of dropped runs.",
+    "No new provider requests, deployed-host inspection, activation or 48h experiment performed.",
+    "Old transport packets do not establish present provider freshness or failure rates in other quote universes."
+  ]
+}
