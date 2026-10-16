@@ -1,0 +1,128 @@
+{
+  "kind": "inactive_verified_coverage_offline_validation",
+  "recordedAt": "2026-10-16T20:40:33.033583Z",
+  "baseMain": "3de63c4f3e865bf79f90279aaee18d691b7e0775",
+  "mergedStrategyPR": 79,
+  "branch": "feat/81-verified-coverage",
+  "checks": [
+    {
+      "command": "npm ci --cache /tmp/scout81-npm-cache",
+      "exitCode": 0
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run archive:dry-run",
+      "exitCode": 0
+    },
+    {
+      "command": "bash scripts/archive-tool.sh check origin/main",
+      "exitCode": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest tests.coverage_candidates_test",
+      "exitCode": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m scripts.coverage_candidate_report --offline-report",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check HEAD",
+      "exitCode": 0
+    }
+  ],
+  "testCounts": {
+    "applicationNode": 484,
+    "existingAdapterNode": 18,
+    "pythonIncludingCandidates": 79,
+    "focusedCandidatePythonMethods": 15
+  },
+  "runtime": {
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "python": "Python 3.12.14"
+  },
+  "protectedTree": {
+    "filesComparedByteForByte": 672,
+    "allEqualToMain": true,
+    "pathNullSha256Aggregate": "a2cbbc36514ff7e75bedba893234b69df9a0c4404a15f7493a64f369e67d9d9e",
+    "activeAllowlist": {
+      "revision": "sha256:e6a94dc0962ca3b4336dd2d97ab879aef542062b39cee93994bd9a96698814a5",
+      "tokens": 7
+    },
+    "observationDataset": {
+      "revision": "sha256:df8259125f0ca57f03de095d7db54cadee536c94be5a9c8a4471e5df57faa639",
+      "observations": 149
+    },
+    "collectionSummary": {
+      "revision": "sha256:23022cb0928dcf26cd57447818dfa7b47c98daf08423b20b12f815c00dac41f4",
+      "runId": 38960299506,
+      "results": 7,
+      "exactDatasetHashMatched": true,
+      "servedRevisionVerified": false
+    }
+  },
+  "candidateEvidence": {
+    "identitiesVerifiedAtOriginalCapture": 16,
+    "additionalBeyondActiveSeven": 14,
+    "existingControls": 2,
+    "quoteEcosystems": 4,
+    "sourceReceiptCountReplayed": 21,
+    "sourceDocumentRevision": "sha256:4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+    "originalAuditAsOf": "2026-10-14T22:34:25.223Z",
+    "originalReceiptValidationAsOf": "2026-10-14T22:34:25.223082+00:00",
+    "receiptTimesRetimed": false,
+    "currentEligibility": "all_retained_captures_stale",
+    "rankings": null,
+    "recentFlow": null,
+    "holderReturn": null,
+    "financialPublication": "withheld",
+    "metadataReportRevision": "sha256:6fa2b80649577582cf9829f02145d7f93c190bf99eaf566902672586b28ee787",
+    "metadataReportEvaluatedAt": "2026-10-16T20:40:30.957420+00:00"
+  },
+  "artifactRevisions": {
+    "research/reward-candidates.json": "sha256:7334efa7ccaaa8cf54d0eeb864cc407a0a4ca419dca92f94cab47467c957f7c6",
+    "scripts/coverage_candidates.py": "sha256:348f69303becac38ef8b695c14445117a9900735848165c92b94f588386d96b0",
+    "scripts/coverage_candidate_report.py": "sha256:85899cb6b3507d4f4b33f7cda4a10edf28e9c417f0cbf165d84db6504d74431d",
+    "tests/coverage_candidates_test.py": "sha256:50baf0406665a400181ff56e864a4cf234b882011c96b0d03ffea130d67ab770",
+    "docs/VERIFIED_COVERAGE_V1.md": "sha256:1601d8a3be56bb30d0bb770f363dee988425104f70ad06dba486a31a74c05f2d"
+  },
+  "safety": {
+    "activation": "disabled",
+    "executableTransport": false,
+    "providerRequestsMade": 0,
+    "liveProviderCrawlRun": false,
+    "activeAllowlistChanged": false,
+    "liveObservationsAdded": 0,
+    "schedulingWorkflowCloudflareChanged": false,
+    "dependenciesChanged": false,
+    "backendFrontendApiContractsChanged": false,
+    "deploymentCommandRun": false,
+    "merged": false,
+    "walletOrTreasuryAccess": false
+  },
+  "limitations": [
+    "All validation is offline; no new live observation or current source eligibility claimed",
+    "Source hashes identify retained bytes, not provider signatures or chain settlement",
+    "Provider retention, redistribution, commercial rights and publication approval remain unverified",
+    "New raw-ledger draft store is not an active v1 history adapter or a canonical multi-venue implementation",
+    "Concurrency, spacing, global rate admission and network deadlines are future transport requirements owned separately",
+    "Further activation/promotion/schema/publication needs separate owner review and implementation",
+    "Existing repository PR automation may build a preview on push; no hosting setting or deployment command is changed"
+  ]
+}
