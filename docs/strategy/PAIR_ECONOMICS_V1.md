@@ -4,7 +4,8 @@ Design proposal for [issue #78](https://github.com/fuzzysniper/scout-stonk-intel
 
 ## Product decision and proposed copy
 
-**SCOUT — The Pair Intelligence Terminal**  
+**SCOUT — The Pair Intelligence Terminal**
+
 **Follow the pair. Verify the flow.**
 
 SCOUT explains an exact pair's economic mechanisms, recipients and evidence for observed flows. Market discovery helps readers find a subject; it does not decide which asset is an investment opportunity. StonkFun remains the first supported integration. Venue-agnostic architecture is a design direction, not a statement that other venues are integrated.
