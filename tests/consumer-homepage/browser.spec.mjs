@@ -9,6 +9,7 @@ const examples=[
 const errors=new WeakMap(),external=new WeakMap();
 test.beforeEach(async({page})=>{
  const e=[],x=[];errors.set(page,e);external.set(page,x);
+ page.on('response',r=>{if(r.status()>=400)e.push('HTTP '+r.status()+' '+new URL(r.url()).pathname);});
  page.on('pageerror',v=>e.push(v.message));page.on('console',v=>{if(v.type()==='error')e.push(v.text());});
  page.on('request',r=>{if(!['127.0.0.1','localhost'].includes(new URL(r.url()).hostname))x.push(r.url());});
 });
@@ -69,12 +70,13 @@ test('real HTTP SSR, neutral PNG, existing routes and no financial source bodies
  for(const t of examples){const r=await request.get('/?mint='+t.mint);expect(r.status()).toBe(200);const text=await r.text();expect(text).toContain(t.name);expect(text).toContain('Financial figures withheld');
   for(const marker of ['distributedRaw','distributedTokens','totalDistributed','amountRaw','priceUsd','apy'])expect(text).not.toContain('"'+marker+'":');
  }
+ const icon=await request.get('/favicon.ico');expect(icon.status()).toBe(200);expect([...(await icon.body()).subarray(0,6)]).toEqual([0,0,1,0,1,0]);
  const png=await request.get('/opengraph-image');expect(png.status()).toBe(200);expect(png.headers()['content-type']).toContain('image/png');expect([...(await png.body()).subarray(0,8)]).toEqual([137,80,78,71,13,10,26,10]);
  writeFileSync('experiments/consumer-mvp/web/node_modules/.cache/next-homepage-og.png',await png.body());
  for(const path of ['/terminal','/research','/research/history','/radar','/status','/brief'])expect((await request.get(path)).status(),path).toBe(200);
  expect((await request.get('/api/history?mint=bad')).status()).toBe(400);expect((await request.get('/api/og?mint=bad')).status()).toBe(400);
  const oldPng=await request.get('/terminal/opengraph-image');expect(oldPng.status()).toBe(200);expect(oldPng.headers()['content-type']).toContain('image/png');expect([...(await oldPng.body()).subarray(0,8)]).toEqual([137,80,78,71,13,10,26,10]);
- const legacy=await request.get('/terminal?mint='+examples[0].mint);expect(legacy.status()).toBe(200);expect(await legacy.text()).toContain('SCOUT');
+ const legacy=await request.get('/terminal?mint='+examples[0].mint);expect(legacy.status()).toBe(200);expect(await legacy.text()).toContain('SCOUT');expect(await legacy.text()).toContain('/api/og?mint='+examples[0].mint);
  const nojs=await browser.newContext({javaScriptEnabled:false});const p=await nojs.newPage();await p.goto('http://127.0.0.1:4180/?mint='+examples[0].mint);await expect(p.getByRole('heading',{name:/^Super Inu/})).toBeVisible();await expect(p.getByText('Financial figures withheld; publication rights unverified.')).toBeVisible();await nojs.close();
  // Check actual bundled assets too: no restricted raw audit document or financial payload.
  const build=JSON.parse(readFileSync('.next/app-build-manifest.json','utf8'));for(const file of build.pages['/page']){if(!file.endsWith('.js'))continue;const js=readFileSync('.next/'+file,'utf8');expect(js).not.toContain('distributedRaw');expect(js).not.toContain('amountRaw');}

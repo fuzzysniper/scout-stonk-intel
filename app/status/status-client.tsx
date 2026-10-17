@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import {tokenResearchPath} from '../pairs/results';
 import { useEffect, useState } from 'react';
 import type { HealthReport, HealthRow } from '../../lib/data-health';
 const utc = (value: string | null) => value ? value.replace('T', ' ').replace(/(?:\.000)?Z|\+00:00$/, ' UTC') : 'Unavailable';
@@ -19,7 +20,7 @@ function TokenHealth({ row }: { row: HealthRow }) {
   <details className="health-details"><summary>Collection outcome & evidence</summary><p>Latest instrumented attempt: {row.attempt ? row.attempt.status + ' · ' + row.attempt.reason.replaceAll('_',' ') : 'Unknown · no matching attempt summary'}</p><p>Record added in that attempt: {utc(row.attempt?.observedAt ?? null)}</p>
    <p>24h maximum gap: {duration(row.coverage['24h'].maxGapSeconds)}<br/>7d maximum gap: {duration(row.coverage['7d'].maxGapSeconds)}</p>
    {row.issues.length > 0 && <p>Quality notes: {row.issues.map(issue => issue.replaceAll('_',' ')).join(' · ')}</p>}
-  </details><div className="radar-links"><a href={row.evidence} target="_blank" rel="noopener noreferrer">HISTORY JSON ↗</a><Link href={row.dossier}>TOKEN DOSSIER ↗</Link><a href={row.source} target="_blank" rel="noopener noreferrer">OFFICIAL SOURCE ↗</a></div>
+  </details><div className="radar-links"><a href={row.evidence} target="_blank" rel="noopener noreferrer">HISTORY JSON ↗</a><Link href={tokenResearchPath(row.mint)}>TOKEN DOSSIER ↗</Link><a href={row.source} target="_blank" rel="noopener noreferrer">OFFICIAL SOURCE ↗</a></div>
  </article>;
 }
 export default function StatusClient() {

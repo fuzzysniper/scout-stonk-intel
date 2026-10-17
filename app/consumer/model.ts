@@ -53,7 +53,7 @@ export function consumerMetadata(raw:string|string[]|undefined):Metadata {
  const description='What it is, what was verified, and what remains unknown. Three dated examples from 14 October 2026; stale, not live data. Financial figures withheld.';
  // Next 15 strips root-query URLs when metadataBase is set. Absolute strings
  // with an explicit null base preserve the exact-mint canonical and og:url.
- return {metadataBase:null,icons:{icon:'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Crect width=%2240%22 height=%2240%22 rx=%2210%22 fill=%22%232844cc%22/%3E%3Ccircle cx=%2220%22 cy=%2220%22 r=%228%22 fill=%22none%22 stroke=%22white%22 stroke-width=%223%22/%3E%3C/svg%3E'},title:{absolute:title},description,robots:{index:false,follow:false},alternates:{canonical},
+ return {metadataBase:null,title:{absolute:title},description,robots:{index:false,follow:false},alternates:{canonical},
   openGraph:{title,description,type:'website',url:canonical,images:[{url:image,width:1200,height:630,alt:'Understand a Solana token · dated examples, not live data'}]},
   twitter:{card:'summary_large_image',title,description,images:[image]}};
 }
