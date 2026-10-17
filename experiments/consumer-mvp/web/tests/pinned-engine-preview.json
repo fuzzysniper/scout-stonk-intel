@@ -1,0 +1,697 @@
+[
+  {
+    "kind": "retained_capture_projection",
+    "description": "Genuine retained October 14 capture, evaluated at a fixed preview clock; stale, metadata only. Not a new provider response.",
+    "input": {
+      "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "asOf": "2026-10-17T12:00:00Z"
+    },
+    "result": {
+      "schemaVersion": "1",
+      "status": "supported",
+      "explanation": {
+        "network": "solana",
+        "token": {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "symbol": "SI",
+          "name": "Super Inu"
+        },
+        "quote": {
+          "mint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+          "symbol": "NVDAX",
+          "name": "NVIDIA",
+          "decimals": 8
+        },
+        "freshness": {
+          "state": "stale",
+          "evaluatedAt": "2026-10-17T12:00:00Z",
+          "oldestCapturedAt": "2026-10-14T22:33:17.185179+00:00",
+          "maxAgeSeconds": 600,
+          "currentValueClaim": false
+        },
+        "whatItIs": {
+          "text": "Super Inu (SI) is a Solana token. StonkFun's dated catalog lists it in a reward-mode pair with NVDAX.",
+          "basis": "provider_report",
+          "sourceIds": [
+            "capture-3-aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd",
+            "capture-8-d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2"
+          ]
+        },
+        "whatUserOwns": {
+          "text": "If you hold SI, you hold that token, not NVDAX or underlying company shares or gold. These sources establish no redemption right or guaranteed claim to rewards.",
+          "basis": "limitation",
+          "sourceIds": [
+            "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "capture-3-aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd",
+            "capture-8-d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2"
+          ]
+        },
+        "pairRelationship": {
+          "text": "NVDAX is the quoted token in this recorded pair, not an ownership certificate. Exact token and quote mints identify the relationship; their names do not prove backing or price tracking.",
+          "basis": "interpretation",
+          "sourceIds": [
+            "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "capture-3-aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd",
+            "capture-8-d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2"
+          ]
+        },
+        "economicMechanism": {
+          "conclusion": {
+            "text": "StonkFun reported reward mode with NVDAX as the quote asset. This verifies a recorded setting, not that a holder was paid.",
+            "basis": "provider_report",
+            "sourceIds": [
+              "capture-3-aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd",
+              "capture-8-d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2"
+            ]
+          },
+          "settings": "verified_at_capture",
+          "scope": "provider_token_configuration",
+          "lifetimeDistribution": {
+            "state": "withheld_rights",
+            "value": null,
+            "reason": "Financial publication permission is unverified; no amount is exposed."
+          },
+          "coveredIntervalFlow": {
+            "state": "not_observed",
+            "value": null,
+            "reason": "No verified start/end observations establish covered interval flow here."
+          },
+          "settlement": "not_verified",
+          "holderEntitlement": "unknown",
+          "holderReturns": {
+            "state": "unsupported",
+            "value": null,
+            "reason": "Holder cashflows, eligibility, costs and valuations are not established; ROI is unavailable."
+          }
+        },
+        "marketContext": {
+          "state": "withheld",
+          "liquidityUsd": {
+            "state": "withheld_rights",
+            "value": null,
+            "reason": "Financial publication permission is unverified; no amount is exposed."
+          },
+          "volume24hUsd": {
+            "state": "withheld_rights",
+            "value": null,
+            "reason": "Financial publication permission is unverified; no amount is exposed."
+          },
+          "reason": "No current market values. Captured catalog context is provider/pool scoped; another venue or pool cannot be silently substituted."
+        },
+        "sources": [
+          {
+            "id": "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "kind": "quote_registry",
+            "provider": "StonkFun",
+            "url": "https://www.stonkfun.xyz/api/public/v1/pairs",
+            "capturedAt": "2026-10-14T22:33:17.185179+00:00",
+            "generatedAt": "2026-10-14T22:28:32.776Z",
+            "bodySha256": "d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "evidence": "retained_capture",
+            "verification": "provider_identity_at_capture",
+            "rights": {
+              "publication": "metadata_only",
+              "financialQuantities": "withheld",
+              "permission": "unverified"
+            },
+            "retained": {
+              "commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c",
+              "path": "docs/evidence/pair-reward-audit-2026-10-14.json",
+              "documentSha256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+              "packetIndex": 0
+            }
+          },
+          {
+            "id": "capture-3-aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd",
+            "kind": "pair_catalog",
+            "provider": "StonkFun",
+            "url": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=1&pageSize=25&quoteMint=Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+            "capturedAt": "2026-10-14T22:33:38.653731+00:00",
+            "generatedAt": "2026-10-14T22:33:38.637Z",
+            "bodySha256": "aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd",
+            "evidence": "retained_capture",
+            "verification": "provider_identity_at_capture",
+            "rights": {
+              "publication": "metadata_only",
+              "financialQuantities": "withheld",
+              "permission": "unverified"
+            },
+            "retained": {
+              "commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c",
+              "path": "docs/evidence/pair-reward-audit-2026-10-14.json",
+              "documentSha256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+              "packetIndex": 3
+            }
+          },
+          {
+            "id": "capture-8-d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2",
+            "kind": "reward_settings",
+            "provider": "StonkFun",
+            "url": "https://www.stonkfun.xyz/api/v2/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+            "capturedAt": "2026-10-14T22:34:07.070444+00:00",
+            "generatedAt": "2026-10-14T22:34:07.055Z",
+            "bodySha256": "d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2",
+            "evidence": "retained_capture",
+            "verification": "provider_identity_at_capture",
+            "rights": {
+              "publication": "metadata_only",
+              "financialQuantities": "withheld",
+              "permission": "unverified"
+            },
+            "retained": {
+              "commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c",
+              "path": "docs/evidence/pair-reward-audit-2026-10-14.json",
+              "documentSha256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+              "packetIndex": 8
+            }
+          }
+        ],
+        "risksAndUnknowns": [
+          {
+            "text": "Captured evidence is dated, not a live check. Current settings, eligibility and source permissions require new review.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+              "capture-3-aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd",
+              "capture-8-d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2"
+            ]
+          },
+          {
+            "text": "This is a curated subset of a bounded, market-cap-selected first catalog page, not complete market coverage or a ranking.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-3-aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd"
+            ]
+          },
+          {
+            "text": "A stock-linked quote label does not establish ownership of underlying shares, gold, backing, redemption or enforceable rights.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733"
+            ]
+          },
+          {
+            "text": "Fee splits, recipient eligibility and enforceable holder entitlements are not established by these captures.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-3-aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd",
+              "capture-8-d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2"
+            ]
+          },
+          {
+            "text": "Provider-reported lifetime counters are not recent earning rates or proof of settled transfers. No holder return is established.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-8-d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2"
+            ]
+          },
+          {
+            "text": "Names and tickers can repeat. Only the exact reviewed mints are supported; other tokens with the same label are not aliases.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+              "capture-3-aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd"
+            ]
+          },
+          {
+            "text": "Source access and receipt hashes do not grant retention, redistribution or commercial permission. Financial quantities remain withheld.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+              "capture-3-aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd",
+              "capture-8-d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "kind": "retained_capture_projection",
+    "description": "Genuine retained October 14 capture, evaluated at a fixed preview clock; stale, metadata only. Not a new provider response.",
+    "input": {
+      "mint": "HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ",
+      "asOf": "2026-10-17T12:00:00Z"
+    },
+    "result": {
+      "schemaVersion": "1",
+      "status": "supported",
+      "explanation": {
+        "network": "solana",
+        "token": {
+          "mint": "HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ",
+          "symbol": "GP",
+          "name": "RuneScape Gold"
+        },
+        "quote": {
+          "mint": "Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re",
+          "symbol": "GLDX",
+          "name": "GOLD",
+          "decimals": 8
+        },
+        "freshness": {
+          "state": "stale",
+          "evaluatedAt": "2026-10-17T12:00:00Z",
+          "oldestCapturedAt": "2026-10-14T22:33:17.185179+00:00",
+          "maxAgeSeconds": 600,
+          "currentValueClaim": false
+        },
+        "whatItIs": {
+          "text": "RuneScape Gold (GP) is a Solana token. StonkFun's dated catalog lists it in a reward-mode pair with GLDX.",
+          "basis": "provider_report",
+          "sourceIds": [
+            "capture-4-132b82574727c909f4eb90322e1ad76dff5c6de769aa42fcf7227dd552e77220",
+            "capture-12-d10a02c5dd19ec7926c7292928cef977e70a108150214626bd2929716828b324"
+          ]
+        },
+        "whatUserOwns": {
+          "text": "If you hold GP, you hold that token, not GLDX or underlying company shares or gold. These sources establish no redemption right or guaranteed claim to rewards.",
+          "basis": "limitation",
+          "sourceIds": [
+            "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "capture-4-132b82574727c909f4eb90322e1ad76dff5c6de769aa42fcf7227dd552e77220",
+            "capture-12-d10a02c5dd19ec7926c7292928cef977e70a108150214626bd2929716828b324"
+          ]
+        },
+        "pairRelationship": {
+          "text": "GLDX is the quoted token in this recorded pair, not an ownership certificate. Exact token and quote mints identify the relationship; their names do not prove backing or price tracking.",
+          "basis": "interpretation",
+          "sourceIds": [
+            "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "capture-4-132b82574727c909f4eb90322e1ad76dff5c6de769aa42fcf7227dd552e77220",
+            "capture-12-d10a02c5dd19ec7926c7292928cef977e70a108150214626bd2929716828b324"
+          ]
+        },
+        "economicMechanism": {
+          "conclusion": {
+            "text": "StonkFun reported reward mode with GLDX as the quote asset. This verifies a recorded setting, not that a holder was paid.",
+            "basis": "provider_report",
+            "sourceIds": [
+              "capture-4-132b82574727c909f4eb90322e1ad76dff5c6de769aa42fcf7227dd552e77220",
+              "capture-12-d10a02c5dd19ec7926c7292928cef977e70a108150214626bd2929716828b324"
+            ]
+          },
+          "settings": "verified_at_capture",
+          "scope": "provider_token_configuration",
+          "lifetimeDistribution": {
+            "state": "withheld_rights",
+            "value": null,
+            "reason": "Financial publication permission is unverified; no amount is exposed."
+          },
+          "coveredIntervalFlow": {
+            "state": "not_observed",
+            "value": null,
+            "reason": "No verified start/end observations establish covered interval flow here."
+          },
+          "settlement": "not_verified",
+          "holderEntitlement": "unknown",
+          "holderReturns": {
+            "state": "unsupported",
+            "value": null,
+            "reason": "Holder cashflows, eligibility, costs and valuations are not established; ROI is unavailable."
+          }
+        },
+        "marketContext": {
+          "state": "withheld",
+          "liquidityUsd": {
+            "state": "withheld_rights",
+            "value": null,
+            "reason": "Financial publication permission is unverified; no amount is exposed."
+          },
+          "volume24hUsd": {
+            "state": "withheld_rights",
+            "value": null,
+            "reason": "Financial publication permission is unverified; no amount is exposed."
+          },
+          "reason": "No current market values. Captured catalog context is provider/pool scoped; another venue or pool cannot be silently substituted."
+        },
+        "sources": [
+          {
+            "id": "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "kind": "quote_registry",
+            "provider": "StonkFun",
+            "url": "https://www.stonkfun.xyz/api/public/v1/pairs",
+            "capturedAt": "2026-10-14T22:33:17.185179+00:00",
+            "generatedAt": "2026-10-14T22:28:32.776Z",
+            "bodySha256": "d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "evidence": "retained_capture",
+            "verification": "provider_identity_at_capture",
+            "rights": {
+              "publication": "metadata_only",
+              "financialQuantities": "withheld",
+              "permission": "unverified"
+            },
+            "retained": {
+              "commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c",
+              "path": "docs/evidence/pair-reward-audit-2026-10-14.json",
+              "documentSha256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+              "packetIndex": 0
+            }
+          },
+          {
+            "id": "capture-4-132b82574727c909f4eb90322e1ad76dff5c6de769aa42fcf7227dd552e77220",
+            "kind": "pair_catalog",
+            "provider": "StonkFun",
+            "url": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=1&pageSize=25&quoteMint=Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re",
+            "capturedAt": "2026-10-14T22:33:39.794344+00:00",
+            "generatedAt": "2026-10-14T22:33:39.781Z",
+            "bodySha256": "132b82574727c909f4eb90322e1ad76dff5c6de769aa42fcf7227dd552e77220",
+            "evidence": "retained_capture",
+            "verification": "provider_identity_at_capture",
+            "rights": {
+              "publication": "metadata_only",
+              "financialQuantities": "withheld",
+              "permission": "unverified"
+            },
+            "retained": {
+              "commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c",
+              "path": "docs/evidence/pair-reward-audit-2026-10-14.json",
+              "documentSha256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+              "packetIndex": 4
+            }
+          },
+          {
+            "id": "capture-12-d10a02c5dd19ec7926c7292928cef977e70a108150214626bd2929716828b324",
+            "kind": "reward_settings",
+            "provider": "StonkFun",
+            "url": "https://www.stonkfun.xyz/api/v2/tokens/HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ/rewards",
+            "capturedAt": "2026-10-14T22:34:11.763783+00:00",
+            "generatedAt": "2026-10-14T22:34:11.750Z",
+            "bodySha256": "d10a02c5dd19ec7926c7292928cef977e70a108150214626bd2929716828b324",
+            "evidence": "retained_capture",
+            "verification": "provider_identity_at_capture",
+            "rights": {
+              "publication": "metadata_only",
+              "financialQuantities": "withheld",
+              "permission": "unverified"
+            },
+            "retained": {
+              "commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c",
+              "path": "docs/evidence/pair-reward-audit-2026-10-14.json",
+              "documentSha256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+              "packetIndex": 12
+            }
+          }
+        ],
+        "risksAndUnknowns": [
+          {
+            "text": "Captured evidence is dated, not a live check. Current settings, eligibility and source permissions require new review.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+              "capture-4-132b82574727c909f4eb90322e1ad76dff5c6de769aa42fcf7227dd552e77220",
+              "capture-12-d10a02c5dd19ec7926c7292928cef977e70a108150214626bd2929716828b324"
+            ]
+          },
+          {
+            "text": "This is a curated subset of a bounded, market-cap-selected first catalog page, not complete market coverage or a ranking.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-4-132b82574727c909f4eb90322e1ad76dff5c6de769aa42fcf7227dd552e77220"
+            ]
+          },
+          {
+            "text": "A stock-linked quote label does not establish ownership of underlying shares, gold, backing, redemption or enforceable rights.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733"
+            ]
+          },
+          {
+            "text": "Fee splits, recipient eligibility and enforceable holder entitlements are not established by these captures.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-4-132b82574727c909f4eb90322e1ad76dff5c6de769aa42fcf7227dd552e77220",
+              "capture-12-d10a02c5dd19ec7926c7292928cef977e70a108150214626bd2929716828b324"
+            ]
+          },
+          {
+            "text": "Provider-reported lifetime counters are not recent earning rates or proof of settled transfers. No holder return is established.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-12-d10a02c5dd19ec7926c7292928cef977e70a108150214626bd2929716828b324"
+            ]
+          },
+          {
+            "text": "Names and tickers can repeat. Only the exact reviewed mints are supported; other tokens with the same label are not aliases.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+              "capture-4-132b82574727c909f4eb90322e1ad76dff5c6de769aa42fcf7227dd552e77220"
+            ]
+          },
+          {
+            "text": "Source access and receipt hashes do not grant retention, redistribution or commercial permission. Financial quantities remain withheld.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+              "capture-4-132b82574727c909f4eb90322e1ad76dff5c6de769aa42fcf7227dd552e77220",
+              "capture-12-d10a02c5dd19ec7926c7292928cef977e70a108150214626bd2929716828b324"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "kind": "retained_capture_projection",
+    "description": "Genuine retained October 14 capture, evaluated at a fixed preview clock; stale, metadata only. Not a new provider response.",
+    "input": {
+      "mint": "6HU4CmRb15C2nQDx8Ld2f2W2wTdmog6aZiiXdrT5Pzi8",
+      "asOf": "2026-10-17T12:00:00Z"
+    },
+    "result": {
+      "schemaVersion": "1",
+      "status": "supported",
+      "explanation": {
+        "network": "solana",
+        "token": {
+          "mint": "6HU4CmRb15C2nQDx8Ld2f2W2wTdmog6aZiiXdrT5Pzi8",
+          "symbol": "GROK",
+          "name": "Grokification"
+        },
+        "quote": {
+          "mint": "Xs3oZwbHvqis4NYcf4YKWmEia2eC84wSiVrcYcTqpH8",
+          "symbol": "SPCXX",
+          "name": "SPACEX",
+          "decimals": 8
+        },
+        "freshness": {
+          "state": "stale",
+          "evaluatedAt": "2026-10-17T12:00:00Z",
+          "oldestCapturedAt": "2026-10-14T22:33:17.185179+00:00",
+          "maxAgeSeconds": 600,
+          "currentValueClaim": false
+        },
+        "whatItIs": {
+          "text": "Grokification (GROK) is a Solana token. StonkFun's dated catalog lists it in a reward-mode pair with SPCXX.",
+          "basis": "provider_report",
+          "sourceIds": [
+            "capture-5-34d4d54d8588784159c1f2c5f39d43fed38c8da1fec2623811d077d55221d09b",
+            "capture-17-b7688baa90343e23a8499cf8938bf034c78e4528631023a222ed566c791d58d2"
+          ]
+        },
+        "whatUserOwns": {
+          "text": "If you hold GROK, you hold that token, not SPCXX or underlying company shares or gold. These sources establish no redemption right or guaranteed claim to rewards.",
+          "basis": "limitation",
+          "sourceIds": [
+            "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "capture-5-34d4d54d8588784159c1f2c5f39d43fed38c8da1fec2623811d077d55221d09b",
+            "capture-17-b7688baa90343e23a8499cf8938bf034c78e4528631023a222ed566c791d58d2"
+          ]
+        },
+        "pairRelationship": {
+          "text": "SPCXX is the quoted token in this recorded pair, not an ownership certificate. Exact token and quote mints identify the relationship; their names do not prove backing or price tracking.",
+          "basis": "interpretation",
+          "sourceIds": [
+            "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "capture-5-34d4d54d8588784159c1f2c5f39d43fed38c8da1fec2623811d077d55221d09b",
+            "capture-17-b7688baa90343e23a8499cf8938bf034c78e4528631023a222ed566c791d58d2"
+          ]
+        },
+        "economicMechanism": {
+          "conclusion": {
+            "text": "StonkFun reported reward mode with SPCXX as the quote asset. This verifies a recorded setting, not that a holder was paid.",
+            "basis": "provider_report",
+            "sourceIds": [
+              "capture-5-34d4d54d8588784159c1f2c5f39d43fed38c8da1fec2623811d077d55221d09b",
+              "capture-17-b7688baa90343e23a8499cf8938bf034c78e4528631023a222ed566c791d58d2"
+            ]
+          },
+          "settings": "verified_at_capture",
+          "scope": "provider_token_configuration",
+          "lifetimeDistribution": {
+            "state": "withheld_rights",
+            "value": null,
+            "reason": "Financial publication permission is unverified; no amount is exposed."
+          },
+          "coveredIntervalFlow": {
+            "state": "not_observed",
+            "value": null,
+            "reason": "No verified start/end observations establish covered interval flow here."
+          },
+          "settlement": "not_verified",
+          "holderEntitlement": "unknown",
+          "holderReturns": {
+            "state": "unsupported",
+            "value": null,
+            "reason": "Holder cashflows, eligibility, costs and valuations are not established; ROI is unavailable."
+          }
+        },
+        "marketContext": {
+          "state": "withheld",
+          "liquidityUsd": {
+            "state": "withheld_rights",
+            "value": null,
+            "reason": "Financial publication permission is unverified; no amount is exposed."
+          },
+          "volume24hUsd": {
+            "state": "withheld_rights",
+            "value": null,
+            "reason": "Financial publication permission is unverified; no amount is exposed."
+          },
+          "reason": "No current market values. Captured catalog context is provider/pool scoped; another venue or pool cannot be silently substituted."
+        },
+        "sources": [
+          {
+            "id": "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "kind": "quote_registry",
+            "provider": "StonkFun",
+            "url": "https://www.stonkfun.xyz/api/public/v1/pairs",
+            "capturedAt": "2026-10-14T22:33:17.185179+00:00",
+            "generatedAt": "2026-10-14T22:28:32.776Z",
+            "bodySha256": "d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "evidence": "retained_capture",
+            "verification": "provider_identity_at_capture",
+            "rights": {
+              "publication": "metadata_only",
+              "financialQuantities": "withheld",
+              "permission": "unverified"
+            },
+            "retained": {
+              "commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c",
+              "path": "docs/evidence/pair-reward-audit-2026-10-14.json",
+              "documentSha256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+              "packetIndex": 0
+            }
+          },
+          {
+            "id": "capture-5-34d4d54d8588784159c1f2c5f39d43fed38c8da1fec2623811d077d55221d09b",
+            "kind": "pair_catalog",
+            "provider": "StonkFun",
+            "url": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=1&pageSize=25&quoteMint=Xs3oZwbHvqis4NYcf4YKWmEia2eC84wSiVrcYcTqpH8",
+            "capturedAt": "2026-10-14T22:33:41.071614+00:00",
+            "generatedAt": "2026-10-14T22:33:41.057Z",
+            "bodySha256": "34d4d54d8588784159c1f2c5f39d43fed38c8da1fec2623811d077d55221d09b",
+            "evidence": "retained_capture",
+            "verification": "provider_identity_at_capture",
+            "rights": {
+              "publication": "metadata_only",
+              "financialQuantities": "withheld",
+              "permission": "unverified"
+            },
+            "retained": {
+              "commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c",
+              "path": "docs/evidence/pair-reward-audit-2026-10-14.json",
+              "documentSha256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+              "packetIndex": 5
+            }
+          },
+          {
+            "id": "capture-17-b7688baa90343e23a8499cf8938bf034c78e4528631023a222ed566c791d58d2",
+            "kind": "reward_settings",
+            "provider": "StonkFun",
+            "url": "https://www.stonkfun.xyz/api/v2/tokens/6HU4CmRb15C2nQDx8Ld2f2W2wTdmog6aZiiXdrT5Pzi8/rewards",
+            "capturedAt": "2026-10-14T22:34:17.512424+00:00",
+            "generatedAt": "2026-10-14T22:34:17.495Z",
+            "bodySha256": "b7688baa90343e23a8499cf8938bf034c78e4528631023a222ed566c791d58d2",
+            "evidence": "retained_capture",
+            "verification": "provider_identity_at_capture",
+            "rights": {
+              "publication": "metadata_only",
+              "financialQuantities": "withheld",
+              "permission": "unverified"
+            },
+            "retained": {
+              "commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c",
+              "path": "docs/evidence/pair-reward-audit-2026-10-14.json",
+              "documentSha256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+              "packetIndex": 17
+            }
+          }
+        ],
+        "risksAndUnknowns": [
+          {
+            "text": "Captured evidence is dated, not a live check. Current settings, eligibility and source permissions require new review.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+              "capture-5-34d4d54d8588784159c1f2c5f39d43fed38c8da1fec2623811d077d55221d09b",
+              "capture-17-b7688baa90343e23a8499cf8938bf034c78e4528631023a222ed566c791d58d2"
+            ]
+          },
+          {
+            "text": "This is a curated subset of a bounded, market-cap-selected first catalog page, not complete market coverage or a ranking.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-5-34d4d54d8588784159c1f2c5f39d43fed38c8da1fec2623811d077d55221d09b"
+            ]
+          },
+          {
+            "text": "A stock-linked quote label does not establish ownership of underlying shares, gold, backing, redemption or enforceable rights.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733"
+            ]
+          },
+          {
+            "text": "Fee splits, recipient eligibility and enforceable holder entitlements are not established by these captures.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-5-34d4d54d8588784159c1f2c5f39d43fed38c8da1fec2623811d077d55221d09b",
+              "capture-17-b7688baa90343e23a8499cf8938bf034c78e4528631023a222ed566c791d58d2"
+            ]
+          },
+          {
+            "text": "Provider-reported lifetime counters are not recent earning rates or proof of settled transfers. No holder return is established.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-17-b7688baa90343e23a8499cf8938bf034c78e4528631023a222ed566c791d58d2"
+            ]
+          },
+          {
+            "text": "Names and tickers can repeat. Only the exact reviewed mints are supported; other tokens with the same label are not aliases.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+              "capture-5-34d4d54d8588784159c1f2c5f39d43fed38c8da1fec2623811d077d55221d09b"
+            ]
+          },
+          {
+            "text": "Source access and receipt hashes do not grant retention, redistribution or commercial permission. Financial quantities remain withheld.",
+            "basis": "limitation",
+            "sourceIds": [
+              "capture-0-d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+              "capture-5-34d4d54d8588784159c1f2c5f39d43fed38c8da1fec2623811d077d55221d09b",
+              "capture-17-b7688baa90343e23a8499cf8938bf034c78e4528631023a222ed566c791d58d2"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "kind": "simulated_input",
+    "description": "Synthetic unknown-input UX example; no source observation.",
+    "input": {
+      "mint": "11111111111111111111111111111111",
+      "asOf": "2026-10-17T12:00:00Z"
+    },
+    "result": {
+      "schemaVersion": "1",
+      "status": "unsupported",
+      "reason": "not_in_supported_set",
+      "message": "This mint is not in the reviewed evidence set. No lookup or automatic enrollment was performed."
+    }
+  }
+]

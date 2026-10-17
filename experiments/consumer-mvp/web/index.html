@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f8f4" />
+    <meta name="description" content="PROJECT CLEAR research prototype. Understand a supported Solana token using clearly dated, captured examples. No live market data." />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%232844cc'/%3E%3Cpath d='M27 12H13v16h14' fill='none' stroke='white' stroke-width='4'/%3E%3C/svg%3E" />
+    <title>PROJECT CLEAR — understand a Solana token</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="?" aria-label="PROJECT CLEAR, start again"><span class="brand-mark" aria-hidden="true">C</span><span>PROJECT CLEAR</span></a>
+      <span class="preview-label">Research preview</span>
+    </header>
+    <main id="content">
+      <section class="welcome" id="welcome" aria-labelledby="welcome-title">
+        <p class="eyebrow">LESS GUESSWORK. MORE UNDERSTANDING.</p>
+        <h1 id="welcome-title">A token address.<br /><span>A clear answer.</span></h1>
+        <p class="intro">See what a Solana token is, what’s verified, and what’s still unknown.</p>
+      </section>
+      <div class="capture-notice" id="capture-notice"><span class="notice-dot" aria-hidden="true"></span><span><strong>Captured examples, not live data.</strong> Retained records · 14 Oct 2026.</span></div>
+      <form id="lookup-form" novalidate>
+        <label for="mint">Solana token mint</label>
+        <div class="search-row">
+          <input id="mint" name="mint" type="text" placeholder="Paste a full mint address" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="120" aria-describedby="mint-help lookup-status" />
+          <button type="submit" class="primary" id="explain-button" disabled>Explain token <span aria-hidden="true">→</span></button>
+        </div>
+        <p id="mint-help" class="field-help">An address identifies a token. A ticker doesn’t.</p>
+      </form>
+      <p id="lookup-status" class="lookup-status" role="status" aria-live="polite"></p>
+      <section id="answer" aria-live="off" hidden></section>
+      <section class="discovery" id="discovery" aria-labelledby="discovery-title">
+        <div class="section-label"><h2 id="discovery-title">Try a captured example</h2><span>3 supported tokens</span></div>
+        <div id="example-list" class="example-list"></div>
+        <p class="small-note">Selected examples, not a ranking or a complete token list.</p>
+      </section>
+      <noscript><div class="error-card"><h2>JavaScript is needed for this prototype.</h2><p>No live data is loaded. Enable JavaScript to explore the three captured examples.</p></div></noscript>
+    </main>
+    <footer class="site-footer">
+      <span>Understanding first. No trading or wallet connection.</span>
+      <details class="feedback"><summary>Tester feedback</summary><div class="feedback-body"><label for="feedback-note">What did this explain well—or leave unclear?</label><textarea id="feedback-note" rows="3" maxlength="1500" placeholder="Your note stays on this device."></textarea><button type="button" id="copy-feedback" class="secondary">Copy feedback</button><p id="feedback-status" role="status">Nothing is sent or saved. Copy your note to share it yourself.</p></div></details>
+      <span class="placeholder-note">PROJECT CLEAR is a temporary working name.</span>
+    </footer>
+    <script type="module" src="/src/main.mts"></script>
+  </body>
+</html>
