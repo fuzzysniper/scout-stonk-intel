@@ -2,6 +2,8 @@
 
 Issue [#76](https://github.com/fuzzysniper/scout-stonk-intel/issues/76). **Pilot: NO-GO. No hosted authentication or workflow-token test has run in this PR.** Review or merge is not permission to deploy, arm, invoke, change permissions or collect. Product/data work in #74 / PR #75 is untouched.
 
+Issue [#84 operational handoff](C2_OPERATIONAL_READINESS.md) adds a separately selected **unarmed** integration manifest, pins the expected actor to `342326617`, and prepares an unapplied proof inside the actual collector job. Its independent deployment/arming/invocation/collector-permission approvals supersede the older proposal-only integration handoff below. The #76 isolated job remains distinct; no live proof has passed. Existing key provisioning must **not** be repeated.
+
 The owner reports Stage B deployed `scout-scheduler-staging`, with `ACTIVATION=disabled`, existing `SLOTS` SQLite class and no Cron/routes; B2 provisioned encrypted `APP_PRIVATE_KEY`. Owner-reported C1 passed at **2026-10-15T17:23:20Z**, workflow ID `382300817`, dispatches `0`, temporary token revoked, `hostedBindingVerified:false`, `workflowTokenVerified:false`. These are issue evidence, not agent inspection of the account/key. Earlier [pilot readiness](HOURLY_PILOT_READINESS.md) and [staging handoff](CLOUDFLARE_STAGING_AUTH.md) remain applicable except that PC authentication is now owner-reported passed. Do not repeat C1 or request its key.
 
 ## Decision: one private instance, one permanently consumed reservation
@@ -99,7 +101,7 @@ if ($scoutC2Id -cnotmatch '^c2-[a-f0-9]{40}$') { throw 'Select exact approved in
 if ((Test-Path Env:CLOUDFLARE_API_BASE_URL) -or (Test-Path Env:CF_API_BASE_URL)) { throw 'Unexpected API override' }
 $env:WRANGLER_SEND_METRICS = 'false'
 $env:WRANGLER_SEND_ERROR_REPORTS = 'false'
-$scoutRaw = (& npx --no-install wrangler workflows instances describe scout-stage-c2-auth-only $scoutC2Id --json --config wrangler.json 2>$null | Out-String)
+$scoutRaw = (& npx --no-install wrangler workflows instances describe scout-stage-c2-auth-only $scoutC2Id --json --config c2/wrangler.unarmed.json 2>$null | Out-String)
 if ($LASTEXITCODE -ne 0 -or $scoutRaw.Length -gt 32768) { throw 'Instance unavailable; stop' }
 try { $scoutInstance = $scoutRaw | ConvertFrom-Json -ErrorAction Stop } catch { throw 'Instance unavailable; stop' }
 $scoutRaw = $null
@@ -122,6 +124,7 @@ foreach ($scoutName in @('dispatches','collectionClaims','providerQueries','repo
   if ($scoutResult.$scoutName -ne 0) { throw 'Unexpected operation; stop' }
 }
 if ($scoutResult.appId -ne 5310753 -or $scoutResult.installationId -ne 171233795 -or $scoutResult.repositoryId -ne 1415026436 -or $scoutResult.workflowId -ne 382300817) { throw 'Wrong identity; stop' }
+if ($scoutResult.appActorId -ne 342326617) { throw 'Wrong App actor; stop' }
 if ($scoutResult.checkedAt -cnotmatch '^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$' -or $scoutResult.appActorId -isnot [long] -and $scoutResult.appActorId -isnot [int]) { throw 'Unexpected public evidence; stop' }
 $scoutResult | Select-Object -Property $scoutFields | ConvertTo-Json -Compress
 $scoutInstance = $null

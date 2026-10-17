@@ -1,7 +1,7 @@
-// OFFLINE TESTS ONLY. Ephemeral synthetic key/token/actor; never an owner binding.
+// OFFLINE TESTS ONLY. Ephemeral synthetic key/token; public expected actor ID.
 import {PUBLIC,WORKFLOW} from './app-proof.mjs';
 export const FAKE_TOKEN='offline-c2-installation-token-sentinel';
-export const FAKE_ACTOR='900000001';
+export const FAKE_ACTOR=String(PUBLIC.actor);
 let generated;
 export async function syntheticKey(){const pair=await crypto.subtle.generateKey({name:'RSASSA-PKCS1-v1_5',modulusLength:2048,publicExponent:new Uint8Array([1,0,1]),hash:'SHA-256'},true,['sign','verify']);
  const bytes=await crypto.subtle.exportKey('pkcs8',pair.privateKey);

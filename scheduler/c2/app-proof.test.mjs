@@ -4,6 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {inspectHostedApp,permitted,PUBLIC} from './app-proof.mjs';
 import {context,responder,FAKE_TOKEN,syntheticKey} from './fixtures.mjs';
 import {proposal,assertProposal,assertUnchangedStaging} from './policy.mjs';
+import {assertUnarmedIntegration,unarmedIntegration} from './integration-policy.mjs';
 const install='/app/installations/'+PUBLIC.installation;
 globalThis.fetch=()=>{throw Error('offline_outbound_forbidden');};
 async function run(change,mutate=()=>{}){
@@ -20,7 +21,7 @@ test('strict unarmed proposal preserves original staging and rejects surfaces/pr
  }
 });
 test('missing/wrong guards, identity, actor, instance and clock reject before binding/key access or HTTP',async()=>{
- const mutations=[c=>delete c.env.ACTIVATION,c=>c.env.ACTIVATION='human-approved',c=>c.env.C2_ARMED='false',c=>c.env.C2_GATE_DISABLED_ATTESTED='false',c=>c.env.APP_ID='other',c=>c.env.INSTALLATION_ID='1',c=>c.env.REPOSITORY_ID='1',c=>c.env.C2_APP_ACTOR_ID=String(PUBLIC.owner),c=>c.env.C2_APP_ACTOR_ID='0',c=>c.env.C2_APP_ACTOR_ID='UNAPPROVED',c=>c.event.instanceId='other',c=>c.event.workflowName='other',c=>c.event.createdAt=Date.now()+1000,c=>c.env.C2_NOT_BEFORE='not-utc',c=>c.env.C2_EXPIRES_AT=c.env.C2_NOT_BEFORE,c=>c.env.C2_EXPIRES_AT='2099-01-01T00:00:00.000Z'];
+ const mutations=[c=>delete c.env.ACTIVATION,c=>c.env.ACTIVATION='human-approved',c=>c.env.C2_ARMED='false',c=>c.env.C2_GATE_DISABLED_ATTESTED='false',c=>c.env.APP_ID='other',c=>c.env.INSTALLATION_ID='1',c=>c.env.REPOSITORY_ID='1',c=>c.env.C2_APP_ACTOR_ID=String(PUBLIC.owner),c=>c.env.C2_APP_ACTOR_ID='900000001',c=>c.env.C2_APP_ACTOR_ID='0',c=>c.env.C2_APP_ACTOR_ID='UNAPPROVED',c=>c.event.instanceId='other',c=>c.event.workflowName='other',c=>c.event.createdAt=Date.now()+1000,c=>c.env.C2_NOT_BEFORE='not-utc',c=>c.env.C2_EXPIRES_AT=c.env.C2_NOT_BEFORE,c=>c.env.C2_EXPIRES_AT='2099-01-01T00:00:00.000Z'];
  for(const mutate of mutations){const c=await context();mutate(c);Object.defineProperty(c.env,'APP_PRIVATE_KEY',{get(){throw Error('key_access_forbidden');}});assert.equal(permitted(c.env,c.event),false);const v=await inspectHostedApp(c.env,c.event);assert.equal(v.passed,false);assert.equal(v.tokenIssuanceAttempted,false);}
 });
 test('absent/malformed/wrong key and 401/403/429/503/redirect/timeout are fail closed and redacted',async()=>{
@@ -77,4 +78,19 @@ test('real request/revocation AbortSignal deadlines and a stalled issuance body 
    assert.equal(calls.filter(v=>v.method==='POST').length,1);
   }
  }finally{clearInterval(keepAlive);globalThis.fetch=original;}
+});
+
+test('unselected integration preserves namespace/class and rejects armed config, credentials and ingress',async()=>{
+ const value=JSON.parse(await readFile(new URL('./wrangler.unarmed.json',import.meta.url),'utf8'));
+ assertUnarmedIntegration(value);assert.deepEqual(value,unarmedIntegration);
+ const active=JSON.parse(await readFile(new URL('../wrangler.json',import.meta.url),'utf8'));
+ assert.equal(active.main,'staging-entry.ts');assert.equal(active.vars.ACTIVATION,'disabled');
+ assert.deepEqual(value.durable_objects.bindings[0],active.durable_objects.bindings[0]);
+ assert.deepEqual(value.exports.SlotCoordinator,active.exports.SlotCoordinator);assert.equal(value.vars.C2_APP_ACTOR_ID,'342326617');
+ for(const mutate of [c=>c.vars.C2_ARMED='true',c=>c.vars.C2_APP_ACTOR_ID='900000001',c=>c.vars.ACTIVATION='enabled',
+  c=>c.vars.APP_PRIVATE_KEY='offline-sensitive-error',c=>c.triggers={crons:['17 * * * *']},c=>c.routes=[],c=>c.workers_dev=true,
+  c=>c.preview_urls=true,c=>c.durable_objects.bindings[0].class_name='Replacement',c=>c.exports.SlotCoordinator.storage='legacy-kv',
+  c=>c.workflows=[{}],c=>c.env={},c=>c.migrations=[{tag:'new',deleted_classes:['SlotCoordinator']}],c=>c.keep_vars=true]){
+  const bad=structuredClone(value);mutate(bad);assert.throws(()=>assertUnarmedIntegration(bad),e=>{assert.doesNotMatch(e.stack,/offline-sensitive-error/);return true;});
+ }
 });
