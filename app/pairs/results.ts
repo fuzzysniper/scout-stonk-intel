@@ -106,7 +106,7 @@ export function readRewardEvidence(token:PairToken,catalog:PairCatalog|null=null
 /** Existing dossier route: token identity only, never a frozen pair selection or sample. */
 export function tokenResearchPath(mint: string): string {
  if(!validMint(mint))throw Error('Invalid token identity');
- return '/?mint='+encodeURIComponent(mint);
+ return '/terminal?mint='+encodeURIComponent(mint);
 }
 export function tokenResearchUrl(mint: string, origin: string): string {
  const base=new URL(origin);

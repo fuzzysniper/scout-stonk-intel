@@ -3,16 +3,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const destinations = [
- { href: '/', label: 'Home' },
+ { href: '/terminal', label: 'Terminal' },
  { href: '/radar', label: 'Radar' },
  { href: '/brief', label: 'Daily Brief' },
  { href: '/status', label: 'Data Health' },
 ];
 export function NavigationLinks({ pathname }: { pathname: string }) {
- if(pathname==='/')return <div className="site-navigation home-navigation">
+ if(pathname==='/')return null;
+ if(pathname==='/terminal')return <div className="site-navigation home-navigation">
   <a className="skip-content" href="#scout-content">Skip to content</a>
   <nav aria-label="Primary">
-   <Link href="/" className="home-brand" aria-current="page" aria-label="SCOUT home">SCOUT<span>.</span></Link>
+   <Link href="/terminal" className="home-brand" aria-current="page" aria-label="SCOUT home">SCOUT<span>.</span></Link>
    <span className="home-terminal-label">RESEARCH TERMINAL</span><Link href="/research" prefetch={false} className="home-guide">Guide</Link>
   </nav>
  </div>;

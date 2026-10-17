@@ -1,0 +1,243 @@
+{
+  "issue": 92,
+  "base": "b6ccd1d91fd2570b96f87ca430af73d85be83ce0",
+  "recordedAt": "2026-10-17T20:08:02.240371+00:00",
+  "runtime": "Next.js 15.5.9 production build + next start on loopback 4180; not production deployment",
+  "rootChecks": {
+    "npm ci": {
+      "exit": 0,
+      "packages": 336
+    },
+    "npm test": {
+      "exit": 0,
+      "application": 498,
+      "portableEvidence": 29,
+      "python": 106,
+      "adapter": 18
+    },
+    "npx tsc --noEmit": {
+      "exit": 0
+    },
+    "npm run lint": {
+      "exit": 0
+    },
+    "npm run build": {
+      "exit": 0,
+      "staticPages": 12
+    },
+    "bash scripts/archive-tool.sh check origin/main": {
+      "exit": 0
+    },
+    "npm run archive:dry-run": {
+      "exit": 0
+    }
+  },
+  "browser": {
+    "casesPassed": 18,
+    "widths": [
+      320,
+      390,
+      1280
+    ],
+    "engine": "original merged #90, default actual clock, no fixtures",
+    "axeViolations": 0,
+    "unexpectedClientErrors": 0,
+    "automaticBrowserExternalRequests": 0,
+    "bothOgPngsHttp200": true,
+    "physicalPhoneTested": false,
+    "humanComprehensionTested": false,
+    "durationSeconds": 28.1,
+    "unexpectedHttpErrors": 0,
+    "staticNeutralFaviconHttp200": true,
+    "legacyTokenOgMetadataVerified": true
+  },
+  "protectedFiles": {
+    "count": 77,
+    "byteIdentical": true,
+    "pathAndSha256ListDigest": "b3eab1f1a242f64e6e6b5285a575021e22fdb87b2b470e46cbfc8bf311b04e6d"
+  },
+  "rights": {
+    "permission": "unverified",
+    "quantities": "withheld",
+    "newProviderRecords": 0,
+    "legalClearanceClaim": false,
+    "ownerPreMergeDecisionRequired": true
+  },
+  "productionDeployed": false,
+  "liveProductionVerified": false,
+  "layout": [
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "risksHeading": {
+        "x": 321,
+        "y": 660.28125,
+        "width": 638,
+        "height": 25.5
+      },
+      "overflow": false,
+      "case": "next-layout-GP-1280"
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 654.421875,
+        "width": 246,
+        "height": 22.5
+      },
+      "overflow": false,
+      "case": "next-layout-GP-320"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 586.21875,
+        "width": 316,
+        "height": 24
+      },
+      "overflow": false,
+      "case": "next-layout-GP-390"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "risksHeading": {
+        "x": 321,
+        "y": 685.875,
+        "width": 638,
+        "height": 25.5
+      },
+      "overflow": false,
+      "case": "next-layout-GROK-1280"
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 664.921875,
+        "width": 246,
+        "height": 22.5
+      },
+      "overflow": false,
+      "case": "next-layout-GROK-320"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 622.796875,
+        "width": 316,
+        "height": 24
+      },
+      "overflow": false,
+      "case": "next-layout-GROK-390"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "risksHeading": {
+        "x": 321,
+        "y": 685.875,
+        "width": 638,
+        "height": 25.5
+      },
+      "overflow": false,
+      "case": "next-layout-SI-1280"
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 642.53125,
+        "width": 246,
+        "height": 22.5
+      },
+      "overflow": false,
+      "case": "next-layout-SI-320"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 586.21875,
+        "width": 316,
+        "height": 24
+      },
+      "overflow": false,
+      "case": "next-layout-SI-390"
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "docs/consumer-homepage/screenshots/answer-1280.png",
+      "bytes": 88034,
+      "sha256": "475443e9e9ef649993cb3f24d61e7b72b7b6bc2cda52cb5f45bf2ead8e23e7f7"
+    },
+    {
+      "path": "docs/consumer-homepage/screenshots/answer-320.png",
+      "bytes": 57094,
+      "sha256": "08b3772401dbba16a22e37d89681cfe71976c4e010622dded9544219c5b6dac7"
+    },
+    {
+      "path": "docs/consumer-homepage/screenshots/answer-390.png",
+      "bytes": 67768,
+      "sha256": "7344820ba43b070bb7d6c93dd25e1dc9cea4da197584d8c170d58885cb372996"
+    },
+    {
+      "path": "docs/consumer-homepage/screenshots/evidence-1280.png",
+      "bytes": 86016,
+      "sha256": "87542ca72be635f1271ec2675e56af69752900c35c841787e54cdbe7a0ec4fa0"
+    },
+    {
+      "path": "docs/consumer-homepage/screenshots/evidence-320.png",
+      "bytes": 60068,
+      "sha256": "d521028ca22f0ddffdd50bc4e820ec63e69ccac8e4a1a70325048593859e543f"
+    },
+    {
+      "path": "docs/consumer-homepage/screenshots/evidence-390.png",
+      "bytes": 72193,
+      "sha256": "b7e890abc25afff74ffd1ab4d260287eeb99597a88da41a6b1a2551490bea553"
+    },
+    {
+      "path": "docs/consumer-homepage/screenshots/landing-1280.png",
+      "bytes": 73073,
+      "sha256": "4fce1c91cedd91234bb0b4217310ad7b5d9fbe8914d96c78fc10772aafaa89d2"
+    },
+    {
+      "path": "docs/consumer-homepage/screenshots/landing-320.png",
+      "bytes": 48043,
+      "sha256": "3fe196d2abac712bcb5acf9a63d7243409fab953de6e9297f447f09edbe81aee"
+    },
+    {
+      "path": "docs/consumer-homepage/screenshots/landing-390.png",
+      "bytes": 57870,
+      "sha256": "081026d171e67bff57ae8a16c2d207a6f270cead34354e1eec8866062ee0ed38"
+    }
+  ]
+}

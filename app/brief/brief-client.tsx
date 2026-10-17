@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import {tokenResearchPath} from '../pairs/results';
 import { useEffect, useState } from 'react';
 import type { BriefReport, BriefRow } from '../../lib/brief';
 const utc = (value: string | null) => value ? value.replace('T',' ').replace(/(?:\.000)?Z|\+00:00$/, ' UTC') : 'Unavailable';
@@ -26,7 +27,7 @@ function TokenBrief({ row }: { row: BriefRow }) {
    <div><dt>Verified quote mint</dt><dd className="radar-mint">{row.quoteMint}</dd></div>
    {row.status === 'verified' && <div><dt>Counter subtraction</dt><dd>{number(row.endCounter!)} − {number(row.baselineCounter!)} {row.quoteSymbol}</dd></div>}
   </dl>{row.warnings.length > 0 && <p>Identical duplicates were collapsed; no duplicate payout is counted.</p>}<p>Observed API reports; no transaction reconciliation or holder-return claim. Quotes remain separate.</p></details>
-  <div className="radar-links"><a href={row.evidence.brief} target="_blank" rel="noopener noreferrer">VERSIONED JSON ↗</a><Link href={row.evidence.dossier}>DOSSIER ↗</Link><a href={row.evidence.official} target="_blank" rel="noopener noreferrer">OFFICIAL ↗</a><a href={row.evidence.history} target="_blank" rel="noopener noreferrer">LIVE HISTORY ↗</a></div>
+  <div className="radar-links"><a href={row.evidence.brief} target="_blank" rel="noopener noreferrer">VERSIONED JSON ↗</a><Link href={tokenResearchPath(row.mint)}>DOSSIER ↗</Link><a href={row.evidence.official} target="_blank" rel="noopener noreferrer">OFFICIAL ↗</a><a href={row.evidence.history} target="_blank" rel="noopener noreferrer">LIVE HISTORY ↗</a></div>
  </article>;
 }
 export default function BriefClient({ date, version, archiveId, invalidQuery }: { date: string; version?: string; archiveId?: string; invalidQuery: boolean }) {

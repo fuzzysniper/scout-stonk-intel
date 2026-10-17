@@ -239,7 +239,7 @@ test('screener row retains zero and exceptional warnings; full identity/time/ret
  }
  assert.equal((html.match(/aria-expanded="false"/g)||[]).length,1);assert.ok(details.includes('hidden=""'));assert.ok(details.includes('Open dossier'));
  assert.ok(visible.includes('aria-controls="pair-detail-'+token.mint+'"'));assert.ok(details.includes('id="pair-detail-'+token.mint+'"'));
- assert.ok(visible.includes('href="/?mint='+token.mint+'"'));assert.ok(visible.includes('Open 🧪 · Synthetic test token dossier'));
+ assert.ok(visible.includes('href="/terminal?mint='+token.mint+'"'));assert.ok(visible.includes('Open 🧪 · Synthetic test token dossier'));
  const ct=f.groups[0].tokens[0];ct.rewardModeVerified=false;ct.modeVerification='source_unavailable';ct.rewardSource=null;ct.historyStatus='invalid_data';ct.historyFreshness='stale';
  html=render(fromCatalog(parseCatalog(f))[0].tokens[0]).split('<div class="pair-evidence-body"')[0];
  assert.ok(html.includes('Invalid / stale'));assert.ok(html.includes('Unverified'));
@@ -294,8 +294,8 @@ test('one plain-language key separates official settings, counter flow and holde
 
 test('research URLs use only the tested exact token dossier route and never encode a pair selection or snapshot',()=>{
  for(const token of tokens){
-  assert.equal(tokenResearchPath(token.mint),'/?mint='+token.mint);
-  assert.equal(tokenResearchUrl(token.mint,'https://scout.storkcoin.xyz'),'https://scout.storkcoin.xyz/?mint='+token.mint);
+  assert.equal(tokenResearchPath(token.mint),'/terminal?mint='+token.mint);
+  assert.equal(tokenResearchUrl(token.mint,'https://scout.storkcoin.xyz'),'https://scout.storkcoin.xyz/terminal?mint='+token.mint);
   const u=new URL(tokenResearchUrl(token.mint,'http://127.0.0.1:3160'));assert.equal(u.searchParams.get('mint'),token.mint);assert.deepEqual([...u.searchParams.keys()],['mint']);
  }
  for(const bad of ['NVDAX','/wrong?mint='+t.mint,''])assert.throws(()=>tokenResearchPath(bad));

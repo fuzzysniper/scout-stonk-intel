@@ -1,20 +1,12 @@
-import type { Metadata } from 'next';
-import ScoutClient from './scout-client';
-import { isSolanaMint } from '../lib/solana';
-import { trackedTokens } from '../lib/tracked-tokens';
-
-export async function generateMetadata({searchParams}:{searchParams:Promise<{mint?:string}>}):Promise<Metadata>{
- const {mint}=await searchParams;
- if(!mint||!isSolanaMint(mint))return {};
- const image='/api/og?mint='+encodeURIComponent(mint);
- return {
-  title:'SCOUT — Token Intelligence Dossier',
-  openGraph:{title:'SCOUT — Token Intelligence Dossier',images:[{url:image,width:1200,height:630}]},
-  twitter:{card:'summary_large_image',title:'SCOUT — Token Intelligence Dossier',images:[image]},
- };
+import type {Metadata} from 'next';
+import ConsumerHome from './consumer/home';
+import {evaluateInput,consumerMetadata} from './consumer/model';
+import './consumer/consumer.css';
+type Props={searchParams:Promise<{mint?:string|string[]}>};
+export async function generateMetadata({searchParams}:Props):Promise<Metadata> {
+ return consumerMetadata((await searchParams).mint);
 }
-export default async function Page({searchParams}:{searchParams:Promise<{mint?:string}>}){
+export default async function Page({searchParams}:Props) {
  const {mint}=await searchParams;
- const initialMint=mint && isSolanaMint(mint) ? mint : '';
- return <ScoutClient key={initialMint} tokens={trackedTokens()} initialMint={initialMint}/>;
+ return <ConsumerHome initialInput={typeof mint==='string'?mint:''} initialState={evaluateInput(mint)}/>;
 }
