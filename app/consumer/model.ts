@@ -5,10 +5,10 @@ import {isExactSolanaMint} from '../../experiments/consumer-mvp/evidence/guards'
 export const examples=listSupportedMints();
 export type HomeState={state:'idle'|'empty'|'invalid'|'needs_mint'|'unsupported'|'unavailable'}|{state:'supported';evidence:MintExplanation};
 export const messages={
- empty:['Start with a mint','Paste a full Solana token mint, or choose a captured example below.'],
- needs_mint:['A ticker isn’t an identity','Different tokens can share a name or ticker. Paste the exact mint, or select a captured example below.'],
- invalid:['That doesn’t look like a mint','Use a full, case-sensitive Solana mint address. Links and recovery phrases are not accepted.'],
- unsupported:['Not in these examples','This address may exist, but only three reviewed token mints are supported. No provider or onchain lookup was made.'],
+ empty:['Start with a token address','Paste a token address, or explore an example below.'],
+ needs_mint:['A name isn’t an address','Different tokens can share a name or ticker. Paste the full token address, or choose an example below.'],
+ invalid:['That doesn’t look like a token address','Use a full, case-sensitive Solana token address. Links and recovery phrases are not accepted.'],
+ unsupported:['Not in these examples','This address may exist, but only three reviewed token addresses are supported. No live source or blockchain lookup was made.'],
  unavailable:['Evidence couldn’t load','Nothing is verified for this request. The dated evidence could not be safely evaluated. Check your device clock and try again. No live provider was queried.'],
 } as const;
 /** A second fail-closed publication boundary; never serialize promoted quantities. */
@@ -35,9 +35,18 @@ export function evaluateInput(raw:string|string[]|undefined):HomeState {
 }
 export function plainExplanation(e:MintExplanation):readonly [string,string] {
  const underlying=e.token.symbol==='SI'?'NVIDIA shares':e.token.symbol==='GP'?'gold':'SpaceX shares';
- return [`${e.token.symbol} is a Solana token recorded trading against ${e.quote.symbol}.`,
-  `Holding ${e.token.symbol} means holding ${e.token.symbol}, not ${e.quote.symbol} or ${underlying}; payout rights are unverified.`];
+ const label=e.token.symbol==='SI'?'NVIDIA':e.token.symbol==='GP'?'GOLD':'SPACEX';
+ return [`${e.token.name} is a crypto token recorded trading against ${e.quote.symbol}, a token StonkFun labels “${label}”.`,
+  `Buying ${e.token.name} doesn’t mean ${e.token.symbol==='GP'?'owning':'buying'} ${underlying} or owning ${e.quote.symbol}.`];
 }
+/** Visitor copy is a projection of the original cited facts, never a new evidence state. */
+export function consumerFacts(e:MintExplanation) {
+ return [
+  {title:'Token and pairing',detail:`Exact token and ${e.quote.symbol} addresses matched.`,sourceIds:e.pairRelationship.sourceIds},
+  {title:'How rewards are supposed to work',detail:`A reward feature was reported for this ${e.quote.symbol} pair. Holder payments and eligibility are unverified.`,sourceIds:e.economicMechanism.conclusion.sourceIds},
+ ] as const;
+}
+
 export function sharePath(mint:string):string {
  if(!examples.some(e=>e.mint===mint))throw Error('unsupported_share');
  return '/?mint='+encodeURIComponent(mint);

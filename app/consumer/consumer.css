@@ -28,3 +28,9 @@
 @media(max-width:540px){.consumer-home main.has-answer{margin-top:9px}}
 /* Keep all three discovery choices in the 320px first viewport. */
 @media(max-width:350px){.consumer-home .site-header{padding:10px 20px}.consumer-home main:not(.has-answer){margin-top:12px}.consumer-home .welcome{margin-bottom:16px}.consumer-home .welcome .eyebrow{margin-bottom:10px}.consumer-home .intro{margin-top:13px}.consumer-home .discovery{margin-top:20px}.consumer-home .capture-notice{margin-bottom:14px}}
+/* V1.1: successful results keep search in the existing header, closed by default. */
+.consumer-home .search-toggle{font-size:12px;min-width:150px;min-height:44px;margin:0}
+.consumer-home .cancel-search{margin-top:10px}
+.consumer-home #token-search:not([hidden])+.sr-only+.answer-card{margin-top:20px}
+@media(max-width:540px){.consumer-home .search-toggle{font-size:11px;min-width:145px;padding:9px 12px}}
+@media(max-width:540px){.consumer-home main:has(#token-search[hidden]) .capture-notice{margin-bottom:6px}.consumer-home main:has(#token-search[hidden]) .answer-card{margin-top:6px}.consumer-home main:has(#token-search[hidden]) .verified-block{margin-top:12px;padding-top:9px}}

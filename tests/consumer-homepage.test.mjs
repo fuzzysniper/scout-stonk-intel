@@ -73,3 +73,35 @@ test('consumer runtime imports original engine and never a raw audit, fixture or
  assert.match(sources,/experiments\/consumer-mvp\/evidence/);
  assert.doesNotMatch(sources,/vendor\/|preview\.json|readFileSync|fetch\(|localStorage|sessionStorage|\.asOf|asOf:/);
 });
+
+test('novice explanations identify provider labels and withhold underlying ownership claims',()=>{
+ for(const t of examples){
+  const {evidence:e}=evaluateInput(t.mint),sentences=model.plainExplanation(e);
+  assert.equal(sentences.length,2);assert.ok(sentences[0].includes(t.name));assert.ok(sentences[0].includes(t.quoteSymbol));assert.match(sentences[0],/StonkFun labels/);
+  assert.match(sentences[1],/doesn’t mean/);assert.ok(sentences[1].includes(t.quoteSymbol));
+  const underlying=t.symbol==='SI'?'NVIDIA shares':t.symbol==='GP'?'gold':'SpaceX shares';assert.ok(sentences[1].includes(underlying));
+  assert.doesNotMatch(sentences.join(' '),/backed by|guaranteed|redeemable|current|live price|holder profit/);
+ }
+});
+test('novice reward copy retains the original fact source IDs and unknown holder eligibility',()=>{
+ for(const t of examples){
+  const {evidence:e}=evaluateInput(t.mint),facts=model.consumerFacts(e);
+  assert.equal(facts[1].title,'How rewards are supposed to work');assert.match(facts[1].detail,/reported/);assert.match(facts[1].detail,/Holder payments and eligibility are unverified/);
+  assert.strictEqual(facts[0].sourceIds,e.pairRelationship.sourceIds);assert.strictEqual(facts[1].sourceIds,e.economicMechanism.conclusion.sourceIds);
+  for(const f of facts)for(const id of f.sourceIds)assert.ok(e.sources.some(s=>s.id===id));
+  assert.equal(e.economicMechanism.settings,'verified_at_capture');assert.equal(e.economicMechanism.holderEntitlement,'unknown');assert.equal(e.economicMechanism.holderReturns.value,null);
+ }
+});
+test('successful SSR closes the address form and keeps accessible switch/start-over controls',()=>{
+ const idle=renderToStaticMarkup(React.createElement(Home,{initialInput:'',initialState:evaluateInput(undefined)}));
+ for(const label of ['Token address','Paste a token address','Explain this token','Explore an example','3 examples available'])assert.ok(idle.includes(label),label);
+ assert.doesNotMatch(idle,/Solana token mint|Paste a full mint address|Try a captured example/);
+ for(const t of examples){
+  const html=renderToStaticMarkup(React.createElement(Home,{initialInput:t.mint,initialState:evaluateInput(t.mint)}));
+  assert.match(html,/<form(?=[^>]*id="token-search")(?=[^>]*hidden="")[^>]*>/);
+  assert.match(html,/<button(?=[^>]*aria-expanded="false")(?=[^>]*aria-controls="token-search")[^>]*>Search another token/);
+  assert.match(html,/>Start over<\/a>/);assert.match(html,/How rewards are supposed to work/);assert.match(html,/Financial figures withheld; publication rights unverified/);
+ }
+ const error=renderToStaticMarkup(React.createElement(Home,{initialInput:'1'.repeat(32),initialState:evaluateInput('1'.repeat(32))}));
+ assert.doesNotMatch(error,/<form[^>]*hidden|Search another token/);assert.match(error,/Not in these examples/);
+});
