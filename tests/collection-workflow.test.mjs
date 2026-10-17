@@ -60,6 +60,7 @@ test('real workflow: external inputs/configured App actor invoke disabled gate a
     { inputs: { trigger_source: 'external', collection_slot: 'synthetic-slot' } },
     { inputs: { collection_slot: 'synthetic-slot' } },
     { actor: '9001', app: '9001' },
+    { actor: '342326617', app: '342326617' }, // owner-reported SCOUT App actor; no live call
   ]) {
     const value = context({ ...options, outcome: 'failure' });
     assert.equal(evaluate(gate, value), true);

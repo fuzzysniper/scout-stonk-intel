@@ -1,0 +1,978 @@
+{
+  "schemaVersion": 1,
+  "kind": "offline_collection_cadence",
+  "asOf": "2026-10-16T20:21:09Z",
+  "mainSha": "3de63c4f3e865bf79f90279aaee18d691b7e0775",
+  "listingCompleteForWindow": true,
+  "intendedSlotsKnown": false,
+  "pilotDecision": "no_go",
+  "datasetRevision": "sha256:df8259125f0ca57f03de095d7db54cadee536c94be5a9c8a4471e5df57faa639",
+  "windows": [
+    {
+      "hours": 24,
+      "startAt": "2026-10-15T20:21:09Z",
+      "nominalSlots": 24,
+      "matureSlots": 23,
+      "scheduledRunsCreated": 5,
+      "workflowDispatchRunsCreated": 1,
+      "matureCreationBuckets": 5,
+      "matureBucketsWithoutScheduledCreation": 18,
+      "withoutScheduledCreation": [
+        "2026-10-15T21:17:00Z",
+        "2026-10-15T23:17:00Z",
+        "2026-10-16T00:17:00Z",
+        "2026-10-16T02:17:00Z",
+        "2026-10-16T03:17:00Z",
+        "2026-10-16T04:17:00Z",
+        "2026-10-16T05:17:00Z",
+        "2026-10-16T07:17:00Z",
+        "2026-10-16T08:17:00Z",
+        "2026-10-16T09:17:00Z",
+        "2026-10-16T10:17:00Z",
+        "2026-10-16T11:17:00Z",
+        "2026-10-16T13:17:00Z",
+        "2026-10-16T14:17:00Z",
+        "2026-10-16T15:17:00Z",
+        "2026-10-16T16:17:00Z",
+        "2026-10-16T18:17:00Z",
+        "2026-10-16T19:17:00Z"
+      ],
+      "verifiedDataRuns": 6,
+      "runProofComplete": true,
+      "verifiedCollectionFailures": 0,
+      "failureReasons": {},
+      "tokens": [
+        {
+          "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+          "storedPointsInWindow": 6,
+          "matureObservationBuckets": 6,
+          "verifiedRunBuckets": 6,
+          "startToFirstObservationSeconds": 7316.0,
+          "lastObservationToEndSeconds": 631.0,
+          "maxObservedGapSecondsInWindow": 20979.0
+        },
+        {
+          "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+          "storedPointsInWindow": 6,
+          "matureObservationBuckets": 6,
+          "verifiedRunBuckets": 6,
+          "startToFirstObservationSeconds": 7316.0,
+          "lastObservationToEndSeconds": 631.0,
+          "maxObservedGapSecondsInWindow": 20979.0
+        },
+        {
+          "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+          "storedPointsInWindow": 6,
+          "matureObservationBuckets": 6,
+          "verifiedRunBuckets": 6,
+          "startToFirstObservationSeconds": 7316.0,
+          "lastObservationToEndSeconds": 631.0,
+          "maxObservedGapSecondsInWindow": 20979.0
+        },
+        {
+          "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+          "storedPointsInWindow": 6,
+          "matureObservationBuckets": 6,
+          "verifiedRunBuckets": 6,
+          "startToFirstObservationSeconds": 7316.0,
+          "lastObservationToEndSeconds": 631.0,
+          "maxObservedGapSecondsInWindow": 20979.0
+        },
+        {
+          "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+          "storedPointsInWindow": 6,
+          "matureObservationBuckets": 6,
+          "verifiedRunBuckets": 6,
+          "startToFirstObservationSeconds": 7316.0,
+          "lastObservationToEndSeconds": 631.0,
+          "maxObservedGapSecondsInWindow": 20979.0
+        },
+        {
+          "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+          "storedPointsInWindow": 6,
+          "matureObservationBuckets": 6,
+          "verifiedRunBuckets": 6,
+          "startToFirstObservationSeconds": 7316.0,
+          "lastObservationToEndSeconds": 630.0,
+          "maxObservedGapSecondsInWindow": 20979.0
+        },
+        {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "storedPointsInWindow": 6,
+          "matureObservationBuckets": 6,
+          "verifiedRunBuckets": 6,
+          "startToFirstObservationSeconds": 7317.0,
+          "lastObservationToEndSeconds": 630.0,
+          "maxObservedGapSecondsInWindow": 20979.0
+        }
+      ]
+    },
+    {
+      "hours": 48,
+      "startAt": "2026-10-14T20:21:09Z",
+      "nominalSlots": 48,
+      "matureSlots": 47,
+      "scheduledRunsCreated": 10,
+      "workflowDispatchRunsCreated": 1,
+      "matureCreationBuckets": 10,
+      "matureBucketsWithoutScheduledCreation": 37,
+      "withoutScheduledCreation": [
+        "2026-10-14T21:17:00Z",
+        "2026-10-14T23:17:00Z",
+        "2026-10-15T00:17:00Z",
+        "2026-10-15T02:17:00Z",
+        "2026-10-15T03:17:00Z",
+        "2026-10-15T04:17:00Z",
+        "2026-10-15T05:17:00Z",
+        "2026-10-15T06:17:00Z",
+        "2026-10-15T08:17:00Z",
+        "2026-10-15T09:17:00Z",
+        "2026-10-15T10:17:00Z",
+        "2026-10-15T11:17:00Z",
+        "2026-10-15T12:17:00Z",
+        "2026-10-15T14:17:00Z",
+        "2026-10-15T15:17:00Z",
+        "2026-10-15T16:17:00Z",
+        "2026-10-15T17:17:00Z",
+        "2026-10-15T19:17:00Z",
+        "2026-10-15T20:17:00Z",
+        "2026-10-15T21:17:00Z",
+        "2026-10-15T23:17:00Z",
+        "2026-10-16T00:17:00Z",
+        "2026-10-16T02:17:00Z",
+        "2026-10-16T03:17:00Z",
+        "2026-10-16T04:17:00Z",
+        "2026-10-16T05:17:00Z",
+        "2026-10-16T07:17:00Z",
+        "2026-10-16T08:17:00Z",
+        "2026-10-16T09:17:00Z",
+        "2026-10-16T10:17:00Z",
+        "2026-10-16T11:17:00Z",
+        "2026-10-16T13:17:00Z",
+        "2026-10-16T14:17:00Z",
+        "2026-10-16T15:17:00Z",
+        "2026-10-16T16:17:00Z",
+        "2026-10-16T18:17:00Z",
+        "2026-10-16T19:17:00Z"
+      ],
+      "verifiedDataRuns": 11,
+      "runProofComplete": true,
+      "verifiedCollectionFailures": 0,
+      "failureReasons": {},
+      "tokens": [
+        {
+          "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+          "storedPointsInWindow": 11,
+          "matureObservationBuckets": 11,
+          "verifiedRunBuckets": 11,
+          "startToFirstObservationSeconds": 10509.0,
+          "lastObservationToEndSeconds": 631.0,
+          "maxObservedGapSecondsInWindow": 21528.0
+        },
+        {
+          "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+          "storedPointsInWindow": 11,
+          "matureObservationBuckets": 11,
+          "verifiedRunBuckets": 11,
+          "startToFirstObservationSeconds": 10509.0,
+          "lastObservationToEndSeconds": 631.0,
+          "maxObservedGapSecondsInWindow": 21528.0
+        },
+        {
+          "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+          "storedPointsInWindow": 11,
+          "matureObservationBuckets": 11,
+          "verifiedRunBuckets": 11,
+          "startToFirstObservationSeconds": 10509.0,
+          "lastObservationToEndSeconds": 631.0,
+          "maxObservedGapSecondsInWindow": 21528.0
+        },
+        {
+          "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+          "storedPointsInWindow": 11,
+          "matureObservationBuckets": 11,
+          "verifiedRunBuckets": 11,
+          "startToFirstObservationSeconds": 10509.0,
+          "lastObservationToEndSeconds": 631.0,
+          "maxObservedGapSecondsInWindow": 21528.0
+        },
+        {
+          "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+          "storedPointsInWindow": 11,
+          "matureObservationBuckets": 11,
+          "verifiedRunBuckets": 11,
+          "startToFirstObservationSeconds": 10510.0,
+          "lastObservationToEndSeconds": 631.0,
+          "maxObservedGapSecondsInWindow": 21528.0
+        },
+        {
+          "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+          "storedPointsInWindow": 11,
+          "matureObservationBuckets": 11,
+          "verifiedRunBuckets": 11,
+          "startToFirstObservationSeconds": 10510.0,
+          "lastObservationToEndSeconds": 630.0,
+          "maxObservedGapSecondsInWindow": 21528.0
+        },
+        {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "storedPointsInWindow": 11,
+          "matureObservationBuckets": 11,
+          "verifiedRunBuckets": 11,
+          "startToFirstObservationSeconds": 10510.0,
+          "lastObservationToEndSeconds": 630.0,
+          "maxObservedGapSecondsInWindow": 21529.0
+        }
+      ]
+    }
+  ],
+  "runEvidence": [
+    {
+      "runId": 38960299506,
+      "attempt": 1,
+      "event": "workflow_dispatch",
+      "createdAt": "2026-10-16T20:10:25Z",
+      "state": "verified_persistence",
+      "commit": "71ec7be302f1989bdfa9d897cb2aebf545cfa68c",
+      "collected": 7,
+      "failed": 0,
+      "skipped": 0,
+      "observations": [
+        {
+          "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+          "observedAt": "2026-10-16T20:10:38+00:00",
+          "providerGeneratedAt": "2026-10-16T20:10:38.246Z",
+          "providerLagSeconds": -0.246
+        },
+        {
+          "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+          "observedAt": "2026-10-16T20:10:38+00:00",
+          "providerGeneratedAt": "2026-10-16T20:10:07.090Z",
+          "providerLagSeconds": 30.91
+        },
+        {
+          "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+          "observedAt": "2026-10-16T20:10:38+00:00",
+          "providerGeneratedAt": "2026-10-16T20:10:38.472Z",
+          "providerLagSeconds": -0.472
+        },
+        {
+          "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+          "observedAt": "2026-10-16T20:10:38+00:00",
+          "providerGeneratedAt": "2026-10-16T20:10:38.632Z",
+          "providerLagSeconds": -0.632
+        },
+        {
+          "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+          "observedAt": "2026-10-16T20:10:38+00:00",
+          "providerGeneratedAt": "2026-10-16T20:10:38.814Z",
+          "providerLagSeconds": -0.814
+        },
+        {
+          "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+          "observedAt": "2026-10-16T20:10:39+00:00",
+          "providerGeneratedAt": "2026-10-16T20:10:38.984Z",
+          "providerLagSeconds": 0.016
+        },
+        {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "observedAt": "2026-10-16T20:10:39+00:00",
+          "providerGeneratedAt": "2026-10-16T20:10:39.264Z",
+          "providerLagSeconds": -0.264
+        }
+      ],
+      "queueSeconds": 4.0,
+      "gateStep": "skipped",
+      "collectionStep": "success",
+      "persistStep": "success",
+      "baseMatchesRunHead": true,
+      "datasetRevision": "sha256:df8259125f0ca57f03de095d7db54cadee536c94be5a9c8a4471e5df57faa639",
+      "failureReasons": {}
+    },
+    {
+      "runId": 38939828142,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-16T17:27:31Z",
+      "state": "verified_persistence",
+      "commit": "3273cd4781e09066b76a8460bd37ca2156ae94f4",
+      "collected": 7,
+      "failed": 0,
+      "skipped": 0,
+      "observations": [
+        {
+          "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+          "observedAt": "2026-10-16T17:27:41+00:00",
+          "providerGeneratedAt": "2026-10-16T17:26:28.704Z",
+          "providerLagSeconds": 72.296
+        },
+        {
+          "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+          "observedAt": "2026-10-16T17:27:41+00:00",
+          "providerGeneratedAt": "2026-10-16T17:27:06.588Z",
+          "providerLagSeconds": 34.412
+        },
+        {
+          "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+          "observedAt": "2026-10-16T17:27:42+00:00",
+          "providerGeneratedAt": "2026-10-16T17:27:42.046Z",
+          "providerLagSeconds": -0.046
+        },
+        {
+          "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+          "observedAt": "2026-10-16T17:27:42+00:00",
+          "providerGeneratedAt": "2026-10-16T17:26:29.048Z",
+          "providerLagSeconds": 72.952
+        },
+        {
+          "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+          "observedAt": "2026-10-16T17:27:42+00:00",
+          "providerGeneratedAt": "2026-10-16T17:27:42.288Z",
+          "providerLagSeconds": -0.288
+        },
+        {
+          "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+          "observedAt": "2026-10-16T17:27:42+00:00",
+          "providerGeneratedAt": "2026-10-16T17:27:42.474Z",
+          "providerLagSeconds": -0.474
+        },
+        {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "observedAt": "2026-10-16T17:27:42+00:00",
+          "providerGeneratedAt": "2026-10-16T17:27:42.656Z",
+          "providerLagSeconds": -0.656
+        }
+      ],
+      "queueSeconds": 3.0,
+      "gateStep": "skipped",
+      "collectionStep": "success",
+      "persistStep": "success",
+      "baseMatchesRunHead": true,
+      "datasetRevision": "sha256:3b768ab0cea4ba02872b7a9cc18bb05e83c1c968ebb1e4e3437f54c3153be1b3",
+      "failureReasons": {}
+    },
+    {
+      "runId": 38900992912,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-16T12:30:28Z",
+      "state": "verified_persistence",
+      "commit": "1ef29321872921ebdea2559fe3e531d4bc590de0",
+      "collected": 7,
+      "failed": 0,
+      "skipped": 0,
+      "observations": [
+        {
+          "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+          "observedAt": "2026-10-16T12:30:42+00:00",
+          "providerGeneratedAt": "2026-10-16T12:30:02.638Z",
+          "providerLagSeconds": 39.362
+        },
+        {
+          "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+          "observedAt": "2026-10-16T12:30:42+00:00",
+          "providerGeneratedAt": "2026-10-16T12:30:01.342Z",
+          "providerLagSeconds": 40.658
+        },
+        {
+          "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+          "observedAt": "2026-10-16T12:30:42+00:00",
+          "providerGeneratedAt": "2026-10-16T12:30:02.174Z",
+          "providerLagSeconds": 39.826
+        },
+        {
+          "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+          "observedAt": "2026-10-16T12:30:42+00:00",
+          "providerGeneratedAt": "2026-10-16T12:30:03.455Z",
+          "providerLagSeconds": 38.545
+        },
+        {
+          "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+          "observedAt": "2026-10-16T12:30:42+00:00",
+          "providerGeneratedAt": "2026-10-16T12:30:31.946Z",
+          "providerLagSeconds": 10.054
+        },
+        {
+          "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+          "observedAt": "2026-10-16T12:30:42+00:00",
+          "providerGeneratedAt": "2026-10-16T12:30:01.597Z",
+          "providerLagSeconds": 40.403
+        },
+        {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "observedAt": "2026-10-16T12:30:42+00:00",
+          "providerGeneratedAt": "2026-10-16T12:30:01.934Z",
+          "providerLagSeconds": 40.066
+        }
+      ],
+      "queueSeconds": 3.0,
+      "gateStep": "skipped",
+      "collectionStep": "success",
+      "persistStep": "success",
+      "baseMatchesRunHead": true,
+      "datasetRevision": "sha256:ff6e5199087a5bc66d866527321427c50ddd6e7004b9b3ce0aab33cd52d5f50c",
+      "failureReasons": {}
+    },
+    {
+      "runId": 38865905362,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-16T07:13:59Z",
+      "state": "verified_persistence",
+      "commit": "7d65f2fbb1e43d7e1e9d53372c429ac7480716a8",
+      "collected": 7,
+      "failed": 0,
+      "skipped": 0,
+      "observations": [
+        {
+          "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+          "observedAt": "2026-10-16T07:14:11+00:00",
+          "providerGeneratedAt": "2026-10-16T07:14:04.314Z",
+          "providerLagSeconds": 6.686
+        },
+        {
+          "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+          "observedAt": "2026-10-16T07:14:11+00:00",
+          "providerGeneratedAt": "2026-10-16T07:14:09.411Z",
+          "providerLagSeconds": 1.589
+        },
+        {
+          "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+          "observedAt": "2026-10-16T07:14:11+00:00",
+          "providerGeneratedAt": "2026-10-16T07:14:11.459Z",
+          "providerLagSeconds": -0.459
+        },
+        {
+          "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+          "observedAt": "2026-10-16T07:14:11+00:00",
+          "providerGeneratedAt": "2026-10-16T07:14:11.708Z",
+          "providerLagSeconds": -0.708
+        },
+        {
+          "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+          "observedAt": "2026-10-16T07:14:11+00:00",
+          "providerGeneratedAt": "2026-10-16T07:14:11.943Z",
+          "providerLagSeconds": -0.943
+        },
+        {
+          "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+          "observedAt": "2026-10-16T07:14:12+00:00",
+          "providerGeneratedAt": "2026-10-16T07:14:12.172Z",
+          "providerLagSeconds": -0.172
+        },
+        {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "observedAt": "2026-10-16T07:14:12+00:00",
+          "providerGeneratedAt": "2026-10-16T07:14:12.494Z",
+          "providerLagSeconds": -0.494
+        }
+      ],
+      "queueSeconds": 3.0,
+      "gateStep": "skipped",
+      "collectionStep": "success",
+      "persistStep": "success",
+      "baseMatchesRunHead": true,
+      "datasetRevision": "sha256:89de8f7a3dbdc315a36c4f87242980b9081c9cf2f6ca5dfd3a11f4be35d4a275",
+      "failureReasons": {}
+    },
+    {
+      "runId": 38834935934,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-16T01:24:22Z",
+      "state": "verified_persistence",
+      "commit": "e9a76ae2c106d3c4dfc506f9932e74b5cb811b6c",
+      "collected": 7,
+      "failed": 0,
+      "skipped": 0,
+      "observations": [
+        {
+          "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+          "observedAt": "2026-10-16T01:24:32+00:00",
+          "providerGeneratedAt": "2026-10-16T01:23:34.211Z",
+          "providerLagSeconds": 57.789
+        },
+        {
+          "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+          "observedAt": "2026-10-16T01:24:32+00:00",
+          "providerGeneratedAt": "2026-10-16T01:23:34.194Z",
+          "providerLagSeconds": 57.806
+        },
+        {
+          "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+          "observedAt": "2026-10-16T01:24:32+00:00",
+          "providerGeneratedAt": "2026-10-16T01:23:34.195Z",
+          "providerLagSeconds": 57.805
+        },
+        {
+          "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+          "observedAt": "2026-10-16T01:24:32+00:00",
+          "providerGeneratedAt": "2026-10-16T01:24:18.354Z",
+          "providerLagSeconds": 13.646
+        },
+        {
+          "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+          "observedAt": "2026-10-16T01:24:32+00:00",
+          "providerGeneratedAt": "2026-10-16T01:24:30.837Z",
+          "providerLagSeconds": 1.163
+        },
+        {
+          "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+          "observedAt": "2026-10-16T01:24:33+00:00",
+          "providerGeneratedAt": "2026-10-16T01:24:02.594Z",
+          "providerLagSeconds": 30.406
+        },
+        {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "observedAt": "2026-10-16T01:24:33+00:00",
+          "providerGeneratedAt": "2026-10-16T01:23:34.224Z",
+          "providerLagSeconds": 58.776
+        }
+      ],
+      "queueSeconds": 3.0,
+      "gateStep": "skipped",
+      "collectionStep": "success",
+      "persistStep": "success",
+      "baseMatchesRunHead": true,
+      "datasetRevision": "sha256:7bfc9fcf6dcceac2b71210c802ee2861be83ef79ad3569b0e663cfc3ca059589",
+      "failureReasons": {}
+    },
+    {
+      "runId": 38816699691,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-15T22:22:51Z",
+      "state": "verified_persistence",
+      "commit": "98fbb0e8cbf8e0585d4248f011f87f80f9ac65f9",
+      "collected": 7,
+      "failed": 0,
+      "skipped": 0,
+      "observations": [
+        {
+          "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+          "observedAt": "2026-10-15T22:23:05+00:00",
+          "providerGeneratedAt": "2026-10-15T22:23:05.346Z",
+          "providerLagSeconds": -0.346
+        },
+        {
+          "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+          "observedAt": "2026-10-15T22:23:05+00:00",
+          "providerGeneratedAt": "2026-10-15T22:22:46.080Z",
+          "providerLagSeconds": 18.92
+        },
+        {
+          "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+          "observedAt": "2026-10-15T22:23:05+00:00",
+          "providerGeneratedAt": "2026-10-15T22:23:05.502Z",
+          "providerLagSeconds": -0.502
+        },
+        {
+          "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+          "observedAt": "2026-10-15T22:23:05+00:00",
+          "providerGeneratedAt": "2026-10-15T22:23:05.694Z",
+          "providerLagSeconds": -0.694
+        },
+        {
+          "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+          "observedAt": "2026-10-15T22:23:05+00:00",
+          "providerGeneratedAt": "2026-10-15T22:22:20.870Z",
+          "providerLagSeconds": 44.13
+        },
+        {
+          "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+          "observedAt": "2026-10-15T22:23:05+00:00",
+          "providerGeneratedAt": "2026-10-15T22:23:05.859Z",
+          "providerLagSeconds": -0.859
+        },
+        {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "observedAt": "2026-10-15T22:23:06+00:00",
+          "providerGeneratedAt": "2026-10-15T22:23:06.005Z",
+          "providerLagSeconds": -0.005
+        }
+      ],
+      "queueSeconds": 3.0,
+      "gateStep": "skipped",
+      "collectionStep": "success",
+      "persistStep": "success",
+      "baseMatchesRunHead": true,
+      "datasetRevision": "sha256:fa1cb64023232af8806928a765f78e180c90c1dca76e4dc4ad71808181679a3e",
+      "failureReasons": {}
+    },
+    {
+      "runId": 38784730633,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-15T18:19:59Z",
+      "state": "verified_persistence",
+      "commit": "f84d304beeabdb33e7459344491230969c2d3e12",
+      "collected": 7,
+      "failed": 0,
+      "skipped": 0,
+      "observations": [
+        {
+          "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+          "observedAt": "2026-10-15T18:20:09+00:00",
+          "providerGeneratedAt": "2026-10-15T18:20:09.695Z",
+          "providerLagSeconds": -0.695
+        },
+        {
+          "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+          "observedAt": "2026-10-15T18:20:09+00:00",
+          "providerGeneratedAt": "2026-10-15T18:19:31.014Z",
+          "providerLagSeconds": 37.986
+        },
+        {
+          "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+          "observedAt": "2026-10-15T18:20:10+00:00",
+          "providerGeneratedAt": "2026-10-15T18:20:10.012Z",
+          "providerLagSeconds": -0.012
+        },
+        {
+          "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+          "observedAt": "2026-10-15T18:20:10+00:00",
+          "providerGeneratedAt": "2026-10-15T18:20:10.211Z",
+          "providerLagSeconds": -0.211
+        },
+        {
+          "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+          "observedAt": "2026-10-15T18:20:10+00:00",
+          "providerGeneratedAt": "2026-10-15T18:19:52.114Z",
+          "providerLagSeconds": 17.886
+        },
+        {
+          "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+          "observedAt": "2026-10-15T18:20:10+00:00",
+          "providerGeneratedAt": "2026-10-15T18:20:10.574Z",
+          "providerLagSeconds": -0.574
+        },
+        {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "observedAt": "2026-10-15T18:20:10+00:00",
+          "providerGeneratedAt": "2026-10-15T18:20:10.804Z",
+          "providerLagSeconds": -0.804
+        }
+      ],
+      "queueSeconds": 2.0,
+      "gateStep": "skipped",
+      "collectionStep": "success",
+      "persistStep": "success",
+      "baseMatchesRunHead": true,
+      "datasetRevision": "sha256:01e1409c9c7625ab29e8dd4f29e81b60806ecff357fd9627fc948ac2963c736c",
+      "failureReasons": {}
+    },
+    {
+      "runId": 38742987897,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-15T13:28:28Z",
+      "state": "verified_persistence",
+      "commit": "94788becb98cee161faee4ae7af1729eaecd2bbe",
+      "collected": 7,
+      "failed": 0,
+      "skipped": 0,
+      "observations": [
+        {
+          "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+          "observedAt": "2026-10-15T13:28:39+00:00",
+          "providerGeneratedAt": "2026-10-15T13:28:39.571Z",
+          "providerLagSeconds": -0.571
+        },
+        {
+          "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+          "observedAt": "2026-10-15T13:28:39+00:00",
+          "providerGeneratedAt": "2026-10-15T13:28:39.647Z",
+          "providerLagSeconds": -0.647
+        },
+        {
+          "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+          "observedAt": "2026-10-15T13:28:39+00:00",
+          "providerGeneratedAt": "2026-10-15T13:28:39.739Z",
+          "providerLagSeconds": -0.739
+        },
+        {
+          "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+          "observedAt": "2026-10-15T13:28:39+00:00",
+          "providerGeneratedAt": "2026-10-15T13:27:37.161Z",
+          "providerLagSeconds": 61.839
+        },
+        {
+          "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+          "observedAt": "2026-10-15T13:28:39+00:00",
+          "providerGeneratedAt": "2026-10-15T13:28:00.783Z",
+          "providerLagSeconds": 38.217
+        },
+        {
+          "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+          "observedAt": "2026-10-15T13:28:39+00:00",
+          "providerGeneratedAt": "2026-10-15T13:28:02.467Z",
+          "providerLagSeconds": 36.533
+        },
+        {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "observedAt": "2026-10-15T13:28:40+00:00",
+          "providerGeneratedAt": "2026-10-15T13:28:40.000Z",
+          "providerLagSeconds": 0.0
+        }
+      ],
+      "queueSeconds": 3.0,
+      "gateStep": "skipped",
+      "collectionStep": "success",
+      "persistStep": "success",
+      "baseMatchesRunHead": true,
+      "datasetRevision": "sha256:acb6b88f94656bc669dce4c094940e31e8752908f4cb30d98eebca85158d312c",
+      "failureReasons": {}
+    },
+    {
+      "runId": 38699118287,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-15T07:29:41Z",
+      "state": "verified_persistence",
+      "commit": "c6926408ec0e831ba15f2f19cc8c568e2e78a624",
+      "collected": 7,
+      "failed": 0,
+      "skipped": 0,
+      "observations": [
+        {
+          "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+          "observedAt": "2026-10-15T07:29:51+00:00",
+          "providerGeneratedAt": "2026-10-15T07:29:22.330Z",
+          "providerLagSeconds": 28.67
+        },
+        {
+          "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+          "observedAt": "2026-10-15T07:29:51+00:00",
+          "providerGeneratedAt": "2026-10-15T07:29:22.269Z",
+          "providerLagSeconds": 28.731
+        },
+        {
+          "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+          "observedAt": "2026-10-15T07:29:51+00:00",
+          "providerGeneratedAt": "2026-10-15T07:29:22.335Z",
+          "providerLagSeconds": 28.665
+        },
+        {
+          "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+          "observedAt": "2026-10-15T07:29:51+00:00",
+          "providerGeneratedAt": "2026-10-15T07:29:22.419Z",
+          "providerLagSeconds": 28.581
+        },
+        {
+          "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+          "observedAt": "2026-10-15T07:29:51+00:00",
+          "providerGeneratedAt": "2026-10-15T07:29:22.365Z",
+          "providerLagSeconds": 28.635
+        },
+        {
+          "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+          "observedAt": "2026-10-15T07:29:51+00:00",
+          "providerGeneratedAt": "2026-10-15T07:29:22.297Z",
+          "providerLagSeconds": 28.703
+        },
+        {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "observedAt": "2026-10-15T07:29:51+00:00",
+          "providerGeneratedAt": "2026-10-15T07:29:49.019Z",
+          "providerLagSeconds": 1.981
+        }
+      ],
+      "queueSeconds": 2.0,
+      "gateStep": "skipped",
+      "collectionStep": "success",
+      "persistStep": "success",
+      "baseMatchesRunHead": true,
+      "datasetRevision": "sha256:7c6b4c53331157b5734481c2ca5b457572237bad9e8ce81ec5ce579653335ca4",
+      "failureReasons": {}
+    },
+    {
+      "runId": 38666358430,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-15T01:34:09Z",
+      "state": "verified_persistence",
+      "commit": "93b1769e56b296c13f9f4d78a8971b5259a1df79",
+      "collected": 7,
+      "failed": 0,
+      "skipped": 0,
+      "observations": [
+        {
+          "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:33:14.890Z",
+          "providerLagSeconds": 61.11
+        },
+        {
+          "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:33:14.882Z",
+          "providerLagSeconds": 61.118
+        },
+        {
+          "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:33:14.875Z",
+          "providerLagSeconds": 61.125
+        },
+        {
+          "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:33:14.934Z",
+          "providerLagSeconds": 61.066
+        },
+        {
+          "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:34:01.154Z",
+          "providerLagSeconds": 14.846
+        },
+        {
+          "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:34:02.096Z",
+          "providerLagSeconds": 13.904
+        },
+        {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "observedAt": "2026-10-15T01:34:16+00:00",
+          "providerGeneratedAt": "2026-10-15T01:33:14.933Z",
+          "providerLagSeconds": 61.067
+        }
+      ],
+      "queueSeconds": 2.0,
+      "gateStep": "skipped",
+      "collectionStep": "success",
+      "persistStep": "success",
+      "baseMatchesRunHead": true,
+      "datasetRevision": "sha256:d9b2dc915f5802903c3d2ef15d2ef8d31ffc6d95e268954e1505c6e2f574579c",
+      "failureReasons": {}
+    },
+    {
+      "runId": 38653023256,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-14T23:16:10Z",
+      "state": "verified_persistence",
+      "commit": "49ab560dde396d302f62dd21c7897379cccec75d",
+      "collected": 7,
+      "failed": 0,
+      "skipped": 0,
+      "observations": [
+        {
+          "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+          "observedAt": "2026-10-14T23:16:18+00:00",
+          "providerGeneratedAt": "2026-10-14T23:16:18.511Z",
+          "providerLagSeconds": -0.511
+        },
+        {
+          "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+          "observedAt": "2026-10-14T23:16:18+00:00",
+          "providerGeneratedAt": "2026-10-14T23:15:56.411Z",
+          "providerLagSeconds": 21.589
+        },
+        {
+          "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+          "observedAt": "2026-10-14T23:16:18+00:00",
+          "providerGeneratedAt": "2026-10-14T23:16:18.752Z",
+          "providerLagSeconds": -0.752
+        },
+        {
+          "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+          "observedAt": "2026-10-14T23:16:18+00:00",
+          "providerGeneratedAt": "2026-10-14T23:16:18.956Z",
+          "providerLagSeconds": -0.956
+        },
+        {
+          "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+          "observedAt": "2026-10-14T23:16:19+00:00",
+          "providerGeneratedAt": "2026-10-14T23:16:19.131Z",
+          "providerLagSeconds": -0.131
+        },
+        {
+          "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+          "observedAt": "2026-10-14T23:16:19+00:00",
+          "providerGeneratedAt": "2026-10-14T23:16:19.255Z",
+          "providerLagSeconds": -0.255
+        },
+        {
+          "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+          "observedAt": "2026-10-14T23:16:19+00:00",
+          "providerGeneratedAt": "2026-10-14T23:16:19.522Z",
+          "providerLagSeconds": -0.522
+        }
+      ],
+      "queueSeconds": 3.0,
+      "gateStep": "skipped",
+      "collectionStep": "success",
+      "persistStep": "success",
+      "baseMatchesRunHead": true,
+      "datasetRevision": "sha256:06a0e2d5e8979be3a09734229d6d7fdaf46d9b9dd4da5595f5b9ee2fb927ceac",
+      "failureReasons": {}
+    }
+  ],
+  "latest": [
+    {
+      "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+      "points": 21,
+      "observedAt": "2026-10-16T20:10:38+00:00",
+      "providerGeneratedAt": "2026-10-16T20:10:38.246Z",
+      "providerAgeSeconds": 630.754,
+      "observationAgeSeconds": 631.0
+    },
+    {
+      "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+      "points": 21,
+      "observedAt": "2026-10-16T20:10:38+00:00",
+      "providerGeneratedAt": "2026-10-16T20:10:07.090Z",
+      "providerAgeSeconds": 661.91,
+      "observationAgeSeconds": 631.0
+    },
+    {
+      "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+      "points": 21,
+      "observedAt": "2026-10-16T20:10:38+00:00",
+      "providerGeneratedAt": "2026-10-16T20:10:38.472Z",
+      "providerAgeSeconds": 630.528,
+      "observationAgeSeconds": 631.0
+    },
+    {
+      "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+      "points": 23,
+      "observedAt": "2026-10-16T20:10:38+00:00",
+      "providerGeneratedAt": "2026-10-16T20:10:38.632Z",
+      "providerAgeSeconds": 630.368,
+      "observationAgeSeconds": 631.0
+    },
+    {
+      "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+      "points": 21,
+      "observedAt": "2026-10-16T20:10:38+00:00",
+      "providerGeneratedAt": "2026-10-16T20:10:38.814Z",
+      "providerAgeSeconds": 630.186,
+      "observationAgeSeconds": 631.0
+    },
+    {
+      "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+      "points": 21,
+      "observedAt": "2026-10-16T20:10:39+00:00",
+      "providerGeneratedAt": "2026-10-16T20:10:38.984Z",
+      "providerAgeSeconds": 630.016,
+      "observationAgeSeconds": 630.0
+    },
+    {
+      "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "points": 21,
+      "observedAt": "2026-10-16T20:10:39+00:00",
+      "providerGeneratedAt": "2026-10-16T20:10:39.264Z",
+      "providerAgeSeconds": 629.736,
+      "observationAgeSeconds": 630.0
+    }
+  ],
+  "limitations": [
+    "Creation buckets do not identify GitHub intended/dropped schedules.",
+    "Verified observations are source captures, not payout timestamps or financial eligibility.",
+    "Unconfirmed/failed evidence is not zero; incomplete listing withholds absent-run counts.",
+    "Summary reuse, rerun attempts and gate-skipped collection cannot prove fresh persistence.",
+    "Git-confirmed persistence does not prove public application serving or 48-hour reliability."
+  ]
+}

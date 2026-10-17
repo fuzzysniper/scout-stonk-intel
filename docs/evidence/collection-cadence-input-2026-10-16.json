@@ -1,0 +1,1745 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-10-16T20:21:09Z",
+  "mainSha": "3de63c4f3e865bf79f90279aaee18d691b7e0775",
+  "workflow": {
+    "id": 382300817,
+    "path": ".github/workflows/reward-snapshots.yml",
+    "state": "active",
+    "created_at": "2026-10-12T15:42:15.000Z"
+  },
+  "runs": {
+    "total_count": 22,
+    "workflow_runs": [
+      {
+        "id": 38960299506,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "3273cd4781e09066b76a8460bd37ca2156ae94f4",
+        "event": "workflow_dispatch",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-16T20:10:25Z",
+        "run_started_at": "2026-10-16T20:10:25Z",
+        "updated_at": "2026-10-16T20:10:44Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38939828142,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "93815d86ecf693621481062bf3386d2fa84dc190",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-16T17:27:31Z",
+        "run_started_at": "2026-10-16T17:27:31Z",
+        "updated_at": "2026-10-16T17:27:53Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38900992912,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "7d65f2fbb1e43d7e1e9d53372c429ac7480716a8",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-16T12:30:28Z",
+        "run_started_at": "2026-10-16T12:30:28Z",
+        "updated_at": "2026-10-16T12:30:48Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38865905362,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "e9a76ae2c106d3c4dfc506f9932e74b5cb811b6c",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-16T07:13:59Z",
+        "run_started_at": "2026-10-16T07:13:59Z",
+        "updated_at": "2026-10-16T07:14:18Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38834935934,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "98fbb0e8cbf8e0585d4248f011f87f80f9ac65f9",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-16T01:24:22Z",
+        "run_started_at": "2026-10-16T01:24:22Z",
+        "updated_at": "2026-10-16T01:24:37Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38816699691,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "47a939eff1db305f458e7df04ef2fc54075ad874",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T22:22:51Z",
+        "run_started_at": "2026-10-15T22:22:51Z",
+        "updated_at": "2026-10-15T22:23:12Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38784730633,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "5205bb468c46084d959f5db1214b2f5e8b530ea4",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T18:19:59Z",
+        "run_started_at": "2026-10-15T18:19:59Z",
+        "updated_at": "2026-10-15T18:20:17Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38742987897,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "8dc1191f81c5b34c5f1ddc8eef8c3d62e715349c",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T13:28:28Z",
+        "run_started_at": "2026-10-15T13:28:28Z",
+        "updated_at": "2026-10-15T13:28:45Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38699118287,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "633ca3efc317c1d505405a0d925b77f0dac1ce15",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T07:29:41Z",
+        "run_started_at": "2026-10-15T07:29:41Z",
+        "updated_at": "2026-10-15T07:29:57Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38666358430,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "f269ce3362ca2bd9cfb428454df0715c517a530c",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-15T01:34:09Z",
+        "run_started_at": "2026-10-15T01:34:09Z",
+        "updated_at": "2026-10-15T01:34:21Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38653023256,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "be045ed2839a472b06206f52fb27c8229e319ca3",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-14T23:16:10Z",
+        "run_started_at": "2026-10-14T23:16:10Z",
+        "updated_at": "2026-10-14T23:16:24Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38623893058,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "156c9bed1d6bc394f6639a05d6661e0d46d63613",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-14T19:27:58Z",
+        "run_started_at": "2026-10-14T19:27:58Z",
+        "updated_at": "2026-10-14T19:28:12Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38587535589,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "f971a1f90c28bb10e6f8842369e0dace35c65064",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-14T15:14:08Z",
+        "run_started_at": "2026-10-14T15:14:08Z",
+        "updated_at": "2026-10-14T15:14:20Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38548406157,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "c36fd952ccf85756498b5aa457b71482a2ea4229",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-14T10:16:28Z",
+        "run_started_at": "2026-10-14T10:16:28Z",
+        "updated_at": "2026-10-14T10:16:43Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38514153980,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "77ff8207064a1046a9dddf163975825174e97582",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-14T04:58:19Z",
+        "run_started_at": "2026-10-14T04:58:19Z",
+        "updated_at": "2026-10-14T04:58:32Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38486060353,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "c975adf85ddd634fc8b2000a415f7cac89f4acda",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-13T23:44:28Z",
+        "run_started_at": "2026-10-13T23:44:28Z",
+        "updated_at": "2026-10-13T23:44:42Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38453921067,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "82731c69096ed250c4393b1de186a3f25653e07b",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-13T19:19:27Z",
+        "run_started_at": "2026-10-13T19:19:27Z",
+        "updated_at": "2026-10-13T19:19:42Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38393086625,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "8acf10352cb5f8804d4310758dadb495df376332",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-13T11:51:10Z",
+        "run_started_at": "2026-10-13T11:51:10Z",
+        "updated_at": "2026-10-13T11:51:23Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38342446125,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "13413ae71cd5f560c20259d3907ea50f9536cdaf",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-13T03:35:41Z",
+        "run_started_at": "2026-10-13T03:35:41Z",
+        "updated_at": "2026-10-13T03:35:56Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38319900484,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "2037a7fb18946bf510dd46a27dfaecddf97d859f",
+        "event": "schedule",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-12T23:01:12Z",
+        "run_started_at": "2026-10-12T23:01:12Z",
+        "updated_at": "2026-10-12T23:01:24Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38304889111,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "5bd7b6a5b7963021992a8c0ef6e22656228bacd9",
+        "event": "workflow_dispatch",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-12T20:32:28Z",
+        "run_started_at": "2026-10-12T20:32:28Z",
+        "updated_at": "2026-10-12T20:32:37Z",
+        "run_attempt": 1
+      },
+      {
+        "id": 38272331847,
+        "workflow_id": 382300817,
+        "path": ".github/workflows/reward-snapshots.yml",
+        "head_branch": "main",
+        "head_sha": "13d8d81bcb56187255ac1a7032603220509faf21",
+        "event": "workflow_dispatch",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-10-12T15:43:36Z",
+        "run_started_at": "2026-10-12T15:43:36Z",
+        "updated_at": "2026-10-12T15:43:45Z",
+        "run_attempt": 1
+      }
+    ]
+  },
+  "jobs": {
+    "38960299506": {
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 117173373609,
+          "run_id": 38960299506,
+          "run_attempt": 1,
+          "head_sha": "3273cd4781e09066b76a8460bd37ca2156ae94f4",
+          "name": "collect",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-16T20:10:29Z",
+          "completed_at": "2026-10-16T20:10:43Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "started_at": "2026-10-16T20:10:29Z",
+              "completed_at": "2026-10-16T20:10:30Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-16T20:10:30Z",
+              "completed_at": "2026-10-16T20:10:35Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-16T20:10:35Z",
+              "completed_at": "2026-10-16T20:10:36Z"
+            },
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T20:10:36Z",
+              "completed_at": "2026-10-16T20:10:36Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-16T20:10:36Z",
+              "completed_at": "2026-10-16T20:10:39Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-16T20:10:39Z",
+              "completed_at": "2026-10-16T20:10:40Z"
+            },
+            {
+              "name": "Preserve diagnostic evidence",
+              "conclusion": "success",
+              "started_at": "2026-10-16T20:10:40Z",
+              "completed_at": "2026-10-16T20:10:41Z"
+            },
+            {
+              "name": "Preserve gate claim evidence",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T20:10:41Z",
+              "completed_at": "2026-10-16T20:10:41Z"
+            },
+            {
+              "name": "Fail when collection failed",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T20:10:41Z",
+              "completed_at": "2026-10-16T20:10:41Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-16T20:10:41Z",
+              "completed_at": "2026-10-16T20:10:41Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-16T20:10:41Z",
+              "completed_at": "2026-10-16T20:10:42Z"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success",
+              "started_at": "2026-10-16T20:10:42Z",
+              "completed_at": "2026-10-16T20:10:42Z"
+            }
+          ]
+        }
+      ]
+    },
+    "38653023256": {
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 116156108325,
+          "run_id": 38653023256,
+          "run_attempt": 1,
+          "head_sha": "be045ed2839a472b06206f52fb27c8229e319ca3",
+          "name": "collect",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-14T23:16:13Z",
+          "completed_at": "2026-10-14T23:16:23Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "started_at": "2026-10-14T23:16:14Z",
+              "completed_at": "2026-10-14T23:16:15Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-14T23:16:15Z",
+              "completed_at": "2026-10-14T23:16:17Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-14T23:16:17Z",
+              "completed_at": "2026-10-14T23:16:18Z"
+            },
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-14T23:16:18Z",
+              "completed_at": "2026-10-14T23:16:18Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-14T23:16:18Z",
+              "completed_at": "2026-10-14T23:16:19Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-14T23:16:19Z",
+              "completed_at": "2026-10-14T23:16:20Z"
+            },
+            {
+              "name": "Preserve diagnostic evidence",
+              "conclusion": "success",
+              "started_at": "2026-10-14T23:16:20Z",
+              "completed_at": "2026-10-14T23:16:21Z"
+            },
+            {
+              "name": "Preserve gate claim evidence",
+              "conclusion": "skipped",
+              "started_at": "2026-10-14T23:16:21Z",
+              "completed_at": "2026-10-14T23:16:21Z"
+            },
+            {
+              "name": "Fail when collection failed",
+              "conclusion": "skipped",
+              "started_at": "2026-10-14T23:16:21Z",
+              "completed_at": "2026-10-14T23:16:21Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-14T23:16:21Z",
+              "completed_at": "2026-10-14T23:16:21Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-14T23:16:21Z",
+              "completed_at": "2026-10-14T23:16:22Z"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success",
+              "started_at": "2026-10-14T23:16:22Z",
+              "completed_at": "2026-10-14T23:16:22Z"
+            }
+          ]
+        }
+      ]
+    },
+    "38666358430": {
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 116199102146,
+          "run_id": 38666358430,
+          "run_attempt": 1,
+          "head_sha": "f269ce3362ca2bd9cfb428454df0715c517a530c",
+          "name": "collect",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-15T01:34:11Z",
+          "completed_at": "2026-10-15T01:34:20Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "started_at": "2026-10-15T01:34:12Z",
+              "completed_at": "2026-10-15T01:34:12Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-15T01:34:12Z",
+              "completed_at": "2026-10-15T01:34:15Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-15T01:34:15Z",
+              "completed_at": "2026-10-15T01:34:15Z"
+            },
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T01:34:15Z",
+              "completed_at": "2026-10-15T01:34:15Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-15T01:34:15Z",
+              "completed_at": "2026-10-15T01:34:17Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-15T01:34:17Z",
+              "completed_at": "2026-10-15T01:34:18Z"
+            },
+            {
+              "name": "Preserve diagnostic evidence",
+              "conclusion": "success",
+              "started_at": "2026-10-15T01:34:18Z",
+              "completed_at": "2026-10-15T01:34:19Z"
+            },
+            {
+              "name": "Preserve gate claim evidence",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T01:34:19Z",
+              "completed_at": "2026-10-15T01:34:19Z"
+            },
+            {
+              "name": "Fail when collection failed",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T01:34:19Z",
+              "completed_at": "2026-10-15T01:34:19Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-15T01:34:19Z",
+              "completed_at": "2026-10-15T01:34:19Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-15T01:34:19Z",
+              "completed_at": "2026-10-15T01:34:19Z"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success",
+              "started_at": "2026-10-15T01:34:19Z",
+              "completed_at": "2026-10-15T01:34:19Z"
+            }
+          ]
+        }
+      ]
+    },
+    "38699118287": {
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 116302730301,
+          "run_id": 38699118287,
+          "run_attempt": 1,
+          "head_sha": "633ca3efc317c1d505405a0d925b77f0dac1ce15",
+          "name": "collect",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-15T07:29:43Z",
+          "completed_at": "2026-10-15T07:29:56Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "started_at": "2026-10-15T07:29:44Z",
+              "completed_at": "2026-10-15T07:29:45Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-15T07:29:45Z",
+              "completed_at": "2026-10-15T07:29:50Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-15T07:29:50Z",
+              "completed_at": "2026-10-15T07:29:50Z"
+            },
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T07:29:50Z",
+              "completed_at": "2026-10-15T07:29:50Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-15T07:29:50Z",
+              "completed_at": "2026-10-15T07:29:52Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-15T07:29:52Z",
+              "completed_at": "2026-10-15T07:29:54Z"
+            },
+            {
+              "name": "Preserve diagnostic evidence",
+              "conclusion": "success",
+              "started_at": "2026-10-15T07:29:54Z",
+              "completed_at": "2026-10-15T07:29:54Z"
+            },
+            {
+              "name": "Preserve gate claim evidence",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T07:29:54Z",
+              "completed_at": "2026-10-15T07:29:54Z"
+            },
+            {
+              "name": "Fail when collection failed",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T07:29:54Z",
+              "completed_at": "2026-10-15T07:29:54Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-15T07:29:54Z",
+              "completed_at": "2026-10-15T07:29:54Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-15T07:29:54Z",
+              "completed_at": "2026-10-15T07:29:55Z"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success",
+              "started_at": "2026-10-15T07:29:55Z",
+              "completed_at": "2026-10-15T07:29:55Z"
+            }
+          ]
+        }
+      ]
+    },
+    "38742987897": {
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 116449224519,
+          "run_id": 38742987897,
+          "run_attempt": 1,
+          "head_sha": "8dc1191f81c5b34c5f1ddc8eef8c3d62e715349c",
+          "name": "collect",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-15T13:28:31Z",
+          "completed_at": "2026-10-15T13:28:44Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "started_at": "2026-10-15T13:28:32Z",
+              "completed_at": "2026-10-15T13:28:33Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-15T13:28:33Z",
+              "completed_at": "2026-10-15T13:28:39Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-15T13:28:39Z",
+              "completed_at": "2026-10-15T13:28:39Z"
+            },
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T13:28:39Z",
+              "completed_at": "2026-10-15T13:28:39Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-15T13:28:39Z",
+              "completed_at": "2026-10-15T13:28:40Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-15T13:28:40Z",
+              "completed_at": "2026-10-15T13:28:41Z"
+            },
+            {
+              "name": "Preserve diagnostic evidence",
+              "conclusion": "success",
+              "started_at": "2026-10-15T13:28:41Z",
+              "completed_at": "2026-10-15T13:28:42Z"
+            },
+            {
+              "name": "Preserve gate claim evidence",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T13:28:42Z",
+              "completed_at": "2026-10-15T13:28:42Z"
+            },
+            {
+              "name": "Fail when collection failed",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T13:28:42Z",
+              "completed_at": "2026-10-15T13:28:42Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-15T13:28:42Z",
+              "completed_at": "2026-10-15T13:28:42Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-15T13:28:42Z",
+              "completed_at": "2026-10-15T13:28:42Z"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success",
+              "started_at": "2026-10-15T13:28:42Z",
+              "completed_at": "2026-10-15T13:28:42Z"
+            }
+          ]
+        }
+      ]
+    },
+    "38784730633": {
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 116593690107,
+          "run_id": 38784730633,
+          "run_attempt": 1,
+          "head_sha": "5205bb468c46084d959f5db1214b2f5e8b530ea4",
+          "name": "collect",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-15T18:20:01Z",
+          "completed_at": "2026-10-15T18:20:17Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "started_at": "2026-10-15T18:20:02Z",
+              "completed_at": "2026-10-15T18:20:03Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-15T18:20:03Z",
+              "completed_at": "2026-10-15T18:20:09Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-15T18:20:09Z",
+              "completed_at": "2026-10-15T18:20:09Z"
+            },
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T18:20:09Z",
+              "completed_at": "2026-10-15T18:20:09Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-15T18:20:09Z",
+              "completed_at": "2026-10-15T18:20:10Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-15T18:20:10Z",
+              "completed_at": "2026-10-15T18:20:13Z"
+            },
+            {
+              "name": "Preserve diagnostic evidence",
+              "conclusion": "success",
+              "started_at": "2026-10-15T18:20:13Z",
+              "completed_at": "2026-10-15T18:20:14Z"
+            },
+            {
+              "name": "Preserve gate claim evidence",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T18:20:14Z",
+              "completed_at": "2026-10-15T18:20:14Z"
+            },
+            {
+              "name": "Fail when collection failed",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T18:20:14Z",
+              "completed_at": "2026-10-15T18:20:14Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-15T18:20:14Z",
+              "completed_at": "2026-10-15T18:20:14Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-15T18:20:14Z",
+              "completed_at": "2026-10-15T18:20:15Z"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success",
+              "started_at": "2026-10-15T18:20:15Z",
+              "completed_at": "2026-10-15T18:20:15Z"
+            }
+          ]
+        }
+      ]
+    },
+    "38816699691": {
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 116703063243,
+          "run_id": 38816699691,
+          "run_attempt": 1,
+          "head_sha": "47a939eff1db305f458e7df04ef2fc54075ad874",
+          "name": "collect",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-15T22:22:54Z",
+          "completed_at": "2026-10-15T22:23:11Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "started_at": "2026-10-15T22:22:55Z",
+              "completed_at": "2026-10-15T22:22:56Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-15T22:22:56Z",
+              "completed_at": "2026-10-15T22:23:03Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-15T22:23:03Z",
+              "completed_at": "2026-10-15T22:23:04Z"
+            },
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T22:23:04Z",
+              "completed_at": "2026-10-15T22:23:04Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-15T22:23:04Z",
+              "completed_at": "2026-10-15T22:23:06Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-15T22:23:06Z",
+              "completed_at": "2026-10-15T22:23:07Z"
+            },
+            {
+              "name": "Preserve diagnostic evidence",
+              "conclusion": "success",
+              "started_at": "2026-10-15T22:23:07Z",
+              "completed_at": "2026-10-15T22:23:08Z"
+            },
+            {
+              "name": "Preserve gate claim evidence",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T22:23:08Z",
+              "completed_at": "2026-10-15T22:23:08Z"
+            },
+            {
+              "name": "Fail when collection failed",
+              "conclusion": "skipped",
+              "started_at": "2026-10-15T22:23:08Z",
+              "completed_at": "2026-10-15T22:23:08Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-15T22:23:08Z",
+              "completed_at": "2026-10-15T22:23:08Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-15T22:23:08Z",
+              "completed_at": "2026-10-15T22:23:09Z"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success",
+              "started_at": "2026-10-15T22:23:09Z",
+              "completed_at": "2026-10-15T22:23:09Z"
+            }
+          ]
+        }
+      ]
+    },
+    "38834935934": {
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 116761823304,
+          "run_id": 38834935934,
+          "run_attempt": 1,
+          "head_sha": "98fbb0e8cbf8e0585d4248f011f87f80f9ac65f9",
+          "name": "collect",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-16T01:24:25Z",
+          "completed_at": "2026-10-16T01:24:37Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "started_at": "2026-10-16T01:24:25Z",
+              "completed_at": "2026-10-16T01:24:26Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-16T01:24:26Z",
+              "completed_at": "2026-10-16T01:24:31Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-16T01:24:31Z",
+              "completed_at": "2026-10-16T01:24:31Z"
+            },
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T01:24:31Z",
+              "completed_at": "2026-10-16T01:24:31Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-16T01:24:31Z",
+              "completed_at": "2026-10-16T01:24:33Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-16T01:24:33Z",
+              "completed_at": "2026-10-16T01:24:34Z"
+            },
+            {
+              "name": "Preserve diagnostic evidence",
+              "conclusion": "success",
+              "started_at": "2026-10-16T01:24:34Z",
+              "completed_at": "2026-10-16T01:24:35Z"
+            },
+            {
+              "name": "Preserve gate claim evidence",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T01:24:35Z",
+              "completed_at": "2026-10-16T01:24:35Z"
+            },
+            {
+              "name": "Fail when collection failed",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T01:24:35Z",
+              "completed_at": "2026-10-16T01:24:35Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-16T01:24:35Z",
+              "completed_at": "2026-10-16T01:24:35Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-16T01:24:35Z",
+              "completed_at": "2026-10-16T01:24:35Z"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success",
+              "started_at": "2026-10-16T01:24:35Z",
+              "completed_at": "2026-10-16T01:24:35Z"
+            }
+          ]
+        }
+      ]
+    },
+    "38865905362": {
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 116858553554,
+          "run_id": 38865905362,
+          "run_attempt": 1,
+          "head_sha": "e9a76ae2c106d3c4dfc506f9932e74b5cb811b6c",
+          "name": "collect",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-16T07:14:02Z",
+          "completed_at": "2026-10-16T07:14:17Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "started_at": "2026-10-16T07:14:02Z",
+              "completed_at": "2026-10-16T07:14:04Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-16T07:14:04Z",
+              "completed_at": "2026-10-16T07:14:09Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-16T07:14:09Z",
+              "completed_at": "2026-10-16T07:14:10Z"
+            },
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T07:14:10Z",
+              "completed_at": "2026-10-16T07:14:10Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-16T07:14:10Z",
+              "completed_at": "2026-10-16T07:14:12Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-16T07:14:12Z",
+              "completed_at": "2026-10-16T07:14:14Z"
+            },
+            {
+              "name": "Preserve diagnostic evidence",
+              "conclusion": "success",
+              "started_at": "2026-10-16T07:14:14Z",
+              "completed_at": "2026-10-16T07:14:15Z"
+            },
+            {
+              "name": "Preserve gate claim evidence",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T07:14:15Z",
+              "completed_at": "2026-10-16T07:14:15Z"
+            },
+            {
+              "name": "Fail when collection failed",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T07:14:15Z",
+              "completed_at": "2026-10-16T07:14:15Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-16T07:14:15Z",
+              "completed_at": "2026-10-16T07:14:15Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-16T07:14:15Z",
+              "completed_at": "2026-10-16T07:14:15Z"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success",
+              "started_at": "2026-10-16T07:14:15Z",
+              "completed_at": "2026-10-16T07:14:15Z"
+            }
+          ]
+        }
+      ]
+    },
+    "38900992912": {
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 116972907791,
+          "run_id": 38900992912,
+          "run_attempt": 1,
+          "head_sha": "7d65f2fbb1e43d7e1e9d53372c429ac7480716a8",
+          "name": "collect",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-16T12:30:31Z",
+          "completed_at": "2026-10-16T12:30:48Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "started_at": "2026-10-16T12:30:32Z",
+              "completed_at": "2026-10-16T12:30:33Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-16T12:30:33Z",
+              "completed_at": "2026-10-16T12:30:40Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-16T12:30:40Z",
+              "completed_at": "2026-10-16T12:30:41Z"
+            },
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T12:30:41Z",
+              "completed_at": "2026-10-16T12:30:41Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-16T12:30:41Z",
+              "completed_at": "2026-10-16T12:30:42Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-16T12:30:42Z",
+              "completed_at": "2026-10-16T12:30:43Z"
+            },
+            {
+              "name": "Preserve diagnostic evidence",
+              "conclusion": "success",
+              "started_at": "2026-10-16T12:30:43Z",
+              "completed_at": "2026-10-16T12:30:45Z"
+            },
+            {
+              "name": "Preserve gate claim evidence",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T12:30:45Z",
+              "completed_at": "2026-10-16T12:30:45Z"
+            },
+            {
+              "name": "Fail when collection failed",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T12:30:45Z",
+              "completed_at": "2026-10-16T12:30:45Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-16T12:30:45Z",
+              "completed_at": "2026-10-16T12:30:45Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-16T12:30:45Z",
+              "completed_at": "2026-10-16T12:30:45Z"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success",
+              "started_at": "2026-10-16T12:30:45Z",
+              "completed_at": "2026-10-16T12:30:45Z"
+            }
+          ]
+        }
+      ]
+    },
+    "38939828142": {
+      "total_count": 1,
+      "jobs": [
+        {
+          "id": 117104371173,
+          "run_id": 38939828142,
+          "run_attempt": 1,
+          "head_sha": "93815d86ecf693621481062bf3386d2fa84dc190",
+          "name": "collect",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-16T17:27:34Z",
+          "completed_at": "2026-10-16T17:27:47Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "started_at": "2026-10-16T17:27:35Z",
+              "completed_at": "2026-10-16T17:27:35Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-16T17:27:35Z",
+              "completed_at": "2026-10-16T17:27:41Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-16T17:27:41Z",
+              "completed_at": "2026-10-16T17:27:41Z"
+            },
+            {
+              "name": "Shared claim gate (default off)",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T17:27:41Z",
+              "completed_at": "2026-10-16T17:27:41Z"
+            },
+            {
+              "name": "Collect observations",
+              "conclusion": "success",
+              "started_at": "2026-10-16T17:27:41Z",
+              "completed_at": "2026-10-16T17:27:42Z"
+            },
+            {
+              "name": "Persist observations and summary",
+              "conclusion": "success",
+              "started_at": "2026-10-16T17:27:42Z",
+              "completed_at": "2026-10-16T17:27:44Z"
+            },
+            {
+              "name": "Preserve diagnostic evidence",
+              "conclusion": "success",
+              "started_at": "2026-10-16T17:27:44Z",
+              "completed_at": "2026-10-16T17:27:45Z"
+            },
+            {
+              "name": "Preserve gate claim evidence",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T17:27:45Z",
+              "completed_at": "2026-10-16T17:27:45Z"
+            },
+            {
+              "name": "Fail when collection failed",
+              "conclusion": "skipped",
+              "started_at": "2026-10-16T17:27:45Z",
+              "completed_at": "2026-10-16T17:27:45Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-10-16T17:27:45Z",
+              "completed_at": "2026-10-16T17:27:45Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-10-16T17:27:45Z",
+              "completed_at": "2026-10-16T17:27:45Z"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success",
+              "started_at": "2026-10-16T17:27:45Z",
+              "completed_at": "2026-10-16T17:27:45Z"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "commits": [
+    {
+      "sha": "71ec7be302f1989bdfa9d897cb2aebf545cfa68c",
+      "parents": [
+        "3273cd4781e09066b76a8460bd37ca2156ae94f4"
+      ],
+      "committedAt": "2026-10-16T20:10:39Z"
+    },
+    {
+      "sha": "3273cd4781e09066b76a8460bd37ca2156ae94f4",
+      "parents": [
+        "93815d86ecf693621481062bf3386d2fa84dc190"
+      ],
+      "committedAt": "2026-10-16T17:27:42Z"
+    },
+    {
+      "sha": "1ef29321872921ebdea2559fe3e531d4bc590de0",
+      "parents": [
+        "7d65f2fbb1e43d7e1e9d53372c429ac7480716a8"
+      ],
+      "committedAt": "2026-10-16T12:30:42Z"
+    },
+    {
+      "sha": "7d65f2fbb1e43d7e1e9d53372c429ac7480716a8",
+      "parents": [
+        "e9a76ae2c106d3c4dfc506f9932e74b5cb811b6c"
+      ],
+      "committedAt": "2026-10-16T07:14:12Z"
+    },
+    {
+      "sha": "e9a76ae2c106d3c4dfc506f9932e74b5cb811b6c",
+      "parents": [
+        "98fbb0e8cbf8e0585d4248f011f87f80f9ac65f9"
+      ],
+      "committedAt": "2026-10-16T01:24:33Z"
+    },
+    {
+      "sha": "98fbb0e8cbf8e0585d4248f011f87f80f9ac65f9",
+      "parents": [
+        "47a939eff1db305f458e7df04ef2fc54075ad874"
+      ],
+      "committedAt": "2026-10-15T22:23:06Z"
+    },
+    {
+      "sha": "f84d304beeabdb33e7459344491230969c2d3e12",
+      "parents": [
+        "5205bb468c46084d959f5db1214b2f5e8b530ea4"
+      ],
+      "committedAt": "2026-10-15T18:20:11Z"
+    },
+    {
+      "sha": "94788becb98cee161faee4ae7af1729eaecd2bbe",
+      "parents": [
+        "8dc1191f81c5b34c5f1ddc8eef8c3d62e715349c"
+      ],
+      "committedAt": "2026-10-15T13:28:40Z"
+    },
+    {
+      "sha": "c6926408ec0e831ba15f2f19cc8c568e2e78a624",
+      "parents": [
+        "633ca3efc317c1d505405a0d925b77f0dac1ce15"
+      ],
+      "committedAt": "2026-10-15T07:29:52Z"
+    },
+    {
+      "sha": "93b1769e56b296c13f9f4d78a8971b5259a1df79",
+      "parents": [
+        "f269ce3362ca2bd9cfb428454df0715c517a530c"
+      ],
+      "committedAt": "2026-10-15T01:34:17Z"
+    },
+    {
+      "sha": "49ab560dde396d302f62dd21c7897379cccec75d",
+      "parents": [
+        "be045ed2839a472b06206f52fb27c8229e319ca3"
+      ],
+      "committedAt": "2026-10-14T23:16:19Z"
+    },
+    {
+      "sha": "d77ba9299cd8b03701b01b4dff19877ff18e0d88",
+      "parents": [
+        "156c9bed1d6bc394f6639a05d6661e0d46d63613"
+      ],
+      "committedAt": "2026-10-14T19:28:07Z"
+    },
+    {
+      "sha": "70bd6ca56e12efec51d821dc0726e88390cba020",
+      "parents": [
+        "f971a1f90c28bb10e6f8842369e0dace35c65064"
+      ],
+      "committedAt": "2026-10-14T15:14:16Z"
+    },
+    {
+      "sha": "aa82c21cf09c1ee0d5477445171af34f3bd1395a",
+      "parents": [
+        "c36fd952ccf85756498b5aa457b71482a2ea4229"
+      ],
+      "committedAt": "2026-10-14T10:16:37Z"
+    },
+    {
+      "sha": "cf4fb16b4d5804e38d18a10452e78746c26b126d",
+      "parents": [
+        "77ff8207064a1046a9dddf163975825174e97582"
+      ],
+      "committedAt": "2026-10-14T04:58:27Z"
+    },
+    {
+      "sha": "219c6a46540470677762426f2f8d0aa1759d59e1",
+      "parents": [
+        "c975adf85ddd634fc8b2000a415f7cac89f4acda"
+      ],
+      "committedAt": "2026-10-13T23:44:37Z"
+    },
+    {
+      "sha": "f6fb803ede1a4bc55309113ad2c1718f320783ef",
+      "parents": [
+        "82731c69096ed250c4393b1de186a3f25653e07b"
+      ],
+      "committedAt": "2026-10-13T19:19:36Z"
+    },
+    {
+      "sha": "fdce3c1d95e1d4cf1d78ddf5c56aab6c5dcc4e1a",
+      "parents": [
+        "8acf10352cb5f8804d4310758dadb495df376332"
+      ],
+      "committedAt": "2026-10-13T11:51:18Z"
+    },
+    {
+      "sha": "9d458ffc943dfbda584743f5da8f93e5e984e132",
+      "parents": [
+        "13413ae71cd5f560c20259d3907ea50f9536cdaf"
+      ],
+      "committedAt": "2026-10-13T03:35:51Z"
+    },
+    {
+      "sha": "b4ad30fb49226b2de86fef5ce30b7acc70018857",
+      "parents": [
+        "2037a7fb18946bf510dd46a27dfaecddf97d859f"
+      ],
+      "committedAt": "2026-10-12T23:01:19Z"
+    },
+    {
+      "sha": "47bdc17f114362a37b036e61bfc5494477830839",
+      "parents": [
+        "027ab3eb95acce515beb79dc74e5764036384759"
+      ],
+      "committedAt": "2026-10-12T20:59:15Z"
+    },
+    {
+      "sha": "027ab3eb95acce515beb79dc74e5764036384759",
+      "parents": [
+        "5bd7b6a5b7963021992a8c0ef6e22656228bacd9"
+      ],
+      "committedAt": "2026-10-12T20:32:33Z"
+    },
+    {
+      "sha": "804c6ee7d882c52fd334c2df3f3f132a9a9c2dff",
+      "parents": [
+        "13d8d81bcb56187255ac1a7032603220509faf21"
+      ],
+      "committedAt": "2026-10-12T15:43:41Z"
+    }
+  ],
+  "controls": {
+    "actorId": {
+      "state": "owner_reported",
+      "value": "342326617"
+    },
+    "collectionGate": {
+      "state": "owner_reported_absent"
+    },
+    "repositoryVariableInspection": "unavailable",
+    "cloudflare": {
+      "state": "owner_reported",
+      "activation": "disabled",
+      "cron": false,
+      "routes": false,
+      "c2Invoked": false
+    }
+  },
+  "servedSnapshot": {
+    "source": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/main/data/reward-snapshots.json",
+    "startedAt": "2026-10-16T20:22:49.974210+00:00",
+    "capturedAt": "2026-10-16T20:22:50.229456+00:00",
+    "status": 200,
+    "bytes": 75291,
+    "sha256": "df8259125f0ca57f03de095d7db54cadee536c94be5a9c8a4471e5df57faa639",
+    "headers": {
+      "cache-control": "max-age=300",
+      "etag": "\"84c016e7213647d507bfcaf68e714739e27c3ff972992c5c99719c21414be5eb\"",
+      "date": "Fri, 16 Oct 2026 20:22:50 GMT"
+    }
+  },
+  "hosting": [
+    {
+      "sha": "3273cd4781e09066b76a8460bd37ca2156ae94f4",
+      "statuses": [
+        {
+          "context": "Vercel",
+          "state": "success",
+          "created_at": "2026-10-16T17:28:39Z",
+          "description": "Deployment has completed"
+        }
+      ]
+    },
+    {
+      "sha": "71ec7be302f1989bdfa9d897cb2aebf545cfa68c",
+      "statuses": [
+        {
+          "context": "Vercel",
+          "state": "success",
+          "created_at": "2026-10-16T20:11:40Z",
+          "description": "Deployment has completed"
+        }
+      ]
+    }
+  ],
+  "captureProvenance": [
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/variables/SCOUT_COLLECTION_APP_ACTOR_ID",
+      "startedAt": "2026-10-16T20:21:25.292640+00:00",
+      "capturedAt": "2026-10-16T20:21:25.589609+00:00",
+      "exitCode": 1,
+      "bytes": 162,
+      "sha256": "4b911f9b614abe5b8bdc0ab2c6c827d7bf117645972432e61b8c628fb800e4d3"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/workflows/data-health.yml/runs?branch=main&per_page=20",
+      "startedAt": "2026-10-16T20:21:23.794755+00:00",
+      "capturedAt": "2026-10-16T20:21:24.435758+00:00",
+      "exitCode": 0,
+      "bytes": 52807,
+      "sha256": "c5eb6c7417bdc3d5118c4a6e2a1a87f7723d836d6dd9eea12f8c2d02b35ce138"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/commits?path=data%2Freward-snapshots.json&sha=main&per_page=100",
+      "startedAt": "2026-10-16T20:21:23.282051+00:00",
+      "capturedAt": "2026-10-16T20:21:23.793787+00:00",
+      "exitCode": 0,
+      "bytes": 38533,
+      "sha256": "76bbd90e7524262007f6ed6e0c0c13a0ab89550ecf122f1bca2c300b62007466"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/variables/SCOUT_COLLECTION_GATE_ENABLED",
+      "startedAt": "2026-10-16T20:21:25.589917+00:00",
+      "capturedAt": "2026-10-16T20:21:25.802757+00:00",
+      "exitCode": 1,
+      "bytes": 162,
+      "sha256": "4b911f9b614abe5b8bdc0ab2c6c827d7bf117645972432e61b8c628fb800e4d3"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/runs/38653023256/jobs?per_page=10",
+      "startedAt": "2026-10-16T20:22:20.008830+00:00",
+      "capturedAt": "2026-10-16T20:22:20.584065+00:00",
+      "bytes": 2956,
+      "sha256": "df4e73c1cf82e5d7ff3ecac4e103bcaa8e7aa701184784b12b90c891499c13d8"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/runs/38666358430/jobs?per_page=10",
+      "startedAt": "2026-10-16T20:22:19.382863+00:00",
+      "capturedAt": "2026-10-16T20:22:20.008522+00:00",
+      "bytes": 2956,
+      "sha256": "9b0da2a73b15b5f78267601805afe2afb56ec1548ebe6251e7399a24a4260f4e"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/runs/38699118287/jobs?per_page=10",
+      "startedAt": "2026-10-16T20:22:18.776468+00:00",
+      "capturedAt": "2026-10-16T20:22:19.382705+00:00",
+      "bytes": 2956,
+      "sha256": "4cbd85cb349fdc991966c9c20ecfb53377c0fbdabf24a6baa133aacd61e6172a"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/runs/38742987897/jobs?per_page=10",
+      "startedAt": "2026-10-16T20:22:18.261373+00:00",
+      "capturedAt": "2026-10-16T20:22:18.775901+00:00",
+      "bytes": 2956,
+      "sha256": "584f37b3759c3db3f32637f96c95ebb0ad5d30e0c1c0c12dd7273d87bb3fb58a"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/runs/38784730633/jobs?per_page=10",
+      "startedAt": "2026-10-16T20:22:17.797657+00:00",
+      "capturedAt": "2026-10-16T20:22:18.261174+00:00",
+      "bytes": 2956,
+      "sha256": "341eac5d662f6274b2c8c7536b81467d1df37a962390406f082e771835e7d654"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/runs/38816699691/jobs?per_page=10",
+      "startedAt": "2026-10-16T20:22:17.185549+00:00",
+      "capturedAt": "2026-10-16T20:22:17.797436+00:00",
+      "bytes": 2956,
+      "sha256": "7e57b49a947b7be40dc828f484c886ca4e045d0525ed8a12cffed7a285154bdf"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/runs/38834935934/jobs?per_page=10",
+      "startedAt": "2026-10-16T20:22:16.563875+00:00",
+      "capturedAt": "2026-10-16T20:22:17.185384+00:00",
+      "bytes": 2956,
+      "sha256": "acbb00100fca2d739f4a2254a0b1d9d6f8228230e7fc058f5aa2f48d1a25ecfa"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/runs/38865905362/jobs?per_page=10",
+      "startedAt": "2026-10-16T20:22:15.862249+00:00",
+      "capturedAt": "2026-10-16T20:22:16.563719+00:00",
+      "bytes": 2956,
+      "sha256": "5ab6b36e22613d2999a92b47a944481c41d1fbee5932cae0f5f7b9402bbd67b0"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/runs/38900992912/jobs?per_page=10",
+      "startedAt": "2026-10-16T20:22:15.174192+00:00",
+      "capturedAt": "2026-10-16T20:22:15.861994+00:00",
+      "bytes": 2956,
+      "sha256": "6f9e29fb81c5afb66dc6fc9cff5a92861217bb426c45bc457e79b8ada3f5112c"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/runs/38939828142/jobs?per_page=10",
+      "startedAt": "2026-10-16T20:22:14.615866+00:00",
+      "capturedAt": "2026-10-16T20:22:15.173997+00:00",
+      "bytes": 2956,
+      "sha256": "6fe765ea6d95d840b1e4ce6119faf04928cd731735d07b17459d1960bb506f8e"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/runs/38960299506/jobs?per_page=10",
+      "startedAt": "2026-10-16T20:21:24.822328+00:00",
+      "capturedAt": "2026-10-16T20:21:25.292056+00:00",
+      "exitCode": 0,
+      "bytes": 2956,
+      "sha256": "9502a366e2986f3d6f1080dbe91cab3062603918bd33dcdabe62b8702f580ff1"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/runs/38960299506",
+      "startedAt": "2026-10-16T20:21:24.437008+00:00",
+      "capturedAt": "2026-10-16T20:21:24.821729+00:00",
+      "exitCode": 0,
+      "bytes": 13210,
+      "sha256": "2ea40aa2937ad075d56b20c70cc2493dd707a48a902085b099849c27b40e920a"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/workflows/reward-snapshots.yml/runs?branch=main&per_page=100",
+      "startedAt": "2026-10-16T20:21:22.311552+00:00",
+      "capturedAt": "2026-10-16T20:21:23.279711+00:00",
+      "exitCode": 0,
+      "bytes": 290454,
+      "sha256": "77779b62e4d3b283e50235e018b3da58eade096bac97322f0dd94b53689c42ed"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/main/data/reward-snapshots.json",
+      "startedAt": "2026-10-16T20:22:49.974210+00:00",
+      "capturedAt": "2026-10-16T20:22:50.229456+00:00",
+      "status": 200,
+      "bytes": 75291,
+      "sha256": "df8259125f0ca57f03de095d7db54cadee536c94be5a9c8a4471e5df57faa639",
+      "headers": {
+        "cache-control": "max-age=300",
+        "etag": "\"84c016e7213647d507bfcaf68e714739e27c3ff972992c5c99719c21414be5eb\"",
+        "date": "Fri, 16 Oct 2026 20:22:50 GMT"
+      }
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/commits?path=data%2Fcollection-summary.json&sha=main&per_page=100",
+      "capturedAt": "2026-10-16T20:24:57.181812+00:00",
+      "bytes": 29280,
+      "sha256": "fe7b2350f23c1ede87a94496d18cbf53a04353f72ea5581e47ac34a40dce5fd3"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/actions/workflows/reward-snapshots.yml",
+      "startedAt": "2026-10-16T20:21:21.983397+00:00",
+      "capturedAt": "2026-10-16T20:21:22.311058+00:00",
+      "exitCode": 0,
+      "bytes": 544,
+      "sha256": "2a58bce226dfb94738e51dc24e9e8fd43d9c51c04e3629dde25ca17ad677f345"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/commits/3273cd4781e09066b76a8460bd37ca2156ae94f4/status",
+      "captureFileWriteAtApproximate": "2026-10-16T20:22:21.442817+00:00",
+      "bytes": 5469,
+      "sha256": "0fc5ffae2a03e6b80f5a298b7ba6223982c98b2d89f963260762c0da01a37b28"
+    },
+    {
+      "path": "repos/fuzzysniper/scout-stonk-intel/commits/71ec7be302f1989bdfa9d897cb2aebf545cfa68c/status",
+      "captureFileWriteAtApproximate": "2026-10-16T20:22:21.002635+00:00",
+      "bytes": 5469,
+      "sha256": "7821133a00afe31c0abe0e72ce1f6c746e7686a34661d1c02688ca2dbe1ba667"
+    }
+  ],
+  "auditRuns": {
+    "total_count": 4,
+    "workflow_runs": [
+      {
+        "id": 38902693229,
+        "created_at": "2026-10-16T12:44:45Z",
+        "updated_at": "2026-10-16T12:45:02Z",
+        "status": "completed",
+        "conclusion": "success",
+        "event": "schedule"
+      },
+      {
+        "id": 38737930107,
+        "created_at": "2026-10-15T12:51:55Z",
+        "updated_at": "2026-10-15T12:52:13Z",
+        "status": "completed",
+        "conclusion": "success",
+        "event": "schedule"
+      },
+      {
+        "id": 38568972261,
+        "created_at": "2026-10-14T13:05:48Z",
+        "updated_at": "2026-10-14T13:06:08Z",
+        "status": "completed",
+        "conclusion": "success",
+        "event": "schedule"
+      },
+      {
+        "id": 38420708084,
+        "created_at": "2026-10-13T15:16:59Z",
+        "updated_at": "2026-10-13T15:17:16Z",
+        "status": "completed",
+        "conclusion": "success",
+        "event": "schedule"
+      }
+    ]
+  },
+  "requestBudget": {
+    "githubApiCeiling": 48,
+    "githubApiReads": 21,
+    "rawGithubReads": 1,
+    "providerReads": 0,
+    "automaticRetries": 0,
+    "note": "Repository fetch/issue/PR/CI operations are separate. No App or Cloudflare credential operation."
+  }
+}
