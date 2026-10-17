@@ -1,0 +1,209 @@
+{
+  "kind": "offline_shadow_canary_validation",
+  "recordedAt": "2026-10-17T05:24:34.193776Z",
+  "baseMain": "69760f97236f61f66d4f3c487096e04a0b22fc22",
+  "includesMergedPRs": [
+    79,
+    82,
+    83
+  ],
+  "branch": "feat/85-shadow-canary",
+  "checks": [
+    {
+      "command": "npm ci --cache /tmp/scout85-npm-cache",
+      "exitCode": 0
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run archive:dry-run",
+      "exitCode": 0
+    },
+    {
+      "command": "bash scripts/archive-tool.sh check origin/main",
+      "exitCode": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest tests.coverage_shadow_canary_test",
+      "exitCode": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m scripts.coverage_shadow_rehearsal --offline-rehearsal",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check HEAD",
+      "exitCode": 0
+    }
+  ],
+  "testCounts": {
+    "applicationNode": 484,
+    "existingAdapterNode": 18,
+    "pythonIncludingShadowCanary": 106,
+    "focusedShadowCanaryMethods": 16
+  },
+  "runtime": {
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "python": "Python 3.12.14"
+  },
+  "protectedTree": {
+    "filesComparedByteForByte": 683,
+    "allEqualToMain": true,
+    "pathNullSha256Aggregate": "79acc5f0d34240938eb996ff6ce400d48b4b2470204d86121c0c9572ad9dda11",
+    "activeAllowlistRevision": "sha256:e6a94dc0962ca3b4336dd2d97ab879aef542062b39cee93994bd9a96698814a5",
+    "activeTokens": 7,
+    "observationDatasetRevision": "sha256:f03f562aa9c21da17b7726dd7eba9c67ee0ee9e753c19968b50472a031131da6",
+    "attemptSummaryRevision": "sha256:3250d6d6d8ef8e201080ad9922d21c0d39e91926b140f284e09c480a6dd92544",
+    "summaryDatasetHashMatches": true
+  },
+  "artifactRevisions": {
+    "research/shadow-canary-v1.json": "sha256:a6f4e1ee2c0dfc8890e6b797c8aa56204c0615887c63eebddb8ab6409ee620da",
+    "research/proposals/shadow-canary-collector-v1.patch": "sha256:d1671f3ec4e7b2d7084db6cba2f7d52317fe312227642e248b52fd0cdb5b0175",
+    "scripts/coverage_shadow_canary.py": "sha256:08700da9cb36fbcc8682725fed15b629fb32c0830120fb231b480a17cf97e6da",
+    "scripts/coverage_shadow_rehearsal.py": "sha256:5ddf3958d82f4d4b07db60464110fdd87ffd4cbc7535b9800bcce4f5edc04784",
+    "tests/coverage_shadow_canary_test.py": "sha256:4fef068cc6e8880a758f237a82724769a2145da88815479bcf76effd323aee27",
+    "docs/VERIFIED_COVERAGE_SHADOW_CANARY_V1.md": "sha256:2ecfd8248d520660065d84b51f98cef16c9e9de22c5cd50f52c7c191c90de50e"
+  },
+  "metadataReportRevision": "sha256:631441297d0b6159ce4d8af5fc396556b2d9d2eb56a269bd8f4c63810131bbe5",
+  "metadataOnlyRehearsal": {
+    "activation": "disabled",
+    "atomicProviderSnapshot": false,
+    "canaryReceiptsReplayed": 5,
+    "cleanup": "private_temporary_directory_removed",
+    "comprehensiveCoverage": false,
+    "configurations": [
+      {
+        "fingerprint": "sha256:881d0e5f253d9213f80689c371e5d1444d2f3362ce0ff114889f0223cb9546f6",
+        "kind": "local_configuration_fingerprint",
+        "mint": "6HU4CmRb15C2nQDx8Ld2f2W2wTdmog6aZiiXdrT5Pzi8",
+        "providerEpoch": null
+      },
+      {
+        "fingerprint": "sha256:ca31f2af20f7d757a13fbc58a5655956e8c3f777e5c99ae3445781cc00e5aa97",
+        "kind": "local_configuration_fingerprint",
+        "mint": "HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ",
+        "providerEpoch": null
+      }
+    ],
+    "currentEligibility": "unverified",
+    "currentSourceEvaluation": "withheld",
+    "currentSourceReasons": [
+      "stale_capture",
+      "stale_capture"
+    ],
+    "datasetRevision": "sha256:b273e67afbf4fb450b58f06f78069aebb30052370ad0fc7c27bc563d6ee1694d",
+    "evidenceUse": "offline_retained_capture_rehearsal",
+    "generation": 1,
+    "holderReturn": null,
+    "hostedPersistenceVerified": false,
+    "idempotentReplay": true,
+    "initialDatasetRevision": "sha256:f17df6e6105b11d7c076c967610de838c24ce6a8358159b2f3a21ed85efe0e83",
+    "kind": "shadow_canary_review_metadata",
+    "lifetime": null,
+    "liveDecision": "NO_GO",
+    "localDiskHashesMatched": true,
+    "manifestRevision": "sha256:610ebbce5b8ddf1cc704ce32a6c43f6bcb9e7b9a4017ed26c0a3d5b502523583",
+    "missedSlots": null,
+    "newObservationsCollected": 0,
+    "originalReceiptValidationAsOf": "2026-10-14T22:34:17.512424+00:00",
+    "ownerSelection": "proposed_not_approved",
+    "providerEpochVerified": false,
+    "providerRequestsMade": 0,
+    "ranking": null,
+    "recentFlow": null,
+    "reportEvaluatedAt": "2026-10-17T05:23:13.185859+00:00",
+    "rights": {
+      "commercialUse": "unverified",
+      "financialPublication": "withheld",
+      "rawRedistribution": "unverified",
+      "retention": "unverified"
+    },
+    "rightsDecision": "unverified_NO_GO",
+    "rollbackAndRestoreRehearsed": true,
+    "schemaVersion": 1,
+    "servedRevisionVerified": false,
+    "sources": [
+      {
+        "mint": "6HU4CmRb15C2nQDx8Ld2f2W2wTdmog6aZiiXdrT5Pzi8",
+        "observedAt": "2026-10-14T22:34:17.512424+00:00",
+        "providerGeneratedAt": "2026-10-14T22:34:17.495Z",
+        "quoteMint": "Xs3oZwbHvqis4NYcf4YKWmEia2eC84wSiVrcYcTqpH8",
+        "receiptRevision": "sha256:b7688baa90343e23a8499cf8938bf034c78e4528631023a222ed566c791d58d2"
+      },
+      {
+        "mint": "HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ",
+        "observedAt": "2026-10-14T22:34:11.763783+00:00",
+        "providerGeneratedAt": "2026-10-14T22:34:11.750Z",
+        "quoteMint": "Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re",
+        "receiptRevision": "sha256:d10a02c5dd19ec7926c7292928cef977e70a108150214626bd2929716828b324"
+      }
+    ],
+    "summaryRevision": "sha256:f43231e87d6c6e3b95e952028c377924e12fbafd2cf21adcf63f329f5aeb8af3"
+  },
+  "executedSafety": {
+    "providerRequests": 0,
+    "newLiveObservations": 0,
+    "currentEligibility": "UNVERIFIED",
+    "rights": "NO_GO",
+    "activeAllowlistChanged": false,
+    "liveDataChanged": false,
+    "workflowSchedulerCloudflareOrSecurityChanged": false,
+    "productFrontendApiChanged": false,
+    "realCredentialsAccessed": false,
+    "collectorProposalApplied": false,
+    "deploymentCommandRun": false,
+    "merged": false,
+    "activated": false,
+    "walletOrTreasuryAccess": false
+  },
+  "limits": {
+    "tokens": 2,
+    "requests": 5,
+    "registryReads": 1,
+    "catalogReadsPerToken": 1,
+    "rewardReadsPerToken": 1,
+    "concurrency": 1,
+    "runBytes": 851968,
+    "pointsPerToken": 73,
+    "sourceSpanSeconds": 259200,
+    "datasetBytes": 524288,
+    "summaryBytes": 16384,
+    "versions": 74,
+    "directoryBytes": 41943040
+  },
+  "coverage": [
+    "Pinned real five-receipt, two-token original-time admission; no positive synthetic series",
+    "Strict cohort/units/configuration fingerprint; provider epoch remains unknown",
+    "Current stale source and rights NoGo; missing/mode/unit/error/429/503 gates",
+    "All-or-nothing batch, raw exact counters, duplicate/reset/mixed-cache refusal",
+    "Version/parent/dataset/summary/manifest/source-window hash validation",
+    "Private real filesystem readback, 0600/0700, partial/uncertain write, corrupt pointer/symlink refusal",
+    "Immutable versions, hard retention/byte stop, explicit rollback/restore and finally cleanup",
+    "Inert collector patch tested only in disposable tree; disabled/unapproved/stale/rate outcomes deny",
+    "Metadata-only CLI; no path/live/approval flag or network client"
+  ],
+  "limitations": [
+    "No current source identity/rights approval, live read or real canary proving period",
+    "Hashes prove internal byte correspondence, not provider signature, chain settlement or holder ROI",
+    "Local file fsync/readback does not prove remote persistence, production CAS/locks or power-loss durability",
+    "Local configuration fingerprint does not establish an actual provider configuration epoch",
+    "Future transport/grant/private-sink adapters and time-based retention/alerts require separate reviewed implementation",
+    "No new public financial publication or automatic active enrollment",
+    "Existing repository PR automation may run on branch push; hosting configuration is unchanged"
+  ]
+}

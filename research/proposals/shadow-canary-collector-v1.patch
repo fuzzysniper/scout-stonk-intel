@@ -1,0 +1,69 @@
+diff --git a/scripts/coverage_shadow_collect.py b/scripts/coverage_shadow_collect.py
+new file mode 100644
+--- /dev/null
++++ b/scripts/coverage_shadow_collect.py
+@@ -0,0 +1,64 @@
++"""INERT PROPOSAL: future private V2 canary collector; no CLI, schedule or transport.
++Requires a separate reviewed application, trusted owner grant verifier and private
++transactional sink. The flag is NOT authorization or proof of provider rights.
++"""
++from scripts import coverage_candidates as c
++from scripts import coverage_shadow_canary as shadow
++
++ACTIVE = False
++SCHEMA = 'scout_authorized_shadow_v1'  # Never mix with offline rehearsal or v1 floats.
++PRIVATE_KEY = 'shadow-canary/v1'  # Relative key under a separately approved private root.
++
++
++def proposed_attempt(cohort_bytes, catalog_bytes, *, authorize=None, read_once=None,
++                     commit_private=None, clock=None, expected_parent=None):
++    stop = {'state': 'NO_GO', 'providerRequests': 0, 'financialPublication': 'withheld'}
++    if ACTIVE is not True:
++        return {**stop, 'reason': 'inactive_proposal'}
++    if any(callback is None for callback in (authorize, read_once, commit_private, clock)):
++        return {**stop, 'reason': 'trusted_adapters_missing'}
++    requests = 0
++    try:
++        plan = shadow.request_plan(cohort_bytes, catalog_bytes)
++        # authorize is a FUTURE trusted owner/rights/shared-admission boundary,
++        # not a caller-supplied approved:true switch. No verifier is implemented.
++        grant = authorize(cohort_revision=c.sha(cohort_bytes), schema=SCHEMA,
++                          sources=tuple(plan['requests']), request_limit=5,
++                          private_key=PRIVATE_KEY, expected_parent=expected_parent)
++        if grant is None:
++            return {**stop, 'reason': 'owner_rights_or_admission_unverified'}
++        start = c.time(clock())
++        receipts = []
++        for source in plan['requests']:
++            if not 0 <= (c.time(clock()) - start).total_seconds() < 90:
++                return {**stop, 'providerRequests': requests, 'reason': 'deadline'}
++            # read_once must independently enforce global admission and >=2s
++            # start spacing, GET-only, no redirect/retry, deadline and byte bounds.
++            limit = c.POLICY['registryBytes'] if source == c.REGISTRY else c.POLICY['catalogBytes'] if source.startswith(c.CATALOG) else c.POLICY['rewardBytes']
++            requests += 1
++            receipt = read_once(grant=grant, method='GET', source=source,
++                                max_bytes=limit, timeout_seconds=3,
++                                minimum_start_spacing_seconds=2, retries=0)
++            if receipt.get('status') != 200:
++                # Never shorten a wait or retry an unknown/read failure.
++                return {**stop, 'providerRequests': requests, 'reason': 'source_stop'}
++            receipts.append(receipt)
++        now = clock()
++        if not 0 <= (c.time(now) - start).total_seconds() <= 90:
++            return {**stop, 'providerRequests': requests, 'reason': 'deadline'}
++        evaluated = c.evaluate(c.decode(catalog_bytes, 32768), list(shadow.MINTS), receipts,
++                               now, opt_in=True, request_budget=5)
++        if evaluated['state'] != 'validated_offline':
++            return {**stop, 'providerRequests': requests, 'reason': 'source_gates_failed'}
++        # Future sink must verify exact epoch/units, CAS parent, bounded retention,
++        # immutable version + summary hashes and readback; never write the repo,
++        # publish/upload figures or reinterpret a rehearsal artifact as live data.
++        result = commit_private(grant=grant, schema=SCHEMA, private_key=PRIVATE_KEY,
++                                evaluated=evaluated, expected_parent=expected_parent)
++        if result != {'private_hashes_verified': True, 'public_financial_output': False}:
++            return {**stop, 'providerRequests': requests, 'reason': 'persistence_uncertain'}
++        return {'state': 'private_shadow_recorded', 'providerRequests': requests,
++                'financialPublication': 'withheld', 'holderReturn': None,
++                'recentFlow': None, 'activeAllowlistChanged': False}
++    except Exception:
++        return {**stop, 'providerRequests': requests, 'reason': 'uncertain_stop'}

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "kind": "scout_shadow_canary_proposal",
+  "activation": "disabled",
+  "ownerSelection": "proposed_not_approved",
+  "currentEligibility": "unverified",
+  "selectionBasis": "source_integrity_and_two_exact_quote_units",
+  "candidateCatalogRevision": "sha256:7334efa7ccaaa8cf54d0eeb864cc407a0a4ca419dca92f94cab47467c957f7c6",
+  "rights": {
+    "retention": "unverified",
+    "financialPublication": "withheld",
+    "rawRedistribution": "unverified",
+    "commercialUse": "unverified"
+  },
+  "members": [
+    {
+      "mint": "6HU4CmRb15C2nQDx8Ld2f2W2wTdmog6aZiiXdrT5Pzi8",
+      "symbol": "GROK",
+      "quoteMint": "Xs3oZwbHvqis4NYcf4YKWmEia2eC84wSiVrcYcTqpH8",
+      "quoteSymbol": "SPCXX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "poolMint": "31jrCKZgiqcGvEYnditbXQgWyYynogot7xfgtRASimuh"
+    },
+    {
+      "mint": "HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ",
+      "symbol": "GP",
+      "quoteMint": "Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re",
+      "quoteSymbol": "GLDX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "poolMint": "FE1kGMg4PCLbbz2AMBaHSiG3USXpVNtUVKDFrC7E3fco"
+    }
+  ],
+  "limits": {
+    "tokens": 2,
+    "requests": 5,
+    "registryReads": 1,
+    "catalogReadsPerToken": 1,
+    "rewardReadsPerToken": 1,
+    "concurrency": 1,
+    "runBytes": 851968,
+    "pointsPerToken": 73,
+    "sourceSpanSeconds": 259200,
+    "datasetBytes": 524288,
+    "summaryBytes": 16384,
+    "versions": 74,
+    "directoryBytes": 41943040
+  },
+  "liveCollector": {
+    "state": "inert_proposal_only",
+    "approvedPrivateRoot": null,
+    "publicFinancialOutput": "withheld",
+    "requiresSeparateOwnerRightsSourceInfrastructureAndSchemaReview": true
+  }
+}
