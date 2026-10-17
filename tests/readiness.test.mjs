@@ -10,11 +10,11 @@ const { default: FirstSteps } = await load('app/first-steps');
 const { default: Guide } = await load('app/research/page');
 
 test('navigation identifies exactly one destination on nested immutable and provisional brief URLs', () => {
- for (const pathname of ['/', '/radar', '/brief', '/brief/2026-10-11', '/brief/2026-10-11/editions/'+'a'.repeat(64), '/status', '/research']) {
+ for (const pathname of ['/terminal', '/radar', '/brief', '/brief/2026-10-11', '/brief/2026-10-11/editions/'+'a'.repeat(64), '/status', '/research']) {
   const html = renderToStaticMarkup(React.createElement(NavigationLinks, { pathname }));
   assert.equal((html.match(/aria-current="page"/g) || []).length, 1);
   assert.match(html, /aria-label="Primary"/);
-  for (const href of (pathname==='/'?['/','/research','#scout-content']:['/', '/radar', '/brief', '/status', '/research', '#scout-content'])) assert.ok(html.includes('href="'+href+'"'));
+  for (const href of (pathname==='/terminal'?['/terminal','/research','#scout-content']:['/terminal', '/radar', '/brief', '/status', '/research', '#scout-content'])) assert.ok(html.includes('href="'+href+'"'));
   if (pathname.startsWith('/brief')) assert.match(html, /<a(?=[^>]*href="\/brief")(?=[^>]*aria-current="page")[^>]*>/);
  }
  // Prefix siblings must not impersonate a real destination.
@@ -38,9 +38,13 @@ test('guide renders source-independent evidence and limitations with no collecti
  assert.ok(!/<(?:form|input|iframe)/.test(html));
  assert.match(html, /FIRST_USER_READINESS.md/);
 });
-test('home navigation keeps one brand and guide; secondary routes stay off the primary search task',()=>{
- const html=renderToStaticMarkup(React.createElement(NavigationLinks,{pathname:'/'}));
+test('legacy terminal navigation keeps one brand and guide; secondary routes stay off the primary search task',()=>{
+ const html=renderToStaticMarkup(React.createElement(NavigationLinks,{pathname:'/terminal'}));
  assert.ok(html.includes('home-navigation'));assert.ok(html.includes('SCOUT'));assert.ok(html.includes('Guide'));
  assert.equal((html.match(/<nav/g)||[]).length,1);assert.ok(!html.includes('<details'));
  for(const clutter of ['More','Daily Brief','Radar','Status'])assert.ok(!html.includes(clutter));
+});
+
+test('consumer homepage has no legacy navigation',()=>{
+ assert.equal(renderToStaticMarkup(React.createElement(NavigationLinks,{pathname:'/'})),'');
 });

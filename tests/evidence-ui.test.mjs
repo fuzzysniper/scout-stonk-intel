@@ -29,7 +29,7 @@ test('missing histories retain quote identity with a single plain insufficient s
  const r=report(),row=r.rows[0],out=closedReading(row);
  assert.match(out,/Insufficient comparable history/);assert.match(out,/No recorded observation/);
  assert.ok(!out.includes('flow-value'));assert.ok(!out.includes('<time'));
- assert.ok(out.includes(row.quoteSymbol));assert.ok(out.includes(row.dossier));
+ assert.ok(out.includes(row.quoteSymbol));assert.ok(out.includes('/terminal?mint='+row.mint));assert.ok(!out.includes('href="'+row.dossier+'"'));
  const overview=html(EcosystemOverview,{report:r});assert.match(overview,/7 tracked tokens/);assert.match(overview,/no valid flow comparisons/);
 });
 test('valid point zero or change has one quoted readout with its actual interval, never a 24h rate', () => {

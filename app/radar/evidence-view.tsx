@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import {tokenResearchPath} from '../pairs/results';
 import type { RadarReport, RadarRow } from '../../lib/radar';
 import SignalPanel from './signal-panel';
 export const utc = (value: string | null) => value ? value.replace('T', ' ').replace(/(?:\.000)?Z|\+00:00$/, ' UTC') : 'Not recorded';
@@ -42,7 +43,7 @@ export function TokenRow({ row, evaluatedAt = null, sourceStatus = 'available' }
  const reading = flowReading(row, sourceStatus);
  const age = observationAge(row.latestObservedAt, evaluatedAt);
  return <article className="radar-card" aria-labelledby={'token-' + row.mint}>
-  <div className="token-row-heading"><h2 id={'token-' + row.mint}><Link href={row.dossier} title={row.name}>{row.symbol}<span className="sr-only"> · {row.name}</span></Link></h2><span className="token-unit" title="Quote identity from the verified allowlist"><span className="sr-only">Verified quote currency: </span><strong>{row.quoteSymbol}</strong></span></div>
+  <div className="token-row-heading"><h2 id={'token-' + row.mint}><Link href={tokenResearchPath(row.mint)} title={row.name}>{row.symbol}<span className="sr-only"> · {row.name}</span></Link></h2><span className="token-unit" title="Quote identity from the verified allowlist"><span className="sr-only">Verified quote currency: </span><strong>{row.quoteSymbol}</strong></span></div>
   <div className="token-row-reading">{'state' in reading ? <strong className="flow-limited">{reading.state}</strong> : <><strong className="flow-value">{flowNumber(reading.value)} {row.quoteSymbol}</strong><span className="flow-basis">{reading.kind === 'matched' ? 'Matched 24h target' : reading.kind === 'window' ? '24h target · recorded span' : 'Recorded counter change'}</span><small className="flow-range">Actual interval: <time dateTime={reading.startAt}>{utc(reading.startAt)}</time> → <time dateTime={reading.endAt}>{utc(reading.endAt)}</time> · {number(reading.seconds / 3600)}h</small></>}</div>
   <p className="token-observed">{row.latestObservedAt ? <><span className="sr-only">Observed: </span><time dateTime={row.latestObservedAt}>{utc(row.latestObservedAt)}</time>{age && <span className="observation-age"> · {age}</span>}</> : sourceStatus === 'unavailable' || row.pointChange.status === 'source_unavailable' ? 'Observation unknown' : 'No recorded observation'}</p>
   <details className="token-evidence"><summary>Evidence / Details <span className="sr-only">for {row.symbol}</span></summary>
@@ -59,7 +60,7 @@ export function TokenRow({ row, evaluatedAt = null, sourceStatus = 'available' }
   <div className="radar-coverage" aria-label="Recorded window coverage">{(['24h', '7d'] as const).map(key => <div key={key}><span>{key.toUpperCase()} COVERAGE</span><strong>{row.windows[key].status === 'available' && row.windows[key].distributedTokens !== null ? number(row.windows[key].distributedTokens!) + ' ' + row.quoteSymbol : 'Unavailable'}</strong><small>{row.windows[key].status.replaceAll('_', ' ')}</small></div>)}</div>
   </details>
   {row.quality.length > 0 && <p className="radar-quality">{row.quality.map(issue => qualityLabels[issue] ?? issue).join(' · ')}</p>}
-  <div className="radar-links"><Link href={row.dossier}>OPEN DOSSIER ↗</Link><a href={row.evidence} target="_blank" rel="noopener noreferrer">HISTORY JSON ↗</a><a href={row.source} target="_blank" rel="noopener noreferrer">OFFICIAL API ↗</a><a href={row.onchain} target="_blank" rel="noopener noreferrer">MINT RECORD ↗</a></div>
+  <div className="radar-links"><Link href={tokenResearchPath(row.mint)}>OPEN DOSSIER ↗</Link><a href={row.evidence} target="_blank" rel="noopener noreferrer">HISTORY JSON ↗</a><a href={row.source} target="_blank" rel="noopener noreferrer">OFFICIAL API ↗</a><a href={row.onchain} target="_blank" rel="noopener noreferrer">MINT RECORD ↗</a></div>
   <details className="radar-verification"><summary>Identity evidence</summary><p>Reward mode and mint/quote identity verified against the official catalog and reward endpoint at {utc(row.verifiedAt)}. This is a dated API observation, not transaction reconciliation or a guarantee of current activity.</p><div className="radar-links"><a href="/evidence/reward-verification.json" target="_blank" rel="noopener noreferrer">CAPTURED EVIDENCE ↗</a><a href={row.discoverySource} target="_blank" rel="noopener noreferrer">OFFICIAL CATALOG ↗</a></div></details>
   </details>
  </article>;
