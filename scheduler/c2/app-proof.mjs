@@ -1,7 +1,7 @@
 // Inactive auth-only core. The existing private key is read ONLY by a future
 // separately approved hosted invocation. No runner, file, console or state output.
 import { appJwt } from '../worker.ts';
-export const PUBLIC = Object.freeze({app:5310753,installation:171233795,repository:1415026436,owner:58099771,workflow:382300817});
+export const PUBLIC = Object.freeze({app:5310753,installation:171233795,repository:1415026436,owner:58099771,workflow:382300817,actor:342326617});
 export const REPOSITORY='fuzzysniper/scout-stonk-intel';
 export const WORKFLOW='scout-stage-c2-auth-only';
 export const SINGLETON='stage-c2-auth-once';
@@ -13,7 +13,7 @@ export const utc=v=>typeof v==='string' && /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.000
 export function permitted(env,event,now=Date.now()) {
  if(env.ACTIVATION!=='disabled' || env.C2_ARMED!=='true' || env.C2_GATE_DISABLED_ATTESTED!=='true' ||
     env.APP_ID!==String(PUBLIC.app) || env.INSTALLATION_ID!==String(PUBLIC.installation) || env.REPOSITORY_ID!==String(PUBLIC.repository) ||
-    !positive(env.C2_APP_ACTOR_ID) || [PUBLIC.app,PUBLIC.installation,PUBLIC.repository,PUBLIC.owner].includes(Number(env.C2_APP_ACTOR_ID)) ||
+    !positive(env.C2_APP_ACTOR_ID) || env.C2_APP_ACTOR_ID!==String(PUBLIC.actor) ||
     typeof env.C2_INSTANCE_ID!=='string' || !/^c2-[a-f0-9]{40}$/.test(env.C2_INSTANCE_ID) ||
     !utc(env.C2_NOT_BEFORE) || !utc(env.C2_EXPIRES_AT) || !Number.isSafeInteger(now) || now<0 || now>=253402300800000)return false;
  const start=Date.parse(env.C2_NOT_BEFORE),end=Date.parse(env.C2_EXPIRES_AT);

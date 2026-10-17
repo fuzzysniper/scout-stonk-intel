@@ -120,3 +120,15 @@ test('sealed rollback bundle retains consumed SQLite state across version change
 test('production package still excludes proof classes; no hosted config or secret binding was applied',async()=>{
  const config=JSON.parse(await readFile(new URL('../wrangler.json',import.meta.url),'utf8'));assert.equal(config.main,'staging-entry.ts');assert.equal(config.vars.ACTIVATION,'disabled');assert.equal(config.durable_objects.bindings.length,1);assert.ok(!config.exports.StageC2AuthProof);
 });
+test('exact unarmed integration manifest cannot authenticate, dispatch or touch existing slots',async()=>{
+ const config=JSON.parse(await readFile(new URL('./wrangler.unarmed.json',import.meta.url),'utf8'));
+ const {event}=await context(),calls=[],mf=setup(integration.bundle,config.vars,calls);
+ try{
+  await mf.ready;await (await mf.getWorker()).scheduled({cron:'17 * * * *',scheduledTime:Date.now()});
+  assert.equal((await prove(mf,event)).passed,false);assert.equal(calls.length,0);
+  assert.equal((await mf.dispatchFetch('https://offline.invalid/')).status,500);
+  const ns=await mf.getDurableObjectNamespace('SLOTS');
+  const response=await ns.get(ns.idFromName('existing-offline-slots')).fetch('https://internal.invalid/',{method:'POST',body:JSON.stringify({operation:'receipt',scheduledTime:Date.parse('2026-10-15T17:17:00Z')})});
+  assert.equal(await response.json(),null);assert.equal(calls.length,0);
+ }finally{await mf.dispose();}
+});

@@ -9,11 +9,13 @@ import {createRequire} from 'node:module';
 import {promisify} from 'node:util';
 import {createHash} from 'node:crypto';
 import {proposal,assertProposal,assertUnchangedStaging} from './policy.mjs';
+import {assertUnarmedIntegration} from './integration-policy.mjs';
 export async function proofBundle(core=false,sealed=false){
  if(Number(process.versions.node.split('.')[0])<24 || typeof core!=='boolean' || typeof sealed!=='boolean' || core && sealed)throw Error('c2_packaging_unavailable');
  const root=fileURLToPath(new URL('..',import.meta.url));
  assertUnchangedStaging(JSON.parse(await readFile(join(root,'wrangler.json'),'utf8')));assertProposal(proposal);
- const config=structuredClone(proposal);config.main=join(root,core?'c2/hosted-runtime.mjs':sealed?'c2/sealed-entry.mjs':proposal.main);
+ const selected=JSON.parse(await readFile(join(root,'c2/wrangler.unarmed.json'),'utf8'));assertUnarmedIntegration(selected);
+ const config=structuredClone(selected);config.main=join(root,'c2',core?'hosted-runtime.mjs':sealed?'sealed-entry.mjs':selected.main);
  if(core){delete config.exports.SlotCoordinator;config.durable_objects.bindings=config.durable_objects.bindings.filter(b=>b.name!=='SLOTS');}
  const dir=await mkdtemp(join(tmpdir(),'scout-c2-bundle-'));
  try{

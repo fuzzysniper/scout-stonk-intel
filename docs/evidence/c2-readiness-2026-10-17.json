@@ -1,0 +1,238 @@
+{
+  "kind": "c2_operational_readiness_offline_evidence",
+  "baseMain": "69760f97236f61f66d4f3c487096e04a0b22fc22",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/workflows/reference/pricing.mdx",
+      "sha256": "64655760529c890b580de91f0164b342d40966c421a93bdad3d870fd21fc9a5b",
+      "bytes": 3898,
+      "excerpts": [
+        "<Render file=\"workflows-pricing\" product=\"workflows\" />",
+        "- By default, instance state is retained for [3 days on the Free plan](/workflows/reference/limits/) and [30 days on the Paid plan](/workflows/reference/limits/)."
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/workflows/reference/limits.mdx",
+      "sha256": "213ff3efd607656227db3b2a5e61b1fce405a41ec4fdc7bdd93719008f68805c",
+      "bytes": 14365,
+      "excerpts": [
+        "| Compute time per step [^3]                                                                    | 10 ms                                                                                            | 30 seconds (default) / configurable to 5 minutes of [active CPU time](/workers/platform/limits/#cpu-time) |",
+        "| Maximum Workflow executions                                                                   | 100,000 per day [shared with Workers daily limit](/workers/platform/limits/#account-plan-limits) | Unlimited                                                                                                 |",
+        "| Maximum number of [queued instances](/workflows/observability/metrics-analytics/#event-types) | 100,000                                                                                          | 2,000,000                                                                                                 |",
+        "| Retention limit for completed Workflow instance state                                         | 3 days                                                                                           | 30 days [^2]                                                                                              |",
+        "[^2]: Workflow instance state and logs will be retained for 3 days on the Workers Free plan and for 30 days on the Workers Paid plan. You can retain instances for a shorter period by setting [`default_retention`](/workflows/build/workers-api/#default-instance-retention) on the Workflow binding, or [`retention`](/workflows/build/workers-api/#workflowinstancecreateoptions) on an individual instance."
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/docs/durable-objects/platform/limits.mdx",
+      "sha256": "3659c0f0abc2ca951ea6b7086768b2696a8f726b7f4be0920c05b451f479302f",
+      "bytes": 6813,
+      "excerpts": [
+        "| CPU per request                              | 30 seconds (default) / configurable to 5 minutes of [active CPU time](/workers/platform/limits/#cpu-time) [^4] |",
+        "[^2]: Durable Objects both bills and measures storage based on a gigabyte <br/> (1 GB = 1,000,000,000 bytes) and not a gibibyte (GiB). <br/>",
+        "| CPU per request                              | 30s (including WebSocket messages) [^7]             |",
+        "[^6]: Durable Objects both bills and measures storage based on a gigabyte <br/> (1 GB = 1,000,000,000 bytes) and not a gibibyte (GiB). <br/>"
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/cloudflare/cloudflare-docs/production/src/content/partials/workflows/workflows-pricing.mdx",
+      "sha256": "92b6fc67e2347bcf86d51942414d0c9b13269dad725f5d13e179a404abe682ce",
+      "bytes": 1434,
+      "excerpts": [
+        "---",
+        "{}",
+        "---",
+        "",
+        "| Unit                | Workers Free                                                                         | Workers Paid                                                                                   |",
+        "| ------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |",
+        "| Requests (millions) | 100,000 per day ([shared with Workers requests](/workers/platform/pricing/#workers)) | 10 million included per month + $0.30 per additional million                                   |",
+        "| CPU time (ms)       | 10 milliseconds of CPU time per invocation                                           | 30 million CPU milliseconds included per month + $0.02 per additional million CPU milliseconds |",
+        "| Storage (GB-mo)     | 1 GB-month                                                                           | 1 GB-month included + $0.20/ GB-month                                                          |",
+        "| Steps               | 3,000 per day                                                                        | 500,000 included per month + $0.80/ additional 100,000 per month                               |",
+        "",
+        "Cloudflare will not bill step and storage usage before the start date announced in the [Workflows billing changelog](/changelog/post/2026-07-07-workflows-billing-updates/)."
+      ]
+    }
+  ],
+  "hostedBindingVerified": false,
+  "actualCollectorTokenVerified": false,
+  "pilotReady": false,
+  "sourceNote": "Public documentation GETs only; no Cloudflare account API, StonkFun/provider request or live auth test.",
+  "lockedWrangler": {
+    "version": "4.150.0",
+    "installedCliSha256": "71da1f9bcf69a9f56c4ff4f68e71315365d03db8ea11207577b47a8e1a0a1064",
+    "secretPreservationSource": "deploy upload sets keepSecrets:true; multipart metadata keeps secret_text and secret_key bindings absent from config. This is local package inspection, not hosted verification.",
+    "accountNamespaceContinuityVerified": false
+  },
+  "latestNativePersistence": {
+    "source": "https://github.com/fuzzysniper/scout-stonk-intel/actions/runs/39002962311",
+    "metadataReadAt": "2026-10-17T05:20:39.723172Z",
+    "runId": 39002962311,
+    "workflowId": 382300817,
+    "event": "schedule",
+    "attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "createdAt": "2026-10-17T04:32:40Z",
+    "runHead": "91ca8d97ed3b7b0afe8a8cfe146e313cd49bddf5",
+    "dataCommit": "cd47fcd478ba2e28d0aad9da8dfca0991a6ea330",
+    "snapshotSha256": "f03f562aa9c21da17b7726dd7eba9c67ee0ee9e753c19968b50472a031131da6",
+    "summarySha256": "3250d6d6d8ef8e201080ad9922d21c0d39e91926b140f284e09c480a6dd92544",
+    "collected": 7,
+    "actuallyAppended": 7,
+    "observationMin": "2026-10-17T04:32:48+00:00",
+    "observationMax": "2026-10-17T04:32:49+00:00",
+    "jobsResponseSha256": "d6c09d2340127f1154cf3a9d0db199903dafcb0e7dc012e1e0b2019526f24919",
+    "job": {
+      "id": 117309547566,
+      "run_id": 39002962311,
+      "name": "collect",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-17T04:32:43Z",
+      "completed_at": "2026-10-17T04:32:54Z"
+    },
+    "steps": [
+      {
+        "name": "Shared claim gate (default off)",
+        "status": "completed",
+        "conclusion": "skipped",
+        "started_at": "2026-10-17T04:32:47Z",
+        "completed_at": "2026-10-17T04:32:47Z"
+      },
+      {
+        "name": "Collect observations",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-17T04:32:47Z",
+        "completed_at": "2026-10-17T04:32:49Z"
+      },
+      {
+        "name": "Persist observations and summary",
+        "status": "completed",
+        "conclusion": "success",
+        "started_at": "2026-10-17T04:32:49Z",
+        "completed_at": "2026-10-17T04:32:51Z"
+      }
+    ],
+    "limits": "Read-only existing metadata + local immutable append/hash check; not actual ephemeral job-token proof, current account inspection or a new cadence audit."
+  },
+  "documentationReadDateUTC": "2026-10-17",
+  "initialDocumentationCaptureAt": "2026-10-17T05:13:18.395405Z",
+  "recordedAt": "2026-10-17T05:21:18.279797Z",
+  "checks": [
+    {
+      "command": "npm ci",
+      "exitCode": 0
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0
+    },
+    {
+      "command": "bash scripts/archive-tool.sh check origin/main",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run archive:dry-run",
+      "exitCode": 0
+    },
+    {
+      "command": "npm --prefix scheduler ci",
+      "exitCode": 0
+    },
+    {
+      "command": "npm --prefix scheduler run dry-run",
+      "exitCode": 0
+    },
+    {
+      "command": "npm --prefix scheduler test",
+      "exitCode": 0
+    },
+    {
+      "command": "npm --prefix scheduler run c2:dry-run",
+      "exitCode": 0
+    }
+  ],
+  "testCounts": {
+    "rootApplicationNode": 488,
+    "rootPython": 90,
+    "rootAdapter": 18,
+    "actualCollectorPythonMethodsInvokedWithinNode": 7,
+    "schedulerNode": 35,
+    "isolatedIdentityPythonMethodsInvokedWithinSchedulerNode": 5,
+    "note": "Nested Python methods are not summed into Node test counts; actual collector suite is also exercised in Node20 app CI."
+  },
+  "toolchain": {
+    "appNode": "20.20.2",
+    "appNpm": "11.9.0",
+    "stagingNode": "24.19.0",
+    "wrangler": "4.150.0",
+    "dependencyChanges": false,
+    "rootInstallPackages": 336,
+    "stagingInstallPackages": 40,
+    "productionStaticPages": 10
+  },
+  "packaging": {
+    "kind": "offline_c2_packaging",
+    "liveAuthRun": false,
+    "deployed": false,
+    "core": {
+      "sha256": "df1b3232a72f867c9f53d6f0761e77ef3b68d0b703c7034ed0bd2cda1d8ab9db",
+      "bytes": 13993
+    },
+    "integration": {
+      "sha256": "1caf1ec60daa64b0ef34c537a1aefcdf4bb12f9404012ecd606ca7933dcebfb7",
+      "bytes": 27396
+    },
+    "sealed": {
+      "sha256": "070d49fd6fa6faadbf44793b52f4c85d47002c14e943d9aabd7663a4acf11d8f",
+      "bytes": 17198
+    }
+  },
+  "protectedTree": {
+    "baseline": "69760f97236f61f66d4f3c487096e04a0b22fc22",
+    "existingFilesComparedByteForByte": 676,
+    "allEqual": true,
+    "sha256PathNullContentDigest": "13a516aada8a65189e531c74906ea7c386a39834a5be767d76732fd6fb84fd47",
+    "excludedExistingOwnedFiles": [
+      "docs/STAGE_C2_AUTH_PROOF.md",
+      "scheduler/c2/app-proof.mjs",
+      "scheduler/c2/app-proof.test.mjs",
+      "scheduler/c2/dry-run.mjs",
+      "scheduler/c2/fixtures.mjs",
+      "scheduler/c2/runtime.test.mjs",
+      "tests/collection-workflow.test.mjs"
+    ],
+    "activeWorkflowAndSelectedConfigUnchanged": true,
+    "candidateCoverageProductDataUnchanged": true
+  },
+  "protectedHashes": {
+    ".github/workflows/reward-snapshots.yml": "14005c5d6a7c6e8c9034a8a918cff2164bbd9d4ab596a82450325f2c311f353a",
+    "scheduler/wrangler.json": "cded2792b79612ece762b59db24857d10a9d937ad1772842c8eca29c548dd46b",
+    "scheduler/worker.ts": "864e662e2e38bcc4a4070885c10935b3a7751267c479feca16c0e96d0c785101",
+    "scripts/collection_gate.py": "4029d09e79e00ba923d69130fc5e17a1eac8d9198e1fde10da0338d77c3a43cf",
+    "data/collection-slots.json": "d6338b854958de31d9c9f6eff39ac74c2fb383328903fd393adc79416a345730",
+    "data/reward-snapshots.json": "f03f562aa9c21da17b7726dd7eba9c67ee0ee9e753c19968b50472a031131da6",
+    "package-lock.json": "a75e95cf620e87e10256848e88c14569cade6fbec5a51b2a1b625010a15e9134",
+    "scheduler/package-lock.json": "77b3c0b51f74ba8d444f4736072927776649ee308ad1094c5cee91f22fdf53a3"
+  },
+  "limitations": [
+    "No hosted C2 authentication, actual collector token proof, live test, deploy, dispatch, gate/permission/secret change or 48-slot proving was performed.",
+    "Hosted Workflow/DO CPU, available Free quotas, namespace/binding continuity, token uncertainty recovery and independent receipt export require owner evidence.",
+    "Windows/WSL/account instructions have not been executed; Linux offline tests only.",
+    "Existing automatic CI/hosting integrations may run after PR publication; no deployment command or hosting configuration change is performed."
+  ]
+}

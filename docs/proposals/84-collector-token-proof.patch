@@ -1,0 +1,87 @@
+--- a/.github/workflows/reward-snapshots.yml
++++ b/.github/workflows/reward-snapshots.yml
+@@ -27,20 +27,38 @@
+     steps:
+       - uses: actions/checkout@v4
+         with:
+-          ref: main
+-          persist-credentials: true
++          ref: ${{ vars.SCOUT_C2_COLLECTOR_PROOF != '' && github.sha || 'main' }}
++          persist-credentials: ${{ vars.SCOUT_C2_COLLECTOR_PROOF == '' }}
+       - uses: actions/setup-python@v5
+         with:
+           python-version: '3.11'
++      # INACTIVE PROPOSAL: any nonempty proof control suppresses ALL collection,
++      # claims, persistence and data artifacts, including malformed/expired proof.
++      - name: Read-only collector token proof
++        if: vars.SCOUT_C2_COLLECTOR_PROOF != ''
++        env:
++          PYTHONDONTWRITEBYTECODE: '1'
++          GITHUB_TOKEN: ${{ github.token }}
++          SCOUT_C2_COLLECTOR_PROOF: ${{ vars.SCOUT_C2_COLLECTOR_PROOF }}
++          SCOUT_C2_COLLECTOR_APPROVED_SHA: ${{ vars.SCOUT_C2_COLLECTOR_APPROVED_SHA }}
++          SCOUT_C2_COLLECTOR_NOT_BEFORE: ${{ vars.SCOUT_C2_COLLECTOR_NOT_BEFORE }}
++          SCOUT_C2_COLLECTOR_EXPIRES_AT: ${{ vars.SCOUT_C2_COLLECTOR_EXPIRES_AT }}
++          SCOUT_C2_GATE_ABSENT_ATTESTED: ${{ vars.SCOUT_C2_GATE_ABSENT_ATTESTED }}
++          SCOUT_COLLECTION_GATE_ENABLED: ${{ vars.SCOUT_COLLECTION_GATE_ENABLED }}
++          SCOUT_COLLECTION_APP_ACTOR_ID: ${{ vars.SCOUT_COLLECTION_APP_ACTOR_ID }}
++          SCOUT_COLLECTION_SLOT: ${{ inputs.collection_slot }}
++          SCOUT_TRIGGER_SOURCE: ${{ inputs.trigger_source }}
++        run: python -m scheduler.c2.collector_identity --approved-collector-identity-only
+       - name: Shared claim gate (default off)
+         id: gate
+         # Ordinary native/manual collection skips this step while integration is off.
+         # External inputs, configured App actor and invalid flag values fail closed.
+         if: >-
++          vars.SCOUT_C2_COLLECTOR_PROOF == '' && (
+           vars.SCOUT_COLLECTION_GATE_ENABLED == 'true' ||
+           (vars.SCOUT_COLLECTION_GATE_ENABLED != '' && vars.SCOUT_COLLECTION_GATE_ENABLED != 'false') ||
+           inputs.collection_slot != '' || inputs.trigger_source != '' ||
+-          (vars.SCOUT_COLLECTION_APP_ACTOR_ID != '' && github.actor_id == vars.SCOUT_COLLECTION_APP_ACTOR_ID)
++          (vars.SCOUT_COLLECTION_APP_ACTOR_ID != '' && github.actor_id == vars.SCOUT_COLLECTION_APP_ACTOR_ID))
+         env:
+           PYTHONDONTWRITEBYTECODE: '1'
+           SCOUT_COLLECTION_GATE_ENABLED: ${{ vars.SCOUT_COLLECTION_GATE_ENABLED }}
+@@ -52,14 +70,15 @@
+       - name: Collect observations
+         id: collect
+         if: >-
++          vars.SCOUT_C2_COLLECTOR_PROOF == '' && (
+           (steps.gate.outcome == 'skipped' &&
+           (vars.SCOUT_COLLECTION_GATE_ENABLED == '' || vars.SCOUT_COLLECTION_GATE_ENABLED == 'false')) ||
+-          steps.gate.outputs.collect == 'true'
++          steps.gate.outputs.collect == 'true')
+         continue-on-error: true
+         run: python scripts/collect_rewards.py
+       - name: Persist observations and summary
+         id: persist
+-        if: steps.collect.outcome == 'success' || steps.collect.outcome == 'failure'
++        if: vars.SCOUT_C2_COLLECTOR_PROOF == '' && (steps.collect.outcome == 'success' || steps.collect.outcome == 'failure')
+         run: |
+           set -euo pipefail
+           git config user.name "scout-data-bot"
+@@ -72,7 +91,7 @@
+             echo 'Push accepted. Validate the served dataset against the summary hash; a green job alone is insufficient.' >> "$GITHUB_STEP_SUMMARY"
+           fi
+       - name: Preserve diagnostic evidence
+-        if: always()
++        if: always() && vars.SCOUT_C2_COLLECTOR_PROOF == ''
+         uses: actions/upload-artifact@v4
+         with:
+           name: collector-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+@@ -82,7 +101,7 @@
+           retention-days: 7
+           if-no-files-found: warn
+       - name: Preserve gate claim evidence
+-        if: always() && steps.gate.outcome != 'skipped'
++        if: always() && vars.SCOUT_C2_COLLECTOR_PROOF == '' && steps.gate.outcome != 'skipped'
+         uses: actions/upload-artifact@v4
+         with:
+           name: collection-gate-${{ github.run_id }}-${{ github.run_attempt }}
+@@ -92,5 +111,5 @@
+           retention-days: 7
+           if-no-files-found: warn
+       - name: Fail when collection failed
+-        if: always() && steps.collect.outcome == 'failure'
++        if: always() && vars.SCOUT_C2_COLLECTOR_PROOF == '' && steps.collect.outcome == 'failure'
+         run: exit 1

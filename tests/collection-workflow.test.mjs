@@ -1,5 +1,7 @@
 // Interpret the real workflow conditions with GitHub's expression library.
 // No Actions runner, dispatch, credentials or provider is contacted.
+// Keep the inactive actual-job proof and proposal regressions in Node20 app CI.
+import '../scheduler/c2/collector-identity.test.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
