@@ -1,0 +1,275 @@
+{
+  "version": 1,
+  "activation": "disabled",
+  "purpose": "offline_candidate_review",
+  "sourceEvidence": {
+    "path": "docs/evidence/pair-reward-audit-2026-10-14.json",
+    "commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c",
+    "revision": "sha256:4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+    "asOf": "2026-10-14T22:34:25.223Z"
+  },
+  "rights": {
+    "retention": "unverified",
+    "financialPublication": "withheld",
+    "rawRedistribution": "unverified",
+    "commercialUse": "unverified"
+  },
+  "candidates": [
+    {
+      "mint": "3bHzNdUb9Ko2EZyYvg2okPHQt1tJP8CFLZfkKrvBNtAc",
+      "symbol": "KNOWER",
+      "name": "The Knower",
+      "poolMint": "26ud6m89uMRZJ28mvNzqfNxbP3cu2LiHQ8W1HnEuQjYe",
+      "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+      "quoteSymbol": "STONK",
+      "quoteDecimals": 9,
+      "quoteTokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 6,
+        "rewardsPacket": 23
+      },
+      "quoteSymbolAmbiguous": true
+    },
+    {
+      "mint": "4WPn1oGVE7rza6PjFJwYpEXZn6qtjwxEKkCV9EtAxhUU",
+      "symbol": "BOT",
+      "name": "Dot.com",
+      "poolMint": "EAFpjPBUinz5DcKu1XxjCT9AWU8DS4zXyEdZ2ejYk4CY",
+      "quoteMint": "Xs3oZwbHvqis4NYcf4YKWmEia2eC84wSiVrcYcTqpH8",
+      "quoteSymbol": "SPCXX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 5,
+        "rewardsPacket": 19
+      },
+      "quoteSymbolAmbiguous": false
+    },
+    {
+      "mint": "5YX4DjUf4y2q1SpHsKvwWZ8Bfyka2DXzVerWYiJxW6UE",
+      "symbol": "STONKITTY",
+      "name": "Stonkitten",
+      "poolMint": "FozMt7JCKY3HQVXgiv8A4WL9Kx47s1yovyGfUjmL7mzy",
+      "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+      "quoteSymbol": "STONK",
+      "quoteDecimals": 9,
+      "quoteTokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 6,
+        "rewardsPacket": 21
+      },
+      "quoteSymbolAmbiguous": true
+    },
+    {
+      "mint": "68AGsjomsgTtiTaDhF6XGCeVJDnFeh415ngYYgVxGzns",
+      "symbol": "OWL",
+      "name": "Superintelligence Owl",
+      "poolMint": "7KVCC9iQfEH93p9kXAguuuZ6TU2GwwhCdzUUvEK9dteP",
+      "quoteMint": "Xs3oZwbHvqis4NYcf4YKWmEia2eC84wSiVrcYcTqpH8",
+      "quoteSymbol": "SPCXX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 5,
+        "rewardsPacket": 16
+      },
+      "quoteSymbolAmbiguous": false
+    },
+    {
+      "mint": "6HU4CmRb15C2nQDx8Ld2f2W2wTdmog6aZiiXdrT5Pzi8",
+      "symbol": "GROK",
+      "name": "Grokification",
+      "poolMint": "31jrCKZgiqcGvEYnditbXQgWyYynogot7xfgtRASimuh",
+      "quoteMint": "Xs3oZwbHvqis4NYcf4YKWmEia2eC84wSiVrcYcTqpH8",
+      "quoteSymbol": "SPCXX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 5,
+        "rewardsPacket": 17
+      },
+      "quoteSymbolAmbiguous": false
+    },
+    {
+      "mint": "6XhzSy3VTTkwqMUSQsStM3ncGy6ozcPnzLVmv4HZ64cC",
+      "symbol": "STONKINU",
+      "name": "Stonk Inu",
+      "poolMint": "FapmseaKUtDBg9suicpgMcNvZZ1ggdS4Qv5W1Eosqzzr",
+      "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+      "quoteSymbol": "STONK",
+      "quoteDecimals": 9,
+      "quoteTokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 6,
+        "rewardsPacket": 22
+      },
+      "quoteSymbolAmbiguous": true
+    },
+    {
+      "mint": "72yxYmhLgDGwdyi2b9GjDynBB6VuG3kDxNKqDbzXh5bi",
+      "symbol": "WOW",
+      "name": "WoW Gold",
+      "poolMint": "GmASjsnrLPxApHm1eofM1dPNE8pYpgbEjxbxYJ4HTqd",
+      "quoteMint": "Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re",
+      "quoteSymbol": "GLDX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 4,
+        "rewardsPacket": 13
+      },
+      "quoteSymbolAmbiguous": false
+    },
+    {
+      "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+      "symbol": "KNOTS",
+      "name": "KNOTS",
+      "poolMint": "GeNDy5afAWz7S9w2tMLgpK3xQqXjeDaCvYV9h8joEmjo",
+      "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+      "quoteSymbol": "STONK",
+      "quoteDecimals": 9,
+      "quoteTokenProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 6,
+        "rewardsPacket": 20
+      },
+      "quoteSymbolAmbiguous": true
+    },
+    {
+      "mint": "BATgVkSSJ8nvwMRrqD6m3priBrLEmi46nBqCwXEoxn9C",
+      "symbol": "VICKICHASE",
+      "name": "Vicki Chase",
+      "poolMint": "6RvrqV8xyLGQgaNUZiyEZB2VkCkYuDpfi9E3Qyw5om3s",
+      "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+      "quoteSymbol": "NVDAX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 3,
+        "rewardsPacket": 9
+      },
+      "quoteSymbolAmbiguous": false
+    },
+    {
+      "mint": "CTMV7yXV1mpucM7svPEtmVFBB8g6hqHGVPczmbYrj9Jb",
+      "symbol": "URANUS",
+      "name": "Uranus",
+      "poolMint": "EgUV2hrWfsgfFyftxCx4ut82811ygWFbWYNPdv3cRWQA",
+      "quoteMint": "Xs3oZwbHvqis4NYcf4YKWmEia2eC84wSiVrcYcTqpH8",
+      "quoteSymbol": "SPCXX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 5,
+        "rewardsPacket": 18
+      },
+      "quoteSymbolAmbiguous": false
+    },
+    {
+      "mint": "CgBR5onYw5Z37YdCq2t77oxzQu4wVpof8GngowGzsHnL",
+      "symbol": "SHOGGOTH",
+      "name": "SHOGGOTH",
+      "poolMint": "DVRW4Yubp3ZKbm45BNtSAJdbCfWZwKgp39WtbNGHEYCi",
+      "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+      "quoteSymbol": "NVDAX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 3,
+        "rewardsPacket": 10
+      },
+      "quoteSymbolAmbiguous": false
+    },
+    {
+      "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "symbol": "SI",
+      "name": "Super Inu",
+      "poolMint": "5aBH535rESkhjVb2nEaMPfyjiTw3uK57vE6c5uhZHjPY",
+      "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+      "quoteSymbol": "NVDAX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 3,
+        "rewardsPacket": 8
+      },
+      "quoteSymbolAmbiguous": false
+    },
+    {
+      "mint": "Ekfbe93ybDm7JnS3xFbTVrfiov2xtx7bgJkbQc74SLWo",
+      "symbol": "RPG",
+      "name": "Role Playing Game",
+      "poolMint": "7ZAkUtFQ3tzrrQBaGwbY98u3MWhxAKuMrycnpxpSLwLg",
+      "quoteMint": "Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re",
+      "quoteSymbol": "GLDX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 4,
+        "rewardsPacket": 15
+      },
+      "quoteSymbolAmbiguous": false
+    },
+    {
+      "mint": "FeAWY9L9hr82TvTuEyi328V9FP7GxVuGLx7xNg6kzWVa",
+      "symbol": "CHONK",
+      "name": "Le Chonk",
+      "poolMint": "A1RGF7hbkaB1ccsZEs6L287u8LnAfqeG1uyg3NM2LqwU",
+      "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+      "quoteSymbol": "NVDAX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 3,
+        "rewardsPacket": 11
+      },
+      "quoteSymbolAmbiguous": false
+    },
+    {
+      "mint": "H6ibmg2HroqMWMFbTkzsuGsnRumuULFBL6hoMLmZmLe",
+      "symbol": "BABEL",
+      "name": "Tower of Babel",
+      "poolMint": "4Yaje7wxKm312RHTTyqYAcEAXdaWVbN1fy7LBJkMeaBs",
+      "quoteMint": "Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re",
+      "quoteSymbol": "GLDX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 4,
+        "rewardsPacket": 14
+      },
+      "quoteSymbolAmbiguous": false
+    },
+    {
+      "mint": "HTmQz7My6MehV7bjhJ6jde8nDND1yvsz68d24LP7YgUQ",
+      "symbol": "GP",
+      "name": "RuneScape Gold",
+      "poolMint": "FE1kGMg4PCLbbz2AMBaHSiG3USXpVNtUVKDFrC7E3fco",
+      "quoteMint": "Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re",
+      "quoteSymbol": "GLDX",
+      "quoteDecimals": 8,
+      "quoteTokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "evidence": {
+        "registryPacket": 0,
+        "catalogPacket": 4,
+        "rewardsPacket": 12
+      },
+      "quoteSymbolAmbiguous": false
+    }
+  ]
+}
