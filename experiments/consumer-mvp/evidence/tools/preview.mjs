@@ -1,0 +1,12 @@
+import { createRequire } from "node:module";
+import { readFileSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+const require = createRequire(import.meta.url);
+if (!process.env.EVIDENCE_TEST_BUILD) throw new Error("offline_build_required");
+const { buildPreview } = require(resolve(process.env.EVIDENCE_TEST_BUILD, "preview.js"));
+const path = fileURLToPath(new URL("../preview.json", import.meta.url));
+const expected = JSON.stringify(buildPreview(), null, 2) + "\n";
+if (process.argv[2] === "--write") writeFileSync(path, expected);
+else if (readFileSync(path, "utf8") !== expected) throw new Error("preview_out_of_date");
+process.stdout.write("Verified typed metadata-only JSON previews.\n");
