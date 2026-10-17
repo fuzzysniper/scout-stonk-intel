@@ -1,0 +1,330 @@
+{
+  "kind": "project_clear_local_consumer_mvp_validation",
+  "recordedAt": "2026-10-17T18:43:53.203327Z",
+  "founderDeadline": "2026-10-20",
+  "baseMain": "5b14071aa0b8f0dde03f3bdb62dee13376b731b0",
+  "upstreamEvidenceCommit": "cf05f5df62cddf843c1ef4e8b8a0253f02274dea",
+  "backendSourcesLive": false,
+  "humanUsabilityTested": false,
+  "consumerDeployed": false,
+  "checks": [
+    {
+      "command": "web: npm ci",
+      "exitCode": 0
+    },
+    {
+      "command": "web: npm test",
+      "exitCode": 0
+    },
+    {
+      "command": "web: npm run build",
+      "exitCode": 0
+    },
+    {
+      "command": "web: npm run test:browser",
+      "exitCode": 0
+    },
+    {
+      "command": "root: npm ci",
+      "exitCode": 0
+    },
+    {
+      "command": "root: npm test",
+      "exitCode": 0
+    },
+    {
+      "command": "root: npx tsc --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "root: npm run lint",
+      "exitCode": 0
+    },
+    {
+      "command": "root: npm run build",
+      "exitCode": 0
+    },
+    {
+      "command": "root: bash scripts/archive-tool.sh check origin/main",
+      "exitCode": 0
+    },
+    {
+      "command": "root: npm run archive:dry-run",
+      "exitCode": 0
+    },
+    {
+      "command": "clean extraction Node20: npm ci",
+      "exitCode": 0
+    },
+    {
+      "command": "clean extraction Node20: npm test",
+      "exitCode": 0
+    },
+    {
+      "command": "clean extraction Node20: npm run build",
+      "exitCode": 0
+    }
+  ],
+  "counts": {
+    "webUnit": 8,
+    "productionBrowser": 18,
+    "axeScans": 12,
+    "axeViolations": 0,
+    "consoleOrPageErrors": 0,
+    "runtimeExternalRequests": 0,
+    "rootApplicationNode": 488,
+    "rootPython": 106,
+    "rootAdapterNode": 18,
+    "rootProductionStaticPages": 10,
+    "webLockedInstallPackages": 25
+  },
+  "viewportChecks": [
+    {
+      "token": "GP",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "risksHeading": {
+        "x": 321,
+        "y": 672.28125,
+        "width": 638,
+        "height": 25.5
+      },
+      "overflow": false,
+      "mode": "real pinned captured engine; default evaluation clock"
+    },
+    {
+      "token": "GP",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 664.421875,
+        "width": 246,
+        "height": 22.5
+      },
+      "overflow": false,
+      "mode": "real pinned captured engine; default evaluation clock"
+    },
+    {
+      "token": "GP",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 586.21875,
+        "width": 316,
+        "height": 24
+      },
+      "overflow": false,
+      "mode": "real pinned captured engine; default evaluation clock"
+    },
+    {
+      "token": "GROK",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "risksHeading": {
+        "x": 321,
+        "y": 697.875,
+        "width": 638,
+        "height": 25.5
+      },
+      "overflow": false,
+      "mode": "real pinned captured engine; default evaluation clock"
+    },
+    {
+      "token": "GROK",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 674.921875,
+        "width": 246,
+        "height": 22.5
+      },
+      "overflow": false,
+      "mode": "real pinned captured engine; default evaluation clock"
+    },
+    {
+      "token": "GROK",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 622.796875,
+        "width": 316,
+        "height": 24
+      },
+      "overflow": false,
+      "mode": "real pinned captured engine; default evaluation clock"
+    },
+    {
+      "token": "SI",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "risksHeading": {
+        "x": 321,
+        "y": 697.875,
+        "width": 638,
+        "height": 25.5
+      },
+      "overflow": false,
+      "mode": "real pinned captured engine; default evaluation clock"
+    },
+    {
+      "token": "SI",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 652.53125,
+        "width": 246,
+        "height": 22.5
+      },
+      "overflow": false,
+      "mode": "real pinned captured engine; default evaluation clock"
+    },
+    {
+      "token": "SI",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 586.21875,
+        "width": 316,
+        "height": 24
+      },
+      "overflow": false,
+      "mode": "real pinned captured engine; default evaluation clock"
+    }
+  ],
+  "protectedTree": {
+    "existingTrackedFilesCompared": 698,
+    "allByteIdentical": true,
+    "sha256PathNullContentDigest": "fe566103ddcb982b3caee399c0b7efc0033d64331edf7f5a79225182739e5315",
+    "sourceBase": "5b14071aa0b8f0dde03f3bdb62dee13376b731b0",
+    "scope": "Only additions under experiments/consumer-mvp/web/; production, data, rights, workflows, collectors, scheduler and configuration unchanged."
+  },
+  "extraction": {
+    "noRootImportsOrNodeModules": true,
+    "node": "20.20.2",
+    "independentInstallTestsBuildPassed": true,
+    "productionAssetsByteIdentical": true
+  },
+  "productionAssets": [
+    {
+      "file": "assets/index-B8BDpmw_.js",
+      "bytes": 28185,
+      "sha256": "8d075c457c76e946b4f812de0544596d2a84507ddc3a729bca1e4081d15da97a"
+    },
+    {
+      "file": "assets/index-DgvoKRXm.css",
+      "bytes": 12878,
+      "sha256": "1aa4fca3e2724b6f5d201f3396872059500b01e53281100cb1038c9e3c90da57"
+    },
+    {
+      "file": "index.html",
+      "bytes": 3880,
+      "sha256": "374ba9bc04e90ad4992f62df2f212f2984f20e98c46beca89490406eb2653b11"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "docs/screenshots/answer-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 86590,
+      "sha256": "a27ff5c81a95f4c929d8e2a96030ccc2917187bab9bea51edc8de2d381d76def",
+      "genuineBrowserCapture": true
+    },
+    {
+      "file": "docs/screenshots/answer-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 56733,
+      "sha256": "073f50fe76523c92f4b4fc193bd80cdc2679e1c7055ceaaa79f0e37ebd2bc375",
+      "genuineBrowserCapture": true
+    },
+    {
+      "file": "docs/screenshots/answer-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 67546,
+      "sha256": "604f1ae51fd418684590b5288e461d6d9bea57aac7ee85f8121573a5efb4b2c5",
+      "genuineBrowserCapture": true
+    },
+    {
+      "file": "docs/screenshots/evidence-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 80191,
+      "sha256": "40e36a5be58ed193293517d69d1e5861a732b6d99708e5642df11e2cdf03038b",
+      "genuineBrowserCapture": true
+    },
+    {
+      "file": "docs/screenshots/evidence-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 57909,
+      "sha256": "462c22e05281aef5cb8a0ca5c5b2a3354a979d6fe61750c7e5d84c850025e5e9",
+      "genuineBrowserCapture": true
+    },
+    {
+      "file": "docs/screenshots/evidence-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 64476,
+      "sha256": "2f714cac8b941080f3dedd345c7b24492f3d0f89c68430fd0d67221feeb0d752",
+      "genuineBrowserCapture": true
+    },
+    {
+      "file": "docs/screenshots/landing-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 71787,
+      "sha256": "8d6c52f8aa720be0e26fe8ec27940203fac73fd1f1436b9fc44d54598653a11a",
+      "genuineBrowserCapture": true
+    },
+    {
+      "file": "docs/screenshots/landing-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 46109,
+      "sha256": "21193676e17f63f0ed2bb73da964acbc6d973c903f993f85a79cbbbed0dbf3c1",
+      "genuineBrowserCapture": true
+    },
+    {
+      "file": "docs/screenshots/landing-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 57165,
+      "sha256": "f452bafefedddea1f59e59898709fb61350d457134ad82657a751b128b588eb2",
+      "genuineBrowserCapture": true
+    }
+  ],
+  "limitations": [
+    "Chromium154/Linux viewport emulation, not physical phones or Safari/iOS/Firefox/Windows.",
+    "Eight unit and eighteen browser tests are not real five-second human comprehension evidence.",
+    "Stale October14 provider evidence is not current state, independent chain verification, payment or entitlement.",
+    "Rights remain unverified; no financial quantities or public/commercial launch approval.",
+    "The inherited root CI does not install/run the isolated consumer package. Its local checks are recorded here; no workflow changes.",
+    "Any automatic existing Vercel PR check applies to the existing product app, not a deployed consumer preview."
+  ]
+}

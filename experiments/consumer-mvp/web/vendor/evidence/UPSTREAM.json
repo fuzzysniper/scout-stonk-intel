@@ -1,0 +1,38 @@
+{
+  "issue": 89,
+  "pr": 90,
+  "commit": "cf05f5df62cddf843c1ef4e8b8a0253f02274dea",
+  "path": "experiments/consumer-mvp/evidence",
+  "unmodified": true,
+  "runtimeFiles": [
+    {
+      "file": "index.ts",
+      "sha256": "46e2a22e3acf60e4fd49be110ba22d26866658400bce58e16d0304e716de742e"
+    },
+    {
+      "file": "contract.ts",
+      "sha256": "a59b3869799cd2531463b61602ad3ee32894d2dfc386e64b17ddd54c9d6e26fe"
+    },
+    {
+      "file": "catalog.ts",
+      "sha256": "3781bb1f4e0b2f3017c82d1873e89efa9e02a394de08d9ef036a6622b9d3e4dc"
+    },
+    {
+      "file": "guards.ts",
+      "sha256": "f110ee7850ca31c18f2a587da062554c0c3417b934bdd44d6582f00feb6aa671"
+    },
+    {
+      "file": "receipts.ts",
+      "sha256": "959a73b522ceefd50ea20182ff1026a77e4c2cb7704d7eb46392da7fa5e6377c"
+    },
+    {
+      "file": "retained.ts",
+      "sha256": "83d4dbad1e54834ffb708c946ea48eb4cb0fe9ef5fac52915aeb5f9ff7c54478"
+    },
+    {
+      "file": "README.md",
+      "sha256": "b7a3d01ba0d5c6aa73df65f7b87824843a40b154e52083354bd81d356b95e949"
+    }
+  ],
+  "updatePolicy": "Replace only from a separately reviewed upstream commit. Do not edit these copied files. No raw provider bodies or financial amounts."
+}
