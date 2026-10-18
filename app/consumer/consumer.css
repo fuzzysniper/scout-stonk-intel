@@ -39,3 +39,30 @@
 .consumer-home .receipt-details>summary{display:list-item;list-style:disclosure-closed;justify-content:normal;min-height:44px;padding:11px 0;color:var(--muted);font-size:12px;font-weight:400;letter-spacing:normal}
 .consumer-home .receipt-details[open]>summary{list-style:disclosure-open}
 .consumer-home .receipt-details>summary::-webkit-details-marker{display:revert}
+
+/* Current blockchain checks and dated provider statements never share a receipt. */
+.consumer-home .onchain-card{margin-top:26px;border-top:1px solid var(--border);padding-top:22px;overflow-wrap:anywhere}
+.consumer-home .onchain-card>h1{font-size:30px;line-height:1.2;letter-spacing:-.035em}
+.consumer-home .onchain-card h2{font-size:16px;font-weight:650;letter-spacing:normal}
+.consumer-home .onchain-card h3{font-size:13px}
+.consumer-home .onchain-card p,.consumer-home .onchain-card li{font-size:13px;line-height:1.6}
+.consumer-home .onchain-intro{margin-top:12px;color:var(--muted)}
+.consumer-home .onchain-history-limit{margin-top:10px;color:#674313}
+.consumer-home .onchain-observation,.consumer-home .onchain-record{margin-top:20px}
+.consumer-home .onchain-observation>p,.consumer-home .onchain-record>p{margin-top:6px;color:var(--muted)}
+.consumer-home .onchain-observation dl{margin:12px 0 0}
+.consumer-home .onchain-observation dl>div{margin-top:10px}
+.consumer-home .onchain-observation dt{font-size:11px;color:var(--muted)}
+.consumer-home .onchain-observation dd{font-size:12px;margin:3px 0 0}
+.consumer-home .onchain-unknowns{margin-top:20px;padding:16px;border:1px solid #ead7b7;border-radius:12px;background:#fff0d8;color:#674313}
+.consumer-home .onchain-unknowns>p{margin-top:10px}
+.consumer-home .onchain-definitions{margin-top:16px;border-block:1px solid var(--border)}
+.consumer-home .onchain-definitions>summary{display:list-item;list-style:disclosure-closed;padding:13px 0;font-size:13px;font-weight:600;letter-spacing:normal;min-height:48px;color:#192b36}
+.consumer-home .onchain-definitions[open]>summary{list-style:disclosure-open}
+.consumer-home .onchain-definitions>div{margin:10px 0 16px}
+.consumer-home .onchain-definitions p{margin-top:5px;color:var(--muted)}
+@media(max-width:540px){.consumer-home .onchain-card{margin-top:20px;padding-top:18px}.consumer-home .onchain-card>h1{font-size:27px}}
+
+.consumer-home .onchain-explorer{display:block;min-height:44px;padding:10px 0;font-size:12px;overflow-wrap:anywhere}
+
+.consumer-home .example-capture-date{margin:0 0 10px}
