@@ -1,0 +1,53 @@
+{
+  "method": "Local production Chromium 154; mobile viewport emulation, no physical device claim. No synthetic terminal screenshot. Existing UX proof files unchanged.",
+  "screenshots": [
+    {
+      "file": "screenshots/consumer-landing-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "fcd39c8b91d310784c804c6d3115327ce604093e8eef169ded1c5cd9ef718ce8",
+      "source": "Actual local production consumer; dated examples, not live facts.",
+      "syntheticNumbers": false
+    },
+    {
+      "file": "screenshots/terminal-offline-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "4c24d62e77984a7d022ae706ddd3b64add4558cff5c42a19efc084413e93323d",
+      "source": "Actual local production terminal with provider egress blocked; no verified registry identities claimed.",
+      "syntheticNumbers": false
+    },
+    {
+      "file": "screenshots/consumer-landing-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "c6efe47dca6492f7f3b15b9828bfb8eb8f09816e46c704c7b05d88fdfa5fc944",
+      "source": "Actual local production consumer; dated examples, not live facts.",
+      "syntheticNumbers": false
+    },
+    {
+      "file": "screenshots/terminal-offline-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "ac2879f5236981dc28b7ae14150be882427e72d623b3f45c963bf0558d2a9928",
+      "source": "Actual local production terminal with provider egress blocked; no verified registry identities claimed.",
+      "syntheticNumbers": false
+    },
+    {
+      "file": "screenshots/consumer-landing-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "c7a7f39d85770b14fddbe27767419dd222ad4fa2f76fef72e97be9a075864071",
+      "source": "Actual local production consumer; dated examples, not live facts.",
+      "syntheticNumbers": false
+    },
+    {
+      "file": "screenshots/terminal-offline-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "a26eb37aa8c4339426f08c6e3eb1db898de9188eb40f2019f09cd5b81966ed46",
+      "source": "Actual local production terminal with provider egress blocked; no verified registry identities claimed.",
+      "syntheticNumbers": false
+    }
+  ]
+}

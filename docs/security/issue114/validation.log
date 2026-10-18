@@ -1,0 +1,1207 @@
+Issue #114 final local verification — 18 October 2026
+Base: a45f50af65484122c181f6aeb64adf330f1cefde
+Node 24.19.0 / Linux x64; PostgreSQL 17.11 (real ephemeral local Unix-socket database);
+Chromium 154.0.8037.57 (mobile emulation, no physical iPhone/Safari claim).
+
+FINAL COMMAND RESULTS (not unfinished-run estimates)
+- npm ci: exit 0, clean patched lockfile installation, 352 packages.
+- npm audit --omit=dev --json: BEFORE exit 1 (1 critical, 2 high affected packages);
+  AFTER exit 0 (zero production findings). Exact JSON files retained separately.
+- npm audit --omit=dev: exit 0, found 0 vulnerabilities.
+- ADDITIONAL npm audit --json INCLUDING DEV: exit 1, 8 high + 1 moderate affected
+  development-tool packages. Unresolved; see development-risks.md. Not called clean.
+- npm test: exit 0, 910 tests (903 existing + 7 dependency security tests), zero skipped.
+  Groups: dependency 7; app/OG/archive/etc 501; evidence 29+31+24;
+  mint engine 37+31; API 53+19; real PostgreSQL 44; real native loopback TLS 10;
+  Python 106; Miniflare/scheduler 18.
+- bash tests/consumer-homepage/run-onchain.sh: exit 0, 19 focused consumer cases.
+- tsc --noEmit: exit 0, after final production build; no diagnostics.
+- npm run lint: exit 0, no errors or warnings.
+- npm run build (offline guard via NODE_OPTIONS --import): exit 0.
+- bash scripts/archive-tool.sh check origin/main: exit 0.
+- npm run archive:dry-run: exit 0; original archive unchanged.
+- bash tests/security114/run-browser.sh: exit 0, FINAL FRESH RUN 81/81 passed,
+  all three widths 320/390/1280. Original consumer 69 + dependency/OG/terminal 12.
+- git diff --check: exit 0.
+
+SECURITY REVIEW
+- All 37 individual baseline production advisory objects are patched; no waiver.
+- Next actually loads sharp 0.35.5, libvips 8.18.7, libheif 1.23.5, librsvg 2.63.2,
+  and its CSS-loader resolution is PostCSS 8.5.23. No image-package override.
+- Benign AVIF/PNG optimize over actual Next HTTP; SVG, malformed bytes and remote URL
+  are refused; actual consumer/terminal OG PNG dimensions verified; unavailable
+  dynamic OG is 503/no-store/Retry-After 60 and extra image parameters return 400.
+- PostCSS baseline 8.4.31 negative control: missing-from map reads generated
+  SYNTHETIC_NON_SECRET_MAP_SENTINEL_114. Patched 8.5.23 denies it and traversal;
+  legitimate adjacent maps remain usable. No secret or real sensitive file used.
+- Real PostgreSQL/TLS tests below cover concurrency, transactional rollback,
+  quotas, leases, monotonic fencing, restart persistence, outage fail-closed,
+  SCRAM privilege boundaries, certificate/hostname failures, deadlines, redaction.
+- No app/lib/data/public-existing/experiments/scheduler/workflow changes. Original
+  activation pins remain PRODUCTION_RPC_ENABLED=false and LIVE_APPROVAL enabled=false,
+  storeHost=null, vercelProjectId=null. No credentials read/provisioned or live RPC.
+- Focused changed-text secret-pattern scan: no matches; no values printed.
+- Full developer audit residuals require owner review; no claims about deployed
+  host security, physical mobile devices or provider permissions/activation.
+
+DEVELOPMENT CORRECTION (resolved, not counted as passing)
+An earlier extended browser run had 3 test-selector failures: the metric container
+included the hidden accessible term along with its value. The assertion now targets
+its dd. The final fresh-process run below passes all 81 cases. Initial local runner
+setup/lint issues were corrected before these final command results.
+
+
+FULL NPM TEST OUTPUT
+
+> scout-stonk-intel@0.1.0 test
+> bash tests/run.sh
+
+✔ Next loads the patched, supported sharp and PostCSS through its real runtime paths (1.769519ms)
+✔ Next refuses unsafe/unknown libheif versions, including the former runtime (0.869872ms)
+✔ a small benign AVIF decodes through the real Next optimizer and patched libheif (39.014814ms)
+✔ the loaded patched librsvg rasterizes a benign SVG without external resources (5.198072ms)
+✔ PostCSS refuses an untrusted external .map with no from (follow-up advisory) (2.219883ms)
+✔ PostCSS refuses a relative source map escaping the CSS directory (0.771525ms)
+✔ PostCSS still consumes legitimate adjacent source maps with a known CSS file (3.617355ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 370.23214
+✔ archive source outage, recovery, immutable serving, missing edition and corruption never substitute live claims (99.68307ms)
+✔ UTC closure plus three-hour grace is mandatory, delayed genuine data changes new candidates (52.000896ms)
+✔ full immutable evidence reproduces after live snapshots change or expire (47.352224ms)
+✔ repeated runs ignore wall-clock attempt time and identical append is a no-op (41.006336ms)
+✔ conflicting originals cannot overwrite and explicit corrections preserve original plus notices (79.290959ms)
+✔ insufficient, empty and covered zero days archive honestly without invented payouts (17.069463ms)
+✔ malformed source, missing evidence, tampering and outdated methods fail reproduction (18.683364ms)
+✔ retention backfill, future input and archive capacities are bounded safely (112.205447ms)
+✔ later-day observations are preserved but do not change historical claim gates (25.695431ms)
+✔ publication workflow stays opt-in, read-only generation, draft branch PR only (1.129224ms)
+✔ git append-only check rejects edition edits and index replacement with an isolated repository (734.470583ms)
+✔ reject unsupported/repeated date or version before any source access (7.097095ms)
+✔ source outage, recovery, exact versioned JSON and changed version refusal expose no private errors or replacement amounts (78.282337ms)
+✔ no observations gives honest no verified change and never substitutes zero payouts (10.465408ms)
+✔ short histories and open UTC days withhold all daily financial findings (3.39383ms)
+✔ covered actual day reports counter deltas and separate quote identities without ecosystem unit totals (12.505437ms)
+✔ zero covered distribution is a supported no increase, not a material finding or missing-data zero (1.22633ms)
+✔ calendar boundaries use actual pre-boundary observations with disclosed offsets, never a shorter fake day (4.404195ms)
+✔ stale period endpoints, degraded/unavailable source and stale provider never produce amounts (5.451747ms)
+✔ archived endpoint freshness is evaluated at its day boundary; current health stays separately stale (1.20698ms)
+✔ distribution and payout resets, quote transition and missing provenance are barriers (13.004706ms)
+✔ malformed/future timestamps and conflicting duplicates withhold; identical duplicates collapse (26.179356ms)
+✔ strict gaps and optional payout counts retain coverage safeguards (2.105297ms)
+✔ brief versions and evidence attribution are stable across retrieval time, input order and current warnings (4.011697ms)
+✔ partial collection is attributed per token and never turns matching content into all-token success (2.201753ms)
+✔ date validation rejects invalid calendars, future dates and non-date inputs (0.938218ms)
+✔ a provisional version changes when the day closes or source gates change without different snapshot bytes (3.94704ms)
+✔ inert proof preserves current token permissions; independent permission proposal adds only Actions-read (1.67954ms)
+✔ any nonempty proof value suppresses claims/provider/write/artifacts even on failure and stray outputs (341.596593ms)
+✔ absent proof control preserves every existing gate/collector/publish/artifact condition (157.16318ms)
+✔ offline actual-collector Python suite; unapproved CLI never enters credentialed context (425.953786ms)
+✔ real workflow: unset/false, missing schedule inputs and empty manual inputs preserve legacy path (1.623315ms)
+✔ real workflow: external inputs/configured App actor invoke disabled gate and cannot collect (0.502974ms)
+✔ real workflow: opt-in requires successful gate authorization, never skipped/duplicate/failed fallback (0.914712ms)
+✔ real workflow: gate receipt/output failure blocks even a stray collect=true output (0.48682ms)
+✔ real workflow: invalid opt-in setting runs gate and has no legacy fallback (0.297135ms)
+✔ real workflow: continue-on-error provider failure retains diagnostic publication; skipped collector cannot publish (0.36677ms)
+✔ real workflow: existing collector artifact remains separate from outside-checkout gate evidence (0.19374ms)
+✔ three exact reviewed identities come from original engine; same-symbol aliases stay unsupported (2.388552ms)
+✔ empty, malformed, ticker, repeated query, whitespace and unknown inputs never auto-enroll (0.182914ms)
+✔ rights, quantity, exact quote, settlement and ROI promotions fail closed (0.902143ms)
+✔ server-rendered landing and explanations are brand-free and retain prominent withholding (42.198614ms)
+✔ metadata is neutral, exact-mint canonical, noindex and has no legacy token preview (2.244827ms)
+✔ consumer and legacy mint share paths remain separate, explicit and exact (0.548172ms)
+✔ home chrome excludes ecosystem footer; legacy technical routes retain it (3.951336ms)
+✔ terminal keeps the original client, exact initial mint and token OG API contract (1.331527ms)
+✔ consumer runtime imports original engine and never a raw audit, fixture or vendor copy (0.616645ms)
+✔ novice explanations identify provider labels and withhold underlying ownership claims (0.957296ms)
+✔ novice reward copy retains the original fact source IDs and unknown holder eligibility (0.612299ms)
+✔ successful SSR closes the address form and keeps accessible switch/start-over controls (21.405476ms)
+✔ missing, current, delayed and stale observations have independent coverage states (13.633709ms)
+✔ complete actual windows require real gap coverage and matching recorded quote identity (14.468852ms)
+✔ expected missed slots are grace-aware estimates and recover with a real observation (1.198928ms)
+✔ partial attempts are not upgraded by a matching dataset hash or fresh prior record (0.676295ms)
+✔ source outage, provider staleness and invalid counters cannot imply healthy collection (0.96656ms)
+✔ dated investigation, overdue audits and future attempts retain explicit unknown/freshness distinctions (0.297155ms)
+✔ diagnostic schemas reject malformed fields and strip unknown/private attributes (1.187231ms)
+✔ shared bounded diagnostics reader backs off malformed responses and preserves valid retrieval times (32.724534ms)
+✔ dossier keeps distinct evidence meaning: covered (17.059007ms)
+✔ dossier keeps distinct evidence meaning: covered-zero (1.411116ms)
+✔ dossier keeps distinct evidence meaning: lifetime (0.971687ms)
+✔ dossier keeps distinct evidence meaning: zero (0.873991ms)
+✔ dossier keeps distinct evidence meaning: settings (1.199739ms)
+✔ dossier keeps distinct evidence meaning: standard (0.715382ms)
+✔ dossier keeps distinct evidence meaning: stale-lifetime (0.734682ms)
+✔ dossier keeps distinct evidence meaning: stale-source (0.810676ms)
+✔ dossier keeps distinct evidence meaning: stale-evaluation (0.909675ms)
+✔ dossier keeps distinct evidence meaning: rate-limited (0.823776ms)
+✔ dossier keeps distinct evidence meaning: precise-lifetime (0.580421ms)
+✔ legacy totals including zero/null/large values and claimed mode never promote settings or interval verification (1.548322ms)
+✔ missing, foreign, failed or forged official records have no clickable official-evidence affordance (1.384386ms)
+✔ a successful legacy standard-mode record is meaningful source access, not strict mode verification (0.323124ms)
+✔ source action preserves exact-mint provenance; successful retrieval never becomes observation time (0.596855ms)
+✔ last actual observation remains dated/stale; last payout, evaluation and retrieval are never substituted (0.31345ms)
+✔ foreign or invalid recorded clock is withheld: {"mint":"Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh"} (0.119229ms)
+✔ foreign or invalid recorded clock is withheld: {"source":"https://www.stonkfun.xyz/api/public/v1/tokens/Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh/rewards"} (0.071768ms)
+✔ foreign or invalid recorded clock is withheld: {"status":"invalid_data"} (0.137717ms)
+✔ foreign or invalid recorded clock is withheld: {"quote":{"mint":"DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP","symbol":"NVDAX"}} (3.207271ms)
+✔ foreign or invalid recorded clock is withheld: {"endAt":"2026-01-02T01:00:00.000Z"} (0.089775ms)
+✔ foreign or invalid recorded clock is withheld: {"fetchedAt":"2025-01-01T00:00:00.000Z"} (0.089975ms)
+✔ foreign or invalid recorded clock is withheld: {"latestObservedAt":"invalid"} (0.064156ms)
+✔ history warnings remain visible without promoting historical windows to strict covered flow (0.361912ms)
+✔ outside bounded sample is not absence; wrong quote and unknown optional contract fail closed (0.56626ms)
+✔ forged precise amount, holder return, source, unit or interval cannot fall back to a positive legacy conclusion (1.023234ms)
+✔ folded strict audit retains original raw values, exact quote mint, source receipts and actual period coverage (4.743254ms)
+✔ confirmed settings use their provider-response clock and keep a separate old observation dated (0.545028ms)
+✔ an official identity warning withholds the primary source affordance even with a separate legacy ledger (0.625549ms)
+✔ ecosystem connection renders without user, ownership or data inputs (11.395412ms)
+✔ relationship explains independence, open access and financial limitations (2.358097ms)
+✔ loading and failure use unknown coverage without empty KPI cards or invented timestamps (10.90134ms)
+✔ missing histories retain quote identity with a single plain insufficient state and no fabricated figure (17.811313ms)
+✔ valid point zero or change has one quoted readout with its actual interval, never a 24h rate (25.06415ms)
+✔ matched coverage chooses one existing current-period counter delta instead of showing competing figures (10.958826ms)
+✔ stale, failed source, resets, identity errors and irregular 8h gaps show one honest state (35.206369ms)
+✔ all advanced provenance and interval barriers remain behind closed native disclosures (4.24824ms)
+✔ coverage, actual timestamp age and collection reliability stay separate from source retrieval (1.137526ms)
+✔ HTTP 503 identity-only rows have known tracking scope and unknown observations/coverage (2.805647ms)
+✔ small positive comparable amounts do not become a false zero when displayed (3.5014ms)
+✔ valid 24h archive coverage remains useful when paired 48h coverage is not yet available (4.452787ms)
+✔ four genuine records reproduce exact raw units, original captures and pinned audit (71.945532ms)
+✔ historical availability never promotes expired source into a current gate (72.88185ms)
+✔ missing source withholds all records (0.161943ms)
+✔ inaccessible source withholds all records (0.102463ms)
+✔ truncated capture withholds all records (2.887981ms)
+✔ empty document withholds all records (0.131357ms)
+✔ oversized document withholds all records (0.744777ms)
+✔ copied hash cannot authenticate changed mint (5.06217ms)
+✔ copied hash cannot authenticate changed quote (12.697529ms)
+✔ copied hash cannot authenticate changed capture (3.866027ms)
+✔ copied hash cannot authenticate changed hash (3.196743ms)
+✔ copied hash cannot authenticate changed status (3.044886ms)
+✔ copied hash cannot authenticate changed body (3.844675ms)
+✔ exact mints, including distinct STONK identities, control links, never tickers (2.78153ms)
+✔ null is unavailable; the genuine zero candidate stays exact zero (0.325618ms)
+✔ provider 429 cannot create a historical zero or partial ranking (5.651935ms)
+✔ provider 503 cannot create a historical zero or partial ranking (10.200614ms)
+✔ misaligned source periods and mixed quote identities withhold comparisons (12.832892ms)
+✔ publication gate excludes amounts, counts, ranking and extra nested fields, with no runtime approval switch (0.440321ms)
+✔ source view has accessible disclosures and permanent identity but no restricted quantities or fictitious prices (8.117031ms)
+✔ missing source view reports failure without positive rows or substitute values (1.361091ms)
+✔ offline CLI exactly reproduces metadata projection with zero provider requests (164.805783ms)
+✔ history API rejects invalid parameters before accessing the source (11.16141ms)
+✔ cold failure, real records, missing mint and degraded cache have safe API semantics (12.964268ms)
+✔ same deployed reader discovers new snapshots after bounded cache expires (30.995916ms)
+✔ fresh retrieval of stale observations never makes complete windows fresh (2.85401ms)
+✔ outages retain original retrieval time briefly, back off, expire, and recover (2.24744ms)
+✔ cold outage never falls back to the deployment checkout (0.221102ms)
+✔ invalid responses, missing files, redirects and oversized bodies fail closed (14.83867ms)
+✔ empty/missing mints and invalid observations preserve calculator safeguards (2.21464ms)
+✔ concurrent requests share one refresh and distinct refreshes use distinct CDN keys (0.43359ms)
+✔ aborted body read does not replace the last successful dataset (1.184907ms)
+✔ network deadline aborts an unresponsive fetch and returns sanitized unavailability (8000.956991ms)
+✔ strict mint validation rejects non-base58, wrong byte length and traversal (1.190445ms)
+✔ two real recorded points produce a nonnegative delta with their actual interval (1.185818ms)
+✔ missing history never produces zero totals or invented observations (0.793841ms)
+✔ identical duplicates collapse; conflicting duplicates prevent comparison (0.498547ms)
+✔ counter resets are not clamped to zero or bridged by window endpoints (0.605538ms)
+✔ payout counter decrease also invalidates a comparison (0.175293ms)
+✔ 23-hour coverage and sparse endpoints cannot claim 24 hours (0.318237ms)
+✔ hourly recorded coverage supports exact 24h and 7d comparisons (5.223482ms)
+✔ nearest boundary is at or before target and reports actual extended interval (0.48686ms)
+✔ missing counters and quote changes block bridging invalid records (0.818157ms)
+✔ malformed, calendar-invalid and future timestamps are detected, never guessed (4.931885ms)
+✔ stale data has an explicit age and does not claim a current complete period (0.276585ms)
+✔ zero delta is valid; NaN, Infinity, negatives, booleans and numeric strings are missing (0.190035ms)
+✔ UTC offsets from the actual collector are normalized and the real store is not synthesized (1.624486ms)
+✔ changed quote mint and unverified source never produce a comparable asset total (0.20619ms)
+✔ malformed stores and all-invalid rows are distinguished from absent history (0.138688ms)
+✔ coverage metadata exposes gaps and boundary approximation limits (0.229585ms)
+✔ three-hour freshness boundary and stale incomplete windows are explicit (0.191327ms)
+✔ OG rejects invalid, duplicate and unsupported parameters before any source fetch (8.753295ms)
+✔ OG real renderer emits a PNG, source times and exact token identity with bounded same-origin GETs (266.503298ms)
+✔ OG quote-side pool uses the requested token symbol rather than another base token (124.357485ms)
+✔ OG does not borrow mismatched source identities or manufacture zero rewards (1.031917ms)
+✔ OG unknown token has an honest identity-only PNG, not a fictitious source observation (104.634291ms)
+✔ OG reward mode, amount and unit gates preserve unavailable and reject unsafe holder counts (606.923471ms)
+✔ OG unsupported labels avoid remote font fetches and future/invalid times remain unknown (139.90722ms)
+✔ OG provider errors, malformed/oversized bodies and rendering stream failures return sanitized noncached 503 (3.814329ms)
+✔ OG controlled outage and renderer failure are complete HTTP 503 responses and recover to PNG (319.217813ms)
+✔ canonical object coverage/null history and valid Unicode/long names survive without invention (23.276842ms)
+✔ forged/mixed/duplicate identities, arbitrary sources, false complete coverage and inferred returns fail closed (3.917915ms)
+✔ same-symbol quotes remain exact-mint groups and empty registry sample is not ecosystem absence (20.462651ms)
+✔ 503/degraded source, null market/history and unverified mode never become zero or healthy ROI (6.88251ms)
+✔ typed client uses same-origin exact mint, rejects forged response and handles 404 without upstream error leakage (10.461857ms)
+✔ Radar joins current verified mode only for allowlisted exact mint/quote/symbol/pool/source (1.07411ms)
+✔ tracked fallback stays a distinct dated sample, preserves exact identities, and contains no catalog market snapshots (2.727109ms)
+✔ existing matched/point/zero gates remain authoritative; reset/stale/degraded/identity/gap failures withhold flows (44.664471ms)
+✔ optional #43 evidence enables exact scoped query only with verified scope; legacy API never receives opt-in flags (4.271444ms)
+✔ scoped counts/search replace global rows without ticker joins and retain separately verified quotes (5.013677ms)
+✔ scope proof rejects global mint claims, mixed upstream queries, missing pages and substituted token provenance (1.531717ms)
+✔ one-page and empty scoped results retain false complete/atomic gates; valid scope cannot masquerade as global (1.772238ms)
+✔ 429 and 503 scoped reads fail closed with no automatic retry or upstream message exposure (1.359719ms)
+✔ registry search normalizes Unicode/name/ticker but preserves exact original mint case; client always encodes parameters (2.406859ms)
+✔ verified registry is independent of token catalog and keeps identical/case/Unicode tickers separate (0.709714ms)
+✔ registry forgery, wrong scope/counts/ambiguity/units of identity, duplicate mints and invalid provenance fail closed (0.515984ms)
+✔ registry pagination keeps snapshots separate and rejects refresh/repeated/forged windows (0.878447ms)
+✔ registry 404 stays verified membership absence;429/503 never become healthy empty counts or automatic retries (3.509142ms)
+✔ selected registry identity must match every catalog identity field before displaying token figures (0.24039ms)
+✔ Unicode text resembling a mint is sent literally instead of silently becoming a canonical mint alias (0.804297ms)
+✔ search-first landing has one labelled, keyboard-enabled universal combobox and no fixed pair universe (0.928443ms)
+✔ screener row retains zero and exceptional warnings; full identity/time/returns stay in controlled hidden evidence (6.079575ms)
+✔ sample sorts keep exact quote identity, zero before unknown, name ties deterministic and input untouched (1.014511ms)
+✔ short evidence states distinguish catalog, mechanism and recorded activity without dropping exceptional gates (30.050128ms)
+✔ scan USD formatting separates unknown and zero and never rounds a small positive to zero (0.617626ms)
+✔ one plain-language key separates official settings, counter flow and holder payments (0.481762ms)
+✔ research URLs use only the tested exact token dossier route and never encode a pair selection or snapshot (1.248041ms)
+✔ generated mint marks are stable visual aids with no logo URLs, network assets or verification claim (4.285537ms)
+✔ optional merged reward evidence: covered has an accurate compact state and unavailable holder returns (6.971523ms)
+✔ optional merged reward evidence: covered-zero has an accurate compact state and unavailable holder returns (4.877573ms)
+✔ optional merged reward evidence: lifetime has an accurate compact state and unavailable holder returns (3.465877ms)
+✔ optional merged reward evidence: zero has an accurate compact state and unavailable holder returns (5.911364ms)
+✔ optional merged reward evidence: settings has an accurate compact state and unavailable holder returns (4.430703ms)
+✔ optional merged reward evidence: standard has an accurate compact state and unavailable holder returns (4.105015ms)
+✔ optional merged reward evidence: stale-lifetime has an accurate compact state and unavailable holder returns (3.737525ms)
+✔ optional merged reward evidence: stale-source has an accurate compact state and unavailable holder returns (2.96111ms)
+✔ optional merged reward evidence: stale-evaluation has an accurate compact state and unavailable holder returns (3.012136ms)
+✔ optional merged reward evidence: rate-limited has an accurate compact state and unavailable holder returns (3.622682ms)
+✔ optional merged reward evidence: precise-lifetime has an accurate compact state and unavailable holder returns (3.249953ms)
+✔ older response compatibility retains dated settings and gated legacy observations without new financial evidence (8.568578ms)
+✔ frontend optional evidence rejects different token mint without a stronger legacy fallback (3.719968ms)
+✔ frontend optional evidence rejects same ticker different quote mint without a stronger legacy fallback (2.943033ms)
+✔ frontend optional evidence rejects wrong decimals without a stronger legacy fallback (2.450304ms)
+✔ frontend optional evidence rejects version without a stronger legacy fallback (3.124255ms)
+✔ frontend optional evidence rejects future source without a stronger legacy fallback (2.497034ms)
+✔ frontend optional evidence rejects foreign mode source without a stronger legacy fallback (2.599909ms)
+✔ frontend optional evidence rejects source lookup query injection without a stronger legacy fallback (2.425396ms)
+✔ frontend optional evidence rejects source hash mismatch without a stronger legacy fallback (2.302873ms)
+✔ frontend optional evidence rejects forged covered summary without a stronger legacy fallback (3.021871ms)
+✔ frontend optional evidence rejects unknown as zero without a stronger legacy fallback (3.785337ms)
+✔ frontend optional evidence rejects false current stale lifetime without a stronger legacy fallback (4.47465ms)
+✔ frontend optional evidence rejects rounded exact amount without a stronger legacy fallback (3.786448ms)
+✔ frontend optional evidence rejects negative lifetime without a stronger legacy fallback (3.859297ms)
+✔ frontend optional evidence rejects unsafe payout count without a stronger legacy fallback (2.92765ms)
+✔ frontend optional evidence rejects payout after source without a stronger legacy fallback (2.516454ms)
+✔ frontend optional evidence rejects invented lifetime window without a stronger legacy fallback (2.457294ms)
+✔ frontend optional evidence rejects ROI without a stronger legacy fallback (2.730925ms)
+✔ frontend optional evidence rejects complete coverage without a stronger legacy fallback (3.913498ms)
+✔ frontend optional evidence rejects ticker universe without a stronger legacy fallback (6.843171ms)
+✔ frontend optional evidence rejects earning leader without a stronger legacy fallback (4.369952ms)
+✔ frontend optional evidence rejects missing covered interval without a stronger legacy fallback (4.049111ms)
+✔ frontend optional evidence rejects one short interval without a stronger legacy fallback (3.880478ms)
+✔ frontend optional evidence rejects changed interval quote without a stronger legacy fallback (2.719017ms)
+✔ frontend optional evidence rejects disjoint windows without a stronger legacy fallback (2.725516ms)
+✔ frontend optional evidence rejects unsupported interval history revision without a stronger legacy fallback (2.731546ms)
+✔ frontend optional evidence rejects gap exactly two hours without a stronger legacy fallback (2.657424ms)
+✔ frontend optional evidence rejects rounded interval amount without a stronger legacy fallback (2.899077ms)
+✔ frontend optional evidence rejects forged counter difference without a stronger legacy fallback (2.769222ms)
+✔ invalid/null optional evidence and missing catalog context do not crash or masquerade as legacy absence (1.069183ms)
+✔ partial lifetime evidence is usable for its token without promoting catalog coverage or interval claims (2.485727ms)
+✔ dated genuine #61 wire response replays supported lifetime strings without becoming a current fallback or covered interval (11.949378ms)
+✔ quick view keeps its three facts separate from initially folded exact audit evidence (9.108427ms)
+✔ copy fallback is noneditable selectable text, never an input or autofocus target (0.991197ms)
+✔ aligned received counter observations compare exactly in quote units, never returns/leaderboard (11.296097ms)
+✔ pure deterministic execution does not mutate frozen inputs, fetch, read a clock or persist (9.09729ms)
+✔ swapping the chosen projects reverses signed activity differences without creating a leader (3.631586ms)
+✔ genuine covered zero is zero; missing reward/market observations never become zero (6.527758ms)
+✔ different quote mints sharing one ticker withholds comparison (0.869154ms)
+✔ ticker alone cannot choose a quote withholds comparison (0.441602ms)
+✔ registry quote membership missing withholds comparison (0.489343ms)
+✔ registry identity decimal mismatch withholds comparison (0.57385ms)
+✔ registry token-program mismatch withholds comparison (0.832608ms)
+✔ catalog identity pool differs from tracked mapping withholds comparison (1.811226ms)
+✔ mode only catalog-asserted withholds comparison (2.088732ms)
+✔ mode explicitly standard withholds comparison (1.579889ms)
+✔ forged mode source withholds comparison (0.435283ms)
+✔ history source mismatch withholds comparison (0.472919ms)
+✔ history revision mismatch withholds comparison (0.714051ms)
+✔ missing history withholds comparison (1.952217ms)
+✔ no tracked attribution withholds comparison (1.682253ms)
+✔ duplicate chosen project withholds comparison (0.380039ms)
+✔ global sample cannot masquerade as scoped discovery withholds comparison (0.366079ms)
+✔ a one-page sample never becomes exhaustive withholds comparison (0.734011ms)
+✔ duplicate catalog mint withholds comparison (0.418418ms)
+✔ duplicate allowlist mint withholds comparison (0.495452ms)
+✔ registry unavailable is explicit and has no fallback/retry (0.425738ms)
+✔ registry partial is explicit and has no fallback/retry (0.303755ms)
+✔ registry rate_limited is explicit and has no fallback/retry (0.33323ms)
+✔ catalog unavailable is explicit and has no fallback/retry (0.349424ms)
+✔ catalog partial is explicit and has no fallback/retry (0.514071ms)
+✔ catalog rate_limited is explicit and has no fallback/retry (0.317827ms)
+✔ history unavailable is explicit and has no fallback/retry (0.384696ms)
+✔ history partial is explicit and has no fallback/retry (0.521873ms)
+✔ history rate_limited is explicit and has no fallback/retry (0.705838ms)
+✔ cached registry keeps original source dates rather than resetting freshness (2.967159ms)
+✔ cached catalog keeps original source dates rather than resetting freshness (2.938737ms)
+✔ cached history keeps original source dates rather than resetting freshness (3.08149ms)
+✔ degraded catalog retains distinctly labeled snapshots but never admits a distribution comparison (0.664397ms)
+✔ nullable market snapshot fields, source times and USD units remain explicit; no snapshot-to-trend promotion (14.264824ms)
+✔ gap exactly 2h withholds without repairing data (2.666348ms)
+✔ missing previous day withholds without repairing data (2.185637ms)
+✔ counter reset inside current day withholds without repairing data (2.414129ms)
+✔ payout counter reset withholds without repairing data (3.482972ms)
+✔ interior quote identity change withholds without repairing data (2.885697ms)
+✔ interior source forgery withholds without repairing data (2.170444ms)
+✔ missing provider time withholds without repairing data (3.377404ms)
+✔ provider time more than3h old at its own observation withholds without repairing data (3.523634ms)
+✔ future provider time withholds without repairing data (2.51444ms)
+✔ provider generation reverses withholds without repairing data (6.66314ms)
+✔ recorded mode changes inside window withholds without repairing data (2.23378ms)
+✔ identical duplicate observation withholds without repairing data (2.16743ms)
+✔ conflicting duplicate observation withholds without repairing data (2.578726ms)
+✔ invalid observation timestamp withholds without repairing data (6.73608ms)
+✔ future observation cannot be filtered away withholds without repairing data (7.305905ms)
+✔ unsafe cumulative atomic precision withholds without repairing data (2.64775ms)
+✔ sub-atomic source precision withholds without repairing data (2.62081ms)
+✔ nonfinite counter withholds without repairing data (2.529032ms)
+✔ catalog history metadata is inconsistent withholds without repairing data (2.910343ms)
+✔ equal durations with shifted actual observation periods are not aligned (3.419597ms)
+✔ individually valid observed periods still fail cross-token alignment when provider boundaries differ by1ms (3.803934ms)
+✔ a fresh re-fetch of stale counter observations cannot manufacture current history (0.508272ms)
+✔ exact source-age and 3h observation-age edges cannot be weakened by policy input (6.800347ms)
+✔ synthetic distribution spikes are observed arithmetic only, never alpha, ROI, liquidity efficiency or leadership (3.764535ms)
+✔ bounded arrays fail closed instead of truncating candidates, provenance or observations into a healthy result (11.892201ms)
+✔ malformed runtime values, invalid dates and absent candidates expose explicit nulls without throwing (5.272406ms)
+✔ separate fresh registry byte revisions can confirm the same identity without claiming atomic pagination (4.116091ms)
+✔ real stored ZEC history cannot pass the new period gates, even with synthetic healthy catalog/mode metadata (2.060049ms)
+✔ unrecognized registry properties never escape into the bounded output contract (4.345125ms)
+✔ catalog verification labels and future allowlist attestations cannot bypass identity gates (3.468892ms)
+✔ one atomic unit is preserved without double subtraction or rounded-to-zero changes (4.430623ms)
+✔ source revision provenance, source-age expiry and market generated-time mismatch cannot be relabeled fresh (3.520799ms)
+✔ canonical history outage with null store is unavailable, distinct from malformed healthy data (0.902814ms)
+✔ canonical retained history after a failed read is partial, not a healthy comparison (0.481532ms)
+✔ quote API rejects invalid parameters before provider access (8.687297ms)
+✔ registry-only API exposes unknown source, recovers, searches/paginates and selects exact mint without catalog/history fanout (7.672694ms)
+✔ full registry validation preserves exact identity, case ambiguity, Unicode and deterministic ordering (3.495251ms)
+✔ local search/list is bounded; exact mint selection never folds mint case or turns names into identity (1.743204ms)
+✔ invalid/excessive/repeated/URL/regex-shaped parameters cannot choose provider URLs or evade response limits (0.772128ms)
+✔ partial/paginated/empty/count or ambiguity conflicts and forged/duplicate identities reject the entire registry (9.990831ms)
+✔ one fixed registry GET coalesces excessive different searches; cache/provenance never fetches tokens or advances timestamps (29.840273ms)
+✔ outage/stale source is unknown, never an empty healthy registry; recovery follows cooldown without fallback (3.462551ms)
+✔ oversized/partial/invalid transport, JSON and UTF8 fail closed within a bounded deadline (46.496097ms)
+✔ 429 registry/global/scoped cooldown is shared; cached identities remain dated and unsupported waits are never shortened (6.198484ms)
+✔ dated genuine NVDAX sample has exact units and bounded scope (23.978274ms)
+✔ dated genuine GLDX sample has exact units and bounded scope (13.649977ms)
+✔ dated genuine SPCXX sample has exact units and bounded scope (12.094294ms)
+✔ dated genuine STONK sample has exact units and bounded scope (12.965981ms)
+✔ received-byte evidence hashes reproduce, including ignored filter (1.84091ms)
+✔ invalid chosen mint withholds ordering (0.848312ms)
+✔ invalid audit timestamp withholds ordering (0.245188ms)
+✔ missing cold registry withholds ordering (0.367742ms)
+✔ missing cold catalog withholds ordering (6.366396ms)
+✔ registry foreign origin withholds ordering (0.402994ms)
+✔ mixed catalog quote identity withholds ordering (8.065163ms)
+✔ provider reward sort cannot masquerade as market cap sample withholds ordering (7.914267ms)
+✔ global sorted amounts cannot masquerade as reward aggregate withholds ordering (6.346957ms)
+✔ malformed registry withholds ordering (0.522343ms)
+✔ duplicate registry exact identity withholds ordering (3.360128ms)
+✔ false ticker ambiguity flag withholds ordering (10.486664ms)
+✔ duplicate catalog token withholds ordering (9.856029ms)
+✔ unvalidated rejected catalog row withholds ordering (9.792954ms)
+✔ partial short catalog page withholds ordering (8.218964ms)
+✔ wrong pagination withholds ordering (13.791649ms)
+✔ missing reward response withholds ordering (13.126312ms)
+✔ duplicate reward packet withholds ordering (9.533144ms)
+✔ extra reward packet exceeds audit budget withholds ordering (0.574772ms)
+✔ different token identity withholds ordering (10.110079ms)
+✔ same ticker different exact quote mint withholds ordering (9.358372ms)
+✔ reward unit symbol mismatch withholds ordering (10.456448ms)
+✔ different or missing decimals withholds ordering (5.696311ms)
+✔ catalog-only reward mode insufficient withholds ordering (6.123441ms)
+✔ snapshot basis not ledger evidence withholds ordering (6.197723ms)
+✔ awaiting ledger totals remain unavailable withholds ordering (7.866444ms)
+✔ null rewards are not zero withholds ordering (5.866356ms)
+✔ invalid lifetime raw amount withholds ordering (6.041419ms)
+✔ raw amount as number is not exact withholds ordering (5.644252ms)
+✔ negative raw withholds ordering (5.719115ms)
+✔ noncanonical leading zero raw withholds ordering (5.351634ms)
+✔ unbounded raw precision withholds ordering (6.106076ms)
+✔ unsafe payout count withholds ordering (6.721217ms)
+✔ negative wallets paid withholds ordering (5.824534ms)
+✔ wallets greater than payouts withholds ordering (5.582901ms)
+✔ positive distribution with zero payouts withholds ordering (5.397573ms)
+✔ missing actual last payout for positive count withholds ordering (5.866957ms)
+✔ future actual payout withholds ordering (5.896361ms)
+✔ future generation metadata withholds ordering (6.352896ms)
+✔ stale provider generation withholds ordering (7.757742ms)
+✔ stale original cached retrieval withholds ordering (6.439456ms)
+✔ stale transport age withholds ordering (7.280887ms)
+✔ malformed transport age withholds ordering (6.578704ms)
+✔ oversized response withholds ordering (6.73542ms)
+✔ source error envelope withholds ordering (7.637131ms)
+✔ generation spread beyond minute budget withholds ordering (6.157443ms)
+✔ registry HTTP 429 fails closed without fallback (0.24702ms)
+✔ registry HTTP 503 fails closed without fallback (0.181703ms)
+✔ catalog HTTP 429 fails closed without fallback (6.94293ms)
+✔ catalog HTTP 503 fails closed without fallback (8.080826ms)
+✔ reward HTTP 429 fails closed without fallback (9.288958ms)
+✔ reward HTTP 503 fails closed without fallback (8.786225ms)
+✔ same STONK ticker identities stay isolated (18.006409ms)
+✔ BigInt raw ordering preserves one atomic unit beyond safe integer (8.8296ms)
+✔ base amounts and rounded provider float do not affect quoted raw comparison (9.441977ms)
+✔ exact ties produce co-leaders within sample, no artificial unique winner (9.206184ms)
+✔ larger provider total never promotes sample ordering to ecosystem coverage (9.364ms)
+✔ empty/single candidate cannot establish relative top, even if catalog fits page (9.102479ms)
+✔ empty/single candidate cannot establish relative top, even if catalog fits page (6.755539ms)
+✔ no implicit live clock, network, source retry or mutable cache (10.929478ms)
+✔ pairs GET validates all parameters before any provider access (8.479874ms)
+✔ cold 503 is structured/sanitized, recovers, filters exact mint, and known empty sample differs from unknown registry mint (17.864838ms)
+✔ explicit pair discovery forwards exact mint while existing query behavior remains a local global-sample filter (6.437052ms)
+✔ fixed pagination/body/request bounds, max12 mode checks, coalescing and cache do not imply complete coverage (55.626588ms)
+✔ registry/catalog require exact quote mint+symbol, valid pool, network, page and program; ticker aliases never merge (4.163644ms)
+✔ mode checks fail closed on forged mint/quote/mode and never imply a payout or holder ROI (4.367839ms)
+✔ standard launches are not holder-reward launches and awaiting/missing checks are explicit (2.30795ms)
+✔ empty filtered registry group, untracked/missing/stale histories and provider times never invent observations (5.606426ms)
+✔ source failures, oversized data, stale/future timestamps, invalid JSON/UTF8, redirect and transport age expose no raw errors (4.273167ms)
+✔ partial page outage stays bounded and degraded; conflicting identities and shifting totals are disclosed (5.892155ms)
+✔ 429 honors cooldown without retries, recovers later and overall deadline bounds even noncompliant fetch/body (42.938072ms)
+✔ cached provider data cannot cross its stale threshold; stable output is identity ordering rather than payout ranking (4.722992ms)
+✔ mode outages retain catalog-only evidence, pause safely on unsupported rate delays, and reject mode/mint forgery (3.640178ms)
+✔ mode network concurrency is at most3 and totals/page-order drift cannot become completeness (15.410347ms)
+✔ malformed recorded history stays invalid_data rather than fabricated empty history (1.279158ms)
+✔ opt-in scoped discovery finds out-of-global-sample records with exact upstream query and unchanged bounds (6.60913ms)
+✔ ignored filter, same-symbol wrong mint, malformed quote and incomplete provider pages cannot masquerade as scoped discovery (1.31375ms)
+✔ second-page mismatch/outage and changing totals retain only validated scoped pages with partial/degraded provenance (12.781465ms)
+✔ scoped admission is one cold refresh per minute, four retained scopes, no cache churn or hidden enumeration (4.011095ms)
+✔ scope capacity uses completed snapshot time so slow reads cannot evict a still-warm entry (3.283253ms)
+✔ 429 cooldown is shared between scopes and global source without shortening provider waits (7.357593ms)
+✔ scoped quote absent from registry stops after registry proof; source failure never substitutes global sample (1.575833ms)
+✔ radar endpoint rejects unsafe or repeated sort before source access (7.611373ms)
+✔ source outages expose dated allowlist with no invented observations and recover safely (36.529213ms)
+✔ quote filters use allowlisted mint identity and expose only matching currency rows (11.845221ms)
+✔ empty histories retain all verified identities with null changes and coverage (10.024371ms)
+✔ actual two-point change reports its exact interval without pretending 24h coverage (2.395111ms)
+✔ quote mismatch, symbol-only legacy points, reset, invalid source and conflicts withhold deltas (1.649033ms)
+✔ long actual intervals cannot become short-period activity or window totals (0.240971ms)
+✔ stale observations and degraded/unavailable source withhold changes independently (0.852889ms)
+✔ hourly full coverage remains valid only with explicitly matching quote identities (10.858351ms)
+✔ future/malformed timestamps cannot be bridged and invalid counters never become zero (0.665658ms)
+✔ sorts are name/freshness, not incomparable reward amounts; source evidence links survive (1.380671ms)
+✔ allowlist rejects excessive, duplicate, invalid and unverified addresses (0.549334ms)
+✔ checked-in observations are genuine initial samples; legacy rows are never backfilled (7.159956ms)
+✔ default coverage order promotes comparable evidence rather than reward magnitude (1.695602ms)
+✔ navigation identifies exactly one destination on nested immutable and provisional brief URLs (13.899261ms)
+✔ first-use starting path works without a mint and preserves missing-data and profit limitations (1.665127ms)
+✔ guide renders source-independent evidence and limitations with no collection form (3.008812ms)
+✔ legacy terminal navigation keeps one brand and guide; secondary routes stay off the primary search task (0.495884ms)
+✔ consumer homepage has no legacy navigation (0.184216ms)
+✔ read-only complete archive, metadata, raw provenance and guarded failure responses pass independently (52.470606ms)
+✔ unreachable host is incomplete, not an application defect or fabricated live pass (0.371437ms)
+✔ valid application 404/409/503 remain different from network failure and source outages block release proof (13.424559ms)
+✔ proxy denial and access restriction never masquerade as application success (5.129692ms)
+✔ known archived date cannot silently be a provisional page or cross-origin redirect (8.742148ms)
+✔ source-byte mismatch, edition tampering and substituted report claims fail without leaking payloads (13.437349ms)
+✔ pinned source unavailable is a provenance warning, not made-up source bytes (3.116083ms)
+✔ UTC redirect accepts the real request rollover only, never local-date or stale-day redirects (6.94277ms)
+✔ target validation rejects credential URLs, insecure remote targets and arbitrary paths before reads (0.459779ms)
+✔ dry-run rejects unknown reviewed days and leaves working archive byte inventory unchanged (19.43423ms)
+✔ server-streamed same-origin canonical redirect is recognized, not mislabeled as provisional (5.040218ms)
+✔ distinct mechanism/lifetime/actual interval states, no inferred holder return (54.078758ms)
+✔ single candidate uses unchanged Pulse distribution gates without requiring a second candidate (14.534153ms)
+✔ verified mechanism with awaiting lifetime is not proof of a payout (3.675982ms)
+✔ lifetime alone never becomes a covered 24h interval (2.77435ms)
+✔ covered history remains independent of currently awaiting aggregate totals (4.350583ms)
+✔ official standard mode is explicit with no holder-reward claim (1.945878ms)
+✔ catalog-only rows are unverified and do not expand the 12-mode budget (12.619142ms)
+✔ mode HTTP429 has explicit unavailable evidence and no audit fallback/retry (2.071026ms)
+✔ mode HTTP503 has explicit unavailable evidence and no audit fallback/retry (2.076513ms)
+✔ cold registry outage has no fabricated empty-universe evidence (0.786519ms)
+✔ no quote decimals withholds lifetime independently of mechanism (2.526679ms)
+✔ wrong quote decimals withholds lifetime independently of mechanism (1.639729ms)
+✔ snapshot basis withholds lifetime independently of mechanism (1.432348ms)
+✔ null totals withholds lifetime independently of mechanism (1.097536ms)
+✔ raw exponential withholds lifetime independently of mechanism (0.929404ms)
+✔ raw number withholds lifetime independently of mechanism (1.652327ms)
+✔ unsafe payout count withholds lifetime independently of mechanism (1.190295ms)
+✔ last payout later than source withholds lifetime independently of mechanism (1.85401ms)
+✔ actual zero remains reported and distinct from null, not positive earnings (1.568452ms)
+✔ raw precision survives provider float rounding beyond safe integer (1.397075ms)
+✔ fresh mode with old aggregate generation does not show stale lifetime (1.207491ms)
+✔ cached retrieval dates remain original and cannot rejuvenate evidence (3.490243ms)
+✔ missing previous coverage cannot fabricate interval flow (1.863504ms)
+✔ exactly two-hour gap cannot fabricate interval flow (2.121281ms)
+✔ counter reset cannot fabricate interval flow (1.986509ms)
+✔ wrong quote mint in history cannot fabricate interval flow (1.758887ms)
+✔ missing provider timestamp cannot fabricate interval flow (2.218867ms)
+✔ duplicate actual observation cannot fabricate interval flow (3.017964ms)
+✔ precision-unsafe history cannot fabricate interval flow (1.907039ms)
+✔ foreign mode origin fails closed for mechanism and all financial evidence (3.80149ms)
+✔ mode URL query injection fails closed for mechanism and all financial evidence (3.576693ms)
+✔ mode revision not a byte hash fails closed for mechanism and all financial evidence (9.73716ms)
+✔ quote identity swap fails closed for mechanism and all financial evidence (4.012567ms)
+✔ future source generation fails closed for mechanism and all financial evidence (2.744315ms)
+✔ unavailable catalog retaining old object fails closed for mechanism and all financial evidence (3.647399ms)
+✔ global catalog total never masquerades as same-quote universe (2.915362ms)
+✔ mechanism identity mismatch is excluded by existing source verification (1.251056ms)
+✔ invalid raw bounds/counters/units are rejected by shared ledger parser (0.191186ms)
+✔ genuine dated four-pair source replay Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh preserves units/scope and withholds intervals (24.675559ms)
+✔ genuine dated four-pair source replay Xsv9hRk1z5ystj9MhnA7Lq4vjSsLwzL2nxrwmwtD3re preserves units/scope and withholds intervals (12.872101ms)
+✔ genuine dated four-pair source replay Xs3oZwbHvqis4NYcf4YKWmEia2eC84wSiVrcYcTqpH8 preserves units/scope and withholds intervals (18.009649ms)
+✔ genuine dated four-pair source replay 6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx preserves units/scope and withholds intervals (18.454481ms)
+✔ stale transport mode evidence is withheld with a safe reference URL and explicit quality (2.668892ms)
+✔ offline diagnostic distinguishes exact 300 boundary from rejected Age 301/370/371 (3.257905ms)
+✔ missing/malformed/conflicting transport metadata remains explicit and never becomes zero (0.764757ms)
+✔ source generation, retrieval residence, HTTP Date and advertised TTL are different clocks (0.324987ms)
+✔ future/unknown provider clocks and invalid receipt/reference times cannot imply verified evidence (0.343736ms)
+✔ invalid identities, extra fields and validators cannot inject arbitrary URLs, secrets or eligibility (0.598678ms)
+✔ bounded batch is pure, does not mutate evidence, and rejects excess/invalid input (0.574341ms)
+✔ replays actual committed Python/Node/Next response clocks and verifies captured body hashes without network (11.075156ms)
+✔ unchanged real pair-source gate rejects synthetic Age >300 and malformed Age before accepting mode (51.461848ms)
+✔ five-minute degraded cache retains rejection without retries at one-minute backoff; recovers at normal expiry (2.21446ms)
+✔ offline CLI is bounded, sanitized, and performs no persistence (172.533717ms)
+✔ standalone inactive Worker has actual SQLite export, only approved nonsecret App IDs, no trigger, route, account, secret or deploy script (5.819075ms)
+✔ policy rejects activation, surfaces, extra credentials, legacy storage and destructive lifecycle drift (2.185997ms)
+✔ dry-run arguments cannot omit dry-run or pass an environment/deploy override (37.415412ms)
+✔ tracked files contain no private key envelope; local credential files are ignored (1681.636838ms)
+✔ policy rejection diagnostics never serialize an accidentally configured secret (0.437155ms)
+✔ exact adjacent periods share boundary and calculate distributions, actual velocity and payout deltas (8.515218ms)
+✔ bounded nearest boundaries disclose actual consecutive spans and normalize velocity, not fake equal totals (1.777375ms)
+✔ zero baseline has defined new/no-activity categories without infinite or fake percentages (6.054288ms)
+✔ current-only and missing histories withhold all metrics instead of treating missing prior period as zero (1.446229ms)
+✔ exactly two-hour or larger gaps in either period fail the stricter Signal Lab safeguard (3.889902ms)
+✔ matching tolerance is inclusive at one minute and rejects excessive boundary drift (2.507389ms)
+✔ source failure and observation/provider staleness cannot be hidden by fresh retrieval (5.900908ms)
+✔ resets of distribution or payout counters anywhere across both periods are barriers (2.754725ms)
+✔ every compared point requires the same verified quote mint, including legacy symbol-only records (6.380923ms)
+✔ identical duplicates collapse; conflicting totals or payout counts block comparisons (2.50071ms)
+✔ malformed/future timestamps, invalid metadata, bad provenance and counters never turn into signals (9.645763ms)
+✔ payout counter changes are independently unavailable when optional counter coverage is incomplete (2.825206ms)
+✔ overflow and positive-velocity underflow are withheld instead of serializing invalid or fake zero metrics (2.02098ms)
+✔ calculation is deterministic and does not mutate source records (2.683544ms)
+✔ status exposes missing diagnostics honestly, recovers history, and never implies workflow success from source success (28.96454ms)
+ℹ tests 501
+ℹ suites 0
+ℹ pass 501
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9639.361449
+Verified 3 exact-mint metadata records; zero network requests.
+Verified typed metadata-only JSON previews.
+Verified 3 candidate-only metadata records; no enrollment, permission or requests.
+✔ original document and generated metadata reproduce exactly offline (26.607076ms)
+✔ exactly three independently cross-checked base/quote examples, no enrollment (1.169643ms)
+✔ malformed original strings are visibly unsupported, never normalized or reflected (0.246279ms)
+✔ valid unknowns, quote mints and wrong-case identities stay unsupported (0.238317ms)
+✔ the second genuine SI symbol is not an alias for reviewed SI (0.331447ms)
+✔ all explanation facts cite real receipts; source clocks and hashes remain original (10.333234ms)
+✔ stale clocks never become current and evaluation never retimes evidence (0.40102ms)
+✔ freshness checks oldest provider generation at an exact microsecond boundary (19.981434ms)
+✔ invalid, future-to-evaluation and normalized-overflow clocks fail closed (0.535042ms)
+✔ source lookup unavailable/429/503 never yields a usable evidence record (40.813263ms)
+✔ provider error payloads fail closed with fixed errors, no body leakage (5.427182ms)
+✔ malformed JSON returns a fixed diagnostic without reflecting provider contents (6.083845ms)
+✔ wrong provider base mint or mode cannot inherit another explanation (9.301067ms)
+✔ same ticker with wrong reward quote mint or decimals is rejected (17.767913ms)
+✔ quote-switch or false server filtering anywhere in catalog invalidates sample (5.117267ms)
+✔ wrong selected pool or token identity rejected even when ticker agrees (19.243724ms)
+✔ registry units, category, token program and duplicated exact mints are verified (28.016858ms)
+✔ stale or future provider clocks and invalid original fetch clocks reject capture (26.329511ms)
+✔ body hash, byte lengths, cache age and partial transport are fail closed (21.007697ms)
+✔ sampling/pagination corruption does not become universal coverage (16.395085ms)
+✔ missing, null and simulated zero counters never become public zero or a payout claim (19.726468ms)
+✔ permission unavailable has no toggle; rights flags or financial leakage cannot bypass metadata gate (0.468793ms)
+✔ wrong endpoint, retained hash, quote identity or absent receipts cannot enter consumer projection (0.371376ms)
+✔ ownership/mechanism copy does not confuse stock exposure, paid holders or holder ROI (0.807229ms)
+✔ JSON serialization has only metadata, no raw reward/base bodies, amounts, headers or unsafe errors (0.507691ms)
+✔ results cannot mutate future requests and deterministic calls serialize identically (0.592117ms)
+✔ portable runtime executes without Node, DOM, network, process or wallet globals (3.020285ms)
+✔ missing or altered bundled record gives unavailable instead of partial positive claims (1.778685ms)
+✔ runtime import graph stays isolated from production and financial source bodies (0.624967ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 291.877099
+✔ both original documents are pinned and all three candidate metadata rows reproduce (70.418246ms)
+✔ production defaults remain exactly three before and after every offline review (2.609429ms)
+✔ offline review is disabled by default and does not inspect transcript inputs (0.204967ms)
+✔ candidate review remains blocked with original clocks and explicit rights/owner/current blockers (2.310562ms)
+✔ replaying near capture never confers current mechanism, permission or support (0.205908ms)
+✔ invalid mints, tickers, quote identities, unknowns and wrong case never auto-enroll (0.391116ms)
+✔ invalid evaluation clocks fail closed for candidate and transcript review (1.104315ms)
+✔ complete simulated fresh transcripts validate only offline, for six known review subjects (1.253258ms)
+✔ genuine old packets cannot be presented as fresh at the current review clock (0.243114ms)
+✔ wrong request count never permits paging, retries or per-token fan-out (0.317736ms)
+✔ unreviewed versions, kind changes and legacy response envelopes fail closed (0.779939ms)
+✔ fixed paths reject arbitrary URLs, quote aliases, query expansion and redirects (0.442944ms)
+✔ 429/503/timeouts stop immediately, never retry and never expose provider bodies (0.499548ms)
+✔ non-JSON, source error and duplicated JSON identity keys are rejected without payload leakage (0.488061ms)
+✔ body-byte limits include UTF-8 and reject oversized input before parsing (5.129316ms)
+✔ request deadlines, batch deadlines and concurrency are bounded from transcript clocks (0.585087ms)
+✔ provider clocks, receipt clocks and cache ages have independent strict gates (0.691146ms)
+✔ exact microsecond source-age boundary is enforced without retiming receipts (0.893339ms)
+✔ wrong exact base, quote, pool, mode and units cannot inherit a reviewed identity (1.638816ms)
+✔ same STONK ticker with different mint is rejected; ambiguity is not silently erased (0.477305ms)
+✔ multiple same token symbols are permitted only as distinct original exact identities (0.577816ms)
+✔ sample absence means unproven, not delisted; false quote filtering is rejected (0.606899ms)
+✔ reward/config/program epoch fields always require review; no continuity is inferred (1.832325ms)
+✔ missing, null and simulated zero quantities remain wholly unobserved/withheld (0.601041ms)
+✔ permission/owner flags cannot authorize public output, requests or enrollment (0.398517ms)
+✔ no numeric counter, market figure, raw body, headers, private error or arbitrary provider field escapes (0.306679ms)
+✔ pinned catalog/receipt corruption and rights changes fail offline provenance audit (2.270602ms)
+✔ duplicate-key/prototype/depth/invalid calendar defenses do not leak source strings (0.692307ms)
+✔ results and candidate descriptors are immutable and evaluation is deterministic (0.532829ms)
+✔ prototype never calls an ambient HTTP API even during explicit offline review (0.357756ms)
+✔ default runtime import graph remains disconnected from expansion (0.300811ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 113.85547
+✔ off-by-default boundary has no transport, source calls, permission or public explanation (2.327458ms)
+✔ a permission checkbox, genuine-looking unsigned document or old publication never grants admission (0.864195ms)
+✔ rights are exact-mint, field, processing, retention and validity scoped (0.378377ms)
+✔ one proof session reserves exactly three receipts atomically before review; no concurrent admission (0.964985ms)
+✔ successful offline review is explicitly not source attestation, permission, settlement or production support (2.658363ms)
+✔ field-limited fixture scopes project only specifically permitted private-preview fields (2.757131ms)
+✔ warm cache costs zero simulated reservations and cannot outlive the oldest source clock (0.525447ms)
+✔ permission expiry, scope narrowing or revocation immediately invalidates cached metadata (2.034398ms)
+✔ pending proof cannot complete after a revocation or permission expiry (0.556654ms)
+✔ an unexpired cache uses the narrower explicit metadata TTL (1.169232ms)
+✔ 429, 503, timeout and invalid source open a terminal circuit with no retry or warm fallback (0.748732ms)
+✔ unsigned uploaded data, hashes and TLS booleans are not accepted as actual trusted provenance (0.224666ms)
+✔ offline origin conditions reject unapproved origins, TLS failure and every redirect (0.268212ms)
+✔ body revisions are recomputed rather than trusted from receipt metadata (1.062672ms)
+✔ completed lease or source interval before admission cannot be replayed as a new proof (1.296763ms)
+✔ a proof cannot exceed its admission deadline or regress the protocol clock (0.182794ms)
+✔ real retained source metadata remains genuine and stale; no source clock is retimed (5.639971ms)
+✔ stale, missing and invalid provider timestamps are rejected (1.493958ms)
+✔ source-version, quote, mode, pool, units and nested epoch changes all fail closed (5.197989ms)
+✔ duplicate tickers are distinct mints; only the original exact SI can be reviewed (0.778657ms)
+✔ out-of-range, partial, error or missing receipt payloads do not escape the existing harness (1.903011ms)
+✔ zero, null, missing or private financial fields are never inferred or serialized (1.185766ms)
+✔ the default three remain byte-stable through policy review and candidate activation flags (0.366479ms)
+✔ no ambient network, publication or persistent-write capability is called (0.50724ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 46.248567
+✔ SYNTHETIC SPL: exact u64, owner, base authorities, source clocks/hash and no market inference (18.265403ms)
+✔ exact 32-byte base58: no trimming, ticker lookup, URLs, invalid alphabet or length (0.37338ms)
+✔ zero and decimals 0/255 are exact, never unknown or floating-point (2.460877ms)
+✔ invalid raw supply null (0.740549ms)
+✔ invalid raw supply 0 (0.346289ms)
+✔ invalid raw supply 123 (0.342533ms)
+✔ invalid raw supply "01" (0.34689ms)
+✔ invalid raw supply "-1" (0.543505ms)
+✔ invalid raw supply "1.1" (0.474832ms)
+✔ invalid raw supply "1e9" (0.460521ms)
+✔ invalid raw supply "18446744073709551616" (0.411466ms)
+✔ invalid raw supply "999999999999999999999" (0.309534ms)
+✔ invalid decimals null (0.357415ms)
+✔ invalid decimals -1 (0.275853ms)
+✔ invalid decimals 256 (0.290555ms)
+✔ invalid decimals 1.5 (0.251977ms)
+✔ invalid decimals "9" (0.251056ms)
+✔ missing authority is unknown, not absent; invalid authority never accepted (3.747826ms)
+✔ missing/not a mint/wrong owner/uninitialized stay distinct from fake (0.926017ms)
+✔ Token-2022 base 82 is supported; extended empty/omitted parser output is NOT extension-free (1.601931ms)
+✔ only exact MetadataPointer layout supported; pointer never establishes metadata identity (1.076012ms)
+✔ unreviewed permanentDelegate cannot give reassuring authority interpretations (0.48061ms)
+✔ unreviewed transferFeeConfig cannot give reassuring authority interpretations (0.467501ms)
+✔ unreviewed defaultAccountState cannot give reassuring authority interpretations (1.662952ms)
+✔ unreviewed transferHook cannot give reassuring authority interpretations (2.610512ms)
+✔ unreviewed confidentialTransferMint cannot give reassuring authority interpretations (0.576363ms)
+✔ unreviewed interestBearingConfig cannot give reassuring authority interpretations (0.511777ms)
+✔ unreviewed scaledUiAmountConfig cannot give reassuring authority interpretations (0.357145ms)
+✔ unreviewed pausableConfig cannot give reassuring authority interpretations (0.426619ms)
+✔ unreviewed futureExtension cannot give reassuring authority interpretations (0.659839ms)
+✔ tokenMetadata spoofing not adopted/fetched; mixed pointers remain unreviewed (1.600378ms)
+✔ malformed/duplicate/legacy extensions and impossible account sizes fail closed (1.732606ms)
+✔ RPC envelope identity/finality context/epoch/owner labels must be exact (4.670308ms)
+✔ duplicate escaped keys, malformed/deep JSON, extra fields and oversized bodies rejected (0.969693ms)
+✔ integer lexemes validated before rounding; irrelevant genuine u64 sentinel is accepted without projection (0.944455ms)
+✔ original source clock stays explicit; stale/future/invalid calendars fail without facts (3.794054ms)
+✔ explicit recorded/synthetic capture is required and never upgrades replay to newly acquired (1.880398ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 68.736005
+✔ disabled default/production/unset/test and browser profiles perform zero I/O (2.232515ms)
+✔ only one exact input and fixed finalized jsonParsed POST, no auth/cookies/redirects/transactions (30.570345ms)
+✔ mint injection/ticker/case/URL/batch invalid before any admission or network (2.76982ms)
+✔ serial admission prevents overlapping requests, including same mint (1.252807ms)
+✔ 10s rate spacing and three attempts hard cap even across reader instances sharing process admission (2.380557ms)
+✔ cache preserves source receipt/hash/slot, updates evaluation only, expires without stale fallback (1.380639ms)
+✔ source error clears warm cache; circuit cannot be bypassed by another cached mint (2.543201ms)
+✔ HTTP 401: redacted fail-closed, terminal circuit, no retries (0.471507ms)
+✔ HTTP 403: redacted fail-closed, terminal circuit, no retries (0.32038ms)
+✔ HTTP 429: redacted fail-closed, terminal circuit, no retries (0.242924ms)
+✔ HTTP 503: redacted fail-closed, terminal circuit, no retries (0.191968ms)
+✔ HTTP 500: redacted fail-closed, terminal circuit, no retries (0.204797ms)
+✔ HTTP 302: redacted fail-closed, terminal circuit, no retries (0.219809ms)
+✔ network error redaction and stop, regardless of raw exception body (0.28069ms)
+✔ timeout returns even when transport ignores abort; no later request allowed (15.659193ms)
+✔ stream timeout cancels hanging response; body deadline includes stream (16.016528ms)
+✔ deadline also covers asynchronous response hashing, no incomplete facts escape (16.142437ms)
+✔ response byte bound applies incrementally with cancellation, not only content-length (1.065246ms)
+✔ transport header gate content-type: invalid_response (0.439929ms)
+✔ transport header gate content-type/content-length: response_too_large (0.411026ms)
+✔ transport header gate content-type/content-length: response_too_large (0.28664ms)
+✔ transport header gate content-type/x-large: response_too_large (0.318006ms)
+✔ transport header gate content-type/age: stale_source (0.312358ms)
+✔ transport header gate content-type/age: stale_source (0.318717ms)
+✔ transport header gate content-type/date: stale_source (0.48732ms)
+✔ invalid UTF-8 and changed response URL/redirect fail closed (0.953449ms)
+✔ negative account outcome consumes budget without falsely calling it a source outage (0.763624ms)
+✔ wall/monotonic backwards or divergent clocks stop even warm cache (2.448699ms)
+✔ response slot regression stops rather than presenting fresh acquisition as newer chain state (1.132016ms)
+✔ all hard production limits are immutable and no endpoint configurable through reader options (0.204156ms)
+✔ public development factories share their cap; mocks only; switching to production disables an existing reader (1.85555ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 113.366542
+✔ deployed route is disabled in all environments; poisoned env/fetch prove zero credential/store/RPC reads (34.290549ms)
+✔ even the injected fixture handler rejects synthetic success in a production runtime (1.144455ms)
+✔ SYNTHETIC 200: exact MintFactsV1, real Helius host attribution, exact supply and bounded one-method protocol (8.934827ms)
+✔ wire headers disable browser/CDN caching and CORS; unsupported methods have Allow GET (4.37138ms)
+✔ bad query rejected before dependencies:  (0.476584ms)
+✔ bad query rejected before dependencies: ?mint= (0.369203ms)
+✔ bad query rejected before dependencies: ?mint=SI (0.368171ms)
+✔ bad query rejected before dependencies: ?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP&mint=EPjFWdd5AufqSS (0.2609ms)
+✔ bad query rejected before dependencies: ?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP&mint=DEW9dSN6QpWyNt (0.273931ms)
+✔ bad query rejected before dependencies: ?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP&rpcUrl=https://evil (0.510224ms)
+✔ bad query rejected before dependencies: ?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP&api-key=secret (0.338897ms)
+✔ bad query rejected before dependencies: ?m%69nt=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP (0.407ms)
+✔ bad query rejected before dependencies: ?mint=%44EW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP (0.239228ms)
+✔ bad query rejected before dependencies: ?mint=%20DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP (0.217216ms)
+✔ bad query rejected before dependencies: ?mint=DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP%0A (0.236304ms)
+✔ bad query rejected before dependencies: ?mint=https://evil.test (0.198968ms)
+✔ bad query rejected before dependencies: ?mint=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx (0.150475ms)
+✔ origin/header spoof rejected: origin (0.283695ms)
+✔ origin/header spoof rejected: origin (0.250065ms)
+✔ origin/header spoof rejected: sec-fetch-site (0.235573ms)
+✔ origin/header spoof rejected: sec-fetch-site (0.195012ms)
+✔ origin/header spoof rejected: host (0.177456ms)
+✔ origin/header spoof rejected: x-forwarded-host (0.173129ms)
+✔ origin/header spoof rejected: x-forwarded-proto (0.298096ms)
+✔ origin/header spoof rejected: x-rpc-url (0.208182ms)
+✔ origin/header spoof rejected: x-api-key (0.271467ms)
+✔ origin/header spoof rejected: x-overflow (0.490916ms)
+✔ GET body declarations, fragments, path spoof and unapproved canonical origin rejected (1.069763ms)
+✔ no trusted identity/store = unavailable; request IP headers never become identity (1.176823ms)
+✔ IP aliases normalize and IP spoofing cannot create new rate buckets (10.194003ms)
+✔ isolated configuration accepts only a key, fixes Helius host/path and never serializes it (0.388422ms)
+✔ public captured decoder cannot spoof Helius host; legacy public source remains unchanged (0.539258ms)
+✔ unknown extensions return 200 unsupported with both interpretations withheld; metadata never forwarded (1.425075ms)
+✔ 404 supported negative: wrong_owner (0.812357ms)
+✔ 404 supported negative: not_found (0.721511ms)
+✔ 404 supported negative: not_mint (0.788281ms)
+✔ 404 supported negative: uninitialized (0.678487ms)
+✔ upstream 401 redacted, no retry, shared circuit (1.415691ms)
+✔ upstream 403 redacted, no retry, shared circuit (1.114901ms)
+✔ upstream 429 redacted, no retry, shared circuit (0.86778ms)
+✔ upstream 503 redacted, no retry, shared circuit (1.225196ms)
+✔ upstream 302 redacted, no retry, shared circuit (1.008992ms)
+✔ network exception never leaks key, URL, stack or error messages (0.71404ms)
+✔ RPC source/header restriction: stale_source (1.12079ms)
+✔ RPC source/header restriction: stale_source (0.908301ms)
+✔ RPC source/header restriction: stale_source (0.791996ms)
+✔ RPC source/header restriction: response_too_large (0.730855ms)
+✔ RPC source/header restriction: invalid_response (0.58719ms)
+✔ strict mint/slot/epoch/id and JSON duplicate integrity reaches route (5.487272ms)
+✔ transport and stream timeouts terminate globally, even when mock ignores abort (33.653315ms)
+✔ response hash deadline also returns no facts and closes the shared circuit (15.767505ms)
+✔ response byte limit and invalid UTF8/BOM/redirect never produce facts (2.331733ms)
+✔ server-only marker rejects unconditioned browser-style imports (30.178933ms)
+ℹ tests 53
+ℹ suites 0
+ℹ pass 53
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 184.055444
+✔ two horizontally distinct workers share ONE atomic lease; concurrent cold misses never duplicate RPC (28.450248ms)
+✔ warm cache crosses workers, preserves hash/receipt/slot, advances evaluation without renewing expiry (10.706677ms)
+✔ cache expires at its exact deadline; expiry causes bounded reacquisition, never stale fallback (7.704263ms)
+✔ newer slot accepted; later lower slot rejected, never cached or published as fresh (4.327284ms)
+✔ a bounded earlier cached snapshot is truthful with its original clock even after another mint advances slot (2.977351ms)
+✔ per-client + global RPC windows, 10s spacing and shared admission survive creation of new workers (4.915465ms)
+✔ failed source refresh clears cache across workers and never serves stale-on-error (2.368969ms)
+✔ cache corruption/MAC, mint/clock swap, future timestamp or oversized payload fail closed globally (8.391963ms)
+✔ missing/failing/unresponsive store denies before any RPC, no memory fallback (20.500557ms)
+✔ ambiguous reserve can consume quota but NEVER authorizes RPC; expired reservation stops all workers (16.47795ms)
+✔ expired lease fencing rejects late completion and prevents overlapping retry (0.253941ms)
+✔ wrong lease/epoch, backward authoritative store clock or corrupt counter fail closed (0.26002ms)
+✔ malformed or forged distributed replies never authorize I/O or leak arbitrary reason (1.578866ms)
+✔ ambiguous completion is withheld from caller even if source response was valid (5.067763ms)
+✔ clock faults fail before refresh or cached serving, never renew check time (4.793392ms)
+✔ future/old authoritative store clocks denied before source request (0.765917ms)
+✔ day budget and request/bucket/cache bounds are explicit, no refill on worker restart (1.072467ms)
+✔ corrupt durable counters/types cannot reset quota or authorize a source call (0.314832ms)
+✔ aborted request does not reach provider; identity timeout fails closed (251.603234ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 379.597299
+✔ SYNTHETIC production composition: actual SQL/native client/fake Helius/merged consumer (122.330064ms)
+✔ independent pools racing admission receive ONE globally charged lease (45.817652ms)
+✔ parallel first HTTP requests initialize one store and authorize one source call (25.310938ms)
+✔ uncommitted admission is invisible, lock times out, rollback restores quota/fence (130.207098ms)
+✔ completion/high-water slot are published only after COMMIT (25.205469ms)
+✔ fencing rejects mismatched id, closes circuit (24.010608ms)
+✔ fencing rejects mismatched mint, closes circuit (23.848095ms)
+✔ fencing rejects mismatched expiresAt, closes circuit (24.033753ms)
+✔ expired/ambiguous lease is terminal across replicas, never reclaimed (23.521189ms)
+✔ replayed completion and regressing finalized slot cannot reset fencing/high-water (34.492668ms)
+✔ real crash/restart retains charged quota, fencing, slot and terminal circuit (247.726958ms)
+✔ in-flight reservation survives crash and blocks a fresh replica (250.279466ms)
+✔ database outage returns bounded redacted unavailable, zero RPC/no memory fallback (227.445162ms)
+✔ SCRAM rejects wrong password; runtime role cannot read/change state, DDL or bootstrap (59.42618ms)
+✔ missing policy fails closed without automatic bootstrap/reset (17.228698ms)
+✔ lost admission response remains charged, authorizes zero RPC and no replica lease (34.586767ms)
+✔ lost completion ACK returns no facts, charges once and closes circuit (34.916133ms)
+✔ global source quota: 3 per UTC minute (17.59095ms)
+✔ global source quota: 120 per UTC day (16.895819ms)
+✔ global source quota: 10-second spacing (15.414216ms)
+✔ global/per-client read quotas include cache hits across workers (107.934796ms)
+✔ UTC rollover resets only window counters, retains daily charge/sequence/slot (42.474376ms)
+✔ cache expiry never renews source clocks; expired rows are pruned before fresh acquisition (35.844094ms)
+✔ tampered cache MAC is never served and trips circuit before another RPC (33.754802ms)
+✔ client retention/capacity are SQL bounded with HMAC-only identifiers (38.68838ms)
+✔ SQL rejects asynchronous commits and clock regression (19.486633ms)
+✔ configuration is opaque, reads exactly three scoped names, pins host and verifies TLS (6.299978ms)
+✔ missing SCOUT_MINT_HELIUS_API_KEY denies before store/RPC (5.193429ms)
+✔ missing SCOUT_MINT_ADMISSION_HMAC_KEY denies before store/RPC (4.483614ms)
+✔ missing SCOUT_MINT_STORE_DATABASE_URL denies before store/RPC (4.022332ms)
+✔ direct-Vercel identity requires runtime/project/origin and overwritten single-IP profile (12.650272ms)
+✔ inactive native route cannot read hosting/SCOUT/PG credentials or fetch, including fresh import (91.861481ms)
+✔ OFF gate and invalid origin/query return before even fake platform config (7.131786ms)
+✔ SYNTHETIC upstream 401 redacts and durably closes circuit (27.647051ms)
+✔ SYNTHETIC upstream 403 redacts and durably closes circuit (23.97154ms)
+✔ SYNTHETIC upstream 429 redacts and durably closes circuit (21.949006ms)
+✔ SYNTHETIC upstream 503 redacts and durably closes circuit (34.251269ms)
+✔ SYNTHETIC Token-2022 response keeps unreviewed-extension state through SQL/HTTP/consumer (15.76315ms)
+✔ unavailable SQL function cannot authorize a provider request (13.949199ms)
+✔ SYNTHETIC real production 5s deadline aborts stalled RPC and durably stops replicas (5037.828907ms)
+✔ real SQL bounds cache entries to eight and evicts without extending remaining clocks (49.407217ms)
+✔ future/inconsistent cache clocks are rejected before atomic publication (18.765398ms)
+✔ unknown policy and corrupt/future durable counters cannot refill source budget (30.910932ms)
+✔ pre-aborted request and valid zero supply do not become missing or invented evidence (19.900248ms)
+ℹ tests 44
+ℹ suites 0
+ℹ pass 44
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7747.787579
+✔ SYNTHETIC real local TLS: native fixed read bypasses poisoned global Fetch and preserves digest/provenance (53.36125ms)
+✔ real TLS rejects untrusted certificate without leaking connection errors/keys (4.923371ms)
+✔ real TLS rejects wrong TLS hostname without leaking connection errors/keys (4.993616ms)
+✔ native transport redirect: bounded failure, no follow/retry or source fallback (6.264362ms)
+✔ native transport 503: bounded failure, no follow/retry or source fallback (4.58912ms)
+✔ native transport largeBody: bounded failure, no follow/retry or source fallback (4.947398ms)
+✔ native transport largeHeaders: bounded failure, no follow/retry or source fallback (4.145084ms)
+✔ native transport compressed: bounded failure, no follow/retry or source fallback (3.58817ms)
+✔ native socket/stream is destroyed on caller deadline with no retry (62.624346ms)
+✔ native boundary rejects arbitrary hosts/protocol/method/batch before any wire operation (1.133589ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 246.334527
+..........................................................................................................
+----------------------------------------------------------------------
+Ran 106 tests in 4.216s
+
+OK
+✔ owner auth proof reuses actual adapter checks but never dispatches, claims or exposes credentials (5152.73527ms)
+✔ auth-only proof fails closed on activation, workflow and permission drift without dispatch (15325.931563ms)
+✔ actual Worker dispatch inputs interoperate with Python authenticated gate and confirmed Git CAS across all sources (8666.475217ms)
+✔ adapter has no public fetch entrypoint; disabled means zero GitHub calls (114.349527ms)
+✔ real SQLite Durable Object concurrent claims: one dispatch, redacted durable receipt after restart (10186.887092ms)
+✔ legacy 204 and malformed 200 remain terminal acceptance, never retried (10255.249638ms)
+✔ ambiguous 5xx/connection failure/redirect cannot authorize retry (10500.813265ms)
+✔ explicit 429 permits only one bounded retry; concurrent retries single winner (135.159851ms)
+✔ invalid retry delays and exhausted original window deny rather than loop (15408.840368ms)
+✔ future/late/malformed slots and unavailable storage fail before dispatch (101.471601ms)
+✔ scope/configuration drift pauses durably without dispatch or secret leakage (20617.643978ms)
+✔ 401/403/404/422 stop circuit and never reinterpret rejection as a rate retry (10318.887181ms)
+✔ scheduled handler routes through singleton; wrong cron never invokes credentials (5071.842123ms)
+✔ expired reservation remains uncertain after restart; delayed alarm cannot replay (5227.91943ms)
+✔ SQLite capacity, retention, clock regression and lost table fail closed (11031.531204ms)
+✔ durable alarm after restart retries once; alarm redelivery never repeats accepted dispatch (5170.022083ms)
+✔ scope expiry/oversized body cannot reach dispatch (5157.013355ms)
+✔ disabled auth handoff IDs cannot wake a persisted retry alarm or scheduled dispatch (64.275685ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 109562.08146
+
+
+FOCUSED CONSUMER OUTPUT
+✔ exact supply never rounds u64 and handles zero/255 decimals without exponential floating point (1.952066ms)
+✔ single real MintFactsV1 contract projects only matching fresh initialized program facts (1.151537ms)
+✔ synthetic, recorded, development and missing acquisition never become a production observation (0.345789ms)
+✔ OFFLINE production profile replay: only agreed classification plus exact Helius host can project facts (0.59353ms)
+✔ OFFLINE production profile replay: cache evaluation never renews the original 60-second observation (0.594782ms)
+✔ OFFLINE production profile replay: matching identity and every source boundary still required (0.612528ms)
+✔ identity, precision, authority, layout, clock and provenance mutations withhold facts (0.968071ms)
+✔ unreviewed Token-2022 extensions retain base fields but override both control interpretations (9.548816ms)
+✔ supported MetadataPointer layout does not fetch or adopt offchain identity (0.30677ms)
+✔ all failure states have no facts and JSON 404 is distinct from transport/missing source (0.596274ms)
+✔ untrusted extra metadata and warning text never enter projected state or HTML (2.470444ms)
+✔ SSR/no-JS is honest and historical unavailable panel is compact (0.830205ms)
+✔ exact address links reject aliases, whitespace, URL and duplicate-array input (0.365608ms)
+✔ client calls only fixed same-origin GET with bounded/redacted options (21.239362ms)
+✔ client distinguishes JSON unsupported 404, missing HTML 404 and non-JSON upstream failure (1.015323ms)
+✔ client clamps 429 cooldown, rejects oversized/invalid bodies and respects cancellation (2.025827ms)
+✔ consumer imports source contract by type only, has no test-entry/credential/activation dependency (0.535423ms)
+✔ tab-local 429 cooldown blocks another exact mint without another request (0.643144ms)
+✔ total client deadline returns even if an injected transport never settles (6000.70394ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6139.489009
+
+
+FINAL BROWSER OUTPUT
+Offline browser artifacts: <temporary-test-directory>
+[WebServer] (node:65769) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:65782) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:65795) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 81 tests using 1 worker
+
+(node:65819) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [320] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:21:29 › SI production engine, risks, exact share and sources (2.6s)
+  ✓   2 [320] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:21:29 › GP production engine, risks, exact share and sources (1.4s)
+  ✓   3 [320] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:21:29 › GROK production engine, risks, exact share and sources (1.4s)
+  ✓   4 [320] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:55:1 › empty, ticker, malformed, same-symbol mint, duplicate query and recovery (994ms)
+  ✓   5 [320] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:63:1 › keyboard, clipboard fallback, history, restart and pre-capture failure (929ms)
+  ✓   6 [320] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:77:1 › real HTTP SSR, neutral PNG, existing routes and no financial source bodies (1.2s)
+  ✓   7 [320] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:93:1 › compact search is accessible, cancels drafts, preserves errors and resets on history (1.5s)
+  ✓   8 [320] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:110:1 › examples expose recognizable names without an extra tap or losing a first-viewport choice (509ms)
+  ✓   9 [320] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:129:1 › source links precede technical data, retain every captured receipt field and work with keyboard (1.3s)
+  ✓  10 [320] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:155:1 › compact risks survive removal of :has selectors and search/history transitions (929ms)
+  ✓  11 [320] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:10:1 › real production missing/disabled route stays honest, SSR and no-JS never supply facts (1.3s)
+  ✓  12 [320] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:21:1 › fixed contract errors, unsupported 404, clipboard fallback and deep-link identity (563ms)
+  ✓  13 [320] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:31:1 › 429 cooldown, 503 and malformed API do not become mint observations (3.5s)
+  ✓  14 [320] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:38:1 › query flags cannot enable synthetic facts and draft/address sharing stays exact (464ms)
+  ✓  15 [320] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:46:1 › Next production consumer keeps replayed disabled, denied, expired and offline responses unavailable (2.4s)
+  ✓  16 [320] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:11:49 › SYNTHETIC OFFLINE verified: exact one-screen answer with clear source boundaries (1.9s)
+  ✓  17 [320] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:11:49 › SYNTHETIC OFFLINE extensions: exact one-screen answer with clear source boundaries (2.0s)
+  ✓  18 [320] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:21:1 › SYNTHETIC OFFLINE historical source is separate; focus, search and exact identity survive (725ms)
+  ✓  19 [320] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:26:1 › SYNTHETIC OFFLINE expiry, stale, malformed and interrupted transport withhold observations (1.1s)
+  ✓  20 [320] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:30:1 › SYNTHETIC OFFLINE delayed result cannot replace a new exact-address request (506ms)
+  ✓  21 [320] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:33:70 › SYNTHETIC OFFLINE production-profile: actual consumer projection accepts only the agreed production envelope (1.3s)
+  ✓  22 [320] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:33:70 › SYNTHETIC OFFLINE production-extensions: actual consumer projection accepts only the agreed production envelope (1.4s)
+  ✓  23 [320] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:49:1 › SYNTHETIC OFFLINE fixture cannot pass production acquisition gate (440ms)
+[WebServer]  ⨯ The requested resource "/__security114.i8JwTZ/benign.svg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled. Consider adding the "unoptimized" property to the <Image>.
+[WebServer]  ⨯ The requested resource isn't a valid image for /__security114.i8JwTZ/not-an-image.png received null
+  ✓  24 [320] › ../..<repository-root>/tests/security114/browser.spec.mjs:3:1 › real Next HTTP optimizer: benign AVIF/PNG succeed; SVG and remote URLs are refused (68ms)
+  ✓  25 [320] › ../..<repository-root>/tests/security114/browser.spec.mjs:18:1 › consumer and terminal OG still render genuine 1200×630 PNGs (245ms)
+  ✓  26 [320] › ../..<repository-root>/tests/security114/browser.spec.mjs:29:1 › terminal search remains keyboard-safe and honest when live registry access is blocked (1.2s)
+  ✓  27 [320] › ../..<repository-root>/tests/security114/terminal.browser.spec.mjs:11:1 › SYNTHETIC OFFLINE terminal: six 65px rows, sorts, quick view, exact dossier and folded evidence (2.7s)
+(node:67132) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  28 [390] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:21:29 › SI production engine, risks, exact share and sources (2.5s)
+  ✓  29 [390] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:21:29 › GP production engine, risks, exact share and sources (1.3s)
+  ✓  30 [390] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:21:29 › GROK production engine, risks, exact share and sources (1.3s)
+  ✓  31 [390] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:55:1 › empty, ticker, malformed, same-symbol mint, duplicate query and recovery (855ms)
+  ✓  32 [390] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:63:1 › keyboard, clipboard fallback, history, restart and pre-capture failure (823ms)
+  ✓  33 [390] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:77:1 › real HTTP SSR, neutral PNG, existing routes and no financial source bodies (768ms)
+  ✓  34 [390] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:93:1 › compact search is accessible, cancels drafts, preserves errors and resets on history (1.4s)
+  ✓  35 [390] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:110:1 › examples expose recognizable names without an extra tap or losing a first-viewport choice (486ms)
+  ✓  36 [390] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:129:1 › source links precede technical data, retain every captured receipt field and work with keyboard (1.3s)
+  ✓  37 [390] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:155:1 › compact risks survive removal of :has selectors and search/history transitions (933ms)
+  ✓  38 [390] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:10:1 › real production missing/disabled route stays honest, SSR and no-JS never supply facts (1.4s)
+  ✓  39 [390] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:21:1 › fixed contract errors, unsupported 404, clipboard fallback and deep-link identity (531ms)
+  ✓  40 [390] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:31:1 › 429 cooldown, 503 and malformed API do not become mint observations (3.5s)
+  ✓  41 [390] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:38:1 › query flags cannot enable synthetic facts and draft/address sharing stays exact (426ms)
+  ✓  42 [390] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:46:1 › Next production consumer keeps replayed disabled, denied, expired and offline responses unavailable (2.5s)
+  ✓  43 [390] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:11:49 › SYNTHETIC OFFLINE verified: exact one-screen answer with clear source boundaries (2.0s)
+  ✓  44 [390] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:11:49 › SYNTHETIC OFFLINE extensions: exact one-screen answer with clear source boundaries (1.9s)
+  ✓  45 [390] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:21:1 › SYNTHETIC OFFLINE historical source is separate; focus, search and exact identity survive (690ms)
+  ✓  46 [390] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:26:1 › SYNTHETIC OFFLINE expiry, stale, malformed and interrupted transport withhold observations (1.1s)
+  ✓  47 [390] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:30:1 › SYNTHETIC OFFLINE delayed result cannot replace a new exact-address request (510ms)
+  ✓  48 [390] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:33:70 › SYNTHETIC OFFLINE production-profile: actual consumer projection accepts only the agreed production envelope (1.3s)
+  ✓  49 [390] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:33:70 › SYNTHETIC OFFLINE production-extensions: actual consumer projection accepts only the agreed production envelope (1.3s)
+  ✓  50 [390] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:49:1 › SYNTHETIC OFFLINE fixture cannot pass production acquisition gate (440ms)
+[WebServer]  ⨯ The requested resource "/__security114.i8JwTZ/benign.svg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled. Consider adding the "unoptimized" property to the <Image>.
+[WebServer]  ⨯ The requested resource isn't a valid image for /__security114.i8JwTZ/not-an-image.png received null
+  ✓  51 [390] › ../..<repository-root>/tests/security114/browser.spec.mjs:3:1 › real Next HTTP optimizer: benign AVIF/PNG succeed; SVG and remote URLs are refused (20ms)
+  ✓  52 [390] › ../..<repository-root>/tests/security114/browser.spec.mjs:18:1 › consumer and terminal OG still render genuine 1200×630 PNGs (204ms)
+  ✓  53 [390] › ../..<repository-root>/tests/security114/browser.spec.mjs:29:1 › terminal search remains keyboard-safe and honest when live registry access is blocked (1.2s)
+  ✓  54 [390] › ../..<repository-root>/tests/security114/terminal.browser.spec.mjs:11:1 › SYNTHETIC OFFLINE terminal: six 65px rows, sorts, quick view, exact dossier and folded evidence (2.7s)
+(node:68443) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  55 [1280] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:21:29 › SI production engine, risks, exact share and sources (2.6s)
+  ✓  56 [1280] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:21:29 › GP production engine, risks, exact share and sources (1.4s)
+  ✓  57 [1280] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:21:29 › GROK production engine, risks, exact share and sources (1.4s)
+  ✓  58 [1280] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:55:1 › empty, ticker, malformed, same-symbol mint, duplicate query and recovery (996ms)
+  ✓  59 [1280] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:63:1 › keyboard, clipboard fallback, history, restart and pre-capture failure (937ms)
+  ✓  60 [1280] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:77:1 › real HTTP SSR, neutral PNG, existing routes and no financial source bodies (904ms)
+  ✓  61 [1280] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:93:1 › compact search is accessible, cancels drafts, preserves errors and resets on history (1.5s)
+  ✓  62 [1280] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:110:1 › examples expose recognizable names without an extra tap or losing a first-viewport choice (508ms)
+  ✓  63 [1280] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:129:1 › source links precede technical data, retain every captured receipt field and work with keyboard (1.3s)
+  ✓  64 [1280] › ../..<repository-root>/tests/consumer-homepage/browser.spec.mjs:155:1 › compact risks survive removal of :has selectors and search/history transitions (918ms)
+  ✓  65 [1280] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:10:1 › real production missing/disabled route stays honest, SSR and no-JS never supply facts (1.4s)
+  ✓  66 [1280] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:21:1 › fixed contract errors, unsupported 404, clipboard fallback and deep-link identity (601ms)
+  ✓  67 [1280] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:31:1 › 429 cooldown, 503 and malformed API do not become mint observations (3.6s)
+  ✓  68 [1280] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:38:1 › query flags cannot enable synthetic facts and draft/address sharing stays exact (479ms)
+  ✓  69 [1280] › ../..<repository-root>/tests/consumer-homepage/onchain.browser.spec.mjs:46:1 › Next production consumer keeps replayed disabled, denied, expired and offline responses unavailable (2.5s)
+  ✓  70 [1280] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:11:49 › SYNTHETIC OFFLINE verified: exact one-screen answer with clear source boundaries (1.9s)
+  ✓  71 [1280] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:11:49 › SYNTHETIC OFFLINE extensions: exact one-screen answer with clear source boundaries (2.1s)
+  ✓  72 [1280] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:21:1 › SYNTHETIC OFFLINE historical source is separate; focus, search and exact identity survive (772ms)
+  ✓  73 [1280] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:26:1 › SYNTHETIC OFFLINE expiry, stale, malformed and interrupted transport withhold observations (1.1s)
+  ✓  74 [1280] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:30:1 › SYNTHETIC OFFLINE delayed result cannot replace a new exact-address request (514ms)
+  ✓  75 [1280] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:33:70 › SYNTHETIC OFFLINE production-profile: actual consumer projection accepts only the agreed production envelope (1.4s)
+  ✓  76 [1280] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:33:70 › SYNTHETIC OFFLINE production-extensions: actual consumer projection accepts only the agreed production envelope (1.4s)
+  ✓  77 [1280] › ../..<repository-root>/tests/consumer-homepage/synthetic.browser.spec.mjs:49:1 › SYNTHETIC OFFLINE fixture cannot pass production acquisition gate (437ms)
+[WebServer]  ⨯ The requested resource "/__security114.i8JwTZ/benign.svg" has type "image/svg+xml" but dangerouslyAllowSVG is disabled. Consider adding the "unoptimized" property to the <Image>.
+[WebServer]  ⨯ The requested resource isn't a valid image for /__security114.i8JwTZ/not-an-image.png received null
+  ✓  78 [1280] › ../..<repository-root>/tests/security114/browser.spec.mjs:3:1 › real Next HTTP optimizer: benign AVIF/PNG succeed; SVG and remote URLs are refused (20ms)
+  ✓  79 [1280] › ../..<repository-root>/tests/security114/browser.spec.mjs:18:1 › consumer and terminal OG still render genuine 1200×630 PNGs (214ms)
+  ✓  80 [1280] › ../..<repository-root>/tests/security114/browser.spec.mjs:29:1 › terminal search remains keyboard-safe and honest when live registry access is blocked (1.2s)
+  ✓  81 [1280] › ../..<repository-root>/tests/security114/terminal.browser.spec.mjs:11:1 › SYNTHETIC OFFLINE terminal: six 65px rows, sorts, quick view, exact dossier and folded evidence (2.8s)
+
+  81 passed (1.8m)
+
+
+FINAL BUILD OUTPUT
+
+> scout-stonk-intel@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.28
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 2.5s
+   Linting and checking validity of types ...
+   Collecting page data ...
+ ⚠ Using edge runtime on a page currently disables static generation for that page
+   Generating static pages (0/12) ...
+   Generating static pages (3/12)
+   Generating static pages (6/12)
+   Generating static pages (9/12)
+ ✓ Generating static pages (12/12)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                         Size  First Load JS
+┌ ƒ /                                            15.4 kB         122 kB
+├ ○ /_not-found                                    994 B         104 kB
+├ ƒ /api/archive                                   162 B         103 kB
+├ ƒ /api/brief                                     162 B         103 kB
+├ ƒ /api/history                                   162 B         103 kB
+├ ƒ /api/mint-facts                                162 B         103 kB
+├ ƒ /api/og                                        162 B         103 kB
+├ ƒ /api/pair-quotes                               162 B         103 kB
+├ ƒ /api/pairs                                     162 B         103 kB
+├ ƒ /api/radar                                     162 B         103 kB
+├ ƒ /api/rewards                                   162 B         103 kB
+├ ƒ /api/status                                    162 B         103 kB
+├ ƒ /api/token                                     162 B         103 kB
+├ ƒ /brief                                         162 B         103 kB
+├ ƒ /brief/[date]                                  128 B         118 kB
+├ ƒ /brief/[date]/editions/[id]                    128 B         118 kB
+├ ƒ /brief/[date]/editions/[id]/opengraph-image    162 B         103 kB
+├ ƒ /brief/[date]/opengraph-image                  162 B         103 kB
+├ ƒ /opengraph-image                               162 B         103 kB
+├ ○ /radar                                       1.29 kB         118 kB
+├ ○ /research                                      161 B         106 kB
+├ ○ /research/history                              178 B         106 kB
+├ ○ /status                                      4.18 kB         116 kB
+├ ƒ /terminal                                    22.3 kB         139 kB
+└ ƒ /terminal/opengraph-image                      162 B         103 kB
++ First Load JS shared by all                     103 kB
+  ├ chunks/255-b1e2483a7e02feee.js               46.6 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js          54.2 kB
+  └ other shared chunks (total)                  1.94 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+
+FINAL LINT OUTPUT
+
+> scout-stonk-intel@0.1.0 lint
+> eslint .
+
+
+
+FINAL TYPECHECK OUTPUT (empty means no diagnostics)
+
+
+ARCHIVE CHECK
+Archive append-only/reproduction check passed
+
+
+ARCHIVE DRY-RUN
+
+> scout-stonk-intel@0.1.0 archive:dry-run
+> bash scripts/run-verification.sh dry-run
+
+{
+  "mode": "local-only",
+  "startedAt": "2026-10-18T22:11:01.539Z",
+  "finishedAt": "2026-10-18T22:11:03.288Z",
+  "reviewedMain": "a45f50af65484122c181f6aeb64adf330f1cefde",
+  "inputPin": "e3de19169c844f85f06d0cabe7a4c9682d68d8ac",
+  "date": "2026-10-11",
+  "editionId": "d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+  "snapshotRevision": "sha256:ef971b99e0014c7bdbf498e50e0725e5e6f79c678c5d719394436d677e0e4b00",
+  "findingCount": 0,
+  "checks": [
+    "reviewed_git_pin",
+    "exact_source_hashes",
+    "no_finding_null_figures",
+    "real_generator",
+    "duplicate_byte_idempotency",
+    "edition_reproduction",
+    "append_only_git_provenance",
+    "approved_edition_edit_rejected",
+    "before_grace_rejected",
+    "remote_removed",
+    "working_archive_unchanged"
+  ],
+  "cleanup": "disposable checkout removed in finally; no commits or network operations"
+}
