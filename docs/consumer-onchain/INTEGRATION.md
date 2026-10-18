@@ -1,0 +1,41 @@
+# Consumer onchain boundary — #103 / Agent B #102
+
+## Shipped scope: inactive only
+
+This PR implements the explicitly authorized fallback while #102 is unavailable. It **does not deliver current mint facts**. At the last implementation check, latest main `c6ab86d` contained merged #100/#101 and no `lib/onchain-mint`, `MintFactsV1`, recorded RPC fixture, same-origin mint-facts route or backend PR. No source/transport contract has been agreed. Coordination was posted immediately on [#102](https://github.com/fuzzysniper/scout-stonk-intel/issues/102#issuecomment-6251422232), followed by a [scope/interface proposal](https://github.com/fuzzysniper/scout-stonk-intel/issues/102#issuecomment-6251468691). Silence is not agreement or activation approval.
+
+`app/consumer/onchain-model.ts` exports `MintFactsAvailability`, a **frontend availability state, not a substitute MintFactsV1 wire schema**. A valid exact 32-byte base58 input yields `source_unavailable / integration_pending`, the submitted address and null checked slot/time. Invalid inputs yield no availability record/link. There is no token-validity, supply, decimal, authority, extension, identity, safety or reward result. A base58 address may identify a non-mint account or no account at all.
+
+There is no fetch, RPC target, route, browser-global override, query switch, environment flag, retry or successful fixture in this integration. No public RPC is used or proposed for production. The source cannot be activated through this PR. No client request is made to a missing API and reinterpreted as a provider failure. The displayed reason is specifically **not connected**, rather than a fabricated timeout, 429 or 503. Supply and authority explanations are definitions, never observed values.
+
+Valid arbitrary input now preserves `/?mint=<exact>` as an **unchecked-address link**. Original historical `sharePath()` and its three-record allowlist are unchanged; the separate `addressQuery()` validates exact input without asserting it is a mint. Browser drafts do not relabel the submitted result, Explorer destination or copied URL. Extra `rpc`, `slot`, `fixture` or activation query parameters cannot enable results and are removed from copied address links. Duplicate mint parameters still fail closed. The unverified page retains the existing noindex/root-canonical metadata policy; an unchecked input does not acquire verified token metadata.
+
+The existing SI/GP/GROK views, original engine and rights gates remain unchanged. Each receives a separate source-unavailable panel after its dated provider explanation. This panel explicitly says the 14 Oct capture does not verify current blockchain facts. Arbitrary-address pages show no historical statement in the onchain panel; the separate example choices are labeled “Captured 14 Oct 2026 · stale StonkFun examples.” No quote asset, stock, gold, reward distribution, payment, eligibility or returns is inferred from an address.
+
+## Proposed server boundary — not implemented or agreed
+
+Agent B owns the real exported type, validator, source and tests. A proposed future route is read-only `GET /api/mint-facts?mint=<exact>` on the same origin. Its filename, response shape and HTTP behavior must be confirmed by B and reviewed after merge; this PR adds no Next API route. The browser must never receive or choose a private RPC URL/key. A future consumer adapter should import B’s client-safe **type/validator only**, not bundle server/RPC code or maintain a second decoder/schema. Do not wire a speculative response parser to production.
+
+Before implementing an actual display, obtain the stable type path and contract revision plus these distinctions:
+
+| Required source evidence | Consumer treatment / withheld behavior |
+| --- | --- |
+| Exact request mint and proved initialized account type, allowed Token Program/Token-2022 owner and finalized commitment | Only then say “This address is a token mint on Solana.” A ticker, parsed address or any generic account response is insufficient |
+| Integer `supplyRaw` and validated decimals | Show exact token units at the returned slot using integer/string arithmetic, never a floating-point price, circulating-supply estimate or holder balance. No value if malformed/withheld |
+| `mintAuthority` present / verified absent / unknown | Present: issuance authority exists at the slot. Absent: this issuance authority is absent at that slot, not permanent safety or all possible control removed. Unknown is not null/absent |
+| `freezeAuthority` present / verified absent / unknown | Present: token accounts may be frozen under that authority. Absence does not prove transfers are unrestricted or safe |
+| Supported vs unknown/risk-bearing Token-2022 extensions | State unreviewed controls prominently; no reassuring mint/freeze conclusion that ignores extensions. Do not silently treat unsupported extensions as a plain Token Program mint |
+| Actual finalized context slot; server checked UTC; block/slot time nullable and separately identified | Always show exact returned slot and server acquisition time. Never use browser load time or slot as a wall clock; no fabricated block timestamp |
+| Source host, acquisition/hash provenance, confidence/freshness state, expiry and clock policy | Display actual provenance/limits. Do not reset freshness on rerender, cache hit or share; a recorded replay must say recorded/offline, never current |
+| `unavailable`, network/timeout/admission/429/503, stale and `not_a_supported_mint_account` | Distinct honest states and bounded cooldown only from the real server contract. Never reinterpret failure/unknown as zero supply, no authority, a fake token, or verified safety |
+| `unsupported_extensions` / partial results | Explicit incomplete interpretation even when some account fields are valid; exact authority wording follows the reviewed contract, not an improvised frontend inference |
+
+## Remaining gates, in order
+
+1. B publishes and a human reviews/merges the real MintFactsV1 type/validator and source implementation, including authentic sanitized recorded RPC captures and their provenance/hash. Adopt that export; revise this proposal to the actual transport instead of asserting agreement.
+2. Build the positive verified-at-slot presentation against **those authentic captures**, in an isolated development-only harness explicitly labeled recorded/offline, and test raw-u64/decimal formatting, authorities, extensions, wrong mint/program, stale/future clocks, malformed/absent fields and failure states. Synthetic boundary/failure mutations are tests, not genuine observations. This PR has **no successful onchain browser fixture** because none is available; it does not manufacture one to complete screenshots.
+3. Separately review a production-suitable fixed RPC host, its terms, source retention/display policy, quotas/costs, server-only secret handling, bounded response/timeout rules, hosting-wide admission/cache behavior and source freshness. Official shared public RPC feasibility would not establish production capacity/permission. No account, credential or RPC deployment is requested or configured here.
+4. Review a B-owned same-origin route and opt-in activation gate, SSR/client behavior, request cancellation/out-of-order suppression, repeated-input/cache handling and response redaction. Verify no token facts or provider payload leaks through HTML/RSC, bundles or metadata before evidence passes.
+5. Run the combined production build/browser test on that merged implementation at 320/390/1280, with actual returned exact slots/clock distinctions, 429/503 cooldown and expiry states, no key exposure, separate Oct 14 layer, and owner-operated real Safari/VoiceOver QA. Obtain explicit human activation approval. Do not describe this inactive PR’s passing tests as completion of these positive/live checks.
+
+No new facts are waiting behind a hidden checkbox in this PR. Backend merge alone would not activate a transport, and this branch cannot bypass the production RPC approval gate. Existing StonkFun metadata publication/retention rights remain unresolved under the existing field-level review; adding future independently sourced chain facts would not license those provider records.
