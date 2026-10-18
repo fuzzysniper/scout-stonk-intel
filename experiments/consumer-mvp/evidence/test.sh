@@ -10,3 +10,4 @@ node experiments/consumer-mvp/evidence/tools/preview.mjs
 node experiments/consumer-mvp/evidence/tools/expansion-captures.mjs
 node experiments/consumer-mvp/evidence/tests/evidence.test.mjs
 node experiments/consumer-mvp/evidence/tests/expansion.test.mjs
+node experiments/consumer-mvp/evidence/tests/pilot-protocol.test.mjs
