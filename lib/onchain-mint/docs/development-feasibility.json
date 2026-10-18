@@ -1,0 +1,19 @@
+{
+  "kind": "development_rpc_feasibility",
+  "rpcAttempt": 1,
+  "maximumAuthorizedAttempts": 3,
+  "endpointHost": "api.mainnet-beta.solana.com",
+  "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+  "method": "getAccountInfo",
+  "encoding": "jsonParsed",
+  "commitment": "finalized",
+  "requestStartedAt": "2026-10-18T15:06:08.452579+00:00",
+  "responseStatus": null,
+  "contextSlot": null,
+  "responseSha256": null,
+  "outcome": "network_unavailable",
+  "attemptFinishedAt": "2026-10-18T15:06:08.478075+00:00",
+  "responseReceivedAt": null,
+  "stoppedAfterThisAttempt": true,
+  "independentChainVerification": false
+}
