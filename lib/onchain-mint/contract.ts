@@ -36,7 +36,8 @@ export type MintSourceV1 = Readonly<{
   evaluatedAt: string;
   freshness: "fresh" | "stale";
   /** Populated by all outputs; optional for initial #103 contract/mock compatibility. */
-  acquisition?: "development_rpc" | "recorded_response" | "synthetic_fixture";
+  /** Additive #111 production profile; only the gated, trusted Helius server adapter emits it. */
+  acquisition?: "development_rpc" | "recorded_response" | "synthetic_fixture" | "production_rpc";
 }>;
 
 export type MintFailure =

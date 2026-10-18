@@ -14,7 +14,7 @@ function status(result: MintFactsV1): number {
   if (["invalid_response", "response_too_large", "rpc_error", "unparsed_account"].includes(result.reason)) return 502;
   return 503;
 }
-function json(result: MintFactsV1, code = status(result), retryAfter?: number): Response {
+export function mintJson(result: MintFactsV1, code = status(result), retryAfter?: number): Response {
   return Response.json(result, { status: code, headers: {
     "Cache-Control": "private, no-store, max-age=0", "CDN-Cache-Control": "no-store", "Vercel-CDN-Cache-Control": "no-store",
     "Content-Security-Policy": "default-src 'none'; frame-ancestors 'none'", "X-Content-Type-Options": "nosniff",
@@ -23,7 +23,8 @@ function json(result: MintFactsV1, code = status(result), retryAfter?: number): 
     ...(code === 429 && Number.isSafeInteger(retryAfter) && retryAfter! >= 1 && retryAfter! <= 3600 ? { "Retry-After": String(retryAfter) } : {}),
   } });
 }
-function parse(request: Request, origin: string): { mint: string } | Response {
+const json = mintJson;
+export function parseMintRequest(request: Request, origin: string): { mint: string } | Response {
   if (request.method !== "GET") return json(failure(null, "access_denied"), 405);
   if (request.url.length > L.maxRequestUrlBytes || new TextEncoder().encode(request.url).length > L.maxRequestUrlBytes) return json(failure(null, "invalid_mint"), 400);
   let url: URL; try { url = new URL(request.url); } catch { return json(failure(null, "invalid_mint"), 400); }
@@ -46,6 +47,7 @@ function parse(request: Request, origin: string): { mint: string } | Response {
   if (url.pathname !== "/api/mint-facts" || url.hash || values.length !== 1 || !isExactPublicKey(mint) || url.search !== "?mint=" + mint) return json(failure(null, "invalid_mint"), 400);
   return { mint };
 }
+const parse = parseMintRequest;
 
 /** Public deployed handler: no feature flag, env/credential read, RPC transport or state store. */
 export function disabledHandler(request: Request): Response {
