@@ -5,45 +5,80 @@ import {pathToFileURL} from 'node:url';
 import {readFileSync} from 'node:fs';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
-const load=async name=>import(pathToFileURL(path.join(process.env.CONSUMER_TEST_BUILD,'app/consumer',name+'.js')).href);
-const {unavailableMintFacts,addressQuery,explorerAddress}=await load('onchain-model');
-const {OnchainUnavailable}=await load('onchain');
-const mint='So11111111111111111111111111111111111111112'; // Submitted address, not an observed fixture.
-const render=props=>renderToStaticMarkup(React.createElement(OnchainUnavailable,props));
+const load=async file=>import(pathToFileURL(path.join(process.env.CONSUMER_TEST_BUILD,file+'.js')).href);
+const {projectMintFacts,exactSupply,addressQuery,explorerAddress}=await load('app/consumer/onchain-model');
+const {MintFactsPanel,OnchainUnavailable}=await load('app/consumer/onchain');
+const {requestMintFacts,productionMintFactsPort}=await load('app/consumer/onchain-client');
+const {syntheticMint,syntheticFailure,TEST_MINT:mint,TEST_TIME}=await load('tests/consumer-homepage/synthetic');
+const now=Date.parse(TEST_TIME),project=(v,context='synthetic-offline',status=200)=>projectMintFacts(v,mint,now,context,status);
 
-test('exact addresses remain unverified; availability never supplies a slot, clock or authority default',()=>{
- for(const address of [mint,'1'.repeat(32),'DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP']){
-  const state=unavailableMintFacts(address);assert.equal(state.state,'source_unavailable');assert.equal(state.mint,address);assert.equal(state.checkedSlot,null);assert.equal(state.checkedAt,null);
-  for(const key of ['supply','supplyRaw','decimals','mintAuthority','freezeAuthority','name','symbol','extensions'])assert.equal(key in state,false);
- }
+test('exact supply never rounds u64 and handles zero/255 decimals without exponential floating point',()=>{
+ assert.deepEqual(exactSupply('18446744073709551615',9),{decimal:'18446744073.709551615',summary:'18,446,744,073.709551615'});
+ assert.equal(exactSupply('0',255).summary,'0');assert.equal(exactSupply('1',255).decimal,'0.'+'0'.repeat(254)+'1');assert.equal(exactSupply('1',255).summary,'1 × 10^−255');
+ for(const raw of ['18446744073709551616','01','1e9','1.1','-1'])assert.throws(()=>exactSupply(raw,9));for(const d of [-1,256,NaN,1.5])assert.throws(()=>exactSupply('1',d));
 });
-test('aliases, whitespace, duplicate query arrays and URL/HTML injection cannot produce links',()=>{
- for(const raw of ['SI','NVDAX',' '+mint,mint+' ',[mint,mint],'<script>alert(1)</script>','https://rpc.invalid/?mint='+mint,'0'.repeat(44),'1'.repeat(31),null,undefined]){
-  assert.equal(unavailableMintFacts(raw),null);assert.throws(()=>addressQuery(raw));assert.throws(()=>explorerAddress(raw));
- }
+test('single real MintFactsV1 contract projects only matching fresh initialized program facts',()=>{
+ const v=project(syntheticMint());assert.equal(v.kind,'facts');assert.equal(v.value.source.contextSlot,'400000001');assert.equal(v.supply,'18,446,744,073.709551615');assert.equal(v.offline,true);
+ const x=syntheticMint();x.source.acquisition='recorded_response';assert.equal(project(x).kind,'unavailable');
 });
-test('share and Explorer links retain exact submitted identity without accepting a network target',()=>{
- assert.equal(addressQuery(mint),'/?mint='+mint);
- const url=new URL(explorerAddress(mint));assert.equal(url.origin,'https://explorer.solana.com');assert.equal(url.pathname,'/address/'+mint);assert.equal(url.search,'?cluster=mainnet-beta');
- assert.equal(new URL(addressQuery(mint),'https://example.invalid').searchParams.get('mint'),mint);
+test('synthetic, recorded, development and missing acquisition never become a production observation',()=>{
+ for(const acquisition of ['synthetic_fixture','recorded_response','development_rpc',undefined,'production_rpc']){const x=syntheticMint();x.source.acquisition=acquisition;assert.equal(project(x,'production').kind,'unavailable');}
 });
-test('unavailable SSR says neither token proof nor zero supply/absent authority; definitions explain limits',()=>{
- const html=render({mint});
- for(const text of ['Onchain source unavailable','No blockchain check was made','cannot confirm','Checked slot','no verified response','no check completed','have not been checked','What we don’t know','Token-2022','not a price','would not mean the token is safe','would not prove unrestricted transfers','identity, safety, asset backing, rewards or payments'])assert.ok(html.includes(text),text);
- assert.doesNotMatch(html,/This address is a token mint on Solana|Supply: 0|No mint authority verified|Transfers cannot be frozen|verified_onchain_mint_at_slot/);
- assert.match(html,/id="answer-title"/);assert.match(html,/rel="noopener noreferrer"/);assert.match(html,/target="_blank"/);
+test('identity, precision, authority, layout, clock and provenance mutations withhold facts',()=>{
+ const mutate=[x=>x.version='2',x=>x.mint='1'.repeat(32),x=>x.facts.mint='1'.repeat(32),x=>x.facts.network='devnet',x=>x.facts.initialized=false,x=>x.facts.ownerProgram='1'.repeat(32),x=>x.facts.supply.raw='18446744073709551616',x=>x.facts.supply.decimalAmount='18446744073.7',x=>x.facts.supply.decimals=256,x=>delete x.facts.mintAuthority,x=>x.facts.freezeAuthority={state:'absent',address:mint},x=>x.facts.mintAuthority.address='https://rpc.invalid',x=>x.facts.extensions.assessment='unreviewed',x=>x.facts.extensions.names=['<script>'],x=>x.facts.interpretation.freezing='authority_present',x=>x.source.commitment='confirmed',x=>x.source.contextSlot='9007199254740992',x=>x.source.contextSlot='0',x=>x.source.slotTime='2026-10-18',x=>x.source.assurance='independent',x=>x.source.endpointHost='mainnet.helius-rpc.com/?api-key=secret',x=>x.source.endpointHost='evil.invalid',x=>x.source.responseSha256='bad',x=>x.source.checkedAt='2026-10-18T12:05:00Z',x=>x.source.evaluatedAt='2026-10-18T12:05:00Z',x=>x.source.freshness='stale',x=>x.source.httpDate='not a date'];
+ for(const edit of mutate){const x=syntheticMint();edit(x);assert.notEqual(project(x).kind,'facts',String(edit));}
+ assert.equal(projectMintFacts(syntheticMint(),mint,now+60_001,'synthetic-offline').reason,'stale_source');
 });
-test('unknown address never acquires StonkFun names, dates, financial payload or synthetic extra-prop facts',()=>{
- const html=render({mint,slot:9999999999,supplyRaw:'18446744073709551615',mintAuthority:null,state:'verified_onchain_mint_at_slot',checkedAt:'2099-01-01T00:00:00Z'});
- assert.doesNotMatch(html,/9999999999|18446744073709551615|2099-01-01|Super Inu|NVDAX|GLDX|SPCXX|NVIDIA|SpaceX|14 Oct/);
- assert.doesNotMatch(html,/"distributedRaw"|"amountRaw"|"priceUsd"|"apy"/);
- assert.equal(render({mint:'SI'}),'');
+test('unreviewed Token-2022 extensions retain base fields but override both control interpretations',()=>{
+ const x=syntheticMint(mint,true),v=project(x);assert.equal(v.kind,'facts');assert.equal(v.value.status,'unsupported_extensions');assert.equal(v.value.facts.interpretation.minting,'extension_review_required');
+ const html=renderToStaticMarkup(React.createElement(MintFactsPanel,{view:v,mint,context:'synthetic-offline'}));assert.match(html,/Extensions unreviewed/);assert.match(html,/Freeze authority absent/);assert.match(html,/do not establish all issuance, transfer or freeze controls/);
 });
-test('historical mode is explicitly separate and cannot create a second result heading',()=>{
- const html=render({mint,historical:true});assert.match(html,/separate, stale 14 Oct 2026 capture/);assert.match(html,/does not verify current blockchain facts/);
- assert.doesNotMatch(html,/<h1|id="answer-title"|Not in these examples/);
+test('supported MetadataPointer layout does not fetch or adopt offchain identity',()=>{
+ const x=syntheticMint(mint,true);x.status='verified_onchain_mint_at_slot';x.facts.extensions={assessment:'reviewed_metadata_pointer',names:['metadataPointer'],metadataPointer:{authority:null,metadataAddress:mint}};x.facts.interpretation={minting:'authority_present',freezing:'authority_absent'};
+ assert.equal(project(x).kind,'facts');x.facts.extensions.metadataPointer=null;assert.equal(project(x).kind,'unavailable');
 });
-test('inactive frontend has no transport, successful fixture or activation path',()=>{
- const files=['app/consumer/onchain.tsx','app/consumer/onchain-model.ts','app/consumer/home.tsx'].map(f=>readFileSync(f,'utf8')).join('\n');
- assert.doesNotMatch(files,/fetch\s*\(|XMLHttpRequest|NEXT_PUBLIC_|process\.env|window\.__|getAccountInfo|mockResponse|fixture\.json/);
+test('all failure states have no facts and JSON 404 is distinct from transport/missing source',()=>{
+ for(const reason of ['disabled','timeout','rate_limited','stale_source','access_denied','upstream_unavailable']){const v=project(syntheticFailure(mint,reason));assert.equal(v.kind,'unavailable');assert.equal(v.reason,reason);}
+ const v=project(syntheticFailure(mint,'not_mint','not_a_supported_mint_account'),'production',404);assert.equal(v.kind,'unsupported');
+ const x=syntheticFailure(mint,'timeout','not_a_supported_mint_account');assert.equal(project(x).kind,'unavailable');
+ for(const status of [401,403,429,503])assert.equal(project(syntheticMint(),'synthetic-offline',status).kind,'unavailable');
 });
+test('untrusted extra metadata and warning text never enter projected state or HTML',()=>{
+ const x=syntheticMint();x.name='SECRET BRAND';x.facts.priceUsd=1234567;x.source.apiKey='PRIVATE_KEY';x.warnings=['<script>SECRET BRAND</script>'];
+ const v=project(x),html=renderToStaticMarkup(React.createElement(MintFactsPanel,{view:v,mint}));assert.doesNotMatch(JSON.stringify(v)+html,/SECRET BRAND|PRIVATE_KEY|1234567|apiKey/);assert.match(html,/SYNTHETIC.*OFFLINE TEST/);assert.match(html,/400000001/);assert.match(html,/not independently replayed/);
+});
+test('SSR/no-JS is honest and historical unavailable panel is compact',()=>{
+ const html=renderToStaticMarkup(React.createElement(OnchainUnavailable,{mint,historical:true}));assert.match(html,/Source not connected/);assert.match(html,/14 Oct 2026/);assert.doesNotMatch(html,/mint-supply|Mint authority absent/);assert.ok(html.length<1000);
+});
+test('exact address links reject aliases, whitespace, URL and duplicate-array input',()=>{
+ for(const raw of ['SI',' '+mint,mint+' ',[mint,mint],'<script>','https://rpc.invalid']){assert.throws(()=>addressQuery(raw));assert.throws(()=>explorerAddress(raw));}
+ assert.equal(addressQuery(mint),'/?mint='+mint);assert.equal(new URL(explorerAddress(mint)).origin,'https://explorer.solana.com');
+});
+const signal=()=>new AbortController().signal;
+test('client calls only fixed same-origin GET with bounded/redacted options',async()=>{
+ let call;const result=await requestMintFacts(mint,signal(),async(url,options)=>{call={url,options};return Response.json(syntheticFailure(mint),{status:503});});
+ assert.equal(call.url,'/api/mint-facts?mint='+mint);assert.equal(call.options.method,'GET');assert.equal(call.options.redirect,'error');assert.equal(call.options.credentials,'omit');assert.equal(call.options.cache,'no-store');assert.equal(result.body.reason,'disabled');
+});
+test('client distinguishes JSON unsupported 404, missing HTML 404 and non-JSON upstream failure',async()=>{
+ const a=await requestMintFacts(mint,signal(),async()=>Response.json(syntheticFailure(mint,'not_mint','not_a_supported_mint_account'),{status:404}));assert.equal(project(a.body,'production',a.httpStatus).kind,'unsupported');
+ const b=await requestMintFacts(mint,signal(),async()=>new Response('<html>missing</html>',{status:404}));assert.equal(b.body.reason,'disabled');
+ const c=await requestMintFacts(mint,signal(),async()=>new Response('sensitive upstream error',{status:503}));assert.equal(c.body.reason,'upstream_unavailable');assert.doesNotMatch(JSON.stringify(c),/sensitive/);
+});
+test('client clamps 429 cooldown, rejects oversized/invalid bodies and respects cancellation',async()=>{
+ const r=await requestMintFacts(mint,signal(),async()=>new Response('nope',{status:429,headers:{'retry-after':'999999'}}));assert.equal(r.retryMs,300000);assert.equal(r.body.reason,'rate_limited');
+ const large=await requestMintFacts(mint,signal(),async()=>new Response('x'.repeat(32769),{headers:{'content-type':'application/json'}}));assert.equal(large.body.reason,'response_too_large');
+ const bad=await requestMintFacts(mint,signal(),async()=>new Response('{',{headers:{'content-type':'application/json'}}));assert.equal(bad.body.reason,'invalid_response');
+ const controller=new AbortController();controller.abort();const cancelled=await requestMintFacts(mint,controller.signal,async()=>new Promise(()=>{}));assert.equal(cancelled.body.reason,'timeout');
+});
+test('consumer imports source contract by type only, has no test-entry/credential/activation dependency',()=>{
+ const source=['onchain-model','onchain-client','onchain','home'].map(f=>readFileSync('app/consumer/'+f+(f==='home'||f==='onchain'?'.tsx':'.ts'),'utf8')).join('\n');
+ assert.match(source,/import type.*MintFactsV1/);assert.doesNotMatch(source,/from ['"][^'"]*(?:onchain-mint\/(?!contract)|tests\/)|NEXT_PUBLIC_|process\.env|window\.__|getAccountInfo\(/);
+});
+
+ test('tab-local 429 cooldown blocks another exact mint without another request',async()=>{
+ const original=globalThis.fetch;let calls=0;globalThis.fetch=async()=>{calls++;return new Response('',{status:429,headers:{'retry-after':'2'}});};
+ try{await productionMintFactsPort.read(mint,signal());const second=await productionMintFactsPort.read('11111111111111111111111111111111',signal());assert.equal(second.httpStatus,429);assert.equal(calls,1);}finally{globalThis.fetch=original;}
+ });
+ test('total client deadline returns even if an injected transport never settles',async()=>{
+ const started=Date.now();const value=await requestMintFacts(mint,signal(),async()=>new Promise(()=>{}));assert.equal(value.body.reason,'timeout');assert.ok(Date.now()-started<7500);
+ });

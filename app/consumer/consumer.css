@@ -66,3 +66,45 @@
 .consumer-home .onchain-explorer{display:block;min-height:44px;padding:10px 0;font-size:12px;overflow-wrap:anywhere}
 
 .consumer-home .example-capture-date{margin:0 0 10px}
+
+/* V1.4: a compact account-state answer, followed by optional provenance. */
+.consumer-home{display:flow-root}
+.consumer-home .mint-panel{margin-top:16px;overflow-wrap:anywhere}
+.consumer-home .mint-title-row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.consumer-home .mint-title-row h1,.consumer-home .mint-title-row h2{font-size:clamp(23px,6vw,30px);line-height:1.15;letter-spacing:-.035em;margin:0}
+.consumer-home .mint-title-row button{font-size:11px;min-width:100px;padding:8px}
+.consumer-home #answer-title:focus-visible,.consumer-home #historical-title:focus-visible{outline:3px solid var(--blue);outline-offset:5px;border-radius:2px}
+.consumer-home .mint-subtitle{font-size:11px;color:var(--muted);margin-top:8px}
+.consumer-home .mint-offline{font-size:11px;font-weight:650;color:#674313;background:#fff0d8;border:1px solid #ead7b7;padding:8px 10px;border-radius:8px;margin:0 0 12px}
+.consumer-home .mint-supply{margin-top:14px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:#fff}
+.consumer-home .mint-supply>span,.consumer-home .mint-supply small{display:block;font-size:11px;color:var(--muted)}
+.consumer-home .mint-supply strong{display:block;font-size:clamp(16px,4.4vw,24px);font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-variant-numeric:tabular-nums;line-height:1.3;margin:5px 0;overflow-wrap:anywhere}
+.consumer-home .mint-authorities{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.consumer-home .mint-authorities>div{min-width:0}
+.consumer-home .mint-authorities dt{font-size:11px;color:var(--muted)}
+.consumer-home .mint-authorities dd{font-size:12px;font-weight:650;line-height:1.4;margin:3px 0 0}
+.consumer-home .mint-limit{padding:10px 12px;border:1px solid #ead7b7;border-radius:8px;background:#fff0d8;color:#674313;font-size:12px;line-height:1.5}
+.consumer-home .mint-observed{font-size:11px;line-height:1.6;display:grid;gap:3px;margin-top:11px}
+.consumer-home .mint-observed time{font-variant-numeric:tabular-nums}
+.consumer-home .mint-boundary{font-size:11px;line-height:1.5;color:var(--muted);margin-top:9px}
+.consumer-home .mint-explorer{display:flex;align-items:center;min-height:44px;font-size:12px;overflow-wrap:anywhere}
+.consumer-home .mint-details{border-block:1px solid var(--border);margin-top:1px}
+.consumer-home .mint-details>summary,.consumer-home .mint-history-disclosure>summary{display:list-item;list-style:disclosure-closed;min-height:44px;padding:12px 0;font-size:12px;letter-spacing:normal;color:var(--muted)}
+.consumer-home .mint-details[open]>summary,.consumer-home .mint-history-disclosure[open]>summary{list-style:disclosure-open}
+.consumer-home .mint-details dl{margin:0 0 12px}
+.consumer-home .mint-details dl>div{margin:12px 0}
+.consumer-home .mint-details dt{font-size:11px;color:var(--muted)}
+.consumer-home .mint-details dd{font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;margin:3px 0 0;overflow-wrap:anywhere}
+.consumer-home .mint-details p{font-size:12px;line-height:1.6;margin:10px 0}
+.consumer-home .mint-description{font-size:14px;line-height:1.6;color:var(--muted);margin:12px 0}
+.consumer-home .mint-panel-unavailable .mint-limit{margin-top:12px}
+.consumer-home .mint-retry{margin-top:12px}
+.consumer-home .mint-historical-status{border-top:1px solid var(--border);padding-top:14px;margin-top:20px}
+.consumer-home .mint-historical-status h2{font-size:14px}
+.consumer-home .mint-historical-status p{font-size:12px;color:var(--muted);line-height:1.6;margin-top:5px}
+.consumer-home .mint-history-disclosure{margin-top:20px;border-top:1px solid var(--border)}
+@media(max-width:350px){.consumer-home .mint-supply{padding:10px}.consumer-home .mint-limit{font-size:11px}.consumer-home .mint-authorities dd{font-size:11px}.consumer-home .mint-title-row h1{font-size:23px}.consumer-home .mint-title-row button{font-size:10px;min-width:92px}}
+
+.consumer-home .mint-ssr-note{font-size:12px;line-height:1.6;color:var(--muted);margin-top:15px}
+
+.consumer-home .mint-authorities small{display:block;font-size:10px;font-weight:400;line-height:1.4;color:var(--muted);margin-top:3px}
