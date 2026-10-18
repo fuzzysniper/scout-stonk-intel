@@ -423,6 +423,18 @@
       "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
       "quoteSymbol": "STONK",
       "source": "https://www.stonkfun.xyz/api/public/v1/tokens/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS/rewards"
+    },
+    {
+      "observedAt": "2026-10-18T20:48:37+00:00",
+      "providerGeneratedAt": "2026-10-18T20:48:37.022Z",
+      "mode": "reward",
+      "distributedTokens": 12122394.018448848,
+      "payoutCount": 1575834,
+      "holderCount": 19327,
+      "lastPayoutAt": "2026-10-18T20:46:16.650Z",
+      "quoteMint": "6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+      "quoteSymbol": "STONK",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS/rewards"
     }
   ],
   "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8": [
@@ -825,6 +837,18 @@
     {
       "observedAt": "2026-10-18T18:08:44+00:00",
       "providerGeneratedAt": "2026-10-18T18:08:44.035Z",
+      "mode": "reward",
+      "distributedTokens": 51877.293002,
+      "payoutCount": 769372,
+      "holderCount": 18246,
+      "lastPayoutAt": "2026-10-18T15:21:14.352Z",
+      "quoteMint": "DKNGQFNGQmoBdXSRGKJ8tTu7uPDasw5JDcfMmWniNfow",
+      "quoteSymbol": "DKNG",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8/rewards"
+    },
+    {
+      "observedAt": "2026-10-18T20:48:36+00:00",
+      "providerGeneratedAt": "2026-10-18T20:48:36.430Z",
       "mode": "reward",
       "distributedTokens": 51877.293002,
       "payoutCount": 769372,
@@ -1243,6 +1267,18 @@
       "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
       "quoteSymbol": "ZEC",
       "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR/rewards"
+    },
+    {
+      "observedAt": "2026-10-18T20:48:36+00:00",
+      "providerGeneratedAt": "2026-10-18T20:47:52.230Z",
+      "mode": "reward",
+      "distributedTokens": 8466.37002584,
+      "payoutCount": 2101358,
+      "holderCount": 39867,
+      "lastPayoutAt": "2026-10-18T17:10:09.540Z",
+      "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+      "quoteSymbol": "ZEC",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR/rewards"
     }
   ],
   "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu": [
@@ -1645,6 +1681,18 @@
     {
       "observedAt": "2026-10-18T18:08:44+00:00",
       "providerGeneratedAt": "2026-10-18T18:08:44.209Z",
+      "mode": "reward",
+      "distributedTokens": 63429.449413,
+      "payoutCount": 7278,
+      "holderCount": 712,
+      "lastPayoutAt": "2026-10-17T23:37:26.029Z",
+      "quoteMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "quoteSymbol": "USDC",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu/rewards"
+    },
+    {
+      "observedAt": "2026-10-18T20:48:36+00:00",
+      "providerGeneratedAt": "2026-10-18T20:48:36.795Z",
       "mode": "reward",
       "distributedTokens": 63429.449413,
       "payoutCount": 7278,
@@ -2063,6 +2111,18 @@
       "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
       "quoteSymbol": "NEAR",
       "source": "https://www.stonkfun.xyz/api/public/v1/tokens/6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr/rewards"
+    },
+    {
+      "observedAt": "2026-10-18T20:48:37+00:00",
+      "providerGeneratedAt": "2026-10-18T20:48:37.236Z",
+      "mode": "reward",
+      "distributedTokens": 374132.395065635,
+      "payoutCount": 826696,
+      "holderCount": 9688,
+      "lastPayoutAt": "2026-10-18T02:25:31.031Z",
+      "quoteMint": "3ZLekZYq2qkZiSpnSvabjit34tUkjSwD1JFuW9as9wBG",
+      "quoteSymbol": "NEAR",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr/rewards"
     }
   ],
   "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7": [
@@ -2473,6 +2533,18 @@
       "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
       "quoteSymbol": "ZEC",
       "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7/rewards"
+    },
+    {
+      "observedAt": "2026-10-18T20:48:37+00:00",
+      "providerGeneratedAt": "2026-10-18T20:48:37.535Z",
+      "mode": "reward",
+      "distributedTokens": 1325.71471453,
+      "payoutCount": 314351,
+      "holderCount": 9818,
+      "lastPayoutAt": "2026-10-18T20:23:57.529Z",
+      "quoteMint": "A7bdiYdS5GjqGFtxf17ppRHtDKPkkRqbKtR27dxvQXaS",
+      "quoteSymbol": "ZEC",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7/rewards"
     }
   ],
   "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP": [
@@ -2880,6 +2952,18 @@
       "payoutCount": 4187078,
       "holderCount": 61750,
       "lastPayoutAt": "2026-10-18T16:13:10.561Z",
+      "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+      "quoteSymbol": "NVDAX",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards"
+    },
+    {
+      "observedAt": "2026-10-18T20:48:37+00:00",
+      "providerGeneratedAt": "2026-10-18T20:48:37.783Z",
+      "mode": "reward",
+      "distributedTokens": 16357.73463564,
+      "payoutCount": 4187079,
+      "holderCount": 61751,
+      "lastPayoutAt": "2026-10-18T19:51:45.768Z",
       "quoteMint": "Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
       "quoteSymbol": "NVDAX",
       "source": "https://www.stonkfun.xyz/api/public/v1/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards"
