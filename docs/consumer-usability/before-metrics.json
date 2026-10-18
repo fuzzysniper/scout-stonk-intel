@@ -1,0 +1,158 @@
+{
+  "baseCommit": "c3cbbeb9e7183ded8181f7083ebb57851398972f",
+  "buildId": "UyeALOE--phRW0BjvmM-T",
+  "capturedAt": "2026-10-18T04:05:51.139Z",
+  "runtime": "Next.js production server; system Chromium; localhost, not live hostname or physical iPhone",
+  "records": [
+    {
+      "width": 320,
+      "height": 740,
+      "exampleText": [
+        "SI\nSI\nwith NVDAX\n→",
+        "GP\nGP\nwith GLDX\n→",
+        "GR\nGROK\nwith SPCXX\n→"
+      ],
+      "receipts": [
+        {
+          "heading": "Quote registry at capture",
+          "url": "https://www.stonkfun.xyz/api/public/v1/pairs",
+          "fields": {
+            "Captured · UTC": "2026-10-14T22:33:17.185179+00:00",
+            "Provider generated · UTC": "2026-10-14T22:28:32.776Z",
+            "Receipt SHA-256": "d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "Original document SHA-256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+            "Evidence commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c"
+          }
+        },
+        {
+          "heading": "Token catalog at capture",
+          "url": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=1&pageSize=25&quoteMint=Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+          "fields": {
+            "Captured · UTC": "2026-10-14T22:33:38.653731+00:00",
+            "Provider generated · UTC": "2026-10-14T22:33:38.637Z",
+            "Receipt SHA-256": "aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd",
+            "Original document SHA-256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+            "Evidence commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c"
+          }
+        },
+        {
+          "heading": "Reward settings at capture",
+          "url": "https://www.stonkfun.xyz/api/v2/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+          "fields": {
+            "Captured · UTC": "2026-10-14T22:34:07.070444+00:00",
+            "Provider generated · UTC": "2026-10-14T22:34:07.055Z",
+            "Receipt SHA-256": "d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2",
+            "Original document SHA-256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+            "Evidence commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c"
+          }
+        }
+      ],
+      "sourceLinkOffsetFromSummary": 1544.625,
+      "GP": {
+        "normalRightsBottom": 737.40625,
+        "withoutHasRulesRightsBottom": 758.40625,
+        "removedRules": 11
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "exampleText": [
+        "SI\nSI\nwith NVDAX\n→",
+        "GP\nGP\nwith GLDX\n→",
+        "GR\nGROK\nwith SPCXX\n→"
+      ],
+      "receipts": [
+        {
+          "heading": "Quote registry at capture",
+          "url": "https://www.stonkfun.xyz/api/public/v1/pairs",
+          "fields": {
+            "Captured · UTC": "2026-10-14T22:33:17.185179+00:00",
+            "Provider generated · UTC": "2026-10-14T22:28:32.776Z",
+            "Receipt SHA-256": "d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "Original document SHA-256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+            "Evidence commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c"
+          }
+        },
+        {
+          "heading": "Token catalog at capture",
+          "url": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=1&pageSize=25&quoteMint=Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+          "fields": {
+            "Captured · UTC": "2026-10-14T22:33:38.653731+00:00",
+            "Provider generated · UTC": "2026-10-14T22:33:38.637Z",
+            "Receipt SHA-256": "aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd",
+            "Original document SHA-256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+            "Evidence commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c"
+          }
+        },
+        {
+          "heading": "Reward settings at capture",
+          "url": "https://www.stonkfun.xyz/api/v2/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+          "fields": {
+            "Captured · UTC": "2026-10-14T22:34:07.070444+00:00",
+            "Provider generated · UTC": "2026-10-14T22:34:07.055Z",
+            "Receipt SHA-256": "d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2",
+            "Original document SHA-256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+            "Evidence commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c"
+          }
+        }
+      ],
+      "sourceLinkOffsetFromSummary": 1321.125,
+      "GP": {
+        "normalRightsBottom": 612.296875,
+        "withoutHasRulesRightsBottom": 634.296875,
+        "removedRules": 11
+      }
+    },
+    {
+      "width": 1280,
+      "height": 900,
+      "exampleText": [
+        "SI\nSI\nwith NVDAX",
+        "GP\nGP\nwith GLDX",
+        "GR\nGROK\nwith SPCXX"
+      ],
+      "receipts": [
+        {
+          "heading": "Quote registry at capture",
+          "url": "https://www.stonkfun.xyz/api/public/v1/pairs",
+          "fields": {
+            "Captured · UTC": "2026-10-14T22:33:17.185179+00:00",
+            "Provider generated · UTC": "2026-10-14T22:28:32.776Z",
+            "Receipt SHA-256": "d611701357f34520ec4be2acc2bb1f48add9a3405d07479db2e7374b3f9e9733",
+            "Original document SHA-256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+            "Evidence commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c"
+          }
+        },
+        {
+          "heading": "Token catalog at capture",
+          "url": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=1&pageSize=25&quoteMint=Xsc9qvGR1efVDFGLrVsmkzv3qi45LTBjeUKSPmx9qEh",
+          "fields": {
+            "Captured · UTC": "2026-10-14T22:33:38.653731+00:00",
+            "Provider generated · UTC": "2026-10-14T22:33:38.637Z",
+            "Receipt SHA-256": "aa51b1ccfe140245278066f5392130815e24972c981445754bbaac6e3c3631dd",
+            "Original document SHA-256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+            "Evidence commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c"
+          }
+        },
+        {
+          "heading": "Reward settings at capture",
+          "url": "https://www.stonkfun.xyz/api/v2/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+          "fields": {
+            "Captured · UTC": "2026-10-14T22:34:07.070444+00:00",
+            "Provider generated · UTC": "2026-10-14T22:34:07.055Z",
+            "Receipt SHA-256": "d22eab48561e23bad552911fc84c99b7c132b28c03754734c0beb9164ceaf3d2",
+            "Original document SHA-256": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+            "Evidence commit": "df4e87658c5dd64fef9461d174333d824c8b1c7c"
+          }
+        }
+      ],
+      "sourceLinkOffsetFromSummary": 1019.6875,
+      "GP": {
+        "normalRightsBottom": 698.375,
+        "withoutHasRulesRightsBottom": 698.375,
+        "removedRules": 11
+      }
+    }
+  ]
+}

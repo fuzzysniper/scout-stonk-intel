@@ -1,0 +1,641 @@
+{
+  "issue": 98,
+  "recordedAt": "2026-10-18T04:11:57.283824+00:00",
+  "baseCommit": "c3cbbeb9e7183ded8181f7083ebb57851398972f",
+  "prerequisiteMerges": {
+    "96": "1e86774292ee7913f80aa2eed8910a0b7b2db23c",
+    "97": "c3cbbeb9e7183ded8181f7083ebb57851398972f"
+  },
+  "runtime": {
+    "node": "20.20.2",
+    "npm": "11.9.0",
+    "next": "15.5.9",
+    "chromium": "154.0.8037.57",
+    "server": "next start on 127.0.0.1:4180, actual production build",
+    "buildId": "9aNW8W9gmroew4YAWpKxq",
+    "physicalDeviceTested": false,
+    "humansTested": 0,
+    "webKitTested": false,
+    "liveHostnameVerified": false,
+    "liveHostnameBlocker": "Normal environment proxy denied HTTPS CONNECT: 403 Forbidden"
+  },
+  "sourceFileSha256": {
+    "app/consumer/home.tsx": "8cf54b67e0114f53e28692a3cab843bd871ce90c2662e02c3b4230630f052592",
+    "app/consumer/consumer.css": "298988391725d10e303e0430a68a4d4442d631f0dc11efeae05db52cf565a150",
+    "tests/consumer-homepage/browser.spec.mjs": "9cd269b77130627ee2e69b242677e870ed0f4354c07fc9389cd83aceed645841"
+  },
+  "browser": {
+    "cases": 30,
+    "passed": 30,
+    "failed": 0,
+    "durationSeconds": 41.5,
+    "axeViolationsInTestedStates": 0,
+    "externalSourceNavigation": "Locally intercepted only; not provider availability evidence"
+  },
+  "afterMeasurements": [
+    {
+      "width": 320,
+      "discovery": {
+        "choices": [
+          {
+            "name": "Super Inu",
+            "symbol": "SI",
+            "box": {
+              "x": 20,
+              "y": 561.25,
+              "width": 280,
+              "height": 54
+            }
+          },
+          {
+            "name": "RuneScape Gold",
+            "symbol": "GP",
+            "box": {
+              "x": 20,
+              "y": 622.25,
+              "width": 280,
+              "height": 54
+            }
+          },
+          {
+            "name": "Grokification",
+            "symbol": "GROK",
+            "box": {
+              "x": 20,
+              "y": 683.25,
+              "width": 280,
+              "height": 54
+            }
+          }
+        ]
+      },
+      "sources": {
+        "sourceLinkOffsetFromSummary": 285.9375,
+        "linkBox": {
+          "x": 20,
+          "y": 285.453125,
+          "width": 280,
+          "height": 44
+        }
+      },
+      "fallback": {
+        "records": [
+          {
+            "symbol": "SI",
+            "rightsBottom": 725.515625,
+            "unchangedWithoutHas": true
+          },
+          {
+            "symbol": "GP",
+            "rightsBottom": 737.40625,
+            "unchangedWithoutHas": true
+          },
+          {
+            "symbol": "GROK",
+            "rightsBottom": 725.515625,
+            "unchangedWithoutHas": true
+          }
+        ]
+      },
+      "allTokenLayouts": [
+        {
+          "viewport": {
+            "width": 320,
+            "height": 740
+          },
+          "risksHeading": {
+            "x": 37,
+            "y": 589.015625,
+            "width": 246,
+            "height": 22.5
+          },
+          "rightsWarning": {
+            "x": 55,
+            "y": 689.515625,
+            "width": 228,
+            "height": 36
+          },
+          "overflow": false
+        },
+        {
+          "viewport": {
+            "width": 320,
+            "height": 740
+          },
+          "risksHeading": {
+            "x": 37,
+            "y": 600.90625,
+            "width": 246,
+            "height": 22.5
+          },
+          "rightsWarning": {
+            "x": 55,
+            "y": 701.40625,
+            "width": 228,
+            "height": 36
+          },
+          "overflow": false
+        },
+        {
+          "viewport": {
+            "width": 320,
+            "height": 740
+          },
+          "risksHeading": {
+            "x": 37,
+            "y": 589.015625,
+            "width": 246,
+            "height": 22.5
+          },
+          "rightsWarning": {
+            "x": 55,
+            "y": 689.515625,
+            "width": 228,
+            "height": 36
+          },
+          "overflow": false
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "discovery": {
+        "choices": [
+          {
+            "name": "Super Inu",
+            "symbol": "SI",
+            "box": {
+              "x": 20,
+              "y": 565.734375,
+              "width": 350,
+              "height": 54
+            }
+          },
+          {
+            "name": "RuneScape Gold",
+            "symbol": "GP",
+            "box": {
+              "x": 20,
+              "y": 626.734375,
+              "width": 350,
+              "height": 54
+            }
+          },
+          {
+            "name": "Grokification",
+            "symbol": "GROK",
+            "box": {
+              "x": 20,
+              "y": 687.734375,
+              "width": 350,
+              "height": 54
+            }
+          }
+        ]
+      },
+      "sources": {
+        "sourceLinkOffsetFromSummary": 266.75,
+        "linkBox": {
+          "x": 20,
+          "y": 267.046875,
+          "width": 350,
+          "height": 44
+        }
+      },
+      "fallback": {
+        "records": [
+          {
+            "symbol": "SI",
+            "rightsBottom": 612.296875,
+            "unchangedWithoutHas": true
+          },
+          {
+            "symbol": "GP",
+            "rightsBottom": 612.296875,
+            "unchangedWithoutHas": true
+          },
+          {
+            "symbol": "GROK",
+            "rightsBottom": 612.296875,
+            "unchangedWithoutHas": true
+          }
+        ]
+      },
+      "allTokenLayouts": [
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "risksHeading": {
+            "x": 37,
+            "y": 510.296875,
+            "width": 316,
+            "height": 24
+          },
+          "rightsWarning": {
+            "x": 55,
+            "y": 594.296875,
+            "width": 298,
+            "height": 18
+          },
+          "overflow": false
+        },
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "risksHeading": {
+            "x": 37,
+            "y": 510.296875,
+            "width": 316,
+            "height": 24
+          },
+          "rightsWarning": {
+            "x": 55,
+            "y": 594.296875,
+            "width": 298,
+            "height": 18
+          },
+          "overflow": false
+        },
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "risksHeading": {
+            "x": 37,
+            "y": 510.296875,
+            "width": 316,
+            "height": 24
+          },
+          "rightsWarning": {
+            "x": 55,
+            "y": 594.296875,
+            "width": 298,
+            "height": 18
+          },
+          "overflow": false
+        }
+      ]
+    },
+    {
+      "width": 1280,
+      "discovery": {
+        "choices": [
+          {
+            "name": "Super Inu",
+            "symbol": "SI",
+            "box": {
+              "x": 300,
+              "y": 652.0625,
+              "width": 220.65625,
+              "height": 88
+            }
+          },
+          {
+            "name": "RuneScape Gold",
+            "symbol": "GP",
+            "box": {
+              "x": 529.65625,
+              "y": 652.0625,
+              "width": 220.671875,
+              "height": 88
+            }
+          },
+          {
+            "name": "Grokification",
+            "symbol": "GROK",
+            "box": {
+              "x": 759.328125,
+              "y": 652.0625,
+              "width": 220.671875,
+              "height": 88
+            }
+          }
+        ]
+      },
+      "sources": {
+        "sourceLinkOffsetFromSummary": 228.375,
+        "linkBox": {
+          "x": 300,
+          "y": 228.25,
+          "width": 680,
+          "height": 44
+        }
+      },
+      "fallback": {
+        "records": [
+          {
+            "symbol": "SI",
+            "rightsBottom": 698.375,
+            "unchangedWithoutHas": true
+          },
+          {
+            "symbol": "GP",
+            "rightsBottom": 698.375,
+            "unchangedWithoutHas": true
+          },
+          {
+            "symbol": "GROK",
+            "rightsBottom": 698.375,
+            "unchangedWithoutHas": true
+          }
+        ]
+      },
+      "allTokenLayouts": [
+        {
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "risksHeading": {
+            "x": 321,
+            "y": 590.375,
+            "width": 638,
+            "height": 25.5
+          },
+          "rightsWarning": {
+            "x": 339,
+            "y": 678.875,
+            "width": 620,
+            "height": 19.5
+          },
+          "overflow": false
+        },
+        {
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "risksHeading": {
+            "x": 321,
+            "y": 590.375,
+            "width": 638,
+            "height": 25.5
+          },
+          "rightsWarning": {
+            "x": 339,
+            "y": 678.875,
+            "width": 620,
+            "height": 19.5
+          },
+          "overflow": false
+        },
+        {
+          "viewport": {
+            "width": 1280,
+            "height": 900
+          },
+          "risksHeading": {
+            "x": 321,
+            "y": 590.375,
+            "width": 638,
+            "height": 25.5
+          },
+          "rightsWarning": {
+            "x": 339,
+            "y": 678.875,
+            "width": 620,
+            "height": 19.5
+          },
+          "overflow": false
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "screenshots/after-answer-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 81302,
+      "sha256": "56b207d20ac2cd480d29d9c3fe87887db6b64179cb299d86782ed10daf2ff362"
+    },
+    {
+      "path": "screenshots/after-answer-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 60606,
+      "sha256": "09544c1c4cfbe85f70d29a5c02cb24b246635919c507ae2bc37cbddac034f6d7"
+    },
+    {
+      "path": "screenshots/after-answer-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 69462,
+      "sha256": "fa4a57edd0a4f241ab37f740eba16bd7a46ce3ef63f824f30415215040eab01d"
+    },
+    {
+      "path": "screenshots/after-evidence-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 70778,
+      "sha256": "673a313f9ce73436022c737b3ed4f37f537440b1bd873f7826a84ddc0ef5ced4"
+    },
+    {
+      "path": "screenshots/after-evidence-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 49883,
+      "sha256": "3a0dc013676a8951f5f55432c5720072fd13f0299adc75d0e28138605af040fe"
+    },
+    {
+      "path": "screenshots/after-evidence-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 57140,
+      "sha256": "b2526e0753222160bcd81d07d90b860766d759885076044fd3b8594b9bbc158c"
+    },
+    {
+      "path": "screenshots/after-landing-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 76226,
+      "sha256": "c7a7f39d85770b14fddbe27767419dd222ad4fa2f76fef72e97be9a075864071"
+    },
+    {
+      "path": "screenshots/after-landing-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 50843,
+      "sha256": "fcd39c8b91d310784c804c6d3115327ce604093e8eef169ded1c5cd9ef718ce8"
+    },
+    {
+      "path": "screenshots/after-landing-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 60554,
+      "sha256": "c6efe47dca6492f7f3b15b9828bfb8eb8f09816e46c704c7b05d88fdfa5fc944"
+    },
+    {
+      "path": "screenshots/after-search-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 95678,
+      "sha256": "88796e8e9fc92bf4e9ec16ab8d002b49dfad4cde9fd133478760ef8163f62a07"
+    },
+    {
+      "path": "screenshots/after-search-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 56793,
+      "sha256": "5f265a7d3100b48fea9286494b8390dd8440280921caad7b3f5ce9447d77e809"
+    },
+    {
+      "path": "screenshots/after-search-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 73108,
+      "sha256": "83235c63b5adddd798537d2158102f0e7e3a59ceccb124bdc8f708773aff8192"
+    },
+    {
+      "path": "screenshots/after-sources-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 71023,
+      "sha256": "47558bad87c74a71d5e324bc7bb916c507298bb354374740778e6bdbe2684c42"
+    },
+    {
+      "path": "screenshots/after-sources-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 45759,
+      "sha256": "37f5d9314fc71d5daf4962e23065851c77d732009418730ab58dce7a5384fb85"
+    },
+    {
+      "path": "screenshots/after-sources-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 53604,
+      "sha256": "38cd496df5348cc34271474731b9e44154c4192f9c0cf0139e66112b67ff54e8"
+    },
+    {
+      "path": "screenshots/before-answer-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 81302,
+      "sha256": "56b207d20ac2cd480d29d9c3fe87887db6b64179cb299d86782ed10daf2ff362"
+    },
+    {
+      "path": "screenshots/before-answer-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 60606,
+      "sha256": "09544c1c4cfbe85f70d29a5c02cb24b246635919c507ae2bc37cbddac034f6d7"
+    },
+    {
+      "path": "screenshots/before-answer-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 69462,
+      "sha256": "fa4a57edd0a4f241ab37f740eba16bd7a46ce3ef63f824f30415215040eab01d"
+    },
+    {
+      "path": "screenshots/before-landing-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 73417,
+      "sha256": "6a5f53167c4eac394bf2c5a540a615c9f84cc8ff874edf6d85b2a0823faa4d3e"
+    },
+    {
+      "path": "screenshots/before-landing-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 48539,
+      "sha256": "b6d44c3914300a9cfbbd95a6c2e2352c8c4bc433120b94ec7939a18da8a4b959"
+    },
+    {
+      "path": "screenshots/before-landing-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 58252,
+      "sha256": "ca5d102a5df04402a7c963744122ed4840922522a309be4924af2c17d7f5bac4"
+    },
+    {
+      "path": "screenshots/before-sources-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 127679,
+      "sha256": "d5ee18561570207cac0d62efd8b4dfd022fa62bdc8fa86ac284379dc6cea8f32"
+    },
+    {
+      "path": "screenshots/before-sources-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 65697,
+      "sha256": "0d439106af504445676dbe2feb662b735b6e4bc7aa791dd46080c1d3a2841620"
+    },
+    {
+      "path": "screenshots/before-sources-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 89985,
+      "sha256": "05acd08435396caa1a43950105f37235d3ce55b859e33ffd9405a2c277733cb2"
+    }
+  ],
+  "commands": [
+    {
+      "command": "npm ci",
+      "exitCode": 0,
+      "result": "336 packages installed",
+      "logSha256": "c202df23ebd06248f0162c306756ab74d078a4ade0b9c299d64ba8f59e2396c3"
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "result": "501 app + 29 original evidence + 31 candidate/offline evidence + 106 Python + 18 adapter; zero failures",
+      "logSha256": "6b54fa09c1622926fa6358b3c933a0021b7f11210e40bea27cddb609f41584ac"
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0,
+      "result": "pass",
+      "logSha256": "fe5cf9f03b4fda5899dda56722e712447012a719da9aff3d720b80f638ca9695"
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "result": "pass",
+      "logSha256": "392700af50f36985cbc9fe1e28f2b6ccd70160730f86f15a3bb544b4179c8a5d"
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "result": "12 static pages; existing dynamic routes",
+      "logSha256": "41737e3de661a51aff90752c37e8ecf0e2e63f5e4d9742cf27b3fb7aa2a072c1"
+    },
+    {
+      "command": "bash scripts/archive-tool.sh check origin/main",
+      "exitCode": 0,
+      "result": "append-only/reproduction pass",
+      "logSha256": "e765fbe4200d783e0905d0a7a988284227807c7adc86191e92cbc87dbc55af64"
+    },
+    {
+      "command": "npm run archive:dry-run",
+      "exitCode": 0,
+      "result": "isolated dry-run pass; no publication",
+      "logSha256": "75300345a3673d61cdb12dedb890cc78808362e2e0a09fcbe5002707895e90e8"
+    },
+    {
+      "command": "node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test --config tests/consumer-homepage/playwright.config.mjs",
+      "exitCode": 0,
+      "result": "30 passed (41.5s)",
+      "logSha256": "92a574ebd313365f5fa66af68b5a8f39b112b6f124e0dddbf097fe968d8fe087"
+    }
+  ],
+  "protectedPathsByteIdenticalToBase": [
+    "app/consumer/model.ts",
+    "app/api",
+    "app/terminal",
+    "app/globals.css",
+    "lib",
+    "data",
+    "scheduler",
+    ".github",
+    "experiments/consumer-mvp/evidence",
+    "tests/consumer-homepage.test.mjs"
+  ]
+}
