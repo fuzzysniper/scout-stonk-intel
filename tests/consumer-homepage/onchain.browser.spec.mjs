@@ -8,7 +8,10 @@ test.beforeEach(async({page})=>{const e=[],o=[];errors.set(page,e);outbound.set(
 test.afterEach(async({page})=>{expect(errors.get(page)).toEqual([]);expect(outbound.get(page)).toEqual([]);});
 const axe=async page=>expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze()).violations).toEqual([]);
 test('real production missing/disabled route stays honest, SSR and no-JS never supply facts',async({page,browser,request},info)=>{
- await page.goto('/?mint='+mint);await expect(page.getByRole('heading',{name:'Source not connected',exact:true})).toBeVisible();await expect(page.locator('.mint-supply')).toHaveCount(0);
+ const apiResponse=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/mint-facts');
+ await page.goto('/?mint='+mint);const status=(await apiResponse).status();expect([403,404,503]).toContain(status);
+ // #108 deliberately rejects unapproved localhost/preview origins; canonical production stays 503/disabled.
+ await expect(page.getByRole('heading',{name:status===403?'Could not verify this response':'Source not connected',exact:true})).toBeVisible();await expect(page.locator('.mint-supply')).toHaveCount(0);
  await expect(page.getByText('No accepted observation',{exact:true})).toBeVisible();await expect(page.getByText('Unavailable',{exact:true})).toBeVisible();await axe(page);
  await page.screenshot({path:`docs/consumer-v14-ux/screenshots/production-disabled-${info.project.name}.png`});
  const nojs=await browser.newContext({javaScriptEnabled:false});const p=await nojs.newPage();await p.goto('http://127.0.0.1:4180/?mint='+mint);await expect(p.locator('.mint-ssr-note')).toContainText('Onchain facts have not loaded');expect(await p.locator('.mint-supply').count()).toBe(0);await nojs.close();
@@ -33,7 +36,9 @@ test('429 cooldown, 503 and malformed API do not become mint observations',async
  await page.unroute('**/api/mint-facts?*');await page.route('**/api/mint-facts?*',r=>r.fulfill({contentType:'application/json',body:'{"version":"mint-facts/1","status":"verified_onchain_mint_at_slot"}'}));await page.reload();await expect(page.getByRole('heading',{name:'Could not verify this response',exact:true})).toBeVisible();expect(await page.locator('.mint-supply').count()).toBe(0);await axe(page);
 });
 test('query flags cannot enable synthetic facts and draft/address sharing stays exact',async({page})=>{
- await page.goto('/?mint='+mint+'&fixture=verified&activation=enabled&rpc=https://rpc.invalid');await expect(page.getByRole('heading',{name:'Source not connected',exact:true})).toBeVisible();expect(await page.locator('.mint-supply').count()).toBe(0);
+ const sourceResponse=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/mint-facts');
+ await page.goto('/?mint='+mint+'&fixture=verified&activation=enabled&rpc=https://rpc.invalid');const response=await sourceResponse,status=response.status();expect([403,404,503]).toContain(status);expect([...new URL(response.url()).searchParams.keys()]).toEqual(['mint']);
+ await expect(page.getByRole('heading',{name:status===403?'Could not verify this response':'Source not connected',exact:true})).toBeVisible();expect(await page.locator('.mint-supply').count()).toBe(0);
  await page.context().grantPermissions(['clipboard-read','clipboard-write']);await page.getByRole('button',{name:'Copy address link',exact:true}).click();expect(await page.evaluate(()=>navigator.clipboard.readText())).toBe(new URL('/?mint='+mint,page.url()).href);
  await page.evaluate(()=>{function strip(sheet){for(const rule of [...sheet.cssRules]){if(rule.selectorText?.includes(':has('))sheet.deleteRule([...sheet.cssRules].indexOf(rule));else if(rule.cssRules)strip(rule);}}for(const sheet of document.styleSheets)strip(sheet);});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  writeFileSync('experiments/consumer-mvp/web/node_modules/.cache/mint107-production-no-facts.json',JSON.stringify({displayedFacts:false,externalRequests:outbound.get(page)}));

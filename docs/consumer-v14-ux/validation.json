@@ -123,7 +123,8 @@
         },
         "overlaps": []
       }
-    ]
+    ],
+    "apiOriginCompatibility": "Explicitly expects missing HTML 404, disabled JSON 503, or #109 unapproved localhost/preview 403 with all facts withheld; query parameters other than mint never reach API."
   },
   "protectedPathsByteIdenticalToBase": [
     "app/consumer/model.ts",
@@ -147,7 +148,7 @@
     "app/consumer/onchain-model.ts": "6a783e629f0dfc39a09048a93821d8126e6cca1a4d9578f2a0303db471be1b96",
     "app/consumer/onchain.tsx": "9d9a9177b68e876ac2c65217f9770252291949af56c38034c95b21dcf1f81ad0",
     "tests/consumer-homepage/browser.spec.mjs": "3ac2ec2be1d0810cea5a4ddd488088d13c6345d72d95e93f7f130eace6eeeb09",
-    "tests/consumer-homepage/onchain.browser.spec.mjs": "248241e280771f08e560094875a112d7c5b30bacdedacc12f0ded744d536ca76",
+    "tests/consumer-homepage/onchain.browser.spec.mjs": "99db8e09dfa8ce263024b35aec48cdde49c7ba8a21f52150458893001aee2b4b",
     "tests/consumer-homepage/onchain.test.mjs": "b9303941e474ebfdd7aa0f1d4b110a34ba2f205caf66d2093ed9e33d259dafb1",
     "tests/consumer-homepage/playwright.config.mjs": "8e011d29f7311e4f6fe244a42438a7cab4a57bd46ebbefffe0dfed7cbcad8c35",
     "tests/consumer-homepage/run-onchain.sh": "503191a19d06cb832abf05df462abe42163abfdfd94a5bf70773cad5345d64f3",
@@ -444,6 +445,12 @@
       "exitCode": 0,
       "result": "6 passed (14.2s)",
       "logSha256": "13a712ec450a1528108cc03248184128231c2b79d922d1da7335f28fa547f097"
+    },
+    {
+      "command": "node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test --config tests/consumer-homepage/playwright.config.mjs --grep 'real production missing/disabled|query flags cannot'",
+      "exitCode": 0,
+      "result": "6 passed (API absent/disabled and documented #108 origin-policy compatibility checks)",
+      "logSha256": "3988b6bf5689f31b1b0dd386ca2caa2e554623ed26c396838ff52c1e3d6d2a5f"
     }
   ]
 }
