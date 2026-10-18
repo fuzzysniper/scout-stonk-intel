@@ -8,7 +8,11 @@ export type CapturedMintResponse = Readonly<{
   httpDate?: string | null;
   captureKind: "recorded_response" | "synthetic_fixture";
 }>;
-export type InternalResponse = Omit<CapturedMintResponse, "captureKind"> & { acquisition: NonNullable<MintSourceV1["acquisition"]> };
+/** Trusted transport identity only; never accepted from a mint/query or public captured decoder. */
+export type InternalResponse = Omit<CapturedMintResponse, "captureKind"> & {
+  acquisition: NonNullable<MintSourceV1["acquisition"]>;
+  endpointHost?: "api.mainnet-beta.solana.com" | "mainnet.helius-rpc.com";
+};
 class Rejected extends Error { constructor(readonly reason: MintFailure) { super(reason); } }
 function need(ok: unknown, reason: MintFailure = "invalid_response"): asserts ok { if (!ok) throw new Rejected(reason); }
 function object(v: unknown): Record<string, unknown> { need(v && typeof v === "object" && !Array.isArray(v)); return v as Record<string, unknown>; }
@@ -50,6 +54,7 @@ function extensions(info: Record<string, unknown>, space: number, is2022: boolea
 export async function decodeResponse(input: InternalResponse): Promise<MintFactsV1> {
   if (!isExactPublicKey(input.mint)) return failure(null, "invalid_mint");
   try {
+    need(input.endpointHost === undefined || input.endpointHost === PUBLIC_RPC_HOST || input.endpointHost === "mainnet.helius-rpc.com");
     need(typeof input.text === "string" && input.text.length <= LIMITS.bytes, "response_too_large");
     const bytes = new TextEncoder().encode(input.text); need(bytes.byteLength <= LIMITS.bytes, "response_too_large");
     const start = utcMicros(input.requestStartedAt), received = utcMicros(input.responseReceivedAt), evaluated = utcMicros(input.evaluatedAt);
@@ -101,7 +106,7 @@ export async function decodeResponse(input: InternalResponse): Promise<MintFacts
         freezing: unreviewed ? "extension_review_required" : freezeAuthority.state === "present" ? "authority_present" : "authority_absent" },
     };
     return freeze({ version: "mint-facts/1", status: unreviewed ? "unsupported_extensions" : "verified_onchain_mint_at_slot", mint: input.mint, facts,
-      source: { endpointHost: PUBLIC_RPC_HOST, method: "getAccountInfo", encoding: "jsonParsed", commitment: "finalized",
+      source: { endpointHost: input.endpointHost ?? PUBLIC_RPC_HOST, method: "getAccountInfo", encoding: "jsonParsed", commitment: "finalized",
         assurance: "rpc_reported_not_independently_replayed", contextSlot: String(context.slot), slotTime: null,
         requestStartedAt: input.requestStartedAt, responseReceivedAt: input.responseReceivedAt, checkedAt: input.responseReceivedAt,
         httpDate, responseSha256: await sha256(bytes), evaluatedAt: input.evaluatedAt, freshness: "fresh", acquisition: input.acquisition },
@@ -115,5 +120,5 @@ export async function decodeResponse(input: InternalResponse): Promise<MintFacts
 export async function decodeCapturedMintResponse(input: CapturedMintResponse): Promise<MintFactsV1> {
   if (!input || typeof input !== "object") return failure(null, "invalid_response");
   if (input.captureKind !== "recorded_response" && input.captureKind !== "synthetic_fixture") return failure(input.mint, "invalid_response");
-  return decodeResponse({ ...input, acquisition: input.captureKind });
+  return decodeResponse({ ...input, acquisition: input.captureKind, endpointHost: PUBLIC_RPC_HOST });
 }
