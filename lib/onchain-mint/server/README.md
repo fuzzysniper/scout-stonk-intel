@@ -1,5 +1,10 @@
 # Same-origin mint API / isolated Helius protocol — #108
 
+**Historical #108 report.** The inactive native production implementation, real PostgreSQL tests,
+current contract, retention distinction and remaining approval gates are now documented in
+[PRODUCTION.md](PRODUCTION.md) for #111. The route remains OFF; the statements below about
+no real adapter/credential loader describe #108, not the current source tree.
+
 Based on main `e9cc7a9d06841d7b9cba9f66bad9968eaf75f14f`, including merged #106 and #104. This is an executable offline implementation and **hard-disabled production route**. No RPC request, account login, secret lookup/copy/rotation, purchase, deployment or infrastructure change was performed. The prior task's single failed public RPC attempt was not repeated.
 
 ## Endpoint and compatibility

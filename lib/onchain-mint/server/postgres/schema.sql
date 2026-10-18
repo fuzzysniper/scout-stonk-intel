@@ -8,11 +8,12 @@ CREATE TABLE scout_mint.policy (
  id text PRIMARY KEY CHECK(id='scout-helius-mint/production-v1'),
  seq bigint NOT NULL DEFAULT 0 CHECK(seq BETWEEN 0 AND 9007199254740991),
  highest_slot bigint NOT NULL DEFAULT 0 CHECK(highest_slot BETWEEN 0 AND 9007199254740991),
- last_clock bigint NOT NULL DEFAULT 0 CHECK(last_clock>=0), circuit text,
+ last_clock bigint NOT NULL DEFAULT 0 CHECK(last_clock BETWEEN 0 AND 253402300799999), circuit text,
  lease_id bigint, lease_mint text, lease_until bigint, last_rpc bigint,
- minute bigint NOT NULL DEFAULT -1, reads integer NOT NULL DEFAULT 0 CHECK(reads BETWEEN 0 AND 30),
+ minute bigint NOT NULL DEFAULT -1 CHECK(minute>=-1), reads integer NOT NULL DEFAULT 0 CHECK(reads BETWEEN 0 AND 30),
  rpc_min integer NOT NULL DEFAULT 0 CHECK(rpc_min BETWEEN 0 AND 3),
- day bigint NOT NULL DEFAULT -1, rpc_day integer NOT NULL DEFAULT 0 CHECK(rpc_day BETWEEN 0 AND 120),
+ day bigint NOT NULL DEFAULT -1 CHECK(day>=-1), rpc_day integer NOT NULL DEFAULT 0 CHECK(rpc_day BETWEEN 0 AND 120),
+ CHECK(last_rpc IS NULL OR last_rpc>=0),
  CHECK ((lease_id IS NULL AND lease_mint IS NULL AND lease_until IS NULL) OR
         (lease_id IS NOT NULL AND lease_id=seq AND lease_mint IS NOT NULL AND lease_until IS NOT NULL AND last_rpc IS NOT NULL AND lease_until=last_rpc+15000))
 );
@@ -48,6 +49,7 @@ BEGIN
  IF NOT FOUND THEN RETURN base||jsonb_build_object('kind','denied','reason','upstream_unavailable','retryAfter',NULL); END IF;
  IF c->>'policy' IS DISTINCT FROM p.id THEN reason:='invalid_response';
  ELSIF n<p.last_clock THEN reason:='invalid_clock';
+ ELSIF p.minute>n/60000 OR p.day>n/86400000 OR p.last_rpc>n THEN reason:='invalid_clock';
  ELSIF p.circuit IS NOT NULL THEN RETURN base||jsonb_build_object('kind','denied','reason','circuit_open','retryAfter',NULL);
  ELSIF p.lease_until IS NOT NULL AND n>=p.lease_until THEN reason:='circuit_open'; END IF;
  kind:=c->>'kind'; input_mint:=c->>'mint';

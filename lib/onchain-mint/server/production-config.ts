@@ -1,9 +1,10 @@
 import "server-only";
 import { prepareIsolatedHeliusTarget, type IsolatedHeliusTarget } from "./helius";
 import { demand } from "./rpc";
+import { PRODUCTION_RPC_ENABLED } from "./policy";
 export const PRODUCTION_PROFILE = Object.freeze({ policy: "scout-helius-mint/production-v1", acquisition: "production_rpc" as const, leaseMs: 15000, storeTimeoutMs: 2000 });
 /** CODE REVIEW GATE: credentials, env/query flags or redeployment cannot enable this object. */
-export const LIVE_APPROVAL: Readonly<{ enabled: boolean; storeHost: string | null; vercelProjectId: string | null }> = Object.freeze({ enabled: false, storeHost: null, vercelProjectId: null });
+export const LIVE_APPROVAL: Readonly<{ enabled: boolean; storeHost: string | null; vercelProjectId: string | null }> = Object.freeze({ enabled: PRODUCTION_RPC_ENABLED, storeHost: null, vercelProjectId: null });
 export type SecretReader = (name: string) => string | undefined;
 export type ProductionConfig = Readonly<{ target: IsolatedHeliusTarget; hmacKey: string; database: DatabaseHandle }>;
 export type DatabaseHandle = Readonly<{ host: string; provider: "neon-postgres" }>;
@@ -11,7 +12,7 @@ const databaseSecrets = new WeakMap<object, Readonly<{ host: string; user: strin
 /** Explicit fields avoid pg connection-string sslmode overrides and ambient PG* credential fallback. */
 export function prepareDatabase(value: unknown, pinnedHost: string): DatabaseHandle | null {
   if (!/^ep-[a-z0-9-]+\.[a-z0-9-]+\.(?:aws|azure)\.neon\.tech$/.test(pinnedHost) || pinnedHost.includes('-ro.')) return null;
-  if (typeof value !== "string" || value.length > 2048) return null;
+  if (typeof value !== "string" || value.length > 2048 || /[\x00-\x20\x7f]/.test(value)) return null;
   try {
     const url = new URL(value);
     if (url.protocol !== "postgresql:" || url.hostname !== pinnedHost || url.port && url.port !== "5432" || url.hash || url.search && url.search !== "?sslmode=require") return null;
@@ -25,6 +26,8 @@ export function databaseParameters(handle: DatabaseHandle) {
   const secret = databaseSecrets.get(handle); demand(secret, "access_denied");
   return { ...secret, port: 5432, ssl: { rejectUnauthorized: true, servername: secret.host }, enableChannelBinding: true,
     max: 1, idleTimeoutMillis: 10000, connectionTimeoutMillis: 1000, query_timeout: 1000, statement_timeout: 500,
+    lock_timeout: 100, idle_in_transaction_session_timeout: 1000, client_encoding: "UTF8", sslnegotiation: "postgres" as const,
+    options: "-c synchronous_commit=on",
     application_name: "scout_mint", allowExitOnIdle: true };
 }
 /** Called ONLY after code approval + hosting identity validation. Never falls back to old bot names. */
