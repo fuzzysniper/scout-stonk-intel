@@ -7,6 +7,7 @@ trap 'rm -rf "$build_dir"' EXIT
 NODE_PATH="$PWD/node_modules" HISTORY_TEST_BUILD="$build_dir" node --test tests/consumer-homepage.test.mjs tests/historical-research.test.mjs tests/reward-source-diagnostics.test.mjs tests/og.test.mjs tests/reward-evidence.test.mjs tests/pair-reward-audit.test.mjs tests/pair-pulse.test.mjs tests/pair-quotes.test.mjs tests/pair-quotes-api.test.mjs tests/pairs.test.mjs tests/pairs-api.test.mjs tests/history.test.mjs tests/history-api.test.mjs tests/history-source.test.mjs tests/radar.test.mjs tests/radar-api.test.mjs tests/signals.test.mjs tests/data-health.test.mjs tests/status-api.test.mjs tests/brief.test.mjs tests/brief-api.test.mjs tests/archive.test.mjs tests/archive-source.test.mjs tests/release-verification.test.mjs tests/readiness.test.mjs tests/ecosystem.test.mjs tests/evidence-ui.test.mjs tests/pair-explorer.test.mjs tests/dossier-evidence.test.mjs tests/collection-workflow.test.mjs tests/scheduler-staging.test.mjs
 
 bash experiments/consumer-mvp/evidence/test.sh
+bash lib/onchain-mint/test.sh
 
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p "*_test.py"
 
