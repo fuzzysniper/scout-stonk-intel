@@ -15,13 +15,14 @@ export function MintFactsPanel({view,mint,context='production',primary=true,onRe
  const [copyStatus,setCopyStatus]=useState(''),[manual,setManual]=useState('');const linkInput=useRef<HTMLInputElement>(null);
  useEffect(()=>{if(manual){linkInput.current?.focus();linkInput.current?.select();}},[manual]);
  const Heading=primary?'h1':'h2',facts=view!=='loading'&&view.kind==='facts'?view:null;
- const [title,description]=view==='loading'?['Checking the address','Waiting for a source response. No mint facts have been verified.']:facts?[facts.value.status==='unsupported_extensions'?'Mint controls need review':'Token mint reported','']:failureCopy(view as Extract<MintView,{kind:'unavailable'|'unsupported'}>);
+ const [title,description]=view==='loading'?['Checking the address','Waiting for a source response. No mint facts have been verified.']:facts?[facts.value.status==='unsupported_extensions'?'Token controls need review':'Onchain facts explained','']:failureCopy(view as Extract<MintView,{kind:'unavailable'|'unsupported'}>);
  async function copy(){const url=new URL(addressQuery(mint),location.origin).href;try{await navigator.clipboard.writeText(url);setCopyStatus('Address link copied. A shared link does not freeze or verify a snapshot.');}catch{setManual(url);setCopyStatus('Select and copy the address link below.');}}
  return <section className={'mint-panel '+(facts?'mint-panel-facts':'mint-panel-unavailable')} aria-label="Onchain mint facts" aria-busy={view==='loading'}>
   {(context==='synthetic-offline'||facts?.offline||facts?.value.source.acquisition==='synthetic_fixture')&&<p className="mint-offline" role="note">SYNTHETIC · OFFLINE TEST — invented test values, no live RPC.</p>}
   <div className="mint-title-row"><Heading id={primary?'answer-title':undefined} tabIndex={primary?-1:undefined}>{title}</Heading><button type="button" className="secondary" onClick={()=>void copy()}>Copy address link</button></div>
   {facts?<>
-   <p className="mint-subtitle">{facts.value.facts.program==='token_2022'?'Token-2022':'Token Program'} · Solana mainnet · RPC-reported</p>
+   <p className="mint-subtitle">{facts.offline?'Offline test':facts.value.source.endpointHost==='mainnet.helius-rpc.com'?'Helius RPC report':'RPC report'} · Solana mainnet · {facts.value.facts.program==='token_2022'?'Token-2022':'Token Program'}</p>
+   <p className="mint-meaning">A mint identifies token units. It does not verify shares, gold backing or payout rights.</p>
    <div className="mint-supply"><span>Observed supply · token units</span><strong>{facts.supply}</strong><small>Exact quantity at the slot below. Not a price or anyone’s balance.</small></div>
    <dl className="mint-authorities">
     <div><dt>New token issuance</dt><dd>{facts.value.facts.mintAuthority.state==='present'?'Mint authority present':'Mint authority absent'}<small>{facts.value.status==='unsupported_extensions'?'Other issuance controls unreviewed':facts.value.facts.mintAuthority.state==='present'?'Can permit new tokens':'Standard issuance authority absent'}</small></dd></div>
