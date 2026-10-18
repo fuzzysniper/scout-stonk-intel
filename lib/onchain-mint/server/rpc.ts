@@ -45,10 +45,10 @@ async function boundedText(response: Response, url: string, signal: AbortSignal)
   finally { signal.removeEventListener("abort", cancel); }
 }
 
-/** Executable Helius protocol. ALL callers in this PR are synthetic injected tests, never the deployed route. */
-export async function syntheticHeliusRead(input: Readonly<{
+/** Shared bounded protocol; acquisition comes from trusted server construction, never HTTP input. */
+export async function heliusRead(input: Readonly<{
   mint: string; requestId: number; target: IsolatedHeliusTarget; transport: Transport; clock: Clock;
-  signal: AbortSignal; deadlineMs?: number;
+  signal: AbortSignal; acquisition: "synthetic_fixture" | "production_rpc"; deadlineMs?: number;
 }>): Promise<{ result: MintFactsV1; slot: string }> {
   const controller = new AbortController();
   const abort = () => controller.abort(); input.signal.addEventListener("abort", abort, { once: true });
@@ -74,7 +74,7 @@ export async function syntheticHeliusRead(input: Readonly<{
     demand(elapsed <= API_LIMITS.timeoutMs, "timeout");
     const result = await decodeResponse({ mint: input.mint, requestId: input.requestId, text,
       requestStartedAt: new Date(start).toISOString(), responseReceivedAt: new Date(received).toISOString(), evaluatedAt: new Date(received).toISOString(),
-      httpDate: response.headers.get("date"), acquisition: "synthetic_fixture", endpointHost: HELIUS_HOST });
+      httpDate: response.headers.get("date"), acquisition: input.acquisition, endpointHost: HELIUS_HOST });
     if (result.status === "unavailable") throw new BoundaryError(result.reason);
     // A supported negative also passed the strict envelope/context checks. Preserve monotonic context admission.
     const slot = result.source?.contextSlot ?? String((JSON.parse(text) as { result: { context: { slot: number } } }).result.context.slot);
@@ -83,3 +83,4 @@ export async function syntheticHeliusRead(input: Readonly<{
   try { return await deadline(work(), input.deadlineMs ?? API_LIMITS.timeoutMs, "timeout", abort); }
   finally { abort(); input.signal.removeEventListener("abort", abort); }
 }
+export const syntheticHeliusRead = (input: Omit<Parameters<typeof heliusRead>[0], "acquisition">) => heliusRead({ ...input, acquisition: "synthetic_fixture" });

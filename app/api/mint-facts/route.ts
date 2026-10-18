@@ -1,13 +1,13 @@
-import { disabledHandler } from "../../../lib/onchain-mint/server/handler";
+import { productionHandler } from "../../../lib/onchain-mint/server/production";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-// Explicitly disabled in EVERY environment. No production activation/secret/store/transport path exists.
-export const GET = disabledHandler;
-export const HEAD = disabledHandler;
-export const POST = disabledHandler;
-export const PUT = disabledHandler;
-export const PATCH = disabledHandler;
-export const DELETE = disabledHandler;
-export const OPTIONS = disabledHandler;
+// LIVE_APPROVAL is immutable OFF in reviewed source; no env/query flag can enable it.
+export const GET = productionHandler;
+export const HEAD = productionHandler;
+export const POST = productionHandler;
+export const PUT = productionHandler;
+export const PATCH = productionHandler;
+export const DELETE = productionHandler;
+export const OPTIONS = productionHandler;

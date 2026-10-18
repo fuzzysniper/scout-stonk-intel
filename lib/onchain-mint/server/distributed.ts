@@ -18,9 +18,9 @@ export type Reply = Readonly<{ policy: string; now: number }> & (
   | Readonly<{ kind: "cached"; entry: CacheEntry; highestSlot: string }>
   | Readonly<{ kind: "committed"; leaseId: number }>
 );
-/** A real adapter MUST use one durable serializable transaction and authoritative store time per command.
- * No adapter/service is provisioned by this PR. Missing, partial, ambiguous or unavailable state => no RPC.
- * Native expiry, fencing and budgets must span ALL Vercel instances/regions; process memory is insufficient.
+/** A real adapter MUST serialize commands durably and use authoritative store time per command.
+ * Production uses PostgreSQL row locking + synchronous commit; missing/ambiguous state => no RPC.
+ * Enforced expiry, fencing and budgets must span ALL instances/regions; memory is insufficient.
  */
 export type AtomicMintStore = Readonly<{ transact(command: Command): Promise<Reply> }>;
 
