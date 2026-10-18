@@ -43,13 +43,17 @@ export function Explanation({evidence:e}:{evidence:MintExplanation}) {
   <details className="evidence" ref={details} onKeyDown={event=>{if(event.key==='Escape'){event.currentTarget.open=false;event.currentTarget.querySelector('summary')?.focus();}}}>
    <summary><span>Sources &amp; token addresses</span><span className="details-hint">3 receipts</span></summary>
    <div className="evidence-body"><p className="evidence-warning">Retained captured evidence. No live source check. These receipts verify a dated provider statement, not a payment or a legal entitlement. Metadata publication and retention rights remain unverified.</p>
+    {e.sources.map(s=><section className="receipt" key={s.id} id={'source-'+s.kind} tabIndex={-1}><h3>{sources[s.kind]}</h3>
+     <dl><Field label="Captured · UTC" value={s.capturedAt}/></dl>
+     <a className="external-link" aria-label={sources[s.kind]+': Source endpoint · may have changed (opens in a new tab)'} href={s.url} target="_blank" rel="noopener noreferrer">Source endpoint · may have changed ↗</a>
+     <details className="receipt-details"><summary>Technical receipt details</summary><dl>
+      <Field label="Provider generated · UTC" value={s.generatedAt??'Not supplied'}/><Field label="Receipt SHA-256" value={s.bodySha256}/>
+      {s.retained&&<><Field label="Original document SHA-256" value={s.retained.documentSha256}/><Field label="Evidence commit" value={s.retained.commit}/></>}
+     </dl></details>
+    </section>)}
     <p className="small-note">On Solana, a token address is its exact, case-sensitive mint. Names and tickers can repeat; a matching name doesn’t identify the same token.</p>
     <dl className="identity-list"><Field label={'Token mint · '+e.token.symbol} value={e.token.mint}/><Field label={'Quote mint · '+e.quote.symbol} value={e.quote.mint}/></dl>
     <section className="full-notes"><h3>Mechanism, ownership &amp; limitations</h3>{[e.whatItIs,e.whatUserOwns,e.pairRelationship,e.economicMechanism.conclusion,...e.risksAndUnknowns].map(f=><p key={f.text}>{f.text}</p>)}</section>
-    {e.sources.map(s=><section className="receipt" key={s.id} id={'source-'+s.kind} tabIndex={-1}><h3>{sources[s.kind]}</h3><dl>
-     <Field label="Captured · UTC" value={s.capturedAt}/><Field label="Provider generated · UTC" value={s.generatedAt??'Not supplied'}/><Field label="Receipt SHA-256" value={s.bodySha256}/>
-     {s.retained&&<><Field label="Original document SHA-256" value={s.retained.documentSha256}/><Field label="Evidence commit" value={s.retained.commit}/></>}
-    </dl><a className="external-link" href={s.url} target="_blank" rel="noopener noreferrer">Source endpoint · may have changed ↗</a></section>)}
     <p className="small-note">Three selected examples. Incomplete catalog coverage. Source retention and public/commercial publication rights remain unverified; financial quantities are withheld. A hash identifies retained bytes, not a provider signature or permission.</p>
    </div>
   </details>
@@ -82,7 +86,7 @@ export default function ConsumerHome({initialInput,initialState}:{initialInput:s
  return <div className="consumer-home">
   <a className="skip-link" href="#content">Skip to content</a>
   <header className="site-header"><Link className="wordmark" href="/" prefetch={false} aria-label="Start over" onClick={startOver}>{supported?'Start over':<>Token explained<span aria-hidden="true">.</span></>}</Link>{supported?<button id="search-another" type="button" className="secondary search-toggle" aria-expanded={searchOpen} aria-controls="token-search" onClick={toggleSearch}>Search another token</button>:<span className="preview-label">Dated research</span>}</header>
-  <main id="content" className={idle?'':'has-answer'} tabIndex={-1}>
+  <main id="content" className={idle?'':supported&&!searchOpen?'has-answer result-compact':'has-answer'} tabIndex={-1}>
    {idle&&<section className="welcome" aria-labelledby="welcome-title"><p className="eyebrow">LESS GUESSWORK. MORE UNDERSTANDING.</p><h1 id="welcome-title" tabIndex={-1}>A token address.<br/><span>A clear answer.</span></h1><p className="intro">See what a Solana token is, what’s verified, and what’s still unknown.</p></section>}
    <div className="capture-notice"><span className="notice-dot" aria-hidden="true"/><span><strong>Captured examples, not live data.</strong> 14 Oct 2026 · stale.</span></div>
    <form id="token-search" aria-label="Explain a token" hidden={supported&&!searchOpen} onKeyDown={event=>{if(supported&&event.key==='Escape'){event.preventDefault();toggleSearch();}}} noValidate onSubmit={event=>{event.preventDefault();lookup(input);}}>
@@ -92,7 +96,7 @@ export default function ConsumerHome({initialInput,initialState}:{initialInput:s
    </form>
    <p id="lookup-status" className="sr-only" role="status" aria-live="polite">{announcement}</p>
    {supported?<Explanation key={result.evidence.token.mint} evidence={result.evidence}/>:result.state!=='idle'&&<div className="error-card"><h1 id="answer-title" tabIndex={-1}>{messages[result.state][0]}</h1><p>{messages[result.state][1]}</p>{result.state==='unavailable'&&<button type="button" className="secondary" onClick={()=>lookup(input)}>Try again</button>}</div>}
-   {!supported&&<section className="discovery" aria-labelledby="discovery-title"><div className="section-label"><h2 id="discovery-title">Explore an example</h2><span>3 examples available</span></div><div className="example-list">{examples.map(e=><button type="button" className="example-button" key={e.mint} onClick={()=>lookup(e.mint)} aria-label={`Explain ${e.name} (${e.symbol}), captured ${e.quoteSymbol} pair`}><span className="example-icon" aria-hidden="true">{e.symbol.slice(0,2)}</span><span className="example-name">{e.symbol}</span><span className="example-quote">with {e.quoteSymbol}</span><span className="example-arrow" aria-hidden="true">→</span></button>)}</div><p className="small-note">Selected examples, not a ranking or a complete token list. Metadata rights unverified; financial figures withheld.</p></section>}
+   {!supported&&<section className="discovery" aria-labelledby="discovery-title"><div className="section-label"><h2 id="discovery-title">Explore an example</h2><span>3 examples available</span></div><div className="example-list">{examples.map(e=><button type="button" className="example-button" key={e.mint} onClick={()=>lookup(e.mint)} aria-label={`Explain ${e.name} (${e.symbol}), captured ${e.quoteSymbol} pair`}><span className="example-icon" aria-hidden="true">{e.symbol}</span><span className="example-name">{e.name}</span><span className="example-quote">with {e.quoteSymbol}</span><span className="example-arrow" aria-hidden="true">→</span></button>)}</div><p className="small-note">Selected examples, not a ranking or a complete token list. Metadata rights unverified; financial figures withheld.</p></section>}
    <noscript><p className="small-note">This dated explanation is readable without JavaScript. Enable JavaScript to select examples and copy links, or open an exact-mint link.</p></noscript>
   </main>
   <footer className="site-footer"><span>Understanding first. No trading or wallet connection.</span><nav aria-label="Technical research"><a href={legacyPath(supported?result.evidence.token.mint:input)}>Research terminal</a><a href="/research/history">Source index</a></nav></footer>
