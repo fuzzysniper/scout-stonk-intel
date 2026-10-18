@@ -1,0 +1,456 @@
+{
+  "issue": 107,
+  "recordedAt": "2026-10-18T16:38:26.424125+00:00",
+  "baseCommit": "e9cc7a9d06841d7b9cba9f66bad9968eaf75f14f",
+  "baselineAlreadyMerged": {
+    "104": "e9cc7a9d06841d7b9cba9f66bad9968eaf75f14f",
+    "106": "7184fadab4f06170e048d249e12ba2bb56deeff2"
+  },
+  "sourceContract": "type-only lib/onchain-mint/contract.ts MintFactsV1",
+  "apiAgreement": "https://github.com/fuzzysniper/scout-stonk-intel/issues/107#issuecomment-6252159724",
+  "productionState": "No approved production acquisition; fixed API missing/default-disabled; zero RPC ability in frontend",
+  "authenticOnchainCaptures": 0,
+  "fixtureKind": "synthetic format test values, explicitly labeled; only isolated loopback test harness",
+  "runtime": {
+    "node": "20.20.2",
+    "npm": "11.9.0",
+    "next": "15.5.9",
+    "chromium": "154.0.8037.57",
+    "productionBuildId": "t0HoM3sHZ5hHrtUwwfbY-",
+    "NextPort": 4180,
+    "testOnlyHarnessPort": 4181,
+    "physicalDevicesTested": false,
+    "WebKitTested": false,
+    "humansTested": 0,
+    "liveRPCActivated": false
+  },
+  "browser": {
+    "uniqueCases": 57,
+    "passed": 57,
+    "failed": 0,
+    "finalRunSummary": "57 passed (1.5m)",
+    "extraBundleIsolationProof": "6 passed (14.2s); exact fixture decimal/harness-entry marker absent from actual production JS chunks",
+    "axeViolationsInTestedStates": 0,
+    "overlaps": 0,
+    "measurements": [
+      {
+        "case": "verified",
+        "synthetic": true,
+        "viewport": {
+          "width": 320,
+          "height": 740
+        },
+        "boundary": {
+          "x": 20,
+          "y": 576.25,
+          "width": 280,
+          "height": 49.5
+        },
+        "overlaps": []
+      },
+      {
+        "case": "verified",
+        "synthetic": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "boundary": {
+          "x": 20,
+          "y": 559.28125,
+          "width": 350,
+          "height": 33
+        },
+        "overlaps": []
+      },
+      {
+        "case": "verified",
+        "synthetic": true,
+        "viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "boundary": {
+          "x": 300,
+          "y": 555.671875,
+          "width": 680,
+          "height": 16.5
+        },
+        "overlaps": []
+      },
+      {
+        "case": "extensions",
+        "synthetic": true,
+        "viewport": {
+          "width": 320,
+          "height": 740
+        },
+        "boundary": {
+          "x": 20,
+          "y": 573.75,
+          "width": 280,
+          "height": 49.5
+        },
+        "overlaps": []
+      },
+      {
+        "case": "extensions",
+        "synthetic": true,
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "boundary": {
+          "x": 20,
+          "y": 551.09375,
+          "width": 350,
+          "height": 33
+        },
+        "overlaps": []
+      },
+      {
+        "case": "extensions",
+        "synthetic": true,
+        "viewport": {
+          "width": 1280,
+          "height": 900
+        },
+        "boundary": {
+          "x": 300,
+          "y": 537.671875,
+          "width": 680,
+          "height": 16.5
+        },
+        "overlaps": []
+      }
+    ],
+    "apiOriginCompatibility": "Explicitly expects missing HTML 404, disabled JSON 503, or #109 unapproved localhost/preview 403 with all facts withheld; query parameters other than mint never reach API."
+  },
+  "protectedPathsByteIdenticalToBase": [
+    "app/consumer/model.ts",
+    "app/page.tsx",
+    "app/api",
+    "app/terminal",
+    "app/globals.css",
+    "lib/onchain-mint",
+    "lib",
+    "data",
+    "scheduler",
+    ".github",
+    "experiments/consumer-mvp/evidence",
+    "tests/consumer-homepage.test.mjs",
+    "package.json",
+    "package-lock.json"
+  ],
+  "sourceFileSha256": {
+    "app/consumer/consumer.css": "3b097c6923865a002cfc6d29b65ab811f9b193afc996f8c3d418c8f7f98b1e38",
+    "app/consumer/home.tsx": "b280e5e572e87b4ab94039bb976e121269e2c213bfa0c99cd88d581e3f190f34",
+    "app/consumer/onchain-model.ts": "6a783e629f0dfc39a09048a93821d8126e6cca1a4d9578f2a0303db471be1b96",
+    "app/consumer/onchain.tsx": "9d9a9177b68e876ac2c65217f9770252291949af56c38034c95b21dcf1f81ad0",
+    "tests/consumer-homepage/browser.spec.mjs": "3ac2ec2be1d0810cea5a4ddd488088d13c6345d72d95e93f7f130eace6eeeb09",
+    "tests/consumer-homepage/onchain.browser.spec.mjs": "99db8e09dfa8ce263024b35aec48cdde49c7ba8a21f52150458893001aee2b4b",
+    "tests/consumer-homepage/onchain.test.mjs": "b9303941e474ebfdd7aa0f1d4b110a34ba2f205caf66d2093ed9e33d259dafb1",
+    "tests/consumer-homepage/playwright.config.mjs": "8e011d29f7311e4f6fe244a42438a7cab4a57bd46ebbefffe0dfed7cbcad8c35",
+    "tests/consumer-homepage/run-onchain.sh": "503191a19d06cb832abf05df462abe42163abfdfd94a5bf70773cad5345d64f3",
+    "app/consumer/onchain-client.ts": "dcf2755cc978b298eef0dc8d223c84c6adade6d60405c9ee5113c95173c8e68d",
+    "tests/consumer-homepage/harness/index.html": "ff6c12d95c360370c4087e51c5b3f161fcfca0bec9d99b6e7fa091acfef23501",
+    "tests/consumer-homepage/harness/link.tsx": "5d6a4e6f647ab97eff5db5ed95ef331a7bcd30bef6261fc0f0e6fb49b2e272d1",
+    "tests/consumer-homepage/harness/main.tsx": "aff87bbdf869b98021e7afc6309a43f95e4993df8f33717bedce2574bfe8bbb7",
+    "tests/consumer-homepage/harness/test.css": "5a9165cadee7d8fc4e1f1c5a0124b8f356a73e9603edc79c7991a21cfefdbe15",
+    "tests/consumer-homepage/harness/vite.config.mjs": "9ddf6e608aa3a85f8a41045122aee2f96340a703b6a89d2e3713997e9eac4ee3",
+    "tests/consumer-homepage/synthetic.browser.spec.mjs": "ab75ef47acccfc48a59a36dd9198fd41ce1afc385d82cf18495c8f04a4f14275",
+    "tests/consumer-homepage/synthetic.ts": "f6c8f8bf754fb708fe83b2de569ba6d6dcd9b980fe3db7bfe51199d74c7a688d"
+  },
+  "screenshots": [
+    {
+      "path": "screenshots/after-answer-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 88190,
+      "sha256": "ca1c177439f45d25ceb3c9e730524fab5e35643d6057f3e5ea7af91bc30bf839",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-answer-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 60606,
+      "sha256": "09544c1c4cfbe85f70d29a5c02cb24b246635919c507ae2bc37cbddac034f6d7",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-answer-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 74695,
+      "sha256": "3db313b0f36f95ffa6421e841e7d7b65fc580852b909447f9150241f204689b4",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-evidence-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 70778,
+      "sha256": "673a313f9ce73436022c737b3ed4f37f537440b1bd873f7826a84ddc0ef5ced4",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-evidence-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 49883,
+      "sha256": "3a0dc013676a8951f5f55432c5720072fd13f0299adc75d0e28138605af040fe",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-evidence-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 57140,
+      "sha256": "b2526e0753222160bcd81d07d90b860766d759885076044fd3b8594b9bbc158c",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-landing-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 76226,
+      "sha256": "c7a7f39d85770b14fddbe27767419dd222ad4fa2f76fef72e97be9a075864071",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-landing-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 50843,
+      "sha256": "fcd39c8b91d310784c804c6d3115327ce604093e8eef169ded1c5cd9ef718ce8",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-landing-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 60554,
+      "sha256": "c6efe47dca6492f7f3b15b9828bfb8eb8f09816e46c704c7b05d88fdfa5fc944",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-search-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 95678,
+      "sha256": "88796e8e9fc92bf4e9ec16ab8d002b49dfad4cde9fd133478760ef8163f62a07",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-search-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 56793,
+      "sha256": "5f265a7d3100b48fea9286494b8390dd8440280921caad7b3f5ce9447d77e809",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-search-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 73108,
+      "sha256": "83235c63b5adddd798537d2158102f0e7e3a59ceccb124bdc8f708773aff8192",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-sources-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 71023,
+      "sha256": "47558bad87c74a71d5e324bc7bb916c507298bb354374740778e6bdbe2684c42",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-sources-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 45759,
+      "sha256": "37f5d9314fc71d5daf4962e23065851c77d732009418730ab58dce7a5384fb85",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/after-sources-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 53604,
+      "sha256": "38cd496df5348cc34271474731b9e44154c4192f9c0cf0139e66112b67ff54e8",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/production-disabled-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 74123,
+      "sha256": "c1e725a80a9483dc8169da277135bbaa7ed19851069376a7aa7fad184045dbd8",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/production-disabled-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 50125,
+      "sha256": "02ca8d00f8442de7d8e735efcaa24a4b68d733671b5e2d676ebba3f5a7acaf05",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/production-disabled-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 59892,
+      "sha256": "c09bd51a8dc66fa8b7f923212fd67ea21af9b3f1a54184f52adad5c7daa95dba",
+      "kind": "local_Next_production_build_no_live_RPC"
+    },
+    {
+      "path": "screenshots/synthetic-extensions-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 74810,
+      "sha256": "deb089dbc2ef8e9eae899642393db5bd99ca8e7e376698d9386b7c955683b4a6",
+      "kind": "synthetic_offline_not_an_observation"
+    },
+    {
+      "path": "screenshots/synthetic-extensions-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 58454,
+      "sha256": "e10f93cbf483f4ecfcd93c09eb5e894d9bfe934b80e7eb39e9bb8ccb353ac428",
+      "kind": "synthetic_offline_not_an_observation"
+    },
+    {
+      "path": "screenshots/synthetic-extensions-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 64915,
+      "sha256": "ce460775458abc27974af3c29771ef181ede62304ab499fbddffd6ccd737722a",
+      "kind": "synthetic_offline_not_an_observation"
+    },
+    {
+      "path": "screenshots/synthetic-history-1280.png",
+      "width": 1280,
+      "height": 1617,
+      "bytes": 152994,
+      "sha256": "68a07f94d5b7d8067e6af7e2252c8382b5f85f7e7291f926c17fefdc8a556977",
+      "kind": "synthetic_offline_not_an_observation"
+    },
+    {
+      "path": "screenshots/synthetic-history-320.png",
+      "width": 320,
+      "height": 1726,
+      "bytes": 136946,
+      "sha256": "dc49c2e802cfc8f3a846377d22beee1a8df92e2fa22b2e61d2dd66fa4462bec7",
+      "kind": "synthetic_offline_not_an_observation"
+    },
+    {
+      "path": "screenshots/synthetic-history-390.png",
+      "width": 390,
+      "height": 1552,
+      "bytes": 129413,
+      "sha256": "94c1d7d3654c581bd64fc8219809040440587e937899dc47d4a76e4fc8f0259d",
+      "kind": "synthetic_offline_not_an_observation"
+    },
+    {
+      "path": "screenshots/synthetic-verified-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 73824,
+      "sha256": "b242076b9eb8429e798ef05569f89258217c830217cc3fc32a953c11777e3a38",
+      "kind": "synthetic_offline_not_an_observation"
+    },
+    {
+      "path": "screenshots/synthetic-verified-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 58050,
+      "sha256": "f66b02f57f6407ff58e516512775d43470f0e50e21c9d3892350fce0f992f6d4",
+      "kind": "synthetic_offline_not_an_observation"
+    },
+    {
+      "path": "screenshots/synthetic-verified-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 64774,
+      "sha256": "275c18687300e1cf30da92aed92bc140d9a05f11b4f53cec27b9ae1ca8f07323",
+      "kind": "synthetic_offline_not_an_observation"
+    }
+  ],
+  "unmetGates": [
+    "Actual #108 route combined-build smoke after human merge",
+    "Operator-approved production acquisition/Helius quotas/terms/credential/distributed admission",
+    "Authentic explicitly authorized source capture",
+    "Physical iPhone Safari and VoiceOver QA"
+  ],
+  "commands": [
+    {
+      "command": "npm ci",
+      "exitCode": 0,
+      "result": "336 packages; existing ESLint deprecation notice",
+      "logSha256": "48272b6d794cb35c13ba1c87392690638ec95b1cb1aa907fb3146fef5eb3a7c7"
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "result": "777 tests passed",
+      "logSha256": "d3fab3bd256499b080876bfe7f69ab9169557b1807c62eb7ef2ac58895d97830"
+    },
+    {
+      "command": "bash tests/consumer-homepage/run-onchain.sh",
+      "exitCode": 0,
+      "result": "16 tests passed, including real six-second deadline",
+      "logSha256": "13f4d4cfdef0c42e349b733161342da2061ed34bf59c9994390d17993d6a1a59"
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0,
+      "result": "pass",
+      "logSha256": "fe5cf9f03b4fda5899dda56722e712447012a719da9aff3d720b80f638ca9695"
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "result": "pass; zero warnings",
+      "logSha256": "392700af50f36985cbc9fe1e28f2b6ccd70160730f86f15a3bb544b4179c8a5d"
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "result": "pass; 12 static pages and existing dynamic routes",
+      "logSha256": "bfbb3599bf763b27a2eaf2ec1b03d2812c8472b35ca703cb1b37b389dbd65170"
+    },
+    {
+      "command": "bash scripts/archive-tool.sh check origin/main",
+      "exitCode": 0,
+      "result": "append-only/reproduction pass",
+      "logSha256": "e765fbe4200d783e0905d0a7a988284227807c7adc86191e92cbc87dbc55af64"
+    },
+    {
+      "command": "npm run archive:dry-run",
+      "exitCode": 0,
+      "result": "isolated dry-run pass; no publication",
+      "logSha256": "208922e087fcd37ca210758dfac933622bf7399e7267a9be1b893b19ea00b30f"
+    },
+    {
+      "command": "node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test --config tests/consumer-homepage/playwright.config.mjs",
+      "exitCode": 0,
+      "result": "57 passed (1.5m)",
+      "logSha256": "f228259786d1307aa009055dd7e8bfb0e66a5ea946ceb2c12eb70906d845b5c9"
+    },
+    {
+      "command": "node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test --config tests/consumer-homepage/playwright.config.mjs --grep 'real HTTP SSR|SYNTHETIC OFFLINE verified'",
+      "exitCode": 0,
+      "result": "6 passed (14.2s)",
+      "logSha256": "13a712ec450a1528108cc03248184128231c2b79d922d1da7335f28fa547f097"
+    },
+    {
+      "command": "node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test --config tests/consumer-homepage/playwright.config.mjs --grep 'real production missing/disabled|query flags cannot'",
+      "exitCode": 0,
+      "result": "6 passed (API absent/disabled and documented #108 origin-policy compatibility checks)",
+      "logSha256": "3988b6bf5689f31b1b0dd386ca2caa2e554623ed26c396838ff52c1e3d6d2a5f"
+    }
+  ]
+}
