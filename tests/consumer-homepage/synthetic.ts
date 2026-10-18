@@ -12,3 +12,12 @@ export function syntheticMint(mint=TEST_MINT,extensions=false):MintFactsV1{
 export function syntheticFailure(mint=TEST_MINT,reason='disabled',status='unavailable'){
  return {version:'mint-facts/1',status,mint,facts:null,source:null,reason,warnings:[]};
 }
+/** Invented offline envelope exercising #111's agreed additive production discriminator.
+ * NEVER a source capture; only the local, visibly labeled test harness uses it.
+ * Derived from the shared contract fixture, not a second API schema.
+ */
+export function syntheticProductionEnvelope(mint=TEST_MINT,extensions=false){
+ const value=syntheticMint(mint,extensions);
+ if(value.facts===null)throw Error('positive_fixture_required');
+ return {...value,source:{...value.source,acquisition:'production_rpc' as const}};
+}

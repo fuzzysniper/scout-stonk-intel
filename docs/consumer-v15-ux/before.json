@@ -1,0 +1,47 @@
+{
+  "baseline": "f79f66d0b72247826e54d2237fd97ecd16c581b7",
+  "evidence": [
+    {
+      "width": 320,
+      "scenario": "production-denied",
+      "title": "Could not verify this response",
+      "synthetic": false,
+      "url": "http://127.0.0.1:4180/?mint=So11111111111111111111111111111111111111112"
+    },
+    {
+      "width": 320,
+      "scenario": "synthetic-verified",
+      "title": "Token mint reported",
+      "synthetic": true,
+      "url": "http://127.0.0.1:4181/?mint=So11111111111111111111111111111111111111112"
+    },
+    {
+      "width": 390,
+      "scenario": "production-denied",
+      "title": "Could not verify this response",
+      "synthetic": false,
+      "url": "http://127.0.0.1:4180/?mint=So11111111111111111111111111111111111111112"
+    },
+    {
+      "width": 390,
+      "scenario": "synthetic-verified",
+      "title": "Token mint reported",
+      "synthetic": true,
+      "url": "http://127.0.0.1:4181/?mint=So11111111111111111111111111111111111111112"
+    },
+    {
+      "width": 1280,
+      "scenario": "production-denied",
+      "title": "Could not verify this response",
+      "synthetic": false,
+      "url": "http://127.0.0.1:4180/?mint=So11111111111111111111111111111111111111112"
+    },
+    {
+      "width": 1280,
+      "scenario": "synthetic-verified",
+      "title": "Token mint reported",
+      "synthetic": true,
+      "url": "http://127.0.0.1:4181/?mint=So11111111111111111111111111111111111111112"
+    }
+  ]
+}

@@ -9,7 +9,7 @@ const load=async file=>import(pathToFileURL(path.join(process.env.CONSUMER_TEST_
 const {projectMintFacts,exactSupply,addressQuery,explorerAddress}=await load('app/consumer/onchain-model');
 const {MintFactsPanel,OnchainUnavailable}=await load('app/consumer/onchain');
 const {requestMintFacts,productionMintFactsPort}=await load('app/consumer/onchain-client');
-const {syntheticMint,syntheticFailure,TEST_MINT:mint,TEST_TIME}=await load('tests/consumer-homepage/synthetic');
+const {syntheticMint,syntheticFailure,syntheticProductionEnvelope,TEST_MINT:mint,TEST_TIME}=await load('tests/consumer-homepage/synthetic');
 const now=Date.parse(TEST_TIME),project=(v,context='synthetic-offline',status=200)=>projectMintFacts(v,mint,now,context,status);
 
 test('exact supply never rounds u64 and handles zero/255 decimals without exponential floating point',()=>{
@@ -22,7 +22,25 @@ test('single real MintFactsV1 contract projects only matching fresh initialized 
  const x=syntheticMint();x.source.acquisition='recorded_response';assert.equal(project(x).kind,'unavailable');
 });
 test('synthetic, recorded, development and missing acquisition never become a production observation',()=>{
- for(const acquisition of ['synthetic_fixture','recorded_response','development_rpc',undefined,'production_rpc']){const x=syntheticMint();x.source.acquisition=acquisition;assert.equal(project(x,'production').kind,'unavailable');}
+ for(const acquisition of ['synthetic_fixture','recorded_response','development_rpc',undefined,'unknown_rpc']){const x=syntheticMint();x.source.acquisition=acquisition;assert.equal(project(x,'production').kind,'unavailable');}
+});
+test('OFFLINE production profile replay: only agreed classification plus exact Helius host can project facts',()=>{
+ const x=syntheticProductionEnvelope(),v=project(x,'production');assert.equal(v.kind,'facts');assert.equal(v.offline,false);
+ for(const host of ['api.mainnet-beta.solana.com','MAINNET.HELIUS-RPC.COM','mainnet.helius-rpc.com.','mainnet.helius-rpc.com.evil.invalid']){const y=structuredClone(x);y.source.endpointHost=host;assert.equal(project(y,'production').kind,'unavailable');}
+ assert.equal(project(x,'synthetic-offline').kind,'unavailable'); // No mixing acquisition contexts.
+ for(const code of [201,301,400,403,404,429,502,503,504])assert.equal(project(x,'production',code).kind,'unavailable');
+});
+test('OFFLINE production profile replay: cache evaluation never renews the original 60-second observation',()=>{
+ const x=syntheticProductionEnvelope();x.source.evaluatedAt=new Date(now+59_000).toISOString();
+ const fresh=projectMintFacts(x,mint,now+59_000,'production');assert.equal(fresh.kind,'facts');assert.equal(fresh.expiresAt,now+60_000);
+ x.source.evaluatedAt=new Date(now+60_001).toISOString();assert.equal(projectMintFacts(x,mint,now+60_001,'production').reason,'stale_source');
+ x.source.freshness='stale';assert.equal(project(x,'production').kind,'unavailable');
+});
+test('OFFLINE production profile replay: matching identity and every source boundary still required',()=>{
+ for(const mutate of [x=>x.mint='1'.repeat(32),x=>x.facts.supply.decimalAmount='18446744073',x=>x.source.responseSha256='',x=>x.source.contextSlot='0',x=>x.source.commitment='confirmed',x=>x.source.checkedAt='2026-10-18T12:02:00.000Z',x=>x.source.slotTime=TEST_TIME,x=>x.facts.interpretation.freezing='authority_present']){
+  const x=syntheticProductionEnvelope();mutate(x);assert.equal(project(x,'production').kind,'unavailable');
+ }
+ const extension=project(syntheticProductionEnvelope(mint,true),'production');assert.equal(extension.kind,'facts');assert.equal(extension.value.status,'unsupported_extensions');
 });
 test('identity, precision, authority, layout, clock and provenance mutations withhold facts',()=>{
  const mutate=[x=>x.version='2',x=>x.mint='1'.repeat(32),x=>x.facts.mint='1'.repeat(32),x=>x.facts.network='devnet',x=>x.facts.initialized=false,x=>x.facts.ownerProgram='1'.repeat(32),x=>x.facts.supply.raw='18446744073709551616',x=>x.facts.supply.decimalAmount='18446744073.7',x=>x.facts.supply.decimals=256,x=>delete x.facts.mintAuthority,x=>x.facts.freezeAuthority={state:'absent',address:mint},x=>x.facts.mintAuthority.address='https://rpc.invalid',x=>x.facts.extensions.assessment='unreviewed',x=>x.facts.extensions.names=['<script>'],x=>x.facts.interpretation.freezing='authority_present',x=>x.source.commitment='confirmed',x=>x.source.contextSlot='9007199254740992',x=>x.source.contextSlot='0',x=>x.source.slotTime='2026-10-18',x=>x.source.assurance='independent',x=>x.source.endpointHost='mainnet.helius-rpc.com/?api-key=secret',x=>x.source.endpointHost='evil.invalid',x=>x.source.responseSha256='bad',x=>x.source.checkedAt='2026-10-18T12:05:00Z',x=>x.source.evaluatedAt='2026-10-18T12:05:00Z',x=>x.source.freshness='stale',x=>x.source.httpDate='not a date'];

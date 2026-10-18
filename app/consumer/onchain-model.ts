@@ -44,9 +44,10 @@ export function projectMintFacts(input:unknown,mint:string,now:number,context:Di
  const ma=f.mintAuthority as {state:string;address:string|null},fa=f.freezeAuthority as {state:string;address:string|null};
  if(f.interpretation.minting!==(unreviewed?'extension_review_required':ma.state==='present'?'authority_present':'authority_absent')||f.interpretation.freezing!==(unreviewed?'extension_review_required':fa.state==='present'?'authority_present':'authority_absent'))return failure();
  if(s.method!=='getAccountInfo'||s.encoding!=='jsonParsed'||s.commitment!=='finalized'||s.assurance!=='rpc_reported_not_independently_replayed'||!decimalSlot(s.contextSlot)||s.slotTime!==null||typeof s.endpointHost!=='string'||!['api.mainnet-beta.solana.com','mainnet.helius-rpc.com'].includes(s.endpointHost)||s.endpointHost.length>253||!(/^[a-z0-9]+(?:[.-][a-z0-9]+)*\.[a-z]{2,}$/).test(s.endpointHost)||!(/^[a-f0-9]{64}$/).test(String(s.responseSha256)))return failure();
- // The merged contract has only development/recorded/synthetic acquisition profiles.
- // None is an operator-approved production source; adding one needs the later approval PR.
- if(context==='production')return failure('unapproved_source');
+ // #111's additive server-owned profile. This consumes HTTP evidence; it never
+ // enables the server's separately reviewed network gate or selects an RPC host.
+ // Cached responses keep their original capture clocks and expire below.
+ if(context==='production'&&(s.acquisition!=='production_rpc'||s.endpointHost!=='mainnet.helius-rpc.com'))return failure('unapproved_source');
  if(context==='synthetic-offline'&&s.acquisition!=='synthetic_fixture')return failure('unapproved_source');
  const times=[s.requestStartedAt,s.responseReceivedAt,s.checkedAt,s.evaluatedAt].map(utcMicros);
  if(times.some(t=>t===null))return failure('invalid_clock');
@@ -61,6 +62,7 @@ export function failureCopy(view:Extract<MintView,{kind:'unavailable'|'unsupport
  if(view.kind==='unsupported')return ['Not a supported mint account','The source did not establish an initialized Token Program or Token-2022 mint at this address. This is not a judgment about the project.'];
  if(view.reason==='disabled'||view.reason==='missing_api')return ['Source not connected','No onchain facts are available. Supply, authorities and account type have not been verified.'];
  if(view.reason==='stale_source')return ['Observation expired','The source observation is too old to display. Supply and authorities are withheld until another check completes.'];
+ if(view.reason==='access_denied')return ['Check not permitted','This request was not permitted. No verified token facts are available; this does not tell you whether the token is legitimate.'];
  if(['rate_limited','admission_limited','circuit_open'].includes(view.reason))return ['Check paused','The source is limiting requests. No token facts are available; wait before trying again.'];
  if(view.reason==='timeout'||view.reason==='network_unavailable'||view.reason==='upstream_unavailable')return ['Check could not complete','The source did not respond in time or is unavailable. This does not establish whether the address is a token mint.'];
  return ['Could not verify this response','The response or its source evidence could not be accepted. No token facts are shown.'];
