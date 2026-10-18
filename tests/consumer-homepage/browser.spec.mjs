@@ -20,25 +20,29 @@ for(const token of examples)test(`${token.symbol} production engine, risks, exac
  await page.goto('/');await expect(page.getByRole('heading',{name:'A token address. A clear answer.'})).toBeVisible();
  await cleanBrand(page);await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content','noindex, nofollow');
  const lastChoice=await page.getByRole('button',{name:/Explain Grokification/}).boundingBox();expect(lastChoice.y+lastChoice.height).toBeLessThan(page.viewportSize().height);
- if(token===examples[0]){await axe(page);await page.screenshot({path:`docs/consumer-homepage/screenshots/landing-${info.project.name}.png`});}
+ if(token===examples[0]){await axe(page);await page.screenshot({path:`docs/consumer-v1-1/screenshots/after-landing-${info.project.name}.png`});}
  await page.getByRole('button',{name:new RegExp('Explain '+token.name)}).click();
  await expect(page.getByRole('heading',{name:new RegExp('^'+token.name)})).toBeVisible();
  await expect(page).toHaveURL(new RegExp('/\\?mint='+token.mint+'$'));
  await expect(page.getByText('Financial figures withheld; publication rights unverified.')).toBeVisible();
  await expect(page.getByText('Stale capture; current settings unverified.')).toBeVisible();
+ if(token===examples[0])await page.screenshot({path:`docs/consumer-v1-1/screenshots/after-answer-${info.project.name}.png`});
+ const rights=await page.getByText('Financial figures withheld; publication rights unverified.').boundingBox();expect(rights.y+rights.height).toBeLessThan(page.viewportSize().height);
  const risks=await page.getByRole('heading',{name:'What’s not known'}).boundingBox();expect(risks.y+risks.height).toBeLessThan(page.viewportSize().height);
- const metrics={viewport:page.viewportSize(),risksHeading:risks,overflow:await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)};
- expect(metrics.overflow).toBe(false);writeFileSync(`experiments/consumer-mvp/web/node_modules/.cache/next-layout-${token.symbol}-${info.project.name}.json`,JSON.stringify(metrics));
+ const metrics={viewport:page.viewportSize(),risksHeading:risks,rightsWarning:rights,overflow:await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)};
+ expect(metrics.overflow).toBe(false);writeFileSync(`experiments/consumer-mvp/web/node_modules/.cache/polish-layout-${token.symbol}-${info.project.name}.json`,JSON.stringify(metrics));
  const small=await page.locator('main button,main input,main summary').evaluateAll(nodes=>nodes.filter(n=>{const r=n.getBoundingClientRect();return r.width>0&&r.height>0&&(r.width<44||r.height<44);}).map(n=>n.tagName));expect(small).toEqual([]);
+ await expect(page.getByLabel('Token address',{exact:true})).toBeHidden();await expect(page.getByRole('button',{name:'Search another token',exact:true})).toHaveAttribute('aria-expanded','false');
+ await expect(page.getByRole('heading',{name:'How rewards are supposed to work'})).toBeVisible();await expect(page.getByText(/Holder payments and eligibility are unverified/)).toBeVisible();
  await axe(page);await cleanBrand(page);
- if(token===examples[0])await page.screenshot({path:`docs/consumer-homepage/screenshots/answer-${info.project.name}.png`});
- await page.getByRole('button',{name:'Evidence for Token and pair identity'}).click();
+ if(token===examples[0])await page.screenshot({path:`docs/consumer-v1-1/screenshots/after-answer-${info.project.name}.png`});
+ await page.getByRole('button',{name:'Evidence for Token and pairing'}).click();
  await expect(page.getByText(token.mint,{exact:true})).toBeVisible();await expect(page.getByText(token.quoteMint,{exact:true})).toBeVisible();
  await expect(page.getByText('Provider generated · UTC').first()).toBeVisible();
  await expect(page.getByText('2026-10-14T22:33:17.185179+00:00',{exact:true})).toBeVisible();
  expect(await page.locator('.receipt').count()).toBe(3);expect(await page.locator('a[href*="pair-reward-audit"]').count()).toBe(0);
  for(const a of await page.locator('.external-link').all())expect(await a.getAttribute('href')).toMatch(/^https:\/\/www\.stonkfun\.xyz\/api\//);
- if(token===examples[0]){await axe(page);await page.screenshot({path:`docs/consumer-homepage/screenshots/evidence-${info.project.name}.png`});}
+ if(token===examples[0]){await axe(page);await page.screenshot({path:`docs/consumer-v1-1/screenshots/after-evidence-${info.project.name}.png`});}
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.reload();await expect(page.getByRole('heading',{name:new RegExp('^'+token.name)})).toBeVisible();
  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://scout.storkcoin.xyz/?mint='+token.mint);
@@ -47,10 +51,10 @@ for(const token of examples)test(`${token.symbol} production engine, risks, exac
 });
 test('empty, ticker, malformed, same-symbol mint, duplicate query and recovery',async({page})=>{
  await page.goto('/');
- for(const [raw,title]of [['','Start with a mint'],['SI','A ticker isn’t an identity'],['<script>alert(1)</script>','That doesn’t look like a mint'],['1'.repeat(32),'Not in these examples'],['4SsapSJFx7ZqVb2C7z78wKD4nyySjFCBSuajnZdDsx97','Not in these examples'],[' '+examples[0].mint,'That doesn’t look like a mint']]){
-  await page.getByLabel('Solana token mint').fill(raw);await page.getByRole('button',{name:'Explain token',exact:true}).click();await expect(page.getByRole('heading',{name:title})).toBeVisible();expect(new URL(page.url()).searchParams.has('mint')).toBe(false);
+ for(const [raw,title]of [['','Start with a token address'],['SI','A name isn’t an address'],['<script>alert(1)</script>','That doesn’t look like a token address'],['1'.repeat(32),'Not in these examples'],['4SsapSJFx7ZqVb2C7z78wKD4nyySjFCBSuajnZdDsx97','Not in these examples'],[' '+examples[0].mint,'That doesn’t look like a token address']]){
+  await page.getByLabel('Token address',{exact:true}).fill(raw);await page.getByRole('button',{name:'Explain this token',exact:true}).click();await expect(page.getByRole('heading',{name:title})).toBeVisible();expect(new URL(page.url()).searchParams.has('mint')).toBe(false);
  }
- await page.goto('/?mint='+examples[0].mint+'&mint='+examples[1].mint);await expect(page.getByRole('heading',{name:'That doesn’t look like a mint'})).toBeVisible();
+ await page.goto('/?mint='+examples[0].mint+'&mint='+examples[1].mint);await expect(page.getByRole('heading',{name:'That doesn’t look like a token address'})).toBeVisible();
  await page.getByRole('button',{name:/Explain Grokification/}).click();await expect(page.getByRole('heading',{name:/^Grokification/})).toBeVisible();await cleanBrand(page);
 });
 test('keyboard, clipboard fallback, history, restart and pre-capture failure',async({page,context})=>{
@@ -59,15 +63,16 @@ test('keyboard, clipboard fallback, history, restart and pre-capture failure',as
  await page.keyboard.press('Escape');await expect(page.locator('.evidence')).not.toHaveAttribute('open');
  await page.getByRole('button',{name:'Copy link',exact:true}).click();await expect(page.getByText('Link copied. It opens this captured example.')).toBeVisible();expect(await page.evaluate(()=>navigator.clipboard.readText())).toBe(page.url());
  await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:undefined}));await page.getByRole('button',{name:'Copy link',exact:true}).click();await expect(page.getByLabel('Copy this exact-mint link')).toHaveValue(page.url());
- await page.getByLabel('Solana token mint').fill(examples[1].mint);await page.getByRole('button',{name:'Explain token',exact:true}).click();await expect(page.getByRole('heading',{name:/^RuneScape Gold/})).toBeVisible();
+ await page.getByRole('button',{name:'Search another token',exact:true}).click();await expect(page.getByLabel('Token address',{exact:true})).toBeFocused();
+ await page.getByLabel('Token address',{exact:true}).fill(examples[1].mint);await page.getByRole('button',{name:'Explain this token',exact:true}).click();await expect(page.getByRole('heading',{name:/^RuneScape Gold/})).toBeVisible();
  await page.goBack();await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeVisible();await page.goForward();await expect(page.getByRole('heading',{name:/^RuneScape Gold/})).toBeVisible();
- await page.getByRole('link',{name:'Start again'}).click();await expect(page.getByRole('heading',{name:'A token address. A clear answer.'})).toBeVisible();await expect(page.getByLabel('Solana token mint')).toHaveValue('');
+ await page.getByRole('link',{name:'Start over'}).click();await expect(page.getByRole('heading',{name:'A token address. A clear answer.'})).toBeVisible();await expect(page.getByLabel('Token address',{exact:true})).toHaveValue('');await expect(page.getByRole('heading',{name:'A token address. A clear answer.'})).toBeFocused();
  await page.clock.setFixedTime(new Date('2026-10-01T00:00:00Z'));await page.getByRole('button',{name:/Explain Super Inu/}).click();await expect(page.getByRole('heading',{name:'Evidence couldn’t load'})).toBeVisible();
  await page.clock.setFixedTime(new Date('2026-10-17T22:00:00Z'));await page.getByRole('button',{name:'Try again'}).click();await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeVisible();
  expect(await page.evaluate(()=>({local:localStorage.length,session:sessionStorage.length,cookie:document.cookie}))).toEqual({local:0,session:0,cookie:''});
 });
 test('real HTTP SSR, neutral PNG, existing routes and no financial source bodies',async({request,browser})=>{
- for(const t of examples){const r=await request.get('/?mint='+t.mint);expect(r.status()).toBe(200);const text=await r.text();expect(text).toContain(t.name);expect(text).toContain('Financial figures withheld');
+ for(const t of examples){const r=await request.get('/?mint='+t.mint);expect(r.status()).toBe(200);expect(r.headers()['cache-control']).toContain('no-store');const baseline=JSON.parse(readFileSync('tests/consumer-homepage/baseline-headers.json','utf8'));const headers=Object.fromEntries(Object.keys(baseline.headers).map(k=>[k,r.headers()[k]??null]));expect(headers).toEqual(baseline.headers);writeFileSync('experiments/consumer-mvp/web/node_modules/.cache/polish-headers.json',JSON.stringify(headers));const text=await r.text();expect(text).toContain(t.name);expect(text).toContain('Financial figures withheld');
   for(const marker of ['distributedRaw','distributedTokens','totalDistributed','amountRaw','priceUsd','apy'])expect(text).not.toContain('"'+marker+'":');
  }
  const icon=await request.get('/favicon.ico');expect(icon.status()).toBe(200);expect([...(await icon.body()).subarray(0,6)]).toEqual([0,0,1,0,1,0]);
@@ -80,4 +85,20 @@ test('real HTTP SSR, neutral PNG, existing routes and no financial source bodies
  const nojs=await browser.newContext({javaScriptEnabled:false});const p=await nojs.newPage();await p.goto('http://127.0.0.1:4180/?mint='+examples[0].mint);await expect(p.getByRole('heading',{name:/^Super Inu/})).toBeVisible();await expect(p.getByText('Financial figures withheld; publication rights unverified.')).toBeVisible();await nojs.close();
  // Check actual bundled assets too: no restricted raw audit document or financial payload.
  const build=JSON.parse(readFileSync('.next/app-build-manifest.json','utf8'));for(const file of build.pages['/page']){if(!file.endsWith('.js'))continue;const js=readFileSync('.next/'+file,'utf8');expect(js).not.toContain('distributedRaw');expect(js).not.toContain('amountRaw');}
+});
+
+test('compact search is accessible, cancels drafts, preserves errors and resets on history',async({page},info)=>{
+ await page.goto('/?mint='+examples[0].mint);
+ const toggle=page.getByRole('button',{name:'Search another token',exact:true}),input=page.getByLabel('Token address',{exact:true});
+ await expect(input).toBeHidden();const target=await toggle.boundingBox();expect(target.height).toBeGreaterThanOrEqual(44);expect(target.width).toBeGreaterThanOrEqual(44);await toggle.focus();await page.keyboard.press('Enter');await expect(toggle).toHaveAttribute('aria-expanded','true');await expect(input).toBeFocused();
+ await expect(page.getByPlaceholder('Paste a token address')).toBeVisible();await expect(page.getByRole('button',{name:'Explain this token',exact:true})).toBeVisible();
+ await input.fill('unfinished draft');await page.keyboard.press('Escape');await expect(input).toBeHidden();await expect(toggle).toBeFocused();await expect(page).toHaveURL(new RegExp('mint='+examples[0].mint+'$'));
+ await toggle.click();await expect(input).toHaveValue(examples[0].mint);await expect(input).toBeFocused();await axe(page);
+ await page.screenshot({path:`docs/consumer-v1-1/screenshots/after-search-${info.project.name}.png`});
+ await page.getByRole('button',{name:'Cancel search',exact:true}).click();await expect(toggle).toBeFocused();await expect(input).toBeHidden();
+ await toggle.click();await input.fill('1'.repeat(32));await page.getByRole('button',{name:'Explain this token',exact:true}).click();await expect(page.getByRole('heading',{name:'Not in these examples'})).toBeVisible();await expect(input).toBeVisible();await expect(toggle).toHaveCount(0);
+ await expect(page.locator('.answer-card')).toHaveCount(0);await expect(page.getByRole('heading',{name:'Explore an example'})).toBeVisible();
+ await page.goBack();await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeVisible();await expect(input).toBeHidden();await expect(toggle).toHaveAttribute('aria-expanded','false');await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeFocused();
+ await toggle.click();await input.fill(examples[2].mint);await input.press('Enter');await expect(page.getByRole('heading',{name:/^Grokification/})).toBeVisible();await expect(input).toBeHidden();
+ await page.reload();await expect(input).toBeHidden();await expect(page.getByRole('heading',{name:/^Grokification/})).toBeVisible();
 });

@@ -1,0 +1,412 @@
+{
+  "issue": 94,
+  "base": "f880e6606443a950b2907a6356df0f8636ceb7cf",
+  "recordedAt": "2026-10-17T21:02:24.613189+00:00",
+  "mode": "Actual local Next 15.5.9 production build/next start; no production deployment or physical iPhone claim",
+  "checks": {
+    "npm ci": {
+      "exit": 0,
+      "packages": 336
+    },
+    "npm test": {
+      "exit": 0,
+      "application": 501,
+      "portableEvidence": 29,
+      "python": 106,
+      "schedulerAdapter": 18
+    },
+    "npx tsc --noEmit": {
+      "exit": 0
+    },
+    "npm run lint": {
+      "exit": 0
+    },
+    "npm run build": {
+      "exit": 0,
+      "staticPages": 12,
+      "homeRouteKb": 9.04,
+      "firstLoadKb": 114
+    },
+    "archive check origin/main": {
+      "exit": 0
+    },
+    "npm run archive:dry-run": {
+      "exit": 0
+    },
+    "productionBrowser": {
+      "exit": 0,
+      "cases": 21,
+      "seconds": 36.6,
+      "widths": [
+        320,
+        390,
+        1280
+      ],
+      "axeViolations": 0,
+      "unexpectedClientOrHttpErrors": 0,
+      "externalBrowserRequests": 0
+    }
+  },
+  "preserved": {
+    "count": 102,
+    "byteIdentical": true,
+    "pathAndSha256ListDigest": "e1affe520c3919573933ccb6d66f59ab879dfd11933db6dc31820a04be4a95a8"
+  },
+  "before": [
+    {
+      "width": 320,
+      "height": 740,
+      "responseHeaders": {
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "connection": "keep-alive",
+        "content-encoding": "gzip",
+        "content-type": "text/html; charset=utf-8",
+        "date": "Sat, 17 Oct 2026 20:57:51 GMT",
+        "keep-alive": "timeout=5",
+        "transfer-encoding": "chunked",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+        "x-powered-by": "Next.js"
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 642.53125,
+        "width": 246,
+        "height": 22.5
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "responseHeaders": {
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "connection": "keep-alive",
+        "content-encoding": "gzip",
+        "content-type": "text/html; charset=utf-8",
+        "date": "Sat, 17 Oct 2026 20:57:52 GMT",
+        "keep-alive": "timeout=5",
+        "transfer-encoding": "chunked",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+        "x-powered-by": "Next.js"
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 586.21875,
+        "width": 316,
+        "height": 24
+      }
+    },
+    {
+      "width": 1280,
+      "height": 900,
+      "responseHeaders": {
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "connection": "keep-alive",
+        "content-encoding": "gzip",
+        "content-type": "text/html; charset=utf-8",
+        "date": "Sat, 17 Oct 2026 20:57:52 GMT",
+        "keep-alive": "timeout=5",
+        "transfer-encoding": "chunked",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+        "x-powered-by": "Next.js"
+      },
+      "risksHeading": {
+        "x": 321,
+        "y": 685.875,
+        "width": 638,
+        "height": 25.5
+      }
+    }
+  ],
+  "after": [
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "risksHeading": {
+        "x": 321,
+        "y": 590.375,
+        "width": 638,
+        "height": 25.5
+      },
+      "rightsWarning": {
+        "x": 339,
+        "y": 678.875,
+        "width": 620,
+        "height": 19.5
+      },
+      "overflow": false,
+      "case": "polish-layout-GP-1280"
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 600.90625,
+        "width": 246,
+        "height": 22.5
+      },
+      "rightsWarning": {
+        "x": 55,
+        "y": 701.40625,
+        "width": 228,
+        "height": 36
+      },
+      "overflow": false,
+      "case": "polish-layout-GP-320"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 510.296875,
+        "width": 316,
+        "height": 24
+      },
+      "rightsWarning": {
+        "x": 55,
+        "y": 594.296875,
+        "width": 298,
+        "height": 18
+      },
+      "overflow": false,
+      "case": "polish-layout-GP-390"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "risksHeading": {
+        "x": 321,
+        "y": 590.375,
+        "width": 638,
+        "height": 25.5
+      },
+      "rightsWarning": {
+        "x": 339,
+        "y": 678.875,
+        "width": 620,
+        "height": 19.5
+      },
+      "overflow": false,
+      "case": "polish-layout-GROK-1280"
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 589.015625,
+        "width": 246,
+        "height": 22.5
+      },
+      "rightsWarning": {
+        "x": 55,
+        "y": 689.515625,
+        "width": 228,
+        "height": 36
+      },
+      "overflow": false,
+      "case": "polish-layout-GROK-320"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 510.296875,
+        "width": 316,
+        "height": 24
+      },
+      "rightsWarning": {
+        "x": 55,
+        "y": 594.296875,
+        "width": 298,
+        "height": 18
+      },
+      "overflow": false,
+      "case": "polish-layout-GROK-390"
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "risksHeading": {
+        "x": 321,
+        "y": 590.375,
+        "width": 638,
+        "height": 25.5
+      },
+      "rightsWarning": {
+        "x": 339,
+        "y": 678.875,
+        "width": 620,
+        "height": 19.5
+      },
+      "overflow": false,
+      "case": "polish-layout-SI-1280"
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 589.015625,
+        "width": 246,
+        "height": 22.5
+      },
+      "rightsWarning": {
+        "x": 55,
+        "y": 689.515625,
+        "width": 228,
+        "height": 36
+      },
+      "overflow": false,
+      "case": "polish-layout-SI-320"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "risksHeading": {
+        "x": 37,
+        "y": 510.296875,
+        "width": 316,
+        "height": 24
+      },
+      "rightsWarning": {
+        "x": 55,
+        "y": 594.296875,
+        "width": 298,
+        "height": 18
+      },
+      "overflow": false,
+      "case": "polish-layout-SI-390"
+    }
+  ],
+  "afterHeaders": {
+    "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+    "content-type": "text/html; charset=utf-8",
+    "content-security-policy": null,
+    "x-frame-options": null,
+    "x-content-type-options": null,
+    "referrer-policy": null
+  },
+  "screenshots": [
+    {
+      "path": "docs/consumer-v1-1/screenshots/after-answer-1280.png",
+      "bytes": 81302,
+      "sha256": "56b207d20ac2cd480d29d9c3fe87887db6b64179cb299d86782ed10daf2ff362"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/after-answer-320.png",
+      "bytes": 60606,
+      "sha256": "09544c1c4cfbe85f70d29a5c02cb24b246635919c507ae2bc37cbddac034f6d7"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/after-answer-390.png",
+      "bytes": 69462,
+      "sha256": "fa4a57edd0a4f241ab37f740eba16bd7a46ce3ef63f824f30415215040eab01d"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/after-evidence-1280.png",
+      "bytes": 84720,
+      "sha256": "a43b0c30cc0da9907751d32f3d321b54ea03b45649693b7cf8842c7220f56ad2"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/after-evidence-320.png",
+      "bytes": 60116,
+      "sha256": "22f5604724433410499168b93acc957229131c1afddefeaf5f5d8c9d334c037c"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/after-evidence-390.png",
+      "bytes": 69670,
+      "sha256": "2ac7035d9990d3c7932925706120bdfb4a54e0a96e68fb4031a7e1263f0be48f"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/after-landing-1280.png",
+      "bytes": 73417,
+      "sha256": "6a5f53167c4eac394bf2c5a540a615c9f84cc8ff874edf6d85b2a0823faa4d3e"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/after-landing-320.png",
+      "bytes": 48539,
+      "sha256": "b6d44c3914300a9cfbbd95a6c2e2352c8c4bc433120b94ec7939a18da8a4b959"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/after-landing-390.png",
+      "bytes": 58252,
+      "sha256": "ca5d102a5df04402a7c963744122ed4840922522a309be4924af2c17d7f5bac4"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/after-search-1280.png",
+      "bytes": 95678,
+      "sha256": "88796e8e9fc92bf4e9ec16ab8d002b49dfad4cde9fd133478760ef8163f62a07"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/after-search-320.png",
+      "bytes": 56793,
+      "sha256": "5f265a7d3100b48fea9286494b8390dd8440280921caad7b3f5ce9447d77e809"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/after-search-390.png",
+      "bytes": 73108,
+      "sha256": "83235c63b5adddd798537d2158102f0e7e3a59ceccb124bdc8f708773aff8192"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/before-answer-1280.png",
+      "bytes": 88034,
+      "sha256": "475443e9e9ef649993cb3f24d61e7b72b7b6bc2cda52cb5f45bf2ead8e23e7f7"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/before-answer-320.png",
+      "bytes": 57094,
+      "sha256": "08b3772401dbba16a22e37d89681cfe71976c4e010622dded9544219c5b6dac7"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/before-answer-390.png",
+      "bytes": 67768,
+      "sha256": "7344820ba43b070bb7d6c93dd25e1dc9cea4da197584d8c170d58885cb372996"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/before-landing-1280.png",
+      "bytes": 73073,
+      "sha256": "4fce1c91cedd91234bb0b4217310ad7b5d9fbe8914d96c78fc10772aafaa89d2"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/before-landing-320.png",
+      "bytes": 48043,
+      "sha256": "3fe196d2abac712bcb5acf9a63d7243409fab953de6e9297f447f09edbe81aee"
+    },
+    {
+      "path": "docs/consumer-v1-1/screenshots/before-landing-390.png",
+      "bytes": 57870,
+      "sha256": "081026d171e67bff57ae8a16c2d207a6f270cead34354e1eec8866062ee0ed38"
+    }
+  ],
+  "physicalSafariTested": false,
+  "humanComprehensionTested": false,
+  "mergedOrProductionDeployed": false,
+  "preservedConsumerFunctionBodies": {
+    "projectEvidence": "5ff9903d4f29f6c4f7807e18e0600ffbbae889ea6568b929917c4cf73abdc407",
+    "evaluateInput": "e86a42b6a9ed2204efc4e48f8033f916ca1bfb6cfd7664d13edbfff3eadb0e3a",
+    "sharePath": "4c5a6fb3ca7c23bccc1b9ceb5258650180183c6c80e474644d89770cf0d58812",
+    "legacyPath": "c5df0aa38946bd7115fb4bd5ba84ceffec8292ba49e6073bb09208cad00566b1",
+    "consumerMetadata": "48c51b587d25b9035d905ea9b71b8e0c37e634e83224bae86baf25208dfee7bd"
+  }
+}

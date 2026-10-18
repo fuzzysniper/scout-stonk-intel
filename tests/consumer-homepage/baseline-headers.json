@@ -1,0 +1,13 @@
+{
+  "base": "f880e6606443a950b2907a6356df0f8636ceb7cf",
+  "capturedAt": "Sat, 17 Oct 2026 20:57:51 GMT",
+  "mode": "actual local Next production response; not deployed header verification",
+  "headers": {
+    "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+    "content-type": "text/html; charset=utf-8",
+    "content-security-policy": null,
+    "x-frame-options": null,
+    "x-content-type-options": null,
+    "referrer-policy": null
+  }
+}
