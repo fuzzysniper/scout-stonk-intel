@@ -125,3 +125,21 @@
 .consumer-home .mint-technical{border-top:1px solid var(--border);margin-top:10px}
 .consumer-home .mint-technical>summary{display:list-item;list-style:disclosure-closed;min-height:44px;padding:12px 0;font-size:12px;letter-spacing:normal;color:var(--muted)}
 .consumer-home .mint-technical[open]>summary{list-style:disclosure-open}
+
+/* V1.7: preserve exact result identity and make recovery/source layers explicit. */
+.consumer-home .mint-identity{margin-top:9px}
+.consumer-home .mint-identity>span{display:block;font-size:10px;color:var(--muted)}
+.consumer-home .mint-identity code{display:block;font:12px/1.35 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;white-space:normal;color:#192b36;background:transparent;padding:0;margin-top:3px;user-select:text}
+.consumer-home .mint-recovery{font-size:12px;line-height:1.5;color:var(--muted);margin:8px 0 12px}
+.consumer-home .mint-example-link{display:flex;align-items:center;min-height:44px;margin-top:8px;font-size:12px;width:fit-content}
+.consumer-home #discovery-title:focus-visible{outline:3px solid var(--blue);outline-offset:5px}
+.consumer-home .discovery .example-capture-date{margin:0 0 10px}
+@media(max-width:350px){
+ .consumer-home .mint-offline{padding:6px 10px;margin-bottom:6px}
+ .consumer-home .mint-identity{margin-top:6px}
+ .consumer-home .mint-supply{margin-top:10px;padding:8px 10px}
+ .consumer-home .mint-authorities{margin:10px 0}
+ .consumer-home .mint-limit{padding:8px 10px}
+ .consumer-home .mint-observed{margin-top:8px}
+ .consumer-home .mint-boundary{margin-top:6px}
+}

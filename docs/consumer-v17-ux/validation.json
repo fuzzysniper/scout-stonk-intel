@@ -1,0 +1,794 @@
+{
+  "milestone": "Consumer V1.7 Launch Readiness",
+  "scope": "Agent A consumer UI and scoped QA only",
+  "base": "6ea4d48ce013326826d68858eb3bc793200f26a2",
+  "recordedAt": "2026-10-19T14:09:24.349772+00:00",
+  "runtime": {
+    "node": "20.20.2",
+    "npm": "11.9.0",
+    "next": "15.5.28",
+    "chromium": "154.0.8037.57",
+    "localTestPostgres": "17.11; existing extracted local binaries, no hosted DB"
+  },
+  "improvements": [
+    "Visible full exact requested/result identity that stays separate from a draft",
+    "Actionable loading and six failure states without fabricated facts or automatic retries",
+    "Current-account checks and stale historical examples have correctly scoped labels"
+  ],
+  "checks": [
+    {
+      "command": "npm ci",
+      "exitCode": 0,
+      "result": "352 packages, existing ESLint deprecation notice"
+    },
+    {
+      "command": "SCOUT_TEST_PG_BIN=/tmp/scout-v16-pg/usr/lib/postgresql/17/bin npm test",
+      "exitCode": 0,
+      "nodeSuiteCounts": [
+        7,
+        2,
+        501,
+        29,
+        31,
+        24,
+        37,
+        31,
+        53,
+        19,
+        47,
+        5,
+        10,
+        18
+      ],
+      "pythonTests": 106,
+      "passed": 920
+    },
+    {
+      "command": "bash tests/consumer-homepage/run-onchain.sh",
+      "exitCode": 0,
+      "passed": 19
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "warnings": 0
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "staticPages": 12,
+      "notes": [
+        "Existing edge runtime notice"
+      ]
+    },
+    {
+      "command": "bash scripts/archive-tool.sh check origin/main",
+      "exitCode": 0,
+      "result": "Archive append-only/reproduction check passed"
+    },
+    {
+      "command": "npm run archive:dry-run",
+      "exitCode": 0,
+      "result": "Local-only append-only/reproduction/idempotency checks passed; retained archive unchanged"
+    },
+    {
+      "command": "node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test --config tests/consumer-homepage/playwright.config.mjs",
+      "exitCode": 0,
+      "passed": 105,
+      "viewports": [
+        "320x740",
+        "390x844",
+        "1280x900"
+      ],
+      "axeViolationsInTestedStates": 0,
+      "unexpectedBrowserErrors": 0,
+      "unexpectedExternalBrowserRequests": 0,
+      "positiveCurrentSourceFacts": "Labeled synthetic offline harness only; never served by the Next production route"
+    }
+  ],
+  "diagnostics": [
+    {
+      "check": "initial scoped compile",
+      "result": "Explicit discriminated-union guard added to a presentation condition"
+    },
+    {
+      "check": "initial root suite",
+      "result": "One frontend SSR copy assertion updated for the intentional 3 dated examples wording; no behavioral gate removed"
+    },
+    {
+      "check": "first complete browser matrix",
+      "passed": 103,
+      "failed": 2,
+      "result": "320px double-offline-label first-viewport assertions detected 745.625/762.125px boundary; compact spacing fixed without reducing font sizes or removing content; full matrix rerun"
+    }
+  ],
+  "unchanged": [
+    "app/consumer/onchain-model.ts",
+    "app/consumer/onchain-client.ts",
+    "lib/**",
+    "app/api/**",
+    "tests/onchain-api/**",
+    "scripts/ops/**",
+    "docs/ops/**",
+    "vercel.json",
+    "scheduler/**",
+    ".github/**",
+    "data/archive",
+    "package.json",
+    "package-lock.json"
+  ],
+  "excludedDraftPr": 118,
+  "notPerformed": [
+    "Merge or manual deployment",
+    "Production credential access/change",
+    "Real Helius or Neon calls, hosted database modification or RPC activation",
+    "Physical iPhone Safari/VoiceOver/text-scaling testing",
+    "Human 30-second comprehension testing",
+    "Independent deployed-site verification"
+  ],
+  "limitations": [
+    "All positive current fields and production-profile replays are invented offline fixtures",
+    "Infrastructure provisioning does not establish deployment or activation",
+    "StonkFun rights remain unresolved; financial quantities are withheld",
+    "A consumer revert does not stop separately activated backend I/O/costs"
+  ],
+  "layouts": [
+    {
+      "file": "consumer-v17-verified-1280.json",
+      "synthetic": true,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "boundary": {
+        "x": 300,
+        "y": 611.140625,
+        "width": 680,
+        "height": 16.5
+      },
+      "overlaps": []
+    },
+    {
+      "file": "consumer-v17-verified-320.json",
+      "synthetic": true,
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "boundary": {
+        "x": 20,
+        "y": 661.125,
+        "width": 280,
+        "height": 49.5
+      },
+      "overlaps": []
+    },
+    {
+      "file": "consumer-v17-verified-390.json",
+      "synthetic": true,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "boundary": {
+        "x": 20,
+        "y": 614.75,
+        "width": 350,
+        "height": 33
+      },
+      "overlaps": []
+    },
+    {
+      "file": "consumer-v17-extensions-1280.json",
+      "synthetic": true,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "boundary": {
+        "x": 300,
+        "y": 611.140625,
+        "width": 680,
+        "height": 16.5
+      },
+      "overlaps": []
+    },
+    {
+      "file": "consumer-v17-extensions-320.json",
+      "synthetic": true,
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "boundary": {
+        "x": 20,
+        "y": 677.625,
+        "width": 280,
+        "height": 49.5
+      },
+      "overlaps": []
+    },
+    {
+      "file": "consumer-v17-extensions-390.json",
+      "synthetic": true,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "boundary": {
+        "x": 20,
+        "y": 614.75,
+        "width": 350,
+        "height": 33
+      },
+      "overlaps": []
+    },
+    {
+      "file": "consumer-v17-production-profile-1280.json",
+      "synthetic": true,
+      "liveSource": false,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "boundary": {
+        "x": 300,
+        "y": 564.640625,
+        "width": 680,
+        "height": 16.5
+      },
+      "overlaps": [],
+      "elapsedMs": 1185
+    },
+    {
+      "file": "consumer-v17-production-profile-320.json",
+      "synthetic": true,
+      "liveSource": false,
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "boundary": {
+        "x": 20,
+        "y": 608.125,
+        "width": 280,
+        "height": 49.5
+      },
+      "overlaps": [],
+      "elapsedMs": 1189
+    },
+    {
+      "file": "consumer-v17-production-profile-390.json",
+      "synthetic": true,
+      "liveSource": false,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "boundary": {
+        "x": 20,
+        "y": 551.75,
+        "width": 350,
+        "height": 33
+      },
+      "overlaps": [],
+      "elapsedMs": 1263
+    },
+    {
+      "file": "consumer-v17-production-extensions-1280.json",
+      "synthetic": true,
+      "liveSource": false,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "boundary": {
+        "x": 300,
+        "y": 564.640625,
+        "width": 680,
+        "height": 16.5
+      },
+      "overlaps": [],
+      "elapsedMs": 1570
+    },
+    {
+      "file": "consumer-v17-production-extensions-320.json",
+      "synthetic": true,
+      "liveSource": false,
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "boundary": {
+        "x": 20,
+        "y": 624.625,
+        "width": 280,
+        "height": 49.5
+      },
+      "overlaps": [],
+      "elapsedMs": 1244
+    },
+    {
+      "file": "consumer-v17-production-extensions-390.json",
+      "synthetic": true,
+      "liveSource": false,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "boundary": {
+        "x": 20,
+        "y": 551.75,
+        "width": 350,
+        "height": 33
+      },
+      "overlaps": [],
+      "elapsedMs": 1302
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "screenshots/after-landing-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 77088,
+      "sha256": "e4a4352087f7a032d6388ff65b0843b151643d02c098b1ff057045ec9780412f",
+      "synthetic": false,
+      "captureContext": "Actual local Next production-build discovery, no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-landing-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 53379,
+      "sha256": "e62352d0fb437513b9f61bb76edef83c8507e436f7429ff309c707dbe4c74b35",
+      "synthetic": false,
+      "captureContext": "Actual local Next production-build discovery, no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-landing-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 60716,
+      "sha256": "c0be27e05a0db37b5d1273a40c451e8371967961d98e2e36ce7cfba6d1b7ae55",
+      "synthetic": false,
+      "captureContext": "Actual local Next production-build discovery, no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-synthetic-denied-1280.png",
+      "width": 1280,
+      "height": 1132,
+      "bytes": 96156,
+      "sha256": "eb29e194eca6c620e1f08648e338d5eced4dc5081cad55e363bbce1fde347e70",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-denied-320.png",
+      "width": 320,
+      "height": 1325,
+      "bytes": 84969,
+      "sha256": "28be5a500f330f9358de54149961acea763694fdb97e8f67b677595fd64c9694",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-denied-390.png",
+      "width": 390,
+      "height": 1314,
+      "bytes": 85998,
+      "sha256": "14fdf8900105d03199f776a77d56e457ba1e3aeabb1a28f43643cb3f9965e43b",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-disabled-1280.png",
+      "width": 1280,
+      "height": 1045,
+      "bytes": 92123,
+      "sha256": "dd0224f56b7a655f4fffa5e30b3175ce084f6872307616e268dbd10cf4ea4080",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-disabled-320.png",
+      "width": 320,
+      "height": 1261,
+      "bytes": 82761,
+      "sha256": "98b95923be16d284147dff34c73b85db39b10d5eca59a66555f66f06e5a50fc1",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-disabled-390.png",
+      "width": 390,
+      "height": 1237,
+      "bytes": 83347,
+      "sha256": "3718ad148f6fcc1ed08007f2a9b90c06afa8e05a41add9835f1b56fa79e06c56",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-evidence-1280.png",
+      "width": 1280,
+      "height": 1229,
+      "bytes": 105520,
+      "sha256": "a595cedcec6d63dff258a35b502198ab3ebce799fdfaaf2c9d7a2d2359a7dd38",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-evidence-320.png",
+      "width": 320,
+      "height": 1393,
+      "bytes": 93724,
+      "sha256": "b35e739b4d23a57584b5cbcdf81876e6b40a287777ca698a48e60b27979dfb84",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-evidence-390.png",
+      "width": 390,
+      "height": 1264,
+      "bytes": 94010,
+      "sha256": "aca3f555b8332e07bdc36f35a232b5c4d563038a67ca67e5967296f024c7df52",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-expired-1280.png",
+      "width": 1280,
+      "height": 1080,
+      "bytes": 95183,
+      "sha256": "3735830eeaef84141a9563601d768e44c5790831d10dc90e499d892a0e90a73b",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-expired-320.png",
+      "width": 320,
+      "height": 1273,
+      "bytes": 84344,
+      "sha256": "f9c2fff4b57b8b2ca1e9a45e68ca9c149965a4c51ad23213f913b622c7e87ecd",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-expired-390.png",
+      "width": 390,
+      "height": 1239,
+      "bytes": 84003,
+      "sha256": "c5318e0ce3f33f7f8b9b9993e51e92f58d433fd2692020d33b2f90ee28e8d97d",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-history-1280.png",
+      "width": 1280,
+      "height": 1545,
+      "bytes": 151945,
+      "sha256": "f2f27a251620e1cdd24be4f3d6e8da3532bc3f54309e41163c028a30f776a798",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-history-320.png",
+      "width": 320,
+      "height": 1671,
+      "bytes": 129720,
+      "sha256": "370da585a98d9a8e2fb2bd3e3da5803f1eccfa3cb6c7dee66c6f08cf156d1dd7",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-history-390.png",
+      "width": 390,
+      "height": 1474,
+      "bytes": 128861,
+      "sha256": "a033a03f7c42fb30b61780392b266971e65d7ebd5d110438e5efcc2a94f60dea",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-loading-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 85556,
+      "sha256": "30e9191e8544a76bb032a44fbee9bf7a90990c178c78232d328a721b633b379a",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-loading-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 53213,
+      "sha256": "f46c4201253e29769dfb0ca364949772183bb0c960bbc987bd87ad00ac40630f",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-loading-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 62988,
+      "sha256": "55ff3448ceff0db1d4e2f5c3b2a44e6beb0130938e7813ba57305e6a4a7463fc",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-network-1280.png",
+      "width": 1280,
+      "height": 1080,
+      "bytes": 92973,
+      "sha256": "c36bedb24c67723f4935599f724fd871da28b637ba5c0f0d261a8fc926de51fd",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-network-320.png",
+      "width": 320,
+      "height": 1273,
+      "bytes": 82805,
+      "sha256": "e150e7f840b961ec6ff72ccb50a7518e18cccec6495bd3f4d4a113ce1f5c43cc",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-network-390.png",
+      "width": 390,
+      "height": 1271,
+      "bytes": 82859,
+      "sha256": "668bca77c5bd2bcf7f1a527f78224c266d8187bd2218fe6f986c37472a8981a1",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-production-extensions-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 74115,
+      "sha256": "eeb9154c7168b525f9bcd65f24f5d353d059e9ffb38f4759131e0ab095aa8a6a",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-production-extensions-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 59997,
+      "sha256": "2366c317ac2da83ce33c845c414e71a8a64f7a51a5b052121827264f6379fd85",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-production-extensions-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 64706,
+      "sha256": "90c305c055c99a6e01f18bc6d749185451ff909d20351044e0356afcbf74ac81",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-production-profile-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 74116,
+      "sha256": "927697523a1430e162a8c308b1f06c70a18a7115d9efd86359b1255af083e08a",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-production-profile-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 59149,
+      "sha256": "d7d45d3e470209d94a1b93b872779a8712a6145b2258503a45a42f4f7b237cf1",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-production-profile-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 64596,
+      "sha256": "4eabe0647ced054881f0a0fecf0c1b51a838273cdcf42bd48527279bc23eca1b",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-rate-1280.png",
+      "width": 1280,
+      "height": 1057,
+      "bytes": 91855,
+      "sha256": "f15238227e8c4fa030eb7354ef9787718989177ba750555ec2c5488c9a17ffc5",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-rate-320.png",
+      "width": 320,
+      "height": 1242,
+      "bytes": 80897,
+      "sha256": "b885c30702c5d6fac108bb12eff54dcbaee86052cdc9eba235da2a386fae05ce",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-rate-390.png",
+      "width": 390,
+      "height": 1239,
+      "bytes": 82260,
+      "sha256": "379cb96d933fc99c691a6ab0f568a8350bebd641c3acc4466691669610d357a2",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-unsupported-1280.png",
+      "width": 1280,
+      "height": 1132,
+      "bytes": 100738,
+      "sha256": "0fbd65a481a27a7766c78e25ba09915135afc606c0467c9f64294c0a3ebdccb7",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-unsupported-320.png",
+      "width": 320,
+      "height": 1348,
+      "bytes": 88116,
+      "sha256": "876eaa49ded63e3683fc488ad5e7e9610ae4f3a60c4eff19c87e45e4631e06a6",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/after-synthetic-unsupported-390.png",
+      "width": 390,
+      "height": 1323,
+      "bytes": 89720,
+      "sha256": "7a22e543b66db38b513a84e4bcdb754f139317c966ca21026c0a6bfbec473091",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/before-landing-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 77211,
+      "sha256": "0d3c05074d99bce2cf7532ed5ec45854272cebaa43be3572ec7659f10000c2bd",
+      "synthetic": false,
+      "captureContext": "Actual local Next production-build discovery, no positive current source fixture"
+    },
+    {
+      "file": "screenshots/before-landing-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 51744,
+      "sha256": "4faf7cf1d6ea2739e3fef0b2b532df82d30f7949af3afb42f35a7b7cf4785672",
+      "synthetic": false,
+      "captureContext": "Actual local Next production-build discovery, no positive current source fixture"
+    },
+    {
+      "file": "screenshots/before-landing-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 61010,
+      "sha256": "348540eb7cec79e8cb2c6a9d52e2e7ac49821a79b64f04217fc0c19babf0b84f",
+      "synthetic": false,
+      "captureContext": "Actual local Next production-build discovery, no positive current source fixture"
+    },
+    {
+      "file": "screenshots/before-synthetic-answer-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 72709,
+      "sha256": "be438642495fa0aa3a500ce40cb36329ff76d32f12c24576b98ff231693ecb3c",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/before-synthetic-answer-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 60173,
+      "sha256": "c57da482a2a8696ea2250a9b339d1867b086216ef915ac4b9c210e08e6182078",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/before-synthetic-answer-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 63635,
+      "sha256": "3bd6342bfdc32dec97095413b0d18d7a8b126e41ff12b47594aef76358b94b60",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/before-synthetic-disabled-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 83115,
+      "sha256": "05b489c58d6ee7d996ca166b72a9923b3ceff342663d36a9c4d4a71d8661a7e8",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/before-synthetic-disabled-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 54191,
+      "sha256": "c24b55a9bcaa6e44f08d35ffdac03f0344d97b79492c573d51624688c04ecf45",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/before-synthetic-disabled-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 61422,
+      "sha256": "c952477d383a3101ac864d0717958282a1f7c4ecb0a2be3729cce7349c4895bb",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/before-synthetic-history-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 81096,
+      "sha256": "2ad302199eb51122336b5d7305dcfe2d9e509c574e6a2faa7429df9d59ab0f62",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/before-synthetic-history-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 61624,
+      "sha256": "3dfe412f6d47183cee5bca8fc886ddfd078db0e8db8c9c8f86f2c0c19cfde3b3",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/before-synthetic-history-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 70919,
+      "sha256": "2d4592a1d0c5ff0335b72fd8885bc3d7a7bed9cb9f28b8c8ebef76dfd272feff",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/before-synthetic-loading-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 83666,
+      "sha256": "75ab9b9cce356029356966130f78699e01376320f74f9dcaddf2bb2289b3f323",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/before-synthetic-loading-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 52730,
+      "sha256": "6c853e7dc327d7793f73e3a4783de769d43359d675068f871bd6bff1486aec25",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    },
+    {
+      "file": "screenshots/before-synthetic-loading-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 60501,
+      "sha256": "3233ef06577be650ecf9a35712d35ada586dcb4e24614b460651e98949e61966",
+      "synthetic": true,
+      "captureContext": "Isolated labeled offline harness; invented source values, slots, clocks and hashes"
+    }
+  ]
+}

@@ -13,7 +13,7 @@ test('real production missing/disabled route stays honest, SSR and no-JS never s
  // #108 deliberately rejects unapproved localhost/preview origins; canonical production stays 503/disabled.
  await expect(page.getByRole('heading',{name:status===403?'Check not permitted':'Source not connected',exact:true})).toBeVisible();await expect(page.locator('.mint-supply')).toHaveCount(0);
  await expect(page.getByText('No accepted observation',{exact:true})).toBeVisible();await expect(page.getByText('Unavailable',{exact:true})).toBeVisible();await axe(page);
- await page.screenshot({path:`docs/consumer-v16-ux/screenshots/production-disabled-${info.project.name}.png`});
+ await page.screenshot({path:`experiments/consumer-mvp/web/node_modules/.cache/v17-regression-screenshots/production-disabled-${info.project.name}.png`});
  const nojs=await browser.newContext({javaScriptEnabled:false});const p=await nojs.newPage();await p.goto('http://127.0.0.1:4180/?mint='+mint);await expect(p.locator('.mint-ssr-note')).toContainText('Onchain facts have not loaded');expect(await p.locator('.mint-supply').count()).toBe(0);await nojs.close();
  const r=await request.get('/?mint='+mint);expect(r.status()).toBe(200);expect(await r.text()).not.toContain('18446744073.709551615');expect(await page.locator('script').allTextContents()).not.toContain('18446744073.709551615');
  const fixtureRoute=await request.get('/consumer/harness');expect(fixtureRoute.status()).toBe(404);
@@ -41,7 +41,7 @@ test('query flags cannot enable synthetic facts and draft/address sharing stays 
  await expect(page.getByRole('heading',{name:status===403?'Check not permitted':'Source not connected',exact:true})).toBeVisible();expect(await page.locator('.mint-supply').count()).toBe(0);
  await page.context().grantPermissions(['clipboard-read','clipboard-write']);await page.getByRole('button',{name:'Copy address link',exact:true}).click();expect(await page.evaluate(()=>navigator.clipboard.readText())).toBe(new URL('/?mint='+mint,page.url()).href);
  await page.evaluate(()=>{function strip(sheet){for(const rule of [...sheet.cssRules]){if(rule.selectorText?.includes(':has('))sheet.deleteRule([...sheet.cssRules].indexOf(rule));else if(rule.cssRules)strip(rule);}}for(const sheet of document.styleSheets)strip(sheet);});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
- writeFileSync('experiments/consumer-mvp/web/node_modules/.cache/consumer-v16-production-no-facts.json',JSON.stringify({displayedFacts:false,externalRequests:outbound.get(page)}));
+ writeFileSync('experiments/consumer-mvp/web/node_modules/.cache/consumer-v17-production-no-facts.json',JSON.stringify({displayedFacts:false,externalRequests:outbound.get(page)}));
 });
 test('Next production consumer keeps replayed disabled, denied, expired and offline responses unavailable',async({page})=>{
  for(const [reason,status,title] of [['disabled',503,'Source not connected'],['access_denied',403,'Check not permitted'],['stale_source',503,'Observation expired'],['network_unavailable',503,'Check could not complete']]){
