@@ -11,7 +11,9 @@ export type DatabaseHandle = Readonly<{ host: string; provider: "neon-postgres" 
 const databaseSecrets = new WeakMap<object, Readonly<{ host: string; user: string; password: string; database: string }>>();
 /** Explicit fields avoid pg connection-string sslmode overrides and ambient PG* credential fallback. */
 export function prepareDatabase(value: unknown, pinnedHost: string): DatabaseHandle | null {
-  if (!/^ep-[a-z0-9-]+\.[a-z0-9-]+\.(?:aws|azure)\.neon\.tech$/.test(pinnedHost) || pinnedHost.includes('-ro.')) return null;
+  // Neon also uses a c-N routing label, e.g. ep-example.c-7.us-east-2.aws.neon.tech.
+  // This validates only provider syntax; the complete host must still equal the reviewed pin.
+  if (!/^ep-[a-z0-9-]+\.(?:c-[0-9]+\.)?[a-z0-9-]+\.(?:aws|azure)\.neon\.tech$/.test(pinnedHost) || pinnedHost.includes('-ro.')) return null;
   if (typeof value !== "string" || value.length > 2048 || /[\x00-\x20\x7f]/.test(value)) return null;
   try {
     const url = new URL(value);

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-19T02:53:22.501Z",
+  "target": {
+    "orgId": "org-fragrant-butterfly-26428175",
+    "projectId": "snowy-haze-83201847",
+    "projectName": "scout-onchain",
+    "branchName": "production",
+    "branchId": "br-long-fog-b54099ej",
+    "databaseName": "neondb",
+    "primaryEndpointId": "ep-flat-band-b5fp4ls8",
+    "directHost": "ep-flat-band-b5fp4ls8.c-7.us-east-2.aws.neon.tech",
+    "regionId": "aws-us-east-2"
+  },
+  "provenance": {
+    "provider": "Neon",
+    "channel": "authenticated Neon MCP connector",
+    "operations": [
+      "describe_project",
+      "list_branches (production only)",
+      "list_postgres_endpoints",
+      "list_postgres_databases",
+      "list_postgres_roles",
+      "run_sql (two read-only metadata SELECTs)"
+    ],
+    "credentialValuesRetrieved": false,
+    "hostedWrites": false
+  },
+  "hostedSql": {
+    "observed_at": "2026-10-19T02:53:22.501Z",
+    "database_name": "neondb",
+    "session_role": "neondb_owner",
+    "server_version_num": "180006",
+    "in_recovery": false,
+    "transaction_read_only": "off",
+    "scout_schema_present": false,
+    "scout_runtime_group_present": false
+  },
+  "cli": {
+    "version": "8.8.0",
+    "loginExitCode": 1,
+    "authUrlIssued": false,
+    "authBlocker": "enforced proxy rejects oauth2.neon.tech discovery with CONNECT HTTP 403",
+    "initExitCode": 1,
+    "contextWrittenOffline": true,
+    "configCreated": true,
+    "envFileWritten": false,
+    "remotePlanExitCode": 1,
+    "deployRun": false
+  },
+  "unchangedControls": {
+    "productionRpcEnabled": false,
+    "liveApprovalEnabled": false,
+    "storeHostPin": null,
+    "vercelProjectIdPin": null
+  },
+  "limits": [
+    "Owner-role connector query, not native app TLS/permission verification.",
+    "SCOUT schema/runtime group absent at the stated source clock.",
+    "Hosted SCOUT end-to-end admission/lease tests blocked; not passed.",
+    "No duplicate project/branch/service/credential, billing or account settings change."
+  ]
+}

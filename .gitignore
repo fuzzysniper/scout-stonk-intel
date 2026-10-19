@@ -14,3 +14,4 @@ out
 *.p8
 *.p12
 *.pfx
+.neon
