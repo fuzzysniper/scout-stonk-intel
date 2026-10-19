@@ -5,7 +5,8 @@ import {mkdtempSync,mkdirSync,writeFileSync,readFileSync,readdirSync,rmSync,exis
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {createHandler,validateWindow} from '../../scripts/ops/neon-smoke-handler.mjs';
-import {prepareArtifact,validateApproval} from '../../scripts/ops/build-neon-smoke-artifact.mjs';
+import {prepareArtifact,validateApproval,REPOSITORY_ROOT} from '../../scripts/ops/build-neon-smoke-artifact.mjs';
+import {createRequire} from 'node:module';
 
 const SHA='c'.repeat(40), NOW=1792419900000, OP='scout-neon-reviewed-987654321';
 const approved={enabled:true,operationId:OP,reviewedCommitSha:SHA,startMs:NOW-1000,endMs:NOW+20000};
@@ -94,4 +95,25 @@ test('approvals cannot be armed without reviewed commit and bounded operation',(
  assert.throws(()=>validateApproval({...approved,endMs:approved.startMs+300001},true,SHA));
  assert.throws(()=>validateApproval({...approved,reviewedCommitSha:'f'.repeat(40)},true,SHA));
  assert.deepEqual(validateApproval(approved,true,SHA),approved);
+});
+
+test('actual locked native pg closure packages into an OFF Build Output v3 function',()=>{
+  const root=REPOSITORY_ROOT;
+  const output=join(root,'.vercel','scout-neon-smoke-ci-artifact');
+  try {
+    const r=prepareArtifact({root,output});
+    assert.equal(r.manifestEnabled,false);
+    assert.ok(r.pgClosure.length>=12);
+    assert.ok(r.pgClosure.includes('pg-cloudflare'));
+    assert.match(r.filesSha256,/^[0-9a-f]{64}$/);
+    const entry=join(output,'functions/_ops/neon-smoke.func','handler.mjs');
+    const require=createRequire(entry);
+    assert.equal(require('pg/package.json').version,'8.23.1');
+    assert.equal(typeof require('pg').Client,'function');
+    assert.equal(JSON.parse(readFileSync(join(output,'functions/_ops/neon-smoke.func/approval.json'),'utf8')).enabled,false);
+    const listing=readdirSync(join(output,'functions/_ops/neon-smoke.func'));
+    assert.deepEqual(listing.filter(x=>x.startsWith('.env')||x==='.git'||x==='.neon'),[]);
+  } finally {
+    if (existsSync(output)) rmSync(output,{recursive:true,force:true});
+  }
 });
