@@ -1,0 +1,373 @@
+{
+  "base": "314612da3ac47ddea5f16863b6d4507614cef18d",
+  "recordedAt": "2026-10-19T18:16:34.361151+00:00",
+  "toolchain": {
+    "node": "20.20.2",
+    "npm": "11.9.0",
+    "next": "15.5.28",
+    "chromium": "154.0.8037.57",
+    "disposableLocalPostgres": "17.11"
+  },
+  "checks": [
+    {
+      "command": "npm ci",
+      "exitCode": 0,
+      "result": "356 packages installed; lockfile unchanged",
+      "logSha256": "5f3ad7c4a40ae0a8a40475f09b9066d680a7e0600e78bf585b918ae68308768c"
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "result": "826 Node + 106 Python = 932; zero failures/skips",
+      "logSha256": "69ad829860d8b6b594100da1fbfce1a97170072c1049506f20860df4fcabf584"
+    },
+    {
+      "command": "bash tests/consumer-homepage/run-onchain.sh",
+      "exitCode": 0,
+      "result": "19 passed",
+      "logSha256": "58e725e45d30837dac3922fa2eafe7a08cd9b9f3049d537f96cfb0f8e5d06a7b"
+    },
+    {
+      "command": "bash tests/consumer-cards/run.sh",
+      "exitCode": 0,
+      "result": "12 passed; also included in npm test",
+      "logSha256": "a6274ae9b4e5cb93604d86875da08325ec953fc6fe6ffc7438790e0ba75e687e"
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0,
+      "result": "No TypeScript errors",
+      "logSha256": "fe5cf9f03b4fda5899dda56722e712447012a719da9aff3d720b80f638ca9695"
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "result": "No ESLint errors",
+      "logSha256": "392700af50f36985cbc9fe1e28f2b6ccd70160730f86f15a3bb544b4179c8a5d"
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "result": "Next production build passed; both research routes 118 kB first-load JS",
+      "logSha256": "a2fd8083bb4348b5dba03a22c26fa03d4689b4223b0280748684ffd896d85fc0"
+    },
+    {
+      "command": "bash scripts/archive-tool.sh check origin/main",
+      "exitCode": 0,
+      "result": "Append-only/reproduction passed",
+      "logSha256": "e765fbe4200d783e0905d0a7a988284227807c7adc86191e92cbc87dbc55af64"
+    },
+    {
+      "command": "npm run archive:dry-run",
+      "exitCode": 0,
+      "result": "Local-only replay/idempotency/tamper checks passed",
+      "logSha256": "7146fa9d96a9250e5b3f66867e4c72e27ae0a48f1caf6b4c7e1df184d3d7ca44"
+    },
+    {
+      "command": "Playwright: consumer-cards/playwright.config.mjs",
+      "exitCode": 0,
+      "result": "30 passed at 320/390/1280",
+      "logSha256": "fc8623eda00ab2edebc5ef2959ed81dcef394fcd99f248e0f632b5ef94e46537"
+    },
+    {
+      "command": "Playwright: consumer-homepage/playwright.config.mjs",
+      "exitCode": 0,
+      "result": "105 passed at 320/390/1280",
+      "logSha256": "72a00c74002af677957466843992c42448cfbf57cb3fac623f80b2707bd02c1e"
+    }
+  ],
+  "archiveDryRun": {
+    "mode": "local-only",
+    "startedAt": "2026-10-19T18:11:32.331Z",
+    "finishedAt": "2026-10-19T18:11:33.643Z",
+    "reviewedMain": "314612da3ac47ddea5f16863b6d4507614cef18d",
+    "inputPin": "e3de19169c844f85f06d0cabe7a4c9682d68d8ac",
+    "date": "2026-10-11",
+    "editionId": "d3a23a36ef05a3c3f0ab4fdaf94b000aaed24fe70c945607a97a50da7dde6f63",
+    "snapshotRevision": "sha256:ef971b99e0014c7bdbf498e50e0725e5e6f79c678c5d719394436d677e0e4b00",
+    "findingCount": 0,
+    "checks": [
+      "reviewed_git_pin",
+      "exact_source_hashes",
+      "no_finding_null_figures",
+      "real_generator",
+      "duplicate_byte_idempotency",
+      "edition_reproduction",
+      "append_only_git_provenance",
+      "approved_edition_edit_rejected",
+      "before_grace_rejected",
+      "remote_removed",
+      "working_archive_unchanged"
+    ],
+    "cleanup": "disposable checkout removed in finally; no commits or network operations"
+  },
+  "unchangedEvidenceSha256": {
+    "data/tracked-mints.json": "e6a94dc0962ca3b4336dd2d97ab879aef542062b39cee93994bd9a96698814a5",
+    "data/reward-snapshots.json": "65eb26d69e4c73f564deabd404d5dbed46ac0043b37dfb8ce019b16e1529016f",
+    "docs/evidence/pair-reward-audit-2026-10-14.json": "4ff3c223122ca1479bade0e09889aa4837803cab137c26a9e714999a2ea0b50d",
+    "docs/evidence/pair-pulse-research.json": "30e0c093e736175f26c49f199a925e4ab31675e12f3e4decfd462a14b53436e3"
+  },
+  "privacy": {
+    "privateCandidateIdentityCommitted": false,
+    "privatePortfolioScreenshots": false,
+    "watchDefaults": [],
+    "physicalIphoneTestPerformed": false,
+    "humanTestPerformed": false,
+    "realHeliusRequests": 0,
+    "agentB118FileOverlap": []
+  },
+  "screenshots": [
+    {
+      "file": "screenshots/after-home-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "71af2144d17b984fa27df118332a5f1c3c67c3ecde4300db368c53f12eece0db"
+    },
+    {
+      "file": "screenshots/after-home-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "e62352d0fb437513b9f61bb76edef83c8507e436f7429ff309c707dbe4c74b35"
+    },
+    {
+      "file": "screenshots/after-home-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "c0be27e05a0db37b5d1273a40c451e8371967961d98e2e36ce7cfba6d1b7ae55"
+    },
+    {
+      "file": "screenshots/after-public-discovery-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "533f2f923a62ac425b1dd9b6740e545051d68c4980c2d042ade588df623b96bf"
+    },
+    {
+      "file": "screenshots/after-public-discovery-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "ffe6388eb365c5fae23cec4a90465f1baa501592a4fff48e6cfef6594ee08d2c"
+    },
+    {
+      "file": "screenshots/after-public-discovery-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "b361bbdbf4a3cb169aee436af69bc755d8caf7f3623aaf61bc31dc70c8203bfe"
+    },
+    {
+      "file": "screenshots/after-public-evidence-1280.png",
+      "width": 1280,
+      "height": 6115,
+      "sha256": "2b5896989c970871c5704e1cab7f4ff565b9c1e2bc3be4807856705a1f9a1f76"
+    },
+    {
+      "file": "screenshots/after-public-evidence-320.png",
+      "width": 320,
+      "height": 6453,
+      "sha256": "890d39d8477cc30c44ebe419dedf636ee10103565bc88bbb8e9fdf6fc33e34cc"
+    },
+    {
+      "file": "screenshots/after-public-evidence-390.png",
+      "width": 390,
+      "height": 6332,
+      "sha256": "a901737b109bd9e34fce24aab2cfb2a6981dae054e55a617d73c9d24123fed8f"
+    },
+    {
+      "file": "screenshots/after-synthetic-discovery-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "7399a0bd9b77a5fff6393d0336272af59f2494bc938676daadfe46b95aec2667"
+    },
+    {
+      "file": "screenshots/after-synthetic-discovery-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "9a14182c847693ee059ec45563b3d298593d6929b51b1a7884a0eb9359f67a5d"
+    },
+    {
+      "file": "screenshots/after-synthetic-discovery-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "931fdddae42fa54a51b6c87bc6604e87962ff593917d393d88f5ce2e0f0513e4"
+    },
+    {
+      "file": "screenshots/after-synthetic-empty-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "0c6de388fda33cb761b72316b0c7d353aeebd82250399577f0b6cf9af154dc55"
+    },
+    {
+      "file": "screenshots/after-synthetic-empty-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "d93c2ee618962a72fe05c7842c3558d38bc51f54c4683f7ab500ba785d8e4834"
+    },
+    {
+      "file": "screenshots/after-synthetic-empty-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "1598e577d75f30ab2f42cb6c7d2f7469e51bbb75ffa9f87bca0fbc1dcdf1a823"
+    },
+    {
+      "file": "screenshots/after-synthetic-evidence-1280.png",
+      "width": 1280,
+      "height": 2373,
+      "sha256": "4e3052ca6fb14a5c723ecd4f048dd8a61ffc075d326628397f78491ccf0d5554"
+    },
+    {
+      "file": "screenshots/after-synthetic-evidence-320.png",
+      "width": 320,
+      "height": 2689,
+      "sha256": "b13cd2d6d534419c1e56af9403a51a6917da74f913102a07f267bf906bcf809a"
+    },
+    {
+      "file": "screenshots/after-synthetic-evidence-390.png",
+      "width": 390,
+      "height": 2587,
+      "sha256": "3ada036ee7143a63210ed489e81d09d30d35029c26b589f9be8d8dbc5cd465e5"
+    },
+    {
+      "file": "screenshots/after-synthetic-loading-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "fadb8d61b634404a2199d1fb11d56d22260df259d1772828d66172f054f043a6"
+    },
+    {
+      "file": "screenshots/after-synthetic-loading-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "60131fd12a24f2aee625ee36d09b9d1d7c2350515586eddeba316d36f92cc94b"
+    },
+    {
+      "file": "screenshots/after-synthetic-loading-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "8f750450a6f8218894ec1bbaf0be62785a4e8a9a160daa101021acbfa5c87487"
+    },
+    {
+      "file": "screenshots/after-synthetic-quote-side-1280.png",
+      "width": 1280,
+      "height": 1691,
+      "sha256": "fd53fde3f4ca08296c0d078bafcfe9a61e4270e1d2731725d3482860c2f88e4c"
+    },
+    {
+      "file": "screenshots/after-synthetic-quote-side-320.png",
+      "width": 320,
+      "height": 1947,
+      "sha256": "9974df355de1fbdd70465a077d3e46fcf05c384935872719c79b5ebe0339173e"
+    },
+    {
+      "file": "screenshots/after-synthetic-quote-side-390.png",
+      "width": 390,
+      "height": 1863,
+      "sha256": "0002bc936ea37b70424206d0ca718a0a72be9cf7d9d958a7b078bcd80f8404ea"
+    },
+    {
+      "file": "screenshots/after-synthetic-rate-limit-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "a665bc640793850b259ccad72ec83acaf5ec7d26d3f994032af0f5c8dd990ea6"
+    },
+    {
+      "file": "screenshots/after-synthetic-rate-limit-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "fcc62debfd9be58c09c3e64a7e0e278383e22f1d48f63c8a3c29111aaf7fbd5d"
+    },
+    {
+      "file": "screenshots/after-synthetic-rate-limit-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "37fe5f842effe3cad4983b410adad2a644a071cf2f74dd2c539b9d2906744cfc"
+    },
+    {
+      "file": "screenshots/after-synthetic-stale-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "04e49bb70e8512465765754d65a39efef691c02e1db62843017b56c2aff0d644"
+    },
+    {
+      "file": "screenshots/after-synthetic-stale-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "6ab6f6b3345e8c418f9b3b1e60179137695af3f7be1deb5333d5ce46c7362d5c"
+    },
+    {
+      "file": "screenshots/after-synthetic-stale-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "756b51776b4c6c7d401e2539caa252c58261297b0fbf161bc5cca129b830aa46"
+    },
+    {
+      "file": "screenshots/after-synthetic-standalone-watch-1280.png",
+      "width": 1280,
+      "height": 1049,
+      "sha256": "51d5eed3428ca50538cf3613ebc1fc657163307e2e62e4c519f58b6919ebb8a5"
+    },
+    {
+      "file": "screenshots/after-synthetic-standalone-watch-320.png",
+      "width": 320,
+      "height": 1197,
+      "sha256": "2bb04643efcd7a91238fb4e6590a49101b2f0715dbc71c0253147982305b73a8"
+    },
+    {
+      "file": "screenshots/after-synthetic-standalone-watch-390.png",
+      "width": 390,
+      "height": 1115,
+      "sha256": "3b4a654aa98a7b8e170985495859d3ef71d726cde1fe34696606bf194aea4b9d"
+    },
+    {
+      "file": "screenshots/after-synthetic-watch-1280.png",
+      "width": 1280,
+      "height": 2070,
+      "sha256": "0f62dc1bd5f3cfd132ae0ba74eeb5d2de492ec2203e63dab9afb4e773dbebd2e"
+    },
+    {
+      "file": "screenshots/after-synthetic-watch-320.png",
+      "width": 320,
+      "height": 2435,
+      "sha256": "20c0a82ac60dbaa86c85ef580ad37003a6c8b44133d71af311ad9cbc0f22cbba"
+    },
+    {
+      "file": "screenshots/after-synthetic-watch-390.png",
+      "width": 390,
+      "height": 2260,
+      "sha256": "5e81ff20602c04871e2f9a130d7cfdd5b0ed4362340a74a0cbf56d0e9dd8f650"
+    },
+    {
+      "file": "screenshots/before-home-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "e4a4352087f7a032d6388ff65b0843b151643d02c098b1ff057045ec9780412f"
+    },
+    {
+      "file": "screenshots/before-home-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "e62352d0fb437513b9f61bb76edef83c8507e436f7429ff309c707dbe4c74b35"
+    },
+    {
+      "file": "screenshots/before-home-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "c0be27e05a0db37b5d1273a40c451e8371967961d98e2e36ce7cfba6d1b7ae55"
+    },
+    {
+      "file": "screenshots/before-terminal-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "bd847e29c3972763c7c0ab0b45a1e67572eba1b30b471ed3e70e4a5b89876ba1"
+    },
+    {
+      "file": "screenshots/before-terminal-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "cf00710796a18657abf8bdf7868204c0a169aa2d0830734ab0a8359dec33cad8"
+    },
+    {
+      "file": "screenshots/before-terminal-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "a18b07428f60187fcf586b843aeabef84bc3fe9e06300913e5cfdf48d104b647"
+    }
+  ]
+}
