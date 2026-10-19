@@ -18,6 +18,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
@@ -27,8 +28,11 @@ jobs:
         run: node --test tests/onchain-api/neon-artifact.test.mjs
       - name: Build disabled secret-free artifact and inspect inventory
         shell: bash
+        env:
+          REVIEW_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
           node scripts/ops/build-neon-smoke-artifact.mjs > /tmp/scout-neon-artifact-status.json
           test -d .vercel/output/functions/_ops/neon-smoke.func
           node --input-type=module <<'JS'
@@ -52,13 +56,13 @@ jobs:
           walk(root);
           if(files.some(f=>f.split('/').some(part=>part==='.git'||part==='.neon'||part==='.env'||part.startsWith('.env.'))))throw Error('secret_file_present');
           if(status.files!==files.length||!Number.isInteger(status.files)||status.files<10)throw Error('artifact_file_count_mismatch');
-          writeFileSync('.vercel/review-summary.json',JSON.stringify({sourceCommit:process.env.GITHUB_SHA,artifactEnabled:false,files:status.files,filesSha256:status.filesSha256,pgPackages:status.pgPackages},null,2)+'\n');
+          writeFileSync('.vercel/review-summary.json',JSON.stringify({sourceCommit:process.env.REVIEW_HEAD_SHA,artifactEnabled:false,files:status.files,filesSha256:status.filesSha256,pgPackages:status.pgPackages},null,2)+'\n');
           console.log('OFFLINE ARTIFACT PASS '+JSON.stringify({files:status.files,filesSha256:status.filesSha256,pgPackages:status.pgPackages.length,approvalEnabled:false}));
           JS
       - name: Upload only default-OFF artifact and sanitized digest
         uses: actions/upload-artifact@v4
         with:
-          name: scout-neon-default-off-${{ github.sha }}
+          name: scout-neon-default-off-${{ github.event.pull_request.head.sha }}
           path: .vercel/
           include-hidden-files: true
           if-no-files-found: error
