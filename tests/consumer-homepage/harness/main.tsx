@@ -3,7 +3,7 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 import ConsumerHome from '../../../app/consumer/home';
 import {evaluateInput} from '../../../app/consumer/model';
-import type {MintFactsPort} from '../../../app/consumer/onchain-client';
+import type {MintFactsPort,MintReadOutcome} from '../../../app/consumer/onchain-client';
 import {syntheticMint,syntheticFailure,syntheticProductionEnvelope,TEST_MINT} from '../synthetic';
 import '../../../app/globals.css';
 import '../../../app/consumer/consumer.css';
@@ -12,6 +12,7 @@ const params=new URL(location.href).searchParams,mint=params.get('mint')??TEST_M
 let reads=0;
 const port:MintFactsPort={context:scenario.startsWith('production-')?'production':'synthetic-offline',read:async address=>{
  reads++;document.documentElement.dataset.reads=String(reads);
+ if(scenario==='loading')return new Promise<MintReadOutcome>(resolve=>{Object.assign(window,{resolveOfflineReadiness:()=>resolve({httpStatus:503,body:syntheticFailure(address)})});});
  if(scenario==='race'&&address===TEST_MINT)await new Promise(r=>setTimeout(r,250));
  if(scenario==='rate')return {httpStatus:429,body:syntheticFailure(address,'rate_limited'),retryMs:2000};
  if(scenario==='unsupported')return {httpStatus:404,body:syntheticFailure(address,'not_mint','not_a_supported_mint_account')};
