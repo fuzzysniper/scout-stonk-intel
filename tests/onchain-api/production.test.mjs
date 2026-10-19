@@ -200,6 +200,27 @@ test("configuration is opaque, reads exactly three scoped names, pins host and v
   for(const value of [DB_URL.replace(HOST,"evil.invalid"),DB_URL+"?sslmode=no-verify",DB_URL+"?sslmode=require&ssl=false",DB_URL+"#x",DB_URL.replace("postgresql:","http:"),DB_URL.replace(HOST,HOST+":80"),DB_URL.replace("scout_test:","postgres:")])assert.equal(prepareDatabase(value,HOST),null);
   for(const pin of ["localhost","127.0.0.1",HOST+".evil.invalid",HOST.replace("ep-synthetic-only.","ep-synthetic-only-ro.")])assert.equal(prepareDatabase(DB_URL,pin),null);
 });
+test("Neon legacy and c-N routed hosts keep exact pins, opaque credentials and verified native TLS",()=>{
+  for(const host of [HOST,"ep-synthetic-only.c-7.us-east-2.aws.neon.tech","ep-synthetic-only.c-2.eastus2.azure.neon.tech"]){
+    const handle=prepareDatabase(DB_URL.replace(HOST,host),host);assert.ok(handle);
+    const params=databaseParameters(handle);
+    assert.equal(params.host,host);assert.equal(params.ssl.servername,host);assert.equal(params.ssl.rejectUnauthorized,true);
+    assert.equal(params.enableChannelBinding,true);assert.equal(params.connectionString,undefined);
+    assert.ok(!JSON.stringify(handle).includes(SYNTHETIC_DB_PASSWORD));
+    assert.equal(prepareDatabase(DB_URL.replace(HOST,host.replace('synthetic-only','another-synthetic')),host),null);
+  }
+});
+test("Neon routing compatibility rejects forged suffixes, extra labels, read replicas and URL overrides",()=>{
+  const good="ep-synthetic-only.c-7.us-east-2.aws.neon.tech";
+  for(const host of [good+".evil.invalid",good.replace('.c-7.','.c-seven.'),good.replace('.c-7.','.c-7.c-8.'),good.replace('ep-synthetic-only.','ep-synthetic-only-ro.'),good.replace('.neon.tech','.neon.invalid'),"localhost"]){
+    assert.equal(prepareDatabase(DB_URL.replace(HOST,host),host),null,host);
+  }
+  const url=DB_URL.replace(HOST,good);
+  for(const value of [url+'?sslmode=no-verify',url+'?sslmode=require&ssl=false',url+'#fragment',url.replace(good,good+':80'),url.replace('scout_test:','neondb_owner:')])assert.equal(prepareDatabase(value,good),null);
+});
+test("Neon setup does not enable the production gate or install host/project pins",()=>{
+  assert.deepEqual(LIVE_APPROVAL,{enabled:false,storeHost:null,vercelProjectId:null});
+});
 for(const missing of ["SCOUT_MINT_HELIUS_API_KEY","SCOUT_MINT_ADMISSION_HMAC_KEY","SCOUT_MINT_STORE_DATABASE_URL"])test(`missing ${missing} denies before store/RPC`,async()=>{
   const s=runtime({secrets:{[missing]:undefined}}),a=await read(s);assert.equal(a.body.reason,"upstream_unavailable");assert.equal(s.calls.store,0);assert.equal(s.calls.rpc,0);
   await read(s);assert.equal(s.calls.secrets.length,3);

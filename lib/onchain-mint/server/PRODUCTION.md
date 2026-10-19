@@ -73,7 +73,9 @@ TLS hostname/CA (`rejectUnauthorized=true`), channel binding support, 1s connect
 timeouts, 500ms statements, 100ms lock timeout and one connection per isolate.
 No connection-string SSL overrides, inherited password fallback, pgpass lookup,
 client-provided URL or automatic migration/bootstrap. Only the exact reviewed
-`ep-….<region>.aws.neon.tech` / Azure hostname is accepted. Read-only endpoint
+`ep-….<region>.aws.neon.tech` / Azure hostname, including Neon's optional `c-N`
+routing label before the region, is accepted. Full hostname equality is still
+required; syntax support is not a production-host approval. Read-only endpoint
 spelling is rejected; actual primary/write capability must also be verified by
 the owner (host spelling alone is not proof). The SQL fails on recovery/read-only
 operation. Startup options and the native transaction protocol must be checked

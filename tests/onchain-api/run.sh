@@ -9,4 +9,5 @@ export NODE_PATH="$PWD/node_modules/next/dist/compiled:$PWD/node_modules"
 NODE_ENV=test node --conditions=react-server tests/onchain-api/api.test.mjs
 NODE_ENV=test node --conditions=react-server tests/onchain-api/state.test.mjs
 NODE_ENV=test node --conditions=react-server tests/onchain-api/production.test.mjs
+NODE_ENV=test node --conditions=react-server tests/onchain-api/postgres-tls.test.mjs
 NODE_ENV=test node --conditions=react-server tests/onchain-api/native-transport.test.mjs
