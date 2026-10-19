@@ -1,0 +1,47 @@
+# Future single production connectivity test — NOT APPROVED
+
+## Practical supported mechanism
+
+There is no reviewed way to attach an arbitrary Node command to the already-deployed SCOUT production Function. `/api/mint-facts` exits disabled before credentials/Neon are opened. READY, a 503, build success, a Neon connector query and local tests do not establish native Vercel production reachability.
+
+The smallest supported option identified is a **temporary, protected, unpromoted production deployment in the existing project**, containing just one Node Function plus the reviewed probe and pinned pg dependencies. Use Vercel's Build Output API to avoid deploying a second copy of the consumer app or adding a diagnostic route to main. A platform-authenticated request invokes that Function once; it uses server-injected production credentials. This is additional production execution infrastructure and requires a separately reviewed exact artifact and explicit owner deployment/execution approval. **This PR creates no artifact, endpoint or deployment.**
+
+Official documentation reviewed 19 October 2026:
+
+- [Build Output API Node primitives](https://vercel.com/docs/build-output-api/primitives): `.func/.vc-config.json` supports `runtime`, `handler`, `maxDuration`, `launcherType`.
+- [Deploy CLI](https://vercel.com/docs/cli/deploy): `--prod --skip-domain` stages a **production** deployment without automatic promotion/domain assignment; `--prebuilt` uploads a reviewed local build artifact. These flags are not permission to run it.
+- [Deployment Protection](https://vercel.com/docs/deployment-protection) and [Vercel Authentication](https://vercel.com/docs/deployment-protection/methods-to-protect-deployments/vercel-authentication): require protection of the exact generated production URL, not just preview protection or an unguessable URL. Effective project protection/plan eligibility has **not** been inspected or proven here.
+- [CLI curl](https://vercel.com/docs/cli/curl): explicit deployment targeting exists; do not create/export a bypass secret for this operation. Prefer owner's already authenticated Vercel browser session.
+- [CLI env](https://vercel.com/docs/cli/env): `env run` runs locally; [build](https://vercel.com/docs/cli/build) also builds locally. Neither is production execution. Do not use env pull, env run, sensitive-variable decryption, Vercel Sandbox or spoofed `VERCEL_ENV` as substitutes.
+
+## Exact smallest future artifact specification
+
+1. Build from a reviewed immutable commit, clean lockfile install, without any production credentials, in a separate temporary output directory. No Next app, UI, collectors, workflows, cron, dependency install hook or production build hook is executed in the runtime artifact. Include only the Node handler, this probe and the locked native pg runtime dependency closure. Check artifact inventory and SHA-256; never bundle `.env*`, `.neon`, `.git`, CLI auth, output logs or source maps carrying credentials.
+2. Build Output v3: a single function `/_ops/neon-smoke`, all other paths 404; no aliases, rewrites to SCOUT, cron or external destinations. Example Node config is `{"runtime":"nodejs22.x","handler":"handler.mjs","launcherType":"Nodejs","maxDuration":10}`. Verify supported Node/runtime and region with the owner before artifact approval; local checks/CI do not prove hosted Node configuration. Do not set a fabricated Vercel identity in artifact env.
+3. The future handler accepts only empty-body POST to its fixed path, no query, no target/SQL/mint override, no redirects/CORS. GET/HEAD/OPTIONS fail **before secret access**. It returns `Cache-Control: no-store`, `X-Content-Type-Options: nosniff`, bounded allowlisted probe report or constant failure. No HTML/scripts/links/public response cache. No error objects, headers, env or URLs in logs.
+4. A code-reviewed approval manifest is OFF by default. Enable only for a founder-signed operation ID, artifact digest, source commit, exact project and fixed **≤5 minute UTC window**; validate these before secret access. The owner records the resulting immutable deployment ID/URL separately and verifies actual `target=production`, project and artifact provenance using platform metadata. No request header/body may attest the runtime or enable the probe. No Helius/HMAC credential is read; note that the project's existing sensitive production variables may nevertheless be injected into the runtime. No new secrets or settings are requested in this PR.
+5. Require existing Vercel Authentication protection to cover **that exact staged URL**. Before any POST, an unauthenticated GET to the handler must be intercepted by the platform, not merely return the handler's 405; an authenticated GET must reject without DB access. If existing protection does not cover it, STOP. Any protection/plan/billing change needs separate review; do not silently change the public product's access policy.
+6. Only after artifact, protection and deployment approval, the owner may stage it in the existing project with `vercel deploy --prebuilt --prod --skip-domain`. This command is intentionally **not run here**. Record existing production domain targets first. Verify no production aliases/domain promotion; never use `vercel promote`, `--prod` without `--skip-domain`, or a mutable “latest deployment” invocation target. No replacement project/service, env export or duplicate database is needed.
+7. Owner sends one authenticated empty POST to that immutable deployment, after recording “invocation started” in a private operator record. Native probe budget: **one connection, maximum three application SQL statements (BEGIN/metadata SELECT/ROLLBACK), no retries**, 5s work plus at most 2s bounded failure cleanup. Receive only sanitized report; correlate UTC window, deployment/request ID and artifact hash using bounded platform metadata. Do not request broad runtime log dumps. Any failure, timeout, uncertain response or clock mismatch stops the operation; do not refresh/retry.
+8. Delete the disposable deployment immediately after the response or deadline, whether PASS or failure; verify it is no longer invocable and original production domain targets remain unchanged. Do not merely delete a branch: old deployment URLs may still execute. Keep only sanitized report, artifact digest, reviewed commit, operation/deployment/request IDs and relevant nonsecret metadata in a private owner record. No database reset, role change, credential rotation, promotion or RPC activation is part of cleanup.
+
+**One-shot precision:** the script makes one connection per invocation. Owner serialization, short expiry and deletion bound the *authorized* operation. A warm-process boolean is not a durable global at-most-once guarantee across Vercel instances/restarts; deployment protection authenticates team users, not an invocation count. This design deliberately does not write a Neon latch or consume admission. If the owner requires platform-enforced global at-most-once despite duplicate authorized requests, STOP: a separate durable atomic invocation claim/control-plane facility must be reviewed first. Do not claim exactly-once execution or add a fake in-memory distributed store. No POST should be issued until the owner explicitly accepts this procedural single-invocation constraint or approves a stronger mechanism.
+
+## Consequences requiring owner consent
+
+- A real additional **production-target deployment** exists temporarily and uses existing server-only production credentials. Native PostgreSQL auth/query telemetry, a connection, compute usage and platform logs may be incurred. No free or zero-cost entitlement is assumed.
+- An HTTPS function URL exists temporarily behind verified platform authentication; it is not a permanent/public product diagnostic. Deployment protection is an access boundary, not a private VPC. No credentials leave the runtime.
+- New deployment metadata may be visible to team tooling; verify integrations/domain targets and delete that exact deployment. There is no app merge/promotion or active RPC gate change.
+- This remains a **future implementation specification**, not a pre-approved runnable endpoint. The exact handler/artifact, expiry, protection and cleanup must be reviewed before a deployment approval is actionable. No approval is inferred from three configured credentials.
+
+## Founder checklist — connectivity only
+
+- [ ] Approve review of the minimal protected artifact above; keep #118 draft and RPC OFF.
+- [ ] Record reviewed commit + artifact digest, project, exact URL/deployment ID, operation ID and ≤5-minute window.
+- [ ] Confirm production-target credentials remain server-only; no exports/new services/billing or policy changes.
+- [ ] Confirm protection on the exact URL, authenticated GET rejection and unchanged production domains.
+- [ ] Explicitly approve **one connection / ≤3 fixed SQL statements / no retry**; accept the procedural one-shot limitation or STOP for a durable mechanism.
+- [ ] Separately authorize staging that exact artifact and one authenticated POST. No Helius in this approval.
+- [ ] On PASS/failure/uncertainty: delete deployment, verify removal/domain targets, retain sanitized evidence. Stop; no automatic next step.
+
+**Current stop:** no artifact/deployment/execution approval exists. Hosted result: **NOT RUN / UNPROVEN**. The user explicitly instructed stopping before deployment/execution; this is also consistent with [AGENTS.md rule 9](../../../AGENTS.md) prohibiting autonomous production deployment.
