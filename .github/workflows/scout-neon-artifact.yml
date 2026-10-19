@@ -1,0 +1,65 @@
+name: SCOUT offline Neon artifact review
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/scout-neon-artifact.yml'
+      - 'scripts/ops/**'
+      - 'tests/onchain-api/**'
+      - 'package-lock.json'
+permissions:
+  contents: read
+jobs:
+  default-off-package:
+    if: github.head_ref == 'ops/review-scout-neon-smoke'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install locked packages without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Run offline artifact and request safety tests
+        run: node --test tests/onchain-api/neon-artifact.test.mjs
+      - name: Build disabled secret-free artifact and inspect inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/ops/build-neon-smoke-artifact.mjs > /tmp/scout-neon-artifact-status.json
+          test -d .vercel/output/functions/_ops/neon-smoke.func
+          node --input-type=module <<'JS'
+          import {readFileSync, readdirSync, lstatSync, writeFileSync} from 'node:fs';
+          import {join, relative, sep} from 'node:path';
+          const status=JSON.parse(readFileSync('/tmp/scout-neon-artifact-status.json','utf8'));
+          const root='.vercel/output';
+          const func=join(root,'functions/_ops/neon-smoke.func');
+          const approval=JSON.parse(readFileSync(join(func,'approval.json'),'utf8'));
+          const config=JSON.parse(readFileSync(join(root,'config.json'),'utf8'));
+          const vc=JSON.parse(readFileSync(join(func,'.vc-config.json'),'utf8'));
+          if(status.manifestEnabled!==false||approval.enabled!==false||config.version!==3||vc.runtime!=='nodejs24.x')throw Error('artifact_gate_failed');
+          if(!Array.isArray(config.routes)||config.routes.filter(r=>r.dest==='/_ops/neon-smoke').length!==1)throw Error('wrong_routes');
+          let files=[];
+          function walk(dir){
+            for(const f of readdirSync(dir)){const full=join(dir,f);const st=lstatSync(full);
+              if(st.isSymbolicLink())throw Error('symlink_not_permitted');
+              if(st.isDirectory())walk(full);else files.push(relative(root,full).split(sep).join('/'));
+            }
+          }
+          walk(root);
+          if(files.some(f=>f.split('/').some(part=>part==='.git'||part==='.neon'||part==='.env'||part.startsWith('.env.'))))throw Error('secret_file_present');
+          if(status.files!==files.length||!Number.isInteger(status.files)||status.files<10)throw Error('artifact_file_count_mismatch');
+          writeFileSync('.vercel/review-summary.json',JSON.stringify({sourceCommit:process.env.GITHUB_SHA,artifactEnabled:false,files:status.files,filesSha256:status.filesSha256,pgPackages:status.pgPackages},null,2)+'\n');
+          console.log('OFFLINE ARTIFACT PASS '+JSON.stringify({files:status.files,filesSha256:status.filesSha256,pgPackages:status.pgPackages.length,approvalEnabled:false}));
+          JS
+      - name: Upload only default-OFF artifact and sanitized digest
+        uses: actions/upload-artifact@v4
+        with:
+          name: scout-neon-default-off-${{ github.sha }}
+          path: .vercel/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 1
