@@ -1,0 +1,96 @@
+{
+  "baseline": "c18e1f1ffe20db7d0c0324c86548255814157a15",
+  "recordedAt": "2026-10-19T02:47:08.867Z",
+  "records": [
+    {
+      "width": 320,
+      "name": "landing",
+      "synthetic": false,
+      "heading": "A token address.\nA clear answer.",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      }
+    },
+    {
+      "width": 320,
+      "name": "source-unavailable",
+      "synthetic": false,
+      "heading": "Check not permitted",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      }
+    },
+    {
+      "width": 320,
+      "name": "synthetic-answer",
+      "synthetic": true,
+      "heading": "Onchain facts explained",
+      "viewport": {
+        "width": 320,
+        "height": 740
+      }
+    },
+    {
+      "width": 390,
+      "name": "landing",
+      "synthetic": false,
+      "heading": "A token address.\nA clear answer.",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "width": 390,
+      "name": "source-unavailable",
+      "synthetic": false,
+      "heading": "Check not permitted",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "width": 390,
+      "name": "synthetic-answer",
+      "synthetic": true,
+      "heading": "Onchain facts explained",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      }
+    },
+    {
+      "width": 1280,
+      "name": "landing",
+      "synthetic": false,
+      "heading": "A token address.\nA clear answer.",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      }
+    },
+    {
+      "width": 1280,
+      "name": "source-unavailable",
+      "synthetic": false,
+      "heading": "Check not permitted",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      }
+    },
+    {
+      "width": 1280,
+      "name": "synthetic-answer",
+      "synthetic": true,
+      "heading": "Onchain facts explained",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      }
+    }
+  ]
+}

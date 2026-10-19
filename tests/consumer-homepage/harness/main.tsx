@@ -24,6 +24,9 @@ const port:MintFactsPort={context:scenario.startsWith('production-')?'production
  if(scenario==='production-synthetic')return {httpStatus:200,body:syntheticMint(address)};
  let value=syntheticMint(address,scenario==='extensions');
  if(value.status==='verified_onchain_mint_at_slot'||value.status==='unsupported_extensions'){
+  // A new fictional capture ONLY when the user explicitly retries in the local harness.
+  // The application never manufactures capture clocks or renews a cached observation.
+  if(scenario==='recover'){const captured=new Date(Date.now()).toISOString();value={...value,source:{...value.source,requestStartedAt:captured,responseReceivedAt:captured,checkedAt:captured,evaluatedAt:captured}};}
   if(scenario==='expired')value={...value,source:{...value.source,checkedAt:'2026-10-18T11:00:00.000Z',requestStartedAt:'2026-10-18T11:00:00.000Z',responseReceivedAt:'2026-10-18T11:00:00.000Z',evaluatedAt:'2026-10-18T11:00:00.000Z'}};
   if(scenario==='malformed')value={...value,facts:{...value.facts,supply:{...value.facts.supply,raw:'not-a-number'}}};
  }
