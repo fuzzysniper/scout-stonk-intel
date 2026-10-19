@@ -111,3 +111,17 @@
 
 /* V1.5: put the meaning and the reporting source before the account quantities. */
 .consumer-home .mint-meaning{font-size:12px;line-height:1.5;margin-top:8px;color:var(--muted)}
+
+/* V1.6: a deliberate paste gesture and a readable, layered account explanation. */
+.consumer-home .address-entry{position:relative;min-width:0}
+.consumer-home .address-entry input{min-height:54px;padding-right:80px;font-size:16px}
+.consumer-home .paste-address{position:absolute;right:5px;top:5px;min-height:44px;min-width:64px;padding:8px;border:0;background:#edf0e9;color:#2844cc;font-size:12px;font-weight:650}
+.consumer-home .paste-address:hover{background:#e2e8dc}
+.consumer-home .paste-status{font-size:12px;color:var(--muted);line-height:1.5;margin-top:8px}
+.consumer-home .paste-status:empty{display:none}
+.consumer-home .mint-authorities dt{font-size:12px;color:#192b36;font-weight:600}
+.consumer-home .mint-authorities dd{font-size:13px}
+.consumer-home .mint-authorities small{font-size:11px}
+.consumer-home .mint-technical{border-top:1px solid var(--border);margin-top:10px}
+.consumer-home .mint-technical>summary{display:list-item;list-style:disclosure-closed;min-height:44px;padding:12px 0;font-size:12px;letter-spacing:normal;color:var(--muted)}
+.consumer-home .mint-technical[open]>summary{list-style:disclosure-open}

@@ -1,0 +1,906 @@
+{
+  "milestone": "Consumer V1.6",
+  "scope": "Agent A consumer UI, scoped tests and QA docs only",
+  "base": "c18e1f1ffe20db7d0c0324c86548255814157a15",
+  "recordedAt": "2026-10-19T03:03:17.288119+00:00",
+  "runtime": {
+    "node": "20.20.2",
+    "npm": "11.9.0",
+    "next": "15.5.28",
+    "chromium": "154.0.8037.57",
+    "localPostgres": "17.11; signed Debian packages extracted into /tmp only"
+  },
+  "changes": [
+    "Explicit paste with native fallback and cancellation; no automatic check",
+    "Plain-English token controls and readable original checked UTC",
+    "Layered source/technical receipt and explicit freshness/cooldown recovery"
+  ],
+  "checks": [
+    {
+      "command": "npm ci",
+      "exitCode": 0,
+      "result": "352 packages; existing ESLint deprecation warning"
+    },
+    {
+      "command": "SCOUT_TEST_PG_BIN=/tmp/scout-v16-pg/usr/lib/postgresql/17/bin npm test",
+      "exitCode": 0,
+      "nodeSuiteCounts": [
+        7,
+        501,
+        29,
+        31,
+        24,
+        37,
+        31,
+        53,
+        19,
+        44,
+        10,
+        18
+      ],
+      "pythonTests": 106,
+      "passed": 910,
+      "localPostgresTests": 44,
+      "localTlsTests": 10
+    },
+    {
+      "command": "bash tests/consumer-homepage/run-onchain.sh",
+      "exitCode": 0,
+      "passed": 19
+    },
+    {
+      "command": "npx tsc --noEmit",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0,
+      "warnings": 0
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "staticPages": 12,
+      "notes": [
+        "Existing edge runtime notice"
+      ]
+    },
+    {
+      "command": "bash scripts/archive-tool.sh check origin/main",
+      "exitCode": 0,
+      "result": "Archive append-only/reproduction check passed"
+    },
+    {
+      "command": "npm run archive:dry-run",
+      "exitCode": 0,
+      "result": "Local-only append-only/reproduction/idempotency checks passed; archive unchanged"
+    },
+    {
+      "command": "node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test --config tests/consumer-homepage/playwright.config.mjs",
+      "exitCode": 0,
+      "passed": 87,
+      "viewports": [
+        "320x740",
+        "390x844",
+        "1280x900"
+      ],
+      "axeViolationsInTestedStates": 0,
+      "unexpectedBrowserErrors": 0,
+      "unexpectedExternalRequests": 0,
+      "clipboard": "actual Chromium granted-permission clipboard plus explicit denied/unsupported/delayed test doubles",
+      "positiveFacts": "invented, labeled offline loopback harness only"
+    }
+  ],
+  "diagnosticAttempts": [
+    {
+      "check": "initial npm test",
+      "result": "44 setup failures: PostgreSQL binaries absent; no silent skip; resolved using authenticated local package extraction"
+    },
+    {
+      "check": "initial browser matrix",
+      "passed": 81,
+      "failed": 6,
+      "result": "Two new test assertion issues across three viewports: hidden duplicate UTC matches and advancing fictional capture clock"
+    },
+    {
+      "check": "intermediate browser matrix",
+      "result": "Paused test clock stalled axe; corrected test-only timing to explicit retry bounds; no application gate weakened"
+    },
+    {
+      "check": "focused recovery regression",
+      "exitCode": 0,
+      "passed": 3
+    }
+  ],
+  "protectedPathsUnchanged": [
+    "app/consumer/onchain-model.ts",
+    "app/consumer/onchain-client.ts",
+    "lib/**",
+    "app/api/**",
+    "database configuration/migrations",
+    "scheduler/**",
+    ".github/**",
+    "app/terminal/**",
+    "app/globals.css",
+    "data/**",
+    "package.json",
+    "package-lock.json"
+  ],
+  "notPerformed": [
+    "Live Helius/Neon access",
+    "Secret or credential configuration",
+    "RPC activation, merge or manual deployment",
+    "Physical iPhone Safari/VoiceOver/text-scaling test",
+    "Human 30-second comprehension test",
+    "Independent deployed production smoke"
+  ],
+  "limitations": [
+    "Provisioning does not prove Neon/Helius deployment or activation",
+    "All positive current QA values are synthetic offline fixtures, including production-profile replays",
+    "Provider publication/retention rights unchanged; dated StonkFun financial quantities remain withheld",
+    "Consumer rollback alone cannot stop an independently activated backend"
+  ],
+  "layouts": [
+    {
+      "file": "consumer-v16-verified-1280.json",
+      "synthetic": true,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "boundary": {
+        "x": 300,
+        "y": 567.953125,
+        "width": 680,
+        "height": 16.5
+      },
+      "overlaps": []
+    },
+    {
+      "file": "consumer-v16-verified-320.json",
+      "synthetic": true,
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "boundary": {
+        "x": 20,
+        "y": 636.75,
+        "width": 280,
+        "height": 49.5
+      },
+      "overlaps": []
+    },
+    {
+      "file": "consumer-v16-verified-390.json",
+      "synthetic": true,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "boundary": {
+        "x": 20,
+        "y": 589.5625,
+        "width": 350,
+        "height": 33
+      },
+      "overlaps": []
+    },
+    {
+      "file": "consumer-v16-extensions-1280.json",
+      "synthetic": true,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "boundary": {
+        "x": 300,
+        "y": 585.953125,
+        "width": 680,
+        "height": 16.5
+      },
+      "overlaps": []
+    },
+    {
+      "file": "consumer-v16-extensions-320.json",
+      "synthetic": true,
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "boundary": {
+        "x": 20,
+        "y": 653.25,
+        "width": 280,
+        "height": 49.5
+      },
+      "overlaps": []
+    },
+    {
+      "file": "consumer-v16-extensions-390.json",
+      "synthetic": true,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "boundary": {
+        "x": 20,
+        "y": 607.5625,
+        "width": 350,
+        "height": 33
+      },
+      "overlaps": []
+    },
+    {
+      "file": "consumer-v16-production-profile-1280.json",
+      "synthetic": true,
+      "liveSource": false,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "boundary": {
+        "x": 300,
+        "y": 521.453125,
+        "width": 680,
+        "height": 16.5
+      },
+      "overlaps": [],
+      "elapsedMs": 1174
+    },
+    {
+      "file": "consumer-v16-production-profile-320.json",
+      "synthetic": true,
+      "liveSource": false,
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "boundary": {
+        "x": 20,
+        "y": 573.75,
+        "width": 280,
+        "height": 49.5
+      },
+      "overlaps": [],
+      "elapsedMs": 1192
+    },
+    {
+      "file": "consumer-v16-production-profile-390.json",
+      "synthetic": true,
+      "liveSource": false,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "boundary": {
+        "x": 20,
+        "y": 526.5625,
+        "width": 350,
+        "height": 33
+      },
+      "overlaps": [],
+      "elapsedMs": 1196
+    },
+    {
+      "file": "consumer-v16-production-extensions-1280.json",
+      "synthetic": true,
+      "liveSource": false,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "boundary": {
+        "x": 300,
+        "y": 539.453125,
+        "width": 680,
+        "height": 16.5
+      },
+      "overlaps": [],
+      "elapsedMs": 1141
+    },
+    {
+      "file": "consumer-v16-production-extensions-320.json",
+      "synthetic": true,
+      "liveSource": false,
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "boundary": {
+        "x": 20,
+        "y": 590.25,
+        "width": 280,
+        "height": 49.5
+      },
+      "overlaps": [],
+      "elapsedMs": 1088
+    },
+    {
+      "file": "consumer-v16-production-extensions-390.json",
+      "synthetic": true,
+      "liveSource": false,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "boundary": {
+        "x": 20,
+        "y": 544.5625,
+        "width": 350,
+        "height": 33
+      },
+      "overlaps": [],
+      "elapsedMs": 1118
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "screenshots/after-answer-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "ca1c177439f45d25ceb3c9e730524fab5e35643d6057f3e5ea7af91bc30bf839",
+      "bytes": 88190,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-answer-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "09544c1c4cfbe85f70d29a5c02cb24b246635919c507ae2bc37cbddac034f6d7",
+      "bytes": 60606,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-answer-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "3db313b0f36f95ffa6421e841e7d7b65fc580852b909447f9150241f204689b4",
+      "bytes": 74695,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-chain-evidence-1280.png",
+      "width": 1280,
+      "height": 1186,
+      "sha256": "c2dfa0b19672cfd1a7c8ae867ebfe0fb566b3226a0c4f9c4aa7601d7fc1455b5",
+      "bytes": 104500,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/after-chain-evidence-320.png",
+      "width": 320,
+      "height": 1359,
+      "sha256": "a121999e99fc8b7eaeeb27ec20302daa3292632ee4999bdbbe311f0eba76f29f",
+      "bytes": 92267,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/after-chain-evidence-390.png",
+      "width": 390,
+      "height": 1239,
+      "sha256": "4ecfb5c586b3c9b9f4e27377d48fd4675f0d0196512e7d1a141fa5759ad5075c",
+      "bytes": 92956,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/after-evidence-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "673a313f9ce73436022c737b3ed4f37f537440b1bd873f7826a84ddc0ef5ced4",
+      "bytes": 70778,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-evidence-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "3a0dc013676a8951f5f55432c5720072fd13f0299adc75d0e28138605af040fe",
+      "bytes": 49883,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-evidence-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "b2526e0753222160bcd81d07d90b860766d759885076044fd3b8594b9bbc158c",
+      "bytes": 57140,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-landing-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "0d3c05074d99bce2cf7532ed5ec45854272cebaa43be3572ec7659f10000c2bd",
+      "bytes": 77211,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-landing-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "4faf7cf1d6ea2739e3fef0b2b532df82d30f7949af3afb42f35a7b7cf4785672",
+      "bytes": 51744,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-landing-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "348540eb7cec79e8cb2c6a9d52e2e7ac49821a79b64f04217fc0c19babf0b84f",
+      "bytes": 61010,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-native-paste-help-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "4c9a2143a8faa4c4c6a74a0f0c89bf2c10188a3439fa31e133af4e0808df2e27",
+      "bytes": 81584,
+      "synthetic": false,
+      "captureContext": "Actual Next production page; clipboard denial/unsupported API injected, no source check"
+    },
+    {
+      "file": "screenshots/after-native-paste-help-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "79b25b3c6e2e781f9c1a3b72f2257c33f89f08bca0d13e27032457176f8b36f0",
+      "bytes": 53774,
+      "synthetic": false,
+      "captureContext": "Actual Next production page; clipboard denial/unsupported API injected, no source check"
+    },
+    {
+      "file": "screenshots/after-native-paste-help-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "4a162192f68b125637363d6bd77d81f297e58893c8d6aa7f12ef4c273867414b",
+      "bytes": 65150,
+      "synthetic": false,
+      "captureContext": "Actual Next production page; clipboard denial/unsupported API injected, no source check"
+    },
+    {
+      "file": "screenshots/after-paste-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "730403441b03b6e2ea6547e01e9c93ff9d2e94bee61224c4d4cab0eb46987d29",
+      "bytes": 78405,
+      "synthetic": false,
+      "captureContext": "Actual Next production page; real Chromium clipboard seeded with public test mint, no source check"
+    },
+    {
+      "file": "screenshots/after-paste-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "6402307b88829126a69cb0cd33ea094a96909fa09ea2dc8cdfdfbffb321c4893",
+      "bytes": 50647,
+      "synthetic": false,
+      "captureContext": "Actual Next production page; real Chromium clipboard seeded with public test mint, no source check"
+    },
+    {
+      "file": "screenshots/after-paste-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "6f508a2a47b31501bf24bc000460d99a9d99224d010c5373042765ce8b2b1508",
+      "bytes": 61782,
+      "synthetic": false,
+      "captureContext": "Actual Next production page; real Chromium clipboard seeded with public test mint, no source check"
+    },
+    {
+      "file": "screenshots/after-search-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "2418764d1931a4dc6e0a339bc2ddbec9101899005c951f08ff5826232362aefb",
+      "bytes": 95816,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-search-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "44d392c9b107b33a633da9df1713f8879757a8888fa2845db37e66d4cecba705",
+      "bytes": 56814,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-search-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "a1ebf5c99e40eb677f12025d87083c1195fe21bab18cdb72681f4ed8f5a07f72",
+      "bytes": 73162,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-sources-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "47558bad87c74a71d5e324bc7bb916c507298bb354374740778e6bdbe2684c42",
+      "bytes": 71023,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-sources-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "37f5d9314fc71d5daf4962e23065851c77d732009418730ab58dce7a5384fb85",
+      "bytes": 45759,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/after-sources-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "38cd496df5348cc34271474731b9e44154c4192f9c0cf0139e66112b67ff54e8",
+      "bytes": 53604,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/before-landing-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "c7a7f39d85770b14fddbe27767419dd222ad4fa2f76fef72e97be9a075864071",
+      "bytes": 76226,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/before-landing-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "fcd39c8b91d310784c804c6d3115327ce604093e8eef169ded1c5cd9ef718ce8",
+      "bytes": 50843,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/before-landing-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "c6efe47dca6492f7f3b15b9828bfb8eb8f09816e46c704c7b05d88fdfa5fc944",
+      "bytes": 60554,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/before-source-unavailable-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "6b54e4f8d0702e44553751ca61494121a8fc0e3c1994e7dac008a5fa449caf83",
+      "bytes": 77619,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/before-source-unavailable-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "f7ec32cfbd87054e2c4a501a29efe3478debffd55634abad732f579f145573fe",
+      "bytes": 48661,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/before-source-unavailable-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "e1af4e8a0f4f8b183ee7a47b401666c31bbad970cd0c6f791d8f4a835f67f8a0",
+      "bytes": 55714,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/before-synthetic-answer-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "884763e92419cd6bb211c9fb74bc08d27241a4695d1ecf89c6652f0db795f5ab",
+      "bytes": 76557,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/before-synthetic-answer-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "c50effaad818a89370aa541bd9fe582bb80ef40905ccbc92a529d6cc46529ca7",
+      "bytes": 60047,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/before-synthetic-answer-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "1ce12fa709074470c0a77d38ed6193c703c642892d0026b67e47dc84d9c047d3",
+      "bytes": 66430,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/production-disabled-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "8c32cd196c56533c3dc616d30aa422b8814cf123fcb27ab3fa1fcba508915601",
+      "bytes": 78595,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/production-disabled-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "643081704b7c05476777e6ac9e0c81a8e4274e57d0397add0106239a247dc349",
+      "bytes": 49555,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/production-disabled-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "64c94350f07c701ad20a1134ff5d555c167f99f860d18c78079afe9dccc8714a",
+      "bytes": 56397,
+      "synthetic": false,
+      "captureContext": "Actual Next production-build browser QA; no positive current source fixture"
+    },
+    {
+      "file": "screenshots/synthetic-denied-1280.png",
+      "width": 1280,
+      "height": 996,
+      "sha256": "1954df358cb3f8d4ab30761348867f562292945ef571d7f67a8e70a45a13996f",
+      "bytes": 87380,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-denied-320.png",
+      "width": 320,
+      "height": 1175,
+      "sha256": "2d6e08b034ecd366c19d1750106f2d08af2cb77187e07e9d3c89b81f320badc5",
+      "bytes": 76209,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-denied-390.png",
+      "width": 390,
+      "height": 1159,
+      "sha256": "3cd48f1038ebe4155d929c69f230f9c1221f4f989f53d38178c9e4ee43720a02",
+      "bytes": 77380,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-disabled-1280.png",
+      "width": 1280,
+      "height": 921,
+      "sha256": "ad2498b59d4edbeb231261faf2479e4536439829e5640dc5b62f278d4da8eb1c",
+      "bytes": 83323,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-disabled-320.png",
+      "width": 320,
+      "height": 1119,
+      "sha256": "e50545a07476e58422bdbcca48b990b8bdf451e21b9d395fd13b6d8f69c80d82",
+      "bytes": 73989,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-disabled-390.png",
+      "width": 390,
+      "height": 1091,
+      "sha256": "ca9e46cc1a8ad6b01972ad883de281efb1a54d603fc8d510474c93a126fe6625",
+      "bytes": 74794,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-expired-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "7701a8adef9baf14102a334b9dad073edceeb61923bda4c3956abc17f733540e",
+      "bytes": 81223,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-expired-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "8695890884d8ac3e1adbee2c89c3d4fec4d6d06fe113a4bf49a49a63233037b2",
+      "bytes": 51044,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-expired-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "93427d46d5fbb51141405ca7a9713bceee2ac1e8306cfb6868331cb11b7d4c33",
+      "bytes": 58611,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-extensions-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "b4932104555cddb06550dd051d2337e18973f709e46c625619438fbed140944c",
+      "bytes": 78114,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-extensions-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "e554901e5c7789919ea57fa9938567c96557f797d2d1fcdab0d77f104919102a",
+      "bytes": 63219,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-extensions-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "03091eba2310408d9b30579bf422839de5488afa1c6d06726bef3a85071c01fc",
+      "bytes": 68667,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-history-1280.png",
+      "width": 1280,
+      "height": 1585,
+      "sha256": "4c05c8c8cd5d9a905c1aa11b646f56463e9b0ccba48e2b06bc9b6922611d4c67",
+      "bytes": 155218,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-history-320.png",
+      "width": 320,
+      "height": 1743,
+      "sha256": "c1a015cb46b3bb3d78103358c6603dd22e1e4b1945075bba1bad9808c6325ab5",
+      "bytes": 140173,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-history-390.png",
+      "width": 390,
+      "height": 1538,
+      "sha256": "270ea0f1d231c613460ad596ee20c9924df950b3fae33a74afbe982697fef9c5",
+      "bytes": 131895,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-network-1280.png",
+      "width": 1280,
+      "height": 996,
+      "sha256": "cf9b460ee3b15b89ebed8f53ee4285e6096381e6c6c4f5730fdef407a0e2bb92",
+      "bytes": 86847,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-network-320.png",
+      "width": 320,
+      "height": 1175,
+      "sha256": "74042c0c05572bb35afc30cad3765e8ffa01ec377f645791a2ecbcf791ad5581",
+      "bytes": 76672,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-network-390.png",
+      "width": 390,
+      "height": 1169,
+      "sha256": "665dc1a39ba0a467a25514e93196f5c25db52de1ecbdd6fb9f4d19412a4e76fd",
+      "bytes": 77192,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-production-extensions-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "9bcbc91668147db0542b49471da66e07881c066b457fe0ea12b5734a1aac4362",
+      "bytes": 74388,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-production-extensions-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "96cab3c0ee7e8a18d7940fd4ab9ddd25d90bc315bc7a10c727d268f223fd5059",
+      "bytes": 59591,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-production-extensions-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "3526cbb925d5c3512c034a845e9b489808c490d40a24d6294551c8fd1b66da86",
+      "bytes": 65056,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-production-profile-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "be438642495fa0aa3a500ce40cb36329ff76d32f12c24576b98ff231693ecb3c",
+      "bytes": 72709,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-production-profile-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "c57da482a2a8696ea2250a9b339d1867b086216ef915ac4b9c210e08e6182078",
+      "bytes": 60173,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-production-profile-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "3bd6342bfdc32dec97095413b0d18d7a8b126e41ff12b47594aef76358b94b60",
+      "bytes": 63635,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-verified-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "cb541b8164d7c9bc88b103526524c921266f5c4f8f4b41afede834464ebc437f",
+      "bytes": 76498,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-verified-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "2fe7c2c0423fb9b1e3694b9065861ad9a41f5c69c2fecda090180dc62af09d38",
+      "bytes": 61725,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    },
+    {
+      "file": "screenshots/synthetic-verified-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "c369d2cd42e5aeb6b0ebe26b626548f5e88307909a0a44c71a04e7fc9dee5672",
+      "bytes": 67328,
+      "synthetic": true,
+      "captureContext": "Isolated, labeled offline source harness; invented current facts only"
+    }
+  ]
+}
