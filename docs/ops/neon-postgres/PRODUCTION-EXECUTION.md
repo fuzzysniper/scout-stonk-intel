@@ -4,7 +4,7 @@
 
 There is no reviewed way to attach an arbitrary Node command to the already-deployed SCOUT production Function. `/api/mint-facts` exits disabled before credentials/Neon are opened. READY, a 503, build success, a Neon connector query and local tests do not establish native Vercel production reachability.
 
-The smallest supported option identified is a **temporary, protected, unpromoted production deployment in the existing project**, containing just one Node Function plus the reviewed probe and pinned pg dependencies. Use Vercel's Build Output API to avoid deploying a second copy of the consumer app or adding a diagnostic route to main. A platform-authenticated request invokes that Function once; it uses server-injected production credentials. This is additional production execution infrastructure and requires a separately reviewed exact artifact and explicit owner deployment/execution approval. **This PR creates no artifact, endpoint or deployment.**
+The smallest supported option identified is a **temporary, protected, unpromoted production deployment in the existing project**, containing just one Node Function plus the reviewed probe and pinned pg dependencies. Use Vercel's Build Output API to avoid deploying a second copy of the consumer app or adding a diagnostic route to main. A platform-authenticated request invokes that Function once; it uses server-injected production credentials. This is additional production execution infrastructure and requires a separately reviewed exact artifact and explicit owner deployment/execution approval. **This PR now includes default-OFF offline artifact packaging source, but no prebuilt artifact, URL, external service, staging deployment or production execution has been created.**
 
 Official documentation reviewed 19 October 2026:
 
@@ -13,6 +13,30 @@ Official documentation reviewed 19 October 2026:
 - [Deployment Protection](https://vercel.com/docs/deployment-protection) and [Vercel Authentication](https://vercel.com/docs/deployment-protection/methods-to-protect-deployments/vercel-authentication): require protection of the exact generated production URL, not just preview protection or an unguessable URL. Effective project protection/plan eligibility has **not** been inspected or proven here.
 - [CLI curl](https://vercel.com/docs/cli/curl): explicit deployment targeting exists; do not create/export a bypass secret for this operation. Prefer owner's already authenticated Vercel browser session.
 - [CLI env](https://vercel.com/docs/cli/env): `env run` runs locally; [build](https://vercel.com/docs/cli/build) also builds locally. Neither is production execution. Do not use env pull, env run, sensitive-variable decryption, Vercel Sandbox or spoofed `VERCEL_ENV` as substitutes.
+
+## Prepared offline artifact — NOT deployed
+
+Review-branch-only modules `scripts/ops/build-neon-smoke-artifact.mjs`, `scripts/ops/neon-smoke-handler.mjs`,
+and `tests/onchain-api/neon-artifact.test.mjs` package a solitary Node 24 Build Output API v3
+Function and its locked native pg dependency closure. Only the `/_ops/neon-smoke` path exists.
+Packaging requires installed locked dependencies, writes no secrets, makes no network requests,
+and defaults to a **disabled** approval manifest. This artifact is *not* imported or run by the
+Next.js app, cron, Vercel build, or production routes. Offline tests verify fail-closed
+request validation, exact URL/identity, response redaction and a default-OFF output layout.
+
+Default-OFF packaging is for inspection only. A runnable artifact requires a separately
+reviewed exact source commit, operation ID and tightly bounded ≤5-minute UTC manifest,
+then a new clean build and hash/inventory review. Owner approval to stage is not
+authorization to invoke. A staged generated URL must be proven protected through
+platform authentication before any authorized POST. The CLI command `--prod --skip-domain`
+avoids domain promotion but **does create a temporary production-target deployment**.
+Current configured SSO applies to generated Vercel URLs by project metadata, but
+effective protection of a future *specific* deployment is unverified until staging.
+
+The handler itself enforces no durable cross-instance exactly-once latch. Short approval
+window, separate operation record, one manual POST and immediate deletion remain
+procedural, not an irrevocable distributed single-use guarantee. If an enforceable
+global single-use barrier is required, STOP before staging pending separate design.
 
 ## Exact smallest future artifact specification
 
