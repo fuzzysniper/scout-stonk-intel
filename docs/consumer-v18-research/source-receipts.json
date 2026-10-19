@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Dated metadata-only CARDS source investigation, not observations or an application dataset",
+  "rights": "Unverified; financial figures/raw bodies not republished",
+  "complete": false,
+  "atomic": false,
+  "receipts": [
+    {
+      "source": "https://www.stonkfun.xyz/api/public/v1/pairs",
+      "startedAt": "2026-10-19T17:45:32.502914+00:00",
+      "capturedAt": "2026-10-19T17:45:32.777190+00:00",
+      "status": 200,
+      "bytes": 228564,
+      "sha256": "b0a60bdc3e8694bec539b3e059aa9b10e6d7185d2cfdd21f5b3456d81477393f",
+      "headers": {
+        "age": "278",
+        "cache-control": "public, max-age=30",
+        "date": "Mon, 19 Oct 2026 17:40:54 GMT",
+        "x-ratelimit-limit": "300",
+        "x-ratelimit-remaining": "297"
+      },
+      "meta": {
+        "generatedAt": "2026-10-19T17:40:54.291Z"
+      },
+      "registryCount": 592
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=1&pageSize=25&quoteMint=CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp",
+      "startedAt": "2026-10-19T17:45:42.825341+00:00",
+      "capturedAt": "2026-10-19T17:45:43.097627+00:00",
+      "status": 200,
+      "bytes": 24026,
+      "sha256": "07ac8a132ad42c9bdc9181106b42451e1becb66340cd63acb3e7da3fe085d7b0",
+      "headers": {
+        "age": "0",
+        "cache-control": "public, max-age=5",
+        "date": "Mon, 19 Oct 2026 17:45:43 GMT",
+        "x-ratelimit-limit": "300",
+        "x-ratelimit-remaining": "299"
+      },
+      "meta": {
+        "generatedAt": "2026-10-19T17:45:43.079Z"
+      },
+      "pagination": {
+        "page": 1,
+        "pageSize": 25,
+        "total": 2145,
+        "totalPages": 86
+      },
+      "recordsReceived": 25,
+      "exactCARDSMatches": 25
+    },
+    {
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=2&pageSize=25&quoteMint=CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp",
+      "startedAt": "2026-10-19T17:45:45.098519+00:00",
+      "capturedAt": "2026-10-19T17:45:45.374271+00:00",
+      "status": 200,
+      "bytes": 23274,
+      "sha256": "78502c86c63ba38026fb23d1e8dcd0b03c079ee3bcc4d6364a4d12f4b6f52c35",
+      "headers": {
+        "age": "0",
+        "cache-control": "public, max-age=5",
+        "date": "Mon, 19 Oct 2026 17:45:45 GMT",
+        "x-ratelimit-limit": "300",
+        "x-ratelimit-remaining": "298"
+      },
+      "meta": {
+        "generatedAt": "2026-10-19T17:45:45.358Z"
+      },
+      "pagination": {
+        "page": 2,
+        "pageSize": 25,
+        "total": 2145,
+        "totalPages": 86
+      },
+      "recordsReceived": 25,
+      "exactCARDSMatches": 25
+    }
+  ]
+}

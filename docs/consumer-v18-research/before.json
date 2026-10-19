@@ -1,0 +1,50 @@
+{
+  "base": "314612da3ac47ddea5f16863b6d4507614cef18d",
+  "capturedAt": "2026-10-19T17:48:03.863Z",
+  "productionBuild": true,
+  "api": "Not requested; baseline API routes responded with explicit QA 503",
+  "records": [
+    {
+      "name": "home",
+      "width": 320,
+      "url": "/",
+      "externalReads": 0,
+      "overflow": false
+    },
+    {
+      "name": "terminal",
+      "width": 320,
+      "url": "/terminal",
+      "externalReads": 0,
+      "overflow": false
+    },
+    {
+      "name": "home",
+      "width": 390,
+      "url": "/",
+      "externalReads": 0,
+      "overflow": false
+    },
+    {
+      "name": "terminal",
+      "width": 390,
+      "url": "/terminal",
+      "externalReads": 0,
+      "overflow": false
+    },
+    {
+      "name": "home",
+      "width": 1280,
+      "url": "/",
+      "externalReads": 0,
+      "overflow": false
+    },
+    {
+      "name": "terminal",
+      "width": 1280,
+      "url": "/terminal",
+      "externalReads": 0,
+      "overflow": false
+    }
+  ]
+}

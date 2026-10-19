@@ -143,3 +143,6 @@
  .consumer-home .mint-observed{margin-top:8px}
  .consumer-home .mint-boundary{margin-top:6px}
 }
+
+/* Consumer research entry stays below the explanation, without narrowing mobile links. */
+.consumer-home .site-footer nav{flex-wrap:wrap}

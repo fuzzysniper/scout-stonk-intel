@@ -1,0 +1,14 @@
+# Physical iPhone Safari acceptance — not yet performed
+
+Founder/authorized tester only, after a separately approved merge/deployment. Desktop Chromium touch emulation is not evidence of these results. No wallet, private portfolio screenshot, credential or RPC activation is needed.
+
+1. Open `/` in Safari at normal text size: all three October 14 examples remain dated/stale. Find **CARDS pair research** in the footer. Open it; identify within 30 seconds why performance/momentum are not established and why the shown tokens are a partial sample.
+2. At a narrow 320/390 CSS-pixel layout, confirm readable text, no sideways scroll, usable touch targets and a visible data/rights warning. Expand a token with touch and VoiceOver; confirm base/quote/pool addresses, response-generated/retrieval dates and absence of invented ATH/returns. Different tickers/names must not change the exact quote identity.
+3. With VoiceOver, navigate headings/landmarks, sample search, row summaries and source links. Open/close Details with external keyboard Enter/Space/Escape; focus returns to the summary. Increase Safari text size to 200% and rotate once; controls and full addresses must reflow.
+4. In **Watch an exact token**, paste a public test address through the explicit Paste button. If Safari denies clipboard access, long-press Paste must work. Pasting alone must not submit. No autocapitalization, smart punctuation or address trimming. Do not use a private research address in public screenshots.
+5. Submit intentionally: identify the exact requested mint, base-versus-quote position, selected pool, adapter retrieval date and unknown market tick time. Confirm no claimed price history, holder count, ATH, returns or StonkFun membership. A quote-side response must not inherit another token's facts.
+6. Copy the token link, open it in a fresh tab: the separate `/research/watch` page restores the address; no CARDS discovery or market lookup runs until Check token. Safari Back/Forward restores the appropriate field and clears old results. No watchlist is persisted. Links expose the address to recipients and ordinary server logs.
+7. Test interrupted connectivity, unsupported/no-match response and owner-provided offline 429/503 fixtures without stressing providers. Keep old facts withheld; wait for the stated cooldown, then retry deliberately. Background/foreground must never trigger automatic network refresh. Do not induce actual rate limits.
+8. Return to `/`, `/terminal`, dated examples and the source index. Confirm existing routes work and historical rights warnings remain intact. Source links open separately with the expected exact identity.
+
+Record iPhone model, iOS/Safari version, CSS viewport, text-size/VoiceOver settings, UTC date, pass/fail and any sanitized screenshot. No human or physical-device acceptance has been completed by the agent.
