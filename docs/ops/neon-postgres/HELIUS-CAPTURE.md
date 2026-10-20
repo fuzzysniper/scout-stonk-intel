@@ -2,6 +2,16 @@
 
 Connectivity approval is **not** Helius approval. Existing production-only credentials are configuration, not traffic authorization. First complete and review authentic native connectivity evidence. Then approve a separately reviewed disposable capture artifact and a new one-time operation; no production API/public gate activation, admission reset, collector or UI change.
 
+## Shortest separately approved sequence
+
+1. Resolve the [alias-neutral execution blocker](PRODUCTION-EXECUTION.md), then stage and invoke only the separately approved Neon smoke. Review the authentic 19-check result, rollback and cleanup. A nonproduction proof must be labeled as such.
+2. Review **one new capture-only artifact**, keeping the public mint API and LIVE_APPROVAL OFF. It must import no PostgreSQL client/admission path: no second DB connection, no admission reset and no extra Neon SQL. A temporary connectivity manifest cannot authorize this different payload.
+3. Before approving traffic, verify a suitable protected runtime/credential scope and the private write-once raw-evidence sink. Current Helius credentials are production-only; an isolated nonproduction runtime would need separate owner-approved server-side scope. Do not clone all variables or export an existing value. Confirm provider rights, remaining account quota and one-request usage/cost with the founder. No paid resource or new account.
+4. Approve the exact new artifact/deployment, operation, short window and **ONE getAccountInfo POST**, independently of staging/Neon approval. Consume the private operation record first, enforce no retries and retain hash/bytes/clocks exactly as specified below. An uncertain network outcome counts as the one attempt.
+5. Review hash/identity/slot/clocks and honest MintFacts interpretation, delete the disposable deployment, verify all aliases and expire the private raw evidence on schedule. No automatic publication, candidate enrollment or live API activation.
+
+No runtime, raw sink or capture implementation is deployed by this PR; the next code review should be narrow and test this contract before a Helius GO. Three configured secrets are not authorization.
+
 ## Fixed capture contract
 
 | Item | Exact proposed value / limit |

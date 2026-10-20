@@ -135,3 +135,25 @@ test('stalled end fails within cleanup budget rather than reporting PASS',async(
   const f=fixture();f.client.end=()=>new Promise(()=>{});
   const start=Date.now();await assert.rejects(run(f),/smoke_failed/);assert.ok(Date.now()-start<2000);
 });
+
+test('expiry guard runs before secrets/client, before SQL and preserves rollback cleanup',async()=>{
+  const poison=new Proxy(fakeEnv,{get(){throw Error('premature secret read');}});
+  await assert.rejects(runReadOnlySmoke({argv,env:poison,openClient(){throw Error('unexpected');},executionGuard:()=>false}),/smoke_failed/);
+  for(const expiryCheck of [2,3,4]) {
+    const f=fixture();let checks=0;
+    await assert.rejects(run(f,{executionGuard:()=>++checks<expiryCheck}),/smoke_failed/);
+    assert.equal(f.actions.includes(SELECT_ONLY_SQL),false);
+    if(expiryCheck===2)assert.deepEqual(f.actions,[]);
+    if(expiryCheck===3)assert.deepEqual(f.actions,['connect','end']);
+    if(expiryCheck===4)assert.deepEqual(f.actions,['connect',BEGIN_SQL,'ROLLBACK','end']);
+  }
+});
+
+test('review contract pins all nineteen exact security assertions',()=>{
+  assert.deepEqual(CHECKS,[
+    'identity_ok','database_ok','read_only','isolation_ok','search_path_ok','primary_ok',
+    'tls_ok','least_privilege_ok','runtime_group_ok','membership_ok','runtime_role_ok','delegation_denied',
+    'schema_usage_ok','schema_create_denied','function_execute_ok','database_create_denied',
+    'policy_table_denied','clients_table_denied','cache_table_denied',
+  ]);
+});

@@ -1,71 +1,118 @@
-# Future single production connectivity test — NOT APPROVED
+# Connectivity execution decision — 20 October 2026
 
-## Practical supported mechanism
+**STOP before deployment or invocation. No verified alias-neutral production execution mechanism is currently available.** Native Vercel → Neon connectivity remains **UNPROVEN**. This revision prepares an auditable default-disabled artifact and offline guards, not a permission to use them against hosting or PostgreSQL.
 
-There is no reviewed way to attach an arbitrary Node command to the already-deployed SCOUT production Function. `/api/mint-facts` exits disabled before credentials/Neon are opened. READY, a 503, build success, a Neon connector query and local tests do not establish native Vercel production reachability.
+## Actual incident and current evidence
 
-The smallest supported option identified is a **temporary, protected, unpromoted production deployment in the existing project**, containing just one Node Function plus the reviewed probe and pinned pg dependencies. Use Vercel's Build Output API to avoid deploying a second copy of the consumer app or adding a diagnostic route to main. A platform-authenticated request invokes that Function once; it uses server-injected production credentials. This is additional production execution infrastructure and requires a separately reviewed exact artifact and explicit owner deployment/execution approval. **This PR now includes default-OFF offline artifact packaging source, but no prebuilt artifact, URL, external service, staging deployment or production execution has been created.**
+Founder-confirmed: the reviewed OFF artifact from `edcc3602e5c64cba15f013dbefccbab91420010a` was staged from authenticated Codespaces using `vercel deploy --prebuilt --prod --skip-domain`. Contrary to our prior runbook's assurance, the team alias moved. The founder restored it, deleted `dpl_Gdz452bZZ5qwXMoDj4NwrM69eHpL` and independently verified cleanup. **The old staging command is retired for this operation.** We did not reproduce the incident or invoke its Function. The original ZIP/inventory hashes identify that older artifact, not this revision's output.
 
-Official documentation reviewed 19 October 2026:
+Read-only Vercel control-plane metadata checked 20 October 2026 at approximately 07:43–07:52 UTC:
 
-- [Build Output API Node primitives](https://vercel.com/docs/build-output-api/primitives): `.func/.vc-config.json` supports `runtime`, `handler`, `maxDuration`, `launcherType`.
-- [Deploy CLI](https://vercel.com/docs/cli/deploy): `--prod --skip-domain` stages a **production** deployment without automatic promotion/domain assignment; `--prebuilt` uploads a reviewed local build artifact. These flags are not permission to run it.
-- [Deployment Protection](https://vercel.com/docs/deployment-protection) and [Vercel Authentication](https://vercel.com/docs/deployment-protection/methods-to-protect-deployments/vercel-authentication): require protection of the exact generated production URL, not just preview protection or an unguessable URL. Effective project protection/plan eligibility has **not** been inspected or proven here.
-- [CLI curl](https://vercel.com/docs/cli/curl): explicit deployment targeting exists; do not create/export a bypass secret for this operation. Prefer owner's already authenticated Vercel browser session.
-- [CLI env](https://vercel.com/docs/cli/env): `env run` runs locally; [build](https://vercel.com/docs/cli/build) also builds locally. Neither is production execution. Do not use env pull, env run, sensitive-variable decryption, Vercel Sandbox or spoofed `VERCEL_ENV` as substitutes.
+| Check | Observation, not live connectivity proof |
+| --- | --- |
+| Project / team | `scout-stonk-intel` / `prj_OaA9snVrMUkpXuz6cMSKfSZ6fx5Q` / `team_x1JQRQhMe5Ic1VFpklZMPM2j` |
+| Node | `24.x` |
+| Protection configuration | SSO `enabled=true`, `deploymentType=all_except_custom_domains`; this does **not** prove effective authentication for a future particular deployment URL |
+| Complete project alias listing | 66 aliases; pagination `next=null` |
+| Four production aliases | `scout.storkcoin.xyz`, `scout-stonk-intel.vercel.app`, **`scout-stonk-intel-riskledgerapp.vercel.app`**, **`scout-stonk-intel-git-main-riskledgerapp.vercel.app`** all pointed to `dpl_DjDo97SmCUM3kcibVqPT1LkjSjkj` |
+| Project domain mappings | Two, custom domain and project `.vercel.app`; neither had git-branch/custom-environment mapping or redirect |
+| Custom environments | `environments=[]`, `accountLimit.total=0`; no usable custom environment was verified |
 
-## Prepared offline artifact — NOT deployed
+This snapshot is dated evidence, **not a reusable future baseline**. Normal main releases can change production targets. Collect fresh authenticated complete metadata immediately before and after any future separately approved staging, and after cleanup. Freeze concurrent releases for that window. Do not invoke a Function to gather these snapshots.
 
-Review-branch-only modules `scripts/ops/build-neon-smoke-artifact.mjs`, `scripts/ops/neon-smoke-handler.mjs`,
-and `tests/onchain-api/neon-artifact.test.mjs` package a solitary Node 24 Build Output API v3
-Function and its locked native pg dependency closure. Only the `/_ops/neon-smoke` path exists.
-Packaging requires installed locked dependencies, writes no secrets, makes no network requests,
-and defaults to a **disabled** approval manifest. This artifact is *not* imported or run by the
-Next.js app, cron, Vercel build, or production routes. Offline tests verify fail-closed
-request validation, exact URL/identity, response redaction and a default-OFF output layout.
+### Why skip-domain was insufficient
 
-Default-OFF packaging is for inspection only. A runnable artifact requires a separately
-reviewed exact source commit, operation ID and tightly bounded ≤5-minute UTC manifest,
-then a new clean build and hash/inventory review. Owner approval to stage is not
-authorization to invoke. A staged generated URL must be proven protected through
-platform authentication before any authorized POST. The CLI command `--prod --skip-domain`
-avoids domain promotion but **does create a temporary production-target deployment**.
-Current configured SSO applies to generated Vercel URLs by project metadata, but
-effective protection of a future *specific* deployment is unverified until staging.
+The [CLI docs](https://vercel.com/docs/cli/deploy) describe skipped automatic domain assignment. Inspection of the official installed **Vercel CLI 64.5.0** deploy module shows `--skip-domain` sets **`autoAssignCustomDomains=false`**, passed to the creation request. It does not expose a separately reviewed all-generated-alias suppression switch. Module SHA-256: `700c6d723f420abe1e7b322a36fc0583fadc47d2cdb40f536971f005d661c7ac` (`vercel/dist/commands/deploy/index.js`). This is local package-source evidence, not proof of the incident's unknown CLI/server version or a complete root-cause analysis. The observed team-alias move is enough to invalidate the earlier blanket safety assurance.
 
-The handler itself enforces no durable cross-instance exactly-once latch. Short approval
-window, separate operation record, one manual POST and immediate deletion remain
-procedural, not an irrevocable distributed single-use guarantee. If an enforceable
-global single-use barrier is required, STOP before staging pending separate design.
+No reviewed public [deployment-creation schema](https://vercel.com/docs/rest-api/deployments/create-a-new-deployment) or CLI path established that **every** production alias would remain untouched. Do not invent `autoAssignArchivableAliases`, substitute an API upload, use `redeploy`, `promote`, `rollback`, `--force` or a production deployment followed by repair. Post-deployment comparison can **detect** a changed alias; it cannot prevent a transient production change. An OFF approval manifest prevents SQL, not routing damage.
 
-## Exact smallest future artifact specification
+## Smallest supported alternatives and their blockers
 
-1. Build from a reviewed immutable commit, clean lockfile install, without any production credentials, in a separate temporary output directory. No Next app, UI, collectors, workflows, cron, dependency install hook or production build hook is executed in the runtime artifact. Include only the Node handler, this probe and the locked native pg runtime dependency closure. Check artifact inventory and SHA-256; never bundle `.env*`, `.neon`, `.git`, CLI auth, output logs or source maps carrying credentials.
-2. Build Output v3: a single function `/_ops/neon-smoke`, all other paths 404; no aliases, rewrites to SCOUT, cron or external destinations. Example Node config is `{"runtime":"nodejs22.x","handler":"handler.mjs","launcherType":"Nodejs","maxDuration":10}`. Verify supported Node/runtime and region with the owner before artifact approval; local checks/CI do not prove hosted Node configuration. Do not set a fabricated Vercel identity in artifact env.
-3. The future handler accepts only empty-body POST to its fixed path, no query, no target/SQL/mint override, no redirects/CORS. GET/HEAD/OPTIONS fail **before secret access**. It returns `Cache-Control: no-store`, `X-Content-Type-Options: nosniff`, bounded allowlisted probe report or constant failure. No HTML/scripts/links/public response cache. No error objects, headers, env or URLs in logs.
-4. A code-reviewed approval manifest is OFF by default. Arm it only for a founder-approved operation ID, source commit, exact project and fixed **≤5 minute UTC window**; validate these before secret access. Bind the final artifact SHA-256 in a **detached private owner approval record**, avoiding a self-referential artifact hash. No request header/body may attest the runtime or enable the probe. No Helius/HMAC credential is read; note that the project's existing sensitive production variables may nevertheless be injected into the runtime. No new secrets or settings are requested in this PR.
-5. Before approving staging, verify the existing project protection policy covers generated staged-production URLs. If not, STOP. Any protection/plan/billing change needs separate review; do not silently change the public product's access policy. The exact URL does not exist yet: its effective protection must also be verified **after staging and before any POST**.
-6. Only after exact artifact and **staging-only** approval, the owner may stage it in the existing project with `vercel deploy --prebuilt --prod --skip-domain`. This command is intentionally **not run here**. Record existing production domain targets first. Then record the returned immutable deployment ID/URL and verify actual `target=production`, project, runtime and artifact provenance using platform metadata. Confirm no production aliases/domain promotion; never use `vercel promote`, `--prod` without `--skip-domain`, or a mutable “latest deployment” invocation target. Verify an unauthenticated GET to that handler is intercepted by platform authentication (not merely the handler's 405); an authenticated GET must reject without DB access. If any check fails or the window expires, delete the deployment and stop without POST. No replacement project/service, env export or duplicate database is needed.
-7. After a **second, invocation-specific GO** names that returned deployment ID and verified protection result, owner sends one authenticated empty POST, having first recorded “invocation started” in a private operator record. Native probe budget: **one connection, maximum three application SQL statements (BEGIN/metadata SELECT/ROLLBACK), no retries**, 5s work plus at most 2s bounded failure cleanup. Receive only sanitized report; correlate UTC window, deployment/request ID and artifact hash using bounded platform metadata. Do not request broad runtime log dumps. Any failure, timeout, uncertain response or clock mismatch stops the operation; do not refresh/retry.
-8. Delete the disposable deployment immediately after the response or deadline, whether PASS or failure; verify it is no longer invocable and original production domain targets remain unchanged. Do not merely delete a branch: old deployment URLs may still execute. Keep only sanitized report, artifact digest, reviewed commit, operation/deployment/request IDs and relevant nonsecret metadata in a private owner record. No database reset, role change, credential rotation, promotion or RPC activation is part of cleanup.
+| Method | Isolation / consequence | Decision |
+| --- | --- | --- |
+| Existing production Function, arbitrary command | Vercel exposes no reviewed attach/exec facility for arbitrary code in the deployed app. Disabled `/api/mint-facts` must remain disabled. Local `env run`/`build`/Sandbox is not production execution. | Unavailable; no spoofed runtime identity or credential export. |
+| Another production-target artifact | Uses existing production-only variables; observed alias promotion can affect the public app. | **Rejected**, including former skip-domain procedure. |
+| Existing project's custom nonproduction environment | Supported [custom target](https://vercel.com/docs/deployments/environments), e.g. `--target=scout-neon-proof`, separates target/domain mapping from production. Requires no production domains/branch auto-deploy mapping, effective authentication, owner-approved server-side **DB-only** credential scoping, and a separately reviewed nonproduction identity gate/artifact. | Structurally preferable candidate, **not presently available**: environment list empty, limit zero. No entitlement, cost or all-alias guarantee inferred. Existing production-only secrets do not follow it automatically. No creation, copying or paid-plan upgrade authorized. |
+| Ordinary Preview | Nonproduction target may still receive generated preview aliases. Production-only DB credential absent; wildcard Preview scoping would expose it to unrelated preview code. | Not a credential workaround. No broad scope expansion, env pull or locally injected DB URL. |
+| Separate isolated project | Separates production alias namespace most strongly, but new project/secret scope/protection/usage/cost must be approved. | Not authorized; does not prove connectivity of existing SCOUT production runtime. |
+| Provider-supported alias-neutral production execution | Would preserve existing credential scope and prove production directly if Vercel supplies a documented supported mechanism with testable no-alias behavior. | **Preferred next enquiry** if production-runtime proof is mandatory. Owner can ask Vercel support; no message has been sent. No deployment until reviewed. |
 
-**One-shot precision:** the script makes one connection per invocation. Owner serialization, short expiry and deletion bound the *authorized* operation. A warm-process boolean is not a durable global at-most-once guarantee across Vercel instances/restarts; deployment protection authenticates team users, not an invocation count. This design deliberately does not write a Neon latch or consume admission. If the owner requires platform-enforced global at-most-once despite duplicate authorized requests, STOP: a separate durable atomic invocation claim/control-plane facility must be reviewed first. Do not claim exactly-once execution or add a fake in-memory distributed store. No POST should be issued until the owner explicitly accepts this procedural single-invocation constraint or approves a stronger mechanism.
+Custom-environment connectivity, if separately enabled and tested, would prove **that environment's** Node-to-Neon reachability, not retroactively prove the existing production Function. The current handler intentionally continues to reject Preview/custom targets. Do not fake `VERCEL_ENV=production`, edit identity pins locally, or claim the unimplemented alternate gate is ready. Authentication must cover the exact generated URL, not just the project setting or an unguessable address.
 
-## Consequences requiring owner consent
+**Precise remaining blocker:** with unchanged production-only credential scope, no presently reviewed method both runs the temporary code and guarantees zero production-alias mutation. A platform-supported alias-neutral method, or explicit owner approval of genuinely isolated nonproduction infrastructure/DB-only secret scoping and its narrower proof, is needed. This PR does not authorize either.
 
-- A real additional **production-target deployment** exists temporarily and uses existing server-only production credentials. Native PostgreSQL auth/query telemetry, a connection, compute usage and platform logs may be incurred. No free or zero-cost entitlement is assumed.
-- An HTTPS function URL exists temporarily behind verified platform authentication; it is not a permanent/public product diagnostic. Deployment protection is an access boundary, not a private VPC. No credentials leave the runtime.
-- New deployment metadata may be visible to team tooling; verify integrations/domain targets and delete that exact deployment. There is no app merge/promotion or active RPC gate change.
-- This remains a **future implementation specification**, not a pre-approved runnable endpoint. The exact handler/artifact, expiry, protection and cleanup must be reviewed before a deployment approval is actionable. No approval is inferred from three configured credentials.
+## Unsent Vercel support enquiry
 
-## Founder checklist — connectivity only
+> For existing project `prj_OaA9snVrMUkpXuz6cMSKfSZ6fx5Q` in team `team_x1JQRQhMe5Ic1VFpklZMPM2j`, we need one temporary protected Node Function using existing production-only sensitive variables for a read-only native PostgreSQL connectivity proof. `vercel deploy --prebuilt --prod --skip-domain` nevertheless moved the team-level alias; the deployment was removed and aliases restored. Is there a **supported documented execution/deployment mechanism that cannot reassign any custom, project, team or git-main production alias**, including transiently? Please specify the exact CLI/API contract, generated-alias behavior and inspectable protection/assignment metadata. We cannot export secrets, change billing, promote/repair aliases, or use another project and call it proof of this runtime. If not supported, please confirm the limitation so we can separately review isolated nonproduction credential scoping. No permission to deploy or invoke is being requested by this message.
 
-- [ ] Review #118, exact artifact digest/commit, project, operation ID and ≤5-minute window. Keep RPC OFF.
-- [ ] Confirm existing protection covers staged production; credentials stay server-only, no new services/billing/policy changes.
-- [ ] Approve **staging only** of that artifact with no domain promotion. This does not approve a probe.
-- [ ] Record returned deployment ID/URL; verify production identity, actual protection, GET rejection and unchanged domains.
-- [ ] Accept procedural one-shot control, or STOP for a durable mechanism.
-- [ ] Give separate GO for that deployment: **one connection / ≤3 fixed SQL statements / no retry**, no Helius.
-- [ ] On PASS/failure/uncertainty: delete deployment, verify removal/domain targets, retain sanitized evidence. Stop; no automatic next step.
+Prepared for owner review only; **not sent**. No support ticket/service or provider traffic was created.
 
-**Current stop:** no artifact/deployment/execution approval exists. Hosted result: **NOT RUN / UNPROVEN**. The user explicitly instructed stopping before deployment/execution; this is also consistent with [AGENTS.md rule 9](../../../AGENTS.md) prohibiting autonomous production deployment.
+## Exact offline artifact procedure
+
+Use a fresh clean checkout of the final reviewed PR **head SHA** (not GitHub's synthetic merge commit). Pin Node 24, Python 3 and the lockfile. No hosting credentials, `.env` files or application environment are needed. Do not run `vercel pull`, `env pull`, `env run`, `build --prod` or login as part of packaging.
+
+```bash
+# Run in that clean checkout; confirm git rev-parse HEAD matches the reviewed SHA.
+npm ci --ignore-scripts
+node --test tests/onchain-api/neon-artifact.test.mjs tests/onchain-api/neon-isolation.test.mjs tests/onchain-api/scout-neon-smoke.test.mjs
+node scripts/ops/build-neon-smoke-artifact.mjs
+mkdir .vercel/review
+python3 scripts/ops/neon-artifact-zip.py pack .vercel/output .vercel/review/scout-neon-default-off.zip
+```
+
+The last command returns the actual ZIP SHA-256, canonical file-inventory SHA-256, byte count, file count and source commit. Use **those exact values**, independently compared to the reviewed CI summary, with:
+
+```text
+python3 scripts/ops/neon-artifact-zip.py verify .vercel/review/scout-neon-default-off.zip ZIP_SHA256 INVENTORY_SHA256 REVIEWED_HEAD_SHA
+```
+
+Replace the three uppercase placeholders with the actual approved values; they are not hashes of the outer GitHub Actions download ZIP. CI uploads an inner deterministic ZIP plus detached `review-summary.json`. The outer Actions ZIP can differ. The verifier reads without extracting, checks both digests, duplicate/path traversal/symlink/size constraints, exact Node24 single-function configuration, OFF manifest, clean source commit, source file hashes and locked pg package versions. Packaging refuses an existing output/destination, symlinked output ancestors, changed installed versions, unsafe files or recognizable key bytes. npm's verified clean install and human inventory review are still needed; pattern scans cannot prove absence of every possible secret.
+
+Artifact facts: Build Output v3, Node `nodejs24.x`, 10s maximum runtime, only `/_ops/neon-smoke`; other paths 404. No Next app/CARDS, project link/auth file, aliases, cron, collector, SDK, env or deploy command is bundled. `artifact.json` binds source/lock/handler/probe hashes. CLI output is always **`approval.json={"enabled":false}`**. An armed artifact must be newly built from a reviewed clean commit, with exact operation/source pin and positive ≤5-minute UTC window, then independently hashed and separately approved. The builder's programmatic arming API is for a **future separately reviewed builder**, not a shell activation flag. Artifact provenance is review evidence, not remote attestation: someone able to replace the whole trusted artifact can replace its manifest too.
+
+## Mandatory domain/alias verification — executable offline guard
+
+The guard has **no network or deployment capability**. In an already authenticated owner CLI, collect fresh **read-only** control-plane metadata for the exact project/team. Do not print secrets, use a decrypted env endpoint or dump complete runtime logs. These documented GET operations are sufficient for the current <100-row inventory:
+
+```text
+vercel api '/v9/projects/prj_OaA9snVrMUkpXuz6cMSKfSZ6fx5Q?teamId=team_x1JQRQhMe5Ic1VFpklZMPM2j' --method GET
+vercel api '/v4/aliases?projectId=prj_OaA9snVrMUkpXuz6cMSKfSZ6fx5Q&teamId=team_x1JQRQhMe5Ic1VFpklZMPM2j&limit=100' --method GET
+vercel api '/v9/projects/prj_OaA9snVrMUkpXuz6cMSKfSZ6fx5Q/domains?teamId=team_x1JQRQhMe5Ic1VFpklZMPM2j&limit=100' --method GET
+```
+
+Run only in the authenticated owner context; do not add verbose/debug logging or save unprojected responses. Project output must be projected in memory to `{id,name,accountId,nodeVersion,ssoProtection}` before saving; alias rows to `{alias,deploymentId,projectId}`, domains to `{name,projectId,gitBranch,customEnvironmentId,redirect}`, plus their actual `pagination`. Save a private JSON object `{project,aliases,domains}`; no env fields/values. Preserve independent capture UTC/source in the private operator record. A source error, wrong scope, absent pagination, `next!=null`, stale capture, concurrent release or >100 aliases means STOP; do not drop pages or manually mark them complete. For larger listings, add/review pagination handling first.
+
+```bash
+node scripts/ops/neon-alias-guard.mjs snapshot before-raw.json before.json
+# Only after a separately approved safe mechanism; no deployment is authorized here.
+node scripts/ops/neon-alias-guard.mjs snapshot after-raw.json after.json
+node scripts/ops/neon-alias-guard.mjs compare before.json after.json
+# Repeat after cleanup with a newly captured cleanup-raw.json / cleanup.json.
+node scripts/ops/neon-alias-guard.mjs compare before.json cleanup.json
+```
+
+All four production aliases must exist and agree at baseline. The guard compares **all** project aliases and domain assignments, including preview alias additions/removals and production target/protection changes; those require renewed review, not an ignored difference. Reordered response rows are harmless. A snapshot hash is not provider attestation or a deployment authorization. Inspect exact deployment metadata as well: expected project/team, artifact commit/digest, environment, Node runtime, `alias`, `aliasAssigned`/`aliasError`, custom-environment/domain mapping, and every actual alias targeting it. Missing/ambiguous control-plane evidence is a blocker. Effective exact-URL Authentication must be verified before an armed artifact or POST; no protection-bypass token creation/export. If control-plane evidence is insufficient, request a **separate explicit owner approval for a single unauthenticated GET to the OFF artifact** to check the platform challenge. If protection is broken that GET can reach the handler (OFF/GET rejects before secrets), so it is a possible Function invocation, not a harmless metadata check. No such GET is authorized or performed here. A different final armed deployment needs its own protection evidence; do not inherit proof from an old URL.
+
+## Invocation and cleanup contract — no live command authorized
+
+Once a **new safe execution mechanism is reviewed**: stage OFF only after a separate deployment GO; collect exact deployment ID/URL and protection/domain evidence; reject any mapping change. A later armed artifact is different bytes and needs its own review/deployment approval. An **invocation-specific GO** must name that final immutable deployment, digest, operation and short UTC window. No GO is inferred from credentials, successful staging, authentication or prior approval of a different artifact.
+
+Before the one empty POST, the owner records the operation consumed. Handler gates run before DB credential lookup; reads the actual empty stream, consumes a per-warm-instance attempt, checks source pin/window and rechecks expiry after driver import and before connect/SQL. The probe opens **one client**, executes at most **three fixed statements** (`BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY`, catalog SELECT, `ROLLBACK`), closes and returns only a sanitized 19-check report. No request supplies SQL, hostname, role, mint or token. Failure/timeout/expired window/uncertain response means **no retry**. Cleanup rollback/close must still run if approval expires after BEGIN. Import/stream bounds plus 5s work and bounded rollback/close fit the 10s function maximum under normal scheduling; a platform kill may prevent a response, which is failure, never PASS.
+
+The in-memory latch is **not durable/global exactly-once**. Other instances/restarts can accept the same manifest. Owner serialization, consumed private operation record and prompt deletion are procedural controls; explicitly accept that limitation or review a real durable external invocation claim before proceeding. Do not create a Neon latch or call admission/`scout_mint.step` to enforce it.
+
+Cleanup must delete the **exact disposable deployment**, not merely the source branch. Future owner-approved CLI reference (substitute the reviewed immutable ID and quote scope as needed): `vercel remove DEPLOYMENT_ID --scope riskledgerapp --yes`. First verify the ID belongs to the disposable artifact and has **zero production aliases**; otherwise deletion could cause an outage. Confirm supported remove syntax using that pinned CLI's help before the approved action. Verify deletion in authenticated control-plane metadata and repeat the alias/domain comparison. Do not probe the deleted Function URL. Retain sanitized hashes/clocks/decision/request/deployment IDs privately; no credentials, complete headers or raw logs. Deployment/function execution can incur existing plan compute and DB connection/auth telemetry; no zero-cost or zero-side-effect promise.
+
+If any alias moves: **no POST, no further deployment and no automatic repair/delete**. Preserve sanitized before/after evidence and notify the owner. The owner uses the independently recorded preflight deployment target to review and restore each affected alias using Vercel's supported Alias management, then verifies every original mapping. A CLI `alias set` with a guessed/current/latest target or whole-project promote/rollback is not recovery. Only after restoration is verified should the owner delete the temporary deployment and recheck mappings. No DB reset/bootstrap/policy update, credential rotation, collector action or RPC gate change belongs to recovery.
+
+## Founder checklist — separate decisions
+
+- [ ] **Choose execution path:** Vercel-confirmed alias-neutral production mechanism, or separately approved isolated nonproduction scope with honest narrower proof. No repeat of skip-domain production staging.
+- [ ] **Review costs/credential scope:** no plan/new service change, no Helius/HMAC cloning, no secret export. If an unavailable entitlement or DB scope change is needed, approve it separately before implementation.
+- [ ] **Review artifact:** exact clean commit, ZIP/inventory hashes, Node24, OFF manifest, source pin; freeze concurrent deploys and record fresh complete alias/domain baseline.
+- [ ] **Staging GO only:** exact mechanism/artifact/project; inspect resulting immutable ID, domain assignments, protected URL and unchanged aliases. No POST.
+- [ ] **Arming/deployment GO separately:** newly reviewed short-window artifact and hashes; repeat all staging checks. OFF staging approval does not cover it.
+- [ ] **Invocation GO only:** exact final ID/URL/hash/window; accept procedural single-use limitation; one DB connection/three metadata statements/no retry, no Helius. SCRAM mechanism remains unobserved.
+- [ ] **Cleanup:** exact deployment removed, all four aliases and complete mappings unchanged, sanitized result retained. No automatic next call.
+
+After an authentic successful Neon result is reviewed, the next decision is the [separate one-call Helius capture](HELIUS-CAPTURE.md). Neither step enables public RPC or LIVE_APPROVAL.

@@ -13,5 +13,5 @@ NODE_ENV=test node --conditions=react-server tests/onchain-api/postgres-tls.test
 # REVIEW-ONLY: synthetic mocks plus real LOCAL PostgreSQL/TLS, never hosted Neon/Vercel.
 NODE_ENV=test node --test tests/onchain-api/scout-neon-smoke.test.mjs
 # Inert offline-only Build Output API packaging and exact handler gates.
-NODE_ENV=test node --test tests/onchain-api/neon-artifact.test.mjs tests/onchain-api/scout-neon-smoke-pg.test.mjs
+NODE_ENV=test node --test tests/onchain-api/neon-artifact.test.mjs tests/onchain-api/neon-isolation.test.mjs tests/onchain-api/scout-neon-smoke-pg.test.mjs
 NODE_ENV=test node --conditions=react-server tests/onchain-api/native-transport.test.mjs

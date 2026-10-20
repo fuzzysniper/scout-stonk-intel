@@ -87,7 +87,8 @@ function bounded(work, ms, onTimeout = () => {}) {
 }
 
 /** Dependency injection is for offline tests; executable main ALWAYS constructs native pg.Client. */
-export async function runReadOnlySmoke({argv, env, openClient, sourceClock = clock}) {
+export async function runReadOnlySmoke({argv, env, openClient, sourceClock = clock, executionGuard = () => true}) {
+  requireProof(executionGuard());
   const options = clientOptions(validateIntent(argv, env)); // No driver import/DNS/socket before gates.
   let client, transaction = false, rollbackAttempted = false, errored = false, stopped = false, report;
   const onError = () => {errored = true;}; // Suppress raw pg error events; never log exception objects.
@@ -95,17 +96,19 @@ export async function runReadOnlySmoke({argv, env, openClient, sourceClock = clo
   const validTime = t => Number.isSafeInteger(t) && t >= 0 && t <= 253402300799999;
   requireProof(validTime(started) && Number.isFinite(mono) && mono >= 0);
   try {
+    requireProof(executionGuard());
     client = openClient(options);
     client.on('error', onError);
     report = await bounded((async () => {
       await client.connect();
-      requireProof(!stopped && !errored);
+      requireProof(!stopped && !errored && executionGuard());
       // Pinned pg 8.23.1 native TLSSocket. No certificate contents or auth messages are retained.
       const socket = client.connection?.stream;
       requireProof(socket?.encrypted === true && socket.authorized === true && socket.servername === EXPECTED.host);
       const tls = socket.getProtocol(); requireProof(tls === 'TLSv1.2' || tls === 'TLSv1.3');
       const begin = await client.query(BEGIN_SQL);
       requireProof(!stopped && !errored && begin.command === 'BEGIN'); transaction = true;
+      requireProof(executionGuard());
       const result = await client.query(SELECT_ONLY_SQL), row = result.rows?.[0];
       requireProof(!stopped && !errored && result.command === 'SELECT' && result.rowCount === 1 && row &&
         Object.keys(row).length === CHECKS.length + 1 && CHECKS.every(key => row[key] === true) &&
