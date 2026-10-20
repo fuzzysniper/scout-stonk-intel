@@ -75,7 +75,7 @@ test('publication workflow stays opt-in, read-only generation, draft branch PR o
 test('git append-only check rejects edition edits and index replacement with an isolated repository',async()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'scout-archive-check-'));
  try{
-  // Pin synthetic commit/evaluation clocks; real wall time must not age this fixture out of retention.
+  // Synthetic fixture dates must be stable; production retention logic is untouched.
   const git=async(...args)=>(await execute('git',args,{cwd:dir,env:{...process.env,GIT_AUTHOR_DATE:ready.toISOString(),GIT_COMMITTER_DATE:ready.toISOString()}})).stdout;await git('init');await git('config','user.name','Test');await git('config','user.email','test@example.invalid');
   fs.mkdirSync(path.join(dir,'data'),{recursive:true});const sourceBytes=Buffer.from(JSON.stringify(store())),allowlistBytes=Buffer.from(JSON.stringify(tokens));
   fs.writeFileSync(path.join(dir,'data/reward-snapshots.json'),sourceBytes);fs.writeFileSync(path.join(dir,'data/tracked-mints.json'),allowlistBytes);await git('add','.');await git('commit','-m','Explicitly artificial isolated input fixture');
