@@ -8,7 +8,8 @@ export type CacheEntry = Readonly<{
 }>;
 export type Lease = Readonly<{ id: number; mint: string; expiresAt: number }>;
 export type Command =
-  | Readonly<{ kind: "admit"; policy: string; mint: string; client: string }>
+  | Readonly<{ kind: "admit"; policy: string; mint: string; client: string;
+      authorization?: Readonly<{ purpose: "proof" | "public"; notBeforeMs: number; expiresAtMs: number }> }>
   | Readonly<{ kind: "complete"; policy: string; lease: Lease; slot: string; cache: CacheEntry | null }>
   | Readonly<{ kind: "fail"; policy: string; lease: Lease; reason: MintFailure }>
   | Readonly<{ kind: "stop"; policy: string; reason: MintFailure }>;
