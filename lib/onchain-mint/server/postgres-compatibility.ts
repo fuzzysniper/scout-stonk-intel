@@ -5,6 +5,10 @@ import "server-only";
 export const STEP_BODY_SHA256 = "f74e435a29fc18d6cf7d92bc415da8f2ad245b41a37ba8cd67bf998fa53f19f9";
 /** Catalog-only compatibility proof, run INSIDE each native transaction before step().
  * No application table SELECT, owner password, verifier, secret or arbitrary SQL input.
+ * Client TLS is mandatory in postgres-store's actual socket proof. pg_stat_ssl
+ * describes the backend hop after a provider proxy, not that verified client hop;
+ * requiring backend TLS here falsely rejects legitimate TLS-terminating proxies.
+ * Internal provider-hop encryption and negotiated SCRAM remain unobserved.
  */
 export const POSTGRES_COMPATIBILITY_SQL = `SELECT (
  current_user='scout_mint_app' AND session_user='scout_mint_app'
@@ -35,7 +39,6 @@ export const POSTGRES_COMPATIBILITY_SQL = `SELECT (
  AND NOT EXISTS(SELECT 1 FROM pg_catalog.aclexplode(COALESCE(p.proacl,pg_catalog.acldefault('f',p.proowner))) a
                 WHERE a.grantee=0 AND a.privilege_type='EXECUTE')
  AND pg_catalog.encode(pg_catalog.sha256(pg_catalog.convert_to(p.prosrc,'UTF8')),'hex')=$1
- AND (SELECT s.ssl AND s.version IN('TLSv1.2','TLSv1.3') FROM pg_catalog.pg_stat_ssl s WHERE s.pid=pg_catalog.pg_backend_pid())
  ${['policy','clients','cache'].map(t=>`AND NOT pg_catalog.has_table_privilege(current_user,'scout_mint.${t}','SELECT,INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')
  AND CASE WHEN pg_catalog.current_setting('server_version_num')::integer>=170000
  THEN NOT pg_catalog.has_table_privilege(current_user,'scout_mint.${t}','MAINTAIN') ELSE true END`).join('\n')}
