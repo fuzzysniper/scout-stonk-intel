@@ -1,11 +1,61 @@
 {
   "version": 1,
-  "checkedAt": "2026-10-19T14:59:23+00:00",
+  "checkedAt": "2026-10-20T13:01:15+00:00",
   "state": "checked",
   "reason": null,
   "workflowState": "active",
-  "scheduledRunCount": 36,
+  "scheduledRunCount": 41,
   "runs": [
+    {
+      "id": 39417005092,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-20T11:43:35Z",
+      "updatedAt": "2026-10-20T11:43:52Z",
+      "collectionStep": "success",
+      "commitStep": "success"
+    },
+    {
+      "id": 39378321961,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-20T06:04:38Z",
+      "updatedAt": "2026-10-20T06:04:52Z",
+      "collectionStep": null,
+      "commitStep": null
+    },
+    {
+      "id": 39347379103,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-20T00:23:44Z",
+      "updatedAt": "2026-10-20T00:24:02Z",
+      "collectionStep": null,
+      "commitStep": null
+    },
+    {
+      "id": 39324807394,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-19T21:06:11Z",
+      "updatedAt": "2026-10-19T21:06:30Z",
+      "collectionStep": null,
+      "commitStep": null
+    },
+    {
+      "id": 39279728190,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-10-19T15:40:03Z",
+      "updatedAt": "2026-10-19T16:09:21Z",
+      "collectionStep": null,
+      "commitStep": null
+    },
     {
       "id": 39218602023,
       "event": "schedule",
@@ -13,8 +63,8 @@
       "conclusion": "success",
       "createdAt": "2026-10-19T07:50:32Z",
       "updatedAt": "2026-10-19T07:50:51Z",
-      "collectionStep": "success",
-      "commitStep": "success"
+      "collectionStep": null,
+      "commitStep": null
     },
     {
       "id": 39185105152,
@@ -75,67 +125,17 @@
       "updatedAt": "2026-10-18T11:12:41Z",
       "collectionStep": null,
       "commitStep": null
-    },
-    {
-      "id": 39102358107,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "success",
-      "createdAt": "2026-10-18T05:58:05Z",
-      "updatedAt": "2026-10-18T05:58:21Z",
-      "collectionStep": null,
-      "commitStep": null
-    },
-    {
-      "id": 39085262752,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "success",
-      "createdAt": "2026-10-18T01:06:32Z",
-      "updatedAt": "2026-10-18T01:06:48Z",
-      "collectionStep": null,
-      "commitStep": null
-    },
-    {
-      "id": 39074822332,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "success",
-      "createdAt": "2026-10-17T22:22:44Z",
-      "updatedAt": "2026-10-17T22:22:55Z",
-      "collectionStep": null,
-      "commitStep": null
-    },
-    {
-      "id": 39062596147,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "success",
-      "createdAt": "2026-10-17T19:28:14Z",
-      "updatedAt": "2026-10-17T19:28:29Z",
-      "collectionStep": null,
-      "commitStep": null
-    },
-    {
-      "id": 39052881616,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "success",
-      "createdAt": "2026-10-17T17:14:30Z",
-      "updatedAt": "2026-10-17T17:14:44Z",
-      "collectionStep": null,
-      "commitStep": null
     }
   ],
   "latestDatasetCommit": {
-    "sha": "6ea4d48ce013326826d68858eb3bc793200f26a2",
-    "committedAt": "2026-10-19T07:50:44Z",
-    "revision": "sha256:ba8ca26f39b6f5a98aa70fb5578bb77cad3d1a2dd5260455b941031b6302407d"
+    "sha": "cc611db97e3b55fe8aaecbd393bcbade01e328fa",
+    "committedAt": "2026-10-20T11:43:47Z",
+    "revision": "sha256:72239d3f72ba09467713b3dace6c6eddee560edb59de25fbc63fcb634f6a8c5e"
   },
   "cadence": {
     "state": "checked",
-    "windowStart": "2026-10-18T14:59:23+00:00",
-    "windowEnd": "2026-10-19T14:59:23+00:00",
+    "windowStart": "2026-10-19T13:01:15+00:00",
+    "windowEnd": "2026-10-20T13:01:15+00:00",
     "nominalSlots": 24,
     "matureSlots": 24,
     "graceSeconds": 900,
@@ -144,24 +144,24 @@
     "matureSlotsWithoutRunCreation": 19,
     "creationOffsets": [
       {
-        "id": 39218602023,
-        "secondsAfterPriorSlot": 2012
+        "id": 39417005092,
+        "secondsAfterPriorSlot": 1595
       },
       {
-        "id": 39185105152,
-        "secondsAfterPriorSlot": 367
+        "id": 39378321961,
+        "secondsAfterPriorSlot": 2858
       },
       {
-        "id": 39175836830,
-        "secondsAfterPriorSlot": 3584
+        "id": 39347379103,
+        "secondsAfterPriorSlot": 404
       },
       {
-        "id": 39164988321,
-        "secondsAfterPriorSlot": 1886
+        "id": 39324807394,
+        "secondsAfterPriorSlot": 2951
       },
       {
-        "id": 39152795956,
-        "secondsAfterPriorSlot": 3093
+        "id": 39279728190,
+        "secondsAfterPriorSlot": 1383
       }
     ],
     "intendedSlotsKnown": false
