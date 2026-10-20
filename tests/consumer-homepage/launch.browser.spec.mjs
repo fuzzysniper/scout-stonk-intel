@@ -4,7 +4,7 @@ const mint='So11111111111111111111111111111111111111112',si='DEW9dSN6QpWyNthphCp
 const fail=(reason='disabled')=>({version:'mint-facts/1',status:'unavailable',mint,facts:null,source:null,reason,warnings:[]});
 const axe=async page=>expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze()).violations).toEqual([]);
 const issues=new WeakMap();
-test.beforeEach(async({page})=>{const e=[];issues.set(page,e);page.on('pageerror',x=>e.push(x.message));page.on('console',x=>{if(x.type()==='error'&&!(x.text().startsWith('Failed to load resource')&&x.location().url.includes('/api/mint-facts')))e.push(x.text());});page.on('request',r=>{if(!['localhost','127.0.0.1'].includes(new URL(r.url()).hostname))e.push('unexpected external request');});});
+test.beforeEach(async({page})=>{await page.route('**/api/token?*',r=>r.fulfill({status:503,contentType:'application/json',headers:{'retry-after':'60'},body:'{}'}));const e=[];issues.set(page,e);page.on('pageerror',x=>e.push(x.message));page.on('console',x=>{if(x.type()==='error'&&!(x.text().startsWith('Failed to load resource')&&/\/api\/(mint-facts|token)/.test(x.location().url)))e.push(x.text());});page.on('request',r=>{if(!['localhost','127.0.0.1'].includes(new URL(r.url()).hostname))e.push('unexpected external request');});});
 test.afterEach(async({page})=>expect(issues.get(page)).toEqual([]));
 const input=page=>page.getByLabel('Token address',{exact:true});
 const paste=page=>page.getByRole('button',{name:'Paste token address',exact:true});
@@ -13,11 +13,11 @@ async function disabledApi(page){let calls=0;await page.route('**/api/mint-facts
 test('explicit real Chromium clipboard gesture preserves exact input, with no automatic source request',async({page,context},info)=>{
  const calls=await disabledApi(page);await context.grantPermissions(['clipboard-read','clipboard-write']);await page.goto('/');
  await page.evaluate(async text=>{await navigator.clipboard.writeText(text);const read=navigator.clipboard.readText.bind(navigator.clipboard);window.testClipboardReads=0;Object.defineProperty(navigator.clipboard,'readText',{configurable:true,value:()=>{window.testClipboardReads++;return read();}});},mint);
- expect(await page.evaluate(()=>window.testClipboardReads)).toBe(0);expect(calls()).toBe(0);await paste(page).click();await expect(input(page)).toHaveValue(mint);await expect(page.locator('#paste-status')).toContainText('Choose Explain this token');expect(calls()).toBe(0);expect(new URL(page.url()).search).toBe('');expect(await page.evaluate(()=>window.testClipboardReads)).toBe(1);
+ expect(await page.evaluate(()=>window.testClipboardReads)).toBe(0);expect(calls()).toBe(0);await paste(page).click();await expect(input(page)).toHaveValue(mint);await expect(page.locator('#paste-status')).toContainText('Choose Analyze token');expect(calls()).toBe(0);expect(new URL(page.url()).search).toBe('');expect(await page.evaluate(()=>window.testClipboardReads)).toBe(1);
  const box=await paste(page).boundingBox();expect(box.width).toBeGreaterThanOrEqual(44);expect(box.height).toBeGreaterThanOrEqual(44);await axe(page);await page.screenshot({path:`experiments/consumer-mvp/web/node_modules/.cache/v17-regression-screenshots/after-paste-${info.project.name}.png`});
  await input(page).press('Enter');await expect(page.getByRole('heading',{name:'Source not connected',exact:true})).toBeVisible();expect(calls()).toBe(1);expect(new URL(page.url()).searchParams.get('mint')).toBe(mint);
  // No whitespace cleanup, URL extraction or partial-address truncation.
- await page.evaluate(text=>navigator.clipboard.writeText(text),' '+si);await paste(page).click();await expect(input(page)).toHaveValue(' '+si);await page.getByRole('button',{name:'Explain this token',exact:true}).click();await expect(page.getByRole('heading',{name:'That doesn’t look like a token address',exact:true})).toBeVisible();expect(calls()).toBe(1);
+ await page.evaluate(text=>navigator.clipboard.writeText(text),' '+si);await paste(page).click();await expect(input(page)).toHaveValue(' '+si);await page.getByRole('button',{name:'Analyze token',exact:true}).click();await expect(page.getByRole('heading',{name:'That doesn’t look like a token address',exact:true})).toBeVisible();expect(calls()).toBe(1);
  await page.evaluate(()=>navigator.clipboard.writeText('x'.repeat(121)));await paste(page).click();await expect(page.locator('#paste-status')).toContainText('too long');await expect(input(page)).toHaveValue(' '+si);expect(calls()).toBe(1);
 });
 
@@ -39,7 +39,7 @@ test('same-address explicit submission retries after cooldown without background
  await page.clock.install({time:new Date('2026-10-18T12:00:00.000Z')});let calls=0;
  await page.route('**/api/mint-facts?*',r=>{calls++;return r.fulfill({status:calls===1?429:503,headers:{'retry-after':'2'},contentType:'application/json',body:JSON.stringify(fail(calls===1?'rate_limited':'disabled'))});});
  await page.goto('/?mint='+mint);await expect(page.getByRole('button',{name:'Check again in 2s',exact:true})).toBeDisabled();expect(calls).toBe(1);await page.clock.fastForward(1001);await expect(page.getByRole('button',{name:'Check again in 1s',exact:true})).toBeDisabled();expect(calls).toBe(1);await page.clock.fastForward(1000);await expect(page.getByRole('button',{name:'Check again',exact:true})).toBeEnabled();expect(calls).toBe(1);
- await page.getByRole('button',{name:'Explain this token',exact:true}).click();await expect(page.getByRole('heading',{name:'Source not connected',exact:true})).toBeVisible();expect(calls).toBe(2);expect(new URL(page.url()).searchParams.get('mint')).toBe(mint);await expect(page.locator('.mint-supply')).toHaveCount(0);await axe(page);
+ await page.getByRole('button',{name:'Analyze token',exact:true}).click();await expect(page.getByRole('heading',{name:'Source not connected',exact:true})).toBeVisible();expect(calls).toBe(2);expect(new URL(page.url()).searchParams.get('mint')).toBe(mint);await expect(page.locator('.mint-supply')).toHaveCount(0);await axe(page);
 });
 
 test('SYNTHETIC OFFLINE readable controls and layered evidence retain exact source receipt',async({page},info)=>{

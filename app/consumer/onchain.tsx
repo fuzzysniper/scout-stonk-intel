@@ -3,6 +3,7 @@ import {useEffect,useRef,useState,type KeyboardEvent} from 'react';
 import type {MintFactsV1} from '../../lib/onchain-mint/contract';
 import {addressQuery,explorerAddress,failureCopy,projectMintFacts,type DisplayContext,type MintView} from './onchain-model';
 import {productionMintFactsPort,type MintFactsPort} from './onchain-client';
+import {concernSummary} from './trader-model';
 
 function closeEvidence(event:KeyboardEvent<HTMLDetailsElement>){
  if(event.key==='Escape'){event.stopPropagation();event.currentTarget.open=false;event.currentTarget.querySelector('summary')?.focus();}
@@ -45,6 +46,7 @@ export function MintFactsPanel({view,mint,context='production',primary=true,onRe
   {facts?<>
    <p className="mint-subtitle">{facts.offline?'Offline test':facts.value.source.endpointHost==='mainnet.helius-rpc.com'?'Helius RPC report':'RPC report'} · Solana mainnet · {facts.value.facts.program==='token_2022'?'Token-2022':'Token Program'}</p>
    <p className="mint-meaning">Token units do not prove shares, asset backing or payout rights.</p>
+   <a className="trader-concern-jump" href="#research-concerns" onClick={event=>{const target=document.getElementById('research-concerns');if(target){event.preventDefault();target.focus();target.scrollIntoView({block:'start',behavior:'instant'});}}}>{concernSummary(facts)} ↓</a>
    <div className="mint-supply"><span>Observed supply · token units</span><strong>{facts.supply}</strong><small>Exact quantity at the slot below. Not a price or anyone’s balance.</small></div>
    <dl className="mint-authorities">
     <div><dt>More tokens possible?</dt><dd>{facts.value.status==='unsupported_extensions'?'Other controls unreviewed':facts.value.facts.mintAuthority.state==='present'?'Yes, a control is present':'Standard control absent'}<small>{facts.value.facts.mintAuthority.state==='present'?'Mint authority present':'Mint authority absent'}</small></dd></div>
@@ -52,7 +54,7 @@ export function MintFactsPanel({view,mint,context='production',primary=true,onRe
    </dl>
    <p className="mint-limit">{facts.value.status==='unsupported_extensions'?'Extensions unreviewed (Token-2022). These fields do not establish all issuance, transfer or freeze controls.':facts.value.facts.extensions.assessment==='reviewed_metadata_pointer'?'Only the MetadataPointer layout is reviewed; its pointer does not verify a name or project. Authority absence does not establish unrestricted transfers.':'These controls do not verify the project or prove transfers are unrestricted.'}</p>
    <div className="mint-observed"><span>Solana snapshot · finalized slot <strong>{facts.value.source.contextSlot}</strong></span><span>Checked by server <time dateTime={facts.value.source.checkedAt}>{checkedTimeLabel(facts.value.source.checkedAt)}</time></span></div>
-   <p className="mint-boundary">RPC report, not independently replayed. Project identity, value and holder payments remain unverified. Slot time is unavailable.</p>
+   <p className="mint-boundary">RPC report, not independently replayed. Identity and holder payments remain unverified. Slot time unknown.</p>
    <EvidenceDetails value={facts.value}/>
   </>:<>
    <p className="mint-description">{description}</p>
@@ -69,9 +71,11 @@ export function MintFactsPanel({view,mint,context='production',primary=true,onRe
  </section>;
 }
 /** Fixed API client; no RPC import, source activation, credential or test data. */
-export function OnchainCheck({mint,historical=false,port=productionMintFactsPort,onVerified,onEditAddress}:{mint:string;historical?:boolean;port?:MintFactsPort;onVerified?:(verified:boolean)=>void;onEditAddress?:()=>void}){
+export function OnchainCheck({mint,historical=false,port=productionMintFactsPort,onVerified,onEditAddress,onView}:{mint:string;historical?:boolean;port?:MintFactsPort;onVerified?:(verified:boolean)=>void;onEditAddress?:()=>void;onView?:(view:MintView|'loading')=>void}){
  const [hydrated,setHydrated]=useState(false);
  const [view,setView]=useState<MintView|'loading'>({kind:'unavailable',reason:'disabled'}),[attempt,setAttempt]=useState(0),[retryAt,setRetryAt]=useState(0),[tick,setTick]=useState(0);
+ const observer=useRef(onView);observer.current=onView;
+ useEffect(()=>{observer.current?.(hydrated?view:'loading');},[hydrated,view]);
  const active=useRef(0),report=useRef(onVerified),latest=useRef(view);report.current=onVerified;latest.current=view;
  useEffect(()=>{
   const generation=++active.current,controller=new AbortController();let alive=true,expiry:ReturnType<typeof setTimeout>|undefined;

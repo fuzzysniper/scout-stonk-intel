@@ -1,0 +1,26 @@
+{
+  "capturedAt": "2026-10-20T18:31:27.929Z",
+  "records": [
+    {
+      "width": 320,
+      "productionBuild": true,
+      "base": "86a2edf",
+      "offlineFailureReplay": true,
+      "externalRequests": []
+    },
+    {
+      "width": 390,
+      "productionBuild": true,
+      "base": "86a2edf",
+      "offlineFailureReplay": true,
+      "externalRequests": []
+    },
+    {
+      "width": 1280,
+      "productionBuild": true,
+      "base": "86a2edf",
+      "offlineFailureReplay": true,
+      "externalRequests": []
+    }
+  ]
+}

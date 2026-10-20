@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useRef,useState} from 'react';
 import Link from 'next/link';
-import {OnchainCheck} from './onchain';
+import {TokenResearch,type MarketPort} from './trader';
 import type {MintFactsPort} from './onchain-client';
 import {addressQuery,unavailableMintFacts} from './onchain-model';
 import type {MintExplanation} from '../../experiments/consumer-mvp/evidence';
@@ -64,7 +64,7 @@ export function Explanation({evidence:e,disclosed=false}:{evidence:MintExplanati
  </article>;
 }
 
-export default function ConsumerHome({initialInput,initialState,onchainPort}:{initialInput:string;initialState:HomeState;onchainPort?:MintFactsPort}) {
+export default function ConsumerHome({initialInput,initialState,onchainPort,marketPort}:{initialInput:string;initialState:HomeState;onchainPort?:MintFactsPort;marketPort?:MarketPort}) {
  const [input,setInput]=useState(initialInput),[result,setResult]=useState(initialState),[announcement,setAnnouncement]=useState('');
  const [pasting,setPasting]=useState(false),[pasteStatus,setPasteStatus]=useState('');
  const pasteEpoch=useRef(0),addressInput=useRef<HTMLInputElement>(null);
@@ -87,7 +87,7 @@ export default function ConsumerHome({initialInput,initialState,onchainPort}:{in
    const text=await navigator.clipboard.readText();
    if(epoch!==pasteEpoch.current)return;
    if(!text||text.length>120){setPasteStatus(text?'Clipboard text is too long. Paste only the token address.':'Clipboard is empty. Copy a token address first.');return;}
-   setInput(text);setPasteStatus('Pasted. Choose Explain this token to check the address.');
+   setInput(text);setPasteStatus('Pasted. Choose Analyze token to check the address.');
   }catch{
    if(epoch!==pasteEpoch.current)return;
    setPasteStatus('Touch and hold the address field, then choose Paste. You can also type the address.');addressInput.current?.focus();
@@ -113,19 +113,19 @@ export default function ConsumerHome({initialInput,initialState,onchainPort}:{in
   <a className="skip-link" href="#content">Skip to content</a>
   <header className="site-header"><Link className="wordmark" href="/" prefetch={false} aria-label="Start over" onClick={startOver}>{hasResult?'Start over':<>Token explained<span aria-hidden="true">.</span></>}</Link>{hasResult?<button id="search-another" type="button" className="secondary search-toggle" aria-expanded={searchOpen} aria-controls="token-search" onClick={toggleSearch}>Search another token</button>:<span className="preview-label">Read-only</span>}</header>
   <main id="content" className={idle?'':hasResult&&!searchOpen?'has-answer result-compact':'has-answer'} tabIndex={-1}>
-   {idle&&<section className="welcome" aria-labelledby="welcome-title"><p className="eyebrow">LESS GUESSWORK. MORE UNDERSTANDING.</p><h1 id="welcome-title" tabIndex={-1}>A token address.<br/><span>A clear answer.</span></h1><p className="intro">Check Solana token supply and controls. See the source and what it cannot prove.</p></section>}
+   {idle&&<section className="welcome" aria-labelledby="welcome-title"><p className="eyebrow">LESS GUESSWORK. MORE UNDERSTANDING.</p><h1 id="welcome-title" tabIndex={-1}>A token address.<br/><span>A clear answer.</span></h1><p className="intro">Check supply, token controls and market evidence. See risks and what’s still unknown.</p></section>}
    {supported&&!chainReady&&<div className="capture-notice"><span className="notice-dot" aria-hidden="true"/><span><strong>Captured examples, not live data.</strong> 14 Oct 2026 · stale.</span></div>}
    <form id="token-search" aria-label="Explain a token" hidden={hasResult&&!searchOpen} onKeyDown={event=>{if(hasResult&&event.key==='Escape'){event.preventDefault();toggleSearch();}}} noValidate onSubmit={event=>{event.preventDefault();lookup(input);}}>
-    <label htmlFor="mint">Token address</label><div className="search-row"><div className="address-entry"><input ref={addressInput} id="mint" name="mint" type="text" value={input} onChange={event=>{cancelPaste();setInput(event.target.value);}} placeholder="Paste a token address" autoComplete="off" autoCapitalize="off" autoCorrect="off" inputMode="text" enterKeyHint="go" spellCheck={false} maxLength={120} aria-describedby="mint-help paste-status lookup-status" aria-invalid={['empty','invalid','needs_mint'].includes(result.state)?true:undefined}/><button type="button" className="paste-address" disabled={pasting} onClick={()=>void pasteAddress()} aria-label="Paste token address">{pasting?'Reading…':'Paste'}</button></div><button type="submit" className="primary" aria-label="Explain this token">Explain this token <span aria-hidden="true">→</span></button></div>
+    <label htmlFor="mint">Token address</label><div className="search-row"><div className="address-entry"><input ref={addressInput} id="mint" name="mint" type="text" value={input} onChange={event=>{cancelPaste();setInput(event.target.value);}} placeholder="Paste a token address" autoComplete="off" autoCapitalize="off" autoCorrect="off" inputMode="text" enterKeyHint="go" spellCheck={false} maxLength={120} aria-describedby="mint-help paste-status lookup-status" aria-invalid={['empty','invalid','needs_mint'].includes(result.state)?true:undefined}/><button type="button" className="paste-address" disabled={pasting} onClick={()=>void pasteAddress()} aria-label="Paste token address">{pasting?'Reading…':'Paste'}</button></div><button type="submit" className="primary" aria-label="Analyze token">Analyze token <span aria-hidden="true">→</span></button></div>
     <p id="paste-status" className="paste-status" role="status">{pasteStatus}</p>
     <p id="mint-help" className="field-help">Exact Solana address, not a name or ticker.</p>
     {hasResult&&searchOpen&&<button type="button" className="secondary cancel-search" onClick={toggleSearch}>Cancel search</button>}
    </form>
    <p id="lookup-status" className="sr-only" role="status" aria-live="polite">{announcement}</p>
    {supported?(chainReady?[
-    <OnchainCheck key={'chain-'+result.evidence.token.mint+'-'+requestId} mint={result.evidence.token.mint} port={onchainPort} onEditAddress={reviewAddress} onVerified={ready=>{if(ready!==chainReady){if(ready&&!searchOpen&&!pasting)focusTarget.current='answer-title';setChainReady(ready);}}}/>,
+    <TokenResearch key={'chain-'+result.evidence.token.mint+'-'+requestId} mint={result.evidence.token.mint} port={onchainPort} marketPort={marketPort} onEditAddress={reviewAddress} onVerified={ready=>{if(ready!==chainReady){if(ready&&!searchOpen&&!pasting)focusTarget.current='answer-title';setChainReady(ready);}}}/>,
     <details key="dated-provider" className="mint-history-disclosure"><summary>Separate StonkFun evidence · 14 Oct 2026 · stale</summary><Explanation evidence={result.evidence} disclosed/></details>
-   ]:[<Explanation key="dated-provider" evidence={result.evidence}/>,<OnchainCheck key={'chain-'+result.evidence.token.mint+'-'+requestId} mint={result.evidence.token.mint} historical port={onchainPort} onEditAddress={reviewAddress} onVerified={ready=>{if(ready){if(!searchOpen&&!pasting)focusTarget.current='answer-title';setChainReady(true);}}}/>]):result.state==='unsupported'?<OnchainCheck key={evaluatedInput+'-'+requestId} mint={evaluatedInput} port={onchainPort} onEditAddress={reviewAddress} onVerified={ready=>{if(!ready)setChainReady(false);else if(input===evaluatedInput&&!searchOpen&&!pasting&&document.activeElement?.id!=='mint'){focusTarget.current='answer-title';setChainReady(true);}}}/>:result.state!=='idle'&&<div className="error-card"><h1 id="answer-title" tabIndex={-1}>{messages[result.state][0]}</h1><p>{messages[result.state][1]}</p>{result.state==='unavailable'&&<button type="button" className="secondary" onClick={()=>lookup(input)}>Try again</button>}</div>}
+   ]:[<Explanation key="dated-provider" evidence={result.evidence}/>,<TokenResearch key={'chain-'+result.evidence.token.mint+'-'+requestId} mint={result.evidence.token.mint} historical port={onchainPort} marketPort={marketPort} onEditAddress={reviewAddress} onVerified={ready=>{if(ready){if(!searchOpen&&!pasting)focusTarget.current='answer-title';setChainReady(true);}}}/>]):result.state==='unsupported'?<TokenResearch key={evaluatedInput+'-'+requestId} mint={evaluatedInput} port={onchainPort} marketPort={marketPort} onEditAddress={reviewAddress} onVerified={ready=>{if(!ready)setChainReady(false);else if(input===evaluatedInput&&!searchOpen&&!pasting&&document.activeElement?.id!=='mint'){focusTarget.current='answer-title';setChainReady(true);}}}/>:result.state!=='idle'&&<div className="error-card"><h1 id="answer-title" tabIndex={-1}>{messages[result.state][0]}</h1><p>{messages[result.state][1]}</p>{result.state==='unavailable'&&<button type="button" className="secondary" onClick={()=>lookup(input)}>Try again</button>}</div>}
    {!hasResult&&<section className="discovery" aria-labelledby="discovery-title"><div className="section-label"><h2 id="discovery-title" tabIndex={-1}>Explore an example</h2><span>3 dated examples</span></div><p className="small-note example-capture-date">{result.state==='unsupported'?'Not in these examples. ':''}StonkFun capture · 14 Oct 2026 · stale, not live.</p><div className="example-list">{examples.map(e=><button type="button" className="example-button" key={e.mint} onClick={()=>lookup(e.mint)} aria-label={`Explain ${e.name} (${e.symbol}), captured ${e.quoteSymbol} pair`}><span className="example-icon" aria-hidden="true">{e.symbol}</span><span className="example-name">{e.name}</span><span className="example-quote">with {e.quoteSymbol}</span><span className="example-arrow" aria-hidden="true">→</span></button>)}</div><p className="small-note">Selected examples, not a ranking or a complete token list. Metadata rights unverified; financial figures withheld.</p></section>}
    <noscript><p className="small-note">The dated provider explanation is readable without JavaScript. Onchain facts have not loaded; enable JavaScript to request the server check. No token facts are inferred from an address.</p></noscript>
   </main>

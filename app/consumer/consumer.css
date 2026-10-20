@@ -146,3 +146,27 @@
 
 /* Consumer research entry stays below the explanation, without narrowing mobile links. */
 .consumer-home .site-footer nav{flex-wrap:wrap}
+
+/* Single-mint trader research: facts, fact-triggered concerns, market receipts, explicit unknowns. */
+.consumer-home .trader-concern-jump{display:flex;align-items:center;min-height:44px;font-size:12px;font-weight:650;color:#795012;text-underline-offset:3px}
+.consumer-home .trader-section{border-top:1px solid var(--border);padding-top:18px;margin-top:20px;scroll-margin-top:18px;overflow-wrap:anywhere}
+.consumer-home .trader-section h2{font-size:20px;line-height:1.2;letter-spacing:-.025em;margin:3px 0 10px}
+.consumer-home .trader-section p{font-size:13px;line-height:1.6;margin-top:7px}
+.consumer-home .trader-section .trader-kicker{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--muted);margin:0}
+.consumer-home .trader-section .trader-note{font-size:11px;color:var(--muted)}
+.consumer-home .trader-concern-list,.consumer-home .trader-unknowns ul{list-style:none;padding:0;margin:12px 0}
+.consumer-home .trader-concern-list>li{padding:14px;margin-top:8px;border:1px solid #ead7b7;border-radius:12px;background:#fff6e7}
+.consumer-home .trader-section h3{font-size:13px;line-height:1.4;font-weight:650;letter-spacing:normal}
+.consumer-home .trader-concern-list h3{display:flex;gap:8px;align-items:center;color:#674313}
+.consumer-home .trader-concern-list h3>span{display:grid;place-items:center;border:1px solid #c69851;border-radius:50%;width:18px;height:18px;font-size:11px;flex:0 0 auto}
+.consumer-home .trader-section summary{font-size:12px;min-height:44px;padding:12px 0;letter-spacing:normal;color:var(--blue);display:list-item;list-style:disclosure-closed}
+.consumer-home .trader-section details[open]>summary{list-style:disclosure-open}
+.consumer-home .trader-section dl>div{margin:10px 0}.consumer-home .trader-section dt{font-size:11px;color:var(--muted)}
+.consumer-home .trader-section dd,.consumer-home .trader-section code{font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;white-space:normal;margin:3px 0}
+.consumer-home .trader-market-status{font-weight:650}.consumer-home .trader-rights{background:#fff6e7;border-left:3px solid #a87527;padding:10px 12px;color:#674313}
+.consumer-home .trader-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.consumer-home .trader-actions button{white-space:normal}
+.consumer-home .trader-proof>a{display:flex;align-items:center;min-height:44px;font-size:12px}
+.consumer-home .trader-unknowns li{border-bottom:1px solid var(--border);padding:10px 0}.consumer-home .trader-unknowns li p{color:var(--muted);margin-top:3px}
+.consumer-home #research-concerns:focus-visible{outline:3px solid var(--blue);outline-offset:5px}
+@media(max-width:350px){.consumer-home .trader-section{margin-top:16px;padding-top:15px}.consumer-home .trader-section p{font-size:12px}.consumer-home .trader-concern-jump{font-size:11px}.consumer-home .mint-supply{margin-top:4px}}
+@media(max-width:350px){.consumer-home .mint-panel{margin-top:8px}.consumer-home .mint-authorities{margin:8px 0}.consumer-home .mint-limit{padding:6px 10px}}

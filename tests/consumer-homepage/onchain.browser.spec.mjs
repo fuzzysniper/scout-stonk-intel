@@ -4,7 +4,7 @@ import {writeFileSync} from 'node:fs';
 const mint='So11111111111111111111111111111111111111112',si='DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP';
 const fail=(reason='disabled',status='unavailable')=>({version:'mint-facts/1',status,mint,facts:null,source:null,reason,warnings:[]});
 const errors=new WeakMap(),outbound=new WeakMap();
-test.beforeEach(async({page})=>{const e=[],o=[];errors.set(page,e);outbound.set(page,o);page.on('pageerror',v=>e.push(v.message));page.on('console',v=>{if(v.type()==='error'&&!(v.text().startsWith('Failed to load resource')&&v.location().url.includes('/api/mint-facts')))e.push(v.text());});page.on('request',r=>{if(!['127.0.0.1','localhost'].includes(new URL(r.url()).hostname))o.push(r.url());});});
+test.beforeEach(async({page})=>{await page.route('**/api/token?*',r=>r.fulfill({status:503,contentType:'application/json',headers:{'retry-after':'60'},body:'{}'}));const e=[],o=[];errors.set(page,e);outbound.set(page,o);page.on('pageerror',v=>e.push(v.message));page.on('console',v=>{if(v.type()==='error'&&!(v.text().startsWith('Failed to load resource')&&/\/api\/(mint-facts|token)/.test(v.location().url)))e.push(v.text());});page.on('request',r=>{if(!['127.0.0.1','localhost'].includes(new URL(r.url()).hostname))o.push(r.url());});});
 test.afterEach(async({page})=>{expect(errors.get(page)).toEqual([]);expect(outbound.get(page)).toEqual([]);});
 const axe=async page=>expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze()).violations).toEqual([]);
 test('real production missing/disabled route stays honest, SSR and no-JS never supply facts',async({page,browser,request},info)=>{
