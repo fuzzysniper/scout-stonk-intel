@@ -1,0 +1,198 @@
+{
+  "tool": "Chromium 154, Playwright screenshot, unedited PNG",
+  "baseline": "8df27bda59d29901d8996920fbe5f0cd6892ad3d production build",
+  "images": [
+    {
+      "file": "after-idle-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 83628,
+      "sha256": "bb5eaace50951ee445a06139c20bf6fac837a2d7db459a99fe80009bf3218e67",
+      "context": "local production idle"
+    },
+    {
+      "file": "after-idle-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 53884,
+      "sha256": "38ec7f0f717aaf64a485b3d7a0b109802cb4fdcdf3a61d251b596ec584b300a7",
+      "context": "local production idle"
+    },
+    {
+      "file": "after-idle-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 61793,
+      "sha256": "287a3a1ecae812e0e6624ecf8911e83956e79d1ef1dcbfcc82d6eb91e5ef5611",
+      "context": "local production idle"
+    },
+    {
+      "file": "after-synthetic-accepted-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 177762,
+      "sha256": "cae58d73971ed3a839a65807719d799391271709f1e57b85c69a246e325a8bd4",
+      "context": "synthetic offline replay, not live"
+    },
+    {
+      "file": "after-synthetic-accepted-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 94586,
+      "sha256": "ae27f5afba7dd51614f66d57dcbcacce3b0e8c03e8a412bcb6f8fb5866220ff0",
+      "context": "synthetic offline replay, not live"
+    },
+    {
+      "file": "after-synthetic-accepted-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 112444,
+      "sha256": "b0e129b62d0696a64c1da0260057c10ed38b7b2a358510341d49aa6120029ae8",
+      "context": "synthetic offline replay, not live"
+    },
+    {
+      "file": "after-synthetic-evidence-1280.png",
+      "width": 1280,
+      "height": 3057,
+      "bytes": 376754,
+      "sha256": "56dda14eca283abd44d3d16ce1a01c95f2c1d6ca7af3818695517b5f045e2b3e",
+      "context": "synthetic offline replay, not live"
+    },
+    {
+      "file": "after-synthetic-evidence-320.png",
+      "width": 320,
+      "height": 3773,
+      "bytes": 293721,
+      "sha256": "d1e89a116681d31295c9c7f7f136370a0bae5911adee939c7f4c9ab059eeadac",
+      "context": "synthetic offline replay, not live"
+    },
+    {
+      "file": "after-synthetic-evidence-390.png",
+      "width": 390,
+      "height": 3469,
+      "bytes": 302873,
+      "sha256": "085af131f5f1bc54b6005ca559cb9f1dcd03f57567b634ecb10dd5666fb5b060",
+      "context": "synthetic offline replay, not live"
+    },
+    {
+      "file": "after-synthetic-loading-reduced-motion-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 176721,
+      "sha256": "e52c847eb0d49ddb34224a8e20cdd83eec5f49ff717d5177e6a6cb4598da4d30",
+      "context": "synthetic offline replay, not live"
+    },
+    {
+      "file": "after-synthetic-loading-reduced-motion-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 85535,
+      "sha256": "0ccdab79e58c52511a3fff125a5e9b97bf7556ed347e9be6ce9b80ef8db01272",
+      "context": "synthetic offline replay, not live"
+    },
+    {
+      "file": "after-synthetic-loading-reduced-motion-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 108737,
+      "sha256": "a530e9edc385b9722b870e807fdde49dab3fac3a081c9155768ca2c6c0a9b6be",
+      "context": "synthetic offline replay, not live"
+    },
+    {
+      "file": "after-unavailable-actual-get-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 177960,
+      "sha256": "f107e98ecb5f9fa568d706042207026657abc91e6ef0b9ae4c9a2b4c05aa5fe6",
+      "context": "actual local production GET denial; market explicitly offline"
+    },
+    {
+      "file": "after-unavailable-actual-get-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 86600,
+      "sha256": "473eae01b91a3e89f52a8ca240d1682687eb5f54bb18352ad5899457edfdefce",
+      "context": "actual local production GET denial; market explicitly offline"
+    },
+    {
+      "file": "after-unavailable-actual-get-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 108492,
+      "sha256": "9f648a4e4ca71f84e0f126b4fdbb14bec2437d9966b24b677bac3e76a2e26df5",
+      "context": "actual local production GET denial; market explicitly offline"
+    },
+    {
+      "file": "before-idle-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 78166,
+      "sha256": "d33a7bbb3a2b0ca93a67dafb6e5f4e9049055540529998534b72cd59a745cbf2",
+      "context": "local production idle"
+    },
+    {
+      "file": "before-idle-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 53565,
+      "sha256": "e5fef8b5c8fea04c37b81677219b1d5da5e92cedc6797aaf32ec652b0af3319e",
+      "context": "local production idle"
+    },
+    {
+      "file": "before-idle-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 60790,
+      "sha256": "af6492bd31065b0e9356e652a44002b65a8e76494d8253aa08ed50a1393b8f8e",
+      "context": "local production idle"
+    },
+    {
+      "file": "before-synthetic-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 87325,
+      "sha256": "f1adb36029af81c602fbf4e87fc95f5d1e86bbea69515db56a6c60b26d113cfe",
+      "context": "synthetic offline replay, not live"
+    },
+    {
+      "file": "before-synthetic-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 59513,
+      "sha256": "2c5354f8564e3bc1ce668493aef3ac470feace3ecdc72b13330838a98dd94e41",
+      "context": "synthetic offline replay, not live"
+    },
+    {
+      "file": "before-synthetic-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 71769,
+      "sha256": "07ac26c9f759936344dbec0419cb591f5ec3f5bc4eb81b0da099ebe9353a870f",
+      "context": "synthetic offline replay, not live"
+    },
+    {
+      "file": "before-unavailable-1280.png",
+      "width": 1280,
+      "height": 900,
+      "bytes": 78644,
+      "sha256": "f59b80320d16accad52869b4ade9465cb9a1dddb183ef7619e99df92eba879e0",
+      "context": "actual local production GET denial; market explicitly offline"
+    },
+    {
+      "file": "before-unavailable-320.png",
+      "width": 320,
+      "height": 740,
+      "bytes": 47774,
+      "sha256": "6ec542610a4a24e5e2f297eda278cc931c26477964781efd4b2cb3a5bae55847",
+      "context": "actual local production GET denial; market explicitly offline"
+    },
+    {
+      "file": "before-unavailable-390.png",
+      "width": 390,
+      "height": 844,
+      "bytes": 52764,
+      "sha256": "8bccb33d5e404bd00c97111827d4f211eeb2d9db846c2e65b8e156d47d6c478b",
+      "context": "actual local production GET denial; market explicitly offline"
+    }
+  ]
+}

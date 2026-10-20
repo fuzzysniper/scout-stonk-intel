@@ -32,3 +32,32 @@ test('SSR unified result has no fabricated flags/financial defaults and includes
 });
 
 test('derived concerns independently expire and reject backward clocks even before observer notification',()=>{const view=project(mintFixture());assert.equal(tokenConcerns(view,now+60000).length,1);assert.deepEqual(tokenConcerns(view,now+60001),[]);assert.deepEqual(tokenConcerns(view,now-1001),[]);assert.equal(concernSummary(view,now+60001),'Controls not verified');});
+
+const {ScoutBrief}=load('trader');
+const brief=view=>renderToStaticMarkup(React.createElement(ScoutBrief,{view,mint:MINT}));
+test('V3 Brief renders accepted controls and the original source clock without inventing a safety verdict',t=>{
+ t.mock.method(Date,'now',()=>now);const html=brief(project(mintFixture(MINT,{freeze:true,extensions:true})));
+ assert.match(html,/SCOUT Brief/);assert.match(html,/3 checks need a closer look/);assert.match(html,/Authority present/);assert.match(html,/Not fully reviewed/);assert.match(html,/400000001/);assert.match(html,/2026-10-18T12:00:00.000Z/);assert.match(html,/Token-2022 controls are not fully reviewed/);assert.match(html,/sellability remain unknown/);assert.match(html,/Onchain evidence/);assert.doesNotMatch(html,/safe to trade|rug.pull verdict|market cap|%/i);
+});
+test('V3 Brief never promotes expired facts, invalid clocks or failed acquisition into attention indicators',t=>{
+ const view=project(mintFixture());t.mock.method(Date,'now',()=>now+60001);
+ for(const v of [view,project(failure()),{kind:'unavailable',reason:'access_denied'},{kind:'unsupported',reason:'not_mint'}]){
+  const html=brief(v);assert.match(html,/No verified token facts/);assert.match(html,/Checked slot and time unavailable/);assert.doesNotMatch(html,/data-attention="true"|Authority present|RPC snapshot accepted|<time/);
+ }assert.match(brief(view),/Observation expired/);
+});
+test('V3 Brief loading is a skeleton, never a sample observation; synthetic trusted context stays labeled',t=>{
+ t.mock.method(Date,'now',()=>now);const html=brief('loading');assert.match(html,/aria-busy="true"/);assert.equal((html.match(/class="brief-skeleton"/g)||[]).length,3);assert.doesNotMatch(html,/<time|Authority present|data-attention="true"/);
+ const x=mintFixture();x.source.acquisition='synthetic_fixture';const v=projectMintFacts(x,MINT,now,'synthetic-offline');assert.match(brief(v),/SYNTHETIC · OFFLINE TEST/);assert.match(brief(v),/Offline fixture/);assert.doesNotMatch(brief(v),/Helius RPC report/);
+});
+test('V3 absent standard authorities preserve uncertainty and use no green all-clear label',t=>{
+ t.mock.method(Date,'now',()=>now);const html=brief(project(mintFixture(MINT,{absent:true})));assert.match(html,/Standard authorities absent. Other risks remain/);assert.match(html,/None in layout/);assert.match(html,/liquidity control/);assert.doesNotMatch(html,/data-attention="true"|risk.free|fully reviewed|safe token/i);
+});
+test('V3 recovery distinguishes an access gate from expiry/rate limiting/unsupported responses',t=>{
+ t.mock.method(Date,'now',()=>now);
+ for(const reason of ['disabled','missing_api','access_denied'])assert.match(brief({kind:'unavailable',reason}),/Public lookups disabled/);
+ for(const v of [{kind:'unavailable',reason:'stale_source'},{kind:'unavailable',reason:'rate_limited'},{kind:'unsupported',reason:'not_mint'}]){const html=brief(v);assert.match(html,/Source access &amp; verification limits/);assert.match(html,/Explore dated examples/);assert.doesNotMatch(html,/Public lookups disabled/);}
+});
+test('V3 Brief uses a coherent source instant at the exact expiry boundary',t=>{
+ const view=project(mintFixture());let clockReads=0;t.mock.method(Date,'now',()=>now+60000+clockReads++);
+ const html=brief(view);assert.match(html,/1 check needs a closer look/);assert.match(html,/Authority present/);assert.doesNotMatch(html,/Standard authorities absent/);
+});

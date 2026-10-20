@@ -17,7 +17,7 @@ test.beforeEach(async({page})=>{await page.route('**/api/token?*',r=>r.fulfill({
 });
 test.afterEach(async({page})=>{expect(errors.get(page)).toEqual([]);expect(external.get(page)).toEqual([]);});
 const axe=async page=>expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze()).violations).toEqual([]);
-const cleanBrand=async page=>{expect(await page.locator('body').innerText()).not.toMatch(/SCOUT|STORKCOIN|PROJECT CLEAR|STORK ecosystem/);expect(await page.title()).not.toMatch(/SCOUT|STORK|PROJECT CLEAR/);};
+const cleanBrand=async page=>{expect(await page.locator('body').innerText()).not.toMatch(/STORKCOIN|PROJECT CLEAR|STORK ecosystem/);expect(await page.title()).not.toMatch(/SCOUT|STORK|PROJECT CLEAR/);};
 for(const token of examples)test(`${token.symbol} production engine, risks, exact share and sources`,async({page},info)=>{
  await page.goto('/');await expect(page.getByRole('heading',{name:'A token address. A clear answer.'})).toBeVisible();
  await cleanBrand(page);await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content','noindex, nofollow');

@@ -4,7 +4,7 @@ import {MINT,OTHER,AT,mintFixture,marketFixture,failure} from './trader-fixtures
 const calls=new WeakMap(),errors=new WeakMap();
 const reply=(r,body,status=200,headers={})=>r.fulfill({status,contentType:'application/json',headers,body:JSON.stringify(body)});
 const axe=async page=>expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze()).violations).toEqual([]);
-const shot=async(page,name,info,fullPage=false)=>{if(fullPage)await page.evaluate(()=>scrollTo(0,0));return page.screenshot({path:`docs/trader-mint-research/screenshots/after-synthetic-${name}-${info.project.name}.png`,fullPage});};
+const shot=async(page,name,info,fullPage=false)=>{if(fullPage)await page.evaluate(()=>scrollTo(0,0));return page.screenshot({path:`experiments/consumer-mvp/web/node_modules/.cache/v3-regression-screenshots/after-synthetic-${name}-${info.project.name}.png`,fullPage});};
 test.beforeEach(async({page})=>{
  const c=[],e=[];calls.set(page,c);errors.set(page,e);await page.clock.install({time:new Date(AT)});
 

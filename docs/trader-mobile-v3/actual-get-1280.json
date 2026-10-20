@@ -1,0 +1,30 @@
+{
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "status": 403,
+  "httpProbeStatus": 403,
+  "httpProbe": "Additional inert localhost GET; body verified independently of Chromium response-body retention",
+  "reason": "access_denied",
+  "facts": null,
+  "source": null,
+  "method": "GET",
+  "providerCalls": 0,
+  "market": "Explicit offline 503 fixture; no provider request",
+  "axe": {
+    "idlePasses": 27,
+    "deniedPasses": 29,
+    "violations": 0
+  },
+  "calls": [
+    {
+      "method": "GET",
+      "path": "/api/mint-facts"
+    },
+    {
+      "method": "GET",
+      "path": "/api/token"
+    }
+  ]
+}
