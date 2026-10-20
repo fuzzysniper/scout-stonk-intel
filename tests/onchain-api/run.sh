@@ -10,4 +10,6 @@ NODE_ENV=test node --conditions=react-server tests/onchain-api/api.test.mjs
 NODE_ENV=test node --conditions=react-server tests/onchain-api/state.test.mjs
 NODE_ENV=test node --conditions=react-server tests/onchain-api/production.test.mjs
 NODE_ENV=test node --conditions=react-server tests/onchain-api/postgres-tls.test.mjs
+NODE_ENV=test node --conditions=react-server tests/onchain-api/canary.test.mjs
+NODE_ENV=test node --conditions=react-server tests/onchain-api/canary-console.test.mjs
 NODE_ENV=test node --conditions=react-server tests/onchain-api/native-transport.test.mjs

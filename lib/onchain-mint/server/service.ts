@@ -7,8 +7,9 @@ import { knownFailure } from "./distributed";
 import { authentic, privateClientKey, sign, type IsolatedHeliusTarget } from "./helius";
 import { API_LIMITS as L, HELIUS_HOST, POLICY_ID } from "./policy";
 import { BoundaryError, deadline, demand, heliusRead, type Clock, type Transport } from "./rpc";
+import { TOKEN_PROGRAM } from "../policy";
 
-export type Outcome = Readonly<{ result: MintFactsV1; retryAfter?: number }>;
+export type Outcome = Readonly<{ result: MintFactsV1; retryAfter?: number; delivery?: "rpc" | "cache" }>;
 export type SyntheticDependencies = Readonly<{
   target: IsolatedHeliusTarget; hmacKey: string; store: AtomicMintStore | null;
   /** Requires hosting-authenticated context, NOT caller-supplied forwarding headers. Missing => deny. */
@@ -16,7 +17,20 @@ export type SyntheticDependencies = Readonly<{
   transport: Transport; clock: Clock;
   testDeadlineMs?: number; testStoreDeadlineMs?: number;
 }>;
-type Profile = Readonly<{ policy: string; acquisition: "synthetic_fixture" | "production_rpc"; leaseMs: number; storeTimeoutMs: number }>;
+export type Profile = Readonly<{ policy: string; acquisition: "synthetic_fixture" | "production_rpc"; leaseMs: number; storeTimeoutMs: number;
+  canary?: Readonly<{ mint: string; maxLeaseId: number; notBeforeMs: number; expiresAtMs: number }> }>;
+function canaryGate(profile: Profile, mint: string, now: number, lease?: Lease): void {
+  const c=profile.canary; if(!c)return;
+  demand(mint===c.mint, "disabled");
+  demand(now>=c.notBeforeMs && now<c.expiresAtMs, "disabled");
+  if(lease)demand(lease.id<=c.maxLeaseId, "admission_limited");
+}
+function canaryFacts(profile: Profile, result: MintFactsV1): void {
+  if(!profile.canary)return;
+  demand(result.status==="verified_onchain_mint_at_slot", "invalid_response");
+  demand(result.mint===profile.canary.mint && result.facts.program==="spl_token" && result.facts.ownerProgram===TOKEN_PROGRAM &&
+    result.facts.supply.decimals===6 && result.facts.extensions.assessment==="none", "invalid_response");
+}
 const cacheMessage = (e: Omit<CacheEntry, "mac">, policy: string) => JSON.stringify(["cache-v1", policy, e.mint, e.checkedAt, e.expiresAt, e.slot, e.json]);
 function cachedFacts(e: CacheEntry, mint: string, now: number, highestSlot: string, secret: string, profile: Profile): MintFactsV1 {
   demand(e && e.mint === mint && Number.isSafeInteger(e.checkedAt) && e.checkedAt <= now && e.expiresAt === e.checkedAt + L.cacheMs && now < e.expiresAt, "stale_source");
@@ -54,7 +68,7 @@ export function mintService(d: SyntheticDependencies, profile: Profile): (reques
     if (locallyStopped) return { result: failure(mint, "circuit_open") };
     let lease: Lease | null = null, admitted = false;
     try {
-      demand(isExactPublicKey(mint), "invalid_mint"); wall(); demand(!request.signal.aborted, "timeout");
+      demand(isExactPublicKey(mint), "invalid_mint"); canaryGate(profile,mint,wall()); demand(!request.signal.aborted, "timeout");
       demand(d.store, "upstream_unavailable"); demand(d.trustedIdentity, "access_denied");
       demand(typeof d.hmacKey === "string" && /^[A-Za-z0-9_-]{32,128}$/.test(d.hmacKey), "access_denied");
       const identity = await deadline(d.trustedIdentity(request), L.storeTimeoutMs, "access_denied");
@@ -62,11 +76,18 @@ export function mintService(d: SyntheticDependencies, profile: Profile): (reques
       const admission = await transact({ kind: "admit", policy: profile.policy, mint, client });
       if (admission.kind === "denied") return { result: failure(mint, admission.reason), ...(admission.retryAfter === null ? {} : { retryAfter: admission.retryAfter }) };
       admitted = true;
-      if (admission.kind === "cached") return { result: cachedFacts(admission.entry, mint, admission.now, admission.highestSlot, d.hmacKey, profile) };
+      if (admission.kind === "cached") {
+        const result=cachedFacts(admission.entry, mint, admission.now, admission.highestSlot, d.hmacKey, profile);
+        canaryFacts(profile,result); return {result,delivery:"cache"};
+      }
       demand(admission.kind === "lease"); lease = admission.lease;
       demand(lease && Number.isSafeInteger(lease.id) && lease.id > 0 && lease.mint === mint && lease.expiresAt === admission.now + profile.leaseMs);
+      // The SQL sequence is durable, monotonic and never reset by UTC rollover/cache expiry.
+      // Rejecting lease >1 here can charge admission, but can NEVER authorize a second RPC.
+      canaryGate(profile,mint,wall(),lease);
       const observed = await heliusRead({ mint, requestId: lease.id, target: d.target, transport: d.transport, clock: d.clock,
         signal: request.signal, acquisition: profile.acquisition, deadlineMs: d.testDeadlineMs });
+      canaryFacts(profile,observed.result);
       let cache: CacheEntry | null = null;
       if (observed.result.source) {
         const e = { mint, json: JSON.stringify(observed.result), checkedAt: Date.parse(observed.result.source.checkedAt),
@@ -76,7 +97,7 @@ export function mintService(d: SyntheticDependencies, profile: Profile): (reques
       const completed = await transact({ kind: "complete", policy: profile.policy, lease, slot: observed.slot, cache });
       if (completed.kind === "denied") throw new BoundaryError(completed.reason);
       demand(completed.kind === "committed" && completed.leaseId === lease.id);
-      return { result: cache ? cachedFacts(cache, mint, completed.now, observed.slot, d.hmacKey, profile) : observed.result };
+      return { result: cache ? cachedFacts(cache, mint, completed.now, observed.slot, d.hmacKey, profile) : observed.result, delivery:"rpc" };
     } catch (error) {
       locallyStopped = true;
       const reason = error instanceof BoundaryError ? error.reason : "invalid_response";

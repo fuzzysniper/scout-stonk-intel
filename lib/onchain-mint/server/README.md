@@ -1,3 +1,5 @@
+> Current activation scope: [one protected USDC POST canary](../../../docs/ops/usdc-canary/ROLLOUT.md), pending owner review/release. Public GET and other mints remain disabled. No live observation is claimed by local fixtures.
+
 # Same-origin mint API / isolated Helius protocol — #108
 
 **Historical #108 report.** The inactive native production implementation, real PostgreSQL tests,
