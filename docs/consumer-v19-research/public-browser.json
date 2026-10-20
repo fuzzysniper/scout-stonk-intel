@@ -1,0 +1,204 @@
+{
+  "startedAt": "2026-10-20T08:03:17.113Z",
+  "completedAt": "2026-10-20T08:03:28.055Z",
+  "scope": "Existing CARDS API only; 3 adjacent views share existing server cache. No retries, private tokens, RPC or financial publication.",
+  "apiProof": {
+    "httpStatus": 200,
+    "status": "degraded",
+    "coverage": {
+      "complete": false,
+      "atomic": false,
+      "registryCount": 595,
+      "pagesFetched": 2,
+      "pageLimit": 2,
+      "pageSize": 25,
+      "recordsReceived": 50,
+      "tokensReturned": 50,
+      "rejectedRecords": 0,
+      "providerReportedTotal": 2156,
+      "modeChecks": 12,
+      "modeCheckLimit": 12,
+      "historyScope": "tracked_sample",
+      "warnings": [
+        "bounded_catalog",
+        "market_observation_time_unavailable",
+        "mode_check_unavailable",
+        "non_atomic_pagination"
+      ],
+      "discovery": {
+        "strategy": "provider_quote_mint",
+        "quoteMint": "CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp",
+        "providerReportedTotalScope": "quote_mint"
+      }
+    },
+    "sources": [
+      {
+        "source": "https://www.stonkfun.xyz/api/public/v1/pairs",
+        "fetchedAt": "2026-10-20T08:03:18.096Z",
+        "providerGeneratedAt": "2026-10-20T08:00:54.513Z",
+        "revision": "sha256:12add739145b44df366a8ed8fb6f6662097f28cef990d285abe0952eba5ee845"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=1&pageSize=25&quoteMint=CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp",
+        "fetchedAt": "2026-10-20T08:03:18.308Z",
+        "providerGeneratedAt": "2026-10-20T08:03:18.291Z",
+        "revision": "sha256:ed3db68ee0350275960b8141428cc92679c168a48bbb48b99399aa529a368efa"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=2&pageSize=25&quoteMint=CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp",
+        "fetchedAt": "2026-10-20T08:03:18.500Z",
+        "providerGeneratedAt": "2026-10-20T08:03:18.484Z",
+        "revision": "sha256:5972f8774eedf6263a8aa6449da88f6eea26833be53c6d0e8ff0de8555b0b27d"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/148fJTrVybPyQqzTxNzfLQq5sxVkMfmV2cLpAyVnNCX3/rewards",
+        "fetchedAt": "2026-10-20T08:03:18.656Z",
+        "providerGeneratedAt": "2026-10-20T08:03:18.643Z",
+        "revision": "sha256:fe0e4e807979672a4b49b44f1ce6d92c34b4b9ea9710cd3d326ac2784d162685"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/2A3HduBmAh8ik2PfzH9tPtwuRX5qWTNu5Ns4FUoFkHqv/rewards",
+        "fetchedAt": "2026-10-20T08:03:18.743Z",
+        "providerGeneratedAt": "2026-10-20T08:03:18.722Z",
+        "revision": "sha256:b850499d64781a9327abddb3a8d53d551155ed4a6208db2072d681d2e337482d"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/2AHvnVZnAtEMS2ADdDVqAe8XuDXugSp4jx8zo1PtmQsK/rewards",
+        "fetchedAt": "2026-10-20T08:03:18.699Z",
+        "providerGeneratedAt": "2026-10-20T08:03:18.685Z",
+        "revision": "sha256:907b2e5968cf17def7ab21972f82285b57110c68ff57826f632b9474cc3854f8"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/2CKG9cdytRHXcy4XnNHCPoqK9xQwUy1bsQmBJZs9zqmJ/rewards",
+        "fetchedAt": "2026-10-20T08:03:18.836Z",
+        "providerGeneratedAt": "2026-10-20T08:03:18.823Z",
+        "revision": "sha256:f9db4739c490763a31dfed4bc65aa870d126374906c34185155f99bbd3e55c7e"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/2d4bCYyzMs8T7jmbAetxfCszwepgsdQ3wH7dRZzw2oZ5/rewards",
+        "fetchedAt": "2026-10-20T08:03:18.828Z",
+        "providerGeneratedAt": "2026-10-20T08:03:18.813Z",
+        "revision": "sha256:cabf1a8eee9b1f5d7bd0da21b631327f21e914373974cf837ca41de6964a2bfa"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/2Z6u3a21RQaYoYvuvqhJrLvjbaobq4bxuM6HTSzo5YLr/rewards",
+        "fetchedAt": "2026-10-20T08:03:18.909Z",
+        "providerGeneratedAt": "2026-10-20T08:03:18.877Z",
+        "revision": "sha256:b8ff0927294a6326ee00f428689f60a190ae5dc9e184f52b654837960fd0069d"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/3vYTmSXZDTmjSMjQQDb9a9mFKcCGtPCnNAVMLAWjQpsk/rewards",
+        "fetchedAt": "2026-10-20T08:03:18.986Z",
+        "providerGeneratedAt": "2026-10-20T08:03:18.972Z",
+        "revision": "sha256:65ecc1ed6677fa79a1443764b82cd6a3554c60da82ccc03d87588515714ad52d"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/3WzNhwDa68qqZfLkaDXDgv2ArpPSfAGFJGBzwwbkn5AV/rewards",
+        "fetchedAt": "2026-10-20T08:03:19.053Z",
+        "providerGeneratedAt": "2026-10-20T08:03:19.041Z",
+        "revision": "sha256:8fefcef10384d8e4ae8ee766d336c1fd16106a0373640e71310488b4d9a8995e"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/5nQhjm5FuveEQuKsQtewTBZPSVXqbWhw1A6HEojf6JCi/rewards",
+        "fetchedAt": "2026-10-20T08:03:19.068Z",
+        "providerGeneratedAt": "2026-10-20T08:03:19.055Z",
+        "revision": "sha256:2e13f59818269992a312071173b67921c2049d5c8b5a81081561a22fee01bfaf"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/67xMBZ1mC28XMMjTfNjXVMggV4xZWe2xnRpo3QzCMiW1/rewards",
+        "fetchedAt": "2026-10-20T08:03:19.135Z",
+        "providerGeneratedAt": "2026-10-20T08:03:19.121Z",
+        "revision": "sha256:520c9a9b94a9f07b81c6608c06830ef6daf492fa1a82ddf3f23589ac0e7018fe"
+      }
+    ],
+    "history": {
+      "sourceStatus": "available",
+      "source": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/main/data/reward-snapshots.json",
+      "revision": "sha256:8ef013bde0f2f637427801565251d09a54f6af4988523ca64c4ec4adb38cde4d",
+      "dataFetchedAt": "2026-10-20T08:03:18.246Z"
+    }
+  },
+  "records": [
+    {
+      "readiness": "What can actually be compared?\n\n0 of 50 sampled pairs qualify for the 24-hour comparison. This is a data-eligibility result, not a zero return.\n\nCurrent API evidence, separate from permissions\nEvidence\tIn this sample\nReported price / liquidity / volume snapshots\t50 / 29 / 50 tokens; USD, market times unknown\nQualified CARDS price-history points\t0; require 25 aligned actual hourly points per token\nMarket-cap comparisons\tUnavailable: no cap or supply definition in this contract\nFinancial publication permission\tUnverified; independent of whether mathematical coverage passes\nDated source investigation · 20 Oct 2026\n\nThe official catalog and single-token APIs returned untimed USD snapshots. The published OpenAPI lists no general token price-history endpoint. A DexScreener exact-pool probe returned 403; GeckoTerminal API/docs could not be inspected through this environment. These findings are dated research, not live provider-health checks.\n\nSource access, timestamp semantics and publication permission are separate gates. No usable timestamped public CARDS price source has been qualified. We do not substitute retrieval times, launch dates, reported 24h changes or another token’s history.\n\nOfficial endpoint definitions · may have changed ↗\nOfficial API guide & read budgets ↗",
+      "width": 320,
+      "productionBuild": true,
+      "synthetic": false,
+      "rows": 50,
+      "calls": [
+        "/api/pairs?quoteMint=CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp&discovery=pair"
+      ],
+      "firstRow": {
+        "x": 18,
+        "y": 627.0625,
+        "width": 284,
+        "height": 76
+      },
+      "overflow": false,
+      "axeViolations": [],
+      "visibleConclusion": "Performance: not established yet.\n\n0 of 50 sampled pairs qualify for a 24h comparison. Actual price times and CARDS price history are missing.\n\nWhat evidence is missing? ↓",
+      "scope": "50 matching tokens · provider reports 2,156 for this quote. 2 fetched pages. Partial, non-simultaneous sample; not a leaderboard.",
+      "sourceFailure": null
+    },
+    {
+      "readiness": "What can actually be compared?\n\n0 of 50 sampled pairs qualify for the 24-hour comparison. This is a data-eligibility result, not a zero return.\n\nCurrent API evidence, separate from permissions\nEvidence\tIn this sample\nReported price / liquidity / volume snapshots\t50 / 29 / 50 tokens; USD, market times unknown\nQualified CARDS price-history points\t0; require 25 aligned actual hourly points per token\nMarket-cap comparisons\tUnavailable: no cap or supply definition in this contract\nFinancial publication permission\tUnverified; independent of whether mathematical coverage passes\nDated source investigation · 20 Oct 2026\n\nThe official catalog and single-token APIs returned untimed USD snapshots. The published OpenAPI lists no general token price-history endpoint. A DexScreener exact-pool probe returned 403; GeckoTerminal API/docs could not be inspected through this environment. These findings are dated research, not live provider-health checks.\n\nSource access, timestamp semantics and publication permission are separate gates. No usable timestamped public CARDS price source has been qualified. We do not substitute retrieval times, launch dates, reported 24h changes or another token’s history.\n\nOfficial endpoint definitions · may have changed ↗\nOfficial API guide & read budgets ↗",
+      "width": 390,
+      "productionBuild": true,
+      "synthetic": false,
+      "rows": 50,
+      "calls": [
+        "/api/pairs?quoteMint=CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp&discovery=pair"
+      ],
+      "firstRow": {
+        "x": 24,
+        "y": 685.46875,
+        "width": 342,
+        "height": 76
+      },
+      "overflow": false,
+      "axeViolations": [],
+      "visibleConclusion": "Performance: not established yet.\n\n0 of 50 sampled pairs qualify for a 24h comparison. Actual price times and CARDS price history are missing.\n\nWhat evidence is missing? ↓",
+      "scope": "50 matching tokens · provider reports 2,156 for this quote. 2 fetched pages. Partial, non-simultaneous sample; not a leaderboard.",
+      "sourceFailure": null
+    },
+    {
+      "readiness": "What can actually be compared?\n\n0 of 50 sampled pairs qualify for the 24-hour comparison. This is a data-eligibility result, not a zero return.\n\nCurrent API evidence, separate from permissions\nEvidence\tIn this sample\nReported price / liquidity / volume snapshots\t50 / 29 / 50 tokens; USD, market times unknown\nQualified CARDS price-history points\t0; require 25 aligned actual hourly points per token\nMarket-cap comparisons\tUnavailable: no cap or supply definition in this contract\nFinancial publication permission\tUnverified; independent of whether mathematical coverage passes\nDated source investigation · 20 Oct 2026\n\nThe official catalog and single-token APIs returned untimed USD snapshots. The published OpenAPI lists no general token price-history endpoint. A DexScreener exact-pool probe returned 403; GeckoTerminal API/docs could not be inspected through this environment. These findings are dated research, not live provider-health checks.\n\nSource access, timestamp semantics and publication permission are separate gates. No usable timestamped public CARDS price source has been qualified. We do not substitute retrieval times, launch dates, reported 24h changes or another token’s history.\n\nOfficial endpoint definitions · may have changed ↗\nOfficial API guide & read budgets ↗",
+      "width": 1280,
+      "productionBuild": true,
+      "synthetic": false,
+      "rows": 50,
+      "calls": [
+        "/api/pairs?quoteMint=CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp&discovery=pair"
+      ],
+      "firstRow": {
+        "x": 288,
+        "y": 651.984375,
+        "width": 704,
+        "height": 76
+      },
+      "overflow": false,
+      "axeViolations": [],
+      "visibleConclusion": "Performance: not established yet.\n\n0 of 50 sampled pairs qualify for a 24h comparison. Actual price times and CARDS price history are missing.\n\nWhat evidence is missing? ↓",
+      "scope": "50 matching tokens · provider reports 2,156 for this quote. 2 fetched pages. Partial, non-simultaneous sample; not a leaderboard.",
+      "sourceFailure": null
+    }
+  ],
+  "sources": [
+    {
+      "width": 320,
+      "httpStatus": 200,
+      "contentType": "application/json"
+    },
+    {
+      "width": 390,
+      "httpStatus": 200,
+      "contentType": "application/json"
+    },
+    {
+      "width": 1280,
+      "httpStatus": 200,
+      "contentType": "application/json"
+    }
+  ],
+  "errors": []
+}

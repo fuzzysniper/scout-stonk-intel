@@ -1,10 +1,11 @@
 /** Consumer projection of existing read-only APIs. No source/financial contract changes. */
 import {parseCatalog,discoveryEvidence,validMint} from '../../pairs/adapter';
 import type {PairSource} from '../../../lib/pairs-contract';
-export const CARDS={mint:'CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp',symbol:'CARDS',name:'Collector Crypt',decimals:6,program:'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'} as const;
-export const REGISTRY='https://www.stonkfun.xyz/api/public/v1/pairs';
-export type PairFinding={mint:string;poolMint:string;name:string;symbol:string;source:PairSource;modeSource:PairSource|null;mode:'reward'|'standard'|'unverified';marketSnapshot:'reported'|'unavailable';rewardObservations:number|null;lastRewardObservation:string|null};
-export type CardsReport={rows:PairFinding[];sources:PairSource[];reportedTotal:number|null;pages:number;rejected:number;modeChecks:number;degraded:boolean;retrievedAt:string;warnings:string[];priceObservationCount:0;financialPublication:'withheld';ranking:'insufficient_evidence'};
+import {CARDS,REGISTRY} from './identity';
+export {CARDS,REGISTRY} from './identity';
+import {snapshotEligibility,summarizeEligibility,type SnapshotEligibility} from './observations';
+export type PairFinding={mint:string;poolMint:string;name:string;symbol:string;source:PairSource;modeSource:PairSource|null;mode:'reward'|'standard'|'unverified';marketSnapshot:'reported'|'unavailable';rewardObservations:number|null;lastRewardObservation:string|null;eligibility:SnapshotEligibility};
+export type CardsReport={rows:PairFinding[];sources:PairSource[];reportedTotal:number|null;pages:number;rejected:number;modeChecks:number;degraded:boolean;retrievedAt:string;warnings:string[];priceObservationCount:0;financialPublication:'withheld';ranking:'insufficient_evidence';analysis:ReturnType<typeof summarizeEligibility>};
 function sameSource(a:PairSource,b:PairSource){return a.source===b.source&&a.revision===b.revision&&a.fetchedAt===b.fetchedAt&&a.providerGeneratedAt===b.providerGeneratedAt;}
 /** Exact identity, pool and provider-scoped coverage must survive the canonical parser. */
 export function cardsReport(raw:unknown):CardsReport {
@@ -15,11 +16,11 @@ export function cardsReport(raw:unknown):CardsReport {
   const modeSource=t.rewardSource&&c.dataset.sources.some(s=>sameSource(s,t.rewardSource!))?t.rewardSource:null;
   return {mint:t.mint,poolMint:t.poolMint,name:t.name,symbol:t.symbol,source:t.provenance,modeSource,
    mode:modeSource&&t.modeVerification==='verified_reward'?'reward' as const:modeSource&&t.modeVerification==='verified_standard'?'standard' as const:'unverified' as const,
-   marketSnapshot:t.market.status==='reported_snapshot'?'reported' as const:'unavailable' as const,rewardObservations:t.observationCount,lastRewardObservation:t.lastObservedAt};
+   marketSnapshot:t.market.status==='reported_snapshot'?'reported' as const:'unavailable' as const,rewardObservations:t.observationCount,lastRewardObservation:t.lastObservedAt,eligibility:snapshotEligibility(t.market)};
  });
  rows.sort((a,b)=>a.name.localeCompare(b.name,'en')||a.mint.localeCompare(b.mint,'en'));
  // Never forward optional reward amounts, market figures or unknown provider fields.
- return {rows,sources:c.dataset.sources.map(s=>({source:s.source,fetchedAt:s.fetchedAt,providerGeneratedAt:s.providerGeneratedAt,revision:s.revision})),reportedTotal:coverage.providerReportedTotal,pages:coverage.pagesFetched,rejected:coverage.rejectedRecords,modeChecks:coverage.modeChecks,degraded:c.status==='degraded',retrievedAt:c.dataset.dataFetchedAt!,warnings:[...coverage.warnings],priceObservationCount:0,financialPublication:'withheld',ranking:'insufficient_evidence'};
+ return {rows,sources:c.dataset.sources.map(s=>({source:s.source,fetchedAt:s.fetchedAt,providerGeneratedAt:s.providerGeneratedAt,revision:s.revision})),reportedTotal:coverage.providerReportedTotal,pages:coverage.pagesFetched,rejected:coverage.rejectedRecords,modeChecks:coverage.modeChecks,degraded:c.status==='degraded',retrievedAt:c.dataset.dataFetchedAt!,warnings:[...coverage.warnings],priceObservationCount:0,financialPublication:'withheld',ranking:'insufficient_evidence',analysis:summarizeEligibility(rows.map(r=>r.eligibility))};
 }
 export function sourceAge(source:PairSource,now:number):'recent_response'|'dated_response'|'invalid_clock' {
  const generated=Date.parse(source.providerGeneratedAt),fetched=Date.parse(source.fetchedAt);

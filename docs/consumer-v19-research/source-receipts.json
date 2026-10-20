@@ -1,0 +1,126 @@
+{
+  "investigationDate": "2026-10-20",
+  "financialBodiesPublished": false,
+  "note": "Source capture metadata and byte hashes only. Public accessibility is not a license; transport denials are not provider responses. No retries or bypasses.",
+  "receipts": [
+    {
+      "label": "openapi",
+      "url": "https://www.stonkfun.xyz/api/public/v1/openapi.json",
+      "startedAt": "2026-10-20T07:38:27.347621+00:00",
+      "capturedAt": "2026-10-20T07:38:27.641017+00:00",
+      "httpStatus": 200,
+      "bytes": 53079,
+      "sha256": "3c0d088814ecb6040b953fc3d7d146c2419e54efc909be56d85693825147ceea",
+      "headers": {
+        "age": "0",
+        "cache-control": "public, max-age=30",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Tue, 20 Oct 2026 07:38:27 GMT",
+        "server": "envoy"
+      }
+    },
+    {
+      "label": "registry",
+      "url": "https://www.stonkfun.xyz/api/public/v1/pairs",
+      "startedAt": "2026-10-20T07:38:27.645027+00:00",
+      "capturedAt": "2026-10-20T07:38:27.859292+00:00",
+      "httpStatus": 200,
+      "bytes": 229715,
+      "sha256": "0f6791ee74b4deaf706064b28af762be914a5d1ec06d6c33354b741ff96f679d",
+      "headers": {
+        "age": "153",
+        "cache-control": "public, max-age=30",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Tue, 20 Oct 2026 07:35:54 GMT",
+        "server": "envoy",
+        "x-ratelimit-limit": "300",
+        "x-ratelimit-remaining": "289"
+      }
+    },
+    {
+      "label": "catalog",
+      "url": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=1&pageSize=25&quoteMint=CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp",
+      "startedAt": "2026-10-20T07:39:52.482262+00:00",
+      "capturedAt": "2026-10-20T07:39:52.763950+00:00",
+      "httpStatus": 200,
+      "bytes": 24001,
+      "sha256": "b6d4f61d9138024c91b90bfdbe80c0e9f4388418cdcfb4d0684a495841b145cb",
+      "headers": {
+        "age": "0",
+        "cache-control": "public, max-age=5",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Tue, 20 Oct 2026 07:39:52 GMT",
+        "server": "envoy",
+        "x-ratelimit-limit": "300",
+        "x-ratelimit-remaining": "299"
+      }
+    },
+    {
+      "label": "token",
+      "url": "https://www.stonkfun.xyz/api/public/v1/tokens/5NervA6LyRtqeacVug3wint61ExBJn2paE7xG3iPW9Tv",
+      "startedAt": "2026-10-20T07:39:54.765015+00:00",
+      "capturedAt": "2026-10-20T07:39:54.961290+00:00",
+      "httpStatus": 200,
+      "bytes": 1614,
+      "sha256": "b24ad330ac673df09ac0fe28e590598016d5df08f1c24c43221b6ca7496484d3",
+      "headers": {
+        "age": "0",
+        "cache-control": "public, max-age=5",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Tue, 20 Oct 2026 07:39:54 GMT",
+        "server": "envoy",
+        "x-ratelimit-limit": "300",
+        "x-ratelimit-remaining": "298"
+      }
+    },
+    {
+      "label": "developers",
+      "url": "https://www.stonkfun.xyz/developers",
+      "startedAt": "2026-10-20T07:39:56.961845+00:00",
+      "capturedAt": "2026-10-20T07:39:57.201292+00:00",
+      "httpStatus": 200,
+      "bytes": 82529,
+      "sha256": "8ef33599ffabb4b242f07ba66dd3067242aa1132ebd07ae385014ea1a4409861",
+      "headers": {
+        "age": "0",
+        "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+        "content-type": "text/html; charset=utf-8",
+        "date": "Tue, 20 Oct 2026 07:39:57 GMT",
+        "server": "envoy"
+      }
+    },
+    {
+      "label": "dex-pool",
+      "url": "https://api.dexscreener.com/latest/dex/pairs/solana/6CvFE14WUwKkQv1WchdPmbde6Urq7EWofaJcE8ZVUVBZ",
+      "startedAt": "2026-10-20T07:40:09.541096+00:00",
+      "capturedAt": "2026-10-20T07:40:09.674402+00:00",
+      "httpStatus": 403,
+      "bytes": 709,
+      "sha256": "f405834c9013a3833b78e8889f487d5234519cbcf801f34b5c3d5e57a0cf5c22",
+      "headers": {
+        "date": "Tue, 20 Oct 2026 07:40:09 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "cache-control": "private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0",
+        "server": "envoy"
+      }
+    },
+    {
+      "label": "gecko-ohlcv",
+      "url": "https://api.geckoterminal.com/api/v2/networks/solana/pools/6CvFE14WUwKkQv1WchdPmbde6Urq7EWofaJcE8ZVUVBZ/ohlcv/hour?aggregate=1&limit=25&currency=token&token=base",
+      "httpStatus": null,
+      "state": "transport_blocked",
+      "reason": "URLError during configured proxy request; no provider response acquired",
+      "rights": "unverified",
+      "attemptedAtApproximate": "2026-10-20T07:40:09Z",
+      "timingNote": "Approximate sequence time reconstructed after the failed request; exact start/end not retained. No HTTP response captured."
+    },
+    {
+      "label": "gecko-docs",
+      "url": "https://apiguide.geckoterminal.com/",
+      "capturedAt": "2026-10-20T07:40:30.134305+00:00",
+      "httpStatus": null,
+      "state": "transport_blocked",
+      "reason": "Tunnel connection failed: 403 Forbidden"
+    }
+  ]
+}

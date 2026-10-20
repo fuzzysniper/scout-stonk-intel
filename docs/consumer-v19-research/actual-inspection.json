@@ -1,0 +1,68 @@
+{
+  "version": "cards-research-report/1",
+  "policy": "cards-normalized-24h-v1",
+  "context": "public_source_inspection",
+  "synthetic": false,
+  "period": {
+    "startAt": "2026-10-19T07:50:11Z",
+    "endAt": "2026-10-20T07:50:11Z",
+    "asOf": "2026-10-20T07:50:11Z",
+    "hours": 24
+  },
+  "registryRecordMatched": true,
+  "coverage": {
+    "scope": "operator_selected_exact_pool_sample",
+    "complete": false,
+    "atomic": false,
+    "subjectCount": 1
+  },
+  "subjects": [
+    {
+      "identity": {
+        "mint": "5NervA6LyRtqeacVug3wint61ExBJn2paE7xG3iPW9Tv",
+        "poolMint": "6CvFE14WUwKkQv1WchdPmbde6Urq7EWofaJcE8ZVUVBZ",
+        "quoteMint": "CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp"
+      },
+      "captures": 1,
+      "normalizedSnapshots": 1,
+      "qualifiedPublicPricePoints": 0,
+      "offlineFixturePoints": 0,
+      "state": "insufficient_data",
+      "reasons": [
+        "actual_market_time_missing",
+        "quote_price_history_missing",
+        "source_rights_unverified"
+      ],
+      "metrics": {
+        "appreciation": null,
+        "maximumDrawdown": null,
+        "sampledPeak": null,
+        "momentum": null,
+        "marketCap": null,
+        "holderReturn": null
+      },
+      "sourceReceipts": [
+        {
+          "url": "https://www.stonkfun.xyz/api/public/v1/tokens/5NervA6LyRtqeacVug3wint61ExBJn2paE7xG3iPW9Tv",
+          "requestedAt": "2026-10-20T07:39:54.765015+00:00",
+          "receivedAt": "2026-10-20T07:39:54.961290+00:00",
+          "providerGeneratedAt": "2026-10-20T07:39:54.949Z",
+          "bodySha256": "sha256:b24ad330ac673df09ac0fe28e590598016d5df08f1c24c43221b6ca7496484d3",
+          "evidenceClass": "public_source"
+        }
+      ],
+      "decimalHandling": "original_numeric_lexemes_preserved"
+    }
+  ],
+  "ranking": {
+    "state": "withheld",
+    "rows": [],
+    "reason": "no_qualified_timestamped_quote_price_history"
+  },
+  "rights": {
+    "publication": "withheld",
+    "permission": "unverified",
+    "approvalOverrideAvailable": false
+  },
+  "interpretation": "source_capture_metadata_not_market_history_or_holder_return"
+}

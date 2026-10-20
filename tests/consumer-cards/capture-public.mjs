@@ -5,7 +5,7 @@ import {openSync,writeFileSync,mkdirSync} from 'node:fs';
 import {chromium} from '../../experiments/consumer-mvp/web/node_modules/@playwright/test/index.mjs';
 import AxeBuilder from '../../experiments/consumer-mvp/web/node_modules/@axe-core/playwright/dist/index.mjs';
 if(process.env.CARDS_PUBLIC_READ_QA!=='approved')throw Error('Explicit bounded public-read QA opt-in required');
-const dir='docs/consumer-v18-research',log=openSync('/tmp/scout-cards-public-next.log','w');mkdirSync(dir+'/screenshots',{recursive:true});
+const dir='docs/consumer-v19-research',log=openSync('/tmp/scout-cards-public-next.log','w');mkdirSync(dir+'/screenshots',{recursive:true});
 const server=spawn(process.execPath,['node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port','4180'],{cwd:process.cwd(),detached:true,stdio:['ignore',log,log]});
 let browser;let apiProof=null;const records=[],errors=[],sources=[];const startedAt=new Date().toISOString();
 try{
@@ -22,7 +22,8 @@ try{
   const findings=await page.locator('.cr-pair').count();const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze();const first=findings?await page.locator('.cr-pair>details>summary').first().boundingBox():null;
   await page.screenshot({path:dir+`/screenshots/after-public-discovery-${width}.png`});
   if(findings){await page.locator('.cr-pair>details>summary').first().focus();await page.keyboard.press('Enter');await page.screenshot({path:dir+`/screenshots/after-public-evidence-${width}.png`,fullPage:true});await page.keyboard.press('Escape');}
-  records.push({width,productionBuild:true,synthetic:false,rows:findings,calls,firstRow:first,overflow:await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),axeViolations:axe.violations.map(v=>v.id),visibleConclusion:await page.locator('.cr-conclusion').innerText(),scope:await page.locator('.cr-scope').count()?await page.locator('.cr-scope').textContent():null,sourceFailure:await page.locator('.cr-error').count()?await page.locator('.cr-error').textContent():null});await context.close();
+  await page.locator('#methodology>summary').click();await page.locator('.cr-analysis-readiness').scrollIntoViewIfNeeded();await page.screenshot({path:dir+`/screenshots/after-public-readiness-${width}.png`,fullPage:true});const readiness=await page.locator('.cr-analysis-readiness').innerText();
+  records.push({readiness,width,productionBuild:true,synthetic:false,rows:findings,calls,firstRow:first,overflow:await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),axeViolations:axe.violations.map(v=>v.id),visibleConclusion:await page.locator('.cr-conclusion').innerText(),scope:await page.locator('.cr-scope').count()?await page.locator('.cr-scope').textContent():null,sourceFailure:await page.locator('.cr-error').count()?await page.locator('.cr-error').textContent():null});await context.close();
  }
  if(records.some(r=>r.overflow||r.axeViolations.length)||errors.length)throw Error('Public QA failed; see validation evidence');
 }finally{
