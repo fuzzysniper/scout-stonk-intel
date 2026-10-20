@@ -7,12 +7,12 @@ const examples=[
  {mint:'6HU4CmRb15C2nQDx8Ld2f2W2wTdmog6aZiiXdrT5Pzi8',name:'Grokification',symbol:'GROK',quote:'SPCXX',quoteMint:'Xs3oZwbHvqis4NYcf4YKWmEia2eC84wSiVrcYcTqpH8'},
 ];
 const errors=new WeakMap(),external=new WeakMap();
-test.beforeEach(async({page})=>{
+test.beforeEach(async({page})=>{await page.route('**/api/token?*',r=>r.fulfill({status:503,contentType:'application/json',headers:{'retry-after':'60'},body:'{}'}));
  // Historical UX regression uses an explicitly disabled API contract replay, never success.
  await page.route('**/api/mint-facts?*',route=>route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({version:'mint-facts/1',status:'unavailable',mint:new URL(route.request().url()).searchParams.get('mint'),facts:null,source:null,reason:'disabled',warnings:[]})}));
  const e=[],x=[];errors.set(page,e);external.set(page,x);
- page.on('response',r=>{if(r.status()>=400&&!new URL(r.url()).pathname.startsWith('/api/mint-facts'))e.push('HTTP '+r.status()+' '+new URL(r.url()).pathname);});
- page.on('pageerror',v=>e.push(v.message));page.on('console',v=>{if(v.type()==='error'&&!(v.text().startsWith('Failed to load resource')&&v.location().url.includes('/api/mint-facts')))e.push(v.text());});
+ page.on('response',r=>{if(r.status()>=400&&!new URL(r.url()).pathname.startsWith('/api/mint-facts')&&!(new URL(r.url()).pathname==='/api/token'&&r.status()===503))e.push('HTTP '+r.status()+' '+new URL(r.url()).pathname);});
+ page.on('pageerror',v=>e.push(v.message));page.on('console',v=>{if(v.type()==='error'&&!(v.text().startsWith('Failed to load resource')&&/\/api\/(mint-facts|token)/.test(v.location().url)))e.push(v.text());});
  page.on('request',r=>{if(!['127.0.0.1','localhost'].includes(new URL(r.url()).hostname))x.push(r.url());});
 });
 test.afterEach(async({page})=>{expect(errors.get(page)).toEqual([]);expect(external.get(page)).toEqual([]);});
@@ -55,7 +55,7 @@ for(const token of examples)test(`${token.symbol} production engine, risks, exac
 test('empty, ticker, malformed, same-symbol mint, duplicate query and recovery',async({page})=>{
  await page.goto('/');
  for(const [raw,title]of [['','Start with a token address'],['SI','A name isn’t an address'],['<script>alert(1)</script>','That doesn’t look like a token address'],['1'.repeat(32),'Source not connected'],['4SsapSJFx7ZqVb2C7z78wKD4nyySjFCBSuajnZdDsx97','Source not connected'],[' '+examples[0].mint,'That doesn’t look like a token address']]){
-  await page.getByLabel('Token address',{exact:true}).fill(raw);await page.getByRole('button',{name:'Explain this token',exact:true}).click();await expect(page.getByRole('heading',{name:title})).toBeVisible();if(title==='Source not connected')expect(new URL(page.url()).searchParams.get('mint')).toBe(raw);else expect(new URL(page.url()).searchParams.has('mint')).toBe(false);
+  await page.getByLabel('Token address',{exact:true}).fill(raw);await page.getByRole('button',{name:'Analyze token',exact:true}).click();await expect(page.getByRole('heading',{name:title})).toBeVisible();if(title==='Source not connected')expect(new URL(page.url()).searchParams.get('mint')).toBe(raw);else expect(new URL(page.url()).searchParams.has('mint')).toBe(false);
  }
  await page.goto('/?mint='+examples[0].mint+'&mint='+examples[1].mint);await expect(page.getByRole('heading',{name:'That doesn’t look like a token address'})).toBeVisible();
  await page.getByRole('button',{name:/Explain Grokification/}).click();await expect(page.getByRole('heading',{name:/^Grokification/})).toBeVisible();await cleanBrand(page);
@@ -67,7 +67,7 @@ test('keyboard, clipboard fallback, history, restart and pre-capture failure',as
  await page.getByRole('button',{name:'Copy link',exact:true}).click();await expect(page.getByText('Link copied. It opens this captured example.')).toBeVisible();expect(await page.evaluate(()=>navigator.clipboard.readText())).toBe(page.url());
  await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:undefined}));await page.getByRole('button',{name:'Copy link',exact:true}).click();await expect(page.getByLabel('Copy this exact-mint link')).toHaveValue(page.url());
  await page.getByRole('button',{name:'Search another token',exact:true}).click();await expect(page.getByLabel('Token address',{exact:true})).toBeFocused();
- await page.getByLabel('Token address',{exact:true}).fill(examples[1].mint);await page.getByRole('button',{name:'Explain this token',exact:true}).click();await expect(page.getByRole('heading',{name:/^RuneScape Gold/})).toBeVisible();
+ await page.getByLabel('Token address',{exact:true}).fill(examples[1].mint);await page.getByRole('button',{name:'Analyze token',exact:true}).click();await expect(page.getByRole('heading',{name:/^RuneScape Gold/})).toBeVisible();
  await page.goBack();await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeVisible();await page.goForward();await expect(page.getByRole('heading',{name:/^RuneScape Gold/})).toBeVisible();
  await page.getByRole('link',{name:'Start over'}).click();await expect(page.getByRole('heading',{name:'A token address. A clear answer.'})).toBeVisible();await expect(page.getByLabel('Token address',{exact:true})).toHaveValue('');await expect(page.getByRole('heading',{name:'A token address. A clear answer.'})).toBeFocused();
  await page.clock.setFixedTime(new Date('2026-10-01T00:00:00Z'));await page.getByRole('button',{name:/Explain Super Inu/}).click();await expect(page.getByRole('heading',{name:'Evidence couldn’t load'})).toBeVisible();
@@ -94,12 +94,12 @@ test('compact search is accessible, cancels drafts, preserves errors and resets 
  await page.goto('/?mint='+examples[0].mint);
  const toggle=page.getByRole('button',{name:'Search another token',exact:true}),input=page.getByLabel('Token address',{exact:true});
  await expect(input).toBeHidden();const target=await toggle.boundingBox();expect(target.height).toBeGreaterThanOrEqual(44);expect(target.width).toBeGreaterThanOrEqual(44);await toggle.focus();await page.keyboard.press('Enter');await expect(toggle).toHaveAttribute('aria-expanded','true');await expect(input).toBeFocused();
- await expect(page.getByPlaceholder('Paste a token address')).toBeVisible();await expect(page.getByRole('button',{name:'Explain this token',exact:true})).toBeVisible();
+ await expect(page.getByPlaceholder('Paste a token address')).toBeVisible();await expect(page.getByRole('button',{name:'Analyze token',exact:true})).toBeVisible();
  await input.fill('unfinished draft');await page.keyboard.press('Escape');await expect(input).toBeHidden();await expect(toggle).toBeFocused();await expect(page).toHaveURL(new RegExp('mint='+examples[0].mint+'$'));
  await toggle.click();await expect(input).toHaveValue(examples[0].mint);await expect(input).toBeFocused();await axe(page);
  await page.screenshot({path:`experiments/consumer-mvp/web/node_modules/.cache/v17-regression-screenshots/after-search-${info.project.name}.png`});
  await page.getByRole('button',{name:'Cancel search',exact:true}).click();await expect(toggle).toBeFocused();await expect(input).toBeHidden();
- await toggle.click();await input.fill('1'.repeat(32));await page.getByRole('button',{name:'Explain this token',exact:true}).click();await expect(page.getByRole('heading',{name:'Source not connected'})).toBeVisible();await expect(input).toBeVisible();await expect(toggle).toHaveCount(0);
+ await toggle.click();await input.fill('1'.repeat(32));await page.getByRole('button',{name:'Analyze token',exact:true}).click();await expect(page.getByRole('heading',{name:'Source not connected'})).toBeVisible();await expect(input).toBeVisible();await expect(toggle).toHaveCount(0);
  await expect(page.locator('.answer-card')).toHaveCount(0);await expect(page.getByRole('heading',{name:'Explore an example'})).toBeVisible();
  await page.goBack();await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeVisible();await expect(input).toBeHidden();await expect(toggle).toHaveAttribute('aria-expanded','false');await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeFocused();
  await toggle.click();await input.fill(examples[2].mint);await input.press('Enter');await expect(page.getByRole('heading',{name:/^Grokification/})).toBeVisible();await expect(input).toBeHidden();

@@ -1,0 +1,367 @@
+{
+  "base": "86a2edf597f728e9fb502b99f624120cf8831725",
+  "environment": {
+    "node": "20.20.2",
+    "npm": "11.9.0",
+    "next": "15.5.28",
+    "chromium": "154.0.8037.57",
+    "postgres": "17.11 disposable local synthetic databases"
+  },
+  "root": {
+    "nodePassed": 855,
+    "pythonPassed": 106,
+    "totalPassed": 961,
+    "failed": 0,
+    "skipped": 0
+  },
+  "uniqueBrowserCases": 162,
+  "agentB118FileOverlap": [],
+  "heliusRequests": 0,
+  "sourceDerivedMarketCapturesPublished": false,
+  "archiveDryRun": "retention_boundary; unchanged expired historical replay refuses publication",
+  "logs": [
+    {
+      "log": "ci",
+      "exitCode": 0,
+      "sha256": "551383b084898432aa3f52859f2fd119a1fac78ac265052c4edf126fa2176363",
+      "tap": []
+    },
+    {
+      "log": "tests",
+      "exitCode": 0,
+      "sha256": "d90c1c3173646f4e90561a99dbf61f3047272cfd7183e60fdae1526ae65aeb19",
+      "tap": [
+        {
+          "tests": 7,
+          "passed": 7,
+          "failed": 0
+        },
+        {
+          "tests": 2,
+          "passed": 2,
+          "failed": 0
+        },
+        {
+          "tests": 33,
+          "passed": 33,
+          "failed": 0
+        },
+        {
+          "tests": 509,
+          "passed": 509,
+          "failed": 0
+        },
+        {
+          "tests": 29,
+          "passed": 29,
+          "failed": 0
+        },
+        {
+          "tests": 31,
+          "passed": 31,
+          "failed": 0
+        },
+        {
+          "tests": 24,
+          "passed": 24,
+          "failed": 0
+        },
+        {
+          "tests": 37,
+          "passed": 37,
+          "failed": 0
+        },
+        {
+          "tests": 31,
+          "passed": 31,
+          "failed": 0
+        },
+        {
+          "tests": 53,
+          "passed": 53,
+          "failed": 0
+        },
+        {
+          "tests": 19,
+          "passed": 19,
+          "failed": 0
+        },
+        {
+          "tests": 47,
+          "passed": 47,
+          "failed": 0
+        },
+        {
+          "tests": 5,
+          "passed": 5,
+          "failed": 0
+        },
+        {
+          "tests": 10,
+          "passed": 10,
+          "failed": 0
+        },
+        {
+          "tests": 18,
+          "passed": 18,
+          "failed": 0
+        }
+      ],
+      "pythonPassed": 106
+    },
+    {
+      "log": "onchain",
+      "exitCode": 0,
+      "sha256": "144ed84c7e0fd0da41f1d5daf6fe0b7c580f8a905de001a6b7e1c0fb16242356",
+      "tap": [
+        {
+          "tests": 19,
+          "passed": 19,
+          "failed": 0
+        }
+      ]
+    },
+    {
+      "log": "types",
+      "exitCode": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tap": []
+    },
+    {
+      "log": "lint",
+      "exitCode": 0,
+      "sha256": "fcf6b46859f0ed1122c0cc24aa92fdbd60df1dc55e7b54bcb37b6e40f6377696",
+      "tap": []
+    },
+    {
+      "log": "build",
+      "exitCode": 0,
+      "sha256": "351ec5fd740b4176eb7a4bd4b874e8128cf2558dce7271c5852860741e5288a6",
+      "tap": []
+    },
+    {
+      "log": "archive",
+      "exitCode": 0,
+      "sha256": "e765fbe4200d783e0905d0a7a988284227807c7adc86191e92cbc87dbc55af64",
+      "tap": []
+    },
+    {
+      "log": "dry-run",
+      "exitCode": 1,
+      "sha256": "b1b3c75c12ab2358a7dee374b2f587078dae9a3dd48ed719914bf394d1d4d505",
+      "tap": []
+    },
+    {
+      "log": "browser",
+      "exitCode": 0,
+      "sha256": "f82b149a6e5a3237c1a53804e1b7c5c447ae144c1cae058e05155f2d24561784",
+      "tap": [],
+      "playwrightPassed": 126
+    },
+    {
+      "log": "capture-browser",
+      "exitCode": 0,
+      "sha256": "279e43a830bdc8da571615cc2a1ff00eb0510c4a9f575dfa5235aad7dc24f191",
+      "tap": [],
+      "playwrightPassed": 21
+    },
+    {
+      "log": "cards-browser",
+      "exitCode": 0,
+      "sha256": "5b3186b8d932ecc8f9c4308e581ab034f9a5f2ca4ee00a98588a09bd14eb40f4",
+      "tap": [],
+      "playwrightPassed": 36
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "screenshots/after-synthetic-answer-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "28e8ded4dd8c910316d93ae782ca5ce27158859e1d9a1c26474f1f806b52e903",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-answer-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "bc96098ea97a769443a32fa427d7b431327dea43065b04c506fd8b2cf74a78c1",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-answer-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "b0b1e86653568013a2a0e84cbd9bef19ae2479cf9659486004f18b11d452d2b0",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-cooldown-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "2e5b4964cc4176e4236f7c6710b9703f462ec7ffdc1019d6b1ae655f4fb8e75c",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-cooldown-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "98d86c1b8d054220388f8e37d6e91943efb38a02af59333df449173a0be2eb83",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-cooldown-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "1bbb632cac9f07d04c9bfeaf767871b49ee833eadc4c4c03d6998c8f2506f31b",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-evidence-1280.png",
+      "width": 1280,
+      "height": 2179,
+      "sha256": "c86ecb8340c356f15a5ed2dbd571d2efbfab1e4e6ee7e1466e244e54266193aa",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-evidence-320.png",
+      "width": 320,
+      "height": 2509,
+      "sha256": "954ec90ee2b92944a17ca72eed558fbfb7b89a1fc2f645ba9ea7ff836ddc6a01",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-evidence-390.png",
+      "width": 390,
+      "height": 2451,
+      "sha256": "72b9b04ed20941d6a0451f06eaaf17d8935635cdf3346824691ae156617dbddb",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-expired-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "dda0eb1d0f46cad211d0208e758b5025eff8e487f5ec81c7cb02da297b0a3509",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-expired-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "65da9729a2e01ddf9ed68088be02c4b9616c300c3e5178ba8951dc6964753359",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-expired-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "26f387d321540b2033b722c55ccff02e57fe5fd9eef75cd2ff804eb56d56db6c",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-extensions-1280.png",
+      "width": 1280,
+      "height": 2181,
+      "sha256": "25a80902b055fcee6d0a1bdf1e7fa62d28a1432df20bb649ecbe421576676566",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-extensions-320.png",
+      "width": 320,
+      "height": 2546,
+      "sha256": "fd0737df87ba2f61bfbcbc60ff1936e624b90c91c9c0a04b00af32cd71cf2b94",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-extensions-390.png",
+      "width": 390,
+      "height": 2480,
+      "sha256": "01de597c94e1ff4b729adfd63f33193a461560a128874d2f9700d86c6dc55ec3",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-landing-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "d33a7bbb3a2b0ca93a67dafb6e5f4e9049055540529998534b72cd59a745cbf2",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-landing-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "e5fef8b5c8fea04c37b81677219b1d5da5e92cedc6797aaf32ec652b0af3319e",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-landing-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "af6492bd31065b0e9356e652a44002b65a8e76494d8253aa08ed50a1393b8f8e",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-unverified-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "4ec1cd93eaac87cf3eb371999d78193750aee881df5965087c884a70211a5a28",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-unverified-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "7fc0da6393d5ce683b91eef36c3a8012b3d0785bb8cf4898576fafb4ec0023f8",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/after-synthetic-unverified-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "5d4b726d8dfc4a4d16958ccf5ef85aa8f3ec3e85bbc7221746cfbb035ac76005",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/before-landing-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "71af2144d17b984fa27df118332a5f1c3c67c3ecde4300db368c53f12eece0db",
+      "dataContext": "landing_no_simulated_facts"
+    },
+    {
+      "path": "screenshots/before-landing-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "e62352d0fb437513b9f61bb76edef83c8507e436f7429ff309c707dbe4c74b35",
+      "dataContext": "landing_no_simulated_facts"
+    },
+    {
+      "path": "screenshots/before-landing-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "c0be27e05a0db37b5d1273a40c451e8371967961d98e2e36ce7cfba6d1b7ae55",
+      "dataContext": "landing_no_simulated_facts"
+    },
+    {
+      "path": "screenshots/before-unavailable-1280.png",
+      "width": 1280,
+      "height": 900,
+      "sha256": "908abc7063abac716329eb9e03edd23d00a6fb24cb447d022ca77740697e5135",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/before-unavailable-320.png",
+      "width": 320,
+      "height": 740,
+      "sha256": "037a64b9fdd8a1187513dcb76cc8854132ebfd3bd890452882be60351a6e141e",
+      "dataContext": "synthetic_offline"
+    },
+    {
+      "path": "screenshots/before-unavailable-390.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "e7be5c34fc417d98ca166274f0d2145e5d5b737c5afd7b5813dea539aec44f2e",
+      "dataContext": "synthetic_offline"
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import '../../../app/consumer/consumer.css';
 import './test.css';
 const params=new URL(location.href).searchParams,mint=params.get('mint')??TEST_MINT,scenario=params.get('scenario')??'verified';
 let reads=0;
+const unavailableMarket=async()=>({state:'unavailable' as const,retryAt:Infinity});
 const port:MintFactsPort={context:scenario.startsWith('production-')?'production':'synthetic-offline',read:async address=>{
  reads++;document.documentElement.dataset.reads=String(reads);
  if(scenario==='loading')return new Promise<MintReadOutcome>(resolve=>{Object.assign(window,{resolveOfflineReadiness:()=>resolve({httpStatus:503,body:syntheticFailure(address)})});});
@@ -33,4 +34,4 @@ const port:MintFactsPort={context:scenario.startsWith('production-')?'production
  }
  return {httpStatus:200,body:value};
 }};
-createRoot(document.getElementById('root')!).render(<><div className="test-only-notice">LOCAL SYNTHETIC/OFFLINE HARNESS · no RPC · not a deployed page</div><ConsumerHome initialInput={mint} initialState={evaluateInput(mint)} onchainPort={port}/></>);
+createRoot(document.getElementById('root')!).render(<><div className="test-only-notice">LOCAL SYNTHETIC/OFFLINE HARNESS · no RPC · not a deployed page</div><ConsumerHome initialInput={mint} initialState={evaluateInput(mint)} onchainPort={port} marketPort={unavailableMarket}/></>);
