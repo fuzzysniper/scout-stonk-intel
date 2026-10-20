@@ -18,8 +18,11 @@ export type SyntheticDependencies = Readonly<{
   testDeadlineMs?: number; testStoreDeadlineMs?: number;
 }>;
 export type Profile = Readonly<{ policy: string; acquisition: "synthetic_fixture" | "production_rpc"; leaseMs: number; storeTimeoutMs: number;
+  lookupSession?: Readonly<{ purpose: "proof" | "public"; notBeforeMs: number; expiresAtMs: number }>;
   canary?: Readonly<{ mint: string; maxLeaseId: number; notBeforeMs: number; expiresAtMs: number }> }>;
 function canaryGate(profile: Profile, mint: string, now: number, lease?: Lease): void {
+  const session=profile.lookupSession;
+  if(session)demand(now>=session.notBeforeMs && now<session.expiresAtMs,"disabled");
   const c=profile.canary; if(!c)return;
   demand(mint===c.mint, "disabled");
   demand(now>=c.notBeforeMs && now<c.expiresAtMs, "disabled");
@@ -73,9 +76,11 @@ export function mintService(d: SyntheticDependencies, profile: Profile): (reques
       demand(typeof d.hmacKey === "string" && /^[A-Za-z0-9_-]{32,128}$/.test(d.hmacKey), "access_denied");
       const identity = await deadline(d.trustedIdentity(request), L.storeTimeoutMs, "access_denied");
       const client = privateClientKey(identity?.ip, d.hmacKey); demand(client, "access_denied");
-      const admission = await transact({ kind: "admit", policy: profile.policy, mint, client });
+      const admission = await transact({ kind: "admit", policy: profile.policy, mint, client,
+        ...(profile.lookupSession ? {authorization:profile.lookupSession} : {}) });
       if (admission.kind === "denied") return { result: failure(mint, admission.reason), ...(admission.retryAfter === null ? {} : { retryAfter: admission.retryAfter }) };
       admitted = true;
+      if(profile.lookupSession)canaryGate(profile,mint,wall());
       if (admission.kind === "cached") {
         const result=cachedFacts(admission.entry, mint, admission.now, admission.highestSlot, d.hmacKey, profile);
         canaryFacts(profile,result); return {result,delivery:"cache"};
@@ -87,6 +92,7 @@ export function mintService(d: SyntheticDependencies, profile: Profile): (reques
       canaryGate(profile,mint,wall(),lease);
       const observed = await heliusRead({ mint, requestId: lease.id, target: d.target, transport: d.transport, clock: d.clock,
         signal: request.signal, acquisition: profile.acquisition, deadlineMs: d.testDeadlineMs });
+      if(profile.lookupSession)canaryGate(profile,mint,wall(),lease);
       canaryFacts(profile,observed.result);
       let cache: CacheEntry | null = null;
       if (observed.result.source) {
@@ -97,6 +103,7 @@ export function mintService(d: SyntheticDependencies, profile: Profile): (reques
       const completed = await transact({ kind: "complete", policy: profile.policy, lease, slot: observed.slot, cache });
       if (completed.kind === "denied") throw new BoundaryError(completed.reason);
       demand(completed.kind === "committed" && completed.leaseId === lease.id);
+      if(profile.lookupSession)canaryGate(profile,mint,wall(),lease);
       return { result: cache ? cachedFacts(cache, mint, completed.now, observed.slot, d.hmacKey, profile) : observed.result, delivery:"rpc" };
     } catch (error) {
       locallyStopped = true;

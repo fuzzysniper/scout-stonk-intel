@@ -4,11 +4,15 @@ import type { AtomicMintStore, Command, Reply } from "./distributed";
 import { databaseParameters, type DatabaseHandle } from "./production-config";
 import { BoundaryError, deadline, demand } from "./rpc";
 import type { TLSSocket } from "node:tls";
-import { POSTGRES_COMPATIBILITY_SQL, STEP_BODY_SHA256 } from "./postgres-compatibility";
+import { POSTGRES_COMPATIBILITY_SQL, STEP_BODY_SHA256, LOOKUP_COMPATIBILITY_SQL, LOOKUP_STEP_BODY_SHA256 } from "./postgres-compatibility";
+import { LOOKUP_POLICY } from "./lookup-policy";
 
 /** Real native SQL adapter. No migration/bootstrap/retry/memory fallback in request handling. */
-export function postgresStore(pool: Pool, nativeProof?: Readonly<{ host: string }>): AtomicMintStore {
+export function postgresStore(pool: Pool, nativeProof?: Readonly<{ host: string }>, namespace: "legacy" | "lookup" = "legacy"): AtomicMintStore {
+  demand(namespace==="legacy" || namespace==="lookup");
+  const lookup=namespace==="lookup";
   return Object.freeze({ async transact(command: Command): Promise<Reply> {
+    if(lookup)demand(command.policy===LOOKUP_POLICY,"access_denied");
     const json = JSON.stringify(command); demand(json.length <= 40000 && Buffer.byteLength(json) <= 40000);
     demand(pool.waitingCount < 4, "admission_limited");
     // A late connection must be released even if the caller's outer deadline has already expired.
@@ -24,10 +28,11 @@ export function postgresStore(pool: Pool, nativeProof?: Readonly<{ host: string 
       await client.query("BEGIN");
       await client.query("SET LOCAL synchronous_commit=on; SET LOCAL statement_timeout='500ms'; SET LOCAL lock_timeout='100ms'; SET LOCAL search_path=pg_catalog");
       if(nativeProof) {
-        const proof=await client.query(POSTGRES_COMPATIBILITY_SQL,[STEP_BODY_SHA256]);
+        const proof=await client.query(lookup?LOOKUP_COMPATIBILITY_SQL:POSTGRES_COMPATIBILITY_SQL,
+          [lookup?LOOKUP_STEP_BODY_SHA256:STEP_BODY_SHA256]);
         demand(proof.rowCount===1 && Object.keys(proof.rows[0]??{}).join(',')==='compatible' && proof.rows[0].compatible===true,"upstream_unavailable");
       }
-      const value = await client.query<{ reply: Reply }>("SELECT scout_mint.step($1::jsonb) AS reply", [json]);
+      const value = await client.query<{ reply: Reply }>(lookup?"SELECT scout_lookup.step($1::jsonb) AS reply":"SELECT scout_mint.step($1::jsonb) AS reply", [json]);
       demand(value.rowCount === 1 && value.rows[0]?.reply);
       await client.query("COMMIT"); committed = true;
       return value.rows[0].reply;
@@ -38,9 +43,9 @@ export function postgresStore(pool: Pool, nativeProof?: Readonly<{ host: string 
     }
   } });
 }
-export function nativePostgresStore(handle: DatabaseHandle): AtomicMintStore {
+export function nativePostgresStore(handle: DatabaseHandle, namespace: "legacy" | "lookup" = "legacy"): AtomicMintStore {
   const pool = new Pool(databaseParameters(handle));
   pool.on("error", () => { /* No credential/SQL/error-message logging. Next command still requires DB proof. */ });
-  const store = postgresStore(pool,{host:handle.host});
+  const store = postgresStore(pool,{host:handle.host},namespace);
   return Object.freeze({ transact: command => deadline(store.transact(command), 2000, "upstream_unavailable") });
 }

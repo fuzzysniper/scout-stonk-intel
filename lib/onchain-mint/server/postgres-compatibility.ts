@@ -45,3 +45,12 @@ export const POSTGRES_COMPATIBILITY_SQL = `SELECT (
  ) AS compatible
  FROM pg_catalog.pg_proc p JOIN pg_catalog.pg_language l ON l.oid=p.prolang
  WHERE p.oid='scout_mint.step(jsonb)'::pg_catalog.regprocedure`;
+
+/** Same least-privilege/catalog proof, statically bound to the additive lookup schema.
+ * Role stays scout_mint_runtime; no caller-supplied identifier or alternate SQL.
+ */
+export const LOOKUP_STEP_BODY_SHA256 = "c5aedb841dc23f6012bd1ef2935262f2a3899e6b11b62c0386d7f45fc436e0c0";
+export const LOOKUP_COMPATIBILITY_SQL = POSTGRES_COMPATIBILITY_SQL
+  .replaceAll("scout_mint.", "scout_lookup.")
+  .replaceAll("'scout_mint'", "'scout_lookup'")
+  .replace("search_path=pg_catalog, scout_mint", "search_path=pg_catalog, scout_lookup");

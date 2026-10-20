@@ -10,7 +10,7 @@ import { mintService, type Profile } from "./service";
 import { nativeHeliusTransport } from "./native-transport";
 import { CANARY_DEPLOYMENT_HOST, canaryWindow, USDC_CANARY } from "./canary-policy";
 
-type Platform = Readonly<{
+export type Platform = Readonly<{
   hosting: () => HostingContext; readSecret: SecretReader;
   store: (database: DatabaseHandle) => Promise<AtomicMintStore>; transport: Transport; clock: Clock;
 }>;
@@ -38,13 +38,13 @@ export function productionRuntime(approval: typeof LIVE_APPROVAL, platform: Plat
         service = await loading;
       }
       const out = await service(request, parsed.mint), response=mintJson(out.result, undefined, out.retryAfter);
-      if(profile.canary && out.delivery)response.headers.set("X-SCOUT-Delivery",out.delivery);
+      if(out.delivery)response.headers.set("X-SCOUT-Delivery",out.delivery);
       return response;
     } catch { return mintJson(failure(parsed.mint, "upstream_unavailable")); }
   };
 }
 
-async function emptyBody(request: Request): Promise<void> {
+export async function emptyBody(request: Request): Promise<void> {
   demand(!request.bodyUsed && !request.signal.aborted, "access_denied");
   if (!request.body) return;
   const reader=request.body.getReader();
@@ -102,7 +102,7 @@ export function productionCanaryRuntime(approval: typeof LIVE_APPROVAL, platform
 }
 
 /** Native route: no configuration/credential/driver read at import or build time. */
-export const productionHandler = productionCanaryRuntime(LIVE_APPROVAL, {
+export const nativePlatform: Platform = {
   hosting: () => ({ vercel: process.env.VERCEL, environment: process.env.VERCEL_ENV, projectId: process.env.VERCEL_PROJECT_ID,
     deploymentUrl: process.env.VERCEL_URL, commitSha: process.env.VERCEL_GIT_COMMIT_SHA,
     insecureTls: process.env.NODE_TLS_REJECT_UNAUTHORIZED, forceNativePg: process.env.NODE_PG_FORCE_NATIVE }),
@@ -111,4 +111,5 @@ export const productionHandler = productionCanaryRuntime(LIVE_APPROVAL, {
   store: async database => (await import("./postgres-store")).nativePostgresStore(database),
   transport: nativeHeliusTransport,
   clock: { now: () => Date.now(), monotonic: () => performance.now() },
-});
+};
+export const productionHandler = productionCanaryRuntime(LIVE_APPROVAL, nativePlatform);
