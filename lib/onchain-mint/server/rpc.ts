@@ -69,12 +69,16 @@ export async function heliusRead(input: Readonly<{
       throw new BoundaryError(response.status === 429 ? "rate_limited" : response.status === 401 || response.status === 403 ? "access_denied" : "upstream_unavailable");
     }
     const text = await boundedText(response, url, controller.signal);
+    // Even a syntactically valid authority/context field must not echo the scoped key.
+    const key = new URL(url).searchParams.get("api-key");
+    demand(key && !text.includes(key), "invalid_response");
     const received = input.clock.now(), elapsed = input.clock.monotonic() - mono;
     demand(received >= start && elapsed >= 0 && Math.abs(received - start - elapsed) <= 1000, "invalid_clock");
     demand(elapsed <= API_LIMITS.timeoutMs, "timeout");
     const result = await decodeResponse({ mint: input.mint, requestId: input.requestId, text,
       requestStartedAt: new Date(start).toISOString(), responseReceivedAt: new Date(received).toISOString(), evaluatedAt: new Date(received).toISOString(),
       httpDate: response.headers.get("date"), acquisition: input.acquisition, endpointHost: HELIUS_HOST });
+    demand(!JSON.stringify(result).includes(key), "invalid_response"); // Also catch JSON-escaped reflection after decoding.
     if (result.status === "unavailable") throw new BoundaryError(result.reason);
     // A supported negative also passed the strict envelope/context checks. Preserve monotonic context admission.
     const slot = result.source?.contextSlot ?? String((JSON.parse(text) as { result: { context: { slot: number } } }).result.context.slot);

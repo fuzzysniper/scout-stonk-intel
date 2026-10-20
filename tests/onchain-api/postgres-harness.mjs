@@ -7,8 +7,9 @@ import { createRequire } from "node:module";
 const { Pool } = createRequire(import.meta.url)("pg");
 const PASSWORD = "SYNTHETIC_LOCAL_TEST_PASSWORD_111";
 
-export async function localPostgres({tls} = {}) {
+export async function localPostgres({tls,database='postgres',runtimeRole='scout_test_runtime'} = {}) {
   if (process.env.NODE_ENV !== "test") throw new Error("local PostgreSQL harness requires NODE_ENV=test");
+  if(!['postgres','neondb'].includes(database) || !['scout_test_runtime','scout_mint_app'].includes(runtimeRole))throw Error('invalid_synthetic_fixture_identity');
   const candidates = [process.env.SCOUT_TEST_PG_BIN, ...[18,17,16,15].map(v => `/usr/lib/postgresql/${v}/bin`)];
   const bin = candidates.find(p => p && existsSync(join(p, "initdb")) && existsSync(join(p, "pg_ctl")));
   if (!bin) throw new Error("PostgreSQL 15+ binaries required (no silent skip). Install PostgreSQL or set SCOUT_TEST_PG_BIN; see lib/onchain-mint/server/PRODUCTION.md.");
@@ -25,8 +26,8 @@ export async function localPostgres({tls} = {}) {
     run("pg_ctl", ["-D", data, "-l", join(dir, "server.log"), "-o", `-k ${dir} -h ${tls?'127.0.0.1':"''"} -p ${port} -c shared_buffers=16MB -c max_connections=20 -c fsync=on -c synchronous_commit=on${ssl}`, "-w", "start"]);
     running = true;
   };
-  const pool = (user = "scout_test_runtime", password = PASSWORD) => {
-    const p = new Pool({ host: dir, port, user, password, database: "postgres", max: 1,
+  const pool = (user = runtimeRole, password = PASSWORD, dbname = database) => {
+    const p = new Pool({ host: dir, port, user, password, database: dbname, max: 1,
       connectionTimeoutMillis: 800, query_timeout: 1200, statement_timeout: 800, allowExitOnIdle: true });
     p.on("error", () => {}); pools.add(p); return p;
   };
@@ -36,9 +37,14 @@ export async function localPostgres({tls} = {}) {
   try {
     run("initdb", ["-D", data, ...(existsSync(share) ? ["-L", share] : []), "-U", "scout_test_owner", "--auth=trust", "--no-locale", "-E", "UTF8"]);
     writeFileSync(join(data, "pg_hba.conf"), "local all scout_test_owner trust\nlocal all all scram-sha-256\n"+(tls?'hostssl all all 127.0.0.1/32 scram-sha-256\n':'')+"host all all 0.0.0.0/0 reject\nhost all all ::/0 reject\n");
-    start(); owner = pool("scout_test_owner");
+    start();
+    if(database!=='postgres') {
+      const setup=pool('scout_test_owner',PASSWORD,'postgres');
+      await setup.query('CREATE DATABASE neondb');await setup.end();pools.delete(setup);
+    }
+    owner = pool("scout_test_owner");
     await owner.query(readFileSync("lib/onchain-mint/server/postgres/schema.sql", "utf8"));
-    await owner.query(`CREATE ROLE scout_test_runtime LOGIN PASSWORD '${PASSWORD}'; GRANT scout_mint_runtime TO scout_test_runtime`);
+    await owner.query(`CREATE ROLE ${runtimeRole} LOGIN PASSWORD '${PASSWORD}'; GRANT scout_mint_runtime TO ${runtimeRole}`);
     const reset = async () => {
       // Test-owner fixture isolation ONLY. The production adapter cannot run this SQL.
       await closePools(); owner = pool("scout_test_owner");

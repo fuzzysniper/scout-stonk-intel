@@ -8,7 +8,7 @@ const require = createRequire(import.meta.url);
 const { decodeCapturedMintResponse, decodeResponse } = require(`${root}/lib/onchain-mint/decoder.js`);
 async function result(handler, request) { const r = await handler(request); return { response: r, body: await r.json() }; }
 
-test("deployed route is disabled in all environments; poisoned env/fetch prove zero credential/store/RPC reads", async () => {
+test("public GET is disabled in all environments during canary; poisoned env/fetch prove zero credential/store/RPC reads", async () => {
   const originalEnv = process.env, originalFetch = globalThis.fetch;
   let calls = 0;
   try {
@@ -21,7 +21,7 @@ test("deployed route is disabled in all environments; poisoned env/fetch prove z
       const { response: r, body } = await result(route.GET, new Request(`${ORIGIN}/api/mint-facts?mint=${MINT}`));
       assert.equal(r.status, 503); assert.equal(body.reason, "disabled"); assert.equal(body.facts, null); assert.equal(body.source, null);
     }
-    assert.equal(PRODUCTION_RPC_ENABLED, false); assert.equal(calls, 0);
+    assert.equal(PRODUCTION_RPC_ENABLED, true); assert.equal(calls, 0);
   } finally { process.env = originalEnv; globalThis.fetch = originalFetch; }
 });
 test("even the injected fixture handler rejects synthetic success in a production runtime", async () => {
@@ -161,4 +161,17 @@ test("response byte limit and invalid UTF8/BOM/redirect never produce facts", as
 test("server-only marker rejects unconditioned browser-style imports", () => {
   const child = spawnSync(process.execPath, ["-e", `require(${JSON.stringify(root + "/lib/onchain-mint/server/helius.js")})`], { encoding: "utf8", env: { ...process.env, NODE_OPTIONS: "" } });
   assert.notEqual(child.status, 0); assert.match(child.stderr, /cannot be imported from a Client Component module/);
+});
+
+test('JSON-escaped scoped-key reflection cannot escape through an otherwise valid authority',async()=>{
+  // Public USDC identifier used ONLY as a synthetic key to exercise valid-base58 reflection.
+  const key=OTHER,target=prepareIsolatedHeliusTarget(key);
+  const s=system({deps:{target},rpc:(_url,init)=>{
+    const e=envelope();e.id=JSON.parse(init.body).id;e.result.value.data.parsed.info.freezeAuthority=key;
+    const escaped=[...key].map(c=>'\\u'+c.charCodeAt(0).toString(16).padStart(4,'0')).join('');
+    const text=JSON.stringify(e).replaceAll(key,escaped);assert.ok(!text.includes(key));
+    return new Response(text,{headers:{'content-type':'application/json'}});
+  }});
+  const a=await result(s.handler,s.request());assert.equal(a.body.reason,'invalid_response');assert.equal(a.body.facts,null);assert.equal(a.body.source,null);
+  assert.equal(s.calls.rpc.length,1);assert.equal((await result(s.replica(),s.request())).body.reason,'circuit_open');
 });

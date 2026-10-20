@@ -14,7 +14,7 @@ const { vercelIdentity } = require(`${root}/lib/onchain-mint/server/hosting-iden
 const { projectMintFacts } = require(`${root}/app/consumer/onchain-model.js`);
 const HOST = "ep-synthetic-only.us-east-2.aws.neon.tech", PROJECT = "prj_SYNTHETICOFFLINE111";
 const SYNTHETIC_DB_PASSWORD = "SYNTHETIC_NOT_A_HOSTED_PASSWORD_111";
-const DB_URL = `postgresql://scout_test:${SYNTHETIC_DB_PASSWORD}@${HOST}/scout`;
+const DB_URL = `postgresql://scout_mint_app:${SYNTHETIC_DB_PASSWORD}@${HOST}/neondb`;
 const context = { vercel: "1", environment: "production", projectId: PROJECT };
 const approval = Object.freeze({ enabled: true, storeHost: HOST, vercelProjectId: PROJECT });
 let db;
@@ -197,7 +197,7 @@ test("configuration is opaque, reads exactly three scoped names, pins host and v
   assert.equal(c.hmacKey,SYNTHETIC_HMAC);const p=databaseParameters(c.database);
   assert.equal(p.ssl.rejectUnauthorized,true);assert.equal(p.ssl.servername,HOST);assert.equal(p.enableChannelBinding,true);assert.equal(p.connectionString,undefined);assert.equal(p.max,1);
   assert.throws(()=>databaseParameters({host:HOST,provider:"neon-postgres"}));
-  for(const value of [DB_URL.replace(HOST,"evil.invalid"),DB_URL+"?sslmode=no-verify",DB_URL+"?sslmode=require&ssl=false",DB_URL+"#x",DB_URL.replace("postgresql:","http:"),DB_URL.replace(HOST,HOST+":80"),DB_URL.replace("scout_test:","postgres:")])assert.equal(prepareDatabase(value,HOST),null);
+  for(const value of [DB_URL.replace(HOST,"evil.invalid"),DB_URL+"?sslmode=no-verify",DB_URL+"?sslmode=require&ssl=false",DB_URL+"#x",DB_URL.replace("postgresql:","http:"),DB_URL.replace(HOST,HOST+":80"),DB_URL.replace("scout_mint_app:","postgres:")])assert.equal(prepareDatabase(value,HOST),null);
   for(const pin of ["localhost","127.0.0.1",HOST+".evil.invalid",HOST.replace("ep-synthetic-only.","ep-synthetic-only-ro.")])assert.equal(prepareDatabase(DB_URL,pin),null);
 });
 test("Neon legacy and c-N routed hosts keep exact pins, opaque credentials and verified native TLS",()=>{
@@ -216,10 +216,10 @@ test("Neon routing compatibility rejects forged suffixes, extra labels, read rep
     assert.equal(prepareDatabase(DB_URL.replace(HOST,host),host),null,host);
   }
   const url=DB_URL.replace(HOST,good);
-  for(const value of [url+'?sslmode=no-verify',url+'?sslmode=require&ssl=false',url+'#fragment',url.replace(good,good+':80'),url.replace('scout_test:','neondb_owner:')])assert.equal(prepareDatabase(value,good),null);
+  for(const value of [url+'?sslmode=no-verify',url+'?sslmode=require&ssl=false',url+'#fragment',url.replace(good,good+':80'),url.replace('scout_mint_app:','neondb_owner:')])assert.equal(prepareDatabase(value,good),null);
 });
-test("Neon setup does not enable the production gate or install host/project pins",()=>{
-  assert.deepEqual(LIVE_APPROVAL,{enabled:false,storeHost:null,vercelProjectId:null});
+test("reviewed activation pins exact primary and project, with immutable code gate",()=>{
+  assert.deepEqual(LIVE_APPROVAL,{enabled:true,storeHost:"ep-flat-band-b5fp4ls8.c-7.us-east-2.aws.neon.tech",vercelProjectId:"prj_OaA9snVrMUkpXuz6cMSKfSZ6fx5Q"});
 });
 for(const missing of ["SCOUT_MINT_HELIUS_API_KEY","SCOUT_MINT_ADMISSION_HMAC_KEY","SCOUT_MINT_STORE_DATABASE_URL"])test(`missing ${missing} denies before store/RPC`,async()=>{
   const s=runtime({secrets:{[missing]:undefined}}),a=await read(s);assert.equal(a.body.reason,"upstream_unavailable");assert.equal(s.calls.store,0);assert.equal(s.calls.rpc,0);
@@ -231,13 +231,13 @@ test("direct-Vercel identity requires runtime/project/origin and overwritten sin
   for(const headers of [{"x-forwarded-for":"198.51.100.1"},{"x-vercel-forwarded-for":"203.0.113.8, 198.51.100.1"},{"x-vercel-forwarded-for":"unknown"},{"x-vercel-forwarded-for":"::1%eth0"},{"x-forwarded-host":"evil.invalid"},{"x-forwarded-proto":"http"}])assert.equal(vercelIdentity(request(MINT,headers),context,PROJECT),null);
   const s=runtime({context:{}}),a=await read(s);assert.equal(a.body.reason,"access_denied");assert.equal(s.calls.secrets.length,0);assert.equal(s.calls.store,0);
 });
-test("inactive native route cannot read hosting/SCOUT/PG credentials or fetch, including fresh import",()=>{
+test("public GET remains inert with canary approval, including poisoned env and fresh import",()=>{
   const code=`const assert=require('node:assert/strict');process.env=new Proxy({NODE_ENV:'production'},{get(t,k){if(/SCOUT|HELIUS|PG|VERCEL|RPC|KEY|SECRET/.test(String(k)))throw Error('forbidden configuration read');return t[k]}});globalThis.fetch=()=>{throw Error('forbidden network')};const r=require(${JSON.stringify(root+"/app/api/mint-facts/route.js")});(async()=>{const x=await r.GET(new Request(${JSON.stringify(ORIGIN+"/api/mint-facts?mint="+MINT)}));assert.equal(x.status,503);assert.equal((await x.json()).reason,'disabled');assert.ok(!Object.keys(require.cache).some(x=>/node_modules\\/pg\\//.test(x)))})().catch(()=>process.exitCode=1);`;
   const r=spawnSync(process.execPath,["--conditions=react-server","-e",code],{encoding:"utf8",env:{NODE_ENV:"production",NODE_PATH:process.env.NODE_PATH},timeout:10000});
-  assert.equal(r.status,0,r.stderr);assert.equal(LIVE_APPROVAL.enabled,false);assert.equal(Object.isFrozen(LIVE_APPROVAL),true);
+  assert.equal(r.status,0,r.stderr);assert.equal(LIVE_APPROVAL.enabled,true);assert.equal(Object.isFrozen(LIVE_APPROVAL),true);
 });
 test("OFF gate and invalid origin/query return before even fake platform config",async()=>{
-  const off=runtime({approval:LIVE_APPROVAL});assert.equal((await read(off)).body.reason,"disabled");assert.equal(off.calls.hosting,0);assert.equal(off.calls.secrets.length,0);assert.equal(off.calls.rpc,0);
+  const off=runtime({approval:{enabled:false,storeHost:null,vercelProjectId:null}});assert.equal((await read(off)).body.reason,"disabled");assert.equal(off.calls.hosting,0);assert.equal(off.calls.secrets.length,0);assert.equal(off.calls.rpc,0);
   const s=runtime();for(const url of [`https://evil.invalid/api/mint-facts?mint=${MINT}`,`${ORIGIN}/api/mint-facts?mint=${MINT}&enabled=true`,`${ORIGIN}/api/mint-facts?mint=SI`])assert.notEqual((await read(s,new Request(url))).r.status,200);
   assert.equal(s.calls.hosting,0);assert.equal(s.calls.secrets.length,0);assert.equal(s.calls.store,0);
 });

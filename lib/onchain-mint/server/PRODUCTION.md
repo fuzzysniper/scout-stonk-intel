@@ -1,3 +1,5 @@
+> **20 October 2026 activation update:** the limited, protected, explicit USDC POST canary is prepared for owner review. Public GET remains disabled; one durable lifetime RPC attempt, expiring 21 October 00:00 UTC. See [current rollout/approval/rollback contract](../../../docs/ops/usdc-canary/ROLLOUT.md). The #111 baseline below describes the original OFF proposal and broader database ceilings, not general public activation. No hosted proof is claimed.
+
 # Inactive native Helius production path — Issue #111
 
 Review-only backend implementation, based on main including #109, #110 and merged

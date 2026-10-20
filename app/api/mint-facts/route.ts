@@ -2,8 +2,9 @@ import { productionHandler } from "../../../lib/onchain-mint/server/production";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+export const maxDuration = 15;
 
-// LIVE_APPROVAL is immutable OFF in reviewed source; no env/query flag can enable it.
+// Reviewed USDC-only POST canary; ordinary GETs and all other mints stay disabled.
 export const GET = productionHandler;
 export const HEAD = productionHandler;
 export const POST = productionHandler;
