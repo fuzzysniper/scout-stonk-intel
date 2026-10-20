@@ -15,7 +15,7 @@ Local Next.js **production build** and Chromium; no manual deployment, physical 
 | `bash scripts/archive-tool.sh check origin/main` | exit 0; append-only/reproduction passes, no data/archive edits |
 | `npm run archive:dry-run` | **exit 1**; unchanged `FAIL retention_boundary; local dry run did not authorize publication` for the reviewed Oct 11 original outside its eight-day boundary; no clock override or archived edition change |
 | Consumer homepage Playwright | exit 0; **126 passed** at 320/390/1280, including 21 new trader cases |
-| New trader screenshot recheck | exit 0; 21 passed again after correcting full-page capture scroll position; not additional unique cases |
+| New trader screenshot recheck | exit 0; 21 passed again after correcting full-page capture scroll position and refining unreviewed Token-2022 freeze wording; not additional unique cases |
 | Preserved CARDS Playwright | exit 0; 36 passed; secondary CARDS/watch unchanged |
 | Total distinct browser cases | **162 passed**; keyboard, clipboard, focus, source failures, original identity, back/forward, sharing, expiry and responsive/accessibility QA |
 

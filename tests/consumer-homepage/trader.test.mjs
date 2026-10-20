@@ -6,7 +6,7 @@ const now=Date.parse(AT),flags=v=>tokenConcerns(v,now),summary=v=>concernSummary
 test('OFFLINE replay: each deterministic concern carries the precise accepted fact, mint, slot and source',()=>{
  const v=project(mintFixture(MINT,{freeze:true,extensions:true})),rows=flags(v);assert.equal(v.kind,'facts');assert.deepEqual(rows.map(r=>r.id),['mint_authority','freeze_authority','extensions']);
  for(const r of rows){assert.equal(r.mint,MINT);assert.equal(r.slot,'400000001');assert.equal(r.checkedAt,AT);assert.equal(r.sourceHost,'mainnet.helius-rpc.com');assert.equal(r.responseSha256,'a'.repeat(64));assert.ok(r.field.startsWith('facts.'));assert.equal(r.synthetic,false);}
- assert.equal(rows[0].title,'A minting control is present');assert.equal(rows[0].trigger,'present · '+OTHER);assert.equal(rows[2].trigger,'unreviewed · permanentDelegate');assert.equal(summary(v),'3 checks need attention');
+ assert.equal(rows[0].title,'A minting control is present');assert.match(rows[1].explanation,/extensions are not fully reviewed/);assert.equal(rows[0].trigger,'present · '+OTHER);assert.equal(rows[2].trigger,'unreviewed · permanentDelegate');assert.equal(summary(v),'3 checks need attention');
 });
 test('OFFLINE replay: unverified, disabled, unsupported, expired and synthetic-in-production responses never trigger token concerns',()=>{
  for(const x of [failure(),failure(MINT,'not_mint','not_a_supported_mint_account'),{}, {...mintFixture(),mint:OTHER}, {...mintFixture(),source:{...mintFixture().source,acquisition:'synthetic_fixture'}}])assert.deepEqual(flags(project(x)),[]);
