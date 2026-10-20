@@ -1,0 +1,201 @@
+{
+  "startedAt": "2026-10-19T18:05:29.096Z",
+  "completedAt": "2026-10-19T18:05:40.624Z",
+  "scope": "Existing CARDS API only; 3 adjacent views share existing server cache. No retries, private tokens, RPC or financial publication.",
+  "apiProof": {
+    "httpStatus": 200,
+    "status": "degraded",
+    "coverage": {
+      "complete": false,
+      "atomic": false,
+      "registryCount": 592,
+      "pagesFetched": 2,
+      "pageLimit": 2,
+      "pageSize": 25,
+      "recordsReceived": 50,
+      "tokensReturned": 50,
+      "rejectedRecords": 0,
+      "providerReportedTotal": 2146,
+      "modeChecks": 12,
+      "modeCheckLimit": 12,
+      "historyScope": "tracked_sample",
+      "warnings": [
+        "bounded_catalog",
+        "market_observation_time_unavailable",
+        "mode_check_unavailable",
+        "non_atomic_pagination"
+      ],
+      "discovery": {
+        "strategy": "provider_quote_mint",
+        "quoteMint": "CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp",
+        "providerReportedTotalScope": "quote_mint"
+      }
+    },
+    "sources": [
+      {
+        "source": "https://www.stonkfun.xyz/api/public/v1/pairs",
+        "fetchedAt": "2026-10-19T18:05:30.182Z",
+        "providerGeneratedAt": "2026-10-19T18:00:54.312Z",
+        "revision": "sha256:0212bcc8aa66fa8ad1c09ae49bcc9b0a79c53168ba4e38407d0add8f86ef7b59"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=1&pageSize=25&quoteMint=CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp",
+        "fetchedAt": "2026-10-19T18:05:30.384Z",
+        "providerGeneratedAt": "2026-10-19T18:05:30.359Z",
+        "revision": "sha256:94a8177013e31d29af906417457f92d791737218cd6d46a8df96c1ada074da0d"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/public/v1/tokens?sort=marketCap&page=2&pageSize=25&quoteMint=CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp",
+        "fetchedAt": "2026-10-19T18:05:30.589Z",
+        "providerGeneratedAt": "2026-10-19T18:05:30.571Z",
+        "revision": "sha256:9a2d2a8bf0a37b4a4ce0505bb592353de5740dffd6c801eccce772c131c67da1"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/148fJTrVybPyQqzTxNzfLQq5sxVkMfmV2cLpAyVnNCX3/rewards",
+        "fetchedAt": "2026-10-19T18:05:30.744Z",
+        "providerGeneratedAt": "2026-10-19T18:02:42.062Z",
+        "revision": "sha256:14c58bbb66c67d8cbef0f6da751b0ffd8fe2b99d0867a68f6256f921411f8133"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/2A3HduBmAh8ik2PfzH9tPtwuRX5qWTNu5Ns4FUoFkHqv/rewards",
+        "fetchedAt": "2026-10-19T18:05:30.914Z",
+        "providerGeneratedAt": "2026-10-19T18:02:42.149Z",
+        "revision": "sha256:274123934291094f6ce7044442e71f4acca4aefa0d400c2052a6fc6f26573d76"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/2AHvnVZnAtEMS2ADdDVqAe8XuDXugSp4jx8zo1PtmQsK/rewards",
+        "fetchedAt": "2026-10-19T18:05:30.785Z",
+        "providerGeneratedAt": "2026-10-19T18:02:42.123Z",
+        "revision": "sha256:fa5eb8b41dcac53c54bbf7a5cb774e21bbea6e9c1b9afe78e76d0971e9e48d4a"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/2CKG9cdytRHXcy4XnNHCPoqK9xQwUy1bsQmBJZs9zqmJ/rewards",
+        "fetchedAt": "2026-10-19T18:05:30.939Z",
+        "providerGeneratedAt": "2026-10-19T18:02:42.267Z",
+        "revision": "sha256:6620f7c61fe783bbf9ff6e3a3d551354b58b412f1355ee2f59fbb5b86cc6ce41"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/2d4bCYyzMs8T7jmbAetxfCszwepgsdQ3wH7dRZzw2oZ5/rewards",
+        "fetchedAt": "2026-10-19T18:05:30.890Z",
+        "providerGeneratedAt": "2026-10-19T18:02:42.233Z",
+        "revision": "sha256:17d9a6e2b1c5da19b35c0c640aff2c2c9342c1bdff3cda72655b24bc894f6235"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/2Z6u3a21RQaYoYvuvqhJrLvjbaobq4bxuM6HTSzo5YLr/rewards",
+        "fetchedAt": "2026-10-19T18:05:30.952Z",
+        "providerGeneratedAt": "2026-10-19T18:02:42.282Z",
+        "revision": "sha256:5681ee3443fc4ca918cf22e48a0b534b6ab045042b7d7623dfa87cd01d170d1d"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/3vYTmSXZDTmjSMjQQDb9a9mFKcCGtPCnNAVMLAWjQpsk/rewards",
+        "fetchedAt": "2026-10-19T18:05:31.025Z",
+        "providerGeneratedAt": "2026-10-19T18:02:42.389Z",
+        "revision": "sha256:00166ba5c080a9b56a8a66ccd8c8dd9b9513eeb95019ae3f04cf66df5d1efae5"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/3WzNhwDa68qqZfLkaDXDgv2ArpPSfAGFJGBzwwbkn5AV/rewards",
+        "fetchedAt": "2026-10-19T18:05:31.043Z",
+        "providerGeneratedAt": "2026-10-19T18:02:42.422Z",
+        "revision": "sha256:e036c2a414976134f332201acd57cbdd07eb4d22b775e6d54e4a96e65064247b"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/4hb1o68daed5xVzz4PetTtTnKLm7UuZZSMRb88dWMn27/rewards",
+        "fetchedAt": "2026-10-19T18:05:31.068Z",
+        "providerGeneratedAt": "2026-10-19T18:02:42.400Z",
+        "revision": "sha256:7998aed3d884636a5d02af7b4ba3a1c03bc5650d6b318810443125a94e08795d"
+      },
+      {
+        "source": "https://www.stonkfun.xyz/api/v2/tokens/5nQhjm5FuveEQuKsQtewTBZPSVXqbWhw1A6HEojf6JCi/rewards",
+        "fetchedAt": "2026-10-19T18:05:31.199Z",
+        "providerGeneratedAt": "2026-10-19T18:02:42.560Z",
+        "revision": "sha256:6a171065dd0da6b9d699e1fc6256683c41ffebf8d6ca62a50e7d566d20449650"
+      }
+    ],
+    "history": {
+      "sourceStatus": "available",
+      "source": "https://raw.githubusercontent.com/fuzzysniper/scout-stonk-intel/main/data/reward-snapshots.json",
+      "revision": "sha256:65eb26d69e4c73f564deabd404d5dbed46ac0043b37dfb8ce019b16e1529016f",
+      "dataFetchedAt": "2026-10-19T18:05:29.958Z"
+    }
+  },
+  "records": [
+    {
+      "width": 320,
+      "productionBuild": true,
+      "synthetic": false,
+      "rows": 50,
+      "calls": [
+        "/api/pairs?quoteMint=CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp&discovery=pair"
+      ],
+      "firstRow": {
+        "x": 18,
+        "y": 627.0625,
+        "width": 284,
+        "height": 76
+      },
+      "overflow": false,
+      "axeViolations": [],
+      "visibleConclusion": "Performance: not established yet.\n\nNo comparable price history. Snapshots cannot establish who performed best or has momentum.\n\nWhat evidence is missing? ↓",
+      "scope": "50 matching tokens · provider reports 2,146 for this quote. 2 fetched pages. Partial, non-simultaneous sample; not a leaderboard.",
+      "sourceFailure": null
+    },
+    {
+      "width": 390,
+      "productionBuild": true,
+      "synthetic": false,
+      "rows": 50,
+      "calls": [
+        "/api/pairs?quoteMint=CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp&discovery=pair"
+      ],
+      "firstRow": {
+        "x": 24,
+        "y": 665.328125,
+        "width": 342,
+        "height": 76
+      },
+      "overflow": false,
+      "axeViolations": [],
+      "visibleConclusion": "Performance: not established yet.\n\nNo comparable price history. Snapshots cannot establish who performed best or has momentum.\n\nWhat evidence is missing? ↓",
+      "scope": "50 matching tokens · provider reports 2,146 for this quote. 2 fetched pages. Partial, non-simultaneous sample; not a leaderboard.",
+      "sourceFailure": null
+    },
+    {
+      "width": 1280,
+      "productionBuild": true,
+      "synthetic": false,
+      "rows": 50,
+      "calls": [
+        "/api/pairs?quoteMint=CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp&discovery=pair"
+      ],
+      "firstRow": {
+        "x": 288,
+        "y": 651.984375,
+        "width": 704,
+        "height": 76
+      },
+      "overflow": false,
+      "axeViolations": [],
+      "visibleConclusion": "Performance: not established yet.\n\nNo comparable price history. Snapshots cannot establish who performed best or has momentum.\n\nWhat evidence is missing? ↓",
+      "scope": "50 matching tokens · provider reports 2,146 for this quote. 2 fetched pages. Partial, non-simultaneous sample; not a leaderboard.",
+      "sourceFailure": null
+    }
+  ],
+  "sources": [
+    {
+      "width": 320,
+      "httpStatus": 200,
+      "contentType": "application/json"
+    },
+    {
+      "width": 390,
+      "httpStatus": 200,
+      "contentType": "application/json"
+    },
+    {
+      "width": 1280,
+      "httpStatus": 200,
+      "contentType": "application/json"
+    }
+  ],
+  "errors": []
+}

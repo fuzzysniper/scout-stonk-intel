@@ -94,7 +94,7 @@ test('novice reward copy retains the original fact source IDs and unknown holder
 });
 test('successful SSR closes the address form and keeps accessible switch/start-over controls',()=>{
  const idle=renderToStaticMarkup(React.createElement(Home,{initialInput:'',initialState:evaluateInput(undefined)}));
- for(const label of ['Token address','Paste a token address','Explain this token','Explore an example','3 examples available'])assert.ok(idle.includes(label),label);
+ for(const label of ['Token address','Paste a token address','Explain this token','Explore an example','3 dated examples'])assert.ok(idle.includes(label),label);
  assert.doesNotMatch(idle,/Solana token mint|Paste a full mint address|Try a captured example/);
  for(const t of examples){
   const html=renderToStaticMarkup(React.createElement(Home,{initialInput:t.mint,initialState:evaluateInput(t.mint)}));
