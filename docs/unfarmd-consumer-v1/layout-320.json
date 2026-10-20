@@ -1,0 +1,30 @@
+{
+  "viewport": {
+    "width": 320,
+    "height": 740
+  },
+  "build": "actual Next.js production",
+  "finalArtwork": false,
+  "providerRequests": 0,
+  "landingApiRequests": 0,
+  "axeViolations": 0,
+  "axePasses": 28,
+  "action": {
+    "x": 18,
+    "y": 612.234375,
+    "width": 284,
+    "height": 50
+  },
+  "boundary": {
+    "x": 18,
+    "y": 682.734375,
+    "width": 284,
+    "height": 45
+  },
+  "art": {
+    "x": 18,
+    "y": 322.359375,
+    "width": 284,
+    "height": 164.875
+  }
+}
