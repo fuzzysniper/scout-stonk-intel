@@ -51,6 +51,6 @@ test('a sampled temporary spike cannot become sustained momentum or a true ATH',
  const prices=Array(25).fill('100');prices[6]='300';const r=analyzeSeries(series(prices),START,AT,AT);assert.equal(r.state,'observed');assert.equal(r.observedPeakPriceQuote,'300');assert.equal(r.drawdownFromObservedPeakPct,'-66.666666');assert.equal(r.momentum,'no_clear_pattern');assert.ok(!('ath' in r));
 });
 test('all candidates must share exact quote and aligned passing window; ties do not fabricate relative leaders',()=>{
- const a=series(),b={...series(),mint:OTHER,poolMint:OTHER};let r=compareObserved([a,b],CARDS,START,AT,AT);assert.equal(r.state,'observed_sample');assert.equal(r.complete,false);assert.deepEqual(r.rows.map(r=>r.rank),[1,1]);assert.equal(r.publication,'withheld_pending_rights_review');assert.equal(compareObserved([{...a,quoteMint:OTHER},{...b,quoteMint:OTHER}],OTHER,START,AT,AT).state,'withheld');
+ const a=series(),b={...series(),mint:OTHER,poolMint:'6CvFE14WUwKkQv1WchdPmbde6Urq7EWofaJcE8ZVUVBZ'};let r=compareObserved([a,b],CARDS,START,AT,AT);assert.equal(r.state,'observed_sample');assert.equal(r.complete,false);assert.deepEqual(r.rows.map(r=>r.rank),[1,1]);assert.equal(r.publication,'withheld_pending_rights_review');assert.equal(compareObserved([{...a,quoteMint:OTHER},{...b,quoteMint:OTHER}],OTHER,START,AT,AT).state,'withheld');
  for(const candidates of [[a,a],[a,{...b,quoteMint:OTHER}],[a,{...b,points:[]}],[a,{...b,poolMint:POOL}]])assert.equal(compareObserved(candidates,CARDS,START,AT,AT).state,'withheld');
 });

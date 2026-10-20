@@ -1,0 +1,32 @@
+{
+  "capturedAt": "2026-10-20T08:04:12.854Z",
+  "records": [
+    {
+      "width": 320,
+      "commit": "7caf7e55759afe2620c2101988c6649c53d07ef8",
+      "synthetic": true,
+      "productionBuild": true,
+      "fixtureAt": "2026-10-19T18:00:00.000Z",
+      "externalRequests": [],
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "commit": "7caf7e55759afe2620c2101988c6649c53d07ef8",
+      "synthetic": true,
+      "productionBuild": true,
+      "fixtureAt": "2026-10-19T18:00:00.000Z",
+      "externalRequests": [],
+      "overflow": false
+    },
+    {
+      "width": 1280,
+      "commit": "7caf7e55759afe2620c2101988c6649c53d07ef8",
+      "synthetic": true,
+      "productionBuild": true,
+      "fixtureAt": "2026-10-19T18:00:00.000Z",
+      "externalRequests": [],
+      "overflow": false
+    }
+  ]
+}

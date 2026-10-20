@@ -1,0 +1,16 @@
+{
+  "synthetic": true,
+  "productionBuild": true,
+  "width": 390,
+  "firstRow": {
+    "x": 24,
+    "y": 716.46875,
+    "width": 342,
+    "height": 79.5
+  },
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "at": "2026-10-19T18:00:00.000Z"
+}
