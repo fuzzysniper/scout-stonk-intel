@@ -60,9 +60,8 @@
 .unfarmd .welcome .eyebrow { font-size: 9px; letter-spacing: 1.5px; margin-bottom: 19px; }
 .unfarmd .welcome .eyebrow > span { color: var(--coral); font-size: 18px; margin-right: 5px; vertical-align: -2px; }
 .unfarmd .welcome h1 { font-size: clamp(56px, 6.1vw, 80px); font-weight: 800; letter-spacing: -.065em; line-height: 1.01; }
-.unfarmd .welcome h1 > span { display: inline-block; white-space: nowrap; font-size: .88em; letter-spacing: -.06em; color: var(--blue); }
-.unfarmd .intro { font-size: 17px; line-height: 1.5; color: var(--ink); margin-top: 21px; }
-.unfarmd .hero-aside { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.unfarmd .welcome h1 > span { display: block; white-space: nowrap; font-size: .6em; letter-spacing: -.06em; color: var(--blue); }
+.unfarmd .intro { max-width: 440px; font-size: 17px; line-height: 1.5; color: var(--ink); margin-top: 21px; }
 .unfarmd .escape-art { grid-column: 2; grid-row: 1 / 4; margin: 0 -12px 0 -20px; align-self: center; min-width: 0; }
 .unfarmd .escape-art picture { display: block; }
 .unfarmd .escape-art img { display: block; width: 100%; height: auto; aspect-ratio: 800 / 720; object-fit: contain; }
@@ -140,7 +139,9 @@
 @media (max-width: 1000px) and (min-width: 701px) {
   .unfarmd main.unfarmd-landing { width: calc(100% - 64px); gap: 20px 30px; }
   .unfarmd .welcome h1 { font-size: 58px; }
+  .unfarmd .welcome h1 > span { font-size: clamp(27px, 4vw, 34.8px); }
   .unfarmd .intro { font-size: 15px; }
+  .unfarmd input::placeholder { font-size: 14px; }
   .unfarmd .site-header { padding-left: 32px; padding-right: 32px; }
   .unfarmd .research-instruments { gap: 20px; }
   .unfarmd .research-instruments > div { gap: 10px; }
@@ -158,9 +159,8 @@
   .unfarmd .welcome .eyebrow { font-size: 8px; letter-spacing: 1.2px; margin-bottom: 15px; }
   .unfarmd .welcome .eyebrow > span { font-size: 15px; }
   .unfarmd .welcome h1 { font-size: 54px; line-height: 1.01; letter-spacing: -.065em; }
-  .unfarmd .welcome h1 > span { font-size: .88em; }
+  .unfarmd .welcome h1 > span { font-size: clamp(26px, 8.3vw, 32.4px); }
   .unfarmd .intro { font-size: 14px; margin-top: 16px; }
-  .unfarmd .hero-aside { font-size: 11px; margin-top: 2px; }
   .unfarmd .escape-art { margin: 10px 0 18px; width: 100%; align-self: center; max-width: 430px; }
   .unfarmd .escape-art img { aspect-ratio: 720 / 380; width: 100%; height: auto; }
   .unfarmd .escape-art figcaption { font-size: 8px; line-height: 1.5; margin-top: 3px; }
@@ -188,7 +188,7 @@
   .unfarmd .welcome .eyebrow { font-size: 7px; margin-bottom: 12px; }
   .unfarmd .welcome h1 { font-size: 46px; }
   .unfarmd .intro { font-size: 13px; margin-top: 13px; }
-  .unfarmd .hero-aside { font-size: 10px; }
+  .unfarmd input::placeholder { font-size: 14px; }
   .unfarmd .escape-art { margin-top: 8px; margin-bottom: 14px; }
   .unfarmd .escape-art figcaption { font-size: 8px; }
   .unfarmd-landing .research-steps { margin-bottom: 11px; font-size: 9px; }

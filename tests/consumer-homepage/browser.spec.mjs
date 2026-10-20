@@ -19,7 +19,7 @@ test.afterEach(async({page})=>{expect(errors.get(page)).toEqual([]);expect(exter
 const axe=async page=>expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze()).violations).toEqual([]);
 const cleanBrand=async page=>{expect(await page.locator('body').innerText()).not.toMatch(/STORKCOIN|PROJECT CLEAR|STORK ecosystem/);expect(await page.title()).not.toMatch(/SCOUT|STORK|PROJECT CLEAR/);};
 for(const token of examples)test(`${token.symbol} production engine, risks, exact share and sources`,async({page},info)=>{
- await page.goto('/');await expect(page.getByRole('heading',{name:'Stop getting farmed. Start scouting.'})).toBeVisible();
+ await page.goto('/');await expect(page.getByRole('heading',{name:'Stop getting farmed. Know what you’re aping.'})).toBeVisible();
  await cleanBrand(page);await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content','noindex, nofollow');
  const action=await page.getByRole('button',{name:'SCOUT IT',exact:true}).boundingBox();expect(action.y+action.height).toBeLessThan(page.viewportSize().height);
  if(token===examples[0]){await axe(page);await page.screenshot({path:`experiments/consumer-mvp/web/node_modules/.cache/v17-regression-screenshots/after-landing-${info.project.name}.png`});}
@@ -69,7 +69,7 @@ test('keyboard, clipboard fallback, history, restart and pre-capture failure',as
  await page.getByRole('button',{name:'Search another token',exact:true}).click();await expect(page.getByLabel('Token address',{exact:true})).toBeFocused();
  await page.getByLabel('Token address',{exact:true}).fill(examples[1].mint);await page.getByRole('button',{name:'SCOUT IT',exact:true}).click();await expect(page.getByRole('heading',{name:/^RuneScape Gold/})).toBeVisible();
  await page.goBack();await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeVisible();await page.goForward();await expect(page.getByRole('heading',{name:/^RuneScape Gold/})).toBeVisible();
- await page.getByRole('link',{name:'Start over'}).click();await expect(page.getByRole('heading',{name:'Stop getting farmed. Start scouting.'})).toBeVisible();await expect(page.getByLabel('Token address',{exact:true})).toHaveValue('');await expect(page.getByRole('heading',{name:'Stop getting farmed. Start scouting.'})).toBeFocused();
+ await page.getByRole('link',{name:'Start over'}).click();await expect(page.getByRole('heading',{name:'Stop getting farmed. Know what you’re aping.'})).toBeVisible();await expect(page.getByLabel('Token address',{exact:true})).toHaveValue('');await expect(page.getByRole('heading',{name:'Stop getting farmed. Know what you’re aping.'})).toBeFocused();
  await page.clock.setFixedTime(new Date('2026-10-01T00:00:00Z'));await page.getByRole('button',{name:/Explain Super Inu/}).click();await expect(page.getByRole('heading',{name:'Evidence couldn’t load'})).toBeVisible();
  await page.clock.setFixedTime(new Date('2026-10-17T22:00:00Z'));await page.getByRole('button',{name:'Try again'}).click();await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeVisible();
  expect(await page.evaluate(()=>({local:localStorage.length,session:sessionStorage.length,cookie:document.cookie}))).toEqual({local:0,session:0,cookie:''});
@@ -94,7 +94,7 @@ test('compact search is accessible, cancels drafts, preserves errors and resets 
  await page.goto('/?mint='+examples[0].mint);
  const toggle=page.getByRole('button',{name:'Search another token',exact:true}),input=page.getByLabel('Token address',{exact:true});
  await expect(input).toBeHidden();const target=await toggle.boundingBox();expect(target.height).toBeGreaterThanOrEqual(44);expect(target.width).toBeGreaterThanOrEqual(44);await toggle.focus();await page.keyboard.press('Enter');await expect(toggle).toHaveAttribute('aria-expanded','true');await expect(input).toBeFocused();
- await expect(page.getByPlaceholder('Paste a token address')).toBeVisible();await expect(page.getByRole('button',{name:'SCOUT IT',exact:true})).toBeVisible();
+ await expect(page.getByPlaceholder('Paste Solana token address')).toBeVisible();await expect(page.getByRole('button',{name:'SCOUT IT',exact:true})).toBeVisible();
  await input.fill('unfinished draft');await page.keyboard.press('Escape');await expect(input).toBeHidden();await expect(toggle).toBeFocused();await expect(page).toHaveURL(new RegExp('mint='+examples[0].mint+'$'));
  await toggle.click();await expect(input).toHaveValue(examples[0].mint);await expect(input).toBeFocused();await axe(page);
  await page.screenshot({path:`experiments/consumer-mvp/web/node_modules/.cache/v17-regression-screenshots/after-search-${info.project.name}.png`});
