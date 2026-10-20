@@ -15,3 +15,5 @@ out
 *.p12
 *.pfx
 .neon
+# Disposable prebuilt Vercel artifact: never commit generated output.
+.vercel/

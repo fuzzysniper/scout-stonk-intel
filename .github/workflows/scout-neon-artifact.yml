@@ -1,0 +1,58 @@
+name: SCOUT offline Neon artifact review
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/scout-neon-artifact.yml'
+      - 'scripts/ops/**'
+      - 'tests/onchain-api/**'
+      - 'package-lock.json'
+permissions:
+  contents: read
+jobs:
+  default-off-package:
+    if: github.head_ref == 'ops/review-scout-neon-smoke'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install locked packages without lifecycle scripts
+        run: npm ci --ignore-scripts
+      - name: Run offline artifact, isolation and request security tests
+        run: node --test tests/onchain-api/neon-artifact.test.mjs tests/onchain-api/neon-isolation.test.mjs tests/onchain-api/scout-neon-smoke.test.mjs
+      - name: Build and independently verify deterministic disabled ZIP
+        shell: bash
+        env:
+          REVIEW_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$REVIEW_HEAD_SHA"
+          node scripts/ops/build-neon-smoke-artifact.mjs > /tmp/scout-neon-artifact-status.json
+          mkdir .vercel/review
+          python3 scripts/ops/neon-artifact-zip.py pack .vercel/output .vercel/review/scout-neon-default-off.zip > .vercel/review/review-summary.json
+          python3 - <<'PY'
+          import json, os, subprocess
+          status=json.load(open('/tmp/scout-neon-artifact-status.json'))
+          summary=json.load(open('.vercel/review/review-summary.json'))
+          assert status['manifestEnabled'] is False
+          assert status['files'] == summary['files']
+          assert status['filesSha256'] == summary['filesSha256']
+          assert summary['sourceCommit'] == os.environ['REVIEW_HEAD_SHA']
+          subprocess.run(['python3','scripts/ops/neon-artifact-zip.py','verify',
+            '.vercel/review/scout-neon-default-off.zip',summary['zipSha256'],summary['filesSha256'],
+            os.environ['REVIEW_HEAD_SHA']],check=True)
+          PY
+      - name: Upload only verified OFF ZIP and sanitized detached digest
+        uses: actions/upload-artifact@v4
+        with:
+          name: scout-neon-default-off-${{ github.event.pull_request.head.sha }}
+          path: .vercel/review/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 1
