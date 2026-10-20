@@ -1,0 +1,33 @@
+{
+  "synthetic": true,
+  "liveObservation": false,
+  "fixtureClock": "2026-10-18T12:00:00.000Z",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "boundary": {
+    "x": 309,
+    "y": 429.578125,
+    "width": 662,
+    "height": 17.046875
+  },
+  "actions": {
+    "x": 309,
+    "y": 460.625,
+    "width": 662,
+    "height": 47
+  },
+  "axePasses": 27,
+  "axeViolations": 0,
+  "calls": [
+    {
+      "method": "GET",
+      "path": "/api/mint-facts"
+    },
+    {
+      "method": "GET",
+      "path": "/api/token"
+    }
+  ]
+}

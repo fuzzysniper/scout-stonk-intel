@@ -1,0 +1,59 @@
+{
+  "recordedAt": "2026-10-20T20:45:00.092380+00:00",
+  "base": "8df27bda59d29901d8996920fbe5f0cd6892ad3d",
+  "archiveComparedWith": "c0ea6bcb2d15ee546d1bade7b26cedd49c736310",
+  "sourceSha256": {
+    "app/consumer/home.tsx": "d50d3e3e696080f6110e755aae477c48bcbba9359e7646cb818bf9475a548516",
+    "app/consumer/trader.tsx": "6b022961d8d7c2c339f1ffb1f3a6e6c86fa36345f87d0c435c5094893bfe015d",
+    "app/consumer/consumer.css": "3d407557c9f8dce74e9639cd64f0509071354f591e6a0bd8bfe9b53fc8709690"
+  },
+  "npmCi": {
+    "exitCode": 0,
+    "packages": 356
+  },
+  "npmTest": {
+    "exitCode": 0,
+    "node": 892,
+    "python": 106,
+    "total": 998
+  },
+  "typecheck": {
+    "exitCode": 0
+  },
+  "lint": {
+    "exitCode": 0,
+    "warnings": 0
+  },
+  "productionBuild": {
+    "exitCode": 0,
+    "homeRouteKB": 21.2,
+    "homeFirstLoadJSKB": 133
+  },
+  "consumerBrowser": {
+    "exitCode": 0,
+    "passed": 135,
+    "widths": [
+      320,
+      390,
+      1280
+    ],
+    "axeViolations": 0,
+    "physicalDeviceTested": false,
+    "realHeliusRequested": false
+  },
+  "archiveIntegrity": {
+    "exitCode": 0,
+    "result": "Archive append-only/reproduction check passed"
+  },
+  "archivePublicationDryRun": {
+    "exitCode": 1,
+    "result": "FAIL retention_boundary; local dry run did not authorize publication",
+    "existingBoundaryUnchanged": true
+  },
+  "activation": {
+    "ordinaryGET": "disabled",
+    "canaryPOSTInvoked": false,
+    "providerProbes": 0,
+    "manualDeployment": false
+  }
+}

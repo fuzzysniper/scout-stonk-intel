@@ -170,3 +170,78 @@
 .consumer-home #research-concerns:focus-visible{outline:3px solid var(--blue);outline-offset:5px}
 @media(max-width:350px){.consumer-home .trader-section{margin-top:16px;padding-top:15px}.consumer-home .trader-section p{font-size:12px}.consumer-home .trader-concern-jump{font-size:11px}.consumer-home .mint-supply{margin-top:4px}}
 @media(max-width:350px){.consumer-home .mint-panel{margin-top:8px}.consumer-home .mint-authorities{margin:8px 0}.consumer-home .mint-limit{padding:6px 10px}}
+
+/* SCOUT V3. Consumer-only ink surfaces; the terminal and source contracts are unchanged. */
+.consumer-home{--blue:#c3f86b;--muted:#a2acb8;--border:#2a3039;--paper:#151a21;--ink:#edf1f5;--amber:#f6c780;background:#0b0e13;color:var(--ink);color-scheme:dark;min-height:100dvh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.consumer-home input,.consumer-home textarea{background:var(--paper);color:var(--ink);border-color:#4d5866;caret-color:var(--blue)}
+.consumer-home input::placeholder{color:#a2acb8}.consumer-home input[aria-invalid=true]{border-color:var(--amber)}
+.consumer-home button,.consumer-home a,.consumer-home summary{transition:background .15s,border-color .15s,transform .15s}
+.consumer-home button:active:not(:disabled){transform:translateY(1px)}
+.consumer-home .skip-link{background:var(--paper);color:var(--blue)}
+.consumer-home .site-header{max-width:1040px;padding:20px 28px;border-bottom:1px solid var(--border)}
+.consumer-home .wordmark{font-size:16px;letter-spacing:.12em;color:var(--ink);gap:8px}
+.consumer-home .wordmark .scout-symbol{font-size:28px;line-height:1;color:var(--blue)}
+.consumer-home .wordmark .brand-caption{font-size:9px;font-weight:500;letter-spacing:.12em;color:var(--muted);border-left:1px solid var(--border);padding-left:10px;margin-left:6px}
+.consumer-home .preview-label{border-color:var(--border);color:var(--muted);font-size:10px;letter-spacing:.02em}.consumer-home .preview-label>span{color:var(--blue)}
+.consumer-home main{width:min(100% - 40px,720px);margin-top:38px}.consumer-home main.has-answer{margin-top:20px}
+.consumer-home .welcome{margin-bottom:24px}.consumer-home .eyebrow{color:var(--muted);font-size:9px;letter-spacing:.16em;margin-bottom:16px}
+.consumer-home .welcome h1{font-size:clamp(40px,8vw,70px);font-weight:600;letter-spacing:-.055em;line-height:1.03}.consumer-home .welcome h1 span{color:var(--blue)}
+.consumer-home .intro{font-size:16px;max-width:430px;color:#b3bdc9;line-height:1.5;margin-top:18px}
+.consumer-home .research-steps{display:flex;justify-content:space-between;gap:10px;list-style:none;padding:0;margin:0 0 20px;font-size:11px;color:var(--muted)}
+.consumer-home .research-steps li{margin:0}.consumer-home .research-steps span{color:var(--blue);font:10px ui-monospace,SFMono-Regular,monospace;margin-right:5px}
+.consumer-home .search-row{gap:10px}.consumer-home .address-entry input{border-radius:12px;min-height:56px;padding-left:15px;font-size:16px}
+.consumer-home .paste-address{background:#282f39;color:var(--ink);border-radius:8px;top:6px;right:6px}.consumer-home .paste-address:hover{background:#37414d}
+.consumer-home .primary{background:var(--blue);border-color:var(--blue);color:#172008;border-radius:12px;font-size:14px;min-height:52px;font-weight:700}.consumer-home .primary:hover{background:#d4ff91}
+.consumer-home .secondary{border-color:#404a57;color:var(--ink)}.consumer-home .secondary:hover{background:#252d37}
+.consumer-home .field-help{font-size:11px}.consumer-home .source-availability{margin-top:3px;border-bottom:1px solid var(--border)}
+.consumer-home .source-availability>summary{display:list-item;list-style:disclosure-closed;color:var(--amber);font-size:11px;letter-spacing:normal;min-height:44px;padding:12px 0}
+.consumer-home .source-availability[open]>summary{list-style:disclosure-open}.consumer-home .source-availability p{font-size:12px;color:var(--muted);line-height:1.6;padding-bottom:12px}
+.consumer-home .discovery{margin-top:24px}.consumer-home .section-label{margin-bottom:8px}.consumer-home .section-label h2{font-size:13px}
+.consumer-home .example-button{background:var(--paper);border-color:var(--border);border-radius:12px;min-height:74px}.consumer-home .example-button:hover{background:#202731;border-color:#61763f;transform:none}
+.consumer-home .example-icon,.consumer-home .example-button:nth-child(2) .example-icon,.consumer-home .example-button:nth-child(3) .example-icon{background:#293224;color:#d1edaa;border:1px solid #3c4b30}
+.consumer-home .example-button:nth-child(2) .example-icon{background:#302a20;color:#edcc8c;border-color:#504331}.consumer-home .example-button:nth-child(3) .example-icon{background:#232c3e;color:#b4c9f5;border-color:#38496a}
+.consumer-home .example-name{font-weight:600}.consumer-home .small-note{color:var(--muted)}
+.consumer-home .site-footer{width:min(100% - 40px,720px);font-size:11px;margin-top:36px;padding-bottom:env(safe-area-inset-bottom,0px)}.consumer-home .site-footer nav{gap:8px 18px}
+.consumer-home .site-footer a{color:#b8c5d3}.consumer-home .site-footer a:hover{color:var(--blue)}
+.consumer-home .capture-notice{color:var(--amber)}.consumer-home .notice-dot{background:var(--amber)}
+.consumer-home .ticker,.consumer-home .fact-marker{background:#273328;color:#c3deb9}.consumer-home .pair-label strong{color:var(--ink)}
+.consumer-home .risks-block,.consumer-home .mint-limit,.consumer-home .mint-offline,.consumer-home .trader-rights{background:#251f17;border-color:#55432c;color:var(--amber)}
+.consumer-home .risks-block .block-number{color:var(--amber)}.consumer-home .evidence-warning{background:var(--paper);color:var(--muted)}
+.consumer-home .evidence>summary,.consumer-home .mint-authorities dt,.consumer-home .mint-identity code{color:var(--ink)}
+.consumer-home .error-card{background:var(--paper)}.consumer-home .mint-supply{background:#151c22;border-color:var(--border)}
+.consumer-home .research-onchain{scroll-margin-top:20px;border-top:1px solid var(--border);padding-top:20px;margin-top:24px;min-width:0}
+.consumer-home .trader-kicker{font-size:9px;color:var(--muted);font-weight:650;letter-spacing:.12em}
+.consumer-home .mint-panel{margin-top:12px}.consumer-home .mint-title-row h1,.consumer-home .mint-title-row h2{font-size:26px}
+.consumer-home .mint-supply strong{color:var(--ink)}.consumer-home .mint-identity code{font-size:12px}.consumer-home .mint-authorities small{color:var(--muted)}
+.consumer-home .trader-concern-jump{color:var(--amber)}
+.consumer-home .scout-brief{padding:22px;border:1px solid #3b454f;border-radius:18px;background:linear-gradient(145deg,#1b232b,#11161d 75%);margin-top:16px;overflow-wrap:anywhere}
+.consumer-home .brief-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.consumer-home .brief-status{display:inline-flex;align-items:center;gap:6px;font-size:10px;color:var(--muted)}.consumer-home .brief-status>span{width:5px;height:5px;border-radius:50%;background:#9ba6b4}.consumer-home .brief-status.accepted{color:#ccebad}.consumer-home .brief-status.accepted>span{background:var(--blue)}
+.consumer-home .scout-brief h2{font-size:32px;letter-spacing:-.045em;font-weight:600;line-height:1.2;margin-top:13px;display:flex;justify-content:space-between;gap:10px}.consumer-home .scout-brief h2>span{color:#6f7e8c;font-size:24px}
+.consumer-home .brief-mint{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--muted);margin-top:7px}.consumer-home .brief-mint code{color:#d6dfe8;background:none;font-size:11px;padding:0;letter-spacing:.02em}
+.consumer-home .brief-summary{font-size:15px;line-height:1.5;font-weight:600;margin-top:16px;letter-spacing:-.01em}
+.consumer-home .brief-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0}
+.consumer-home .brief-controls>div{padding:10px 9px;min-width:0;border:1px solid #394450;border-radius:10px;background:#171e26}
+.consumer-home .brief-controls dt{font-size:10px;color:#aab6c3}.consumer-home .brief-controls dd{font-size:11px;line-height:1.4;font-weight:600;letter-spacing:-.01em;margin:6px 0 0;min-height:30px}
+.consumer-home .brief-controls [data-attention=true]{border-color:#675034;background:#292219}.consumer-home .brief-controls [data-attention=true] dd{color:var(--amber)}
+.consumer-home .brief-clock{font-size:11px;line-height:1.6;color:var(--muted);font-variant-numeric:tabular-nums}.consumer-home .brief-clock strong{font-weight:500;color:#ced8e3}
+.consumer-home .brief-boundary{font-size:11px;line-height:1.55;color:#bac4cf;margin-top:10px;padding-left:9px;border-left:2px solid #7f6b4c}
+.consumer-home .brief-actions{display:flex;gap:16px;justify-content:space-between;border-top:1px solid var(--border);margin-top:14px;padding-top:2px}
+.consumer-home .brief-actions button{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;border:0;background:none;color:var(--blue);font-size:12px;font-weight:600;padding:6px 0;white-space:normal;text-align:left}
+.consumer-home .brief-skeleton{display:block;min-height:28px;border-radius:5px;background:linear-gradient(90deg,#303a45,#475362,#303a45);background-size:200% 100%;animation:brief-shimmer 1.8s ease-in-out infinite}
+@keyframes brief-shimmer{to{background-position:-200% 0}}
+.consumer-home .trader-section{padding-top:22px;margin-top:24px}.consumer-home .trader-section h2{font-size:23px;font-weight:600;letter-spacing:-.035em}
+.consumer-home .trader-concern-list>li{background:#191b1e;border:1px solid #51422f;border-radius:14px;padding:16px;margin-top:10px}
+.consumer-home .trader-concern-list h3{color:var(--amber);font-size:15px;letter-spacing:-.02em}.consumer-home .trader-concern-list h3>span{border-color:#8f6b3d;width:22px;height:22px;border-radius:7px;font-size:13px}
+.consumer-home .trader-concern-list>li>p{color:#c5cbd2;font-size:13px}.consumer-home .trader-concern-list details{border-top:1px solid #3c342a;margin-top:12px}.consumer-home .trader-concern-list summary{color:var(--amber)}
+.consumer-home .trader-market{background:var(--paper);border:1px solid var(--border);border-radius:14px;padding:18px}.consumer-home .trader-market-status{color:var(--ink)}
+.consumer-home .trader-rights{border-left-color:#aa7e42;border-radius:4px}.consumer-home .trader-unknowns h3{font-weight:600}.consumer-home .trader-unknowns li{padding:12px 0}
+.consumer-home .research-onchain:focus-visible,.consumer-home #research-concerns:focus-visible{outline:2px solid var(--blue);outline-offset:5px;border-radius:4px}
+@media(min-width:900px){.consumer-home main:not(.has-answer){margin-top:48px}.consumer-home .welcome{margin-bottom:28px}.consumer-home .site-footer{margin-top:44px}.consumer-home .scout-brief{padding:28px}.consumer-home .brief-controls dd{font-size:13px;min-height:20px}.consumer-home .brief-controls>div{padding:12px 14px}}
+@media(max-width:540px){.consumer-home .site-header{padding:10px 20px}.consumer-home .wordmark{font-size:14px}.consumer-home .wordmark .brand-caption{display:none}.consumer-home main{margin-top:22px}.consumer-home main.has-answer{margin-top:10px}.consumer-home .welcome{margin-bottom:20px}.consumer-home .welcome h1{font-size:44px}.consumer-home .intro{font-size:14px;line-height:1.5;margin-top:14px}.consumer-home .research-steps{margin-bottom:15px}.consumer-home .primary{min-height:50px}.consumer-home .discovery{margin-top:19px}.consumer-home .example-button{min-height:52px;padding:7px 12px}.consumer-home .scout-brief{padding:17px;margin-top:12px}.consumer-home .brief-top .trader-kicker{font-size:8px}.consumer-home .brief-status{font-size:9px}.consumer-home .brief-controls{gap:6px}.consumer-home .brief-controls>div{padding:9px 7px}.consumer-home .brief-controls dd{font-size:11px}.consumer-home .brief-summary{margin-top:13px;font-size:14px}.consumer-home .brief-actions button{font-size:11px}.consumer-home .trader-concern-list>li{padding:14px}}
+@media(max-width:350px){.consumer-home .site-header{padding:8px 20px}.consumer-home main:not(.has-answer){margin-top:14px}.consumer-home .welcome h1{font-size:38px}.consumer-home .intro{font-size:13px;margin-top:12px}.consumer-home .welcome{margin-bottom:17px}.consumer-home .eyebrow{font-size:8px;margin-bottom:12px}.consumer-home .research-steps{font-size:10px;gap:6px;margin-bottom:12px}.consumer-home .discovery{margin-top:16px}.consumer-home .example-button{min-height:48px}.consumer-home .scout-brief{padding:14px}.consumer-home .scout-brief h2{font-size:29px;margin-top:11px}.consumer-home .brief-controls dd{font-size:10px}.consumer-home .brief-actions{gap:10px}.consumer-home .brief-mint{font-size:10px}.consumer-home .mint-title-row h1{font-size:23px}}
+@media(prefers-reduced-motion:reduce){.consumer-home *,.consumer-home *::before,.consumer-home *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(forced-colors:active){.consumer-home .brief-status>span{background:CanvasText}.consumer-home .brief-controls [data-attention=true]{border:2px solid CanvasText}.consumer-home .brief-skeleton{background:GrayText}}
+.consumer-home .brief-availability>summary{font-size:10px;letter-spacing:normal;min-height:44px;padding:12px 0;color:var(--amber);display:list-item;list-style:disclosure-closed}.consumer-home .brief-availability[open]>summary{list-style:disclosure-open}.consumer-home .brief-availability p{font-size:11px;line-height:1.6;color:var(--muted);padding-bottom:8px}
+.consumer-home .scout-brief h2>svg{width:24px;height:24px;color:#8495a5;align-self:center;flex-shrink:0}.consumer-home .brief-actions svg{flex-shrink:0}
+@media(max-width:350px){.consumer-home .welcome .eyebrow{margin-bottom:8px}.consumer-home .welcome{margin-bottom:14px}.consumer-home .discovery{margin-top:12px}}
