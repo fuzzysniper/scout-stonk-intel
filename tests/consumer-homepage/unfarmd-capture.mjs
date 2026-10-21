@@ -1,6 +1,7 @@
 import {mkdirSync} from 'node:fs';
 export const UNFARMD_SCREENSHOTS='docs/unfarmd-consumer-v1/screenshots';
 export async function capture(page,name,info,fullPage=false){
+ if(process.env.CONSUMER_CAPTURE==='0')return;
  mkdirSync(UNFARMD_SCREENSHOTS,{recursive:true});
  await page.evaluate(()=>scrollTo(0,0));
  await page.screenshot({path:`${UNFARMD_SCREENSHOTS}/${name}-${info.project.name}.png`,fullPage});

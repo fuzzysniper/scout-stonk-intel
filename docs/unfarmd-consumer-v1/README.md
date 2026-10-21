@@ -6,6 +6,8 @@ This changes the actual Next.js `/` consumer: **paste an exact mint → delibera
 
 The subsequent [SCOUT IT interaction audit and before/after evidence](polish/README.md) documents the narrowly verified focus fixes without changing the approved homepage copy, design or artwork.
 
+Current launch decision: [combined #136 backend / SCOUT IT release acceptance, preview and rollback](release/README.md). This supersedes earlier automatic-acquisition assumptions; approved visual galleries remain historical evidence.
+
 ## What changed
 
 - **UNFARMD** is the homepage master brand. The final founder headline is “Stop getting farmed.” / “Know what you’re aping.”, with “Check a Solana token’s supply, mint permissions and freeze controls. See the onchain evidence before you trade.” The input says “Paste Solana token address”; the action remains **SCOUT IT**. “Stop getting farmed. Start scouting.” remains the broader campaign tagline on the social preview; “Level the trenches.” remains the mission. The black sheep leads: skeptical amber eyes, thick charcoal wool, broken tag, compact optical scanner. Charcoal/bone surfaces, acid-lime instrument cues and a dusty-coral dusk replace the V3 blue-black palette.

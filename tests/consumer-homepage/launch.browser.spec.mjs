@@ -32,13 +32,13 @@ test('clipboard denial and unsupported API offer native paste fallback, 16px inp
 test('delayed clipboard cannot replace typing or a newly selected exact-mint example',async({page})=>{
  const calls=await disabledApi(page);await page.addInitScript(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:{readText:()=>new Promise(resolve=>{window.finishTestPaste=resolve;})}}));await page.goto('/');
  await paste(page).click();await expect(paste(page)).toBeDisabled();await input(page).fill(si);await page.evaluate(value=>window.finishTestPaste(value),mint);await expect(input(page)).toHaveValue(si);expect(calls()).toBe(0);
- await paste(page).click();await page.getByRole('button',{name:/Explain Super Inu/}).click();await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeVisible();await page.evaluate(value=>window.finishTestPaste(value),mint);await expect(input(page)).toHaveValue(si);expect(new URL(page.url()).searchParams.get('mint')).toBe(si);await expect(page.locator('.answer-card')).toContainText('14 Oct 2026');expect(calls()).toBe(1);
+ await paste(page).click();await page.getByRole('button',{name:/Explain Super Inu/}).click();await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeVisible();await page.evaluate(value=>window.finishTestPaste(value),mint);await expect(input(page)).toHaveValue(si);expect(new URL(page.url()).searchParams.get('mint')).toBe(si);await expect(page.locator('.answer-card')).toContainText('14 Oct 2026');expect(calls()).toBe(0);
 });
 
 test('same-address explicit submission retries after cooldown without background requests',async({page})=>{
  await page.clock.install({time:new Date('2026-10-18T12:00:00.000Z')});let calls=0;
  await page.route('**/api/mint-facts?*',r=>{calls++;return r.fulfill({status:calls===1?429:503,headers:{'retry-after':'2'},contentType:'application/json',body:JSON.stringify(fail(calls===1?'rate_limited':'disabled'))});});
- await page.goto('/?mint='+mint);await expect(page.getByRole('button',{name:'Check again in 2s',exact:true})).toBeDisabled();expect(calls).toBe(1);await page.clock.fastForward(1001);await expect(page.getByRole('button',{name:'Check again in 1s',exact:true})).toBeDisabled();expect(calls).toBe(1);await page.clock.fastForward(1000);await expect(page.getByRole('button',{name:'Check again',exact:true})).toBeEnabled();expect(calls).toBe(1);
+ await page.goto('/?mint='+mint);await input(page).press('Enter');await expect(page.getByRole('button',{name:'Check again in 2s',exact:true})).toBeDisabled();expect(calls).toBe(1);await page.clock.fastForward(1001);await expect(page.getByRole('button',{name:'Check again in 1s',exact:true})).toBeDisabled();expect(calls).toBe(1);await page.clock.fastForward(1000);await expect(page.getByRole('button',{name:'Check again',exact:true})).toBeEnabled();expect(calls).toBe(1);
  await page.getByRole('button',{name:'SCOUT IT',exact:true}).click();await expect(page.getByRole('heading',{name:'Source not connected',exact:true})).toBeVisible();expect(calls).toBe(2);expect(new URL(page.url()).searchParams.get('mint')).toBe(mint);await expect(page.locator('.mint-supply')).toHaveCount(0);await axe(page);
 });
 
