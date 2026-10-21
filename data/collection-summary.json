@@ -1,53 +1,53 @@
 {
   "version": 1,
-  "startedAt": "2026-10-21T10:13:50+00:00",
-  "finishedAt": "2026-10-21T10:13:59+00:00",
+  "startedAt": "2026-10-21T15:20:18+00:00",
+  "finishedAt": "2026-10-21T15:20:18+00:00",
   "event": "schedule",
-  "runId": 39583024244,
-  "overall": "partial",
-  "expectedDatasetRevision": "sha256:7e1a429332455d498b3c759ece97dfc034e953955dbb8d6053286311da1fd85f",
+  "runId": 39624683731,
+  "overall": "complete",
+  "expectedDatasetRevision": "sha256:98fddf9780223d9595e399640da9dee52ce5d5bd756bb2b76c3f538495c59d10",
   "results": [
     {
       "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
-      "status": "failed",
-      "reason": "network_timeout",
-      "observedAt": null
+      "status": "collected",
+      "reason": "collected",
+      "observedAt": "2026-10-21T15:20:18+00:00"
     },
     {
       "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
       "status": "collected",
       "reason": "collected",
-      "observedAt": "2026-10-21T10:13:58+00:00"
+      "observedAt": "2026-10-21T15:20:18+00:00"
     },
     {
       "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
       "status": "collected",
       "reason": "collected",
-      "observedAt": "2026-10-21T10:13:58+00:00"
+      "observedAt": "2026-10-21T15:20:18+00:00"
     },
     {
       "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
       "status": "collected",
       "reason": "collected",
-      "observedAt": "2026-10-21T10:13:59+00:00"
+      "observedAt": "2026-10-21T15:20:18+00:00"
     },
     {
       "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
       "status": "collected",
       "reason": "collected",
-      "observedAt": "2026-10-21T10:13:59+00:00"
+      "observedAt": "2026-10-21T15:20:18+00:00"
     },
     {
       "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
       "status": "collected",
       "reason": "collected",
-      "observedAt": "2026-10-21T10:13:59+00:00"
+      "observedAt": "2026-10-21T15:20:18+00:00"
     },
     {
       "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
       "status": "collected",
       "reason": "collected",
-      "observedAt": "2026-10-21T10:13:59+00:00"
+      "observedAt": "2026-10-21T15:20:18+00:00"
     }
   ]
 }
