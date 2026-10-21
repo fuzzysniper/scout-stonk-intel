@@ -18,7 +18,7 @@ export function ScoutBrief({view,mint}:{view:MintView|'loading';mint:string}){
  function jump(id:string){const target=document.getElementById(id);if(target){target.focus();target.scrollIntoView({block:'start',behavior:'instant'});}}
  return <section className="scout-brief" aria-labelledby="brief-title" aria-busy={view==='loading'}>
   <div className="brief-top"><p className="trader-kicker">YOUR EXACT-MINT RESEARCH</p><span className={'brief-status '+(accepted?'accepted':'')}><span aria-hidden="true"/>{status}</span></div>
-  <h2 id="brief-title">SCOUT Brief<BriefArrow diagonal/></h2>
+  <h2 id="brief-title" tabIndex={-1}>SCOUT Brief<BriefArrow diagonal/></h2>
   <p className="brief-mint" title={mint}><span>Solana mint</span> <code>{mint.slice(0,6)}…{mint.slice(-6)}</code><span className="sr-only">Full address in onchain evidence below.</span></p>
   {accepted&&view.offline&&<p className="mint-offline">SYNTHETIC · OFFLINE TEST — not live token facts.</p>}
   <p className="brief-summary">{accepted?concerns.length?`${concerns.length} ${concerns.length===1?'check needs':'checks need'} a closer look.`:'Standard authorities absent. Other risks remain.':view==='loading'?'Reading the source. No facts accepted yet.':'No verified token facts. No verdict on this token.'}</p>

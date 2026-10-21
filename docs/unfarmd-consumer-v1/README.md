@@ -4,6 +4,8 @@ Issue [#134](https://github.com/fuzzysniper/scout-stonk-intel/issues/134). Based
 
 This changes the actual Next.js `/` consumer: **paste an exact mint → deliberate SCOUT IT → the existing SCOUT Brief, concerns, onchain renderer, market evidence and dated StonkFun layer**. It is a working implementation prepared for review, not the offline address-format-only prototype. No merge, manual deployment, provider activation or public launch is authorized by this branch.
 
+The subsequent [SCOUT IT interaction audit and before/after evidence](polish/README.md) documents the narrowly verified focus fixes without changing the approved homepage copy, design or artwork.
+
 ## What changed
 
 - **UNFARMD** is the homepage master brand. The final founder headline is “Stop getting farmed.” / “Know what you’re aping.”, with “Check a Solana token’s supply, mint permissions and freeze controls. See the onchain evidence before you trade.” The input says “Paste Solana token address”; the action remains **SCOUT IT**. “Stop getting farmed. Start scouting.” remains the broader campaign tagline on the social preview; “Level the trenches.” remains the mission. The black sheep leads: skeptical amber eyes, thick charcoal wool, broken tag, compact optical scanner. Charcoal/bone surfaces, acid-lime instrument cues and a dusty-coral dusk replace the V3 blue-black palette.

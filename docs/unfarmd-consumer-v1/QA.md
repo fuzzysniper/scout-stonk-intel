@@ -2,6 +2,8 @@
 
 Base: `ac1d898578a3a7e17ec30a272674e38316d16397`. Actual Next.js production before/after, Chromium 320×740, 390×844 and 1280×900; mobile uses touch emulation. No physical device or human comprehension session is claimed.
 
+Latest follow-up: [SCOUT IT interaction polish](polish/README.md), audited from `be75bb9`, records the demonstrated focus defects, genuine before/after captures and final verification separately. The earlier branding/copy results below remain historical verification for those commits.
+
 ## Reproduce
 
 Use Node 20.19+; verified tool versions and final outcomes are recorded below. From root:
