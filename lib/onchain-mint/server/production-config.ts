@@ -14,22 +14,46 @@ export const CANARY_PROFILE = Object.freeze({ ...PRODUCTION_PROFILE, canary: USD
 export type SecretReader = (name: string) => string | undefined;
 export type ProductionConfig = Readonly<{ target: IsolatedHeliusTarget; hmacKey: string; database: DatabaseHandle }>;
 export type DatabaseHandle = Readonly<{ host: string; provider: "neon-postgres" }>;
-const databaseSecrets = new WeakMap<object, Readonly<{ host: string; user: string; password: string; database: string }>>();
-/** Explicit fields avoid pg connection-string sslmode overrides and ambient PG* credential fallback. */
-export function prepareDatabase(value: unknown, pinnedHost: string, identity?: Readonly<{ role: string; database: string }>): DatabaseHandle | null {
+type DatabaseFields = Readonly<{ host: string; user: string; password: string; database: string }>;
+const databaseSecrets = new WeakMap<object, DatabaseFields>();
+/** Pure, private shared validation. Never opens a connection or returns a URL to a caller. */
+function databaseFields(value: unknown, pinnedHost: string, identity?: Readonly<{ role: string; database: string }>):
+  Readonly<{ secret: DatabaseFields; search: string }> | null {
   // Neon also uses a c-N routing label, e.g. ep-example.c-7.us-east-2.aws.neon.tech.
   // This validates only provider syntax; the complete host must still equal the reviewed pin.
   if (!/^ep-[a-z0-9-]+\.(?:c-[0-9]+\.)?[a-z0-9-]+\.(?:aws|azure)\.neon\.tech$/.test(pinnedHost) || pinnedHost.includes('-ro.')) return null;
   if (typeof value !== "string" || value.length > 2048 || /[\x00-\x20\x7f]/.test(value)) return null;
   try {
     const url = new URL(value);
-    if (url.protocol !== "postgresql:" || url.hostname !== pinnedHost || url.port && url.port !== "5432" || url.hash || url.search && url.search !== "?sslmode=require") return null;
+    if (url.protocol !== "postgresql:" || url.hostname !== pinnedHost || url.port && url.port !== "5432" || url.hash) return null;
     const user = decodeURIComponent(url.username), password = decodeURIComponent(url.password), database = decodeURIComponent(url.pathname.slice(1));
     if (!/^scout_[a-z0-9_]{1,48}$/.test(user) || password.length < 16 || password.length > 256 || /[\x00-\x1f\x7f]/.test(password) || !/^[a-zA-Z0-9_]{1,63}$/.test(database)) return null;
     if (identity && (user !== identity.role || database !== identity.database)) return null;
-    const handle = Object.freeze({ host: pinnedHost, provider: "neon-postgres" as const });
-    databaseSecrets.set(handle, Object.freeze({ host: pinnedHost, user, password, database })); return handle;
+    return { secret: { host: pinnedHost, user, password, database }, search: url.search };
   } catch { return null; }
+}
+/** Explicit fields avoid pg connection-string sslmode overrides and ambient PG* credential fallback.
+ * Original production acceptance is unchanged: required binding remains UNSUPPORTED, never stripped.
+ */
+export function prepareDatabase(value: unknown, pinnedHost: string, identity?: Readonly<{ role: string; database: string }>): DatabaseHandle | null {
+  const parsed=databaseFields(value,pinnedHost,identity);
+  if(!parsed || parsed.search && parsed.search!=="?sslmode=require")return null;
+  const handle=Object.freeze({host:pinnedHost,provider:"neon-postgres" as const});
+  databaseSecrets.set(handle,Object.freeze(parsed.secret));return handle;
+}
+export type DatabaseCompatibility = "dsn_missing" | "dsn_invalid_or_unapproved" |
+  "format_compatible_binding_unproven" | "blocked_required_channel_binding";
+/** Configuration classification ONLY. No credential handle, rewritten DSN, fingerprint or secret output.
+ * No category proves authentication, negotiated binding, TLS connectivity or authorization for traffic.
+ */
+export function databaseCompatibility(value: unknown, pinnedHost: string, identity: Readonly<{role:string;database:string}>): DatabaseCompatibility {
+  if(value===undefined || value==="")return "dsn_missing";
+  const parsed=databaseFields(value,pinnedHost,identity);
+  if(!parsed)return "dsn_invalid_or_unapproved";
+  if(!parsed.search || parsed.search==="?sslmode=require")return "format_compatible_binding_unproven";
+  if(["?channel_binding=require","?sslmode=require&channel_binding=require","?channel_binding=require&sslmode=require"].includes(parsed.search))
+    return "blocked_required_channel_binding";
+  return "dsn_invalid_or_unapproved";
 }
 export function databaseParameters(handle: DatabaseHandle) {
   const secret = databaseSecrets.get(handle); demand(secret, "access_denied");

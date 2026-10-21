@@ -16,3 +16,4 @@ NODE_ENV=test node --conditions=react-server tests/onchain-api/canary-console.te
 NODE_ENV=test node --conditions=react-server tests/onchain-api/native-transport.test.mjs
 NODE_ENV=test node --conditions=react-server tests/onchain-api/lookup.test.mjs
 NODE_ENV=test node --conditions=react-server tests/onchain-api/lookup-console.test.mjs
+NODE_ENV=test node --conditions=react-server tests/onchain-api/config-preflight.test.mjs
