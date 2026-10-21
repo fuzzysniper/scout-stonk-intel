@@ -5,8 +5,8 @@
 ## Integrated baseline and ownership
 
 - Starting draft head: `6b6580da24d0a0ff65d304d880db394d56e1c32f`, refreshed against GitHub before editing; no concurrent commit at that check.
-- Main: `0592a608b4693544e0534c85e404aa0782ac7469`. A normal merge, `2ecf8417a698b351317ea5b5064a95812cb44804`, preserves the feature history and approved artwork/copy. No force push or cherry-pick.
-- Main carries merged #138 and collector commits `22c8539`, `98bef0e`, `0592a60`. Their backend/DSN preflight, admission, workflows, scheduler and data are inherited **without agent edits**. Protected subtrees match main exactly. Agent B's #140 is untouched.
+- Initial main: `0592a608b4693544e0534c85e404aa0782ac7469`, merged in `2ecf8417a698b351317ea5b5064a95812cb44804`. While exact-head CI was completing, the owner merged #140 into main as `9ecd998d411b17c1a54cb26e366f1bd50561bc97`. That current main was merged **unchanged** in `d7148d26560e5f7cdf07020b98e49ddc6f889cb2`. No force push, cherry-pick or conflict; approved feature history/artwork remain.
+- Main carries merged #138 and collector commits `22c8539`, `98bef0e`, `0592a60`. Their backend/DSN preflight, admission, workflows, scheduler and data are inherited **without agent edits**. Protected subtrees match current main exactly. After its independent owner merge, #140 is inherited without edits; this agent did not change its PR/code, invoke its hosted POST preflight, alter its window or activate public mint acquisition.
 - Collector blobs retained from main: `data/reward-snapshots.json` → `04972bc74f5fe33d2b74fd34a17319976096e6a5`; `data/collector-audit.json` → `1d69efb83f77e3e7a25114f69e4de337254b5dbb`; `data/collection-summary.json` → `421c72cd59cc3523823b7002b7de113d7b6625cb`.
 - Follow-up edits are limited to consumer regression coverage and this release documentation. No new runtime feature, scanner, receipt system, UI redesign, source contract or configuration change. No additional runtime frontend defect was reproduced.
 
@@ -30,7 +30,7 @@ The selected desktop/mobile hero, avatar and below-fold story remain byte-identi
 
 ## Checks and reproducibility
 
-Actual local outcomes on the combined optimized app:
+Completed full local outcomes on initial combined main `0592a60`:
 
 | Check | Result |
 | --- | --- |
@@ -41,7 +41,7 @@ Actual local outcomes on the combined optimized app:
 | TypeScript, lint, production build, archive integrity, diff/scope | All **exit 0**; lint zero errors/warnings; optimized Next.js build produces 14 static pages. |
 | Asserted axe/network states | **0 violations**; no external browser/provider requests; passive consumer paths do not acquire sources. |
 
-Exact final head and final GitHub CI/automatic Vercel outcome are recorded on PR #137 once completed. No old CI result is represented as passing the new merge. Local commands:
+After the independent #140 merge, repeat root tests/types/lint/build/archive and the **15 focused production cases** at 320/390/1280 (release quota/contract cases plus first-screen selected-art acceptance). The full 186-case result above is explicitly the earlier combined baseline; do not relabel it as a second full run. No runtime consumer or asset bytes changed between those builds. Exact final focused/root outcomes, head and GitHub CI/automatic Vercel result are recorded on PR #137 when completed. No old CI result is represented as passing the new merge. Local commands:
 
 ```sh
 npm test
@@ -79,7 +79,7 @@ Report its exact-head automatic Vercel Ready status on the PR. Cloud proxy acces
 Before a public release:
 
 - Founder completes the five-minute iPhone acceptance, approves the final visual fit, and independently resolves commercial-art/trademark and any existing source-publication restrictions. Until then, pending disclosures/financial withholding remain; no permission is inferred.
-- Agent B and the owner independently authorize the **production canonical public GET** under their approved source/admission policy. This PR must not alter #140, credentials, DSN preflight, budgets or source approval. A proof-only/disabled phase or a Ready preview is not public-source readiness.
+- Agent B and the owner independently authorize the **production canonical public GET** under their approved source/admission policy. This PR must not alter the independently approved #140 code/window, credentials, DSN preflight, budgets or source approval. A proof-only/disabled phase or a Ready preview is not public-source readiness.
 - Founder explicitly approves PR #137 for merge/release through the existing review process; agent keeps it draft and unmerged. No manual deployment or domain change here. Frontend may be approved independently as source-disabled, but cannot be advertised as an authentic-data launch yet.
 - After separately authorized production acquisition is available, founder performs **one deliberate check of an approved exact mint** on the canonical app: verify original identity, exact supply, authorities, program/extension limitations, checked time/finalized slot/provenance and unknowns. Verify that share/reload remain passive. Do not invoke the old proof/canary, rearm a one-shot budget or assume synthetic evidence proves live success.
 
