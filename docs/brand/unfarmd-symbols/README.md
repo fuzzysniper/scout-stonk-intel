@@ -1,5 +1,7 @@
 # UNFARMD — independent sheep symbol study
 
+> **Current preferred candidate:** [The Outlier refinement](refinement/README.md), with final black/bone masters and true-size before/after evidence. The original study below is retained unchanged as the reviewed baseline.
+
 Three original, manually authored vector directions for the founder's P0 symbol brief. **Exploration only; nothing is installed into the product.** Latest main at creation: `dfd903b0a3a62966bbbc8f545a27c118048ad1ef`. PR #137 and #143 remain untouched.
 
 ## Open the work
