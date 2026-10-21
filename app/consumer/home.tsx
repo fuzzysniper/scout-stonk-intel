@@ -2,6 +2,7 @@
 import {useEffect,useRef,useState} from 'react';
 import Link from 'next/link';
 import {BrandArrow,EscapeArt,ResearchInstruments,Trenchers} from './brand/identity';
+import {OutlierMark} from './brand/outlier-mark';
 import {TokenResearch,type MarketPort} from './trader';
 import type {MintFactsPort} from './onchain-client';
 import {addressQuery,unavailableMintFacts} from './onchain-model';
@@ -122,7 +123,7 @@ export default function ConsumerHome({initialInput,initialState,onchainPort,mark
  function startOver(){cancelPaste();setRequestAllowed(Boolean(onchainPort));focusTarget.current='welcome-title';setSearchOpen(false);setInput('');setEvaluatedInput('');setChainReady(false);setResult({state:'idle'});setAnnouncement('');}
  return <div className={'consumer-home unfarmd'+(idle?' unfarmd-idle':'')}>
   <a className="skip-link" href="#content">Skip to content</a>
-  <header className="site-header"><Link className="wordmark" href="/" prefetch={false} aria-label="UNFARMD · Start over" onClick={startOver}><span className="brand-name">UNFARMD<BrandArrow/></span><span className="brand-caption">LAUNCH CANDIDATE</span></Link>{hasResult?<button id="search-another" type="button" className="secondary search-toggle" aria-expanded={searchOpen} aria-controls="token-search" onClick={toggleSearch}>Search another token</button>:<div className="header-context"><span className="brand-mission">Level the trenches.</span><span className="preview-label">Read-only</span></div>}</header>
+  <header className="site-header"><Link className="wordmark" href="/" prefetch={false} aria-label="UNFARMD · Start over" onClick={startOver}><OutlierMark/><span className="wordmark-lockup"><span className="brand-name">UNFARMD<BrandArrow/></span><span className="brand-caption">LAUNCH CANDIDATE</span></span></Link>{hasResult?<button id="search-another" type="button" className="secondary search-toggle" aria-expanded={searchOpen} aria-controls="token-search" onClick={toggleSearch}>Search another token</button>:<div className="header-context"><span className="brand-mission">Level the trenches.</span><span className="preview-label">Read-only</span></div>}</header>
   <main id="content" className={idle?'unfarmd-landing':hasResult&&!searchOpen?'has-answer result-compact':'has-answer'} tabIndex={-1}>
    {idle&&<><section className="welcome" aria-labelledby="welcome-title"><p className="eyebrow"><span aria-hidden="true">✳</span> FOR THE ONES GETTING OUT.</p><h1 id="welcome-title" tabIndex={-1}>Stop getting<br/>farmed.<span>Know what you’re aping.</span></h1><p className="intro">Check a Solana token’s supply, mint permissions and freeze controls. See the onchain evidence before you trade.</p></section><EscapeArt/></>}
    {supported&&!chainReady&&<div className="capture-notice"><span className="notice-dot" aria-hidden="true"/><span><strong>Captured examples, not live data.</strong> 14 Oct 2026 · stale.</span></div>}

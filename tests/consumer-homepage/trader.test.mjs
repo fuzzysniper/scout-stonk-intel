@@ -37,7 +37,7 @@ const {ScoutBrief}=load('trader');
 const brief=view=>renderToStaticMarkup(React.createElement(ScoutBrief,{view,mint:MINT}));
 test('V3 Brief renders accepted controls and the original source clock without inventing a safety verdict',t=>{
  t.mock.method(Date,'now',()=>now);const html=brief(project(mintFixture(MINT,{freeze:true,extensions:true})));
- assert.match(html,/SCOUT Brief/);assert.match(html,/3 checks need a closer look/);assert.match(html,/Authority present/);assert.match(html,/Not fully reviewed/);assert.match(html,/400000001/);assert.match(html,/2026-10-18T12:00:00.000Z/);assert.match(html,/Token-2022 controls are not fully reviewed/);assert.match(html,/sellability remain unknown/);assert.match(html,/Onchain evidence/);assert.doesNotMatch(html,/safe to trade|rug.pull verdict|market cap|%/i);
+ assert.match(html,/CONTROL RECEIPT/);assert.match(html,/3 checks need a closer look/);assert.match(html,/Authority present/);assert.match(html,/Not fully reviewed/);assert.match(html,/400000001/);assert.match(html,/2026-10-18T12:00:00.000Z/);assert.match(html,/Token-2022 controls are not fully reviewed/);assert.match(html,/sellability remain unknown/);assert.match(html,/Onchain evidence/);assert.doesNotMatch(html,/safe to trade|rug.pull verdict|market cap|%/i);
 });
 test('V3 Brief never promotes expired facts, invalid clocks or failed acquisition into attention indicators',t=>{
  const view=project(mintFixture());t.mock.method(Date,'now',()=>now+60001);
@@ -59,7 +59,7 @@ test('V3 recovery distinguishes an access gate from expiry/rate limiting/unsuppo
 });
 test('V3 Brief uses a coherent source instant at the exact expiry boundary',t=>{
  const view=project(mintFixture());let clockReads=0;t.mock.method(Date,'now',()=>now+60000+clockReads++);
- const html=brief(view);assert.match(html,/1 check needs a closer look/);assert.match(html,/Authority present/);assert.doesNotMatch(html,/Standard authorities absent/);
+ const html=brief(view);assert.match(html,/1 check needs a closer look/);assert.match(html,/Can issue more/);assert.doesNotMatch(html,/Standard authorities absent/);
 });
 
 test('release: shared mint URLs and dated examples render without mounting source acquisition',()=>{
@@ -74,4 +74,34 @@ test('release: market evidence is not fetched implicitly with the onchain check'
  const html=renderToStaticMarkup(React.createElement(TokenResearch,{mint:MINT}));
  assert.match(html,/Market source not checked/);assert.match(html,/Check market source/);
  assert.doesNotMatch(html,/Checking market source…|A matching pool was reported/);
+});
+
+
+const {scoutFindings}=load('control-receipt-model');
+// Invented production-classified inputs are inspected IN MEMORY only. No RPC or clipboard export.
+test('control findings preserve exact identity, raw units, original clocks and server hash without certification',()=>{
+ const view=project(mintFixture(MINT,{freeze:true}));const text=scoutFindings(view,MINT,now);
+ for(const required of [MINT,'18446744073709551615','Decimals: 9','18446744073.709551615','Standard mint authority: PRESENT','Standard freeze authority: PRESENT',OTHER,'Finalized context slot: 400000001','Original checked UTC: '+AT,'Server-reported RPC response SHA-256: '+'a'.repeat(64),'production_rpc','mainnet.helius-rpc.com','not independently replayed','Not a safety certification','durable receipt'])assert.ok(text.includes(required),required);
+ assert.doesNotMatch(text,/safe token|guaranteed|signed by|verified owner|ROI|APY|rank/i);
+ assert.equal(scoutFindings(view,MINT,now+500),text,'copy must not renew original clocks');
+});
+test('control findings withhold loading, failed, expired, backward-clock, wrong-mint and synthetic views',()=>{
+ const view=project(mintFixture());const raw=mintFixture();raw.source.acquisition='synthetic_fixture';const offline=projectMintFacts(raw,MINT,now,'synthetic-offline');
+ for(const [v,m,t] of [['loading',MINT,now],[project(failure()),MINT,now],[view,MINT,now+60001],[view,MINT,now-1001],[view,OTHER,now],[offline,MINT,now],[project(raw),MINT,now]])assert.equal(scoutFindings(v,m,t),null);
+});
+test('control findings independently revalidate production provenance and exact arithmetic before export',()=>{
+ for(const mutate of [x=>x.source.responseSha256='bad',x=>x.source.acquisition='synthetic_fixture',x=>x.source.endpointHost='api.mainnet-beta.solana.com',x=>x.facts.supply.decimalAmount='999',x=>x.source.contextSlot='0',x=>x.facts.mintAuthority.address='garbage']){
+  const view=project(mintFixture());mutate(view.value);assert.equal(scoutFindings(view,MINT,now),null);
+ }
+ assert.equal(scoutFindings({kind:'facts',value:{},expiresAt:now+60000,offline:false},MINT,now),null);
+ const pointer=mintFixture();pointer.facts.program='token_2022';pointer.facts.ownerProgram='TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb';pointer.facts.extensions={assessment:'reviewed_metadata_pointer',names:['metadataPointer'],metadataPointer:{authority:null,metadataAddress:MINT}};assert.match(scoutFindings(project(pointer),MINT,now),/Metadata pointer only reviewed; no broader extension audit/);
+ for(const decimals of [0,9,255]){const raw=mintFixture();raw.facts.supply.decimals=decimals;raw.facts.supply.decimalAmount=load('onchain-model').exactSupply(raw.facts.supply.raw,decimals).decimal;const view=project(raw);const text=scoutFindings(view,MINT,now);assert.ok(text.includes('Decimals: '+decimals));assert.ok(text.includes('Exact supply (token units): '+raw.facts.supply.decimalAmount));}
+});
+test('control findings distinguish absent standard authorities from unreviewed Token-2022 powers',()=>{
+ const text=scoutFindings(project(mintFixture(MINT,{absent:true,extensions:true})),MINT,now);
+ assert.match(text,/Standard mint authority: ABSENT at this slot/);assert.match(text,/Standard freeze authority: ABSENT at this slot/);assert.match(text,/Token-2022/);assert.match(text,/UNREVIEWED/);assert.match(text,/extension_review_required/);assert.match(text,/permanentDelegate/);assert.doesNotMatch(text,/fixed supply|cannot freeze|safe to/i);
+});
+test('trusted synthetic control receipt cannot offer an active export action',t=>{
+ t.mock.method(Date,'now',()=>now);const raw=mintFixture();raw.source.acquisition='synthetic_fixture';const html=brief(projectMintFacts(raw,MINT,now,'synthetic-offline'));
+ assert.match(html,/SYNTHETIC/);assert.match(html,/No export from synthetic evidence/);assert.match(html,/disabled=""/);
 });
