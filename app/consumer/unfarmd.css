@@ -291,3 +291,19 @@
  .consumer-home .control-receipt .brief-summary { margin-top: 8px; }
  .control-receipt .receipt-export { margin-top: 11px; }
 }
+
+/* Approved candidate: minimalist Outlier mark beside the unchanged wordmark.
+   Decorative-only; the parent link retains its accessible name and 44px target. */
+.unfarmd .wordmark { flex-direction: row; align-items: center; gap: 9px; }
+.unfarmd .wordmark-lockup { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.unfarmd .outlier-mark { display: block; width: 34px; height: 34px; flex: 0 0 34px; color: var(--ink); }
+@media (max-width: 700px) {
+ .unfarmd .wordmark { gap: 7px; }
+ .unfarmd .outlier-mark { width: 29px; height: 29px; flex-basis: 29px; }
+}
+@media (max-width: 350px) {
+ .unfarmd .outlier-mark { width: 25px; height: 25px; flex-basis: 25px; }
+ .unfarmd:not(.unfarmd-idle) .brand-name { font-size: 20px; letter-spacing: -1px; }
+ .unfarmd:not(.unfarmd-idle) .search-toggle { max-width: 104px; white-space: normal; line-height: 1.25; }
+}
+@media (forced-colors: active) { .unfarmd .outlier-mark { color: LinkText; } }
