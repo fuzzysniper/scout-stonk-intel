@@ -23,3 +23,16 @@ test('the old conflicting favicon is retired; original art and source gates stay
  assert.ok(existsSync('public/consumer/unfarmd/scout-hero-desktop.webp'));
  assert.ok(existsSync('app/consumer/control-receipt.tsx'));
 });
+
+test('small screens retain keyboard-visible logo link without touching result controls',()=>{
+ const css=read('app/consumer/unfarmd.css');
+ assert.match(css,/\.unfarmd \.wordmark-lockup/);
+ assert.match(css,/@media \(max-width: 350px\)/);
+ assert.match(css,/\.unfarmd:not\(\.unfarmd-idle\) \.search-toggle/);
+ assert.match(css,/forced-colors: active/);
+ const home=read('app/consumer/home.tsx');
+ assert.match(home,/<OutlierMark\s*\/>/);
+ assert.match(home,/id="search-another"/);
+ assert.match(home,/onClick=\{startOver\}/);
+ assert.doesNotMatch(read('app/consumer/brand/outlier-mark.tsx'),/fetch\(|https?:\/\//);
+});
