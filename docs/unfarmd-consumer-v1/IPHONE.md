@@ -4,7 +4,7 @@ Prepared checklist, **not conducted**. Chromium touch emulation and automated ax
 
 ## Tonight: five-minute founder check
 
-**Pending, not performed.** Open the automatic PR preview from [release acceptance](release/README.md) using your normal authorized browser. No source activation, wallet or proof invocation.
+**Pending, not performed.** Open the automatic PR preview from [final release acceptance](FINAL-RELEASE.md) using your normal authorized browser. No source activation, wallet or proof invocation.
 
 1. **0:00–1:00 · First screen.** Portrait Safari: headline, selected farm-escape art/rights-pending caption, full address field and **SCOUT IT** fit. Rotate once; no horizontal scrolling or clipped action. The selected mobile scene should keep the sheep/scanner legible. Rights clearance remains pending.
 2. **1:00–2:00 · Paste and deliberate submit.** Copy `So11111111111111111111111111111111111111112`. Paste via button or native long-press. Pasting alone must not check a source. Tap **SCOUT IT** once; keyboard dismisses. Expect **Check not permitted** on the preview, or **Source not connected** at the disabled canonical origin. No numeric facts, accepted source time/slot, safety verdict or wallet prompt.

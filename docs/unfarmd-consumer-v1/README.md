@@ -10,6 +10,8 @@ Current launch decision: [combined #136 backend / SCOUT IT release acceptance, p
 
 Latest asset handoff: [founder-selected artwork, responsive captures and rights-pending provenance](artwork/README.md). This supersedes the original-placeholder descriptions and screenshots below; those are retained as dated implementation history.
 
+Current release checklist: [latest-main integration, combined acceptance, founder gates and rollback](FINAL-RELEASE.md).
+
 ## What changed
 
 - **UNFARMD** is the homepage master brand. The final founder headline is “Stop getting farmed.” / “Know what you’re aping.”, with “Check a Solana token’s supply, mint permissions and freeze controls. See the onchain evidence before you trade.” The input says “Paste Solana token address”; the action remains **SCOUT IT**. “Stop getting farmed. Start scouting.” remains the broader campaign tagline on the social preview; “Level the trenches.” remains the mission. The black sheep leads: skeptical amber eyes, thick charcoal wool, broken tag, compact optical scanner. Charcoal/bone surfaces, acid-lime instrument cues and a dusty-coral dusk replace the V3 blue-black palette.
