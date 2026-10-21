@@ -3,6 +3,7 @@ import { prepareIsolatedHeliusTarget, type IsolatedHeliusTarget } from "./helius
 import { demand } from "./rpc";
 import { PRODUCTION_RPC_ENABLED } from "./policy";
 import { USDC_CANARY } from "./canary-policy";
+import type { RequiredChannelBindingClient } from "./required-channel-binding";
 export const PRODUCTION_PROFILE = Object.freeze({ policy: "scout-helius-mint/production-v1", acquisition: "production_rpc" as const, leaseMs: 15000, storeTimeoutMs: 2000 });
 /** CODE REVIEW GATE: credentials, env/query flags or redeployment cannot enable this object. */
 export const LIVE_APPROVAL: Readonly<{ enabled: boolean; storeHost: string | null; vercelProjectId: string | null }> = Object.freeze({
@@ -16,6 +17,8 @@ export type ProductionConfig = Readonly<{ target: IsolatedHeliusTarget; hmacKey:
 export type DatabaseHandle = Readonly<{ host: string; provider: "neon-postgres" }>;
 type DatabaseFields = Readonly<{ host: string; user: string; password: string; database: string }>;
 const databaseSecrets = new WeakMap<object, DatabaseFields>();
+const requiredBinding = new WeakSet<object>();
+const REQUIRED_BINDING_SEARCH = ["?channel_binding=require", "?sslmode=require&channel_binding=require", "?channel_binding=require&sslmode=require"];
 /** Pure, private shared validation. Never opens a connection or returns a URL to a caller. */
 function databaseFields(value: unknown, pinnedHost: string, identity?: Readonly<{ role: string; database: string }>):
   Readonly<{ secret: DatabaseFields; search: string }> | null {
@@ -33,12 +36,13 @@ function databaseFields(value: unknown, pinnedHost: string, identity?: Readonly<
   } catch { return null; }
 }
 /** Explicit fields avoid pg connection-string sslmode overrides and ambient PG* credential fallback.
- * Original production acceptance is unchanged: required binding remains UNSUPPORTED, never stripped.
+ * Required binding is retained out of band, never stripped into a preference-only pg config.
  */
 export function prepareDatabase(value: unknown, pinnedHost: string, identity?: Readonly<{ role: string; database: string }>): DatabaseHandle | null {
   const parsed=databaseFields(value,pinnedHost,identity);
-  if(!parsed || parsed.search && parsed.search!=="?sslmode=require")return null;
+  if(!parsed || parsed.search && parsed.search!=="?sslmode=require" && !REQUIRED_BINDING_SEARCH.includes(parsed.search))return null;
   const handle=Object.freeze({host:pinnedHost,provider:"neon-postgres" as const});
+  if(REQUIRED_BINDING_SEARCH.includes(parsed.search))requiredBinding.add(handle);
   databaseSecrets.set(handle,Object.freeze(parsed.secret));return handle;
 }
 export type DatabaseCompatibility = "dsn_missing" | "dsn_invalid_or_unapproved" |
@@ -51,13 +55,18 @@ export function databaseCompatibility(value: unknown, pinnedHost: string, identi
   const parsed=databaseFields(value,pinnedHost,identity);
   if(!parsed)return "dsn_invalid_or_unapproved";
   if(!parsed.search || parsed.search==="?sslmode=require")return "format_compatible_binding_unproven";
-  if(["?channel_binding=require","?sslmode=require&channel_binding=require","?channel_binding=require&sslmode=require"].includes(parsed.search))
+  // Preserve #138's conservative categorical protocol: a format-only preflight cannot
+  // clear this requirement. The separately reviewed strict adapter still needs hosted proof.
+  if(REQUIRED_BINDING_SEARCH.includes(parsed.search))
     return "blocked_required_channel_binding";
   return "dsn_invalid_or_unapproved";
 }
-export function databaseParameters(handle: DatabaseHandle) {
+export function databaseParameters(handle: DatabaseHandle, strictClient?: typeof RequiredChannelBindingClient) {
   const secret = databaseSecrets.get(handle); demand(secret, "access_denied");
+  // A caller cannot accidentally pass a required DSN to vanilla pg's preference-only client.
+  demand(!requiredBinding.has(handle) || strictClient, "upstream_unavailable");
   return { ...secret, port: 5432, ssl: { rejectUnauthorized: true, servername: secret.host, minVersion: "TLSv1.2" as const }, enableChannelBinding: true,
+    ...(requiredBinding.has(handle) ? { Client: strictClient } : {}),
     max: 1, idleTimeoutMillis: 10000, connectionTimeoutMillis: 1000, query_timeout: 1000, statement_timeout: 500,
     lock_timeout: 100, idle_in_transaction_session_timeout: 1000, client_encoding: "UTF8", sslnegotiation: "postgres" as const,
     options: "-c synchronous_commit=on",

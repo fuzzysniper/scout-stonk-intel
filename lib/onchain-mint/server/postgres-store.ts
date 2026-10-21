@@ -6,9 +6,10 @@ import { BoundaryError, deadline, demand } from "./rpc";
 import type { TLSSocket } from "node:tls";
 import { POSTGRES_COMPATIBILITY_SQL, STEP_BODY_SHA256, LOOKUP_COMPATIBILITY_SQL, LOOKUP_STEP_BODY_SHA256 } from "./postgres-compatibility";
 import { LOOKUP_POLICY } from "./lookup-policy";
+import { RequiredChannelBindingClient, hasVerifiedChannelBinding } from "./required-channel-binding";
 
 /** Real native SQL adapter. No migration/bootstrap/retry/memory fallback in request handling. */
-export function postgresStore(pool: Pool, nativeProof?: Readonly<{ host: string }>, namespace: "legacy" | "lookup" = "legacy"): AtomicMintStore {
+export function postgresStore(pool: Pool, nativeProof?: Readonly<{ host: string; requireChannelBinding?: boolean }>, namespace: "legacy" | "lookup" = "legacy"): AtomicMintStore {
   demand(namespace==="legacy" || namespace==="lookup");
   const lookup=namespace==="lookup";
   return Object.freeze({ async transact(command: Command): Promise<Reply> {
@@ -24,6 +25,7 @@ export function postgresStore(pool: Pool, nativeProof?: Readonly<{ host: string 
         const socket=(client as unknown as {connection?:{stream?:TLSSocket & {servername?:string}}}).connection?.stream;
         demand(socket?.encrypted && socket.authorized && socket.servername===nativeProof.host &&
           ["TLSv1.2","TLSv1.3"].includes(socket.getProtocol()??""),"upstream_unavailable");
+        if(nativeProof.requireChannelBinding)demand(hasVerifiedChannelBinding(client,nativeProof.host),"upstream_unavailable");
       }
       await client.query("BEGIN");
       await client.query("SET LOCAL synchronous_commit=on; SET LOCAL statement_timeout='500ms'; SET LOCAL lock_timeout='100ms'; SET LOCAL search_path=pg_catalog");
@@ -44,8 +46,9 @@ export function postgresStore(pool: Pool, nativeProof?: Readonly<{ host: string 
   } });
 }
 export function nativePostgresStore(handle: DatabaseHandle, namespace: "legacy" | "lookup" = "legacy"): AtomicMintStore {
-  const pool = new Pool(databaseParameters(handle));
+  const parameters=databaseParameters(handle,RequiredChannelBindingClient);
+  const pool = new Pool(parameters);
   pool.on("error", () => { /* No credential/SQL/error-message logging. Next command still requires DB proof. */ });
-  const store = postgresStore(pool,{host:handle.host},namespace);
+  const store = postgresStore(pool,{host:handle.host,requireChannelBinding:!!parameters.Client},namespace);
   return Object.freeze({ transact: command => deadline(store.transact(command), 2000, "upstream_unavailable") });
 }

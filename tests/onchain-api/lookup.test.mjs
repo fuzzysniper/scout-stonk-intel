@@ -298,7 +298,7 @@ test('CA, SNI, plaintext, SCRAM password and real outage cannot fall back or dis
 });
 test('native DSN and missing secrets fail before SQL; no channel-binding-required downgrade',async()=>{
  for(const secrets of [{SCOUT_MINT_HELIUS_API_KEY:undefined},{SCOUT_MINT_ADMISSION_HMAC_KEY:undefined},{SCOUT_MINT_STORE_DATABASE_URL:undefined},
-  {SCOUT_MINT_STORE_DATABASE_URL:`postgresql://scout_mint_app:${PASSWORD}@${HOST}/neondb?sslmode=require&channel_binding=require`},
+  {SCOUT_MINT_STORE_DATABASE_URL:`postgresql://scout_mint_app:${PASSWORD}@${HOST}/neondb?sslmode=require&channel_binding=require&channel_binding=disable`},
   {SCOUT_MINT_STORE_DATABASE_URL:`postgresql://scout_other:${PASSWORD}@${HOST}/neondb`},
   {SCOUT_MINT_STORE_DATABASE_URL:`postgresql://scout_mint_app:${PASSWORD}@${HOST}/postgres`}]){
   const s=runtime({secrets}),a=await read(s);assert.equal(a.body.reason,'upstream_unavailable');assert.equal(s.calls.store,0);assert.equal(s.calls.rpc,0);

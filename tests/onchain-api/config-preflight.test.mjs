@@ -48,7 +48,8 @@ for(const search of ['', '?sslmode=require'])test(`supported format ${search||'w
  const p=databaseParameters(h);assert.equal(p.ssl.rejectUnauthorized,true);assert.equal(p.ssl.minVersion,'TLSv1.2');assert.equal(p.ssl.servername,HOST);assert.equal(p.enableChannelBinding,true);
 });
 for(const search of ['?channel_binding=require','?sslmode=require&channel_binding=require','?channel_binding=require&sslmode=require'])test(`required binding ${search} is blocked, never rewritten or weakened`,()=>{
- assert.equal(classify(DSN+search),'blocked_required_channel_binding');assert.equal(prepareDatabase(DSN+search,HOST,IDENTITY),null);
+ assert.equal(classify(DSN+search),'blocked_required_channel_binding');const h=prepareDatabase(DSN+search,HOST,IDENTITY);assert.ok(h);
+ assert.throws(()=>databaseParameters(h),e=>e.message==='upstream_unavailable'); // Unqualified preference-only construction stays blocked.
 });
 const invalid=[null,123,{},'not-a-url',DSN.replace('postgresql:','http:'),DSN.replace(HOST,'evil.invalid'),DSN.replace('scout_mint_app:','postgres:'),DSN.replace('/neondb','/postgres'),
  DSN.replace(HOST,HOST+':80'),DSN+'#secret',DSN+'?sslmode=disable',DSN+'?sslmode=no-verify',DSN+'?channel_binding=disable',DSN+'?channel_binding=prefer',
