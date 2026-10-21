@@ -20,6 +20,6 @@ test('iOS icon is a Next native PNG icon without external media or providers',()
 });
 test('the old conflicting favicon is retired; original art and source gates stay untouched',()=>{
  assert.equal(existsSync('app/favicon.ico'),false);
- assert.ok(existsSync('public/consumer/unfarmd/escape-desktop.webp'));
+ assert.ok(existsSync('public/consumer/unfarmd/scout-hero-desktop.webp'));
  assert.ok(existsSync('app/consumer/control-receipt.tsx'));
 });
