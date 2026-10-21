@@ -35,7 +35,7 @@ for(const scenario of ['production-profile','production-extensions'])test(`SYNTH
  await page.goto(harness(scenario));
  await expect(page.locator('.test-only-notice')).toHaveText('LOCAL SYNTHETIC/OFFLINE HARNESS · no RPC · not a deployed page');
  await expect(page.locator('.mint-supply strong')).toHaveText('18,446,744,073.709551615');
- await expect(page.getByRole('heading',{name:'SCOUT Brief',exact:true})).toBeFocused();
+ await expect(page.getByRole('heading',{name:'What can its controllers still do?',exact:true})).toBeFocused();
  await expect(page.locator('.mint-subtitle')).toContainText('Helius RPC report');await expect(page.locator('.mint-meaning')).toHaveText('Token units do not prove shares, asset backing or payout rights.');
  await expect(page.locator('.mint-observed')).toContainText('400000001');await expect(page.locator('.mint-observed time')).toHaveAttribute('datetime','2026-10-18T12:00:00.000Z');
  const boundary=await page.locator('.brief-boundary').boundingBox();expect(boundary.y+boundary.height).toBeLessThan(page.viewportSize().height);expect(await noOverlaps(page)).toEqual([]);expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);await axe(page);
