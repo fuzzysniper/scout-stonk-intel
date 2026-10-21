@@ -6,13 +6,13 @@ Prepared checklist, **not conducted**. Chromium touch emulation and automated ax
 
 **Pending, not performed.** Open the automatic PR preview from [release acceptance](release/README.md) using your normal authorized browser. No source activation, wallet or proof invocation.
 
-1. **0:00–1:00 · First screen.** Portrait Safari: headline, sheep/placeholder caption, full address field and **SCOUT IT** fit. Rotate once; no horizontal scrolling or clipped action. The image is still the labeled original placeholder.
+1. **0:00–1:00 · First screen.** Portrait Safari: headline, selected farm-escape art/rights-pending caption, full address field and **SCOUT IT** fit. Rotate once; no horizontal scrolling or clipped action. The selected mobile scene should keep the sheep/scanner legible. Rights clearance remains pending.
 2. **1:00–2:00 · Paste and deliberate submit.** Copy `So11111111111111111111111111111111111111112`. Paste via button or native long-press. Pasting alone must not check a source. Tap **SCOUT IT** once; keyboard dismisses. Expect **Check not permitted** on the preview, or **Source not connected** at the disabled canonical origin. No numeric facts, accepted source time/slot, safety verdict or wallet prompt.
 3. **2:00–3:00 · Recovery and sharing.** Open a dated example: **14 Oct 2026 / stale**, financial figures withheld, no equity/underlying ownership claim. Copy its address link, reopen it and use Back/Forward: no automatic live check. An arbitrary shared mint link asks for **SCOUT IT** before checking.
 4. **3:00–4:00 · Evidence and focus.** Open/close a dated example’s source details and copy its exact address/link. Current onchain receipts remain unavailable. Edit the address field (or use Search another token when present): the displayed result must retain the previous mint until a deliberate submission. Loading never shows sample supply. No provider-success test is authorized by this checklist.
 5. **4:00–5:00 · VoiceOver.** Verify the address label, Paste, SCOUT IT, focused Brief/status and evidence disclosure are understandable in order. Focus/navigation alone must not start a check. Record device/iOS, preview URL, pass/fail and any screenshot of the defect (no private position or wallet information).
 
-**Founder GO/NO-GO:** approve the source-disabled consumer experience only after these checks pass. An authentic Helius observation/public GET activation requires its own independent approval; synthetic QA cannot satisfy it. Final original artwork is still outstanding.
+**Founder GO/NO-GO:** approve the source-disabled consumer experience only after these checks pass. An authentic Helius observation/public GET activation requires its own independent approval; synthetic QA cannot satisfy it. Selected artwork is integrated; independent commercial-rights/trademark clearance remains outstanding.
 
 ## Extended acceptance (not required to invent new work tonight)
 

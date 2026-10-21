@@ -1,33 +1,30 @@
-# Replaceable art / owner handoff
+# Founder-selected artwork / rights-pending handoff
 
-The final selected Midjourney original has **not been imported**. No chat screenshot was downloaded, reconstructed, scraped or passed to an image service. The current artwork is original locally authored SVG geometry, visibly labeled **“Original vector placeholder · final artwork pending”**. It is not presented as a licensed final production file or a cleared trademark.
+The founder supplied and visually approved the attached `UNFARMD_selected_art_assets.zip`. The four selected WebP files are now integrated into the **existing** consumer app; this replaces the SVG placeholders, not the working analyzer. Visual approval does **not** establish independent commercial rights, trademark clearance, exclusivity or authenticated Midjourney export/master provenance. These remain **pending**. The visible hero caption says **“Founder-selected art · rights review pending”**; the story/footer retain the rights limitation. No licensing clearance is asserted.
+
+## Preserved originals and provenance
+
+The ZIP SHA-256 is recorded in [artwork/archive-sha256.txt](artwork/archive-sha256.txt). Its unmodified [asset-manifest.json](artwork/asset-manifest.json) and [INSTRUCTIONS.txt](artwork/INSTRUCTIONS.txt) retain the supplied provenance, selections, byte counts, dimensions and hashes. Both supplied JPEG originals are preserved byte-for-byte under [artwork/originals/](artwork/originals/); their status is **founder-uploaded files, not independently authenticated generator masters**. Tool/model/date and commercial rights remain unverified.
+
+All six supplied derivatives are preserved without recompression or edits: four selected WebPs in `public/consumer/unfarmd/`; the unused square and `scout-mobile-focus-CANDIDATE.webp` under `artwork/unused-derivatives/`. The optional mobile focus candidate is **not used**. The four original SVG placeholders and their local generator also remain intact for audit and reviewed rollback. Never run the generator as a substitute for a supplied asset or as evidence of licensing.
 
 ## One explicit seam
 
-[`app/consumer/brand/art.ts`](../../app/consumer/brand/art.ts) supplies local desktop/mobile/avatar/crew paths, intrinsic dimensions, alt text, placeholder status and caption. [`identity.tsx`](../../app/consumer/brand/identity.tsx) renders a native `<picture>` with an original high-priority desktop/mobile hero, no remote image host or backend dependency. The CSS reserves its aspect ratio to avoid loading shifts. Hero art renders only on idle; no mascot or marketing image pushes real result evidence down.
+`app/consumer/brand/art.ts` supplies local desktop/mobile/avatar/story paths, actual intrinsic dimensions, shared descriptive hero alt text, story alt text, rights-pending status and caption. `identity.tsx` uses a native `<picture>` with a high-priority hero and explicit mobile `<source>` dimensions. The avatar is selected by the existing homepage icon metadata seam, not inserted as another above-fold character. The below-fold story stays in the existing closed crew disclosure and loads lazily. No new runtime dependency, remote image host, hotlink, request to a provider or source-contract change.
 
-| Asset | Current dimensions | Usage / replacement specification |
+| Selected asset | Actual dimensions / bytes | Role |
 | --- | --- | --- |
-| `escape-desktop.svg` | 800×720 | Single sheep, full readable silhouette, reserved right-side visual on desktop. Supply an optimized owner-approved 1600×1440 WebP/AVIF/PNG master or conforming ratio; suggested compressed delivery ≤150 kB. |
-| `escape-mobile.svg` | 720×380 | Recompose, do not blindly crop desktop. Keep amber eyes, broken tag and optical scanner legible at 284/346px. Suggested 1440×760 master, compressed ≤75 kB. |
-| `sheep-avatar.svg` | 240×230 | Same head/eyes/tag reduced to an icon; no scanner detail required at 32px. Homepage icon only; existing global favicon and legacy routes stay intact. Review optical reductions at 16/32/64px. |
-| `crew.svg` | 640×180 | Optional supporting cast in a closed below-fold lore disclosure. No second primary mascot above the fold. Keep separate from the hero asset. |
+| `scout-hero-desktop.webp` | 960×864 / 64,366 | Solo SCOUT mascot in the existing desktop hero. |
+| `escape-hero-mobile.webp` | 1200×633 / 75,926 | Founder-selected wide farm-escape composition; mobile at ≤700px. |
+| `scout-avatar.webp` | 384×384 / 18,792 | Existing homepage icon/mascot avatar seam. Global favicon/legacy routes unchanged. |
+| `escape-story.webp` | 1456×816 / 118,474 | Lazy, below-fold farm-escape story in the existing crew disclosure. |
 
-The byte targets are handoff goals, not a paid-service requirement or an assertion about an asset not supplied. Keep filenames local under `public/consumer/unfarmd/`. Do not hotlink a generator CDN, introduce a remote-image config, embed base64, add runtime filesystem reads or put text/CTA/token metrics in the illustration. No wallet/portfolio details, copied meme-IP, weapons, named villains or implied safety/financial approval seals.
+Hero ratios are reserved at **960/864 desktop** and **1200/633 mobile**, matching supplied dimensions. No image cropping/reconstruction, simulated final art, new features, layout redesign, metrics or evidence claims. The common hero alt describes the black sheep, amber eyes, broken tag, lime scanner and coral sky visible in both selected compositions. The story alt describes the farm escape. Images are not focusable; missing images keep descriptive alt text, reserved geometry and the independently usable form. No hidden network fallback or automatic source request is introduced.
 
-## Owner steps, before committing final art
+## Verification and gates
 
-1. Supply the original downloaded/upscaled output, not a chat/portfolio screenshot. Record creator/tool/model, generation date, source original SHA-256 and artist revisions. Do not provide keys, accounts or secrets.
-2. Review current tool/subscription terms, any artist agreement and actual intended public/commercial usage. Confirm no recognizable third-party IP or private information. This branch has not established legal clearance, exclusivity or commercial permission for a future image.
-3. Deliver separate optimized mobile and desktop compositions. Lock skeptical amber half-lidded eyes, thick charcoal wool, broken tag and compact acid-lime **optical** scanner. Supporting animals stay secondary/below fold; dusty coral remains restrained.
-4. Add the approved files locally and edit `art.ts` paths, truthful alt text and caption together. Change `status` and remove the placeholder caption only in a separately reviewed owner-approved change with documented provenance/rights. If ratio changes, update intrinsic sizes and the two reserved CSS aspect ratios deliberately; rerun the first-viewport checks.
-5. Recheck at 320/390/1280, reduced motion, increased text, slow/missing-image load and VoiceOver. Text/input/CTA/source status must work even without the illustration. Final art never becomes evidence about a token.
-6. Name/trademark/domain review and a separate production deployment GO remain independent. Do not alter existing routing, canonical domain, source permissions or acquisition budgets when replacing art.
+[Artwork QA, responsive screenshots and exact results](artwork/README.md). Existing source-disabled release acceptance remains in [release/README.md](release/README.md); references there to placeholder artwork describe that **earlier** build. This owner-authorized asset integration supersedes only its pending-art-selection statement, not the independent rights or source activation gates. Prior screenshot galleries remain dated previous-build evidence.
 
-## Reproduce current originals
+Before a human-approved public release, the owner must independently review applicable generator/subscription and artist terms, intended commercial/public use, recognizable third-party IP, and UNFARMD name/trademark clearance. Preserve the review record; do not remove rights-pending disclosure merely because these files are in Git. Physical iPhone Safari/VoiceOver/software-keyboard and final founder visual acceptance remain pending unless actually performed. Source-derived financial publication restrictions and separately disabled backend approval are unchanged.
 
-```sh
-node app/consumer/brand/generate-placeholder.mjs
-```
-
-This writes only the four local SVG placeholders. The generator is not imported by a runtime component, does not access a source service or need credentials, and creates no token observations. The current avatar and both hero compositions share the same authored head geometry so their eyes/tag remain consistent.
+Rollback this integration through review by reverting its consumer/artwork commit to parent `9ec499a78991552c2b02db2d641c75487b52cf47`; that restores original placeholders and preserves the quota fix. Do not roll back backend #136, source admission/counters, data, permissions or infrastructure. No merge, manual deployment, domain change, source activation or paid service is authorized by this artwork handoff.

@@ -64,7 +64,7 @@
 .unfarmd .intro { max-width: 440px; font-size: 17px; line-height: 1.5; color: var(--ink); margin-top: 21px; }
 .unfarmd .escape-art { grid-column: 2; grid-row: 1 / 4; margin: 0 -12px 0 -20px; align-self: center; min-width: 0; }
 .unfarmd .escape-art picture { display: block; }
-.unfarmd .escape-art img { display: block; width: 100%; height: auto; aspect-ratio: 800 / 720; object-fit: contain; }
+.unfarmd .escape-art img { display: block; width: 100%; height: auto; aspect-ratio: 960 / 864; object-fit: contain; }
 .unfarmd .escape-art figcaption { font-size: 9px; line-height: 1.5; color: var(--muted); text-align: center; margin-top: 5px; }
 .unfarmd-landing #token-search { grid-column: 1; grid-row: 2; width: 100%; max-width: 450px; }
 .unfarmd-landing .research-steps { margin-bottom: 15px; font-size: 10px; max-width: 360px; }
@@ -162,7 +162,7 @@
   .unfarmd .welcome h1 > span { font-size: clamp(26px, 8.3vw, 32.4px); }
   .unfarmd .intro { font-size: 14px; margin-top: 16px; }
   .unfarmd .escape-art { margin: 10px 0 18px; width: 100%; align-self: center; max-width: 430px; }
-  .unfarmd .escape-art img { aspect-ratio: 720 / 380; width: 100%; height: auto; }
+  .unfarmd .escape-art img { aspect-ratio: 1200 / 633; width: 100%; height: auto; }
   .unfarmd .escape-art figcaption { font-size: 8px; line-height: 1.5; margin-top: 3px; }
   .unfarmd-landing #token-search { max-width: none; }
   .unfarmd-landing .research-steps { margin-bottom: 13px; font-size: 10px; }

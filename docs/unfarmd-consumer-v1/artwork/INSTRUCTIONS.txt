@@ -1,0 +1,29 @@
+UNFARMD owner-selected art — 2026-10-20
+
+LOCKED: IMG_3659.jpeg = farm escape campaign art; IMG_3662.jpeg = solo SCOUT mascot.
+Both unaltered supplied files are under originals/.
+Optimized production-ready WebP derivatives are in ready_for_repo/public/consumer/unfarmd/.
+
+Recommended default integration on EXISTING draft PR #137 (refresh current head first):
+- desktop hero: scout-hero-desktop.webp (960x864: slot ~800:720)
+- mobile hero: escape-hero-mobile.webp (1200x633: slot ~720:380)
+- solo mascot avatar: scout-avatar.webp (384x384)
+- below-fold story/crew image: escape-story.webp (1456x816)
+- optional, if mobile scene reduces clarity: scout-mobile-focus-CANDIDATE.webp.
+Do not default to the optional focus variant without physical iPhone inspection.
+
+Update app/consumer/brand/art.ts and app/consumer/brand/identity.tsx alt text
+and honest placeholder/pending captions; replace the crew placeholder only when
+the story/campaign art passes layout checks. Update .unfarmd.css image reserved
+aspect ratios only if required. Keep the source-evidence contract unchanged.
+
+IMPORTANT: Source files have not been independently verified as original
+Midjourney export/master. Commercial rights/trademark approval not established.
+Do not claim licensing clearance merely because imagery was supplied.
+
+DO NOT commit credentials, edit API/backend/Neon/Helius, merge, deploy,
+change production aliases, or remove launch/source restrictions.
+
+At 320x740, 390x844 and 1280x900, verify first-screen CTA is accessible,
+image loading does not cause layout shift, and focus/keyboard/VoiceOver work.
+Also test image absent/slow, alt text, reduced motion and high zoom.
