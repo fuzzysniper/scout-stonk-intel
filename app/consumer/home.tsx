@@ -142,6 +142,6 @@ export default function ConsumerHome({initialInput,initialState,onchainPort,mark
    {idle&&<><ResearchInstruments/><Trenchers/></>}
    <noscript><p className="small-note">The dated provider explanation is readable without JavaScript. Onchain facts have not loaded; enable JavaScript to request the server check. No token facts are inferred from an address.</p></noscript>
   </main>
-  <footer className="site-footer"><div className="footer-mission"><strong>Level the trenches.</strong><span>Understanding first. No trading or wallet connection.</span></div><nav aria-label="Technical research"><a href={legacyPath(supported?result.evidence.token.mint:evaluatedInput)}>Research terminal</a><a href="/research/history">Source index</a><Link href="/research/cards" prefetch={false}>CARDS pair research</Link></nav><p className="launch-boundary">UNFARMD is the proposed launch brand. Artwork commercial-rights and name/trademark clearance remain pending.</p></footer>
+  <footer className="site-footer"><div className="footer-mission"><strong>Level the trenches.</strong><span>Understanding first. No trading or wallet connection.</span></div><nav aria-label="Technical research"><a href={legacyPath(supported?result.evidence.token.mint:evaluatedInput)}>Research terminal</a><a href="/research/history">Source index</a><Link href="/research/cards" prefetch={false}>CARDS pair research</Link></nav><p className="launch-boundary">Onchain controls are not a safety guarantee. Check the evidence and unknowns before trading.</p></footer>
  </div>;
 }

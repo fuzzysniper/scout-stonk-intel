@@ -12,6 +12,5 @@ export const escapeArt={
  crewWidth:1456,crewHeight:816,
  alt:'A skeptical black sheep with amber eyes, charcoal wool and a broken ear tag carries a lime SCOUT scanner against a coral sky.',
  crewAlt:'A black sheep carrying a lime scanner leads farm animals past a broken fence, away from a barn at coral dusk.',
- caption:'Founder-selected art · rights review pending',
  status:'owner_selected_rights_pending',
 } as const;
