@@ -1,5 +1,7 @@
 # Issue #135: exact-mint lookup release
 
+**Current PC procedure:** [First authentic mint observation](first-authentic-source-pc.md). All dated preflight windows below are expired historical proposals; no approval carries forward. Confirm founder desktop availability before proposing new clocks. This document alone authorizes no release or request.
+
 **Review-only. No live proof obtained.** `LOOKUP_APPROVAL.phase="disabled"` and null session clocks mean zero hosting/configuration/credential/SQL/RPC reads for mint lookups. The separately gated categorical preflight below proposes only a five-minute configuration-read window. Merging this implementation enables no mint acquisition and removes the deployed route's old-canary POST path. The old canary code, policy, absolute expiry, function and admission records are unchanged. Its production 503 cause and previous usage remain unknown; #131 proves a local TLS-proxy compatibility defect only.
 
 ## Frontend contract — Agent A / #134
