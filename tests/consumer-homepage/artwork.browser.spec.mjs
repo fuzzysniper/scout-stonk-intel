@@ -24,7 +24,8 @@ test('selected WebP hero, avatar and escape story: exact bytes, first-screen CTA
  const expected=info.project.name==='1280'?'scout-hero-desktop.webp':'escape-hero-mobile.webp';expect(await image.evaluate(e=>new URL(e.currentSrc).pathname)).toBe('/consumer/unfarmd/'+expected);
  await expect(page.locator('.escape-art figcaption')).toHaveCount(0);await expect(page.locator('.launch-boundary')).toContainText('Onchain controls are not a safety guarantee');
  const before=await action(page);expect(activity.get(page).calls).toEqual([]);await axe(page);await capture(page,'hero',info);
- await expect(page.locator('link[rel=icon][href="/consumer/unfarmd/scout-avatar.webp"]')).toHaveAttribute('href','/consumer/unfarmd/scout-avatar.webp');
+ await expect(page.locator('link[rel=icon]')).toHaveAttribute('href',/^\/icon\.svg\?/);
+ await expect(page.locator('link[rel=apple-touch-icon]')).toHaveAttribute('href',/^\/apple-icon\?/);
  const manifest=JSON.parse(readFileSync('docs/unfarmd-consumer-v1/artwork/asset-manifest.json'));
  for(const name of Object.values(manifest.recommended)){const r=await request.get('/consumer/unfarmd/'+name);expect(r.status()).toBe(200);expect(r.headers()['content-type']).toContain('image/webp');expect(createHash('sha256').update(await r.body()).digest('hex')).toBe(manifest.derivatives[name].sha256);}
  const summary=page.locator('.trenchers > summary');await summary.focus();await page.keyboard.press('Enter');const story=page.locator('.trenchers img');await story.scrollIntoViewIfNeeded();await expect.poll(()=>story.evaluate(e=>e.naturalWidth)).toBe(1456);await expect(story).toHaveAttribute('width','1456');await expect(story).toHaveAttribute('height','816');await expect(page.locator('.trenchers')).toContainText('Animals are a metaphor for independent research');await axe(page);await capture(page,'story',info,true);

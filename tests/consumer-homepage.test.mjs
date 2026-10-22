@@ -48,6 +48,7 @@ test('UNFARMD server-rendered consumer retains the actual analyzer and prominent
 test('proposed UNFARMD metadata preserves exact-mint canonical, noindex and legacy domain',()=>{
  for(const raw of [undefined,'SI','1'.repeat(32),[examples[0].mint,examples[1].mint],...examples.map(e=>e.mint)]){
   const m=consumerMetadata(raw);assert.deepEqual(m.robots,{index:false,follow:false});
+  assert.equal(m.icons,undefined,'file-based Outlier and Apple icons must remain authoritative');
   assert.doesNotMatch(JSON.stringify(m),/SCOUT|STORKCOIN|PROJECT CLEAR|api\/og/);
   assert.match(m.description,/stale, not live data/);
   if(typeof raw==='string'&&examples.some(e=>e.mint===raw))assert.equal(m.alternates.canonical,'https://scout.storkcoin.xyz'+sharePath(raw));else assert.equal(m.alternates.canonical,'https://scout.storkcoin.xyz/');

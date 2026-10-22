@@ -78,7 +78,8 @@ test('real HTTP SSR, neutral PNG, existing routes and no financial source bodies
  for(const t of examples){const r=await request.get('/?mint='+t.mint);expect(r.status()).toBe(200);expect(r.headers()['cache-control']).toContain('no-store');const baseline=JSON.parse(readFileSync('tests/consumer-homepage/baseline-headers.json','utf8'));const headers=Object.fromEntries(Object.keys(baseline.headers).map(k=>[k,r.headers()[k]??null]));expect(headers).toEqual(baseline.headers);writeFileSync('experiments/consumer-mvp/web/node_modules/.cache/consumer-v17-headers.json',JSON.stringify(headers));const text=await r.text();expect(text).toContain(t.name);expect(text).toContain('Financial figures withheld');
   for(const marker of ['distributedRaw','distributedTokens','totalDistributed','amountRaw','priceUsd','apy'])expect(text).not.toContain('"'+marker+'":');
  }
- const icon=await request.get('/favicon.ico');expect(icon.status()).toBe(200);expect([...(await icon.body()).subarray(0,6)]).toEqual([0,0,1,0,1,0]);
+ const icon=await request.get('/icon.svg');expect(icon.status()).toBe(200);expect(icon.headers()['content-type']).toContain('image/svg+xml');expect(await icon.text()).toBe(readFileSync('app/icon.svg','utf8'));
+ expect((await request.get('/favicon.ico')).status()).toBe(404);
  const png=await request.get('/opengraph-image');expect(png.status()).toBe(200);expect(png.headers()['content-type']).toContain('image/png');expect([...(await png.body()).subarray(0,8)]).toEqual([137,80,78,71,13,10,26,10]);
  writeFileSync('experiments/consumer-mvp/web/node_modules/.cache/next-homepage-og.png',await png.body());
  for(const path of ['/terminal','/research','/research/history','/radar','/status','/brief'])expect((await request.get(path)).status(),path).toBe(200);
