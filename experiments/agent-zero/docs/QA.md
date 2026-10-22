@@ -22,7 +22,7 @@ Exact base58 identity and unsigned >53-bit precision; bounded local imports; ori
 
 ## Browser evidence
 
-`node experiments/agent-zero/tests/browser.mjs` used actual local HTTP app + Chromium **154.0.8037.57**, DPR 1, fresh disposable journals per viewport. [Machine results](browser-results.json), [image hashes](screenshot-hashes.json). Each width passed: import seven genuine metadata candidates; original clocks; all finalized facts null; explicit wait/reject-form recording; manual claim precision/unconfirmed/null-NAV behavior; isolated synthetic dossier/loss calculation; keyboard focus; 200% reflow; reduced motion; forced colors; axe WCAG A/AA/2.1/2.2 checks. **0 external requests, 0 page errors, 0 axe violations** in each run.
+`node experiments/agent-zero/tests/browser.mjs` used actual local HTTP app + Chromium **154.0.8037.57**, DPR 1, fresh disposable journals per viewport. [Machine results](browser-results.json), [image hashes](screenshot-hashes.json). Each width passed: import seven genuine metadata candidates; original clocks; all finalized facts null; explicit wait/reject-form recording; manual claim precision/unconfirmed/null-NAV behavior; isolated synthetic dossier/loss calculation; keyboard focus; 200% reflow; acknowledged-write/failed-refresh retry deduplication; reduced motion; forced colors; axe WCAG A/AA/2.1/2.2 checks. **0 external requests, 0 page errors, 0 axe violations** in each run.
 
 All journal mutations during QA were disposable test actions, not genuine founder decisions/transactions. No screenshot contains founder positions or an asserted real holding. The fictional walkthrough is conspicuously labeled on screen and excluded from genuine outcomes.
 
@@ -34,7 +34,7 @@ All journal mutations during QA were disposable test actions, not genuine founde
 | Invented dossier | [image](screenshots/synthetic-dossier-320.png) | [image](screenshots/synthetic-dossier-390.png) | [image](screenshots/synthetic-dossier-1280.png) |
 | Invented shadow loss | [image](screenshots/synthetic-shadow-320.png) | [image](screenshots/synthetic-shadow-390.png) | [image](screenshots/synthetic-shadow-1280.png) |
 
-QA found and fixed a real 200% zoom overflow (workspace min-width, grid minimum sizing and three-column policy values). High-contrast system colors now remain legible. This is a new isolated interface, not a change to a previously approved consumer screen; no fabricated “before” artifact is claimed.
+QA found and fixed a real 200% zoom overflow (workspace min-width, grid minimum sizing and three-column policy values). High-contrast system colors now remain legible. Fault injection also found an acknowledged-write/failed-view-refresh retry defect: the UI now preserves the original request ID until the view refresh succeeds, reports the saved write truthfully, and retrying produces exactly one decision at every viewport. This is a new isolated interface, not a change to a previously approved consumer screen; no fabricated “before” artifact is claimed.
 
 ## Limits / release decision
 

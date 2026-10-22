@@ -24,16 +24,16 @@
     "sha256": "7d94f43b4e0eecbbc76e8e112833a987b8b9ab683147ee85db15ba2bc01fb1ae"
   },
   "recorded-1280.png": {
-    "bytes": 309555,
-    "sha256": "a3e6c69d0571037cdd11dcde90347f7a5330ad9e910894a22934857027c1a0e9"
+    "bytes": 309664,
+    "sha256": "4bcf2e726533a7b70ad1b5d85ec1bc4c29367a7c5ed3e7e9f3dbe02f4891b622"
   },
   "recorded-320.png": {
-    "bytes": 260204,
-    "sha256": "888ef4dc3ff640b09c71c61b7f269be275fc63c68e985c2929855f0e21a5606a"
+    "bytes": 259730,
+    "sha256": "480b1d3b4d0800a46f16662120b1bb1a341d348e037f25a96ccaed38045b8ce9"
   },
   "recorded-390.png": {
-    "bytes": 255449,
-    "sha256": "45c7a5c4b55d5a85e32c06870329d0da481b3936cef3a2197e60e246342cd8e5"
+    "bytes": 255343,
+    "sha256": "acc186224bb0c8b036f4b3a292b7f0e7f124addb9ea8358f0bebce4621f89851"
   },
   "synthetic-dossier-1280.png": {
     "bytes": 290930,
