@@ -1,0 +1,41 @@
+{
+  "browser": "154.0.8037.57",
+  "results": [
+    {
+      "width": 320,
+      "height": 740,
+      "result": "PASS",
+      "externalRequests": 0,
+      "pageErrors": 0,
+      "axeViolations": 0,
+      "realCandidates": 7,
+      "genuineFinalizedMintFacts": 0,
+      "syntheticWorkspaceIsolated": true,
+      "physicalSafari": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "result": "PASS",
+      "externalRequests": 0,
+      "pageErrors": 0,
+      "axeViolations": 0,
+      "realCandidates": 7,
+      "genuineFinalizedMintFacts": 0,
+      "syntheticWorkspaceIsolated": true,
+      "physicalSafari": false
+    },
+    {
+      "width": 1280,
+      "height": 900,
+      "result": "PASS",
+      "externalRequests": 0,
+      "pageErrors": 0,
+      "axeViolations": 0,
+      "realCandidates": 7,
+      "genuineFinalizedMintFacts": 0,
+      "syntheticWorkspaceIsolated": true,
+      "physicalSafari": false
+    }
+  ]
+}

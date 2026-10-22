@@ -1,0 +1,5 @@
+node_modules/
+# Never store a private journal in this checkout; the server enforces outside paths.
+*.jsonl
+*.lock
+screenshots-private/
