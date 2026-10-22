@@ -1,0 +1,114 @@
+{
+  "version": "agent0-acquisition-audit/1",
+  "reviewDate": "2026-10-22",
+  "repositoryCommit": "acd72f2d09cb9bec3f40fd8dcddcf031decae950",
+  "priorDraft": {
+    "pr": 150,
+    "head": "0854004d9a84f605100ce05cb5b23efce329a95b"
+  },
+  "scope": "Existing repository files only. No provider requests, new data or financial quantities. Capture-gap statistics are not market sampling, latency or scheduling-cause evidence.",
+  "files": {
+    "data/reward-snapshots.json": {
+      "bytes": 180923,
+      "sha256": "d478022d497cda7c99a09b9fde12d81ec38a5265cebc2a851d547dda86d11344"
+    },
+    "data/tracked-mints.json": {
+      "bytes": 3607,
+      "sha256": "e6a94dc0962ca3b4336dd2d97ab879aef542062b39cee93994bd9a96698814a5"
+    },
+    "data/collection-summary.json": {
+      "bytes": 1570,
+      "sha256": "1c8c3fd0faacb90d068a0cd836e25a7f1d4fa8b7d34bd8e1e6d8aebb4f72a94b"
+    }
+  },
+  "trackedMints": 7,
+  "storedRewardCaptures": 358,
+  "latestSummary": {
+    "runId": 39693192480,
+    "event": "schedule",
+    "startedAt": "2026-10-21T23:24:26+00:00",
+    "finishedAt": "2026-10-21T23:24:27+00:00",
+    "overall": "complete"
+  },
+  "mints": [
+    {
+      "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8/rewards",
+      "storedRecords": 50,
+      "uniqueCaptureTimes": 50,
+      "firstCaptureUtc": "2026-10-12T20:41:27+00:00",
+      "lastCaptureUtc": "2026-10-21T23:24:26+00:00",
+      "maximumCaptureGapSeconds": 37549,
+      "medianCaptureGapSeconds": 16471
+    },
+    {
+      "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR/rewards",
+      "storedRecords": 51,
+      "uniqueCaptureTimes": 51,
+      "firstCaptureUtc": "2026-10-12T20:41:27+00:00",
+      "lastCaptureUtc": "2026-10-21T23:24:26+00:00",
+      "maximumCaptureGapSeconds": 29727,
+      "medianCaptureGapSeconds": 16981.0
+    },
+    {
+      "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu/rewards",
+      "storedRecords": 51,
+      "uniqueCaptureTimes": 51,
+      "firstCaptureUtc": "2026-10-12T20:41:28+00:00",
+      "lastCaptureUtc": "2026-10-21T23:24:26+00:00",
+      "maximumCaptureGapSeconds": 29727,
+      "medianCaptureGapSeconds": 16981.0
+    },
+    {
+      "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS/rewards",
+      "storedRecords": 53,
+      "uniqueCaptureTimes": 53,
+      "firstCaptureUtc": "2026-10-12T15:43:41+00:00",
+      "lastCaptureUtc": "2026-10-21T23:24:27+00:00",
+      "maximumCaptureGapSeconds": 29727,
+      "medianCaptureGapSeconds": 16901.5
+    },
+    {
+      "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr/rewards",
+      "storedRecords": 51,
+      "uniqueCaptureTimes": 51,
+      "firstCaptureUtc": "2026-10-12T20:41:28+00:00",
+      "lastCaptureUtc": "2026-10-21T23:24:27+00:00",
+      "maximumCaptureGapSeconds": 29727,
+      "medianCaptureGapSeconds": 16981.0
+    },
+    {
+      "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7/rewards",
+      "storedRecords": 51,
+      "uniqueCaptureTimes": 51,
+      "firstCaptureUtc": "2026-10-12T20:41:29+00:00",
+      "lastCaptureUtc": "2026-10-21T23:24:27+00:00",
+      "maximumCaptureGapSeconds": 29728,
+      "medianCaptureGapSeconds": 16981.0
+    },
+    {
+      "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
+      "source": "https://www.stonkfun.xyz/api/public/v1/tokens/DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP/rewards",
+      "storedRecords": 51,
+      "uniqueCaptureTimes": 51,
+      "firstCaptureUtc": "2026-10-12T20:41:29+00:00",
+      "lastCaptureUtc": "2026-10-21T23:24:27+00:00",
+      "maximumCaptureGapSeconds": 29727,
+      "medianCaptureGapSeconds": 16981.0
+    }
+  ],
+  "qualification": {
+    "newEmergingUniverse": false,
+    "retainedPriceSeries": false,
+    "actualMarketClocks": false,
+    "finalizedMintFactsInRewardRecords": false,
+    "executableExitEvidence": false,
+    "opportunityRanking": "withheld",
+    "rights": "unverified"
+  }
+}
