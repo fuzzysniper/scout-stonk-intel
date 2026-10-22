@@ -33,7 +33,7 @@ One WebSocket attempt, 120 seconds, 2,000 accepted data messages including ackno
 
 Approval file and state must be outside every Git tree, without symlinks. Fixed owner-home state, global exclusive lock, permanent ID spend, strict exact approval fields/head/scope/time and private-only rights attestation. POSIX modes 0700/0600; Windows owner checks NTFS ACLs and encryption. Reject CI, Vercel, proxy-configured environments and TLS-disabled acquisition; do not bypass those guards. UI binds only `127.0.0.1`, rejects hostile Host/Origin/Sec-Fetch-Site and all mutations, uses no-store/CSP, renders text only. Its polling reads local memory/files and cannot invoke sources. Same-OS-user compromise remains outside this local protection boundary.
 
-`ws` **8.22.0 MIT** is the sole new, independently locked dependency, used for bounded framing instead of hand-written WebSocket code. Root package/lock/workflows unchanged. This dependency and the inactive source capability require human code review before activation.
+`ws` **8.22.0 MIT** is the sole new, independently locked dependency, used for bounded framing instead of hand-written WebSocket code. Root package/lock and existing workflows unchanged. A new PR-only, read-only offline CI job runs the 47 parent and 30 worker tests, never the native pilot. This dependency and the inactive source capability require human code review before activation.
 
 ## Price scope / remaining evidence
 

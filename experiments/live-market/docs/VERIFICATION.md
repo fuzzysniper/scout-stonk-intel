@@ -18,9 +18,9 @@
 
 Tests cover original finalized transaction/signature/slot/program/quote bindings, provisional identity withholding, unsupported/failed/null/stale/revised data, exact atomic sums, independent-provider counts, deterministic clocks, selected-signature budgets, close/timeout/kill/expiry source boundaries, no retry/reconnect, native read-method/destination/byte restrictions, durable singleton/spent IDs after raw deletion, journal integrity, private filesystem boundaries, Host/Origin/CSRF isolation, view-without-acquisition and honest unknowns. Filesystem test hides only the harness's artificial `/tmp/.git` ancestor marker; production has no bypass switch and all per-test Git/symlink rejection remains exercised.
 
-New 30-test and parent 47-test suites are explicitly invoked locally; existing root CI **does not register them**. Automatic root CI still checks archive/root tests/lint/types/build for the PR. CI outcome is reported in the PR after push, never inferred from local success. No workflow dispatch/rerun or workflow/permission edits.
+New 30-test and parent 47-test suites pass locally and are registered in a new **PR-only offline safety workflow**, with read-only contents permission, no persisted checkout credential, no schedule/dispatch/secrets and no pilot invocation. Existing root CI remains unchanged and checks archive/root tests/lint/types/build. CI outcome is reported in the PR after push, never inferred from local success. No workflow dispatch/rerun, existing workflow/repository permission change or source activation.
 
-Only new `experiments/live-market/` work is authored here. Latest main's #155 production-policy changes are inherited unchanged; unchanged #158 files are included as a pending dependency, not reimplemented or edited. Agent B, collector, credentials and other PRs remain untouched. Next's generated `next-env.d.ts` change was restored.
+Only new `experiments/live-market/` and its offline-only CI file are authored here. Latest main's #155 production-policy changes are inherited unchanged; unchanged #158 files are included as a pending dependency, not reimplemented or edited. Agent B, collector, credentials and other PRs remain untouched. Next's generated `next-env.d.ts` change was restored.
 
 ## Remaining founder decisions
 
