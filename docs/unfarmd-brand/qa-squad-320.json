@@ -1,0 +1,27 @@
+{
+  "direction": "squad",
+  "viewport": {
+    "width": 320,
+    "height": 740
+  },
+  "productionArtifacts": true,
+  "syntheticTokenFacts": false,
+  "tokenFactsShown": false,
+  "liveChecks": 0,
+  "providerRequests": 0,
+  "apiRequests": 0,
+  "axeViolations": 0,
+  "axePasses": 25,
+  "button": {
+    "x": 18,
+    "y": 663.875,
+    "width": 284,
+    "height": 49
+  },
+  "boundary": {
+    "x": 18,
+    "y": 721.875,
+    "width": 284,
+    "height": 12
+  }
+}
