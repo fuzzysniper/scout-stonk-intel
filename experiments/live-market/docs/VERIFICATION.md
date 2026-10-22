@@ -1,5 +1,13 @@
 # Exact implementation evidence — October 22, 2026
 
+## Source-access review follow-up
+
+Reviewed requested head `b698752c262e4e57a5574dad1abfb7eeae9dfab3` against fetched main `a55c88ec3bb96b3a9ab5d351fe34d8253902125a`. Main adds collector records only; no data/main integration or runtime edit was made. The follow-up changes documentation only: method-specific PumpPortal questions, dated proxy-access evidence, conditional RPC-only recommendation, unsent inquiry, separate mobile approval checklist and exact PC runbook. **No PumpPortal free-access/key/funding/rights assertion was promoted from founder report to independently verified fact.**
+
+Re-ran locally for this follow-up: **30/30 worker + 47/47 parent tests**, TypeScript, lint, optimized production build, archive check against fetched main and `git diff --check`: all PASS. No new test was added for prose. Root tests/npm installs and browser QA below are prior implementation evidence; no UI/runtime/dependency changed, so no new screenshots or browser/live claims were needed. Automatic root CI for the new documentation head is reported separately in the PR. Checked-in approvals remain false and executable scope hash unchanged. No live connection was made.
+
+## Original implementation verification
+
 **Live/persistent success criterion remains BLOCKED, not claimed.** No source or RPC acquisition was performed. Native acquisition stays disabled by the checked-in false approvals and strict owner entry. Actual live counts, independently finalized counts, reject counts, latency and gaps are **NOT MEASURED / NOT RUN**. The owner's earlier #154 proof is a separate founder-reported two-read snapshot, never reused as stream evidence or budget.
 
 | Check | Actual local result |

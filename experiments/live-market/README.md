@@ -1,8 +1,8 @@
 # Private Pump launch pilot — actual worker, INACTIVE
 
-Follow-up to #156 / #158 and #153 / #154. Latest main `aede88cf1edda125ea2af757a51d03221860aa31` plus **unchanged #158** as a decoder dependency. New work only in this directory; Agent B production proof, credentials, consumer app, collector and all other PRs unchanged.
+Follow-up to #156 / #158 and #153 / #154. Implementation baseline main `aede88cf1edda125ea2af757a51d03221860aa31` plus **unchanged #158** as a decoder dependency. Source-access review also inspected main `a55c88ec3bb96b3a9ab5d351fe34d8253902125a` (one newer collector-data commit); no main/data merge is needed for this documentation-only update. Agent B production proof, credentials, consumer app, collector and all other PRs unchanged.
 
-**Live result today: NOT RUN.** No source/RPC acquisition was authorized or performed by this implementation. Received/finalized/rejected/latency/gap measurements are **unavailable**, not invented zeroes. This is a real native WebSocket/HTTPS worker and private UI, not a simulated live feed; its executable acquisition stays behind exact-head owner approvals. [Source qualification](docs/SOURCES.md) and [Windows owner pilot](docs/OWNER_PC.md) give the remaining gates.
+**Live result today: NOT RUN.** No source/RPC acquisition was authorized or performed by this implementation. Received/finalized/rejected/latency/gap measurements are **unavailable**, not invented zeroes. This is a real native WebSocket/HTTPS worker and private UI, not a simulated live feed; its executable acquisition stays behind exact-head owner approvals. [Source comparison and conditional GO](docs/SOURCES.md), [short founder-mobile review](docs/FOUNDER_MOBILE.md) and the separate [Windows owner pilot](docs/OWNER_PC.md) give the remaining gates. PumpPortal's founder-reported free streams are not an implemented fallback or a cleared retention license.
 
 ## Smallest usable slice
 
