@@ -2,6 +2,8 @@
 
 **Decision proposed, not authorized — 22 October 2026 UTC.** Review of [issue #149](https://github.com/fuzzysniper/scout-stonk-intel/issues/149) and draft [#150 at `0854004`](https://github.com/fuzzysniper/scout-stonk-intel/pull/150). Repository baseline: `acd72f2d09cb9bec3f40fd8dcddcf031decae950`. Documentation only; no new dashboard, adapter, provider request, account, credential, schedule, hosted SQL or production change. Provider documentation, pricing and terms were **not refreshed** during this assignment. Links below are review targets, not evidence of permission or current endpoint availability.
 
+> **C0 follow-up:** [22 October documentation/rights qualification](GECKOTERMINAL_C0_QUALIFICATION.md) is BLOCKED pending official-document access and applicable permission. Treat approximately **10/minute** as the stricter provisional ceiling; retain the lower operative **six-attempt total / six-per-minute** cap. No data probe is approved or started.
+
 ## Recommendation and the decision advantage to test
 
 Authorize **C0 source qualification of a private GeckoTerminal Solana new-pool + completed one-minute OHLCV adapter**, conditional on current documentation and written use/retention permission. C0 is at most **six data GET attempts, one mechanically selected exact pool, $0 purchased services**, and no automatic retry. It is not authorization for ongoing collection, live capital or C1 below. If source clocks, units, access, rights or zero-cost entitlement cannot be established, **do not acquire data**. No fallback provider is implicitly approved.
@@ -45,7 +47,7 @@ Use bounded exact-decimal/rational arithmetic, never floating-point price ratios
 
 ## 3. Provider selection, costs and rights
 
-These are candidate assessments, **not verified current vendor quotes or licenses**. No external documentation or data endpoint was requested for this assignment. Candidate URLs must be checked through permitted access; never bypass a 403 or use a mirror to evade denial.
+These are candidate assessments, **not verified current vendor quotes or licenses**. No external documentation or data endpoint was requested for the original acquisition proposal. A later documentation-only attempt is recorded in the linked C0 follow-up; no market-data endpoint was requested. Candidate URLs must be checked through permitted access; never bypass a 403 or use a mirror to evade denial.
 
 | Candidate | Fit / technical limitation | Cost and quota evidence | Rights / decision |
 |---|---|---|---|
