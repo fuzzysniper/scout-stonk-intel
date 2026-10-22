@@ -13,7 +13,7 @@ const HOST='ep-synthetic-preflight.c-7.us-east-2.aws.neon.tech';
 const PASSWORD='SYNTHETIC_OFFLINE_PREFLIGHT_PASSWORD',IDENTITY={role:'scout_mint_app',database:'neondb'};
 const DSN=`postgresql://scout_mint_app:${PASSWORD}@${HOST}/neondb`;
 const REAL_PIN_DSN=DSN.replace(HOST,A.storeHost); // Synthetic password, no network resolution.
-const DEPLOYMENT='scout-stonk-intel-syntheticpreflight-riskledgerapp.vercel.app',ORIGIN='https://'+DEPLOYMENT,SHA='a'.repeat(40),NOW=Date.parse('2026-10-21T20:30:00Z');
+const DEPLOYMENT='scout-stonk-intel-syntheticpreflight-riskledgerapp.vercel.app',ORIGIN='https://'+DEPLOYMENT,SHA='a'.repeat(40),NOW=Date.parse('2026-10-22T19:20:00Z');
 const CONTEXT={vercel:'1',environment:'production',projectId:A.vercelProjectId,deploymentUrl:DEPLOYMENT,commitSha:SHA};
 const CLASSIFICATIONS=['dsn_missing','dsn_invalid_or_unapproved','format_compatible_binding_unproven','blocked_required_channel_binding'];
 const ALL=[...CLASSIFICATIONS,'disabled','access_denied','preflight_unavailable'];
@@ -39,7 +39,7 @@ async function read(s,r=req()){
 }
 
 test('reviewed preflight window is immutable and exactly five minutes; mint lookup remains disabled/null',()=>{
- assert.deepEqual(PREFLIGHT_APPROVAL,{enabled:true,notBeforeMs:Date.parse('2026-10-21T20:30:00Z'),expiresAtMs:Date.parse('2026-10-21T20:35:00Z')});
+ assert.deepEqual(PREFLIGHT_APPROVAL,{enabled:true,notBeforeMs:Date.parse('2026-10-22T19:20:00Z'),expiresAtMs:Date.parse('2026-10-22T19:25:00Z')});
  assert.equal(PREFLIGHT_APPROVAL.expiresAtMs-PREFLIGHT_APPROVAL.notBeforeMs,300000);assert.ok(Object.isFrozen(PREFLIGHT_APPROVAL));
  assert.equal(A.phase,'disabled');assert.equal(A.notBeforeMs,null);assert.equal(A.expiresAtMs,null);assert.ok(Object.isFrozen(A));
 });
