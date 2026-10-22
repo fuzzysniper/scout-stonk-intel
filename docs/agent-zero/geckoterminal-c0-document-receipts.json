@@ -1,0 +1,46 @@
+[
+  {
+    "label": "gt-guide",
+    "url": "https://apiguide.geckoterminal.com/",
+    "requestedAt": "2026-10-22T02:38:41.338328+00:00",
+    "kind": "official_documentation_only",
+    "marketDataApi": false,
+    "httpStatus": null,
+    "state": "transport_unavailable",
+    "reason": "<urlopen error Tunnel connection failed: 403 Forbidden>",
+    "finishedAt": "2026-10-22T02:38:41.357605+00:00"
+  },
+  {
+    "label": "cg-docs",
+    "url": "https://docs.coingecko.com/",
+    "requestedAt": "2026-10-22T02:38:41.339344+00:00",
+    "kind": "official_documentation_only",
+    "marketDataApi": false,
+    "httpStatus": null,
+    "state": "transport_unavailable",
+    "reason": "<urlopen error Tunnel connection failed: 403 Forbidden>",
+    "finishedAt": "2026-10-22T02:38:41.355605+00:00"
+  },
+  {
+    "label": "gt-terms",
+    "url": "https://www.geckoterminal.com/terms",
+    "requestedAt": "2026-10-22T02:38:41.339968+00:00",
+    "kind": "official_documentation_only",
+    "marketDataApi": false,
+    "httpStatus": null,
+    "state": "transport_unavailable",
+    "reason": "<urlopen error Tunnel connection failed: 403 Forbidden>",
+    "finishedAt": "2026-10-22T02:38:41.359534+00:00"
+  },
+  {
+    "label": "cg-terms",
+    "url": "https://www.coingecko.com/en/terms",
+    "requestedAt": "2026-10-22T02:38:41.340526+00:00",
+    "kind": "official_documentation_only",
+    "marketDataApi": false,
+    "httpStatus": null,
+    "state": "transport_unavailable",
+    "reason": "<urlopen error Tunnel connection failed: 403 Forbidden>",
+    "finishedAt": "2026-10-22T02:38:41.361609+00:00"
+  }
+]
