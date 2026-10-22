@@ -113,9 +113,11 @@ test('additive migration preserves charged old policy and byte-identical old fun
  await assert.rejects(db.owner.query(MIGRATION),e=>e.code==='42P06');await db.owner.query('ROLLBACK');
  assert.equal((await policy()).seq,'0');
 });
-test('source-disabled route, poisoned environment and ALL methods cannot inspect config or load pg',()=>{
- assert.equal(A.phase,'disabled');assert.equal(A.notBeforeMs,null);assert.equal(A.expiresAtMs,null);assert.ok(Object.isFrozen(A));
- const code=`const assert=require('node:assert/strict');process.env=new Proxy({NODE_ENV:'production'},{get(t,k){if(/SCOUT|HELIUS|PG|VERCEL|RPC|KEY|SECRET/.test(String(k)))throw Error('forbidden configuration read');return t[k]}});globalThis.fetch=()=>{throw Error('forbidden network')};const r=require(${JSON.stringify(root+'/app/api/mint-facts/route.js')});(async()=>{for(const method of ['GET','HEAD','POST','PUT','PATCH','DELETE','OPTIONS']){const a=await r[method](new Request(${JSON.stringify(ORIGIN+'/api/mint-facts?mint='+MINT)},{method}));assert.notEqual(a.status,200)}assert.ok(!Object.keys(require.cache).some(x=>/node_modules\\/pg\\//.test(x)))})().catch(()=>process.exitCode=1);`;
+test('reviewed source proof window is frozen; public methods and other mints cannot inspect config or load pg',()=>{
+ assert.equal(A.phase,'proof');assert.equal(A.notBeforeMs,Date.parse('2026-10-22T19:50:00Z'));
+ assert.equal(A.expiresAtMs,Date.parse('2026-10-22T20:00:00Z'));assert.equal(A.expiresAtMs-A.notBeforeMs,600000);assert.ok(Object.isFrozen(A));
+ const wrongMint=MINT===PROOF.mint?THIRD:MINT;
+ const code=`const assert=require('node:assert/strict');let reads=0;process.env=new Proxy({NODE_ENV:'production'},{get(t,k){if(/SCOUT|HELIUS|PG|VERCEL|RPC|KEY|SECRET/.test(String(k))){reads++;throw Error('forbidden configuration read')}return t[k]}});globalThis.fetch=()=>{throw Error('forbidden network')};const r=require(${JSON.stringify(root+'/app/api/mint-facts/route.js')});(async()=>{for(const now of [${A.notBeforeMs-1},${A.notBeforeMs},${A.expiresAtMs-1},${A.expiresAtMs}]){Date.now=()=>now;for(const origin of ${JSON.stringify([ORIGIN,DEPLOYMENT_ORIGIN])})for(const method of ['GET','HEAD','POST','PUT','PATCH','DELETE','OPTIONS']){const a=await r[method](new Request(origin+'/api/mint-facts?mint='+(method==='POST'?${JSON.stringify(wrongMint)}:${JSON.stringify(PROOF.mint)}),{method}));assert.notEqual(a.status,200)}}assert.equal(reads,0);assert.ok(!Object.keys(require.cache).some(x=>/node_modules\\/pg\\//.test(x)))})().catch(()=>process.exitCode=1);`;
  const p=spawnSync(process.execPath,['--conditions=react-server','-e',code],{encoding:'utf8',env:{NODE_ENV:'production',NODE_PATH:process.env.NODE_PATH},timeout:10000});assert.equal(p.status,0,p.stderr);
 });
 test('inert DB bootstrap and missing/window/phase approvals never authorize source traffic',async()=>{
@@ -370,4 +372,29 @@ test('expiry while fenced completion is acknowledged withholds facts without ref
  const {store}=native();let wall=Date.now();const base=wall;
  const s=runtime({clock:{now:()=>wall,monotonic:()=>wall-base},store:{async transact(c){const r=await store.transact(c);wall=Math.max(wall,r.now);if(c.kind==='complete')wall=window.expiresAtMs;return r}}}),a=await read(s);
  assert.equal(a.body.reason,'disabled');assert.equal(a.body.facts,null);assert.equal(a.body.source,null);assert.equal(s.calls.rpc,1);assert.equal((await policy()).seq,'2');
+});
+
+// Documented owner authorization is rehearsed ONLY against the disposable local fixture.
+const PROOF_DOCUMENT=readFileSync('docs/operations/usdc-proof-oct22.md','utf8');
+const OWNER_AUTH_SQL=PROOF_DOCUMENT.match(/```sql\n([\s\S]*?)\n```/)[1];
+function localOwnerSql(){
+ assert.ok(OWNER_AUTH_SQL.includes('start_ms CONSTANT bigint := '+A.notBeforeMs+';'));
+ assert.ok(OWNER_AUTH_SQL.includes('end_ms CONSTANT bigint := '+A.expiresAtMs+';'));
+ const now=Date.now(),start=now+60000,end=now+3600000;
+ return {start,end,sql:OWNER_AUTH_SQL.replaceAll(String(A.notBeforeMs),String(start)).replaceAll(String(A.expiresAtMs),String(end)).replaceAll('1792698480000',String(now+30000))};
+}
+const localInert=()=>db.owner.query("UPDATE scout_lookup.policy SET mode='disabled',not_before=NULL,expires_at=NULL");
+test('reviewed owner SQL pins source clocks and atomically arms exactly one fresh lookup row, never rearms',async()=>{
+ await localInert();const q=localOwnerSql();await db.owner.query(q.sql);const p=await policy();
+ assert.equal(p.mode,'proof');assert.equal(p.not_before,String(q.start));assert.equal(p.expires_at,String(q.end));assert.equal(p.seq,'0');
+ const before=await policy();await assert.rejects(db.owner.query(q.sql));assert.deepEqual(await policy(),before);
+});
+test('owner authorization exception after UPDATE rolls back every change',async()=>{
+ await localInert();const before=await policy(),q=localOwnerSql();
+ await assert.rejects(db.owner.query(q.sql.replace('changed <> 1','changed <> 0')));assert.deepEqual(await policy(),before);
+});
+test('spent/uncertain lookup state and restricted app role cannot run owner authorization SQL',async()=>{
+ await localInert();await db.owner.query('UPDATE scout_lookup.policy SET seq=1');const before=await policy(),q=localOwnerSql();
+ await assert.rejects(db.owner.query(q.sql));assert.deepEqual(await policy(),before);
+ const restricted=db.pool();await assert.rejects(restricted.query(q.sql),e=>e.code==='42501');assert.deepEqual(await policy(),before);
 });

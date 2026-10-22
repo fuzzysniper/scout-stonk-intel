@@ -50,7 +50,7 @@ test("wire headers disable browser/CDN caching and CORS; unsupported methods hav
   assert.match(r.headers.get("cache-control"), /no-store/); assert.equal(r.headers.get("cdn-cache-control"), "no-store"); assert.equal(r.headers.get("vercel-cdn-cache-control"), "no-store");
   assert.equal(r.headers.get("x-content-type-options"), "nosniff"); assert.equal(r.headers.get("access-control-allow-origin"), null);
   for (const method of ["POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"]) {
-    const res = await route[method](new Request(`${ORIGIN}/api/mint-facts?mint=${MINT}`, { method })); assert.equal(res.status, 405); assert.equal(res.headers.get("allow"), "GET"); assert.equal((await res.json()).status, "unavailable");
+    const res = await s.handler(new Request(`${ORIGIN}/api/mint-facts?mint=${MINT}`, { method })); assert.equal(res.status, 405); assert.equal(res.headers.get("allow"), "GET"); assert.equal((await res.json()).status, "unavailable");
   }
 });
 for (const search of ["", "?mint=", "?mint=SI", "?mint=" + MINT + "&mint=" + OTHER, "?mint=" + MINT + "&mint=" + MINT,
