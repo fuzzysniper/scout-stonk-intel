@@ -1,6 +1,6 @@
 # Issue #135: exact-mint lookup release
 
-**Review-only. No live proof obtained.** `LOOKUP_APPROVAL.phase="disabled"` and null session clocks mean zero hosting/configuration/credential/SQL/RPC reads for mint lookups. The separately gated categorical preflight below proposes only a five-minute configuration-read window. Merging this implementation enables no mint acquisition and removes the deployed route's old-canary POST path. The old canary code, policy, absolute expiry, function and admission records are unchanged. Its production 503 cause and previous usage remain unknown; #131 proves a local TLS-proxy compatibility defect only.
+**Review-only. No live mint proof obtained.** The founder reports `format_compatible_binding_unproven` from the authorized October 22 preflight at `aede88cf1edda125ea2af757a51d03221860aa31`; this does not prove connectivity or negotiated authentication. The next [proof-only session proposal](usdc-proof-oct22.md) requires three separate owner approvals. This draft proposes LOOKUP proof-only at 19:50–20:00 UTC and cleans the expired preflight to disabled/null; public GET stays disabled. All dated preflight instructions below are historical, not current authority. Legacy canary history/unknown usage remain unchanged; no migration or reset is proposed.
 
 ## Frontend contract — Agent A / #134
 
@@ -18,7 +18,7 @@ Across all isolates: one 15-second lease; 3 RPCs/UTC minute; 30/UTC day; 10-seco
 
 Each cache miss consumes one reservation before any Helius call, even if its acknowledgement is lost. A cache hit keeps original source clocks/hash. No refunds, retries or lease reclamation. Provider error, malformed/stale evidence, uncertain completion, clock regression or expired lease closes the new policy's circuit. Only supported negative account results complete normally without poisoning the service. App and SQL expiry both prevent new acquisition; expired completions cannot publish.
 
-## Categorical DSN preflight — proposed October 22, 19:20 UTC session
+## Historical categorical DSN preflight — October 22, 19:20 UTC session
 
 **New proposed schedule, not an extension or approval.** All October 21 preflight windows expired. Prior usage has not been independently reconciled here; do not assume no attempt occurred or reuse any previous authorization. The founder has confirmed an approximately 90-minute PC session starting around 1:30 PM CDT on October 22. This proposes **October 22, 19:20–19:25 UTC / 2:20–2:25 PM CDT** for categorical classification only, subject to fresh release and deployment-bound invocation approvals. [PC runbook draft #146](https://github.com/fuzzysniper/scout-stonk-intel/pull/146), reviewed at `02b91ec3eb02bee0bc31a4982f58a9acc712600f`, provides the later proof sequence; it remains a separate unchanged draft. No SQL, Neon connection or Helius proof is authorized by this preflight.
 

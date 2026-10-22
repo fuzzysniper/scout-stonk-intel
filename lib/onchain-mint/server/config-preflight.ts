@@ -8,9 +8,9 @@ export const PREFLIGHT_QUERY="?preflight=neon-dsn-v1";
 export const PREFLIGHT_INTENT="neon-dsn-configuration-v1";
 export type PreflightApproval=Readonly<{enabled:boolean;notBeforeMs:number|null;expiresAtMs:number|null}>;
 /** Independent review gate. No env/query/header can enable it. Does NOT authorize mint acquisition. */
-// Proposed preflight-only session: 2026-10-22 19:20:00Z inclusive to 19:25:00Z exclusive.
-// Release and the single protected POST require separate founder approvals. No rolling expiry.
-export const PREFLIGHT_APPROVAL:PreflightApproval=Object.freeze({enabled:true,notBeforeMs:1792696800000,expiresAtMs:1792697100000});
+// Oct 22 categorical preflight expired; founder reported format_compatible_binding_unproven.
+// Cleanup closes this independent gate; it changes no SQL/admission history.
+export const PREFLIGHT_APPROVAL:PreflightApproval=Object.freeze({enabled:false,notBeforeMs:null,expiresAtMs:null});
 type Status=DatabaseCompatibility|"disabled"|"access_denied"|"preflight_unavailable";
 type Platform=Readonly<{hosting:()=>HostingContext;readDsn:()=>unknown;now:()=>number}>;
 const reply=(status:Status,code=200)=>Response.json({status},{status:code,headers:{
