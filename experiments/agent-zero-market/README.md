@@ -70,6 +70,8 @@ Fictional UTC date: **20 October 2026**, manifest 09:54; reported pool creation 
 | Declining scripted path | Same pre-outcome evidence and WAIT; no hindsight exclusion. | Same reference; final close **0.100000 wSOL/base**; none of the expansion thresholds confirmed. | No assumed fill or manufactured realized loss. Exit unknown. |
 | Rejected/unpriced control | Pre-registered REJECT; missing 10:18 interval, null 10:19 close, unknown source clock/latency and pool age. | Missing final four intervals; outcome WITHHELD. Still included in cohort/counts. | No flat price, zero loss, replacement winner or excluded denominator. |
 
+The fixture suite also checks base/quote turnover against the exact candle-price bounds. This is invented-data coherence, not proof of any provider's volume semantics.
+
 The demo reports **three enrolled / three decisions / one reject / one unpriced outcome / zero real-money eligible**. It does not establish a hit rate or edge. [Full output](docs/synthetic-demo.json) contains decision evidence, gaps, fixed windows and provenance; rerun the demo to reproduce it byte for byte.
 
 The #150 compatibility test uses all **seven actual tracked mint identities**, read locally, with deliberately constructed insufficient-state sentinels. It checks exact view/reference preservation and zero journal commands; it does **not** pretend a genuine #150 journal ran or create real observations. Existing seven-mint evidence and every production source/collector gate remain unchanged. The package is independently runnable without merging #150.

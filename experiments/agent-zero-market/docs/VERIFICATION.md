@@ -5,17 +5,17 @@ Base: latest main `6697897d17552a374a55f1af1339203b8d5fcf5a`. Toolchain: **Node 
 | Command | Actual result |
 |---|---|
 | `NPM_CONFIG_CACHE=/tmp/scout-agent0-npm-cache npm ci` | PASS; 356 existing dependency packages installed; no manifest/lockfile change. |
-| `bash experiments/agent-zero-market/test.sh` | PASS; **50 tests, zero failures/skips/cancellations**. Strict TypeScript compile plus offline unit/security tests. |
-| `SCOUT_TEST_PG_BIN=/tmp/scout-v16-pg/usr/lib/postgresql/17/bin npm test` | PASS; **1,210 JavaScript tests + 107 Python tests = 1,317**, zero failures/skips/cancellations. Includes the 50 above; do not count them twice. Existing local PostgreSQL/TLS and Worker tests use offline fixtures, not hosted Neon or live dispatches. |
+| `bash experiments/agent-zero-market/test.sh` | PASS; **51 tests, zero failures/skips/cancellations**. Strict TypeScript compile plus offline unit/security tests. |
+| `SCOUT_TEST_PG_BIN=/tmp/scout-v16-pg/usr/lib/postgresql/17/bin npm test` | PASS; **1,211 JavaScript tests + 107 Python tests = 1,318**, zero failures/skips/cancellations. Includes the 51 above; do not count them twice. Existing local PostgreSQL/TLS and Worker tests use offline fixtures, not hosted Neon or live dispatches. |
 | `npx tsc --noEmit` | PASS, exit 0. |
 | `npm run lint` | PASS, exit 0; zero lint errors/warnings. |
 | `npm run build` | PASS, optimized Next.js 15.5.28 build. Existing edge-runtime/static-generation notice; no new routes or UI. Build-generated `next-env.d.ts` restored to baseline. |
 | `bash scripts/archive-tool.sh check origin/main` | PASS: `Archive append-only/reproduction check passed`. |
-| `bash experiments/agent-zero-market/run-demo.sh` twice + byte comparison | PASS; committed JSON and repeated output identical. SHA-256 **`ea360f2dfd11abda08d0c7620212b59b6bf1bc5fb355cf507d629210b20a640d`**. |
+| `bash experiments/agent-zero-market/run-demo.sh` twice + byte comparison | PASS; committed JSON and repeated output identical. SHA-256 **`5bdbf36b5c7e4172ad13368749d5c9fb8b7dcd0b2e6a3bc799e56e7770390a53`**. |
 | `git diff --check` | PASS. |
 | Diff against base for `app/`, `lib/`, `data/`, `scheduler/`, `.github/`, `package.json`, `package-lock.json` | EMPTY. Only this isolated package and one root test hook change. |
 
-The focused suite tests exact network/base/quote/pool/decimal identities; malformed bytes/JSON/envelopes; numeric/exponent/overprecision rejection; >53-bit exact amounts; OHLC/trade contradictions; microsecond clocks; duplicates/out-of-order/revised/conflicting bars; stale/missing/incomplete/late observations; unknown source clock/latency; fixed enrollment/checkpoint/reference; future-data leakage; declining/unpriced/rejected cases; exact 25% boundary; two-close availability using **both** receipts; missing exits; unsupported financial claims; caps; and read-only attachment safety.
+The focused suite tests exact network/base/quote/pool/decimal identities; malformed bytes/JSON/envelopes; numeric/exponent/overprecision rejection; >53-bit exact amounts; OHLC/trade contradictions; exact demo price/turnover coherence; microsecond clocks; duplicates/out-of-order/revised/conflicting bars; stale/missing/incomplete/late observations; unknown source clock/latency; fixed enrollment/checkpoint/reference; future-data leakage; declining/unpriced/rejected cases; exact 25% boundary; two-close availability using **both** receipts; missing exits; unsupported financial claims; caps; and read-only attachment safety.
 
 Security checks execute normalization/evaluation/attachment while HTTP/fetch/sockets, credential-environment reads and filesystem access throw. An AST/import guard also checks the runtime modules and reused pure helpers for forbidden network/database/credential/execution imports. These demonstrate the implemented paths' behavior, not a sandbox against arbitrary hostile code in the same Node process. Harness compilation/test reads and stdout are expected local operations.
 
