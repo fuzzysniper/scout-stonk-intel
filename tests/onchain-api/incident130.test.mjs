@@ -162,7 +162,7 @@ test('correct empty POST-to-GET translation passes; ordinary identity mismatches
 test('503 matrix: hosting/config/store-construction errors sanitize with zero stub traffic',async()=>{
  for(const options of [
   {hostingError:true},{secrets:{SCOUT_MINT_STORE_DATABASE_URL:undefined}},
-  {secrets:{SCOUT_MINT_STORE_DATABASE_URL:`postgresql://scout_mint_app:${PASSWORD}@${HOST}/neondb?sslmode=require&channel_binding=require`}},
+  {secrets:{SCOUT_MINT_STORE_DATABASE_URL:`postgresql://scout_mint_app:${PASSWORD}@${HOST}/neondb?sslmode=require&channel_binding=require&channel_binding=disable`}},
   {secrets:{SCOUT_MINT_ADMISSION_HMAC_KEY:undefined}},{secrets:{SCOUT_MINT_HELIUS_API_KEY:undefined}},
   {storeError:true},
  ]){
