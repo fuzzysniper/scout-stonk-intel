@@ -33,16 +33,18 @@ Current worker `health.bytes` / B `bytesReceived` are forwarded application mess
 
 Use DATA-key-resolved usage if supported. Otherwise reconcile *all* other account traffic in the same settled window; an aggregate317,040→new-total delta cannot be assigned to this worker while Agent B/other clients also consume credits. Do not disable or reuse their proof key. Document dashboard lag/rounding; if attribution or byte accounting is unresolved, withhold calibrated cost claims.
 
-Let `d` be **attributable, settled provider credits** for a complete measured interval of `t` seconds, including its actual RPC traffic. Let `v` be provider-confirmed billable MB for that interval and `h` its actual RPC credits. Then `d = billed_WSS(v) + h`; reconcile with20×v plus documented rounding, do not force an unexplained difference to match. With no session, `t,d,v,h` are **NOT OBSERVED**.
+Let `d` be **attributable, settled provider credits** for a complete measured interval of `t` seconds. Separate its WSS charge `w` from actual HTTP charge `h`: `d=w+h`. If provider-confirmed billable volume is `v` MB, reconcile `w` with20×v and documented rounding; do not force an unexplained difference to match. Without a session, `t,d,w,h,v` are **NOT OBSERVED**. `H_X` below is the separately measured/planned HTTP charge for that horizon using verified method weights, never an assumed request rate.
 
-| Horizon | Conditional projection from that actual interval | Current expected usage |
+| Horizon | Conditional WSS-rate projection + separate HTTP charge | Current expected usage |
 | --- | --- | --- |
-| 10minutes | `ceil(d ×600/t)` | UNKNOWN |
-| 1hour | `ceil(d ×3600/t)` | UNKNOWN |
-| 24hours | `ceil(d ×86400/t)` | UNKNOWN |
-| 7days | `ceil(d ×604800/t)` | UNKNOWN |
+| 10minutes | `ceil(w ×600/t) + H_10m` | UNKNOWN |
+| 1hour | `ceil(w ×3600/t) + H_1h` | UNKNOWN |
+| 24hours | `ceil(w ×86400/t) + H_24h` | UNKNOWN |
+| 7days | `ceil(w ×604800/t) + H_7d` | UNKNOWN |
 
-For a complete10-minute interval these multipliers are1,6,144,1008. This is a linear scenario at the *observed* rate, not a peak/guaranteed forecast or safe approval by itself. A short/cap-censored/disconnected interval does not establish representative hourly/weekly load; record which bound ended it, active-time vs elapsed-time and coverage. Size safety budgets from a representative set of measured windows/bursts plus a reviewed uncertainty margin, not guessed launches/sec or a quiet snapshot.
+For a complete10-minute interval the WSS multipliers are1,6,144,1008. **Do not multiply the proof's RPC charge by6 to price the existing1-hour grant:** it still admits at most40RPC attempts total, not240 (`H_1h≤40R`). Future daily/weekly HTTP allowances require an approved cumulative policy. If only aggregate `d` is attributable and RPC separation is unavailable, its linear extrapolation is merely a whole-pipeline scenario, not a calibrated WSS forecast or approval.
+
+These are linear scenarios at the *observed* WSS rate, not peak/guaranteed forecasts. If projected traffic exceeds the current byte/frame/record/credit envelope, report **would stop early**, not an hour of supported streaming. A short/cap-censored/disconnected interval does not establish representative hourly/weekly load; record the ending bound, active-time vs elapsed-time and coverage. Size safety budgets from representative measured windows/bursts plus a reviewed uncertainty margin, not guessed launches/sec or a quiet snapshot.
 
 ### Account ceiling, not an allocation
 
