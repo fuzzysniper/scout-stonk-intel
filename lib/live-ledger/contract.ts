@@ -25,13 +25,19 @@ export type LiveFeed = Readonly<{
     state: "unapproved" | "idle" | "connected" | "stale" | "stopped";
     heartbeatAt: string | null;
     leaseUntil: string | null;
+    sourceState: "connecting" | "open" | "closed";
+    lastFrameAt: string | null;
+    lastPongAt: string | null;
+    lastRpcElapsedMs: number | null;
+    gapSince: string | null;
+    gapEndedAt: string | null;
     gaps: number;
     errors: number;
     stopped: boolean;
     reason: string | null;
   } | null;
   budget: { connectionsUsed: number; connectionsMax: number; rpcUsed: number; rpcMax: number;
-    framesReserved: number; bytesReserved: number; creditsReserved: number; creditsMax: number;
+    framesReserved: number; bytesReserved: number; creditsReserved: number; creditsMax: number | null;
     framesReceived: number; bytesReceived: number; expiresAt: string | null } | null;
   retention: { seconds: number; maxRecords: number; expiresOnRead: true } | null;
 }>;
@@ -44,13 +50,13 @@ export type WorkerCommand =
   | (WorkerBase & { op: "claim" })
   | (Fenced & { op: "reserve"; resource: "connection" | "rpc" })
   | (Fenced & { op: "append"; event: LiveEvent })
-  | (Fenced & { op: "heartbeat"; framesReceived: number; bytesReceived: number })
-  | (Fenced & { op: "gap"; reason: "disconnect" | "verification_failed" | "invalid_message" | "transport_error" })
+  | (Fenced & { op: "heartbeat"; framesReceived: number; bytesReceived: number; sourceState: "connecting" | "open" | "closed"; lastFrameAt: string | null; lastPongAt: string | null; lastRpcElapsedMs: number | null })
+  | (Fenced & { op: "gap"; reason: "disconnect" | "verification_failed" | "invalid_message" | "transport_error" | "startup" | "shutdown"; phase: "begin" | "end" })
   | (Fenced & { op: "release"; connectionClosed: true; terminal: boolean })
   | (Fenced & { op: "stop"; reason: "owner" | "budget" | "storage" | "shutdown" | "uncertain" });
 export type WorkerReply = Readonly<{
   v: 1; ok: boolean; reason: string | null; session: string | null; scope: string;
   head: string | null; worker: string | null; fence: string | null;
   stopped: boolean; serverTime: string; leaseUntil: string | null;
-  ticket: number | null;
+  ticket: number | null; framesReceived: number; bytesReceived: number;
 }>;
