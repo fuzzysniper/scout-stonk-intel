@@ -1,5 +1,7 @@
 # Consumer release verification
 
+Historical verification for `29ae3cb`; current launch-viewer checks are recorded in [#167 verification](../live-feed-167/VERIFICATION.md). The old production-root stories are preserved as `tests/consumer-homepage/legacy.playwright.config.mjs` for reproduction on that old checkout, not counted as coverage for the new homepage. Pure component/validator regressions remain in root CI.
+
 23 October 2026. [Machine-readable results](verification.json) · [Protected scope](scope.json) · [Release checklist](RELEASE.md) · [Physical iPhone acceptance](IPHONE.md).
 
 **Story:** exact-mint input → deliberate SCOUT IT → unchanged same-origin GET → strict source/identity/freshness validation → receipt if accepted, otherwise honest denial. Production proof and public GET activation are separate owner/Agent B gates.

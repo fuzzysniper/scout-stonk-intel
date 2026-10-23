@@ -1,5 +1,7 @@
 # Founder iPhone acceptance card
 
+Historical #166 exact-mint card. Use the [current #167 private creation-viewer card](../live-feed-167/IPHONE.md) for the updated PR #168.
+
 **Pending human acceptance — no live proof authorized.** Open the integration PR's actual current preview in Safari using normal Vercel authentication. Record preview immutable URL/SHA, iPhone/iOS/browser, time and results. Keep cookies, credentials and private evidence out of screenshots.
 
 - [ ] First screen: approved sheep/art, Outlier, headline, exact-mint field and SCOUT IT visible, with source-availability boundary. Portrait/landscape, keyboard open, larger text and slow image loading have no clipped task or sideways scroll.

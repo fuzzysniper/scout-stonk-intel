@@ -1,0 +1,41 @@
+{
+  "baseline": "6a9ba2fa58235acd6c56bc4fdf09fefa38f01127",
+  "consumerInput": "29ae3cb86f8de5b3e00f19569cb066d64360b172",
+  "workerInput": "5c89f210b06906d364dce671add4fdb077a118f8",
+  "ledgerInput": "5390e75b1300abbe6b2b6ba8364dcaffdca4de84",
+  "originalHistoryPreserved": true,
+  "protected": [
+    {
+      "path": "lib/onchain-mint",
+      "tree": "040000 tree 114bf4fd686e1cdff5c57aae2e23753bd0bfe155\tlib/onchain-mint",
+      "unchanged": true
+    },
+    {
+      "path": "data",
+      "tree": "040000 tree 759ce2401ce5597bbd6431caf2795a569a828f73\tdata",
+      "unchanged": true
+    },
+    {
+      "path": "scheduler",
+      "tree": "040000 tree 29194d3a77480c555c01bfdb77dd110c6af0e17c\tscheduler",
+      "unchanged": true
+    },
+    {
+      "path": "vercel.json",
+      "tree": "",
+      "unchanged": true
+    },
+    {
+      "path": "package.json",
+      "tree": "100644 blob 5002f4810db6e6fb93e6d419c7f7af45af481b28\tpackage.json",
+      "unchanged": true
+    },
+    {
+      "path": "package-lock.json",
+      "tree": "100644 blob 6ef51ddf0b877f8b7c9302ce588921521b194b86\tpackage-lock.json",
+      "unchanged": true
+    }
+  ],
+  "workerAndLedgerPathsUnmodified": true,
+  "activation": "NO-GO; no credentials, schema, source, hosting, GET-mint or protection action"
+}
