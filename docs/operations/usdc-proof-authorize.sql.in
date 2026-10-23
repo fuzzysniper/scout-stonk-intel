@@ -1,0 +1,47 @@
+-- INERT OWNER-REVIEW TEMPLATE. Unresolved literal tokens deliberately make this non-executable.
+-- No window/role has been selected. Never run this file or substitute old #159 values.
+-- After confirmed desktop availability: review filled literals, exact deployed identity,
+-- source phase/window, cleanup prerequisite and separate SQL GO before ONE execution.
+-- Existing owner console, autocommit, no surrounding interactive BEGIN/COMMIT.
+DO $scout_authorize$
+DECLARE
+  start_ms CONSTANT bigint := {{PROOF_START_MS}};
+  end_ms CONSTANT bigint := {{PROOF_END_MS}};
+  cutoff_ms CONSTANT bigint := {{SQL_AUTHORIZATION_CUTOFF_MS}};
+  owner_role CONSTANT text := '{{APPROVED_OWNER_ROLE}}';
+  changed integer;
+BEGIN
+  PERFORM pg_catalog.set_config('search_path','pg_catalog',true);
+  IF pg_catalog.current_database() <> 'neondb' OR pg_catalog.pg_is_in_recovery()
+     OR current_user <> owner_role OR session_user <> owner_role
+     OR owner_role IN ('scout_mint_app','scout_mint_runtime')
+     OR start_ms < 0 OR end_ms <= start_ms OR end_ms > 253402300799999
+     OR end_ms-start_ms > 86400000 OR cutoff_ms < 0 OR cutoff_ms >= start_ms
+     OR pg_catalog.floor(extract(epoch FROM pg_catalog.clock_timestamp())*1000)::bigint >= cutoff_ms THEN
+    RAISE EXCEPTION 'STOP_OWNER_DATABASE_OR_WINDOW';
+  END IF;
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_catalog.pg_proc p
+    WHERE p.oid=pg_catalog.to_regprocedure('scout_lookup.step(jsonb)')
+      AND pg_catalog.encode(pg_catalog.sha256(pg_catalog.convert_to(p.prosrc,'UTF8')),'hex')=
+        'c5aedb841dc23f6012bd1ef2935262f2a3899e6b11b62c0386d7f45fc436e0c0'
+  ) THEN RAISE EXCEPTION 'STOP_LOOKUP_FUNCTION_FINGERPRINT'; END IF;
+  PERFORM pg_catalog.set_config('lock_timeout','100ms',true);
+  UPDATE scout_lookup.policy
+     SET mode='proof', not_before=start_ms, expires_at=end_ms
+   WHERE id='scout-helius-mint/lookup-v1' AND mode='disabled'
+     AND not_before IS NULL AND expires_at IS NULL
+     AND seq=0 AND circuit IS NULL AND last_clock=0 AND highest_slot=0
+     AND lease_id IS NULL AND lease_mint IS NULL AND lease_until IS NULL AND last_rpc IS NULL
+     AND minute=-1 AND reads=0 AND rpc_min=0 AND day=-1 AND rpc_day=0
+     AND NOT proof_completed AND proof_hash IS NULL AND proof_slot IS NULL AND proof_checked_at IS NULL
+     AND NOT EXISTS (SELECT 1 FROM scout_lookup.clients WHERE policy='scout-helius-mint/lookup-v1')
+     AND NOT EXISTS (SELECT 1 FROM scout_lookup.cache WHERE policy='scout-helius-mint/lookup-v1')
+     AND pg_catalog.floor(extract(epoch FROM pg_catalog.clock_timestamp())*1000)::bigint < cutoff_ms;
+  GET DIAGNOSTICS changed = ROW_COUNT;
+  IF changed <> 1 THEN RAISE EXCEPTION 'STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY'; END IF;
+  IF pg_catalog.floor(extract(epoch FROM pg_catalog.clock_timestamp())*1000)::bigint >= cutoff_ms THEN
+    RAISE EXCEPTION 'STOP_SQL_AUTHORIZATION_CUTOFF';
+  END IF;
+END;
+$scout_authorize$;

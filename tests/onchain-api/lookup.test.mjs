@@ -371,3 +371,106 @@ test('expiry while fenced completion is acknowledged withholds facts without ref
  const s=runtime({clock:{now:()=>wall,monotonic:()=>wall-base},store:{async transact(c){const r=await store.transact(c);wall=Math.max(wall,r.now);if(c.kind==='complete')wall=window.expiresAtMs;return r}}}),a=await read(s);
  assert.equal(a.body.reason,'disabled');assert.equal(a.body.facts,null);assert.equal(a.body.source,null);assert.equal(s.calls.rpc,1);assert.equal((await policy()).seq,'2');
 });
+
+// Owner authorization rehearsal ONLY: explicitly SYNTHETIC clocks/role in disposable LOCAL PG.
+// The template remains inert in the repository; no production renderer or automatic execution.
+const OWNER_AUTHORIZATION_TEMPLATE=readFileSync('docs/operations/usdc-proof-authorize.sql.in','utf8');
+function ownerAuthorizationPlan(overrides={}){
+ const now=Date.now(),values={PROOF_START_MS:now+120000,PROOF_END_MS:now+720000,
+  SQL_AUTHORIZATION_CUTOFF_MS:now+60000,APPROVED_OWNER_ROLE:'scout_test_owner',...overrides};
+ assert.match(values.APPROVED_OWNER_ROLE,/^[A-Za-z_][A-Za-z0-9_]{0,62}$/);
+ for(const key of ['PROOF_START_MS','PROOF_END_MS','SQL_AUTHORIZATION_CUTOFF_MS'])assert.ok(Number.isSafeInteger(values[key]));
+ let sql=OWNER_AUTHORIZATION_TEMPLATE;
+ for(const [key,value] of Object.entries(values))sql=sql.replaceAll('{{'+key+'}}',String(value));
+ assert.ok(!sql.includes('{{'));return{sql,values};
+}
+async function untouchedOwnerAuthorizationFixture(){
+ // Source beforeEach uses an approved-window fixture; undo that setup ONLY in this disposable DB.
+ await db.owner.query("UPDATE scout_lookup.policy SET mode='disabled',not_before=NULL,expires_at=NULL");
+}
+async function lookupAuthorizationSnapshot(){
+ return (await db.owner.query(`SELECT
+  (SELECT jsonb_agg(to_jsonb(p) ORDER BY id) FROM scout_lookup.policy p) AS policy,
+  (SELECT jsonb_agg(to_jsonb(c) ORDER BY client) FROM scout_lookup.clients c) AS clients,
+  (SELECT jsonb_agg(to_jsonb(c) ORDER BY mint) FROM scout_lookup.cache c) AS cache`)).rows[0];
+}
+async function rejectsAuthorizationUnchanged(plan,pattern=/STOP_/,connection=db.owner){
+ const before=await lookupAuthorizationSnapshot();
+ await assert.rejects(connection.query(plan.sql),pattern);
+ assert.deepEqual(await lookupAuthorizationSnapshot(),before);
+}
+test('inert owner SQL template cannot execute unfilled or invoke admission/provider code',async()=>{
+ await untouchedOwnerAuthorizationFixture();assert.ok(OWNER_AUTHORIZATION_TEMPLATE.includes(HASH));
+ assert.ok(!/\b(?:DROP|TRUNCATE|INSERT|DELETE|GRANT|REVOKE|CREATE|ALTER)\b/i.test(OWNER_AUTHORIZATION_TEMPLATE));
+ assert.ok(!/SELECT\s+scout_lookup\.step\s*\(/i.test(OWNER_AUTHORIZATION_TEMPLATE));
+ assert.equal([...OWNER_AUTHORIZATION_TEMPLATE.matchAll(/\bUPDATE\s+scout_lookup\.policy/gi)].length,1);
+ await rejectsAuthorizationUnchanged({sql:OWNER_AUTHORIZATION_TEMPLATE},e=>e.code==='42601');
+});
+test('owner atomic authorization changes ONLY one mode/window, preserving all counters and legacy history',async()=>{
+ await untouchedOwnerAuthorizationFixture();const before=await lookupAuthorizationSnapshot(),plan=ownerAuthorizationPlan();
+ const result=await db.owner.query(plan.sql);assert.equal(result.command,'DO');
+ const expected=structuredClone(before);expected.policy[0].mode='proof';
+ expected.policy[0].not_before=plan.values.PROOF_START_MS;expected.policy[0].expires_at=plan.values.PROOF_END_MS;
+ assert.deepEqual(await lookupAuthorizationSnapshot(),expected);
+ // An uncertain caller must not retry: this offline second attempt demonstrates fail-closed rejection.
+ await rejectsAuthorizationUnchanged(plan,/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+});
+test('concurrent owner authorization attempts permit exactly one atomic window without charging a request',async()=>{
+ await untouchedOwnerAuthorizationFixture();const before=await lookupAuthorizationSnapshot(),plan=ownerAuthorizationPlan();
+ const other=db.pool('scout_test_owner');
+ const results=await Promise.allSettled([db.owner.query(plan.sql),other.query(plan.sql)]);
+ assert.equal(results.filter(r=>r.status==='fulfilled').length,1);
+ const rejected=results.find(r=>r.status==='rejected');assert.match(rejected.reason.message,/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+ const expected=structuredClone(before);expected.policy[0].mode='proof';
+ expected.policy[0].not_before=plan.values.PROOF_START_MS;expected.policy[0].expires_at=plan.values.PROOF_END_MS;
+ assert.deepEqual(await lookupAuthorizationSnapshot(),expected);
+});
+for(const [label,mutation] of [
+ ['armed or expired clocks',"mode='proof',not_before=1,expires_at=2"],
+ ['charged lifetime counter','seq=1'],['circuit',"circuit='timeout'"],['source high-water','highest_slot=1'],
+ ['prior clock','last_clock=1'],['prior request','last_rpc=1'],['read history','reads=1'],
+ ['minute bucket','minute=0'],['minute RPC history','rpc_min=1'],['day bucket','day=0'],['day RPC history','rpc_day=1'],
+ ['lease',`seq=1,lease_id=1,lease_mint='${MINT}',last_rpc=1,lease_until=15001`],
+ ['proof remnants',"proof_hash=repeat('a',64),proof_slot=1,proof_checked_at=1"],
+])test('owner SQL refuses '+label+' without resetting or repairing state',async()=>{
+ await untouchedOwnerAuthorizationFixture();await seed(mutation);
+ await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(),/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+});
+test('owner SQL cannot rearm a completed proof or clear its retained receipt',async()=>{
+ await seedPublic();await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(),/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+});
+for(const table of ['clients','cache'])test('owner SQL refuses existing '+table+' history without deletion',async()=>{
+ await untouchedOwnerAuthorizationFixture();
+ if(table==='clients')await db.owner.query("INSERT INTO scout_lookup.clients VALUES($1,$2,0,1,1)",[P.policy,'a'.repeat(64)]);
+ else await db.owner.query("INSERT INTO scout_lookup.cache VALUES($1,$2,$3::jsonb,1)",[P.policy,MINT,JSON.stringify({label:'SYNTHETIC_LOCAL_ONLY_HISTORY'})]);
+ await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(),/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+});
+test('owner SQL missing row fails atomically without bootstrap',async()=>{
+ await db.owner.query('DELETE FROM scout_lookup.policy');
+ await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(),/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+});
+test('owner SQL rejects restricted app login and wrong database before mutation',async()=>{
+ await untouchedOwnerAuthorizationFixture();const plan=ownerAuthorizationPlan();
+ await rejectsAuthorizationUnchanged(plan,/STOP_OWNER_DATABASE_OR_WINDOW/,db.pool());
+ await rejectsAuthorizationUnchanged(plan,/STOP_OWNER_DATABASE_OR_WINDOW/,db.pool('scout_test_owner',PASSWORD,'postgres'));
+});
+test('owner SQL rejects wrong owner identity, expired cutoff, invalid order and oversized window',async()=>{
+ await untouchedOwnerAuthorizationFixture();const now=Date.now();
+ for(const overrides of [{APPROVED_OWNER_ROLE:'wrong_synthetic_owner'},{SQL_AUTHORIZATION_CUTOFF_MS:now-1},
+  {SQL_AUTHORIZATION_CUTOFF_MS:now+240000},{PROOF_END_MS:now+1},{PROOF_END_MS:now+86400000+240000}]){
+  await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(overrides),/STOP_OWNER_DATABASE_OR_WINDOW/);
+ }
+});
+test('owner SQL checks exact installed function bytes, never replacing an incompatible function',async()=>{
+ await untouchedOwnerAuthorizationFixture();
+ const original=(await db.owner.query("SELECT pg_get_functiondef('scout_lookup.step(jsonb)'::regprocedure) AS definition")).rows[0].definition;
+ const drifted=original.replace('DECLARE\n','DECLARE\n-- SYNTHETIC LOCAL fingerprint drift\n');assert.notEqual(drifted,original);
+ try{await db.owner.query(drifted);await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(),/STOP_LOOKUP_FUNCTION_FINGERPRINT/)}
+ finally{await db.owner.query(original)}
+});
+test('owner SQL contended row has bounded lock failure and atomically preserves state',async()=>{
+ await untouchedOwnerAuthorizationFixture();const blocker=db.pool('scout_test_owner');
+ await blocker.query('BEGIN');await blocker.query('SELECT id FROM scout_lookup.policy FOR UPDATE');
+ try{await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(),e=>e.code==='55P03')}
+ finally{await blocker.query('ROLLBACK')}
+});
