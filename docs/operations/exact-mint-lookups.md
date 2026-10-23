@@ -1,6 +1,6 @@
 # Issue #135: exact-mint lookup release
 
-**Review-only. No live proof obtained.** `LOOKUP_APPROVAL.phase="disabled"` and null session clocks mean zero hosting/configuration/credential/SQL/RPC reads for mint lookups. The expired categorical preflight is retired: `PREFLIGHT_APPROVAL.enabled=false`, with null clocks. Neither gate authorizes acquisition. This cleanup enables no mint acquisition; the existing routed implementation already excludes the old-canary POST path. The old canary code, policy, absolute expiry, function and admission records are unchanged. Its production 503 cause and previous usage remain unknown; #131 proves a local TLS-proxy compatibility defect only.
+**Review candidate only; no release/SQL/POST authorization.** Main and the independent cleanup candidate keep LOOKUP disabled/null. This unmerged proof candidate proposes `phase="proof"`, Oct 23 15:45–16:00 UTC (`1792770300000` / `1792771200000`), with public GET off and preflight disabled/null. Runtime changes only that phase and its two clocks after independent cleanup. Owner approval and normal release are required before any source activation. Existing canary code/history and unknown prior usage are untouched. #131 is local compatibility evidence, not a proven production diagnosis.
 
 ## Frontend contract — Agent A / #134
 
@@ -18,11 +18,11 @@ Across all isolates: one 15-second lease; 3 RPCs/UTC minute; 30/UTC day; 10-seco
 
 Each cache miss consumes one reservation before any Helius call, even if its acknowledgement is lost. A cache hit keeps original source clocks/hash. No refunds, retries or lease reclamation. Provider error, malformed/stale evidence, uncertain completion, clock regression or expired lease closes the new policy's circuit. Only supported negative account results complete normally without poisoning the service. App and SQL expiry both prevent new acquisition; expired completions cannot publish.
 
-## Current release status — no execution authorized
+## Current release candidate — no execution authorized
 
-Draft [#159](https://github.com/fuzzysniper/scout-stonk-intel/pull/159) at `3cb69b0436c59100e75e40dcd7881c145f2e1954` is **NO-GO**: its October 22 proof release and SQL cutoffs were missed. Do not reuse its approvals, clocks or SQL block, even while its source window appears open. This October 23 cleanup-only successor to #162 (`6c520c5909f44a89cae45ab4fb16dd1abc92033d`) starts from main `01f4be846c6483860c0e2bd6404a877d6f276e05`, preserving all scheduled collector commits; it closes only the expired preflight gate. `LOOKUP_APPROVAL` stays disabled/null. No new window is selected.
+[#159](https://github.com/fuzzysniper/scout-stonk-intel/pull/159) is expired/NO-GO; never reuse its clocks, SQL or approvals. Independent cleanup is #164; this proof candidate is based on its commit and retains main `01f4be846c6483860c0e2bd6404a877d6f276e05` collector history. After the owner merges cleanup, refresh/retest this proof candidate against actual main and review its proof-only diff before GO 1.
 
-Use [the mobile approval card and single desktop checklist](usdc-proof-next-session.md) for the three separate founder approvals and desktop procedure. It supersedes the previous timed instructions and interactive SQL example in this document. Draft #146 remains historical PC guidance, not current execution authority. Installed `lookup.sql` is founder-confirmed; do not reinstall it or reset admission state.
+The [one-page Oct 23 owner procedure](usdc-proof-oct23-owner.md) is the current proposed schedule and approval sequence. Release GO deadline 15:15 UTC; verified deployment and separately approved SQL acknowledgement before 15:35 UTC; one POST 15:45–16:00 UTC, latest start before 15:59:30. Missing any gate means NO-GO, never an automatic extension. Installed lookup.sql is owner-confirmed; no migration or diagnostic SQL is authorized by preparation.
 
 ### DSN classification and binding
 

@@ -113,9 +113,11 @@ test('additive migration preserves charged old policy and byte-identical old fun
  await assert.rejects(db.owner.query(MIGRATION),e=>e.code==='42P06');await db.owner.query('ROLLBACK');
  assert.equal((await policy()).seq,'0');
 });
-test('source-disabled route, poisoned environment and ALL methods cannot inspect config or load pg',()=>{
- assert.equal(A.phase,'disabled');assert.equal(A.notBeforeMs,null);assert.equal(A.expiresAtMs,null);assert.ok(Object.isFrozen(A));
- const code=`const assert=require('node:assert/strict');process.env=new Proxy({NODE_ENV:'production'},{get(t,k){if(/SCOUT|HELIUS|PG|VERCEL|RPC|KEY|SECRET/.test(String(k)))throw Error('forbidden configuration read');return t[k]}});globalThis.fetch=()=>{throw Error('forbidden network')};const r=require(${JSON.stringify(root+'/app/api/mint-facts/route.js')});(async()=>{for(const method of ['GET','HEAD','POST','PUT','PATCH','DELETE','OPTIONS']){const a=await r[method](new Request(${JSON.stringify(ORIGIN+'/api/mint-facts?mint='+MINT)},{method}));assert.notEqual(a.status,200)}assert.ok(!Object.keys(require.cache).some(x=>/node_modules\\/pg\\//.test(x)))})().catch(()=>process.exitCode=1);`;
+test('reviewed source proof window is frozen; public methods and other mints cannot inspect config or load pg',()=>{
+ assert.equal(A.phase,'proof');assert.equal(A.notBeforeMs,Date.parse('2026-10-23T15:45:00Z'));
+ assert.equal(A.expiresAtMs,Date.parse('2026-10-23T16:00:00Z'));assert.equal(A.expiresAtMs-A.notBeforeMs,900000);assert.ok(Object.isFrozen(A));
+ const wrongMint=MINT===PROOF.mint?THIRD:MINT;
+ const code=`const assert=require('node:assert/strict');let reads=0;process.env=new Proxy({NODE_ENV:'production'},{get(t,k){if(/SCOUT|HELIUS|PG|VERCEL|RPC|KEY|SECRET/.test(String(k))){reads++;throw Error('forbidden configuration read')}return t[k]}});globalThis.fetch=()=>{throw Error('forbidden network')};const r=require(${JSON.stringify(root+'/app/api/mint-facts/route.js')});(async()=>{for(const now of [${A.notBeforeMs-1},${A.notBeforeMs},${A.expiresAtMs-1},${A.expiresAtMs}]){Date.now=()=>now;for(const origin of ${JSON.stringify([ORIGIN,DEPLOYMENT_ORIGIN])})for(const method of ['GET','HEAD','POST','PUT','PATCH','DELETE','OPTIONS']){const a=await r[method](new Request(origin+'/api/mint-facts?mint='+(method==='POST'?${JSON.stringify(wrongMint)}:${JSON.stringify(PROOF.mint)}),{method}));assert.notEqual(a.status,200)}}assert.equal(reads,0);assert.ok(!Object.keys(require.cache).some(x=>/node_modules\\/pg\\//.test(x)))})().catch(()=>process.exitCode=1);`;
  const p=spawnSync(process.execPath,['--conditions=react-server','-e',code],{encoding:'utf8',env:{NODE_ENV:'production',NODE_PATH:process.env.NODE_PATH},timeout:10000});assert.equal(p.status,0,p.stderr);
 });
 test('inert DB bootstrap and missing/window/phase approvals never authorize source traffic',async()=>{
@@ -370,4 +372,156 @@ test('expiry while fenced completion is acknowledged withholds facts without ref
  const {store}=native();let wall=Date.now();const base=wall;
  const s=runtime({clock:{now:()=>wall,monotonic:()=>wall-base},store:{async transact(c){const r=await store.transact(c);wall=Math.max(wall,r.now);if(c.kind==='complete')wall=window.expiresAtMs;return r}}}),a=await read(s);
  assert.equal(a.body.reason,'disabled');assert.equal(a.body.facts,null);assert.equal(a.body.source,null);assert.equal(s.calls.rpc,1);assert.equal((await policy()).seq,'2');
+});
+
+// Owner authorization rehearsal ONLY: explicitly SYNTHETIC clocks/role in disposable LOCAL PG.
+// The template remains inert in the repository; no production renderer or automatic execution.
+const OWNER_AUTHORIZATION_TEMPLATE=readFileSync('docs/operations/usdc-proof-authorize.sql.in','utf8');
+function ownerAuthorizationPlan(overrides={}){
+ const now=Date.now(),values={PROOF_START_MS:now+120000,PROOF_END_MS:now+720000,
+  SQL_AUTHORIZATION_CUTOFF_MS:now+60000,APPROVED_OWNER_ROLE:'scout_test_owner',...overrides};
+ assert.match(values.APPROVED_OWNER_ROLE,/^[A-Za-z_][A-Za-z0-9_]{0,62}$/);
+ for(const key of ['PROOF_START_MS','PROOF_END_MS','SQL_AUTHORIZATION_CUTOFF_MS'])assert.ok(Number.isSafeInteger(values[key]));
+ let sql=OWNER_AUTHORIZATION_TEMPLATE;
+ for(const [key,value] of Object.entries(values))sql=sql.replaceAll('{{'+key+'}}',String(value));
+ assert.ok(!sql.includes('{{'));return{sql,values};
+}
+async function untouchedOwnerAuthorizationFixture(){
+ // Source beforeEach uses an approved-window fixture; undo that setup ONLY in this disposable DB.
+ await db.owner.query("UPDATE scout_lookup.policy SET mode='disabled',not_before=NULL,expires_at=NULL");
+}
+async function lookupAuthorizationSnapshot(){
+ return (await db.owner.query(`SELECT
+  (SELECT jsonb_agg(to_jsonb(p) ORDER BY id) FROM scout_lookup.policy p) AS policy,
+  (SELECT jsonb_agg(to_jsonb(c) ORDER BY client) FROM scout_lookup.clients c) AS clients,
+  (SELECT jsonb_agg(to_jsonb(c) ORDER BY mint) FROM scout_lookup.cache c) AS cache`)).rows[0];
+}
+async function rejectsAuthorizationUnchanged(plan,pattern=/STOP_/,connection=db.owner){
+ const before=await lookupAuthorizationSnapshot();
+ await assert.rejects(connection.query(plan.sql),pattern);
+ assert.deepEqual(await lookupAuthorizationSnapshot(),before);
+}
+test('inert owner SQL template cannot execute unfilled or invoke admission/provider code',async()=>{
+ await untouchedOwnerAuthorizationFixture();assert.ok(OWNER_AUTHORIZATION_TEMPLATE.includes(HASH));
+ assert.ok(!/\b(?:DROP|TRUNCATE|INSERT|DELETE|GRANT|REVOKE|CREATE|ALTER)\b/i.test(OWNER_AUTHORIZATION_TEMPLATE));
+ assert.ok(!/SELECT\s+scout_lookup\.step\s*\(/i.test(OWNER_AUTHORIZATION_TEMPLATE));
+ assert.equal([...OWNER_AUTHORIZATION_TEMPLATE.matchAll(/\bUPDATE\s+scout_lookup\.policy/gi)].length,1);
+ await rejectsAuthorizationUnchanged({sql:OWNER_AUTHORIZATION_TEMPLATE},e=>e.code==='42601');
+});
+test('owner atomic authorization changes ONLY one mode/window, preserving all counters and legacy history',async()=>{
+ await untouchedOwnerAuthorizationFixture();const before=await lookupAuthorizationSnapshot(),plan=ownerAuthorizationPlan();
+ const result=await db.owner.query(plan.sql);assert.equal(result.command,'DO');
+ const expected=structuredClone(before);expected.policy[0].mode='proof';
+ expected.policy[0].not_before=plan.values.PROOF_START_MS;expected.policy[0].expires_at=plan.values.PROOF_END_MS;
+ assert.deepEqual(await lookupAuthorizationSnapshot(),expected);
+ // An uncertain caller must not retry: this offline second attempt demonstrates fail-closed rejection.
+ await rejectsAuthorizationUnchanged(plan,/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+});
+test('concurrent owner authorization attempts permit exactly one atomic window without charging a request',async()=>{
+ await untouchedOwnerAuthorizationFixture();const before=await lookupAuthorizationSnapshot(),plan=ownerAuthorizationPlan();
+ const other=db.pool('scout_test_owner');
+ const results=await Promise.allSettled([db.owner.query(plan.sql),other.query(plan.sql)]);
+ assert.equal(results.filter(r=>r.status==='fulfilled').length,1);
+ const rejected=results.find(r=>r.status==='rejected');assert.match(rejected.reason.message,/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+ const expected=structuredClone(before);expected.policy[0].mode='proof';
+ expected.policy[0].not_before=plan.values.PROOF_START_MS;expected.policy[0].expires_at=plan.values.PROOF_END_MS;
+ assert.deepEqual(await lookupAuthorizationSnapshot(),expected);
+});
+for(const [label,mutation] of [
+ ['armed or expired clocks',"mode='proof',not_before=1,expires_at=2"],
+ ['charged lifetime counter','seq=1'],['circuit',"circuit='timeout'"],['source high-water','highest_slot=1'],
+ ['prior clock','last_clock=1'],['prior request','last_rpc=1'],['read history','reads=1'],
+ ['minute bucket','minute=0'],['minute RPC history','rpc_min=1'],['day bucket','day=0'],['day RPC history','rpc_day=1'],
+ ['lease',`seq=1,lease_id=1,lease_mint='${MINT}',last_rpc=1,lease_until=15001`],
+ ['proof remnants',"proof_hash=repeat('a',64),proof_slot=1,proof_checked_at=1"],
+])test('owner SQL refuses '+label+' without resetting or repairing state',async()=>{
+ await untouchedOwnerAuthorizationFixture();await seed(mutation);
+ await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(),/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+});
+test('owner SQL cannot rearm a completed proof or clear its retained receipt',async()=>{
+ await seedPublic();await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(),/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+});
+for(const table of ['clients','cache'])test('owner SQL refuses existing '+table+' history without deletion',async()=>{
+ await untouchedOwnerAuthorizationFixture();
+ if(table==='clients')await db.owner.query("INSERT INTO scout_lookup.clients VALUES($1,$2,0,1,1)",[P.policy,'a'.repeat(64)]);
+ else await db.owner.query("INSERT INTO scout_lookup.cache VALUES($1,$2,$3::jsonb,1)",[P.policy,MINT,JSON.stringify({label:'SYNTHETIC_LOCAL_ONLY_HISTORY'})]);
+ await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(),/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+});
+test('owner SQL missing row fails atomically without bootstrap',async()=>{
+ await db.owner.query('DELETE FROM scout_lookup.policy');
+ await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(),/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+});
+test('owner SQL rejects restricted app login and wrong database before mutation',async()=>{
+ await untouchedOwnerAuthorizationFixture();const plan=ownerAuthorizationPlan();
+ await rejectsAuthorizationUnchanged(plan,/STOP_OWNER_DATABASE_OR_WINDOW/,db.pool());
+ await rejectsAuthorizationUnchanged(plan,/STOP_OWNER_DATABASE_OR_WINDOW/,db.pool('scout_test_owner',PASSWORD,'postgres'));
+});
+test('owner SQL rejects wrong owner identity, expired cutoff, invalid order and oversized window',async()=>{
+ await untouchedOwnerAuthorizationFixture();const now=Date.now();
+ for(const overrides of [{APPROVED_OWNER_ROLE:'wrong_synthetic_owner'},{SQL_AUTHORIZATION_CUTOFF_MS:now-1},
+  {SQL_AUTHORIZATION_CUTOFF_MS:now+240000},{PROOF_END_MS:now+1},{PROOF_END_MS:now+86400000+240000}]){
+  await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(overrides),/STOP_OWNER_DATABASE_OR_WINDOW/);
+ }
+});
+test('owner SQL checks exact installed function bytes, never replacing an incompatible function',async()=>{
+ await untouchedOwnerAuthorizationFixture();
+ const original=(await db.owner.query("SELECT pg_get_functiondef('scout_lookup.step(jsonb)'::regprocedure) AS definition")).rows[0].definition;
+ const drifted=original.replace('DECLARE\n','DECLARE\n-- SYNTHETIC LOCAL fingerprint drift\n');assert.notEqual(drifted,original);
+ try{await db.owner.query(drifted);await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(),/STOP_LOOKUP_FUNCTION_FINGERPRINT/)}
+ finally{await db.owner.query(original)}
+});
+test('owner SQL contended row has bounded lock failure and atomically preserves state',async()=>{
+ await untouchedOwnerAuthorizationFixture();const blocker=db.pool('scout_test_owner');
+ await blocker.query('BEGIN');await blocker.query('SELECT id FROM scout_lookup.policy FOR UPDATE');
+ try{await rejectsAuthorizationUnchanged(ownerAuthorizationPlan(),e=>e.code==='55P03')}
+ finally{await blocker.query('ROLLBACK')}
+});
+
+// Reviewed Oct 23 artifact: real bytes, SYNTHETIC LOCAL clock substitutions ONLY for execution.
+const REVIEWED_AUTHORIZATION=readFileSync('docs/operations/usdc-proof-oct23-authorization.sql','utf8');
+const SQL_CUTOFF=Date.parse('2026-10-23T15:35:00Z');
+function localReviewedAuthorization(overrides={}){
+ const plan=ownerAuthorizationPlan(overrides);
+ return{...plan,sql:REVIEWED_AUTHORIZATION.replaceAll(String(A.notBeforeMs),String(plan.values.PROOF_START_MS))
+  .replaceAll(String(A.expiresAtMs),String(plan.values.PROOF_END_MS))
+  .replaceAll(String(SQL_CUTOFF),String(plan.values.SQL_AUTHORIZATION_CUTOFF_MS))};
+}
+test('exact reviewed SQL matches source clocks and tested template with strictly installed-owner identity',async()=>{
+ assert.ok(REVIEWED_AUTHORIZATION.includes('start_ms CONSTANT bigint := '+A.notBeforeMs+';'));
+ assert.ok(REVIEWED_AUTHORIZATION.includes('end_ms CONSTANT bigint := '+A.expiresAtMs+';'));
+ assert.ok(REVIEWED_AUTHORIZATION.includes('cutoff_ms CONSTANT bigint := '+SQL_CUTOFF+';'));
+ let expected=OWNER_AUTHORIZATION_TEMPLATE.slice(OWNER_AUTHORIZATION_TEMPLATE.indexOf('DO $scout_authorize$'))
+  .replaceAll('{{PROOF_START_MS}}',String(A.notBeforeMs)).replaceAll('{{PROOF_END_MS}}',String(A.expiresAtMs))
+  .replaceAll('{{SQL_AUTHORIZATION_CUTOFF_MS}}',String(SQL_CUTOFF))
+  .replace("owner_role CONSTANT text := '{{APPROVED_OWNER_ROLE}}';","owner_role CONSTANT text := (SELECT pg_catalog.pg_get_userbyid(n.nspowner)\n    FROM pg_catalog.pg_namespace n WHERE n.nspname='scout_lookup');")
+  .replace("IF pg_catalog.current_database() <> 'neondb'","IF owner_role IS NULL OR pg_catalog.current_database() <> 'neondb'")
+  .replace("WHERE p.oid=pg_catalog.to_regprocedure('scout_lookup.step(jsonb)')","WHERE p.oid=pg_catalog.to_regprocedure('scout_lookup.step(jsonb)')\n      AND p.proowner=(SELECT n.nspowner FROM pg_catalog.pg_namespace n WHERE n.nspname='scout_lookup')");
+ assert.equal(REVIEWED_AUTHORIZATION.slice(REVIEWED_AUTHORIZATION.indexOf('DO $scout_authorize$')),expected);
+ await untouchedOwnerAuthorizationFixture();const before=await lookupAuthorizationSnapshot(),q=localReviewedAuthorization();
+ await db.owner.query(q.sql);const desired=structuredClone(before);desired.policy[0].mode='proof';
+ desired.policy[0].not_before=q.values.PROOF_START_MS;desired.policy[0].expires_at=q.values.PROOF_END_MS;
+ assert.deepEqual(await lookupAuthorizationSnapshot(),desired);
+ const visible=(await db.pool('scout_test_owner').query('SELECT mode,not_before,expires_at,seq FROM scout_lookup.policy')).rows[0];
+ assert.deepEqual(visible,{mode:'proof',not_before:String(q.values.PROOF_START_MS),expires_at:String(q.values.PROOF_END_MS),seq:'0'});
+ await rejectsAuthorizationUnchanged(q,/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+});
+test('reviewed SQL exception after UPDATE atomically rolls back its mode/window and all counters',async()=>{
+ await untouchedOwnerAuthorizationFixture();const q=localReviewedAuthorization();
+ await rejectsAuthorizationUnchanged({sql:q.sql.replace('changed <> 1','changed <> 0')},/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+});
+test('reviewed SQL rejects app login, spent state and expired cutoff without repair',async()=>{
+ await untouchedOwnerAuthorizationFixture();
+ await rejectsAuthorizationUnchanged(localReviewedAuthorization(),/STOP_OWNER_DATABASE_OR_WINDOW/,db.pool());
+ await rejectsAuthorizationUnchanged(localReviewedAuthorization({SQL_AUTHORIZATION_CUTOFF_MS:Date.now()-1}),/STOP_OWNER_DATABASE_OR_WINDOW/);
+ await seed('seq=1');await rejectsAuthorizationUnchanged(localReviewedAuthorization(),/STOP_EXPECTED_ONE_UNTOUCHED_LOOKUP_POLICY/);
+});
+test('reviewed SQL rejects a different function owner even when its body hash is unchanged',async()=>{
+ await untouchedOwnerAuthorizationFixture();
+ try{
+  await db.owner.query('ALTER FUNCTION scout_lookup.step(jsonb) OWNER TO scout_mint_runtime');
+  await rejectsAuthorizationUnchanged(localReviewedAuthorization(),/STOP_LOOKUP_FUNCTION_FINGERPRINT/);
+ }finally{
+  await db.owner.query('ALTER FUNCTION scout_lookup.step(jsonb) OWNER TO scout_test_owner');
+  await db.owner.query('GRANT EXECUTE ON FUNCTION scout_lookup.step(jsonb) TO scout_mint_runtime');
+ }
 });

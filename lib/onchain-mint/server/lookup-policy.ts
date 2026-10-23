@@ -10,14 +10,16 @@ export type LookupApproval = Readonly<{
   storeHost: string; vercelProjectId: string;
   notBeforeMs: number | null; expiresAtMs: number | null;
 }>;
-/** Source-code approval ONLY. Credentials alone cannot authorize a request.
+/** Proposed Oct 23 15:45–16:00 UTC proof-only release, NOT live authorization.
+ * Release GO by 15:15 UTC; verified deployment/approved SQL by 15:35 UTC or stand down.
+ * Source-code approval ONLY. Credentials alone cannot authorize a request.
  * Proof → public is a SECOND review after authentic evidence, retaining the same counters.
  */
 export const LOOKUP_APPROVAL: LookupApproval = Object.freeze({
-  phase: "disabled",
+  phase: "proof",
   storeHost: "ep-flat-band-b5fp4ls8.c-7.us-east-2.aws.neon.tech",
   vercelProjectId: "prj_OaA9snVrMUkpXuz6cMSKfSZ6fx5Q",
-  notBeforeMs: null, expiresAtMs: null,
+  notBeforeMs: 1792770300000, expiresAtMs: 1792771200000,
 });
 export const LOOKUP_PROFILE = Object.freeze({
   policy: LOOKUP_POLICY, acquisition: "production_rpc" as const, leaseMs: 15000, storeTimeoutMs: 2000,

@@ -1,5 +1,5 @@
 // SYNTHETIC OFFLINE configuration only. No production env/credentials, SQL or provider requests.
-import {test} from 'node:test';
+import {test,after} from 'node:test';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {spawnSync} from 'node:child_process';
@@ -9,6 +9,9 @@ const require=createRequire(import.meta.url);
 const {databaseCompatibility,prepareDatabase,databaseParameters}=require(root+'/lib/onchain-mint/server/production-config.js');
 const {configPreflight,PREFLIGHT_APPROVAL,PREFLIGHT_QUERY,PREFLIGHT_INTENT}=require(root+'/lib/onchain-mint/server/config-preflight.js');
 const policy=require(root+'/lib/onchain-mint/server/lookup-policy.js'),A=policy.LOOKUP_APPROVAL;
+// Historical classifier unit seam only; real native-route tests below run in fresh unpatched processes.
+const DISABLED=Object.freeze({...A,phase:'disabled',notBeforeMs:null,expiresAtMs:null});
+policy.LOOKUP_APPROVAL=DISABLED;after(()=>{policy.LOOKUP_APPROVAL=A});
 const HOST='ep-synthetic-preflight.c-7.us-east-2.aws.neon.tech';
 const PASSWORD='SYNTHETIC_OFFLINE_PREFLIGHT_PASSWORD',IDENTITY={role:'scout_mint_app',database:'neondb'};
 const DSN=`postgresql://scout_mint_app:${PASSWORD}@${HOST}/neondb`;
@@ -38,10 +41,10 @@ async function read(s,r=req()){
  assert.equal(res.headers.get('x-scout-deployment-host'),null);return{res,body};
 }
 
-test('retired preflight is immutable disabled/null; mint lookup remains independently disabled/null',()=>{
- assert.deepEqual(PREFLIGHT_APPROVAL,{enabled:false,notBeforeMs:null,expiresAtMs:null});
- assert.ok(Object.isFrozen(PREFLIGHT_APPROVAL));
- assert.equal(A.phase,'disabled');assert.equal(A.notBeforeMs,null);assert.equal(A.expiresAtMs,null);assert.ok(Object.isFrozen(A));
+test('expired preflight is disabled/null while reviewed lookup session is proof only',()=>{
+ assert.deepEqual(PREFLIGHT_APPROVAL,{enabled:false,notBeforeMs:null,expiresAtMs:null});assert.ok(Object.isFrozen(PREFLIGHT_APPROVAL));
+ assert.equal(A.phase,'proof');assert.equal(A.notBeforeMs,Date.parse('2026-10-23T15:45:00Z'));
+ assert.equal(A.expiresAtMs,Date.parse('2026-10-23T16:00:00Z'));assert.ok(Object.isFrozen(A));
 });
 for(const value of [undefined,''])test('missing synthetic DSN gives only missing category',()=>assert.equal(classify(value),'dsn_missing'));
 for(const search of ['', '?sslmode=require'])test(`supported format ${search||'without query'} cannot prove mandatory binding`,()=>{
@@ -65,7 +68,7 @@ test('malicious object conversion/error content cannot enter categorical output'
 test('explicit disabled gate returns before clock, hosting or scoped secret read',async()=>{
  const s=system({approval:{enabled:false,notBeforeMs:null,expiresAtMs:null}});assert.equal((await read(s)).body.status,'disabled');assert.deepEqual(s.calls,{hosting:0,dsn:0,clock:0});
 });
-test('explicit synthetic five-minute approval allows classification only from START inclusive to END exclusive',async()=>{
+test('historical synthetic classification seam enforces START inclusive and END exclusive',async()=>{
  const approval=Object.freeze({enabled:true,notBeforeMs:NOW,expiresAtMs:NOW+300000});
  for(const [now,expected] of [[approval.notBeforeMs-1,'disabled'],[approval.notBeforeMs,'format_compatible_binding_unproven'],
   [approval.expiresAtMs-1,'format_compatible_binding_unproven'],[approval.expiresAtMs,'disabled']]){
@@ -117,12 +120,12 @@ test('expiry during configuration access withholds category without another secr
  const s=system({readAdvance:60001});assert.equal((await read(s)).body.status,'disabled');assert.equal(s.calls.dsn,1);
 });
 test('preflight refuses all DSN access if the mint gate is no longer disabled/null',async()=>{
- try{for(const gate of [{...A,phase:'proof'},{...A,notBeforeMs:1},{...A,expiresAtMs:1}]){
+ try{for(const gate of [{...DISABLED,phase:'proof'},{...DISABLED,phase:'public'},{...DISABLED,notBeforeMs:1},{...DISABLED,expiresAtMs:1}]){
   policy.LOOKUP_APPROVAL=gate;const s=system();assert.equal((await read(s)).body.status,'disabled');assert.deepEqual(s.calls,{hosting:0,dsn:0,clock:0});
- }}finally{policy.LOOKUP_APPROVAL=A}
+ }}finally{policy.LOOKUP_APPROVAL=DISABLED}
 });
-test('retired native route has zero config/clock/network effects across historical session clocks in a fresh production process',()=>{
- const code=`const assert=require('node:assert/strict');let io=0;for(const name of ['node:http','node:https','node:net','node:tls']){const m=require(name);for(const k of ['request','get','connect','createConnection'])if(typeof m[k]==='function')m[k]=()=>{io++;throw Error('forbidden network')}};globalThis.fetch=()=>{io++;throw Error('forbidden fetch')};process.env=new Proxy({NODE_ENV:'production'},{get(t,k){if(/SCOUT|HELIUS|PG|VERCEL|RPC|KEY|SECRET/.test(String(k)))throw Error('forbidden config read');return t[k]}});const route=require(${JSON.stringify(root+'/app/api/mint-facts/route.js')});(async()=>{for(const now of [${NOW-1},${NOW},${NOW+300000},${Date.parse('2026-10-22T19:50:00Z')},${Date.parse('2026-10-22T20:00:00Z')}]){Date.now=()=>{throw Error('forbidden clock read at '+now)};const r=await route.POST(new Request(${JSON.stringify(ORIGIN+'/api/mint-facts'+PREFLIGHT_QUERY)},{method:'POST'}));assert.equal(r.status,503);assert.deepEqual(await r.json(),{status:'disabled'})}assert.equal(io,0);assert.ok(!Object.keys(require.cache).some(x=>/node_modules\\/pg\\//.test(x)))})().catch(()=>process.exitCode=1)`;
+test('cleaned preflight has zero env/network effects before, inside and after proof in a fresh production process',()=>{
+ const code=`const assert=require('node:assert/strict');let io=0;for(const name of ['node:http','node:https','node:net','node:tls']){const m=require(name);for(const k of ['request','get','connect','createConnection'])if(typeof m[k]==='function')m[k]=()=>{io++;throw Error('forbidden network')}};globalThis.fetch=()=>{io++;throw Error('forbidden fetch')};process.env=new Proxy({NODE_ENV:'production'},{get(t,k){if(/SCOUT|HELIUS|PG|VERCEL|RPC|KEY|SECRET/.test(String(k)))throw Error('forbidden config read');return t[k]}});const route=require(${JSON.stringify(root+'/app/api/mint-facts/route.js')});(async()=>{for(const now of [${A.notBeforeMs-1},${A.notBeforeMs},${A.expiresAtMs-1},${A.expiresAtMs}]){Date.now=()=>now;const r=await route.POST(new Request(${JSON.stringify(ORIGIN+'/api/mint-facts'+PREFLIGHT_QUERY)},{method:'POST'}));assert.equal(r.status,503);assert.deepEqual(await r.json(),{status:'disabled'})}assert.equal(io,0);assert.ok(!Object.keys(require.cache).some(x=>/node_modules\\/pg\\//.test(x)))})().catch(()=>process.exitCode=1)`;
  const p=spawnSync(process.execPath,['--conditions=react-server','-e',code],{env:{NODE_ENV:'production',NODE_PATH:process.env.NODE_PATH},encoding:'utf8',timeout:10000});assert.equal(p.status,0,p.stderr);
 });
 test('enabled synthetic preflight has zero SQL, socket, fetch or logging effects',async()=>{
