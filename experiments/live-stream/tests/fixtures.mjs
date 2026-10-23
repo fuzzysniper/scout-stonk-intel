@@ -56,8 +56,11 @@ export class OfflineStore {
     if(c.op==='reserve'){if(c.kind==='connection')this.connections++;else this.rpc++;if(this.connections>3||this.rpc>40)return {ok:false,reason:'BUDGET'};}
     if(c.op==='append'){const old=this.records.get(c.record.signature);inserted=!old||JSON.stringify(old)!==JSON.stringify(c.record);this.records.set(c.record.signature,c.record);}
     if(c.op==='stop')this.stopped=true;if(c.op==='release')this.leased=false;
+    // One logical server instant, like SQL's captured now_at. Sampling twice can
+    // invent a >12s lease under preemption and correctly trip the real guard.
+    const serverNowMs=Math.floor(this.clock.now());
     const state={runId:this.grant.runId,head:this.grant.head,scopeHash:policy.SCOPE_HASH,leaseId:UUID,fence:FENCE,
-      serverNowMs:Math.floor(this.clock.now()),leaseUntilMs:Math.floor(this.clock.now())+12000,
+      serverNowMs,leaseUntilMs:serverNowMs+12000,
       sessionUntilMs:Date.parse(this.grant.expiresAt),stop:this.stopped};
     const r={ok:true,state,ticketId:`ticket-${this.commands.length}`,inserted};this.edit?.(r,c);this.after?.(c);return r;
   }

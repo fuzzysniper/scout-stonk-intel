@@ -57,3 +57,24 @@ test('native SOL is accepted unchanged by both B canonical validation and real S
   assert.equal(r.h.finalized,1,'native SOL contract/SQL mismatch must block activation');
   assert.equal(r.snapshot.events[0].quoteMint,'11111111111111111111111111111111');
 });
+
+test('strict single-connection credit envelope keeps all RPC charges and denies a reconnect atomically',async()=>{
+  // INVENTED integer test weights, not Helius billing rates or observed account usage.
+  // L=C+40R<2C is what matters; existing B connection/RPC maxima remain unchanged.
+  for(const rpcCount of [0,40]){
+  await db.owner.query('TRUNCATE scout_live.events,scout_live.control');
+  const a={...grant(),notBefore:new Date(Date.now()-1000).toISOString(),expiresAt:new Date(Date.now()+60000).toISOString()};
+  await db.owner.query(`INSERT INTO scout_live.control(id,approved,session,head,starts_at,expires_at,connection_credits,rpc_credits,credit_limit,terms_approved,quota_approved) VALUES(true,true,$1,$2,$3,$4,100,1,140,true,true)`,[a.runId,a.head,a.notBefore,a.expiresAt]);
+  const s=adaptStore(store('worker'),a),options={signal:new AbortController().signal};
+  const claim=await s.transact({op:'claim'},options);assert.equal(claim.ok,true);
+  const identity={runId:a.runId,scopeHash:SCOPE,leaseId:claim.state.leaseId,fence:claim.state.fence};
+  assert.equal((await s.transact({...identity,op:'reserve',kind:'connection'},options)).ok,true);
+  for(let i=0;i<rpcCount;i++)assert.equal((await s.transact({...identity,op:'reserve',kind:'rpc'},options)).ok,true);
+  assert.equal((await s.transact({...identity,op:'connectionClosed'},options)).ok,true);
+  assert.equal((await s.transact({...identity,op:'reserve',kind:'connection'},options)).ok,false);
+  const reader=store('reader'),snapshot=await reader.transact(null);
+  assert.equal(snapshot.budget.connectionsUsed,1);assert.equal(snapshot.budget.rpcUsed,rpcCount);assert.equal(snapshot.budget.creditsReserved,100+rpcCount);
+  assert.equal(snapshot.health.stopped,true);assert.equal(snapshot.health.reason,'budget');
+  await reader.close();await s.close();
+  }
+});
