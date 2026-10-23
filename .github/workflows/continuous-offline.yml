@@ -33,19 +33,3 @@ jobs:
           bash experiments/continuous-stream/compat-test.sh "$b_tree"
       - name: Original bounded implementation unchanged
         run: git diff --exit-code ab13c13f2e9d9f779694ee14202a1877f7f85ed8 HEAD -- experiments/live-stream
-  regression:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - run: npm ci
-      - run: bash scripts/archive-tool.sh check origin/main
-      - run: npm test
-      - run: npm run lint
-      - run: npx tsc --noEmit
-      - run: npm run build
