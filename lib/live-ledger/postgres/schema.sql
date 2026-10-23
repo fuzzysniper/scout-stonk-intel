@@ -120,6 +120,10 @@ BEGIN
   IF prior=e THEN RETURN scout_live.reply(c,true,'duplicate'); END IF;
   IF e->>'finality'='provisional' THEN
    IF EXISTS(SELECT 1 FROM unnest(ARRAY['mint','quoteMint','tokenProgram','transactionHash','verificationHash','checkedAt','blockTime']) k WHERE e->k IS DISTINCT FROM 'null'::jsonb) THEN RAISE EXCEPTION 'unverified_identity'; END IF;
+   IF prior IS NOT NULL THEN
+    IF prior->'slot' IS DISTINCT FROM e->'slot' OR prior->'source' IS DISTINCT FROM e->'source' OR prior->'program' IS DISTINCT FROM e->'program' THEN RAISE EXCEPTION 'identity_revision'; END IF;
+    RETURN scout_live.reply(c,true,'duplicate'); -- Preserve ORIGINAL hash/clock, never re-sample/reorder/downgrade.
+   END IF;
   ELSIF e->>'finality'='rpc_reported_finalized' THEN
    IF NOT scout_live.b58(e->>'mint',32) OR e->>'mint'=e->>'quoteMint' OR e->>'quoteMint' IS NULL OR e->>'quoteMint' NOT IN ('So11111111111111111111111111111111111111112','EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v') OR e->>'tokenProgram' IS NULL OR e->>'tokenProgram' NOT IN ('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA','TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb') OR (e->>'transactionHash')!~ '^[a-f0-9]{64}$' OR e->>'transactionHash' IS NULL OR (e->>'verificationHash')!~ '^[a-f0-9]{64}$' OR e->>'verificationHash' IS NULL OR (e->>'checkedAt')!~ '^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d{3})?Z$' OR e->>'checkedAt' IS NULL THEN RAISE EXCEPTION 'invalid_finality'; END IF;
    IF EXISTS(SELECT 1 FROM unnest(ARRAY['mint','quoteMint','tokenProgram','transactionHash','verificationHash','checkedAt']) k WHERE jsonb_typeof(e->k) IS DISTINCT FROM 'string') THEN RAISE EXCEPTION 'invalid_finality'; END IF;

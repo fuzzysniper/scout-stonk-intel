@@ -190,3 +190,12 @@ test('creation operations preserve exact legacy and lookup policy history',async
  const read=async()=>JSON.stringify((await db.owner.query("SELECT (SELECT jsonb_agg(to_jsonb(p)) FROM scout_mint.policy p) legacy,(SELECT jsonb_agg(to_jsonb(p)) FROM scout_lookup.policy p) lookup")).rows);
  const before=await read();const {s,c}=await connected();await s.transact({...c,op:'append',event:event()});await s.transact({...c,op:'reserve',resource:'rpc'});await store('stop').transact(null);assert.equal(await read(),before);
 });
+
+test('repeated notification with new receipt/hash preserves original evidence and suppresses resampling',async()=>{
+ const {s,c}=await connected(),e=event();await s.transact({...c,op:'append',event:e});
+ const duplicate={...e,receivedAt:new Date().toISOString(),notificationHash:'e'.repeat(64)};
+ assert.equal((await s.transact({...c,op:'append',event:duplicate})).reason,'duplicate');
+ assert.deepEqual((await store('reader').transact(null)).events,[e]);
+ await assert.rejects(s.transact({...c,op:'append',event:{...duplicate,slot:1235}}));
+ assert.equal((await store('reader').transact(null)).budget.rpcUsed,0);
+});

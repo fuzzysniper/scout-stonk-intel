@@ -38,3 +38,27 @@ Rollback: authenticated STOP first, verify committed stopped snapshot, confirm A
 `npm ci`; `SCOUT_TEST_PG_BIN=... SCOUT_TEST_PG_SHARE=... npm test`; `npx tsc --noEmit`; `npm run lint`; `npm run build`; `bash scripts/archive-tool.sh check origin/main`. PostgreSQL tests generate temporary local CA/key and synthetic passwords; no hosted SQL, source calls or production credentials. Real local TLS/SCRAM proves the test protocol/role behavior, **not** negotiated mandatory SCRAM-PLUS or Vercel→Neon reachability.
 
 A port: `lib/scout-live/worker-store.mjs` exports `createWorkerStore()`→`{transact(command,{signal}),close()}`. Canonical v1 commands/replies and C feed are `lib/live-ledger/contract.ts`; durable scope is `policy.mjs`. HTTP routes are Node/server-only, private/no-store, exact production unique origin + owner bearer, no CORS/query overrides. STOP is POST-only, no resume API. Render manifest is an inert review file, never automatically deployed by this PR.
+
+## Exact API integration (C)
+
+On the reviewed unique host after Vercel login, keep `ownerToken` in memory only. No auto source calls. Read once at a time; foreground polling no faster than 5s and stop when hidden/error/unauthorized. Treat redirected/non-JSON/failed responses as denied/unavailable, never fresh cached success.
+
+```js
+const response = await fetch('/api/live-events', {
+  credentials: 'same-origin', redirect: 'error', cache: 'no-store',
+  headers: { Authorization: 'Bearer ' + ownerToken },
+});
+// Validate HTTP, content-type and scout-live/1 before rendering; never log the token/headers.
+```
+
+Owner STOP button only (no GET mutation or automated resume):
+
+```js
+const response = await fetch('/api/live-events/stop', {
+  method: 'POST', credentials: 'same-origin', redirect: 'error', cache: 'no-store',
+  headers: { Authorization: 'Bearer ' + ownerToken, 'X-Scout-Live-Intent': 'STOP_SCOUT_LIVE' },
+});
+// Browser supplies exact Origin/Sec-Fetch-Site. Empty body. Uncertain result is NOT confirmed STOP.
+```
+
+Built route smoke after build: `node tests/live-ledger/built-api.mjs` (loopback, gates OFF, no credentials). A repeated provisional signature/slot is `duplicate` even if a later notification has a different receipt/hash: the ledger keeps the first evidence unchanged and A must not resample. A conflicting slot is rejected. Finalized upgrades still require original notification hash/clock.
