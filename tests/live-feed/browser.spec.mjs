@@ -14,13 +14,17 @@ test.beforeEach(async({page})=>{
 test.afterEach(async({page})=>{expect(calls.get(page).external).toEqual([]);expect(calls.get(page).errors).toEqual([]);expect(calls.get(page).api.every(c=>c.path==='/api/live-events'||c.path==='/api/live-events/stop')).toBe(true);});
 
 test('real locked and disabled optimized app: no passive request, authentic OFF denial, Outlier and parked analysis',async({page},info)=>{
+ // Capture the actual local backend body before the product's completed-stream
+ // abort can evict Chromium's CDP response buffer. This is a real one-request
+ // passthrough, not an invented fixture or an extra diagnostic API call.
+ let actual;await page.route('**/api/live-events',async route=>{const response=await route.fetch();actual={status:response.status(),body:await response.json()};await route.fulfill({response});});
  await page.goto('/?mint=So11111111111111111111111111111111111111112&fixture=observing');await page.waitForLoadState('networkidle');
  await expect(page).toHaveTitle('UNFARMD · Private creation observations');await expect(page.getByRole('heading',{name:'Private viewer · locked',exact:true})).toBeVisible();expect(calls.get(page).api).toEqual([]);
  await expect(page.getByRole('region',{name:'Exact-mint analysis unavailable'})).toContainText('SCOUT IT · unavailable');await expect(page.locator('#mint')).toHaveCount(0);
  await expect(page.locator('link[rel=icon]')).toHaveAttribute('href',/^\/icon\.svg\?/);await expect(page.locator('link[rel=apple-touch-icon]')).toHaveAttribute('sizes','180x180');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);const action=await page.getByRole('button',{name:'Read observations',exact:true}).boundingBox();expect(action.y+action.height).toBeLessThanOrEqual(page.viewportSize().height);await axe(page);
  mkdirSync('docs/live-feed-167/screenshots',{recursive:true});await page.screenshot({path:`docs/live-feed-167/screenshots/locked-${info.project.name}.png`});
- const pending=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/live-events');await connect(page);const response=await pending;expect(response.status()).toBe(503);const body=await response.json();expect(body.status).toBe('disabled');expect(body.events).toBeNull();
+ const pending=page.waitForResponse(r=>new URL(r.url()).pathname==='/api/live-events');await connect(page);const response=await pending;expect(response.status()).toBe(503);expect(actual.status).toBe(503);const body=actual.body;expect(body.status).toBe('disabled');expect(body.events).toBeNull();
  await expect(page.getByRole('heading',{name:'Source unavailable · disabled',exact:true})).toBeVisible();await expect(page.getByText('Retained counts unknown. No successful empty feed is inferred.')).toBeVisible();await expect(page.locator('.live-event')).toHaveCount(0);
  await expect(page.locator('#live-owner-token')).toHaveValue('');expect(calls.get(page).api).toEqual([{method:'GET',path:'/api/live-events'}]);await axe(page);
  await page.screenshot({path:`docs/live-feed-167/screenshots/disabled-${info.project.name}.png`});
