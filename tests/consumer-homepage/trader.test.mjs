@@ -54,10 +54,24 @@ test('V3 absent standard authorities preserve uncertainty and use no green all-c
 });
 test('V3 recovery distinguishes an access gate from expiry/rate limiting/unsupported responses',t=>{
  t.mock.method(Date,'now',()=>now);
- for(const reason of ['disabled','missing_api','access_denied'])assert.match(brief({kind:'unavailable',reason}),/Public lookups disabled/);
- for(const v of [{kind:'unavailable',reason:'stale_source'},{kind:'unavailable',reason:'rate_limited'},{kind:'unsupported',reason:'not_mint'}]){const html=brief(v);assert.match(html,/Source access &amp; verification limits/);assert.match(html,/Explore dated examples/);assert.doesNotMatch(html,/Public lookups disabled/);}
+ for(const reason of ['disabled','missing_api','access_denied'])assert.match(brief({kind:'unavailable',reason}),/Lookup access restricted/);
+ for(const v of [{kind:'unavailable',reason:'stale_source'},{kind:'unavailable',reason:'rate_limited'},{kind:'unsupported',reason:'not_mint'}]){const html=brief(v);assert.match(html,/Source access &amp; verification limits/);assert.match(html,/Explore dated examples/);assert.doesNotMatch(html,/Lookup access restricted/);}
 });
 test('V3 Brief uses a coherent source instant at the exact expiry boundary',t=>{
  const view=project(mintFixture());let clockReads=0;t.mock.method(Date,'now',()=>now+60000+clockReads++);
  const html=brief(view);assert.match(html,/1 check needs a closer look/);assert.match(html,/Authority present/);assert.doesNotMatch(html,/Standard authorities absent/);
+});
+
+test('release: shared mint URLs and dated examples render without mounting source acquisition',()=>{
+ const {default:Home}=load('home'),{evaluateInput,examples}=load('model');
+ for(const mint of [MINT,examples[0].mint]){
+  const html=renderToStaticMarkup(React.createElement(Home,{initialInput:mint,initialState:evaluateInput(mint)}));
+  assert.match(html,/Onchain check not requested/);assert.ok(html.includes(mint));
+  assert.doesNotMatch(html,/class="trader-research"|RPC snapshot accepted|Checking source…/);
+ }
+});
+test('release: market evidence is not fetched implicitly with the onchain check',()=>{
+ const html=renderToStaticMarkup(React.createElement(TokenResearch,{mint:MINT}));
+ assert.match(html,/Market source not checked/);assert.match(html,/Check market source/);
+ assert.doesNotMatch(html,/Checking market source…|A matching pool was reported/);
 });

@@ -1,0 +1,46 @@
+{
+  "synthetic": true,
+  "liveObservation": false,
+  "reading": {
+    "focusId": "research-onchain",
+    "focusText": "VERIFY / ONCHAIN EVIDENCEChecking the address. No accepted token facts are shown.Checking the addres",
+    "focusRect": {
+      "top": 19.90625,
+      "bottom": 385.171875
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "scrollY": 809,
+    "overflow": false
+  },
+  "resolved": {
+    "focusId": "answer-title",
+    "focusText": "A Solana token",
+    "focusRect": {
+      "top": 910.296875,
+      "bottom": 940.1875
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "scrollY": 0,
+    "overflow": false
+  },
+  "activity": {
+    "external": [],
+    "errors": [],
+    "calls": [
+      {
+        "method": "GET",
+        "path": "/api/mint-facts"
+      },
+      {
+        "method": "GET",
+        "path": "/api/token"
+      }
+    ]
+  }
+}

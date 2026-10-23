@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import {explainMint,listSupportedMints,type ExplainMintResult,type MintExplanation} from '../../experiments/consumer-mvp/evidence';
 import {isExactSolanaMint} from '../../experiments/consumer-mvp/evidence/guards';
+import {escapeArt} from './brand/art';
 // One reviewed engine, no vendor copy, live fallback or historical clock override.
 export const examples=listSupportedMints();
 export type HomeState={state:'idle'|'empty'|'invalid'|'needs_mint'|'unsupported'|'unavailable'}|{state:'supported';evidence:MintExplanation};
@@ -58,11 +59,11 @@ export function consumerMetadata(raw:string|string[]|undefined):Metadata {
  const token=typeof raw==='string'?examples.find(e=>e.mint===raw):undefined;
  const canonical='https://scout.storkcoin.xyz'+(token?sharePath(token.mint):'/');
  const image='https://scout.storkcoin.xyz/opengraph-image';
- const title=token?`${token.symbol} explained · captured 14 Oct 2026`:'Understand a Solana token';
- const description='What it is, what was verified, and what remains unknown. Three dated examples from 14 October 2026; stale, not live data. Financial figures withheld.';
+ const title=token?`${token.symbol} explained · captured 14 Oct 2026 · UNFARMD`:'UNFARMD · Scout a Solana token';
+ const description='Solana token research: facts, concerns and unknowns. Live checks restricted. Three dated examples from 14 October 2026; stale, not live data. Financial figures withheld. Proposed launch brand.';
  // Next 15 strips root-query URLs when metadataBase is set. Absolute strings
  // with an explicit null base preserve the exact-mint canonical and og:url.
- return {metadataBase:null,title:{absolute:title},description,robots:{index:false,follow:false},alternates:{canonical},
-  openGraph:{title,description,type:'website',url:canonical,images:[{url:image,width:1200,height:630,alt:'Understand a Solana token · dated examples, not live data'}]},
+ return {metadataBase:null,title:{absolute:title},description,robots:{index:false,follow:false},alternates:{canonical},icons:{icon:escapeArt.avatar},
+  openGraph:{title,description,type:'website',url:canonical,images:[{url:image,width:1200,height:630,alt:'UNFARMD · proposed launch brand · restricted live checks · dated examples, not live data'}]},
   twitter:{card:'summary_large_image',title,description,images:[image]}};
 }
