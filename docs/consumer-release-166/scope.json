@@ -1,0 +1,68 @@
+{
+  "baseline": "6a9ba2fa58235acd6c56bc4fdf09fefa38f01127",
+  "integratedParent": "40ee1d974de0dcb47e3f58dbbc3cccbfe3c67c94",
+  "collectorHistoryPreservedByAncestry": true,
+  "protectedPaths": [
+    {
+      "path": "app/api",
+      "baseline": "040000 tree 6e9cfa53204435a4af97b161ebc5e0e4647266c4\tapp/api",
+      "candidate": "040000 tree 6e9cfa53204435a4af97b161ebc5e0e4647266c4\tapp/api",
+      "identical": true
+    },
+    {
+      "path": "lib",
+      "baseline": "040000 tree 68377cd51b12d51d699b3a60006a2eeb3d9d327a\tlib",
+      "candidate": "040000 tree 68377cd51b12d51d699b3a60006a2eeb3d9d327a\tlib",
+      "identical": true
+    },
+    {
+      "path": "data",
+      "baseline": "040000 tree 759ce2401ce5597bbd6431caf2795a569a828f73\tdata",
+      "candidate": "040000 tree 759ce2401ce5597bbd6431caf2795a569a828f73\tdata",
+      "identical": true
+    },
+    {
+      "path": "scheduler",
+      "baseline": "040000 tree 29194d3a77480c555c01bfdb77dd110c6af0e17c\tscheduler",
+      "candidate": "040000 tree 29194d3a77480c555c01bfdb77dd110c6af0e17c\tscheduler",
+      "identical": true
+    },
+    {
+      "path": ".github",
+      "baseline": "040000 tree 3a083a4e0f0e2f3de4496a8005935d8ded62fb6d\t.github",
+      "candidate": "040000 tree 3a083a4e0f0e2f3de4496a8005935d8ded62fb6d\t.github",
+      "identical": true
+    },
+    {
+      "path": "vercel.json",
+      "baseline": "",
+      "candidate": "",
+      "identical": true
+    },
+    {
+      "path": "package.json",
+      "baseline": "100644 blob 5002f4810db6e6fb93e6d419c7f7af45af481b28\tpackage.json",
+      "candidate": "100644 blob 5002f4810db6e6fb93e6d419c7f7af45af481b28\tpackage.json",
+      "identical": true
+    },
+    {
+      "path": "package-lock.json",
+      "baseline": "100644 blob 6ef51ddf0b877f8b7c9302ce588921521b194b86\tpackage-lock.json",
+      "candidate": "100644 blob 6ef51ddf0b877f8b7c9302ce588921521b194b86\tpackage-lock.json",
+      "identical": true
+    }
+  ],
+  "frontendAndAssetsEqualIntegratedParent": true,
+  "runtimeComparedPaths": [
+    "app/consumer",
+    "app/page.tsx",
+    "app/opengraph-image.tsx",
+    "app/research/history/page.tsx",
+    "app/icon.svg",
+    "app/apple-icon.tsx",
+    "public/consumer/unfarmd"
+  ],
+  "lookupGate": "disabled/null/null",
+  "preflightGate": "false/null/null",
+  "scope": "No hosted identity, data acquisition, API protection or licensing proof is implied."
+}

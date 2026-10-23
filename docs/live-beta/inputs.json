@@ -1,0 +1,22 @@
+{
+  "version": "unfarmd-live-release/1",
+  "baseMain": "6a9ba2fa58235acd6c56bc4fdf09fefa38f01127",
+  "workerReviewed": "5c89f210b06906d364dce671add4fdb077a118f8",
+  "workerOfflineFollowup": "ab13c13f2e9d9f779694ee14202a1877f7f85ed8",
+  "ledger": "0fc08db97531e693b30894dae1724027ac972a25",
+  "consumerReviewed": "29ae3cb86f8de5b3e00f19569cb066d64360b172",
+  "consumerLiveFeed": "0111d06672cd8a30a7416534a7ceddd70255e19e",
+  "productionSourceApproved": false,
+  "accountEvidence": {
+    "source": "founder report on 2026-10-23; no agent account request",
+    "plan": "existing Helius Developer",
+    "monthlyCredits": 10000000,
+    "usedCreditsAtCapture": 317040,
+    "remainingAtCapture": 9682960,
+    "autoscaling": "Off",
+    "displayedMonthlyAutoscalingLimitUsd": 0,
+    "dataKey": "founder reports dedicated key created privately; not read or installed by agent",
+    "actualStreamMetering": "not observed",
+    "providerCutoffExistingSocketBehavior": "not established"
+  }
+}

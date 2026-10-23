@@ -1,0 +1,15 @@
+{
+  "scope": "Actual merged source-disabled Next production, market intercepted offline",
+  "calls": [
+    {
+      "method": "GET",
+      "path": "/api/mint-facts",
+      "mint": "So11111111111111111111111111111111111111112"
+    },
+    {
+      "method": "GET",
+      "path": "/api/token",
+      "mint": "So11111111111111111111111111111111111111112"
+    }
+  ]
+}

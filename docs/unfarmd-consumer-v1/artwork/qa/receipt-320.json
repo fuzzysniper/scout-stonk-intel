@@ -1,0 +1,18 @@
+{
+  "viewport": {
+    "width": 320,
+    "height": 740
+  },
+  "build": "actual Next.js production",
+  "hero": "escape-hero-mobile.webp",
+  "action": {
+    "x": 18,
+    "y": 614.53125,
+    "width": 284,
+    "height": 50
+  },
+  "sourceRequests": 0,
+  "axeViolations": 0,
+  "rights": "pending; founder visual approval only",
+  "authenticHeliusObservation": false
+}
