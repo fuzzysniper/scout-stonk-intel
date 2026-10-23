@@ -1,0 +1,21 @@
+{
+  "observationKind": "read_only_control_plane_metadata",
+  "observedOn": "2026-10-23",
+  "project": "snowy-haze-83201847",
+  "name": "scout-onchain",
+  "branch": "br-long-fog-b54099ej",
+  "branchName": "production",
+  "postgresVersion": 18,
+  "historySeconds": 21600,
+  "snapshots": 0,
+  "schedules": 0,
+  "subscription": "free_v3",
+  "logicalSizeBytes": 31916032,
+  "logicalSizeLimitBytes": 1073741824,
+  "defaultComputeMaxCU": 2,
+  "defaultSuspendTimeoutSeconds": 0,
+  "evidence": ["describe_project", "list_branches", "list_snapshots", "get_snapshot_schedule"],
+  "hostedSQLExecuted": false,
+  "physicalDeletionProven": false,
+  "sourceGo": false
+}
