@@ -1,5 +1,11 @@
 # Exact implementation evidence — October 22, 2026
 
+## October 23 fixture CI follow-up
+
+[Confirmed CI failure and bounded correction](CI_TRIAGE.md): founder's full log establishes first SQLSTATE 57014 in initial owner-fixture TRUNCATE; all 47 dependent product cases were hook failures, not executed assertions. Synthetic fixture-owner statement/query limits change from 800/1,200ms to 5,000/6,000ms only. Runtime-role 800/1,200ms and production TLS/admission/500ms statement/100ms lock limits are unchanged. New local PostgreSQL regression fails with 57014 under the old owner policy and passes under the new one while runtime cancellation remains enforced. No retry, skip, provider request or production-code change.
+
+New-head root/focused/types/lint/build/archive/CI outcomes are reported in the PR after execution. Earlier local totals below are historical, not a claim about this new head. Source profile and disabled approval file remain unchanged; [current source decision is NO-GO](SOURCES.md#final-current-profile-decision--october-23). No new browser run is needed for a fixture-only change; previous source-disabled dashboard QA is retained as prior evidence. Windows/physical iPhone acceptance remains pending.
+
 ## October 23 PC/mobile handoff verification
 
 Requested head `dd6b3941d61bcebe0810dcb5914320216ef4dd59`, refreshed main `8ba5ab1ff8252631e3f5f85f7dbd7aa9326c6eba`; two newer main commits contain collector records only. This handoff updates documentation/report templates only; no main/data merge, runtime/source gate, approval JSON or provider budget change. No new synthetic feature or provider acquisition.

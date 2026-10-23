@@ -2,6 +2,8 @@
 
 Prepared October 23, 2026. **Current decision: BLOCKED. Commands 1–8 are preparation/local viewing; command 9 is forbidden until a separate founder GO.** This card does not grant source rights or change any gate. Use the final human-reviewed PR #161 SHA, not a moving branch name. Calendar labels such as “tomorrow” do not create an approval window.
 
+Final gate check: read the [current NO-GO source decision](SOURCES.md#final-current-profile-decision--october-23) and [fixture CI correction](CI_TRIAGE.md). Use the final SHA/automatic-CI result reported in PR #161; the old red run is not retroactively green. Even green full CI is not permission to retain business research data or execute command 9. This card implements no alternative that avoids storing records and no endpoint fallback.
+
 ## Before opening PowerShell
 
 - Use a dedicated clean checkout on the owner Windows PC, Node 20+ and Git. Use normal TLS/network settings. No Helius/key/wallet/account/funding, paid fallback or production service is needed. Do not remove a managed proxy or TLS guard to make this work. Windows/NTFS/physical-device acceptance remains owner-operated, not tested on a Windows PC by the agent.

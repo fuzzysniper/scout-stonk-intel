@@ -1,5 +1,24 @@
 # Source decision — October 22, 2026 (Chicago); evidence clocks UTC
 
+## Final current-profile decision — October 23
+
+**NO-GO for acquisition under the existing 120-second profile.** No applicable source-use/24h business-research-retention basis has been established, and no new exact-head founder grant exists. This is an unresolved permission question, not a finding that Solana forbids every development use. CI repair cannot clear this gate. Both `sourceGo` and `rpcGo` (and `privateResearchPermitted`) remain false.
+
+The current profile writes original notifications, transaction/status responses and derived summaries to private disk. It requires a 24h deletion plan and permanently retained **non-market** spent-budget markers. It is not an ephemeral no-storage demonstration. Do not relabel business research “personal,” use documentation availability as a data-retention license, or silently change storage/endpoints/caps to get around approval. Longer retention/publication of source-derived hashes/decisions needs its own basis too.
+
+Final route: establish a dated, applicable basis for **this selected public RPC service**, the actual private business/development purpose, original/derived record retention and deletion (clear governing terms or appropriate written clarification). Founder then independently reviews the final exact SHA, scope/new ID/UTC window and Windows controls. PumpPortal permission is **not** required for a separate direct RPC pilot. If the selected public service cannot be qualified, stop and separately review a suitably licensed private provider, price and adapter/scope; do not auto-fallback or buy a plan. No source authorization is issued here.
+
+### Additional authoritative evidence supplied in the PR
+
+The [founder's dated official-page review](https://github.com/fuzzysniper/scout-stonk-intel/pull/161#issuecomment-6357630918) (2026-10-23 04:48:43 UTC, reporting October 22 source review) resolves pricing evidence but **not** business rights:
+
+- [PumpPortal real-time](https://pumpportal.fun/data-api/real-time/): creation/migration methods described as **Free**; examples show `wss://pumpportal.fun/api/data?api-key=your-api-key-here`. This is documentation text only, not a tested connection or a credential. Token/account trade methods require an API key and a linked wallet with at least 0.02 SOL according to that review. **Do not apply or waive those funded-wallet requirements for creation/migration by inference.** Exact key issuance/access requirements for the two free methods remain unresolved. Docs advise one WS connection and warn that multiple connections can trigger temporary bans.
+- [Fees](https://pumpportal.fun/fees/): no charge for creation/migration; token/account trade subscriptions reported at 0.01 SOL per 10,000 events. No paid trades, key creation or funding is approved. Pricing is not licensing.
+- [Legal §6](https://pumpportal.fun/legal/): limited **personal** license; copying/publishing/distributing service contents requires express authorization, as reported in the founder review. UNFARMD business research, raw retention, derivative preservation, deletion duties and public/commercial reporting remain unqualified. Ask the unsent inquiry below; do not ingest first and seek rights later.
+- [Solana clusters](https://solana.com/docs/references/clusters) / [RPC](https://solana.com/docs/rpc): public rate-limited development access, unsuitable for persistent production; canonical HTTP hostname differs from this profile's pinned older alias. These technical statements alone do not establish this business record-retention permission.
+
+Agent access to those official websites remains unverified beyond the prior proxy denials; these are explicitly attributed founder-supplied findings, not fabricated direct quotations/full license clearance. Main refreshed to `01f4be846c6483860c0e2bd6404a877d6f276e05` without changing collector data. [CI triage](CI_TRIAGE.md) and [final PC card](RUN_CARD.md) do not alter the source decision.
+
 ## October 23 readiness review — no new authorization
 
 Requested PR head `dd6b3941d61bcebe0810dcb5914320216ef4dd59` rechecked; main refreshed to `8ba5ab1ff8252631e3f5f85f7dbd7aa9326c6eba`. Its two newer commits only persist collector records; this documentation-only preparation does not merge or modify those records. All executable code, endpoints, scope, budgets and checked-in false approvals remain unchanged.
