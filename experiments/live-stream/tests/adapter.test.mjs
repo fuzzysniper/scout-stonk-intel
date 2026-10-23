@@ -22,7 +22,7 @@ test('B envelope preserves native SOL identity and original receipts on promotio
   await Promise.all([
     s.transact({...identity,op:'append',record:row},{signal:signal()}),
     s.transact({...identity,op:'append',record:final},{signal:signal()}),
-    s.transact({...identity,op:'heartbeat',health:{state:'SUBSCRIBED',frames:8,bytes:1100,lastFrameAt:AT,lastPongAt:null,lastRpcRoundTripMs:10}},{signal:signal()}),
+    s.transact({...identity,op:'heartbeat',health:{state:'SUBSCRIBED',sourceState:'open',frames:8,bytes:1100,lastFrameAt:AT,lastPongAt:null,lastRpcRoundTripMs:10}},{signal:signal()}),
   ]);
   assert.equal(raw.maxActive,1);const a=raw.commands[1].event,b=raw.commands[2].event;
   assert.equal(a.finality,'provisional');assert.equal(a.mint,null);
@@ -34,7 +34,7 @@ test('B envelope preserves native SOL identity and original receipts on promotio
 });
 test('cancelled queued SQL is never sent and counter regression cannot reach ledger',async()=>{
   const raw=rawPort(),s=adaptStore(raw,grant(),UUID);await s.transact({op:'claim'},{signal:signal()});
-  const health={state:'CONNECTING',frames:7,bytes:1000,lastFrameAt:null,lastPongAt:null,lastRpcRoundTripMs:null};
+  const health={state:'CONNECTING',sourceState:'connecting',frames:7,bytes:1000,lastFrameAt:null,lastPongAt:null,lastRpcRoundTripMs:null};
   const first=s.transact({...identity,op:'heartbeat',health},{signal:signal()}),abort=new AbortController();
   const cancelled=s.transact({...identity,op:'reserve',kind:'rpc'},{signal:abort.signal});abort.abort();
   await first;await assert.rejects(cancelled,/STORE_ABORTED/);

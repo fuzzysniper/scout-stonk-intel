@@ -20,6 +20,21 @@ jobs:
           node-version: '24'
       - run: npm ci --ignore-scripts
       - run: npm ci --prefix experiments/live-stream --ignore-scripts
-      - run: bash experiments/live-stream/test.sh
+      - name: Offline worker tests
+        shell: bash
+        run: |
+          if bash experiments/live-stream/test.sh > /tmp/scout-worker-tests.log 2>&1; then
+            cat /tmp/scout-worker-tests.log
+          else
+            cat /tmp/scout-worker-tests.log
+            python3 - <<'PY'
+          import re
+          text = open('/tmp/scout-worker-tests.log').read()
+          lines = [line for line in text.splitlines() if re.search(r'not ok|✖|error:|expected:|actual:|failureType|Error:|TS\d{4}', line)]
+          message = '\n'.join(lines)[-6000:] or 'Worker tests failed; see job log.'
+          print('::error title=Offline worker failure::' + message.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A'))
+          PY
+            exit 1
+          fi
       - run: npm run build --prefix experiments/live-stream
       - run: node experiments/live-stream/run.mjs

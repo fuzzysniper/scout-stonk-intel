@@ -4,7 +4,7 @@ import {strictJson} from '../consumer-mvp/evidence/strict-json';
 import type {Clock,Health,LeaseState,Source,SourceConnection,Store,StoreCommand,StoreReply} from './ports';
 
 export class Worker {
-  readonly health:Health={state:'STARTING',reason:'WAIT_DURABLE_CLAIM',frames:0,bytes:0,ignored:0,duplicates:0,
+  readonly health:Health={state:'STARTING',sourceState:'closed',reason:'WAIT_DURABLE_CLAIM',frames:0,bytes:0,ignored:0,duplicates:0,
     provisional:0,finalized:0,withheld:0,rpcAttempts:0,rpcBytes:0,connections:0,lastFrameAt:null,lastPongAt:null,lastRpcRoundTripMs:null};
   private lease:LeaseState|null=null; private leaseDeadline=-1; private stopped=false;
   private readonly abort=new AbortController(); private connection:SourceConnection|null=null;
@@ -104,7 +104,7 @@ export class Worker {
         await this.call({...this.identity(),op:'gap',at:this.at(),boundary:'begin',reason:attempt?'DISCONNECT_NO_REPLAY':'BEFORE_START_HISTORY_NOT_OBSERVED'});
         await this.reserve('connection');this.requireLease();
         let subscription:number|null=null,frames=0,bytes=0,reason='SOURCE_DISCONNECTED';
-        this.health.state='CONNECTING';this.health.reason='WAIT_SUBSCRIPTION';this.health.connections++;
+        this.health.state='CONNECTING';this.health.sourceState='connecting';this.health.reason='WAIT_SUBSCRIPTION';this.health.connections++;
         closed=false;
         this.connection=this.source.open({
           open:()=>{if(!this.valid())this.stop('LEASE_INVALID_AT_OPEN');},
@@ -115,7 +115,7 @@ export class Worker {
             this.health.frames++;this.health.bytes+=n;const now=this.clock.now();
             if(now<this.lastReceipt){this.stop('CLOCK_REGRESSED');return;}this.lastReceipt=now;this.health.lastFrameAt=this.at();
             try{const event=notice(raw,this.at(),subscription);
-              if(event.kind==='ack'){subscription=event.subscription;this.health.state='SUBSCRIBED';this.health.reason='PARTIAL_CREATIONS_ONLY';
+              if(event.kind==='ack'){subscription=event.subscription;this.health.state='SUBSCRIBED';this.health.sourceState='open';this.health.reason='PARTIAL_CREATIONS_ONLY';
                 this.enqueue(async()=>{await this.call({...this.identity(),op:'gap',at:this.at(),boundary:'end',reason:'SUBSCRIBED_NO_BACKFILL'});});return;}
               if(event.kind==='ignored'){this.health.ignored++;return;}
               const row=event.row,prior=this.seen.get(row.signature);
@@ -124,7 +124,7 @@ export class Worker {
               this.seen.set(row.signature,row.identityHash);this.enqueue(()=>this.candidate(row));
             }catch{this.stop('SOURCE_SCHEMA_INVALID');}
           },
-          close:r=>{reason=r;if(!this.stopped){this.health.state='DISCONNECTED';this.health.reason=r;}},
+          close:r=>{reason=r;this.health.sourceState='closed';if(!this.stopped){this.health.state='DISCONNECTED';this.health.reason=r;}},
           fatal:r=>this.stop(r),
         },this.abort.signal,()=>this.valid());
         // Native close confirmation is mandatory before another connection or release.
@@ -134,12 +134,12 @@ export class Worker {
           cancelClose=()=>{closeTimer=setTimeout(()=>reject(Error('CLOSE_UNCONFIRMED')),SCOPE.closeTimeoutMs);};
           if(this.abort.signal.aborted)cancelClose();else this.abort.signal.addEventListener('abort',cancelClose,{once:true});
         })]);}finally{clearTimeout(closeTimer);this.abort.signal.removeEventListener('abort',cancelClose);}
-        closed=true;this.connection=null;
+        closed=true;this.health.sourceState='closed';this.connection=null;
         if(!this.stopped)await this.call({...this.identity(),op:'connectionClosed',at:this.at()});
         if(!this.stopped)await this.call({...this.identity(),op:'gap',at:this.at(),boundary:'begin',reason});
       }
       if(!this.stopped)this.stop('CONNECTION_BUDGET_EXHAUSTED');
-    }catch{this.stop('CLAIM_STORE_SOURCE_OR_TIME_FAILURE');}
+    }catch{this.stop('CLAIM_STORE_SOURCE_OR_TIME_FAILURE');if(!closed)this.health.reason='SOURCE_CLOSE_UNCONFIRMED';}
     finally{
       this.stop(this.health.reason);await Promise.allSettled([this.queue,this.verification,beat]);
       if(this.lease){

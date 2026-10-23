@@ -87,3 +87,12 @@ test('claim seeds persisted cumulative counters; reconnect cannot report a reset
   const h=await worker.run();assert.equal(h.frames,31);assert.equal(h.bytes,4000+Buffer.byteLength(ack));
   assert.ok(store.commands.filter(c=>c.op==='heartbeat').every(c=>c.health.frames>=31));
 });
+
+test('uncertain native closure stays quarantined and never reports confirmed closed or releases lease',async()=>{
+  const clock=testClock(),store=new OfflineStore(clock);let worker;
+  const source={open(h){queueMicrotask(()=>{h.open();h.frame(ack);worker.stop('OWNER_SIGNAL');});return {closed:new Promise(()=>{}),close(){}};},read(){throw Error('NO_RPC');}};
+  worker=new Worker(grant(),store,source,clock);const h=await worker.run();
+  assert.equal(h.reason,'SOURCE_CLOSE_UNCONFIRMED');assert.equal(h.sourceState,'open');
+  assert.equal(store.commands.filter(c=>c.op==='release'||c.op==='connectionClosed').length,0);
+  assert.ok(store.stopped);assert.equal(store.leased,true);
+});

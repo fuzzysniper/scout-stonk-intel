@@ -25,7 +25,7 @@ export function adaptStore(raw,grant,worker=randomUUID()){
           const h=command.health;
           if(h.frames<counters.frames||h.bytes<counters.bytes)throw Error('COUNTERS_REGRESSED');
           c.framesReceived=h.frames;c.bytesReceived=h.bytes;
-          c.sourceState=h.state==='SUBSCRIBED'?'open':h.state==='CONNECTING'?'connecting':'closed';
+          c.sourceState=h.sourceState;
           c.lastFrameAt=h.lastFrameAt;c.lastPongAt=h.lastPongAt;c.lastRpcElapsedMs=h.lastRpcRoundTripMs;
           counters.frames=h.frames;counters.bytes=h.bytes;break;
         }

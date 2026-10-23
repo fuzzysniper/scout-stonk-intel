@@ -19,7 +19,7 @@ export const SCOPE = Object.freeze({
   methods:Object.freeze(['logsSubscribe','getTransaction','getSignatureStatuses']),
 });
 // B's canonical session policy; independently pinned worker transport policy below.
-export const SCOPE_HASH='c9c56b944745f168b5a392afeedf38ebfc6a1eb4969a2c3f772718e56c4237e3';
+export const SCOPE_HASH='694b38b4a0046ad1173d521c83932f7af6050b69ed666592e3d0e0d0c7289442';
 export const WORKER_POLICY_HASH=hash(JSON.stringify(SCOPE));
 export const UUID=/^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/;
 export function millis(s:unknown):number {

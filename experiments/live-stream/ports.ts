@@ -4,7 +4,7 @@ import type {Approval} from './policy';
 import type {Creation} from './creation';
 export type LeaseState={runId:string;head:string;scopeHash:string;leaseId:string;fence:string;
   serverNowMs:number;leaseUntilMs:number;sessionUntilMs:number;stop:boolean};
-export type Health={state:string;reason:string;frames:number;bytes:number;ignored:number;duplicates:number;
+export type Health={state:string;sourceState:'connecting'|'open'|'closed';reason:string;frames:number;bytes:number;ignored:number;duplicates:number;
   provisional:number;finalized:number;withheld:number;rpcAttempts:number;rpcBytes:number;connections:number;
   lastFrameAt:string|null;lastPongAt:string|null;lastRpcRoundTripMs:number|null};
 type Identity={runId:string;scopeHash:string;leaseId:string;fence:string};
