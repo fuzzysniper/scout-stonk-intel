@@ -1,0 +1,35 @@
+name: Continuous controller safety and regression
+on:
+  pull_request:
+    paths:
+      - 'experiments/continuous-stream/**'
+      - '.github/workflows/continuous-offline.yml'
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/live-stream --ignore-scripts
+      - run: bash experiments/live-stream/test.sh
+      - run: bash experiments/continuous-stream/test.sh
+      - run: node experiments/continuous-stream/build.mjs
+      - run: node experiments/continuous-stream/run.mjs
+      - name: Exact existing B contract rejects unsupported continuous integration
+        shell: bash
+        run: |
+          git fetch origin 0fc08db97531e693b30894dae1724027ac972a25
+          b_tree=$(mktemp -d /tmp/scout-continuous-b-XXXXXX)
+          git worktree add --detach "$b_tree" 0fc08db97531e693b30894dae1724027ac972a25
+          ln -s "$GITHUB_WORKSPACE/node_modules" "$b_tree/node_modules"
+          bash experiments/continuous-stream/compat-test.sh "$b_tree"
+      - name: Original bounded implementation unchanged
+        run: git diff --exit-code ab13c13f2e9d9f779694ee14202a1877f7f85ed8 HEAD -- experiments/live-stream
