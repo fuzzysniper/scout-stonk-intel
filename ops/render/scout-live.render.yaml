@@ -1,0 +1,26 @@
+# REVIEW TEMPLATE ONLY. Creating a new paid service requires separate founder GO.
+# A owns experiments/live-stream/**; confirm its reviewed start script before applying.
+services:
+  - type: worker
+    name: scout-live-creation-worker
+    runtime: node
+    repo: https://github.com/fuzzysniper/scout-stonk-intel
+    branch: main
+    autoDeploy: false
+    numInstances: 1
+    buildCommand: npm ci --no-audit --no-fund && bash experiments/live-stream/build.sh
+    startCommand: bash experiments/live-stream/start.sh
+    envVars:
+      - key: NODE_VERSION
+        value: 22.22.2
+      - key: SCOUT_LIVE_STORE_ENABLED
+        value: "false"
+      - key: SCOUT_LIVE_SOURCE_ENABLED
+        value: "false"
+      - key: SCOUT_LIVE_WORKER_DATABASE_URL
+        sync: false
+      - key: SCOUT_LIVE_RENDER_SERVICE_ID
+        sync: false
+# Deliberately no plan/billing selection, datastore provisioning, cron, scaling, reader/STOP DSNs,
+# owner token, existing proof key or old trading-bot references. A's exact DATA-key/session variables
+# must be reviewed against its fragment; no placeholder credentials or env-group inheritance.

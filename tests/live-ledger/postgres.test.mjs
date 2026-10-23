@@ -7,6 +7,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createServer} from 'node:net';
 import {execFileSync} from 'node:child_process';
+import {existsSync} from 'node:fs';
 import {randomUUID} from 'node:crypto';
 import {localPostgres} from '../onchain-api/postgres-harness.mjs';
 import {postgresPort,databaseConfig,NEON_HOST,fingerprintSource} from '../../lib/live-ledger/database.mjs';
@@ -22,6 +23,7 @@ before(async()=>{
  execFileSync('openssl',['req','-x509','-newkey','rsa:2048','-nodes','-days','1','-subj','/CN='+NEON_HOST,'-addext','subjectAltName=DNS:'+NEON_HOST,'-keyout',key,'-out',cert],{stdio:'ignore',timeout:10000});chmodSync(key,0o600);ca=readFileSync(cert,'utf8');
  const probe=createServer();await new Promise(r=>probe.listen(0,'127.0.0.1',r));port=probe.address().port;await new Promise(r=>probe.close(r));
  db=await localPostgres({tls:{port,cert,key},database:'neondb',runtimeRole:'scout_mint_app'});
+ await db.owner.query(readFileSync('lib/onchain-mint/server/postgres/lookup.sql','utf8'));
  await db.owner.query(sql);
  for(const role of ['worker','reader','stop'])await db.owner.query(`ALTER ROLE scout_live_${role} PASSWORD '${PASSWORD}'`);
 });
@@ -125,8 +127,8 @@ test('gap begin/end is explicit and repeated begins do not double-count',async()
 });
 test('all runtime roles deny DDL, direct state mutation, old proof state, and unauthorized functions',async()=>{
  for(const kind of ['worker','reader','stop']){
-  const p=pool(kind);for(const query of ['UPDATE scout_live.control SET stopped=false','SELECT * FROM scout_live.events','DELETE FROM scout_live.control','TRUNCATE scout_live.events','SELECT scout_mint.step(\'{}\')','SELECT scout_lookup.step(\'{}\')','CREATE TABLE public.bad(x int)'])await assert.rejects(p.query(query));
-  for(const [other,q] of Object.entries({worker:"SELECT scout_live.step('{}')",reader:'SELECT scout_live.snapshot()',stop:'SELECT scout_live.stop()'}))if(other!==kind)await assert.rejects(p.query(q));
+  const p=pool(kind);for(const query of ['UPDATE scout_live.control SET stopped=false','SELECT * FROM scout_live.events','DELETE FROM scout_live.control','TRUNCATE scout_live.events','SELECT scout_mint.step(\'{}\')','SELECT scout_lookup.step(\'{}\')','CREATE TABLE public.bad(x int)'])await assert.rejects(p.query(query),e=>e.code==='42501');
+  for(const [other,q] of Object.entries({worker:"SELECT scout_live.step('{}')",reader:'SELECT scout_live.snapshot()',stop:'SELECT scout_live.stop()'}))if(other!==kind)await assert.rejects(p.query(q),e=>e.code==='42501');
  }
 });
 test('function fingerprint drift fails closed before execution',async()=>{
@@ -156,4 +158,35 @@ test('aborted request cannot obtain an I/O ticket',async()=>{
 });
 test('strict command and event schemas exclude raw payloads and fake identity',()=>{
  const e=event();assert.ok(validEvent(e));assert.equal(validEvent({...e,mint:'11111111111111111111111111111111'}),false);assert.equal(validCommand({...base,op:'claim',raw:'anything'}),false);
+});
+
+// Run the exact owner authorization file against disposable local SQL, never a hosted DB.
+function authorize(values={}) {
+ const bin=[process.env.SCOUT_TEST_PG_BIN,...[18,17,16,15].map(v=>`/usr/lib/postgresql/${v}/bin`)].find(b=>b&&existsSync(join(b,'psql')));
+ const args=['-X','-v','ON_ERROR_STOP=1','-h',db.owner.options.host,'-p',String(db.owner.options.port),'-U','scout_test_owner','-d','neondb'];
+ const now=Date.now();const variables={session,head,start_utc:new Date(now+5000).toISOString(),end_utc:new Date(now+300000).toISOString(),connection_credits:100,rpc_credits:1,credit_limit:10000,...values};
+ for(const [k,v] of Object.entries(variables))args.push('-v',`${k}=${v}`);
+ args.push('-f','lib/live-ledger/postgres/authorize.sql');
+ return execFileSync(join(bin,'psql'),args,{stdio:['ignore','pipe','pipe'],env:{PATH:'/usr/bin:/bin',LANG:'C',LD_LIBRARY_PATH:join(bin,'../../../x86_64-linux-gnu')},timeout:5000}).toString();
+}
+test('exact owner authorization succeeds once and refuses reuse without resetting state',async()=>{
+ await db.owner.query('TRUNCATE scout_live.control');await db.owner.query('INSERT INTO scout_live.control(id) VALUES(true)');
+ assert.match(authorize(),/COMMIT/);assert.throws(()=>authorize());
+ const c=(await db.owner.query('SELECT * FROM scout_live.control')).rows[0];assert.equal(c.approved,true);assert.equal(c.session,session);assert.equal(c.connections,0);assert.equal(c.stopped,false);
+});
+test('authorization rejects invalid duration, stale expiry and missing/zero verified pricing atomically',async()=>{
+ for(const values of [{end_utc:'2000-01-01T00:00:00Z'},{end_utc:new Date(Date.now()+7200000).toISOString()},{connection_credits:0},{credit_limit:0}]){
+  await db.owner.query('TRUNCATE scout_live.control');await db.owner.query('INSERT INTO scout_live.control(id) VALUES(true)');assert.throws(()=>authorize(values));
+  assert.equal((await db.owner.query('SELECT approved FROM scout_live.control')).rows[0].approved,false);
+ }
+});
+test('expired sessions cannot auto-extend, and heartbeat cannot decrement receive counters',async()=>{
+ const {s,c}=await connected();await s.transact({...heartbeat(c),framesReceived:3,bytesReceived:20});await assert.rejects(s.transact(heartbeat(c)));
+ await db.owner.query("UPDATE scout_live.control SET starts_at=clock_timestamp()-interval '2 minutes',expires_at=clock_timestamp()-interval '1 minute'");
+ const r=await s.transact({...c,op:'reserve',resource:'rpc'});assert.equal(r.reason,'session_expired');assert.equal(r.stopped,true);
+});
+
+test('creation operations preserve exact legacy and lookup policy history',async()=>{
+ const read=async()=>JSON.stringify((await db.owner.query("SELECT (SELECT jsonb_agg(to_jsonb(p)) FROM scout_mint.policy p) legacy,(SELECT jsonb_agg(to_jsonb(p)) FROM scout_lookup.policy p) lookup")).rows);
+ const before=await read();const {s,c}=await connected();await s.transact({...c,op:'append',event:event()});await s.transact({...c,op:'reserve',resource:'rpc'});await store('stop').transact(null);assert.equal(await read(),before);
 });
