@@ -1,0 +1,41 @@
+{
+  "root": {
+    "node": 1254,
+    "python": 107,
+    "failures": 0,
+    "skipped": 0
+  },
+  "frontendUnits": 16,
+  "workerOffline": 41,
+  "workerLedgerLocalTLS": 2,
+  "browser": {
+    "passed": 39,
+    "failures": 0,
+    "viewports": [
+      [
+        320,
+        740
+      ],
+      [
+        390,
+        844
+      ],
+      [
+        1280,
+        900
+      ]
+    ],
+    "durationSeconds": 53.4
+  },
+  "typecheck": "pass",
+  "lint": "pass",
+  "optimizedBuild": "pass",
+  "defaultWorker": {
+    "state": "DISABLED",
+    "sourceConnected": false,
+    "counts": null
+  },
+  "hostedGenuineDelivery": "not authorized or exercised",
+  "physicalIPhone": "pending",
+  "realSTOPAndNativeClosure": "pending"
+}

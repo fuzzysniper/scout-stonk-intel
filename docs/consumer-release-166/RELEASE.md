@@ -1,5 +1,7 @@
 # UNFARMD consumer integration — issue 166
 
+Historical exact-mint candidate at `29ae3cb`. The current #167 private creation-viewer release checklist is [here](../live-feed-167/RELEASE.md); do not apply the old homepage acceptance below to the new launch surface.
+
 Release candidate for founder review, 23 October 2026. This supersedes the **sequential parent release instructions** in inherited consumer documents. Release this single candidate after review; do not additionally merge #137/#143/#148 into it or copy their older backend/data.
 
 ## Candidate and evidence
