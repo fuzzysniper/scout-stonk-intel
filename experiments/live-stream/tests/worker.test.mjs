@@ -1,6 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {Worker,OfflineStore,OfflineSource,testClock,grant,fixture,ack,stopSoon,policy,MINT} from './fixtures.mjs';
+import {Worker,OfflineStore,OfflineSource,testClock,grant,fixture,ack,stopSoon,policy,MINT,AT} from './fixtures.mjs';
+
+test('offline ledger captures one instant, never inventing a lease longer than the real guard',async()=>{
+  let tick=0;const clock={now:()=>Date.parse(AT)+tick++};
+  const r=await new OfflineStore(clock).transact({op:'claim',approval:grant()});
+  assert.equal(r.state.leaseUntilMs-r.state.serverNowMs,policy.SCOPE.leaseMs);
+});
 
 test('durable claim/reservations precede every source call; raw payloads never reach store',async()=>{
   const clock=testClock(),store=new OfflineStore(clock),source=new OfflineSource(store,(h,s)=>{h.frame(ack);h.frame(s.fixture.raw);});

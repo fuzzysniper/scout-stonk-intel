@@ -2,6 +2,8 @@
 
 **Current verdict: NO-GO for activation.** Code/review readiness is separate from account, rights, storage, hosting and exact-session approvals. No real event counts or live reliability are claimed.
 
+See the [current paid-plan card](PAID_PLAN.md) for the confirmed Developer allowance, exact quota-weight mapping, measured10min/hour/week formulas and shorter first-proof checklist. No renewal/reset is supported by the current one-shot ledger.
+
 ## Shortest safe sequence
 
 1. **Review combined code:** A worker + B ledger/STOP + C private UI on exact approved heads. Run A offline tests, root checks and A's local TLS/PostgreSQL integration against that B head. Confirm native SOL identity, expiry/STOP, head/service/session alignment and no old proof dependency. B must reconcile its Render template with A's build/start/env commands below.
