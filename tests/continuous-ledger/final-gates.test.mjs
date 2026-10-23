@@ -2,7 +2,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {EventEmitter} from 'node:events';
-import {mkdtempSync,rmSync,chmodSync} from 'node:fs';
+import {mkdtempSync,rmSync,chmodSync,writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {requestOrigin} from '../../lib/scout-continuous/origin.mjs';
@@ -74,6 +74,14 @@ test('native bounded transport hashes raw bytes; rejects redirects, oversize, in
 });
 test('all OFF paths perform zero config/credential/observer/transport reads',async()=>{
  let calls=0;assert.equal((await watchdogCycle({port:{transact(){calls++;}}})).status,'disabled');assert.equal((await runWatchdog({env:{},configPath:'/DO_NOT_READ'})).status,'disabled');assert.equal(calls,0);assert.equal((await notificationChannel({}).deliver()).status,'disabled');assert.equal((await renderStop({}).suspend()).status,'disabled');
+});
+test('expired maintenance approval is rejected BEFORE any credential getter or pool construction',async()=>{
+ const dir=mkdtempSync(join(tmpdir(),'unfarmd-expired-monitor-'));try{
+  const old=grant({startsAt:new Date(Date.now()-10800000).toISOString(),endsAt:new Date(Date.now()-7200000).toISOString()}),path=join(dir,'config.json');
+  const c={version:'unfarmd-watchdog/1',mode:'watchdog',scope:{parent:old.parent,grantHash:hash(old)},grant:old,monitorId:'owner-synthetic',sourceService:old.service,notificationGo:true,shutdownGo:true,monitorGo:true,approval:{independent:true,mobileDeliveryHash:sha,shutdownHash:sha,endsAt:old.endsAt,maintenanceUntil:new Date(Date.parse(old.endsAt)+3600000).toISOString()}};writeFileSync(path,JSON.stringify(c),{mode:0o600});let secrets=0;
+  const env={UNFARMD_WATCHDOG_ACTIVATION:'owner-approved',get UNFARMD_WATCHDOG_TELEGRAM_TOKEN(){secrets++;throw Error('NO_READ');}};
+  await assert.rejects(runWatchdog({env,configPath:path}),/watchdog_approval_required/);assert.equal(secrets,0);
+ }finally{rmSync(dir,{recursive:true,force:true});}
 });
 test('database outage uses independent STOP-only suspension/notification once across process restarts',async()=>{
  const dir=mkdtempSync(join(tmpdir(),'unfarmd-watchdog-'));try{let sends=0,stops=0;const args={enabled:true,port:{async transact(){throw Error('DSN_SECRET');}},scope,approval:{independent:true,mobileDeliveryHash:sha,shutdownHash:sha,endsAt:g.endsAt,maintenanceUntil:new Date(Date.parse(g.endsAt)+3600000).toISOString()},notify:{async deliver(){sends++;throw Error('TOKEN_SECRET');}},suspend:{async suspend(){stops++;return {status:'suspended'};}}};

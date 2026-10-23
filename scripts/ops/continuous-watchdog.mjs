@@ -5,7 +5,7 @@ import {setTimeout as delay} from 'node:timers/promises';
 import {nativeStore} from '../../lib/scout-continuous/database.mjs';
 import {openJournal} from '../../lib/scout-continuous/ops-journal.mjs';
 import {notificationChannel,renderStop} from '../../lib/scout-continuous/ops-transport.mjs';
-import {watchdogCycle} from '../../lib/scout-continuous/watchdog.mjs';
+import {watchdogCycle,validWatchdogApproval} from '../../lib/scout-continuous/watchdog.mjs';
 import {clock,digest,uuid,validGrant,hash} from '../../lib/scout-continuous/policy.mjs';
 function privateJson(path){const s=lstatSync(path);if(!s.isFile()||s.isSymbolicLink()||(s.mode&0o077)!==0||s.size>32768)throw Error('unsafe_configuration');return JSON.parse(readFileSync(path,'utf8'));}
 export async function runWatchdog({env=process.env,configPath,loop=false}={}){
@@ -14,6 +14,7 @@ export async function runWatchdog({env=process.env,configPath,loop=false}={}){
  const c=privateJson(configPath);
  if(c.version!=='unfarmd-watchdog/1'||!['watchdog','health'].includes(c.mode)||!uuid(c.scope?.parent)||!digest(c.scope.grantHash)||!clock(c.approval?.endsAt)||c.notificationGo!==true||c.shutdownGo!==true||c.monitorGo!==true||c.monitorId===c.sourceService||!/^owner-[a-z0-9-]{4,80}$/.test(c.monitorId??'')||!/^srv-[a-z0-9]+$/.test(c.sourceService??'')||env.RENDER_SERVICE_ID===c.sourceService)throw Error('independent_owner_approval_required');
  if(!validGrant(c.grant)||hash(c.grant)!==c.scope.grantHash||c.grant.parent!==c.scope.parent||c.grant.service!==c.sourceService||c.grant.endsAt!==c.approval.endsAt)throw Error('exact_grant_required');
+ if(!validWatchdogApproval(c.scope,c.approval,new Date().toISOString()))throw Error('watchdog_approval_required');
  const journal=openJournal(c.journalDirectory,c.scope);
  const notify=notificationChannel({enabled:true,token:env.UNFARMD_WATCHDOG_TELEGRAM_TOKEN,chatId:c.chatId});
  const suspend=renderStop({enabled:true,service:c.sourceService,token:env.UNFARMD_WATCHDOG_RENDER_TOKEN});
@@ -22,7 +23,7 @@ export async function runWatchdog({env=process.env,configPath,loop=false}={}){
  try{
   let result;
   do{
-   const evidence=privateJson(c.evidenceFile);
+   let evidence;try{evidence=privateJson(c.evidenceFile);}catch{evidence={previousMeter:null};}
    result=await watchdogCycle({enabled:true,healthOnly:c.mode==='health',port,scope:c.scope,journal,notify,suspend,approval:c.approval,observations:evidence.observations,previousMeter:evidence.previousMeter,signal:abort.signal});
    // Never print raw errors/config/provider responses or any credential.
    if(!loop)return {status:result.status,durableStopConfirmed:result.durableStopConfirmed===true};

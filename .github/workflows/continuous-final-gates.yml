@@ -35,7 +35,13 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
       - name: Local Chromium only
-        run: node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+            node --input-type=module -e "import {chromium} from './experiments/consumer-mvp/web/node_modules/playwright/index.mjs'; console.log('CONSUMER_CHROMIUM_PATH='+chromium.executablePath())" >> "$GITHUB_ENV"
+          fi
       - name: Concrete operations fault tests and default-OFF executor
         run: |
           node tests/continuous-ledger/final-gates.test.mjs
@@ -44,7 +50,6 @@ jobs:
         env:
           NODE_ENV: test
         run: |
-          export CONSUMER_CHROMIUM_PATH=$(node --input-type=module -e "import {chromium} from './experiments/consumer-mvp/web/node_modules/playwright/index.mjs'; console.log(chromium.executablePath())")
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
       - uses: actions/upload-artifact@v4
         with:
