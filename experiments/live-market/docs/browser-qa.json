@@ -1,0 +1,32 @@
+{
+  "notice": "Actual local view command, SOURCE_DISABLED. No live acquisition or physical-device/human test.",
+  "results": [
+    {
+      "width": 320,
+      "noOverflow": true,
+      "notRunMetrics": 4,
+      "providerRequests": 0,
+      "websockets": 0,
+      "errors": [],
+      "keyboardDisclosure": true
+    },
+    {
+      "width": 390,
+      "noOverflow": true,
+      "notRunMetrics": 4,
+      "providerRequests": 0,
+      "websockets": 0,
+      "errors": [],
+      "keyboardDisclosure": true
+    },
+    {
+      "width": 1280,
+      "noOverflow": true,
+      "notRunMetrics": 4,
+      "providerRequests": 0,
+      "websockets": 0,
+      "errors": [],
+      "keyboardDisclosure": true
+    }
+  ]
+}

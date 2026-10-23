@@ -1,0 +1,259 @@
+{
+  "notice": "ALL DATA INVENTED OFFLINE. NO AUTHENTIC ALERT, REAL POSITION OR MARKET OBSERVATION.",
+  "receipts": [
+    {
+      "origin": "SYNTHETIC_OFFLINE",
+      "network": "solana-mainnet-beta",
+      "mintHint": "US517G5965aydkZ46HS38QLi7UQiSojurfbQfKCELFx",
+      "signature": "2AXDGYSE4f2sz7tvMMzyHvUfcoJmxudvdhBcmiUSo6ijwfYmfZYsKRxboQMPh3R4kUhXRVdtSXFXMheka4Rc4P2",
+      "receivedAt": "2026-10-22T12:00:10.000Z",
+      "availableAt": "2026-10-22T12:00:10.000Z",
+      "transactionRequestJson": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"getTransaction\",\"params\":[\"2AXDGYSE4f2sz7tvMMzyHvUfcoJmxudvdhBcmiUSo6ijwfYmfZYsKRxboQMPh3R4kUhXRVdtSXFXMheka4Rc4P2\",{\"encoding\":\"json\",\"commitment\":\"confirmed\",\"maxSupportedTransactionVersion\":0}]}",
+      "transactionJson": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"slot\":100,\"blockTime\":1792670400,\"transaction\":{\"signatures\":[\"2AXDGYSE4f2sz7tvMMzyHvUfcoJmxudvdhBcmiUSo6ijwfYmfZYsKRxboQMPh3R4kUhXRVdtSXFXMheka4Rc4P2\"],\"message\":{\"accountKeys\":[\"6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P\",\"US517G5965aydkZ46HS38QLi7UQiSojurfbQfKCELFx\",\"11111111111111111111111111111111\",\"C9g5VaBtV8rx1sfxiVAnnwQSw1FxNhx33ExWh89rJwTe\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"Ce6TQqeHC9p8KetsN6JsjHK7UTZk7nasjjnr7XxXp9F1\",\"6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P\"],\"instructions\":[{\"programIdIndex\":0,\"accounts\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],\"data\":\"ctY7UoGVwdd\"}]}},\"meta\":{\"err\":null,\"innerInstructions\":[{\"index\":0,\"instructions\":[{\"programIdIndex\":0,\"accounts\":[15],\"stackHeight\":2,\"data\":\"gsFxYanA3DnEgVUQbZVpVbv4Y8K8AbGXT9xxkzt6qsvUzuUdhjRQDMwSYQEB7pZeUMqpQnyFbguow44bcVw2rkEaiV75Fzhw8twwQW4gnBKgVbSx6AiSpECvM1McBFrLLEqLecRDwp99UsJQHbH26s1W7Y64TgyXuDSgt4igAcGJmLfVxtdyuQN1ySYyUsPLaXDsyhFDvn4MMuEcbtFZPLErxfJPyEurjHb9X1UWvavMAbvUxtzxyz8oWqqNGVHxnyVqDRcaAw3LewkBmddnZDP9gUtkU9qKUkJdYxvPZU493g6x94nxf5Z3P5hYbYy5v3129may5AxrCEocJhNw8feaczL13enYwwJmXSuM5arkXMMUHxyZaE6Xh3d2ja9znin3nqTMjGSDoc3PwsXjJ311NGmkXgv8wj8hYNGLiXcJgmpXzHdxwda1THGQhxZu\"}]}]}}}",
+      "statusRequestJson": "{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"getSignatureStatuses\",\"params\":[[\"2AXDGYSE4f2sz7tvMMzyHvUfcoJmxudvdhBcmiUSo6ijwfYmfZYsKRxboQMPh3R4kUhXRVdtSXFXMheka4Rc4P2\"],{\"searchTransactionHistory\":true}]}",
+      "statusJson": "{\"jsonrpc\":\"2.0\",\"id\":2,\"result\":{\"context\":{\"slot\":101},\"value\":[{\"slot\":100,\"err\":null,\"confirmationStatus\":\"processed\",\"confirmations\":1}]}}"
+    },
+    {
+      "origin": "SYNTHETIC_OFFLINE",
+      "network": "solana-mainnet-beta",
+      "mintHint": "US517G5965aydkZ46HS38QLi7UQiSojurfbQfKCELFx",
+      "signature": "2AXDGYSE4f2sz7tvMMzyHvUfcoJmxudvdhBcmiUSo6ijwfYmfZYsKRxboQMPh3R4kUhXRVdtSXFXMheka4Rc4P2",
+      "receivedAt": "2026-10-22T12:00:12.000Z",
+      "availableAt": "2026-10-22T12:00:12.000Z",
+      "transactionRequestJson": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"getTransaction\",\"params\":[\"2AXDGYSE4f2sz7tvMMzyHvUfcoJmxudvdhBcmiUSo6ijwfYmfZYsKRxboQMPh3R4kUhXRVdtSXFXMheka4Rc4P2\",{\"encoding\":\"json\",\"commitment\":\"confirmed\",\"maxSupportedTransactionVersion\":0}]}",
+      "transactionJson": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"slot\":100,\"blockTime\":1792670400,\"transaction\":{\"signatures\":[\"2AXDGYSE4f2sz7tvMMzyHvUfcoJmxudvdhBcmiUSo6ijwfYmfZYsKRxboQMPh3R4kUhXRVdtSXFXMheka4Rc4P2\"],\"message\":{\"accountKeys\":[\"6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P\",\"US517G5965aydkZ46HS38QLi7UQiSojurfbQfKCELFx\",\"11111111111111111111111111111111\",\"C9g5VaBtV8rx1sfxiVAnnwQSw1FxNhx33ExWh89rJwTe\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"Ce6TQqeHC9p8KetsN6JsjHK7UTZk7nasjjnr7XxXp9F1\",\"6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P\"],\"instructions\":[{\"programIdIndex\":0,\"accounts\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],\"data\":\"ctY7UoGVwdd\"}]}},\"meta\":{\"err\":null,\"innerInstructions\":[{\"index\":0,\"instructions\":[{\"programIdIndex\":0,\"accounts\":[15],\"stackHeight\":2,\"data\":\"gsFxYanA3DnEgVUQbZVpVbv4Y8K8AbGXT9xxkzt6qsvUzuUdhjRQDMwSYQEB7pZeUMqpQnyFbguow44bcVw2rkEaiV75Fzhw8twwQW4gnBKgVbSx6AiSpECvM1McBFrLLEqLecRDwp99UsJQHbH26s1W7Y64TgyXuDSgt4igAcGJmLfVxtdyuQN1ySYyUsPLaXDsyhFDvn4MMuEcbtFZPLErxfJPyEurjHb9X1UWvavMAbvUxtzxyz8oWqqNGVHxnyVqDRcaAw3LewkBmddnZDP9gUtkU9qKUkJdYxvPZU493g6x94nxf5Z3P5hYbYy5v3129may5AxrCEocJhNw8feaczL13enYwwJmXSuM5arkXMMUHxyZaE6Xh3d2ja9znin3nqTMjGSDoc3PwsXjJ311NGmkXgv8wj8hYNGLiXcJgmpXzHdxwda1THGQhxZu\"}]}]}}}",
+      "statusRequestJson": "{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"getSignatureStatuses\",\"params\":[[\"2AXDGYSE4f2sz7tvMMzyHvUfcoJmxudvdhBcmiUSo6ijwfYmfZYsKRxboQMPh3R4kUhXRVdtSXFXMheka4Rc4P2\"],{\"searchTransactionHistory\":true}]}",
+      "statusJson": "{\"jsonrpc\":\"2.0\",\"id\":2,\"result\":{\"context\":{\"slot\":101},\"value\":[{\"slot\":100,\"err\":null,\"confirmationStatus\":\"finalized\",\"confirmations\":null}]}}"
+    },
+    {
+      "origin": "SYNTHETIC_OFFLINE",
+      "network": "solana-mainnet-beta",
+      "mintHint": "US517G5965aydkZ46HS38QLi7UQiSojurfbQfKCELFx",
+      "signature": "3L3RY5sT8K4kyEnqhizwaqxLEbcYvpGrGPNEYRwtbCSUtL6YL86jdrvCbohnP5q8VxQ3qzGmt3W3iQJW97rD7m3",
+      "receivedAt": "2026-10-22T12:00:20.000Z",
+      "availableAt": "2026-10-22T12:00:20.000Z",
+      "transactionRequestJson": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"getTransaction\",\"params\":[\"3L3RY5sT8K4kyEnqhizwaqxLEbcYvpGrGPNEYRwtbCSUtL6YL86jdrvCbohnP5q8VxQ3qzGmt3W3iQJW97rD7m3\",{\"encoding\":\"json\",\"commitment\":\"confirmed\",\"maxSupportedTransactionVersion\":0}]}",
+      "transactionJson": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"slot\":101,\"blockTime\":1792670400,\"transaction\":{\"signatures\":[\"3L3RY5sT8K4kyEnqhizwaqxLEbcYvpGrGPNEYRwtbCSUtL6YL86jdrvCbohnP5q8VxQ3qzGmt3W3iQJW97rD7m3\"],\"message\":{\"accountKeys\":[\"6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P\",\"11111111111111111111111111111111\",\"US517G5965aydkZ46HS38QLi7UQiSojurfbQfKCELFx\",\"So11111111111111111111111111111111111111112\",\"TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb\",\"11111111111111111111111111111111\",\"C9g5VaBtV8rx1sfxiVAnnwQSw1FxNhx33ExWh89rJwTe\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"Ce6TQqeHC9p8KetsN6JsjHK7UTZk7nasjjnr7XxXp9F1\",\"6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P\"],\"instructions\":[{\"programIdIndex\":0,\"accounts\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],\"data\":\"2B6xKozNckF\"}]}},\"meta\":{\"err\":null,\"innerInstructions\":[{\"index\":0,\"instructions\":[{\"programIdIndex\":0,\"accounts\":[16],\"stackHeight\":2,\"data\":\"GXd5fa6qgsUSTRP4a5rsCUtghYgpTPkgwy6LF2SLWu7ejNGVzdCoMhqdir2CD44reqAzkrvUXKuem2WuLzyNGiv3Qb1Mm2AdZQP76tn4HYbiZjHD1cHhgK84F9xvdHXXYixYWFE1jMSpUmjnU3eA5Cg1ixukZan2pWf1J4GJxXLGvvukQKRaow54eQCk1277SfiHwUFMb4LMnRC84Nn4emG2asmGmJHDbPshxKUs8SfedXsV3peKLpxtLwPqQRLZzoif7TAbaq15qHgTsvTTqrCRtWo4APjgsV1jCa5k56mNwwoX8d3QQpaiK88ZyMCMNkXzSWzRdu27kfHvVfnEJo8g8Qa6ghprL4oXVk7LPUdd3KjNH6napUmjbB8Zxs8xAT5Zv8B8s9tfvKs4zdxXcEa6TTMdrrwBSsckyDQS16cAyaNLqLfT5Mg6GA5WBu3KJDWWhLUQM1j4FgpKqh8PDtonD3wqk3vKhML5FySx7Q5bkdjUavRRYZGaKVW9RQwTp4wsXdkuXiJjSKYZK8zbokGB9\"}]}]}}}",
+      "statusRequestJson": "{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"getSignatureStatuses\",\"params\":[[\"3L3RY5sT8K4kyEnqhizwaqxLEbcYvpGrGPNEYRwtbCSUtL6YL86jdrvCbohnP5q8VxQ3qzGmt3W3iQJW97rD7m3\"],{\"searchTransactionHistory\":true}]}",
+      "statusJson": "{\"jsonrpc\":\"2.0\",\"id\":2,\"result\":{\"context\":{\"slot\":102},\"value\":[{\"slot\":101,\"err\":null,\"confirmationStatus\":\"finalized\",\"confirmations\":null}]}}"
+    },
+    {
+      "origin": "SYNTHETIC_OFFLINE",
+      "network": "solana-mainnet-beta",
+      "mintHint": "YMN9Qj5jPNp7j14VPcML1B6xGgcPWVZUGLFU3Mnyfaf",
+      "signature": "4VZdodJgBy6dxMgm45zusmRzrPvKtiumu5YrK9RLPJADpzeJzgebxHsoQD4B58FCFS6aGUufKZka56xFiBGpB94",
+      "receivedAt": "2026-10-22T12:00:21.000Z",
+      "availableAt": "2026-10-22T12:00:21.000Z",
+      "transactionRequestJson": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"getTransaction\",\"params\":[\"4VZdodJgBy6dxMgm45zusmRzrPvKtiumu5YrK9RLPJADpzeJzgebxHsoQD4B58FCFS6aGUufKZka56xFiBGpB94\",{\"encoding\":\"json\",\"commitment\":\"confirmed\",\"maxSupportedTransactionVersion\":0}]}",
+      "transactionJson": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"slot\":100,\"blockTime\":1792670400,\"transaction\":{\"signatures\":[\"4VZdodJgBy6dxMgm45zusmRzrPvKtiumu5YrK9RLPJADpzeJzgebxHsoQD4B58FCFS6aGUufKZka56xFiBGpB94\"],\"message\":{\"accountKeys\":[\"6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P\",\"US517G5965aydkZ46HS38QLi7UQiSojurfbQfKCELFx\",\"11111111111111111111111111111111\",\"C9g5VaBtV8rx1sfxiVAnnwQSw1FxNhx33ExWh89rJwTe\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"11111111111111111111111111111111\",\"Ce6TQqeHC9p8KetsN6JsjHK7UTZk7nasjjnr7XxXp9F1\",\"6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P\"],\"instructions\":[{\"programIdIndex\":0,\"accounts\":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],\"data\":\"ctY7UoGVwdd\"}]}},\"meta\":{\"err\":null,\"innerInstructions\":[{\"index\":0,\"instructions\":[{\"programIdIndex\":0,\"accounts\":[15],\"stackHeight\":2,\"data\":\"gsFxYanA3DnEgVUQbZVpVbv4Y8K8AbGXT9xxkzt6qsvUzuUdhjRQDMwSYQEB7pZeUMqpQnyFbguow44bcVw2rkEaiV75Fzhw8twwQW4gnbBCd4zTpdNosdg7NXvZzfskBTAvRBGV3qiSJjzhuPLU25CQehmaUN3BPSRd8seKEPN9igEWpnViMrZa1oQrgRJ2mFGdCtgn7jqhY1c2gjrZ7FA9Dov1nLvTBBpvV2Nx2X3QtF2zpZaZMHwrUz8PXSQZvA5qWMabpkGZ6vF7qM8xNWptPcsMUEJiv3H32Jdx7LFGhPJkyJQ9hzY6HR1DBqYECtTMrKuL1NphzrHtsLn3hDFk1JrP6vosJtaF6HYXFe9EAc1ZZEt2XLDrNPwL97QqS16NpEPiSWwLXYfCyoPDcWJpg58czybS7LreFjZHXwkMJZB4HZbxZor3C17dxXc3\"}]}]}}}",
+      "statusRequestJson": "{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"getSignatureStatuses\",\"params\":[[\"4VZdodJgBy6dxMgm45zusmRzrPvKtiumu5YrK9RLPJADpzeJzgebxHsoQD4B58FCFS6aGUufKZka56xFiBGpB94\"],{\"searchTransactionHistory\":true}]}",
+      "statusJson": "{\"jsonrpc\":\"2.0\",\"id\":2,\"result\":{\"context\":{\"slot\":101},\"value\":[{\"slot\":100,\"err\":null,\"confirmationStatus\":\"finalized\",\"confirmations\":null}]}}"
+    }
+  ],
+  "report": {
+    "version": "launch-intel-offline/1",
+    "assurance": "OFFLINE_ONLY_NOT_AN_AUTHENTIC_ALERT",
+    "asOf": "2026-10-22T12:00:21.000Z",
+    "program": "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P",
+    "idlRevision": "639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22",
+    "candidates": [
+      {
+        "mint": "US517G5965aydkZ46HS38QLi7UQiSojurfbQfKCELFx",
+        "origin": "SYNTHETIC_OFFLINE",
+        "state": "OBSERVE",
+        "action": "WAIT",
+        "firstReceivedAt": "2026-10-22T12:00:10.000Z",
+        "creationTimeUtc": "2026-10-22T12:00:00.000Z",
+        "curve": "C9g5VaBtV8rx1sfxiVAnnwQSw1FxNhx33ExWh89rJwTe",
+        "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+        "quoteMint": "11111111111111111111111111111111",
+        "quoteUnit": "native SOL lamports",
+        "stage": "BONDING_CURVE_OBSERVED",
+        "claims": [
+          {
+            "receiptHash": "d5fd001eb2b2716e012072b4b953ca9a0380bc81a9929d6f5cda1ea0242a55ca",
+            "signature": "2AXDGYSE4f2sz7tvMMzyHvUfcoJmxudvdhBcmiUSo6ijwfYmfZYsKRxboQMPh3R4kUhXRVdtSXFXMheka4Rc4P2",
+            "slot": 100,
+            "event": "CreateEvent",
+            "instruction": 0,
+            "position": 0,
+            "receivedAt": "2026-10-22T12:00:10.000Z",
+            "availableAt": "2026-10-22T12:00:10.000Z",
+            "eventUnixSeconds": "1792670400",
+            "blockTime": 1792670400,
+            "finality": "PROVISIONAL",
+            "transactionHash": "93089da526010334cad59177971563e6894b9e196887889a3d3b4f58214d6785",
+            "statusHash": "74312845860bb67b09e7501c67338c94659255e9dc90adb9780e74e48b3e9b2f",
+            "payloadHash": "b70993f11ec3ec2c93f365ff97dd1f0026b7a19b907052e78dc2da0a1a5d59a5",
+            "sourceClock": "UNVERIFIED"
+          },
+          {
+            "receiptHash": "9f8ee11a65a8f2e5791042423ab6d4dc7a0fbbb80a5de6ea1d8d35db0c4def6c",
+            "signature": "2AXDGYSE4f2sz7tvMMzyHvUfcoJmxudvdhBcmiUSo6ijwfYmfZYsKRxboQMPh3R4kUhXRVdtSXFXMheka4Rc4P2",
+            "slot": 100,
+            "event": "CreateEvent",
+            "instruction": 0,
+            "position": 0,
+            "receivedAt": "2026-10-22T12:00:12.000Z",
+            "availableAt": "2026-10-22T12:00:12.000Z",
+            "eventUnixSeconds": "1792670400",
+            "blockTime": 1792670400,
+            "finality": "RPC_REPORTED_FINALIZED",
+            "transactionHash": "93089da526010334cad59177971563e6894b9e196887889a3d3b4f58214d6785",
+            "statusHash": "4a0fb4dac71d0cd533d44f6eff5ee4f114b1f7b6473f8963319f92b25f9a826b",
+            "payloadHash": "b70993f11ec3ec2c93f365ff97dd1f0026b7a19b907052e78dc2da0a1a5d59a5",
+            "sourceClock": "UNVERIFIED"
+          },
+          {
+            "receiptHash": "9836793a3f84dad95c3758c98c4038c87b35a855b2da273f540d538dd6ca5d19",
+            "signature": "3L3RY5sT8K4kyEnqhizwaqxLEbcYvpGrGPNEYRwtbCSUtL6YL86jdrvCbohnP5q8VxQ3qzGmt3W3iQJW97rD7m3",
+            "slot": 101,
+            "event": "TradeEvent",
+            "instruction": 0,
+            "position": 0,
+            "receivedAt": "2026-10-22T12:00:20.000Z",
+            "availableAt": "2026-10-22T12:00:20.000Z",
+            "eventUnixSeconds": "1792670415",
+            "blockTime": 1792670400,
+            "finality": "RPC_REPORTED_FINALIZED",
+            "transactionHash": "69fdd22813a0bc32907ca31de09db46a00db9cc6f4dfe7a212cb2dc572a0fd0a",
+            "statusHash": "dcdb0cb8bfcae00d3bca06460d38ce20ad56c68912d916864173a75c94973c0c",
+            "payloadHash": "7c2a9aa2fc060a0b295630ad7f98a2ec4e714b521932f895c3b50c607f910c31",
+            "sourceClock": "UNVERIFIED"
+          }
+        ],
+        "history": [
+          {
+            "at": "2026-10-22T12:00:10.000Z",
+            "state": "NEW",
+            "reason": "UNTRUSTED_MINT_HINT"
+          },
+          {
+            "at": "2026-10-22T12:00:10.000Z",
+            "state": "INSUFFICIENT",
+            "reason": "PROVISIONAL_NOT_AUTHENTICATED"
+          },
+          {
+            "at": "2026-10-22T12:00:12.000Z",
+            "state": "IDENTITY_VERIFIED",
+            "reason": "OFFLINE_RPC_REPORTED_FINALIZED_CREATION_BINDINGS"
+          },
+          {
+            "at": "2026-10-22T12:00:12.000Z",
+            "state": "OBSERVE",
+            "reason": "WAIT_TOKEN2022_CONTROLS_NOT_OBSERVED"
+          },
+          {
+            "at": "2026-10-22T12:00:20.000Z",
+            "state": "OBSERVE",
+            "reason": "SAMPLED_ACTIVITY_ONLY_NO_MOMENTUM_CLAIM"
+          }
+        ],
+        "activity": {
+          "sampledBuys": 1,
+          "sampledSells": 0,
+          "quoteAtomicSum": "120000000",
+          "tokenAtomicSum": "9007199254740993",
+          "completeCoverage": false
+        },
+        "unknowns": [
+          "No authentic acquisition in this module",
+          "Mint/freeze authorities and Token-2022 extension controls NOT OBSERVED",
+          "Holder concentration, relationships and manipulation NOT OBSERVED",
+          "Complete trade history, liquidity depth and exit capacity NOT OBSERVED",
+          "Price, market cap, returns and predictive edge NOT ESTABLISHED",
+          "Current curve state after the last sampled event NOT OBSERVED"
+        ],
+        "invalidation": [
+          "Failed/reorged transaction or conflicting identity",
+          "Quote or program mismatch, unsupported revision, inconsistent source clocks",
+          "Curve completion/migration ends this pre-migration cohort",
+          "Missing, stale or out-of-order activity cannot establish momentum"
+        ]
+      },
+      {
+        "mint": "YMN9Qj5jPNp7j14VPcML1B6xGgcPWVZUGLFU3Mnyfaf",
+        "origin": "SYNTHETIC_OFFLINE",
+        "state": "REJECT",
+        "action": "REJECT",
+        "firstReceivedAt": "2026-10-22T12:00:21.000Z",
+        "creationTimeUtc": null,
+        "curve": null,
+        "tokenProgram": null,
+        "quoteMint": null,
+        "quoteUnit": null,
+        "stage": "UNVERIFIED",
+        "claims": [],
+        "history": [
+          {
+            "at": "2026-10-22T12:00:21.000Z",
+            "state": "NEW",
+            "reason": "UNTRUSTED_MINT_HINT"
+          },
+          {
+            "at": "2026-10-22T12:00:21.000Z",
+            "state": "REJECT",
+            "reason": "event_identity"
+          }
+        ],
+        "activity": {
+          "sampledBuys": 0,
+          "sampledSells": 0,
+          "quoteAtomicSum": "0",
+          "tokenAtomicSum": "0",
+          "completeCoverage": false
+        },
+        "unknowns": [
+          "No authentic acquisition in this module",
+          "Mint/freeze authorities and Token-2022 extension controls NOT OBSERVED",
+          "Holder concentration, relationships and manipulation NOT OBSERVED",
+          "Complete trade history, liquidity depth and exit capacity NOT OBSERVED",
+          "Price, market cap, returns and predictive edge NOT ESTABLISHED",
+          "Current curve state after the last sampled event NOT OBSERVED"
+        ],
+        "invalidation": [
+          "Failed/reorged transaction or conflicting identity",
+          "Quote or program mismatch, unsupported revision, inconsistent source clocks",
+          "Curve completion/migration ends this pre-migration cohort",
+          "Missing, stale or out-of-order activity cannot establish momentum"
+        ]
+      }
+    ],
+    "audit": [
+      {
+        "receiptHash": "d5fd001eb2b2716e012072b4b953ca9a0380bc81a9929d6f5cda1ea0242a55ca",
+        "at": "2026-10-22T12:00:10.000Z",
+        "mint": "US517G5965aydkZ46HS38QLi7UQiSojurfbQfKCELFx",
+        "result": "OFFLINE_EVIDENCE_RECORDED"
+      },
+      {
+        "receiptHash": "9f8ee11a65a8f2e5791042423ab6d4dc7a0fbbb80a5de6ea1d8d35db0c4def6c",
+        "at": "2026-10-22T12:00:12.000Z",
+        "mint": "US517G5965aydkZ46HS38QLi7UQiSojurfbQfKCELFx",
+        "result": "OFFLINE_EVIDENCE_RECORDED"
+      },
+      {
+        "receiptHash": "9836793a3f84dad95c3758c98c4038c87b35a855b2da273f540d538dd6ca5d19",
+        "at": "2026-10-22T12:00:20.000Z",
+        "mint": "US517G5965aydkZ46HS38QLi7UQiSojurfbQfKCELFx",
+        "result": "OFFLINE_EVIDENCE_RECORDED"
+      },
+      {
+        "receiptHash": "2695c8bcc78bced84fd50b1e0f76b4dead7196e10d700d171e91e179548c7136",
+        "at": "2026-10-22T12:00:21.000Z",
+        "mint": "YMN9Qj5jPNp7j14VPcML1B6xGgcPWVZUGLFU3Mnyfaf",
+        "result": "event_identity"
+      }
+    ],
+    "liveAcquisition": "DISCONNECTED_NO_ADAPTER",
+    "eligibleRealMoneyCandidates": 0,
+    "prices": null,
+    "returns": null,
+    "alpha": null,
+    "journalCommands": []
+  },
+  "socialDraft": {
+    "state": "WITHHELD",
+    "text": null
+  }
+}
