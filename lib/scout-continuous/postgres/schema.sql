@@ -87,7 +87,7 @@ BEGIN
  IF c.approval IS NULL THEN RETURN 'unapproved'; END IF;
  IF t<(c.approval->>'startsAt')::timestamptz THEN RETURN 'not_started'; END IF;
  IF t>=(c.approval->>'endsAt')::timestamptz THEN RETURN 'parent_expired'; END IF;
- IF (c.worker IS NOT NULL OR (c.usage->>'children')::bigint>0) AND c.database_epoch IS DISTINCT FROM pg_postmaster_start_time() THEN RETURN 'database_epoch_changed'; END IF;
+ IF c.database_epoch IS DISTINCT FROM pg_postmaster_start_time() THEN RETURN 'database_epoch_changed'; END IF;
  IF c.worker IS NOT NULL AND t>=c.lease_until THEN RETURN 'unclean_lease'; END IF;
  IF c.child IS NOT NULL AND t>=(SELECT ends_at::timestamptz FROM scout_continuous.children WHERE id=c.child) THEN RETURN 'uncertain_child_expiry'; END IF;
  IF NOT (a->>'legacyRetired')::boolean THEN RETURN 'legacy_not_retired'; END IF;
@@ -122,7 +122,7 @@ BEGIN
  FOR field_name IN SELECT unnest(ARRAY['allowanceCredits','otherReserveCredits','incidentReserveCredits','connectionCredits','rpcCredits']) LOOP IF jsonb_typeof(g->field_name) IS DISTINCT FROM 'number' OR (g->>field_name)!~ '^[0-9]+$' OR (g->>field_name)::numeric>9007199254740991 THEN RAISE EXCEPTION 'invalid_credits'; END IF; END LOOP;
  IF (g->>'connectionCredits')::bigint<1 OR (g->>'rpcCredits')::bigint<1 OR (g->'limits'->>'credits')::bigint>(g->>'allowanceCredits')::bigint-(g->>'otherReserveCredits')::bigint-(g->>'incidentReserveCredits')::bigint OR (g->>'connectionCredits')::bigint>(g->'limits'->>'credits')::bigint OR (g->'limits'->>'bytes')::bigint<16777216 OR (g->'limits'->>'frames')::bigint<20000 OR (g->'limits'->>'children')::bigint>100000 OR (g->'limits'->>'auditRecords')::bigint>10000000 THEN RAISE EXCEPTION 'credit_allocation'; END IF;
  gh:=encode(sha256(convert_to(scout_continuous.canonical(g),'UTF8')),'hex');
- UPDATE scout_continuous.control SET approval=g,grant_hash=gh WHERE id;
+ UPDATE scout_continuous.control SET approval=g,grant_hash=gh,database_epoch=pg_postmaster_start_time() WHERE id;
  PERFORM scout_continuous.enqueue('health','INITIAL_CHANNEL_CHECK',clock_timestamp());
  RETURN gh;
 END
@@ -145,7 +145,7 @@ BEGIN
   PERFORM 1 FROM scout_live.control WHERE id FOR UPDATE;
   why:=scout_continuous.gate(c,t);
   IF why IS NOT NULL THEN
-   IF c.worker IS NOT NULL OR (c.usage->>'children')::bigint>0 OR why IN ('parent_expired','unclean_lease','uncertain_child_expiry') THEN
+   IF c.worker IS NOT NULL OR (c.usage->>'children')::bigint>0 OR why IN ('parent_expired','unclean_lease','uncertain_child_expiry','database_epoch_changed') THEN
     UPDATE scout_continuous.control SET stopped=true,reason=coalesce(reason,why),error_count=error_count+CASE WHEN stopped THEN 0 ELSE 1 END,gap_since=coalesce(gap_since,last_persisted_at,t),gap_count=gap_count+CASE WHEN gap_since IS NULL THEN 1 ELSE 0 END WHERE id RETURNING * INTO c;
     PERFORM scout_continuous.enqueue('stop',why,t);
    END IF;

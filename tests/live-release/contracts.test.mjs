@@ -7,8 +7,11 @@ import {SCOPE,POLICY} from '../../lib/live-ledger/policy.mjs';
 const inputs=JSON.parse(readFileSync('docs/live-beta/inputs.json','utf8'));
 const git=(...args)=>execFileSync('git',args,{encoding:'utf8'}).trim();
 const paths=['data','lib/onchain-mint','app/api/mint-facts','scheduler','neon.ts'];
-test('reviewed main and A/B/C inputs remain ancestors; no history replacement',()=>{
- for(const key of ['baseMain','workerReviewed','workerOfflineFollowup','ledger','consumerReviewed','consumerLiveFeed'])assert.equal(execFileSync('git',['merge-base','--is-ancestor',inputs[key],'HEAD']).length,0,key);
+test('released snapshot and main remain ancestors; original reviewed component bytes stay inspectable',()=>{
+ // #171 was owner-squashed into production: feature commits are source evidence,
+ // not ancestors of that merge. The separate tests below compare their exact bytes.
+ for(const sha of [inputs.baseMain,'9eab75d9a4e72be01cb0a0942decb497c4cb8130'])assert.equal(execFileSync('git',['merge-base','--is-ancestor',sha,'HEAD']).length,0,sha);
+ for(const key of ['workerReviewed','workerOfflineFollowup','ledger','consumerReviewed','consumerLiveFeed'])assert.equal(git('cat-file','-t',inputs[key]),'commit',key);
  assert.equal(git('diff','--name-only',inputs.baseMain,'HEAD','--',...paths.filter(p=>p!=='data')),'');
  // Later scheduled collector commits are permitted through main, never rewritten by a feature.
  const currentMain=git('merge-base','origin/main','HEAD');

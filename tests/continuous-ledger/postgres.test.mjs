@@ -116,6 +116,9 @@ test('lost COMMIT acknowledgment never refunds a durable reservation or returns 
 test('database restart cannot refresh a running parent or recycle an old fence',async()=>{
  await connected();await f.restart();const r=await f.store('maintenance').transact({op:'tick',parent:g.parent,grantHash:hash(g)});assert.equal(r.stopped,true);assert.equal(r.reason,'database_epoch_changed');assert.equal((await read()).usage.connections,1);assert.equal((await f.store().transact({...base(g),op:'claim'})).ok,false);
 });
+test('restore to a previously unclaimed parent cannot silently authorize a second first claim',async()=>{
+ await f.restart();const r=await f.store().transact({...b,op:'claim'});assert.equal(r.ok,false);assert.equal(r.reason,'database_epoch_changed');assert.equal(r.stopped,true);assert.equal((await read()).usage.connections,0);
+});
 test('finalized identity revision cannot overwrite OR silently pass as a duplicate',async()=>{
  const {s,c}=await connected(),e=record();await s.transact({...c,op:'append',record:e});await s.transact({...c,op:'reserve',resource:'rpc'});await s.transact({...c,op:'reserve',resource:'rpc'});const final=finalized(e);await s.transact({...c,op:'append',record:final});await assert.rejects(s.transact({...c,op:'append',record:{...final,mint:'11111111111111111111111111111112'}}));assert.deepEqual((await read()).events,[final]);
 });
