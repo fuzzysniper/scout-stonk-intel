@@ -30,6 +30,12 @@ jobs:
         with:
           node-version: '24.19.0'
       - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/live-stream --ignore-scripts
+      - name: Preserve bounded source regressions and disabled entry
+        run: |
+          bash experiments/live-stream/test.sh
+          npm run --prefix experiments/live-stream build
+          node experiments/live-stream/run.mjs
       - name: Native TLS/PostgreSQL persistence, privileges, failures and private API
         run: bash tests/continuous-ledger/run.sh
       - name: Exact reviewed A controller against actual durable B and unchanged C decoder

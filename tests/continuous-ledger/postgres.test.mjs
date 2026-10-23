@@ -110,7 +110,7 @@ test('runtime fingerprint/ACL drift and wrong TLS hostname fail closed without s
  await assert.rejects(f.store('reader',{ssl:{rejectUnauthorized:true,servername:'wrong.invalid'}}).transact(null),e=>e.message==='store_unavailable');
 });
 test('lost COMMIT acknowledgment never refunds a durable reservation or returns an I/O ticket',async()=>{
- const {c}=await connected(),p=f.pool('worker');const wrapper={get waitingCount(){return p.waitingCount;},async connect(){const client=await p.connect();return {connection:client.connection,release:e=>client.release(e),async query(...args){const r=await client.query(...args);if(args[0]==='COMMIT')throw Error('SYNTHETIC_LOST_COMMIT_ACK');return r;}};}};
+ const {c}=await connected(),p=f.pool('worker');const wrapper={get waitingCount(){return p.waitingCount;},async connect(){const client=await p.connect();return {connection:client.connection,on:(...args)=>client.on(...args),release:e=>client.release(e),async query(...args){const r=await client.query(...args);if(args[0]==='COMMIT')throw Error('SYNTHETIC_LOST_COMMIT_ACK');return r;}};}};
  await assert.rejects(postgresPort(wrapper,{kind:'worker',host:NEON_HOST}).transact({...c,op:'reserve',resource:'rpc'}),e=>e.message==='store_unavailable');const r=await read();assert.equal(r.usage.credits,101);assert.equal(r.usage.rpc,1);assert.equal((await f.db.owner.query('SELECT count(*) FROM scout_continuous.tickets')).rows[0].count,'2');
 });
 test('database restart cannot refresh a running parent or recycle an old fence',async()=>{
@@ -148,4 +148,14 @@ test('source-independent executor is OFF by default and failed delivery latches 
 test('unexpected owner default ACL causes atomic installation rollback including all new roles',async()=>{
  const other=await localPostgres({database:'neondb',runtimeRole:'scout_mint_app'});
  try{await other.owner.query(readFileSync('lib/live-ledger/postgres/schema.sql','utf8'));await other.owner.query('ALTER DEFAULT PRIVILEGES GRANT EXECUTE ON FUNCTIONS TO scout_mint_app');await assert.rejects(other.owner.query(readFileSync('lib/scout-continuous/postgres/schema.sql','utf8')),/unexpected_continuous_acl/);await other.owner.query('ROLLBACK');assert.equal((await other.owner.query("SELECT to_regnamespace('scout_continuous') n")).rows[0].n,null);assert.equal((await other.owner.query("SELECT count(*) FROM pg_roles WHERE rolname LIKE 'scout_continuous_%'")).rows[0].count,'0');}finally{await other.close();}
+});
+test('real row-lock timeout, mid-flight abort and database outage never return an acquisition ticket',async()=>{
+ const {s,c}=await connected(),lock=await f.db.owner.connect();
+ try{
+  await lock.query('BEGIN');await lock.query('SELECT id FROM scout_continuous.control WHERE id FOR UPDATE');
+  const started=Date.now();await assert.rejects(s.transact({...c,op:'reserve',resource:'rpc'}),e=>e.message==='store_unavailable');assert.ok(Date.now()-started<3500);
+  const abort=new AbortController(),timer=setTimeout(()=>abort.abort(),20);try{await assert.rejects(s.transact({...c,op:'reserve',resource:'rpc'},{signal:abort.signal}),e=>e.message==='store_unavailable');}finally{clearTimeout(timer);}
+ }finally{await lock.query('ROLLBACK');lock.release();}
+ assert.equal((await read()).usage.rpc,0);await f.db.outage();await assert.rejects(s.transact({...c,op:'reserve',resource:'rpc'}),e=>e.message==='store_unavailable');await f.db.restore();
+ const r=await s.transact({...c,op:'reserve',resource:'rpc'});assert.equal(r.ok,false);assert.equal(r.stopped,true);assert.equal(r.reason,'database_epoch_changed');assert.equal((await read()).usage.rpc,0);
 });
