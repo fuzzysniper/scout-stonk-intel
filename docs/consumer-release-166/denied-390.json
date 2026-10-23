@@ -1,0 +1,19 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "httpStatus": 403,
+  "reason": "access_denied",
+  "facts": null,
+  "source": null,
+  "apiCalls": [
+    {
+      "method": "GET",
+      "path": "/api/mint-facts"
+    }
+  ],
+  "externalRequests": [],
+  "pageErrors": [],
+  "scope": "Actual optimized localhost app and unchanged backend handler; no origin spoof, API fixture, RPC or proof POST. Local origin denial is not canonical-production disabled/protection proof."
+}
