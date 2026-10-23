@@ -1,5 +1,7 @@
 // SYNTHETIC offline HTTP inputs and owner token only. Store stubs are not hosted/live evidence.
 import {test} from 'node:test';
+import {Readable} from 'node:stream';
+import {createRequire} from 'node:module';
 import assert from 'node:assert/strict';
 import {liveHandler,PROJECT} from '../../lib/live-ledger/http.mjs';
 import {databaseConfig,NEON_HOST} from '../../lib/live-ledger/database.mjs';
@@ -65,4 +67,16 @@ test('canonical schemas reject unknown versions/scopes/raw payloads/identities',
  assert.ok(validCommand(base));for(const p of [{v:2},{scope:'b'.repeat(64)},{rawLog:'no'},{head:'main'},{worker:'fake'}])assert.equal(validCommand({...base,...p}),false);
  const e={signature:'2'.repeat(88),slot:1,receivedAt:'2026-10-23T00:00:00.000Z',source:'helius_standard',program:POLICY.program,notificationHash:'a'.repeat(64),finality:'provisional',mint:null,quoteMint:null,tokenProgram:null,transactionHash:null,verificationHash:null,checkedAt:null,blockTime:null};
  assert.ok(validEvent(e));for(const p of [{finality:'finalized'},{slot:1.5},{signature:'bad'},{mint:'11111111111111111111111111111111'},{receivedAt:'not a clock'},{raw:'no'}])assert.equal(validEvent({...e,...p}),false);
+});
+
+test('actual Next Node adapter empty POST stream reaches authenticated STOP port',async()=>{
+ const {NextRequestAdapter}=createRequire(import.meta.url)('next/dist/server/web/spec-extension/adapters/next-request.js');
+ const original=req(true);const request=NextRequestAdapter.fromNodeNextRequest({method:'POST',url:original.url,headers:Object.fromEntries(original.headers),body:Readable.from([])},new AbortController().signal);
+ assert.notEqual(request.body,null,'real adapter empty POST is a stream, not null');
+ const reply={version:'scout-live/1',status:'stopped',observedAt:'2026-10-23T00:00:00.000Z'};const h=handler('stop',{},reply);
+ assert.equal((await h.run(request)).status,200);assert.deepEqual(h.counts(),[1,1]);
+});
+test('stalled authenticated POST body times out/cancels before any SQL',async()=>{
+ let cancelled=false;const body=new ReadableStream({cancel(){cancelled=true;}});const h=handler('stop');
+ const r=await h.run(req(true,{body,duplex:'half'}));assert.equal(r.status,400);assert.deepEqual(h.counts(),[0,0]);assert.equal(cancelled,true);
 });

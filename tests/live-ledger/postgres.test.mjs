@@ -2,6 +2,9 @@
 import {test,before,after,beforeEach} from 'node:test';
 import assert from 'node:assert/strict';
 import {Pool} from 'pg';
+import {Readable} from 'node:stream';
+import {createRequire} from 'node:module';
+import {liveHandler,PROJECT} from '../../lib/live-ledger/http.mjs';
 import {mkdtempSync,readFileSync,chmodSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
@@ -242,4 +245,18 @@ test('STOP cannot report success if its durable control row is missing',async()=
  await db.owner.query('DELETE FROM scout_live.control');
  await assert.rejects(store('stop').transact(null),e=>e.message==='store_unavailable');
  await assert.rejects(store('reader').transact(null),e=>e.message==='store_unavailable');
+});
+
+test('actual Next request adapter/authenticated API reads stored rows and commits STOP through native TLS PG',async()=>{
+ const {s,c}=await connected(),e=event();await s.transact({...c,op:'append',event:e});
+ const host='scout-stonk-intel-synthetic.vercel.app',token='SYNTHETIC_OWNER_TOKEN_'+ 'x'.repeat(32);
+ const env={SCOUT_LIVE_API_ENABLED:'true',SCOUT_LIVE_OWNER_TOKEN:token,VERCEL:'1',VERCEL_ENV:'production',VERCEL_PROJECT_ID:PROJECT,VERCEL_GIT_COMMIT_SHA:head,VERCEL_URL:host};
+ const read=liveHandler('reader',{env:()=>env,storeFactory:()=>store('reader')});
+ const headers={authorization:'Bearer '+token,'sec-fetch-site':'same-origin'};
+ const get=()=>new Request('https://'+host+'/api/live-events',{headers});
+ let r=await read(get());assert.equal(r.status,200);assert.deepEqual((await r.json()).events,[e]);assert.match(r.headers.get('cache-control'),/no-store/);
+ const {NextRequestAdapter}=createRequire(import.meta.url)('next/dist/server/web/spec-extension/adapters/next-request.js');
+ const request=NextRequestAdapter.fromNodeNextRequest({method:'POST',url:'https://'+host+'/api/live-events/stop',headers:{...headers,origin:'https://'+host,'x-scout-live-intent':'STOP_SCOUT_LIVE','content-length':'0'},body:Readable.from([])},new AbortController().signal);
+ const stop=liveHandler('stop',{env:()=>env,storeFactory:()=>store('stop')});r=await stop(request);assert.equal(r.status,200);assert.equal((await r.json()).status,'stopped');
+ r=await read(get());const stopped=await r.json();assert.equal(stopped.health.stopped,true);assert.equal(stopped.budget.connectionsUsed,1);assert.equal((await s.transact({...c,op:'reserve',resource:'rpc'})).ok,false);
 });
