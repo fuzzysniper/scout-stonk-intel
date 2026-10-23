@@ -5,6 +5,7 @@ export function requireExtension(module){
   if(!module||typeof module.createContinuousStore!=='function')throw Error('CONTINUOUS_LEDGER_EXTENSION_REQUIRED');
   return module.createContinuousStore;
 }
+export let shutdownRequested=false;
 export async function main(){
   if(process.env.UNFARMD_CONTINUOUS_ACTIVATION!=='enabled')return {state:'DISABLED',sourceConnected:false,reason:'SEPARATE_CONTINUOUS_GO_REQUIRED'};
   // Does not mutate/enable the original ten-minute source. Only one mode may exist.
@@ -23,7 +24,9 @@ export async function main(){
     const stop=()=>{clearTimeout(t);signal.removeEventListener('abort',stop);reject(Error('STOP'));};
     const t=setTimeout(()=>{signal.removeEventListener('abort',stop);resolve();},ms);signal.addEventListener('abort',stop,{once:true});
   })};
-  const runtime=new Continuous(grant,port,()=>nativeSource(SCOPE,()=>process.env.UNFARMD_HELIUS_DATA_KEY),clock);
-  const stop=()=>runtime.stop('OWNER_PROCESS_SIGNAL');process.once('SIGTERM',stop);process.once('SIGINT',stop);
+  let runtime;
+  try{runtime=new Continuous(grant,port,()=>nativeSource(SCOPE,()=>process.env.UNFARMD_HELIUS_DATA_KEY),clock);}
+  catch(e){await Promise.race([Promise.resolve().then(()=>port.close()).catch(()=>{}),new Promise(r=>setTimeout(r,1500))]);throw e;}
+  const stop=()=>{shutdownRequested=true;runtime.stop('OWNER_PROCESS_SIGNAL');setTimeout(()=>process.exit(1),25000).unref();};process.once('SIGTERM',stop);process.once('SIGINT',stop);
   try{return await runtime.run();}finally{process.removeListener('SIGTERM',stop);process.removeListener('SIGINT',stop);}
 }

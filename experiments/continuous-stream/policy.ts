@@ -7,7 +7,7 @@ export const POLICY=Object.freeze({version:'unfarmd-continuous/1',maxParentMs:7*
   maxQueue:16,meterFreshMs:300000,purgeFreshMs:60000,notificationFreshMs:300000,
   normalizedRecords:200,normalizedTtlMs:3600000,sourcePolicyHash:WORKER_POLICY_HASH,
   frameEnvelope:SCOPE.maxFramesPerConnection,byteEnvelope:SCOPE.maxBytesPerConnection});
-const canonical=(v:unknown):unknown=>Array.isArray(v)?v.map(canonical):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).sort(([a],[b])=>a.localeCompare(b)).map(([k,x])=>[k,canonical(x)])):v;
+const canonical=(v:unknown):unknown=>Array.isArray(v)?v.map(canonical):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).sort(([a],[b])=>a<b?-1:a>b?1:0).map(([k,x])=>[k,canonical(x)])):v;
 export const hash=(value:unknown)=>createHash('sha256').update(JSON.stringify(canonical(value))).digest('hex');
 export const POLICY_HASH=hash(POLICY);
 export const GRANT_KEYS=['version','parent','head','service','policyHash','sourcePolicyHash','startsAt','endsAt','resetAt','allowanceCredits','otherReserveCredits','incidentReserveCredits','limits','connectionCredits','rpcCredits','rightsHash','accountHash','retentionHash','notificationHash','mobileHash','sourceGo','hostingGo','rightsGo','spendGo','retentionGo','notificationGo','mobileGo'].sort();
