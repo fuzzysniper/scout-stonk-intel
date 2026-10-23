@@ -1,0 +1,29 @@
+{
+  "result": "PASS",
+  "assets": {
+    "outlier.svg": {
+      "bytes": 374,
+      "sha256": "8ea38ef8b4a39dd267a617915e42c597a4d440b9c1db58c90d7caa70d15d0b49"
+    },
+    "outlier-reversed.svg": {
+      "bytes": 380,
+      "sha256": "dfc9dac4405e2cd9ab49e21c80b75d19b3d9484afba48cd4444ef049ddc1d230"
+    },
+    "skeptic.svg": {
+      "bytes": 384,
+      "sha256": "fb88c665a3cb1b88f38a4f9a658ed1eb8973165988963c3f0ed66f27cba12e47"
+    },
+    "skeptic-reversed.svg": {
+      "bytes": 390,
+      "sha256": "bf679faab75673551183aff9f4960374674e772c22f8615e7b1f71c442b0205d"
+    },
+    "escape.svg": {
+      "bytes": 441,
+      "sha256": "ae625e2ca5216341d2d1711e2b81df7810d61ab78db3ff6d4869393e88e519a6"
+    },
+    "escape-reversed.svg": {
+      "bytes": 447,
+      "sha256": "20124d76c299540a8bb9a943a539021976e711be53d335a2e14ecd8098f9fa8e"
+    }
+  }
+}
