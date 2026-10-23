@@ -1,0 +1,58 @@
+name: Continuous final-gates integration
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'lib/scout-continuous/**'
+      - 'app/api/live-events/continuous/**'
+      - 'scripts/ops/continuous-*'
+      - 'tests/continuous-ledger/**'
+      - 'docs/operations/continuous-*'
+      - '.github/workflows/continuous-final-gates.yml'
+permissions:
+  contents: read
+jobs:
+  mobile-native-ops:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      UNFARMD_DATA_ACTIVATION: disabled
+      UNFARMD_CONTINUOUS_ACTIVATION: disabled
+      UNFARMD_WATCHDOG_ACTIVATION: disabled
+      SCOUT_CONTINUOUS_API_ENABLED: 'false'
+      SCOUT_CONTINUOUS_CANONICAL_ENABLED: 'false'
+      SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+      SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+      SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Local Chromium only
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+            node --input-type=module -e "import {chromium} from './experiments/consumer-mvp/web/node_modules/playwright/index.mjs'; console.log('CONSUMER_CHROMIUM_PATH='+chromium.executablePath())" >> "$GITHUB_ENV"
+          fi
+      - name: Concrete operations fault tests and default-OFF executor
+        run: |
+          node tests/continuous-ledger/final-gates.test.mjs
+          node scripts/ops/continuous-watchdog.mjs
+      - name: Real loopback HTTPS browser headers, native PG/TLS, parent STOP, focus and axe
+        env:
+          NODE_ENV: test
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: local-synthetic-parent-stop
+          path: docs/screenshots/continuous-local-qa/
+          retention-days: 3
