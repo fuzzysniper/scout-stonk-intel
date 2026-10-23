@@ -20,7 +20,7 @@ export type Command=Base&({op:'claim'}|{fence:string}&(
   {op:'reserve';child:string;resource:'connection'|'rpc'}|
   {op:'append';child:string;record:Creation}|
   {op:'heartbeat';child:string|null;health:Health}|
-  {op:'gap';child:string|null;phase:'begin'|'end';reason:string}|
+  {op:'gap';child:string|null;phase:'begin'|'end';reason:string;observedAt:string;lastPersistedAt:string|null}|
   {op:'closeChild';child:string;connectionClosed:true}|
   {op:'connectionClosed';child:string;connectionClosed:true}|
   {op:'stop';reason:string}|

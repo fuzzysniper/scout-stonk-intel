@@ -21,6 +21,7 @@ test('rolling children pass 200 total records without lifetime stop, preserve fi
   waitStop(run,model,(_c,s)=>s.usage.auditRecords===220);const r=await run.run();
   assert.ok(r.completedChildren>=1);assert.equal(model.state.usage.children,2);assert.equal(model.state.usage.auditRecords,220);
   assert.equal(Object.keys(model.state.recent).length,200);assert.equal(Object.keys(model.state.first).length,220);assert.equal(feed.stats.maxActive,1);
+  assert.ok(model.commands.some(c=>c.op==='gap'&&c.phase==='begin'&&c.lastPersistedAt!==null));
   assert.ok(model.state.usage.credits>=200);assert.ok(model.state.journal.every((s,i,a)=>i===0||s.usage.credits>=a[i-1].usage.credits));
 });
 for(const [name,edit] of [

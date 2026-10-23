@@ -9,7 +9,7 @@ const emptyHealth=():Health=>({state:'STARTING',sourceState:'closed',reason:'WAI
 
 /** Reuses the unchanged bounded #170 source worker. This bridge never speaks v1 SQL. */
 class ChildBridge implements Store {
-  closed=false;rollover=false;count=0;failure:string|null=null;worker:Worker|null=null;lastHealth=emptyHealth();
+  closed=false;rollover=false;count=0;failure:string|null=null;worker:Worker|null=null;lastHealth=emptyHealth();lastPersistedAt:string|null=null;
   constructor(readonly client:Client,readonly child:Child,readonly clock:Clock){}
   private local(r:Reply):Extract<StoreReply,{ok:true}>{
     if(!r.fence||!r.leaseUntil)throw new Fault('PARENT_FENCE_MISSING');
@@ -28,6 +28,7 @@ class ChildBridge implements Store {
         if(!['inserted','duplicate','promoted'].includes(r.disposition??'')||!r.firstReceivedAt||!r.firstNotificationHash||!(/^[a-f0-9]{64}$/).test(r.firstNotificationHash)||millis(r.firstReceivedAt)>millis(c.record.receivedAt))throw new Fault('FIRST_EVIDENCE_UNCONFIRMED');
         const duplicate=r.disposition==='duplicate';
         if(!duplicate&&(r.firstReceivedAt!==c.record.receivedAt||r.firstNotificationHash!==c.record.notificationHash))throw new Fault('FIRST_EVIDENCE_CHANGED');
+        if(!duplicate&&(!this.lastPersistedAt||millis(r.firstReceivedAt)>millis(this.lastPersistedAt)))this.lastPersistedAt=r.firstReceivedAt;
         if(r.disposition==='inserted'&&++this.count>=POLICY.rolloverRecords)this.roll();
         return {...this.local(r),inserted:!duplicate};
       }
@@ -38,7 +39,7 @@ class ChildBridge implements Store {
           if(this.clock.now()-last>45000)throw new Fault('SOURCE_STALE');
         }
         r=await this.client.command({...common,op:'heartbeat',health:c.health},c.health.state==='STOPPED');return this.local(r);
-      case 'gap':r=await this.client.command({...common,op:'gap',phase:c.boundary,reason:c.reason},c.reason.includes('STOP'));return this.local(r);
+      case 'gap':r=await this.client.command({...common,op:'gap',phase:c.boundary,reason:c.reason,observedAt:c.at,lastPersistedAt:this.lastPersistedAt},c.reason.includes('STOP'));return this.local(r);
       case 'connectionClosed':
         // B's new connection-release command keeps this child/fence but sets connected=false.
         r=await this.client.command({...common,op:'connectionClosed',connectionClosed:true});return this.local(r);
