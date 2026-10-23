@@ -1,0 +1,40 @@
+name: Helius creation worker offline safety
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/live-stream/**'
+      - 'experiments/launch-intel/**'
+      - '.github/workflows/live-stream-offline.yml'
+permissions:
+  contents: read
+jobs:
+  offline-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/live-stream --ignore-scripts
+      - name: Offline worker tests
+        shell: bash
+        run: |
+          if bash experiments/live-stream/test.sh > /tmp/scout-worker-tests.log 2>&1; then
+            cat /tmp/scout-worker-tests.log
+          else
+            cat /tmp/scout-worker-tests.log
+            python3 - <<'PY'
+          import re
+          text = open('/tmp/scout-worker-tests.log').read()
+          lines = [line for line in text.splitlines() if re.search(r'not ok|✖|error:|expected:|actual:|failureType|Error:|TS\d{4}', line)]
+          message = '\n'.join(lines)[-6000:] or 'Worker tests failed; see job log.'
+          print('::error title=Offline worker failure::' + message.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A'))
+          PY
+            exit 1
+          fi
+      - run: npm run build --prefix experiments/live-stream
+      - run: node experiments/live-stream/run.mjs
