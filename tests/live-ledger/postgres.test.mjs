@@ -41,7 +41,7 @@ function store(kind='worker',override){const p=pool(kind,override);const s=postg
 async function claimed(){const s=store();const r=await s.transact({...base,op:'claim'});assert.equal(r.ok,true);return {s,c:{...base,fence:r.fence}};}
 async function connected(){const {s,c}=await claimed();assert.equal((await s.transact({...c,op:'reserve',resource:'connection'})).ok,true);return {s,c};}
 const event=(sig='2'.repeat(88))=>({signature:sig,slot:1234,receivedAt:new Date().toISOString(),source:'helius_standard',program:POLICY.program,notificationHash:'b'.repeat(64),finality:'provisional',mint:null,quoteMint:null,tokenProgram:null,transactionHash:null,verificationHash:null,checkedAt:null,blockTime:null});
-const final=e=>({...e,finality:'rpc_reported_finalized',mint:'11111111111111111111111111111111',quoteMint:'So11111111111111111111111111111111111111112',tokenProgram:'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',transactionHash:'c'.repeat(64),verificationHash:'d'.repeat(64),checkedAt:new Date().toISOString()});
+const final=e=>({...e,finality:'rpc_reported_finalized',mint:'So11111111111111111111111111111111111111112',quoteMint:'11111111111111111111111111111111',tokenProgram:'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',transactionHash:'c'.repeat(64),verificationHash:'d'.repeat(64),checkedAt:new Date().toISOString()});
 const heartbeat=c=>({...c,op:'heartbeat',framesReceived:0,bytesReceived:0,sourceState:'closed',lastFrameAt:null,lastPongAt:null,lastRpcElapsedMs:null});
 test('reviewed SQL body hashes match source exactly',()=>assert.deepEqual(fingerprintSource(sql),fingerprints));
 test('unapproved installation is empty and cannot claim',async()=>{
@@ -125,7 +125,7 @@ test('gap begin/end is explicit and repeated begins do not double-count',async()
  let r=await store('reader').transact(null);assert.equal(r.health.gaps,1);assert.ok(r.health.gapSince);
  await s.transact({...c,op:'gap',reason:'startup',phase:'end'});r=await store('reader').transact(null);assert.equal(r.health.gapSince,null);assert.ok(r.health.gapEndedAt);
 });
-test('all runtime roles deny DDL, direct state mutation, old proof state, and unauthorized functions',async()=>{
+test('all runtime roles deny persistent DDL, direct state mutation, old proof state, and unauthorized functions',async()=>{
  for(const kind of ['worker','reader','stop']){
   const p=pool(kind);for(const query of ['UPDATE scout_live.control SET stopped=false','SELECT * FROM scout_live.events','DELETE FROM scout_live.control','TRUNCATE scout_live.events','SELECT scout_mint.step(\'{}\')','SELECT scout_lookup.step(\'{}\')','CREATE TABLE public.bad(x int)'])await assert.rejects(p.query(query),e=>e.code==='42501');
   for(const [other,q] of Object.entries({worker:"SELECT scout_live.step('{}')",reader:'SELECT scout_live.snapshot()',stop:'SELECT scout_live.stop()'}))if(other!==kind)await assert.rejects(p.query(q),e=>e.code==='42501');
@@ -198,4 +198,28 @@ test('repeated notification with new receipt/hash preserves original evidence an
  assert.deepEqual((await store('reader').transact(null)).events,[e]);
  await assert.rejects(s.transact({...c,op:'append',event:{...duplicate,slot:1235}}));
  assert.equal((await store('reader').transact(null)).budget.rpcUsed,0);
+});
+
+test('missing approved expiry/pricing cannot exploit PostgreSQL nullable CHECK semantics',async()=>{
+ for(const field of ['expires_at','connection_credits','rpc_credits','credit_limit'])await assert.rejects(db.owner.query(`UPDATE scout_live.control SET ${field}=NULL`),e=>e.code==='23514');
+ await assert.rejects(db.owner.query('UPDATE scout_live.control SET connected=true'),e=>e.code==='23514');
+ const {s,c}=await claimed();assert.equal((await s.transact({...c,op:'reserve',resource:'connection'})).ok,true);
+});
+
+test('native SOL sentinel is exact, never relabeled WSOL; unsupported WSOL quote rejected',async()=>{
+ const {s,c}=await connected(),e=event();await s.transact({...c,op:'append',event:e});await s.transact({...c,op:'reserve',resource:'rpc'});await s.transact({...c,op:'reserve',resource:'rpc'});
+ const f=final(e);assert.equal((await s.transact({...c,op:'append',event:f})).reason,'promoted');assert.equal((await store('reader').transact(null)).events[0].quoteMint,'11111111111111111111111111111111');
+ assert.equal(validEvent({...f,mint:'3'.repeat(44),quoteMint:'So11111111111111111111111111111111111111112'}),false);
+});
+test('only exact fenced closure can be acknowledged after STOP; STOP and budgets remain permanent',async()=>{
+ const {s,c}=await connected();await store('stop').transact(null);
+ assert.equal((await s.transact({...c,fence:randomUUID(),op:'release',connectionClosed:true,terminal:true})).ok,false);
+ assert.equal((await s.transact({...c,op:'release',connectionClosed:true,terminal:true})).reason,'closed_after_stop');
+ const r=await store('reader').transact(null);assert.equal(r.status,'stopped');assert.equal(r.health.sourceState,'closed');assert.equal(r.health.leaseUntil,null);assert.equal(r.budget.connectionsUsed,1);assert.equal(r.budget.creditsReserved,100);
+ assert.equal((await s.transact({...base,op:'claim'})).reason,'stopped');assert.equal((await s.transact({...c,op:'reserve',resource:'rpc'})).reason,'stopped');
+});
+test('30s provider ping cadence is healthy; evidence older45s is stale',async()=>{
+ const {s,c}=await connected();const pong=age=>new Date(Date.now()-age*1000).toISOString();
+ await s.transact({...heartbeat(c),sourceState:'open',lastPongAt:pong(35)});assert.equal((await store('reader').transact(null)).status,'observing');
+ await s.transact({...heartbeat(c),sourceState:'open',lastPongAt:pong(50)});assert.equal((await store('reader').transact(null)).status,'stale');
 });

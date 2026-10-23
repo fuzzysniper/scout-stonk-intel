@@ -3,6 +3,7 @@ BEGIN;
 CREATE ROLE scout_live_worker LOGIN NOINHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS CONNECTION LIMIT 2;
 CREATE ROLE scout_live_reader LOGIN NOINHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS CONNECTION LIMIT 2;
 CREATE ROLE scout_live_stop LOGIN NOINHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS CONNECTION LIMIT 2;
+GRANT CONNECT ON DATABASE neondb TO scout_live_worker,scout_live_reader,scout_live_stop;
 CREATE SCHEMA scout_live;
 REVOKE ALL ON SCHEMA scout_live FROM PUBLIC;
 GRANT USAGE ON SCHEMA scout_live TO scout_live_worker, scout_live_reader, scout_live_stop;
@@ -10,7 +11,7 @@ CREATE TABLE scout_live.control (
  id boolean PRIMARY KEY DEFAULT true CHECK(id),
  approved boolean NOT NULL DEFAULT false,
  session uuid, head text CHECK(head ~ '^[a-f0-9]{40}$'),
- scope text NOT NULL DEFAULT 'c9c56b944745f168b5a392afeedf38ebfc6a1eb4969a2c3f772718e56c4237e3' CHECK(scope='c9c56b944745f168b5a392afeedf38ebfc6a1eb4969a2c3f772718e56c4237e3'),
+ scope text NOT NULL DEFAULT '694b38b4a0046ad1173d521c83932f7af6050b69ed666592e3d0e0d0c7289442' CHECK(scope='694b38b4a0046ad1173d521c83932f7af6050b69ed666592e3d0e0d0c7289442'),
  starts_at timestamptz, expires_at timestamptz,
  connection_credits bigint, rpc_credits bigint, credit_limit bigint,
  terms_approved boolean NOT NULL DEFAULT false, quota_approved boolean NOT NULL DEFAULT false,
@@ -26,7 +27,8 @@ CREATE TABLE scout_live.control (
  bytes_received bigint NOT NULL DEFAULT 0 CHECK(bytes_received BETWEEN 0 AND 50331648),
  credits bigint NOT NULL DEFAULT 0 CHECK(credits>=0), ticket bigint NOT NULL DEFAULT 0,
  gaps integer NOT NULL DEFAULT 0 CHECK(gaps>=0), errors integer NOT NULL DEFAULT 0 CHECK(errors>=0),
- CHECK (NOT approved OR (session IS NOT NULL AND head IS NOT NULL AND starts_at IS NOT NULL AND expires_at>starts_at AND expires_at<=starts_at+interval '1 hour' AND connection_credits BETWEEN 1 AND 1000000000 AND rpc_credits BETWEEN 1 AND 1000000000 AND credit_limit BETWEEN 1 AND 1000000000 AND terms_approved AND quota_approved))
+ CHECK ((worker IS NULL AND fence IS NULL AND lease_until IS NULL AND NOT connected) OR (worker IS NOT NULL AND fence IS NOT NULL AND lease_until IS NOT NULL)),
+ CHECK (NOT approved OR (session IS NOT NULL AND head IS NOT NULL AND starts_at IS NOT NULL AND expires_at IS NOT NULL AND connection_credits IS NOT NULL AND rpc_credits IS NOT NULL AND credit_limit IS NOT NULL AND expires_at>starts_at AND expires_at<=starts_at+interval '1 hour' AND connection_credits BETWEEN 1 AND 1000000000 AND rpc_credits BETWEEN 1 AND 1000000000 AND credit_limit BETWEEN 1 AND 1000000000 AND terms_approved AND quota_approved))
 );
 INSERT INTO scout_live.control(id) VALUES(true);
 CREATE TABLE scout_live.events (
@@ -56,7 +58,7 @@ $fn$;
 CREATE FUNCTION scout_live.step(cmd jsonb) RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
 DECLARE c scout_live.control; now_at timestamptz; op text:=cmd->>'op'; e jsonb; prior jsonb; received timestamptz; checked timestamptz; block_at timestamptz; cost bigint; result_reason text; expected_keys text[];
 BEGIN
- IF jsonb_typeof(cmd)<>'object' OR octet_length(cmd::text)>8192 OR cmd->'v'<>'1'::jsonb OR cmd->>'scope'<>'c9c56b944745f168b5a392afeedf38ebfc6a1eb4969a2c3f772718e56c4237e3' OR (cmd->>'head') !~ '^[a-f0-9]{40}$' OR (cmd->>'session') !~ '^[a-f0-9-]{36}$' OR (cmd->>'worker') !~ '^[a-f0-9-]{36}$' THEN RAISE EXCEPTION 'invalid_command'; END IF;
+ IF jsonb_typeof(cmd)<>'object' OR octet_length(cmd::text)>8192 OR cmd->'v'<>'1'::jsonb OR cmd->>'scope'<>'694b38b4a0046ad1173d521c83932f7af6050b69ed666592e3d0e0d0c7289442' OR (cmd->>'head') !~ '^[a-f0-9]{40}$' OR (cmd->>'session') !~ '^[a-f0-9-]{36}$' OR (cmd->>'worker') !~ '^[a-f0-9-]{36}$' THEN RAISE EXCEPTION 'invalid_command'; END IF;
  expected_keys:=ARRAY['v','op','session','scope','head','worker'];
  IF op<>'claim' THEN expected_keys:=expected_keys||ARRAY['fence']; END IF;
  CASE op
@@ -71,8 +73,17 @@ BEGIN
  IF (SELECT array_agg(k ORDER BY k) FROM jsonb_object_keys(cmd) k) IS DISTINCT FROM (SELECT array_agg(k ORDER BY k) FROM unnest(expected_keys) k) OR cmd->>'session' IS NULL OR cmd->>'worker' IS NULL OR cmd->>'head' IS NULL OR cmd->>'scope' IS NULL OR cmd->>'v' IS NULL THEN RAISE EXCEPTION 'invalid_command'; END IF;
  SELECT * INTO STRICT c FROM scout_live.control WHERE id FOR UPDATE;
  now_at:=clock_timestamp();
- IF c.stopped THEN RETURN scout_live.reply(c,false,'stopped'); END IF;
- IF NOT c.approved OR c.session IS DISTINCT FROM (cmd->>'session')::uuid OR c.head IS DISTINCT FROM cmd->>'head' OR c.scope IS DISTINCT FROM cmd->>'scope' OR now_at<c.starts_at THEN RETURN scout_live.reply(c,false,'unapproved'); END IF;
+ IF c.stopped THEN
+  -- Closure-only acknowledgment after STOP; no quota/fence/history reset or acquisition can follow.
+  IF op='release' AND cmd->'connectionClosed'='true'::jsonb AND jsonb_typeof(cmd->'terminal')='boolean'
+   AND c.session=(cmd->>'session')::uuid AND c.head=cmd->>'head' AND c.scope=cmd->>'scope'
+   AND c.worker=(cmd->>'worker')::uuid AND c.fence=(cmd->>'fence')::uuid THEN
+   UPDATE scout_live.control SET connected=false,source_state='closed',worker=CASE WHEN (cmd->>'terminal')::boolean THEN NULL ELSE worker END,fence=CASE WHEN (cmd->>'terminal')::boolean THEN NULL ELSE fence END,lease_until=CASE WHEN (cmd->>'terminal')::boolean THEN NULL ELSE lease_until END WHERE id RETURNING * INTO c;
+   RETURN scout_live.reply(c,true,'closed_after_stop');
+  END IF;
+  RETURN scout_live.reply(c,false,'stopped');
+ END IF;
+ IF NOT c.approved OR c.starts_at IS NULL OR c.expires_at IS NULL OR c.connection_credits IS NULL OR c.rpc_credits IS NULL OR c.credit_limit IS NULL OR NOT c.terms_approved OR NOT c.quota_approved OR c.session IS DISTINCT FROM (cmd->>'session')::uuid OR c.head IS DISTINCT FROM cmd->>'head' OR c.scope IS DISTINCT FROM cmd->>'scope' OR now_at<c.starts_at THEN RETURN scout_live.reply(c,false,'unapproved'); END IF;
  IF now_at>=c.expires_at OR (c.worker IS NOT NULL AND now_at>=c.lease_until) THEN
   UPDATE scout_live.control SET stopped=true,reason=CASE WHEN now_at>=c.expires_at THEN 'session_expired' ELSE 'unclean_lease' END WHERE id RETURNING * INTO c;
   RETURN scout_live.reply(c,false,c.reason);
@@ -104,7 +115,7 @@ BEGIN
   UPDATE scout_live.control SET gap_since=CASE WHEN cmd->>'phase'='begin' THEN coalesce(gap_since,now_at) ELSE NULL END,gap_ended_at=CASE WHEN cmd->>'phase'='end' THEN now_at ELSE gap_ended_at END,gaps=gaps+CASE WHEN cmd->>'phase'='begin' AND gap_since IS NULL THEN 1 ELSE 0 END, errors=errors+CASE WHEN cmd->>'phase'='begin' AND cmd->>'reason' IN ('verification_failed','invalid_message','transport_error') THEN 1 ELSE 0 END WHERE id RETURNING * INTO c;
  WHEN 'release' THEN
   IF cmd->'connectionClosed' IS DISTINCT FROM 'true'::jsonb OR jsonb_typeof(cmd->'terminal') IS DISTINCT FROM 'boolean' THEN RAISE EXCEPTION 'invalid_command'; END IF;
-  UPDATE scout_live.control SET connected=false,worker=CASE WHEN (cmd->>'terminal')::boolean THEN NULL ELSE worker END,fence=CASE WHEN (cmd->>'terminal')::boolean THEN NULL ELSE fence END,lease_until=CASE WHEN (cmd->>'terminal')::boolean THEN NULL ELSE lease_until END WHERE id RETURNING * INTO c;
+  UPDATE scout_live.control SET connected=false,source_state='closed',worker=CASE WHEN (cmd->>'terminal')::boolean THEN NULL ELSE worker END,fence=CASE WHEN (cmd->>'terminal')::boolean THEN NULL ELSE fence END,lease_until=CASE WHEN (cmd->>'terminal')::boolean THEN NULL ELSE lease_until END WHERE id RETURNING * INTO c;
  WHEN 'stop' THEN
   IF cmd->>'reason' NOT IN ('owner','budget','storage','shutdown','uncertain') OR cmd->>'reason' IS NULL THEN RAISE EXCEPTION 'invalid_command'; END IF;
   UPDATE scout_live.control SET stopped=true,reason=cmd->>'reason' WHERE id RETURNING * INTO c;
@@ -125,7 +136,7 @@ BEGIN
     RETURN scout_live.reply(c,true,'duplicate'); -- Preserve ORIGINAL hash/clock, never re-sample/reorder/downgrade.
    END IF;
   ELSIF e->>'finality'='rpc_reported_finalized' THEN
-   IF NOT scout_live.b58(e->>'mint',32) OR e->>'mint'=e->>'quoteMint' OR e->>'quoteMint' IS NULL OR e->>'quoteMint' NOT IN ('So11111111111111111111111111111111111111112','EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v') OR e->>'tokenProgram' IS NULL OR e->>'tokenProgram' NOT IN ('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA','TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb') OR (e->>'transactionHash')!~ '^[a-f0-9]{64}$' OR e->>'transactionHash' IS NULL OR (e->>'verificationHash')!~ '^[a-f0-9]{64}$' OR e->>'verificationHash' IS NULL OR (e->>'checkedAt')!~ '^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d{3})?Z$' OR e->>'checkedAt' IS NULL THEN RAISE EXCEPTION 'invalid_finality'; END IF;
+   IF NOT scout_live.b58(e->>'mint',32) OR e->>'mint'=e->>'quoteMint' OR e->>'quoteMint' IS NULL OR e->>'quoteMint' NOT IN ('11111111111111111111111111111111','EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v') OR e->>'tokenProgram' IS NULL OR e->>'tokenProgram' NOT IN ('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA','TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb') OR (e->>'transactionHash')!~ '^[a-f0-9]{64}$' OR e->>'transactionHash' IS NULL OR (e->>'verificationHash')!~ '^[a-f0-9]{64}$' OR e->>'verificationHash' IS NULL OR (e->>'checkedAt')!~ '^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d{3})?Z$' OR e->>'checkedAt' IS NULL THEN RAISE EXCEPTION 'invalid_finality'; END IF;
    IF EXISTS(SELECT 1 FROM unnest(ARRAY['mint','quoteMint','tokenProgram','transactionHash','verificationHash','checkedAt']) k WHERE jsonb_typeof(e->k) IS DISTINCT FROM 'string') THEN RAISE EXCEPTION 'invalid_finality'; END IF;
    checked:=(e->>'checkedAt')::timestamptz;
    IF checked<received OR checked>now_at+interval '5 seconds' OR checked<now_at-interval '120 seconds' OR c.finalized>=20 OR c.rpc<(c.finalized+1)*2 THEN RAISE EXCEPTION 'invalid_verification_clock'; END IF;
@@ -148,11 +159,11 @@ BEGIN
 END $fn$;
 
 CREATE FUNCTION scout_live.snapshot() RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog AS $fn$
- SELECT jsonb_build_object('version','scout-live/1','status',CASE WHEN stopped THEN 'stopped' WHEN NOT approved THEN 'waiting' WHEN clock_timestamp()>=expires_at OR (worker IS NOT NULL AND clock_timestamp()>=lease_until) THEN 'stale' WHEN connected AND source_state='open' AND greatest(last_frame_at,last_pong_at)<clock_timestamp()-interval '20 seconds' THEN 'stale' WHEN connected AND source_state='open' AND greatest(last_frame_at,last_pong_at)>clock_timestamp()-interval '20 seconds' THEN 'observing' ELSE 'waiting' END,
+ SELECT jsonb_build_object('version','scout-live/1','status',CASE WHEN stopped THEN 'stopped' WHEN NOT approved THEN 'waiting' WHEN clock_timestamp()>=expires_at OR (worker IS NOT NULL AND clock_timestamp()>=lease_until) THEN 'stale' WHEN connected AND source_state='open' AND greatest(last_frame_at,last_pong_at)<clock_timestamp()-interval '45 seconds' THEN 'stale' WHEN connected AND source_state='open' AND greatest(last_frame_at,last_pong_at)>clock_timestamp()-interval '45 seconds' THEN 'observing' ELSE 'waiting' END,
  'observedAt',to_char(clock_timestamp() AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
  'events',coalesce((SELECT jsonb_agg(payload ORDER BY received_at DESC,signature) FROM (SELECT * FROM scout_live.events WHERE expires_at>clock_timestamp() ORDER BY received_at DESC,signature LIMIT 20) x),'[]'::jsonb),
  'counts',jsonb_build_object('provisional',(SELECT count(*) FROM scout_live.events WHERE expires_at>clock_timestamp() AND payload->>'finality'='provisional'),'finalized',(SELECT count(*) FROM scout_live.events WHERE expires_at>clock_timestamp() AND payload->>'finality'='rpc_reported_finalized')),
- 'health',jsonb_build_object('state',CASE WHEN stopped THEN 'stopped' WHEN NOT approved THEN 'unapproved' WHEN clock_timestamp()>=expires_at OR (worker IS NOT NULL AND clock_timestamp()>=lease_until) THEN 'stale' WHEN connected AND source_state='open' AND greatest(last_frame_at,last_pong_at)<clock_timestamp()-interval '20 seconds' THEN 'stale' WHEN connected AND source_state='open' AND greatest(last_frame_at,last_pong_at)>clock_timestamp()-interval '20 seconds' THEN 'connected' ELSE 'idle' END,'heartbeatAt',CASE WHEN heartbeat_at IS NULL THEN NULL ELSE to_char(heartbeat_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') END,'leaseUntil',CASE WHEN lease_until IS NULL THEN NULL ELSE to_char(lease_until AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') END,'sourceState',source_state,'lastFrameAt',CASE WHEN last_frame_at IS NULL THEN NULL ELSE to_char(last_frame_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') END,'lastPongAt',CASE WHEN last_pong_at IS NULL THEN NULL ELSE to_char(last_pong_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') END,'gapSince',CASE WHEN gap_since IS NULL THEN NULL ELSE to_char(gap_since AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') END,'gapEndedAt',CASE WHEN gap_ended_at IS NULL THEN NULL ELSE to_char(gap_ended_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') END,'lastRpcElapsedMs',last_rpc_elapsed_ms,'gaps',gaps,'errors',errors,'stopped',stopped,'reason',reason),
+ 'health',jsonb_build_object('state',CASE WHEN stopped THEN 'stopped' WHEN NOT approved THEN 'unapproved' WHEN clock_timestamp()>=expires_at OR (worker IS NOT NULL AND clock_timestamp()>=lease_until) THEN 'stale' WHEN connected AND source_state='open' AND greatest(last_frame_at,last_pong_at)<clock_timestamp()-interval '45 seconds' THEN 'stale' WHEN connected AND source_state='open' AND greatest(last_frame_at,last_pong_at)>clock_timestamp()-interval '45 seconds' THEN 'connected' ELSE 'idle' END,'heartbeatAt',CASE WHEN heartbeat_at IS NULL THEN NULL ELSE to_char(heartbeat_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') END,'leaseUntil',CASE WHEN lease_until IS NULL THEN NULL ELSE to_char(lease_until AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') END,'sourceState',source_state,'lastFrameAt',CASE WHEN last_frame_at IS NULL THEN NULL ELSE to_char(last_frame_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') END,'lastPongAt',CASE WHEN last_pong_at IS NULL THEN NULL ELSE to_char(last_pong_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') END,'gapSince',CASE WHEN gap_since IS NULL THEN NULL ELSE to_char(gap_since AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') END,'gapEndedAt',CASE WHEN gap_ended_at IS NULL THEN NULL ELSE to_char(gap_ended_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') END,'lastRpcElapsedMs',last_rpc_elapsed_ms,'gaps',gaps,'errors',errors,'stopped',stopped,'reason',reason),
  'budget',jsonb_build_object('connectionsUsed',connections,'connectionsMax',3,'rpcUsed',rpc,'rpcMax',40,'framesReserved',connections*20000,'bytesReserved',connections::bigint*16777216,'creditsReserved',credits,'creditsMax',credit_limit,'framesReceived',frames_received,'bytesReceived',bytes_received,'expiresAt',CASE WHEN expires_at IS NULL THEN NULL ELSE to_char(expires_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"') END),
  'retention',jsonb_build_object('seconds',3600,'maxRecords',200,'expiresOnRead',true)) FROM scout_live.control WHERE id
 $fn$;

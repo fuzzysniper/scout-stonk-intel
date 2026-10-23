@@ -8,15 +8,19 @@ services:
     branch: main
     autoDeploy: false
     numInstances: 1
-    buildCommand: npm ci --no-audit --no-fund && bash experiments/live-stream/build.sh
-    startCommand: bash experiments/live-stream/start.sh
+    buildCommand: bash experiments/live-stream/render-build.sh
+    startCommand: node experiments/live-stream/run.mjs
     envVars:
       - key: NODE_VERSION
-        value: 22.22.2
+        value: 24.19.0
       - key: SCOUT_LIVE_STORE_ENABLED
         value: "false"
-      - key: SCOUT_LIVE_SOURCE_ENABLED
-        value: "false"
+      - key: UNFARMD_DATA_ACTIVATION
+        value: "disabled"
+      - key: UNFARMD_DATA_APPROVAL_JSON
+        sync: false
+      - key: UNFARMD_HELIUS_DATA_KEY
+        sync: false
       - key: SCOUT_LIVE_WORKER_DATABASE_URL
         sync: false
       - key: SCOUT_LIVE_RENDER_SERVICE_ID

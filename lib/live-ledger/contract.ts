@@ -8,6 +8,7 @@ export type LiveEvent = Readonly<{
   notificationHash: string;
   finality: "provisional" | "rpc_reported_finalized";
   mint: string | null;
+  /** Native SOL uses the original protocol sentinel (System Program address), not a verified SPL mint. */
   quoteMint: string | null;
   tokenProgram: string | null;
   transactionHash: string | null;
