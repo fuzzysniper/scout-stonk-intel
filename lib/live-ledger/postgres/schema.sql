@@ -171,6 +171,7 @@ $fn$;
 CREATE FUNCTION scout_live.stop() RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $fn$
 BEGIN
  UPDATE scout_live.control SET stopped=true,reason=coalesce(reason,'owner') WHERE id;
+ IF NOT FOUND THEN RAISE EXCEPTION 'missing_control'; END IF;
  RETURN jsonb_build_object('version','scout-live/1','status','stopped','observedAt',to_char(clock_timestamp() AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'));
 END $fn$;
 REVOKE ALL ON ALL TABLES IN SCHEMA scout_live FROM PUBLIC,scout_live_worker,scout_live_reader,scout_live_stop;

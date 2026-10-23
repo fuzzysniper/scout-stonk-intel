@@ -237,3 +237,9 @@ test('unexpected runtime function grantees fail compatibility without using thei
  await db.owner.query('GRANT EXECUTE ON FUNCTION scout_live.snapshot() TO scout_mint_app');
  try{await assert.rejects(store('reader').transact(null),/store_unavailable/);}finally{await db.owner.query('REVOKE EXECUTE ON FUNCTION scout_live.snapshot() FROM scout_mint_app');}
 });
+
+test('STOP cannot report success if its durable control row is missing',async()=>{
+ await db.owner.query('DELETE FROM scout_live.control');
+ await assert.rejects(store('stop').transact(null),e=>e.message==='store_unavailable');
+ await assert.rejects(store('reader').transact(null),e=>e.message==='store_unavailable');
+});
