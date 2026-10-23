@@ -1,0 +1,25 @@
+name: Helius creation worker offline safety
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/live-stream/**'
+      - 'experiments/launch-intel/**'
+      - '.github/workflows/live-stream-offline.yml'
+permissions:
+  contents: read
+jobs:
+  offline-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/live-stream --ignore-scripts
+      - run: bash experiments/live-stream/test.sh
+      - run: npm run build --prefix experiments/live-stream
+      - run: node experiments/live-stream/run.mjs

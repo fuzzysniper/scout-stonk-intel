@@ -1,0 +1,45 @@
+{
+  "scope": {
+    "version": "helius-creations/1",
+    "network": "solana-mainnet-beta",
+    "program": "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P",
+    "host": "mainnet.helius-rpc.com",
+    "commitment": "finalized",
+    "maxSessionMs": 3600000,
+    "leaseMs": 12000,
+    "heartbeatMs": 1000,
+    "storeTimeoutMs": 1500,
+    "maxConnections": 1,
+    "maxConnectionAttempts": 3,
+    "reconnectDelaysMs": [
+      1000,
+      2000
+    ],
+    "maxFramesPerConnection": 20000,
+    "maxBytesPerConnection": 16777216,
+    "maxFrameBytes": 65536,
+    "maxControlFrames": 512,
+    "maxControlBytes": 65536,
+    "maxRpcAttempts": 40,
+    "maxRpcResponseBytes": 1048576,
+    "rpcTimeoutMs": 5000,
+    "closeTimeoutMs": 3000,
+    "pingMs": 30000,
+    "pongTimeoutMs": 10000,
+    "sampleSpacingMs": 10000,
+    "maxRecords": 200,
+    "maxQueue": 8,
+    "maxSeen": 60000,
+    "maxSourceAgeMs": 120000,
+    "billingModel": "OWNER_AUTHORIZED_DURABLE_STORE_ONLY",
+    "maxIncrementalCostUsd": 0,
+    "rawRetentionSeconds": 0,
+    "methods": [
+      "logsSubscribe",
+      "getTransaction",
+      "getSignatureStatuses"
+    ]
+  },
+  "scopeHash": "c9c56b944745f168b5a392afeedf38ebfc6a1eb4969a2c3f772718e56c4237e3",
+  "workerPolicyHash": "e39733b2703536cfbae9381c19cafc016a38c2dff907b71af359b5c6aa534202"
+}
