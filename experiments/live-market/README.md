@@ -16,6 +16,8 @@ The public endpoint is a **development pilot only**, not a production hosting so
 
 ## Run safely
 
+For PC-day handoff, use the [ten-command Windows card](docs/RUN_CARD.md), [blank sanitized report](docs/RESULT_REPORT.example.json) and [future private mobile design](docs/MOBILE_ACCESS.md). These are inactive operating documents, not a remote service, source grant or new synthetic feature. Original template remains false; current source/retention decision remains BLOCKED.
+
 ```sh
 npm ci --prefix experiments/live-market --ignore-scripts
 bash experiments/launch-intel/test.sh

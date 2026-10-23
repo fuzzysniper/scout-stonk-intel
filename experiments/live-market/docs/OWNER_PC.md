@@ -1,5 +1,7 @@
 # Owner-PC read-only pilot — human operation only
 
+For the final PC-day sequence, use the [ten-command execution card](RUN_CARD.md). It includes private Windows evidence setup, the unchanged disabled approval template mapping, the actual dashboard, kill/recovery and sanitized reporting. [Future mobile access](MOBILE_ACCESS.md) is architecture only; no remote dashboard or week-long unattended process is authorized.
+
 **STOP at approval. Nothing here authorizes acquisition.** Source qualification is currently BLOCKED. First ask whether FuzzySniper already has one authorized original receipt with exact signatures/slots/finality/raw requests/responses and original clocks; if it does, reuse that authorized evidence instead of duplicating a feed. No assumed entitlement to private service data or commercial retention.
 
 The [founder-mobile checklist](FOUNDER_MOBILE.md) is for source/rights and scope review. **This runbook operates only the already-implemented public Solana RPC pilot.** It does not connect to PumpPortal, accept its URLs/keys, authorize a fallback, or use Helius. Reported free PumpPortal creation/migration access does not clear its still-unverified retention/use terms.

@@ -1,5 +1,15 @@
 # Exact implementation evidence — October 22, 2026
 
+## October 23 PC/mobile handoff verification
+
+Requested head `dd6b3941d61bcebe0810dcb5914320216ef4dd59`, refreshed main `8ba5ab1ff8252631e3f5f85f7dbd7aa9326c6eba`; two newer main commits contain collector records only. This handoff updates documentation/report templates only; no main/data merge, runtime/source gate, approval JSON or provider budget change. No new synthetic feature or provider acquisition.
+
+Re-ran **30/30 worker + 47/47 parent tests**, TypeScript, lint, optimized production build and archive check against refreshed main: PASS. Actual `node ...run.mjs view` Chromium **320/390/1280** again passed no overflow, four NOT RUN metrics, keyboard disclosure, zero browser errors/external requests/WebSockets. Existing screenshot/browser artifacts are unchanged. Local view was closed after QA. Root suite/install outcome comes from automatic root CI on the new head, reported in the PR, not an invented local rerun.
+
+Static handoff checks confirm ten non-comment command-card lines, valid blank report JSON, local documentation links, unchanged false approvals and unchanged exact scope hash. The PowerShell card and NTFS ACL procedure were reviewed against the real entry/storage/policy code; **not executed on Windows**. Physical iPhone/Safari/authentication/shutdown testing and cloud infrastructure are **not performed/implemented**. The future architecture's authenticated gateway, durable cloud leases and automated deletion are separate approval/implementation gates, not features claimed by this worker.
+
+Current acquisition remains BLOCKED on the selected source's use/24h retention basis and a fresh founder grant. PumpPortal's free/personal-use evidence is founder-verified, with exact key/access/rights still unqualified here because official pages are proxy-blocked. No approval/private key was created or used by the agent; the committed template remains false. Readiness does not establish source authorization or live success.
+
 ## Source-access review follow-up
 
 Reviewed requested head `b698752c262e4e57a5574dad1abfb7eeae9dfab3` against fetched main `a55c88ec3bb96b3a9ab5d351fe34d8253902125a`. Main adds collector records only; no data/main integration or runtime edit was made. The follow-up changes documentation only: method-specific PumpPortal questions, dated proxy-access evidence, conditional RPC-only recommendation, unsent inquiry, separate mobile approval checklist and exact PC runbook. **No PumpPortal free-access/key/funding/rights assertion was promoted from founder report to independently verified fact.**
