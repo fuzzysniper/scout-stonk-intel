@@ -1,0 +1,18 @@
+{
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "build": "actual Next.js production",
+  "hero": "scout-hero-desktop.webp",
+  "action": {
+    "x": 64,
+    "y": 620.484375,
+    "width": 450,
+    "height": 52
+  },
+  "sourceRequests": 0,
+  "axeViolations": 0,
+  "rights": "pending; founder visual approval only",
+  "authenticHeliusObservation": false
+}

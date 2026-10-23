@@ -1,0 +1,21 @@
+{
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "source": "Actual local Next.js production handler from merged #136; no API fixture or hosting-header spoofing. Source disabled; canonical-origin admission rejects localhost.",
+  "httpStatus": 403,
+  "reason": "access_denied",
+  "facts": null,
+  "sourceReceipt": null,
+  "providerCalls": 0,
+  "bodyProbe": "One additional explicit inert localhost test GET, not a browser/user request",
+  "apiCalls": [
+    {
+      "method": "GET",
+      "path": "/api/mint-facts",
+      "mint": "So11111111111111111111111111111111111111112"
+    }
+  ],
+  "axeViolations": 0
+}

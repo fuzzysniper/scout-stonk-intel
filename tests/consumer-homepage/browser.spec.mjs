@@ -19,9 +19,9 @@ test.afterEach(async({page})=>{expect(errors.get(page)).toEqual([]);expect(exter
 const axe=async page=>expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa','wcag22aa']).analyze()).violations).toEqual([]);
 const cleanBrand=async page=>{expect(await page.locator('body').innerText()).not.toMatch(/STORKCOIN|PROJECT CLEAR|STORK ecosystem/);expect(await page.title()).not.toMatch(/SCOUT|STORK|PROJECT CLEAR/);};
 for(const token of examples)test(`${token.symbol} production engine, risks, exact share and sources`,async({page},info)=>{
- await page.goto('/');await expect(page.getByRole('heading',{name:'A token address. A clear answer.'})).toBeVisible();
+ await page.goto('/');await expect(page.getByRole('heading',{name:'Stop getting farmed. Know what you’re aping.'})).toBeVisible();
  await cleanBrand(page);await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content','noindex, nofollow');
- const lastChoice=await page.getByRole('button',{name:/Explain Grokification/}).boundingBox();expect(lastChoice.y+lastChoice.height).toBeLessThan(page.viewportSize().height);
+ const action=await page.getByRole('button',{name:'SCOUT IT',exact:true}).boundingBox();expect(action.y+action.height).toBeLessThan(page.viewportSize().height);
  if(token===examples[0]){await axe(page);await page.screenshot({path:`experiments/consumer-mvp/web/node_modules/.cache/v17-regression-screenshots/after-landing-${info.project.name}.png`});}
  await page.getByRole('button',{name:new RegExp('Explain '+token.name)}).click();
  await expect(page.getByRole('heading',{name:new RegExp('^'+token.name)})).toBeVisible();
@@ -49,13 +49,13 @@ for(const token of examples)test(`${token.symbol} production engine, risks, exac
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.reload();await expect(page.getByRole('heading',{name:new RegExp('^'+token.name)})).toBeVisible();
  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://scout.storkcoin.xyz/?mint='+token.mint);
- await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content',token.symbol+' explained · captured 14 Oct 2026');
+ await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content',token.symbol+' explained · captured 14 Oct 2026 · UNFARMD');
  expect(await page.locator('meta[property="og:image"]').getAttribute('content')).toMatch(/\/opengraph-image/);
 });
 test('empty, ticker, malformed, same-symbol mint, duplicate query and recovery',async({page})=>{
  await page.goto('/');
  for(const [raw,title]of [['','Start with a token address'],['SI','A name isn’t an address'],['<script>alert(1)</script>','That doesn’t look like a token address'],['1'.repeat(32),'Source not connected'],['4SsapSJFx7ZqVb2C7z78wKD4nyySjFCBSuajnZdDsx97','Source not connected'],[' '+examples[0].mint,'That doesn’t look like a token address']]){
-  await page.getByLabel('Token address',{exact:true}).fill(raw);await page.getByRole('button',{name:'Analyze token',exact:true}).click();await expect(page.getByRole('heading',{name:title})).toBeVisible();if(title==='Source not connected')expect(new URL(page.url()).searchParams.get('mint')).toBe(raw);else expect(new URL(page.url()).searchParams.has('mint')).toBe(false);
+  await page.getByLabel('Token address',{exact:true}).fill(raw);await page.getByRole('button',{name:'SCOUT IT',exact:true}).click();await expect(page.getByRole('heading',{name:title})).toBeVisible();if(title==='Source not connected')expect(new URL(page.url()).searchParams.get('mint')).toBe(raw);else expect(new URL(page.url()).searchParams.has('mint')).toBe(false);
  }
  await page.goto('/?mint='+examples[0].mint+'&mint='+examples[1].mint);await expect(page.getByRole('heading',{name:'That doesn’t look like a token address'})).toBeVisible();
  await page.getByRole('button',{name:/Explain Grokification/}).click();await expect(page.getByRole('heading',{name:/^Grokification/})).toBeVisible();await cleanBrand(page);
@@ -67,9 +67,9 @@ test('keyboard, clipboard fallback, history, restart and pre-capture failure',as
  await page.getByRole('button',{name:'Copy link',exact:true}).click();await expect(page.getByText('Link copied. It opens this captured example.')).toBeVisible();expect(await page.evaluate(()=>navigator.clipboard.readText())).toBe(page.url());
  await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{configurable:true,value:undefined}));await page.getByRole('button',{name:'Copy link',exact:true}).click();await expect(page.getByLabel('Copy this exact-mint link')).toHaveValue(page.url());
  await page.getByRole('button',{name:'Search another token',exact:true}).click();await expect(page.getByLabel('Token address',{exact:true})).toBeFocused();
- await page.getByLabel('Token address',{exact:true}).fill(examples[1].mint);await page.getByRole('button',{name:'Analyze token',exact:true}).click();await expect(page.getByRole('heading',{name:/^RuneScape Gold/})).toBeVisible();
+ await page.getByLabel('Token address',{exact:true}).fill(examples[1].mint);await page.getByRole('button',{name:'SCOUT IT',exact:true}).click();await expect(page.getByRole('heading',{name:/^RuneScape Gold/})).toBeVisible();
  await page.goBack();await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeVisible();await page.goForward();await expect(page.getByRole('heading',{name:/^RuneScape Gold/})).toBeVisible();
- await page.getByRole('link',{name:'Start over'}).click();await expect(page.getByRole('heading',{name:'A token address. A clear answer.'})).toBeVisible();await expect(page.getByLabel('Token address',{exact:true})).toHaveValue('');await expect(page.getByRole('heading',{name:'A token address. A clear answer.'})).toBeFocused();
+ await page.getByRole('link',{name:'Start over'}).click();await expect(page.getByRole('heading',{name:'Stop getting farmed. Know what you’re aping.'})).toBeVisible();await expect(page.getByLabel('Token address',{exact:true})).toHaveValue('');await expect(page.getByRole('heading',{name:'Stop getting farmed. Know what you’re aping.'})).toBeFocused();
  await page.clock.setFixedTime(new Date('2026-10-01T00:00:00Z'));await page.getByRole('button',{name:/Explain Super Inu/}).click();await expect(page.getByRole('heading',{name:'Evidence couldn’t load'})).toBeVisible();
  await page.clock.setFixedTime(new Date('2026-10-17T22:00:00Z'));await page.getByRole('button',{name:'Try again'}).click();await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeVisible();
  expect(await page.evaluate(()=>({local:localStorage.length,session:sessionStorage.length,cookie:document.cookie}))).toEqual({local:0,session:0,cookie:''});
@@ -78,7 +78,8 @@ test('real HTTP SSR, neutral PNG, existing routes and no financial source bodies
  for(const t of examples){const r=await request.get('/?mint='+t.mint);expect(r.status()).toBe(200);expect(r.headers()['cache-control']).toContain('no-store');const baseline=JSON.parse(readFileSync('tests/consumer-homepage/baseline-headers.json','utf8'));const headers=Object.fromEntries(Object.keys(baseline.headers).map(k=>[k,r.headers()[k]??null]));expect(headers).toEqual(baseline.headers);writeFileSync('experiments/consumer-mvp/web/node_modules/.cache/consumer-v17-headers.json',JSON.stringify(headers));const text=await r.text();expect(text).toContain(t.name);expect(text).toContain('Financial figures withheld');
   for(const marker of ['distributedRaw','distributedTokens','totalDistributed','amountRaw','priceUsd','apy'])expect(text).not.toContain('"'+marker+'":');
  }
- const icon=await request.get('/favicon.ico');expect(icon.status()).toBe(200);expect([...(await icon.body()).subarray(0,6)]).toEqual([0,0,1,0,1,0]);
+ const icon=await request.get('/icon.svg');expect(icon.status()).toBe(200);expect(icon.headers()['content-type']).toContain('image/svg+xml');expect(await icon.text()).toBe(readFileSync('app/icon.svg','utf8'));
+ expect((await request.get('/favicon.ico')).status()).toBe(404);
  const png=await request.get('/opengraph-image');expect(png.status()).toBe(200);expect(png.headers()['content-type']).toContain('image/png');expect([...(await png.body()).subarray(0,8)]).toEqual([137,80,78,71,13,10,26,10]);
  writeFileSync('experiments/consumer-mvp/web/node_modules/.cache/next-homepage-og.png',await png.body());
  for(const path of ['/terminal','/research','/research/history','/radar','/status','/brief'])expect((await request.get(path)).status(),path).toBe(200);
@@ -94,12 +95,12 @@ test('compact search is accessible, cancels drafts, preserves errors and resets 
  await page.goto('/?mint='+examples[0].mint);
  const toggle=page.getByRole('button',{name:'Search another token',exact:true}),input=page.getByLabel('Token address',{exact:true});
  await expect(input).toBeHidden();const target=await toggle.boundingBox();expect(target.height).toBeGreaterThanOrEqual(44);expect(target.width).toBeGreaterThanOrEqual(44);await toggle.focus();await page.keyboard.press('Enter');await expect(toggle).toHaveAttribute('aria-expanded','true');await expect(input).toBeFocused();
- await expect(page.getByPlaceholder('Paste a token address')).toBeVisible();await expect(page.getByRole('button',{name:'Analyze token',exact:true})).toBeVisible();
+ await expect(page.getByPlaceholder('Paste Solana token address')).toBeVisible();await expect(page.getByRole('button',{name:'SCOUT IT',exact:true})).toBeVisible();
  await input.fill('unfinished draft');await page.keyboard.press('Escape');await expect(input).toBeHidden();await expect(toggle).toBeFocused();await expect(page).toHaveURL(new RegExp('mint='+examples[0].mint+'$'));
  await toggle.click();await expect(input).toHaveValue(examples[0].mint);await expect(input).toBeFocused();await axe(page);
  await page.screenshot({path:`experiments/consumer-mvp/web/node_modules/.cache/v17-regression-screenshots/after-search-${info.project.name}.png`});
  await page.getByRole('button',{name:'Cancel search',exact:true}).click();await expect(toggle).toBeFocused();await expect(input).toBeHidden();
- await toggle.click();await input.fill('1'.repeat(32));await page.getByRole('button',{name:'Analyze token',exact:true}).click();await expect(page.getByRole('heading',{name:'Source not connected'})).toBeVisible();await expect(input).toBeVisible();await expect(toggle).toHaveCount(0);
+ await toggle.click();await input.fill('1'.repeat(32));await page.getByRole('button',{name:'SCOUT IT',exact:true}).click();await expect(page.getByRole('heading',{name:'Source not connected'})).toBeVisible();await expect(input).toBeVisible();await expect(toggle).toHaveCount(0);
  await expect(page.locator('.answer-card')).toHaveCount(0);await expect(page.getByRole('heading',{name:'Explore an example'})).toBeVisible();
  await page.goBack();await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeVisible();await expect(input).toBeHidden();await expect(toggle).toHaveAttribute('aria-expanded','false');await expect(page.getByRole('heading',{name:/^Super Inu/})).toBeFocused();
  await toggle.click();await input.fill(examples[2].mint);await input.press('Enter');await expect(page.getByRole('heading',{name:/^Grokification/})).toBeVisible();await expect(input).toBeHidden();
@@ -107,7 +108,7 @@ test('compact search is accessible, cancels drafts, preserves errors and resets 
 });
 
 // These checks measure UI friction; they do not stand in for comprehension testing.
-test('examples expose recognizable names without an extra tap or losing a first-viewport choice',async({page},info)=>{
+test('dated examples retain recognizable identities and keyboard access below the primary analyzer',async({page},info)=>{
  await page.goto('/');
  const choices=[];
  for(const t of examples){
@@ -115,7 +116,7 @@ test('examples expose recognizable names without an extra tap or losing a first-
   await expect(button.locator('.example-name')).toHaveText(t.name);
   await expect(button.locator('.example-icon')).toHaveText(t.symbol);
   await expect(button.locator('.example-quote')).toHaveText('with '+t.quote);
-  const box=await button.boundingBox();expect(box.height).toBeGreaterThanOrEqual(44);expect(box.width).toBeGreaterThanOrEqual(44);expect(box.y+box.height).toBeLessThan(page.viewportSize().height);
+  await button.evaluate(n=>n.scrollIntoView({block:'center',behavior:'instant'}));const box=await button.boundingBox();expect(box.height).toBeGreaterThanOrEqual(44);expect(box.width).toBeGreaterThanOrEqual(44);expect(box.y+box.height).toBeLessThan(page.viewportSize().height);
   const iconFits=await button.locator('.example-icon').evaluate(n=>{const range=document.createRange();range.selectNodeContents(n);return range.getBoundingClientRect().width<=n.getBoundingClientRect().width;});expect(iconFits).toBe(true);
   const textBox=await button.locator('.example-name').boundingBox();expect(textBox.x+textBox.width).toBeLessThanOrEqual(box.x+box.width);
   choices.push({name:t.name,symbol:t.symbol,box});

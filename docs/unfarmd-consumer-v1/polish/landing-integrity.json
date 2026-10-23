@@ -1,0 +1,23 @@
+{
+  "scope": "Actual Chromium screenshots on this toolchain; not a cross-platform pixel baseline",
+  "comparisons": [
+    {
+      "width": 320,
+      "beforeSha256": "536fa4bfcf5f92c94051a67ef3695fdfae12eaf6f1fab1935cce1084d74282ef",
+      "afterSha256": "536fa4bfcf5f92c94051a67ef3695fdfae12eaf6f1fab1935cce1084d74282ef",
+      "identical": true
+    },
+    {
+      "width": 390,
+      "beforeSha256": "00c8bea9084af299de66f5863db1ccd77118213d1a708bdf8a1264636f578ab1",
+      "afterSha256": "00c8bea9084af299de66f5863db1ccd77118213d1a708bdf8a1264636f578ab1",
+      "identical": true
+    },
+    {
+      "width": 1280,
+      "beforeSha256": "e138d17f2e20a7f8e653931986f252379128efa7fd44743b569474899f55a656",
+      "afterSha256": "e138d17f2e20a7f8e653931986f252379128efa7fd44743b569474899f55a656",
+      "identical": true
+    }
+  ]
+}

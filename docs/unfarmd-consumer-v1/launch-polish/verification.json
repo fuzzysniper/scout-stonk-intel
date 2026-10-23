@@ -1,0 +1,90 @@
+{
+  "testedMain": "acd72f2d09cb9bec3f40fd8dcddcf031decae950",
+  "parent137": "2169247924c05300e4ffc2ce005b3960317cebd8",
+  "parent143": "a10bf94ff866095446fb2d4829df8f5a948d9144",
+  "combinedBaselineTree": "b9a65a8a828d39f201f3415bd9b87fdd18a038b8",
+  "combinedFrontendTestTree": "c5e92c85cd0ffef3bc0512ee99275af6a32107b5",
+  "protectedMainPathsUnchanged": [
+    "app/api",
+    "lib/onchain-mint",
+    "data",
+    "scheduler",
+    ".github"
+  ],
+  "sourceApprovalInTestedCode": {
+    "phase": "disabled",
+    "notBeforeMs": null,
+    "expiresAtMs": null
+  },
+  "rootTests": {
+    "command": "npm test (existing isolated PostgreSQL 17 fixture)",
+    "exitCode": 0,
+    "nodePassed": 1167,
+    "pythonPassed": 107
+  },
+  "additionalConsumerUnits": {
+    "mintFactsClient": 19,
+    "traderControlReceipt": 21,
+    "outlierArtwork": 6,
+    "allPassed": true
+  },
+  "checks": {
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "optimizedProductionBuild": "PASS",
+    "archiveAppendOnlyReproduction": "PASS"
+  },
+  "oneCleanCombinedBrowserRun": {
+    "command": "node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test --config tests/consumer-homepage/playwright.config.mjs --reporter=list,json",
+    "stats": {
+      "startTime": "2026-10-21T23:47:30.260Z",
+      "duration": 417975.756,
+      "expected": 225,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "reportSha256": "0e84487dd6fcd8e4b33f6860124c008aca90577ac8bce0426dc9db59ea4c182e",
+    "viewports": [
+      "320x740",
+      "390x844",
+      "1280x900"
+    ],
+    "browser": "Chromium 154",
+    "actualOptimizedNextBuild": true,
+    "retries": 0
+  },
+  "firstScreens": [
+    {
+      "width": 320,
+      "identicalPngBytes": true,
+      "sha256": "1e5f8987bda564fd14188ac5e06c58e23296fca69b52b8421945f3296ee83264"
+    },
+    {
+      "width": 390,
+      "identicalPngBytes": true,
+      "sha256": "e77e92c7f6a5470adc17ca5d07681ae923e85e8e21bc5edc91de3339da14e524"
+    },
+    {
+      "width": 1280,
+      "identicalPngBytes": true,
+      "sha256": "4e0efcfe2fe80ca95c0ad279c7a945346140176c3fe33f677d0e286028dd8c99"
+    }
+  ],
+  "expectedFrontendSha256": {
+    "app/consumer/home.tsx": "4df8100aec63125c7ccb6cab0aa31f3450977ee2105c22f8fd687483c368b997",
+    "app/consumer/trader.tsx": "c2e2f1be8b4e89f1ff3ba7dbbef544bb277c84be3860996cd59799ac37325ca9",
+    "app/consumer/control-receipt.tsx": "96b534976256a53a34d69c2f5f55d57aefa5aeaf673539c8d8cc754865afe947",
+    "app/consumer/control-receipt-model.ts": "9d707620d16bc3258f9cc57ad48ac1c2963c10f4f31965e277313dddcd778fe7",
+    "app/consumer/brand/art.ts": "f96173b3ad49d6c54dff8bba6a58e33730f1743d3f16a9923b8cc5001f974c5b",
+    "app/consumer/brand/outlier-mark.tsx": "8a323084443705b4482893431f92780f3a1403acb4167eebd2a78e7309c38e1c",
+    "app/icon.svg": "50ce7f1d2972ffeb0c1df8733b1b53d3a7c4657ad2f35e87f02567c618daf9ea",
+    "app/apple-icon.tsx": "6a147bbae0cc6278c7591d3a3aa32d5c434580c0e43aafc1a732e2e6967446a5",
+    "app/consumer/model.ts": "723a01f1c4f1e405bb51cfc96604ef490188bd59671cb1a5fcb732bcc37f6605",
+    "app/research/history/page.tsx": "25010fc692a28b7937a17fa748c2fa373a86e21d328aac0de8c80ba632fe87ae"
+  },
+  "authenticHeliusObservation": false,
+  "physicalSafariVoiceOverAcceptance": "PENDING",
+  "rightsTrademarkCommercialClearance": "PENDING",
+  "initialBrowserRun": "Interrupted after one obsolete favicon.ico 200 assertion (actual 404); not included in clean result"
+}
