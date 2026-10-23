@@ -32,22 +32,23 @@ test('rights, quantity, exact quote, settlement and ROI promotions fail closed',
  assert.equal(projectEvidence({schemaVersion:'2',status:'supported'}).state,'unavailable');
  assert.equal(projectEvidence(explainMint(examples[0].mint,{asOf:'2026-10-01T00:00:00Z'})).state,'unavailable');
 });
-test('server-rendered landing and explanations are brand-free and retain prominent withholding',()=>{
+test('UNFARMD server-rendered consumer retains the actual analyzer and prominent withholding',()=>{
  const landing=renderToStaticMarkup(React.createElement(Home,{initialInput:'',initialState:evaluateInput(undefined)}));
- assert.match(landing,/A token address/);assert.match(landing,/14 Oct 2026/);assert.match(landing,/stale/);
+ assert.match(landing,/Stop getting/);assert.match(landing,/UNFARMD/);assert.match(landing,/SCOUT IT/);assert.match(landing,/14 Oct 2026/);assert.match(landing,/stale/);
  assert.equal((landing.match(/class="example-button"/g)||[]).length,3);
  for(const t of examples){
   const state=evaluateInput(t.mint);const html=renderToStaticMarkup(React.createElement(Home,{initialInput:t.mint,initialState:state}));
   assert.match(html,/What’s not known/);assert.match(html,/Financial figures withheld; publication rights unverified/);
   assert.ok(html.includes(t.mint)&&html.includes(t.quoteMint));
-  assert.doesNotMatch(html,/STORKCOIN|PROJECT CLEAR|SCOUT|\$[0-9]|(?:APY|ROI)[: ]+[0-9]/);
+  assert.doesNotMatch(html,/STORKCOIN|PROJECT CLEAR|\$[0-9]|(?:APY|ROI)[: ]+[0-9]/);
   assert.doesNotMatch(html,/<iframe|api\/v2\/tokens\/[^\s"]+\/rewards\/payouts|href="[^"]+pair-reward-audit-2026-10-14/);
   const explanation=renderToStaticMarkup(React.createElement(Explanation,{evidence:state.evidence}));assert.equal((explanation.match(/class="receipt"/g)||[]).length,3);
  }
 });
-test('metadata is neutral, exact-mint canonical, noindex and has no legacy token preview',()=>{
+test('proposed UNFARMD metadata preserves exact-mint canonical, noindex and legacy domain',()=>{
  for(const raw of [undefined,'SI','1'.repeat(32),[examples[0].mint,examples[1].mint],...examples.map(e=>e.mint)]){
   const m=consumerMetadata(raw);assert.deepEqual(m.robots,{index:false,follow:false});
+  assert.equal(m.icons,undefined,'file-based Outlier and Apple icons must remain authoritative');
   assert.doesNotMatch(JSON.stringify(m),/SCOUT|STORKCOIN|PROJECT CLEAR|api\/og/);
   assert.match(m.description,/stale, not live data/);
   if(typeof raw==='string'&&examples.some(e=>e.mint===raw))assert.equal(m.alternates.canonical,'https://scout.storkcoin.xyz'+sharePath(raw));else assert.equal(m.alternates.canonical,'https://scout.storkcoin.xyz/');
@@ -94,13 +95,13 @@ test('novice reward copy retains the original fact source IDs and unknown holder
 });
 test('successful SSR closes the address form and keeps accessible switch/start-over controls',()=>{
  const idle=renderToStaticMarkup(React.createElement(Home,{initialInput:'',initialState:evaluateInput(undefined)}));
- for(const label of ['Token address','Paste a token address','Analyze token','Explore an example','3 dated examples'])assert.ok(idle.includes(label),label);
+ for(const label of ['Token address','Paste Solana token address','SCOUT IT','Explore an example','3 dated examples'])assert.ok(idle.includes(label),label);
  assert.doesNotMatch(idle,/Solana token mint|Paste a full mint address|Try a captured example/);
  for(const t of examples){
   const html=renderToStaticMarkup(React.createElement(Home,{initialInput:t.mint,initialState:evaluateInput(t.mint)}));
   assert.match(html,/<form(?=[^>]*id="token-search")(?=[^>]*hidden="")[^>]*>/);
   assert.match(html,/<button(?=[^>]*aria-expanded="false")(?=[^>]*aria-controls="token-search")[^>]*>Search another token/);
-  assert.match(html,/>Start over<\/a>/);assert.match(html,/How rewards are supposed to work/);assert.match(html,/Financial figures withheld; publication rights unverified/);
+  assert.match(html,/aria-label="UNFARMD · Start over"/);assert.match(html,/How rewards are supposed to work/);assert.match(html,/Financial figures withheld; publication rights unverified/);
  }
  const error=renderToStaticMarkup(React.createElement(Home,{initialInput:'1'.repeat(32),initialState:evaluateInput('1'.repeat(32))}));
  assert.doesNotMatch(error,/<form[^>]*hidden|Search another token/);assert.match(error,/Not in these examples/);

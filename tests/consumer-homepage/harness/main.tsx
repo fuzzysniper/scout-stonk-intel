@@ -7,6 +7,7 @@ import type {MintFactsPort,MintReadOutcome} from '../../../app/consumer/onchain-
 import {syntheticMint,syntheticFailure,syntheticProductionEnvelope,TEST_MINT} from '../synthetic';
 import '../../../app/globals.css';
 import '../../../app/consumer/consumer.css';
+import '../../../app/consumer/unfarmd.css';
 import './test.css';
 const params=new URL(location.href).searchParams,mint=params.get('mint')??TEST_MINT,scenario=params.get('scenario')??'verified';
 let reads=0;

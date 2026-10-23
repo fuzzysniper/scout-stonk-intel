@@ -1,0 +1,151 @@
+{
+  "home": {
+    "title": "UNFARMD · Scout a Solana token",
+    "canonical": "https://scout.storkcoin.xyz/",
+    "icons": [
+      {
+        "rel": "icon",
+        "href": "/icon.svg?2b2b1f1d156fb597",
+        "type": "image/svg+xml",
+        "sizes": "any"
+      },
+      {
+        "rel": "apple-touch-icon",
+        "href": "/apple-icon?bd3b07c996497ee3",
+        "type": "image/png",
+        "sizes": "180x180"
+      }
+    ],
+    "metas": [
+      {
+        "name": "description",
+        "content": "Solana token research: facts, concerns and unknowns. Live checks restricted. Three dated examples from 14 October 2026; stale, not live data. Financial figures withheld. Proposed launch brand."
+      },
+      {
+        "name": "robots",
+        "content": "noindex, nofollow"
+      },
+      {
+        "name": "og:title",
+        "content": "UNFARMD · Scout a Solana token"
+      },
+      {
+        "name": "og:description",
+        "content": "Solana token research: facts, concerns and unknowns. Live checks restricted. Three dated examples from 14 October 2026; stale, not live data. Financial figures withheld. Proposed launch brand."
+      },
+      {
+        "name": "og:url",
+        "content": "https://scout.storkcoin.xyz/"
+      },
+      {
+        "name": "og:image",
+        "content": "https://scout.storkcoin.xyz/opengraph-image"
+      },
+      {
+        "name": "og:image:width",
+        "content": "1200"
+      },
+      {
+        "name": "og:image:height",
+        "content": "630"
+      },
+      {
+        "name": "og:image:alt",
+        "content": "UNFARMD · proposed launch brand · restricted live checks · dated examples, not live data"
+      },
+      {
+        "name": "og:type",
+        "content": "website"
+      },
+      {
+        "name": "twitter:card",
+        "content": "summary_large_image"
+      },
+      {
+        "name": "twitter:title",
+        "content": "UNFARMD · Scout a Solana token"
+      },
+      {
+        "name": "twitter:description",
+        "content": "Solana token research: facts, concerns and unknowns. Live checks restricted. Three dated examples from 14 October 2026; stale, not live data. Financial figures withheld. Proposed launch brand."
+      },
+      {
+        "name": "twitter:image",
+        "content": "https://scout.storkcoin.xyz/opengraph-image"
+      }
+    ]
+  },
+  "history": {
+    "title": "Historical Research | SCOUT",
+    "canonical": "https://scout.storkcoin.xyz/research/history",
+    "icons": [
+      {
+        "rel": "icon",
+        "href": "/icon.svg?2b2b1f1d156fb597",
+        "type": "image/svg+xml",
+        "sizes": "any"
+      },
+      {
+        "rel": "apple-touch-icon",
+        "href": "/apple-icon?bd3b07c996497ee3",
+        "type": "image/png",
+        "sizes": "180x180"
+      }
+    ],
+    "metas": [
+      {
+        "name": "description",
+        "content": "Dated source records for four inspected StonkFun pairs. Historical, not current. Financial figures gated pending rights approval."
+      },
+      {
+        "name": "robots",
+        "content": "noindex, nofollow"
+      },
+      {
+        "name": "og:title",
+        "content": "Historical Research | SCOUT"
+      },
+      {
+        "name": "og:description",
+        "content": "Dated source records for four inspected StonkFun pairs. Historical, not current. Financial figures gated pending rights approval."
+      },
+      {
+        "name": "og:url",
+        "content": "https://scout.storkcoin.xyz/research/history"
+      },
+      {
+        "name": "og:type",
+        "content": "website"
+      },
+      {
+        "name": "twitter:card",
+        "content": "summary_large_image"
+      },
+      {
+        "name": "twitter:title",
+        "content": "Historical Research | SCOUT"
+      },
+      {
+        "name": "twitter:description",
+        "content": "Dated source records for four inspected StonkFun pairs. Historical, not current. Financial figures gated pending rights approval."
+      }
+    ]
+  },
+  "icon": {
+    "status": 200,
+    "type": "image/svg+xml"
+  },
+  "apple": {
+    "status": 200,
+    "width": 180,
+    "height": 180,
+    "sha256": "85b3f8af9dbc38d9b418cf1ae113d4bead0661bed85773316518f8d571bfa368"
+  },
+  "social": {
+    "status": 200,
+    "width": 1200,
+    "height": 630,
+    "sha256": "68d91cb61c245d0f39ae56a7a7240b58fa5c21ab45110c64dbdaf9368cc7ecc4"
+  },
+  "authenticHeliusObservation": false
+}

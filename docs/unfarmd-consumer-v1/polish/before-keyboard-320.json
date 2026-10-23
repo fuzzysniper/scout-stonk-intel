@@ -1,0 +1,47 @@
+{
+  "base": "be75bb9166ae799c3fb13341332890afd7a8c247",
+  "synthetic": true,
+  "liveObservation": false,
+  "loading": {
+    "focusId": "answer-title",
+    "focusText": "Checking the address",
+    "focusRect": {
+      "top": 942.90625,
+      "bottom": 995.78125
+    },
+    "viewport": {
+      "width": 320,
+      "height": 740
+    },
+    "scrollY": 0,
+    "overflow": false
+  },
+  "accepted": {
+    "focusId": "answer-title",
+    "focusText": "A Solana token",
+    "focusRect": {
+      "top": 1459.546875,
+      "bottom": 1485.984375
+    },
+    "viewport": {
+      "width": 320,
+      "height": 740
+    },
+    "scrollY": 0,
+    "overflow": false
+  },
+  "activity": {
+    "external": [],
+    "errors": [],
+    "calls": [
+      {
+        "method": "GET",
+        "path": "/api/mint-facts"
+      },
+      {
+        "method": "GET",
+        "path": "/api/token"
+      }
+    ]
+  }
+}

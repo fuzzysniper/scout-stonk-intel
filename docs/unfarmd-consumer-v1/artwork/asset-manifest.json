@@ -1,0 +1,93 @@
+{
+  "selection": {
+    "The Escape": {
+      "source": "IMG_3659.jpeg",
+      "role": "campaign composition and below-fold story; mobile wide hero candidate"
+    },
+    "SCOUT mascot": {
+      "source": "IMG_3662.jpeg",
+      "role": "primary sheep portrait and avatar"
+    }
+  },
+  "provenance": {
+    "source_kind": "founder-uploaded image files; original Midjourney export authenticity not independently established",
+    "creator": "founder supplied; confirm final commercial use rights before removing placeholder/pending disclosures",
+    "commercial_rights_verified": false,
+    "trademark_cleared": false,
+    "midjourney_tool_model_generation_date": "unverified"
+  },
+  "recommended": {
+    "desktopHero": "scout-hero-desktop.webp",
+    "mobileHero": "escape-hero-mobile.webp",
+    "avatar": "scout-avatar.webp",
+    "belowFoldStory": "escape-story.webp"
+  },
+  "originals": {
+    "IMG_3662.jpeg": {
+      "sha256": "22f5ed0e1a938d173897bf9536a90d29b1ba51ddcf13e4fd12e924babfa1d49c",
+      "bytes": 294554,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    "IMG_3659.jpeg": {
+      "sha256": "1c6ccdff5d4e181b819be3bcf2786e74763ff9b501b5d8366dae3bb9ccbc18f1",
+      "bytes": 398232,
+      "dimensions": [
+        1456,
+        816
+      ]
+    }
+  },
+  "derivatives": {
+    "scout-hero-square.webp": {
+      "sha256": "f7dae877d776dace88eb6a6bfa7766d8b8efe4c2663ced54c137c065cd42ea8a",
+      "bytes": 85542,
+      "dimensions": [
+        1024,
+        1024
+      ]
+    },
+    "escape-story.webp": {
+      "sha256": "605b21203a7533c814cfd8bcdf24aaae0a3494152a761cd85f740aea1f66c493",
+      "bytes": 118474,
+      "dimensions": [
+        1456,
+        816
+      ]
+    },
+    "scout-avatar.webp": {
+      "sha256": "15b5e2374573b3879b072e9cdcd62fd04d5667a1c10342d0a9e9370cddf586ec",
+      "bytes": 18792,
+      "dimensions": [
+        384,
+        384
+      ]
+    },
+    "scout-hero-desktop.webp": {
+      "sha256": "92b36fd5f57eed01dab6a48534aeed9d3c46ae0c67da15a1ffee80c617148f5e",
+      "bytes": 64366,
+      "dimensions": [
+        960,
+        864
+      ]
+    },
+    "scout-mobile-focus-CANDIDATE.webp": {
+      "sha256": "d24337710825199d0c600db908f5dfc3f05defd0142e308343536483e1797e97",
+      "bytes": 69068,
+      "dimensions": [
+        1440,
+        760
+      ]
+    },
+    "escape-hero-mobile.webp": {
+      "sha256": "f245ff789eef504970b6ca6bf041f3bb5e533e63e148691bbc8836c64f40bc95",
+      "bytes": 75926,
+      "dimensions": [
+        1200,
+        633
+      ]
+    }
+  }
+}
