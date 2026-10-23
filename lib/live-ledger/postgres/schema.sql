@@ -178,4 +178,12 @@ REVOKE ALL ON ALL FUNCTIONS IN SCHEMA scout_live FROM PUBLIC,scout_live_worker,s
 GRANT EXECUTE ON FUNCTION scout_live.step(jsonb) TO scout_live_worker;
 GRANT EXECUTE ON FUNCTION scout_live.snapshot() TO scout_live_reader;
 GRANT EXECUTE ON FUNCTION scout_live.stop() TO scout_live_stop;
+-- Fail atomically if the owner's preexisting default ACLs would leak this new namespace.
+DO $acl$
+BEGIN
+ IF EXISTS(SELECT 1 FROM pg_namespace n CROSS JOIN LATERAL aclexplode(coalesce(n.nspacl,acldefault('n',n.nspowner))) a WHERE n.nspname='scout_live' AND a.grantee<>n.nspowner AND (a.grantee NOT IN ('scout_live_worker'::regrole,'scout_live_reader'::regrole,'scout_live_stop'::regrole) OR a.privilege_type<>'USAGE' OR a.is_grantable))
+ OR EXISTS(SELECT 1 FROM pg_class t JOIN pg_namespace n ON n.oid=t.relnamespace CROSS JOIN LATERAL aclexplode(coalesce(t.relacl,acldefault('r',t.relowner))) a WHERE n.nspname='scout_live' AND a.grantee<>t.relowner)
+ OR EXISTS(SELECT 1 FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace CROSS JOIN LATERAL aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a WHERE n.nspname='scout_live' AND a.grantee<>p.proowner AND (a.grantee=0 OR a.grantee<>CASE p.proname WHEN 'step' THEN 'scout_live_worker'::regrole WHEN 'snapshot' THEN 'scout_live_reader'::regrole WHEN 'stop' THEN 'scout_live_stop'::regrole ELSE 0 END OR a.is_grantable))
+ THEN RAISE EXCEPTION 'unexpected_live_acl'; END IF;
+END $acl$;
 COMMIT;

@@ -223,3 +223,17 @@ test('30s provider ping cadence is healthy; evidence older45s is stale',async()=
  await s.transact({...heartbeat(c),sourceState:'open',lastPongAt:pong(35)});assert.equal((await store('reader').transact(null)).status,'observing');
  await s.transact({...heartbeat(c),sourceState:'open',lastPongAt:pong(50)});assert.equal((await store('reader').transact(null)).status,'stale');
 });
+
+test('inherited owner default ACLs cannot leak the isolated schema; installation rolls back',async()=>{
+ const other=await localPostgres({database:'neondb',runtimeRole:'scout_mint_app'});
+ try{
+  await other.owner.query('ALTER DEFAULT PRIVILEGES GRANT EXECUTE ON FUNCTIONS TO scout_mint_app');
+  await assert.rejects(other.owner.query(sql),/unexpected_live_acl/);await other.owner.query('ROLLBACK');
+  assert.equal((await other.owner.query("SELECT to_regnamespace('scout_live') n")).rows[0].n,null);
+  assert.equal((await other.owner.query("SELECT count(*) FROM pg_roles WHERE rolname IN ('scout_live_worker','scout_live_reader','scout_live_stop')")).rows[0].count,'0');
+ }finally{await other.close();}
+});
+test('unexpected runtime function grantees fail compatibility without using their credentials',async()=>{
+ await db.owner.query('GRANT EXECUTE ON FUNCTION scout_live.snapshot() TO scout_mint_app');
+ try{await assert.rejects(store('reader').transact(null),/store_unavailable/);}finally{await db.owner.query('REVOKE EXECUTE ON FUNCTION scout_live.snapshot() FROM scout_mint_app');}
+});
