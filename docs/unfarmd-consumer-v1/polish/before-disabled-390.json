@@ -1,0 +1,36 @@
+{
+  "synthetic": true,
+  "liveObservation": false,
+  "disabled": {
+    "focusId": "answer-title",
+    "focusText": "Source not connected",
+    "focusRect": {
+      "top": 977.84375,
+      "bottom": 1037.625
+    },
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "scrollY": 0,
+    "overflow": false
+  },
+  "activity": {
+    "external": [],
+    "errors": [],
+    "calls": [
+      {
+        "method": "GET",
+        "path": "/api/mint-facts"
+      },
+      {
+        "method": "GET",
+        "path": "/api/token"
+      },
+      {
+        "method": "GET",
+        "path": "/api/mint-facts"
+      }
+    ]
+  }
+}

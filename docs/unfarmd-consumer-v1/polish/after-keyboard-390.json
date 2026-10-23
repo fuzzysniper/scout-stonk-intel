@@ -1,0 +1,49 @@
+{
+  "base": "be75bb9166ae799c3fb13341332890afd7a8c247",
+  "phase": "after",
+  "build": "actual Next.js production",
+  "synthetic": true,
+  "liveObservation": false,
+  "loading": {
+    "focusId": "brief-title",
+    "focusText": "SCOUT Brief",
+    "focusRect": {
+      "top": 292,
+      "bottom": 330.390625
+    },
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "scrollY": 0,
+    "overflow": false
+  },
+  "accepted": {
+    "focusId": "brief-title",
+    "focusText": "SCOUT Brief",
+    "focusRect": {
+      "top": 146.5,
+      "bottom": 184.890625
+    },
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "scrollY": 0,
+    "overflow": false
+  },
+  "activity": {
+    "external": [],
+    "errors": [],
+    "calls": [
+      {
+        "method": "GET",
+        "path": "/api/mint-facts"
+      },
+      {
+        "method": "GET",
+        "path": "/api/token"
+      }
+    ]
+  }
+}

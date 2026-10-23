@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="720" viewBox="0 0 800 720" role="img"><title>Original placeholder: a skeptical black sheep leaves the farm with its SCOUT scanner</title><defs><radialGradient id="dusk"><stop stop-color="#d8a68b"/><stop offset="1" stop-color="#9a6d60"/></radialGradient><linearGradient id="field" x2="0" y2="1"><stop stop-color="#62684b"/><stop offset="1" stop-color="#2d392a"/></linearGradient></defs>
+ <path d="M31 641V307C31 145 180 21 395 21s373 133 373 310v310Z" fill="url(#dusk)"/>
+ <circle cx="552" cy="186" r="115" fill="#e2c9a8" opacity=".27"/><circle cx="556" cy="181" r="73" fill="#ecd6b3" opacity=".5"/>
+ <path d="m31 352 142-51 198 55 197-44 200 66v277H31Z" fill="#777958"/>
+ <g transform="translate(81 182) scale(1.15)"><path d="M0 148V57L63 0l70 52v101Z" fill="#5c4134"/><path d="M-12 58 62-8l83 60-7 12-76-55-66 61Z" fill="#343c2e"/><path d="m44 88 39-1 2 63-42-3Z" fill="#191e18"/><path d="m18 61 2 69m12-82 2 85m64-74 2 80m14-68 2 73" stroke="#92654e" stroke-width="3"/><path d="m55 39 14-1 1 17-14 1Z" fill="#cbb98b"/></g>
+ <path d="m31 418 193-54 187 66 172-50 185 56v225H31Z" fill="url(#field)"/>
+ <path d="m31 451 737-43m-737 91 737-40" fill="none" stroke="#a0a083" stroke-width="2"/>
+ <path d="m78 430 9 119 13-1-8-120m533-31 9 120 13-1-8-121m85-5 9 122 13-1-8-124" fill="#565a42"/>
+ <path d="m31 587 221-63 240 68 276-56v140H31Z" fill="#263322"/>
+ <path d="m45 647 198-44 168 26 210-49 134 25" fill="none" stroke="#62704a" stroke-width="3"/>
+ <ellipse cx="430" cy="655" rx="173" ry="24" fill="#141d15" opacity=".65"/>
+ <g transform="translate(201 177) scale(1.62) rotate(-4 120 160)">
+ <path d="m80 210-19 78 24 6 27-82m29 0 12 81 25-1-10-85" fill="#191e18"/>
+ <path d="m59 282 30 4-1 19-47-3zm91 4 30-2 15 18-45 3Z" fill="#e8e0cd"/>
+ <path d="M52 218q-16-15-5-35-10-20 7-33l23-9 63-10 38 13q28 0 24 30 16 19-4 38-3 28-31 24-18 18-39 4-22 12-38-1-29 7-38-21Z" fill="#30372c"/>
+ <path d="m66 200 31 12m39 9 28-14m-53-34 24 2" stroke="#424b38" stroke-width="10" stroke-linecap="round"/>
+
+ <path d="M52 95 22 83Q6 89 15 110l38 20m133-34 27-17q22 8 13 28l-37 22" fill="#191e18"/>
+ <path d="m31 96 21 9-5 9-17-7m173-8-17 12 9 7 17-14" fill="#785848"/>
+ <path d="M44 94Q26 75 42 56q-3-25 24-27Q75 7 99 19 119-3 140 15q27-9 39 12 29-2 29 24 23 15 8 38l-20 15-10 42-38 58-33 5-32-19-29-46Z" fill="#343b30"/>
+ <path d="M55 59q11-15 25-9M96 33q10-10 24-4m30 5q15-3 21 11m15 23q12 3 12 16M52 87q5-7 12-9" stroke="#505547" stroke-width="12" stroke-linecap="round" fill="none"/>
+ <path d="M69 91q19-22 46-17l39 1q24 6 32 29l-11 55-32 40-27 4-32-26-18-37Z" fill="#191e18"/>
+ <path d="m78 141 30-17 38 2 30 18-28 49-29 8-28-27Z" fill="#72725c"/>
+ <path d="m102 164 23-4 18 9-20 9-20-7Z" fill="#191e18"/>
+ <path d="m78 111 28 2-4 10-20-1Zm62 2 27-4-3 12-20 3Z" fill="#dbab62"/>
+ <path d="m91 113 5 1-1 9-5-1m60-8 5-1 1 9-5 1" fill="#191e18"/>
+ <path d="m76 109 31 3m32 0 30-4" stroke="#191e18" stroke-width="5" stroke-linecap="round"/>
+ <path d="m112 183 12 5 17-4" fill="none" stroke="#191e18" stroke-width="3" stroke-linecap="round"/>
+ <path d="m33 115-3 29 10 10 12-9-6-8 6-15-10-5Z" fill="#d2f65a"/>
+ <circle cx="39" cy="123" r="2" fill="#191e18"/>
+
+ <path d="m59 191 36 16-7 18-36-13m108-17 37-19 10 14-42 24Z" fill="#191e18"/>
+ <g transform="rotate(-8 203 189)"><rect x="185" y="165" width="39" height="53" rx="6" fill="#e8e0cd"/><rect x="190" y="170" width="29" height="32" rx="3" fill="#d2f65a"/><circle cx="204" cy="186" r="8" fill="#191e18"/><circle cx="204" cy="186" r="3" fill="#a2b46d"/><path d="m198 209 12-1" stroke="#191e18" stroke-width="3" stroke-linecap="round"/></g>
+</g>
+ <path d="m31 594 199-39-23 34-167 35m558-49 170-34v29l-164 31-30-13" fill="#9d8d65"/>
+ <path d="m43 612 169-34m391 13 160-32" fill="none" stroke="#c9b688" stroke-width="3"/>
+ <path d="m222 553-12-77 20-4 22 95-22 10m366 18-16-90 21-4 25 92-17 18" fill="#b2a076"/>
+ <path d="m243 520 23-11 9 8 21-11m286 6-23 9-7-6-17 7" fill="none" stroke="#c6b98e" stroke-width="3"/>
+ <path d="m53 667 24-39 12 28 22-38 5 47m550 8 18-38 10 20 21-34 10 47" fill="none" stroke="#7a8253" stroke-width="3"/>
+ <path d="m695 121 10-9m4 23 15-1m-32 14-5 10" stroke="#e8e0cd" stroke-width="2"/>
+</svg>

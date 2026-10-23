@@ -1,0 +1,425 @@
+{
+  "build": "optimized combined main acd72f2 + parent a10bf94, no authored changes",
+  "result": [
+    {
+      "viewport": {
+        "width": 320,
+        "height": 740
+      },
+      "route": "/",
+      "api": [],
+      "external": [],
+      "cta": {
+        "x": 18,
+        "y": 599.53125,
+        "width": 284,
+        "height": 50
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "/",
+      "api": [],
+      "external": [],
+      "cta": {
+        "x": 22,
+        "y": 685.75,
+        "width": 346,
+        "height": 50
+      },
+      "overflow": false
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "route": "/",
+      "api": [],
+      "external": [],
+      "cta": {
+        "x": 64,
+        "y": 620.484375,
+        "width": 450,
+        "height": 52
+      },
+      "overflow": false
+    }
+  ],
+  "routes": [
+    {
+      "path": "/",
+      "title": "UNFARMD · Scout a Solana token",
+      "canonical": "https://scout.storkcoin.xyz/",
+      "icons": [
+        {
+          "rel": "icon",
+          "href": "/consumer/unfarmd/scout-avatar.webp",
+          "type": "",
+          "sizes": ""
+        }
+      ],
+      "metas": [
+        {
+          "name": "description",
+          "content": "Solana token research: facts, concerns and unknowns. Live checks restricted. Three dated examples from 14 October 2026; stale, not live data. Financial figures withheld. Proposed launch brand."
+        },
+        {
+          "name": "robots",
+          "content": "noindex, nofollow"
+        },
+        {
+          "name": "og:title",
+          "content": "UNFARMD · Scout a Solana token"
+        },
+        {
+          "name": "og:description",
+          "content": "Solana token research: facts, concerns and unknowns. Live checks restricted. Three dated examples from 14 October 2026; stale, not live data. Financial figures withheld. Proposed launch brand."
+        },
+        {
+          "name": "og:url",
+          "content": "https://scout.storkcoin.xyz/"
+        },
+        {
+          "name": "og:image",
+          "content": "https://scout.storkcoin.xyz/opengraph-image"
+        },
+        {
+          "name": "og:image:width",
+          "content": "1200"
+        },
+        {
+          "name": "og:image:height",
+          "content": "630"
+        },
+        {
+          "name": "og:image:alt",
+          "content": "UNFARMD · proposed launch brand · restricted live checks · dated examples, not live data"
+        },
+        {
+          "name": "og:type",
+          "content": "website"
+        },
+        {
+          "name": "twitter:card",
+          "content": "summary_large_image"
+        },
+        {
+          "name": "twitter:title",
+          "content": "UNFARMD · Scout a Solana token"
+        },
+        {
+          "name": "twitter:description",
+          "content": "Solana token research: facts, concerns and unknowns. Live checks restricted. Three dated examples from 14 October 2026; stale, not live data. Financial figures withheld. Proposed launch brand."
+        },
+        {
+          "name": "twitter:image",
+          "content": "https://scout.storkcoin.xyz/opengraph-image"
+        }
+      ]
+    },
+    {
+      "path": "/?mint=So11111111111111111111111111111111111111112",
+      "title": "UNFARMD · Scout a Solana token",
+      "canonical": "https://scout.storkcoin.xyz/",
+      "icons": [
+        {
+          "rel": "icon",
+          "href": "/consumer/unfarmd/scout-avatar.webp",
+          "type": "",
+          "sizes": ""
+        }
+      ],
+      "metas": [
+        {
+          "name": "description",
+          "content": "Solana token research: facts, concerns and unknowns. Live checks restricted. Three dated examples from 14 October 2026; stale, not live data. Financial figures withheld. Proposed launch brand."
+        },
+        {
+          "name": "robots",
+          "content": "noindex, nofollow"
+        },
+        {
+          "name": "og:title",
+          "content": "UNFARMD · Scout a Solana token"
+        },
+        {
+          "name": "og:description",
+          "content": "Solana token research: facts, concerns and unknowns. Live checks restricted. Three dated examples from 14 October 2026; stale, not live data. Financial figures withheld. Proposed launch brand."
+        },
+        {
+          "name": "og:url",
+          "content": "https://scout.storkcoin.xyz/"
+        },
+        {
+          "name": "og:image",
+          "content": "https://scout.storkcoin.xyz/opengraph-image"
+        },
+        {
+          "name": "og:image:width",
+          "content": "1200"
+        },
+        {
+          "name": "og:image:height",
+          "content": "630"
+        },
+        {
+          "name": "og:image:alt",
+          "content": "UNFARMD · proposed launch brand · restricted live checks · dated examples, not live data"
+        },
+        {
+          "name": "og:type",
+          "content": "website"
+        },
+        {
+          "name": "twitter:card",
+          "content": "summary_large_image"
+        },
+        {
+          "name": "twitter:title",
+          "content": "UNFARMD · Scout a Solana token"
+        },
+        {
+          "name": "twitter:description",
+          "content": "Solana token research: facts, concerns and unknowns. Live checks restricted. Three dated examples from 14 October 2026; stale, not live data. Financial figures withheld. Proposed launch brand."
+        },
+        {
+          "name": "twitter:image",
+          "content": "https://scout.storkcoin.xyz/opengraph-image"
+        }
+      ]
+    },
+    {
+      "path": "/research/history",
+      "title": "Historical Research | SCOUT",
+      "icons": [
+        {
+          "rel": "icon",
+          "href": "/icon.svg?2b2b1f1d156fb597",
+          "type": "image/svg+xml",
+          "sizes": "any"
+        },
+        {
+          "rel": "apple-touch-icon",
+          "href": "/apple-icon?bd3b07c996497ee3",
+          "type": "image/png",
+          "sizes": "180x180"
+        }
+      ],
+      "metas": [
+        {
+          "name": "description",
+          "content": "Dated source records for four inspected StonkFun pairs. Historical, not current. Financial figures gated pending rights approval."
+        },
+        {
+          "name": "og:title",
+          "content": "SCOUT — Find reward-asset memecoins"
+        },
+        {
+          "name": "og:description",
+          "content": "Choose a reward asset. Explore its memecoins and reward evidence."
+        },
+        {
+          "name": "og:image:alt",
+          "content": "UNFARMD · proposed launch brand · live checks restricted · dated examples, not live data"
+        },
+        {
+          "name": "og:image:type",
+          "content": "image/png"
+        },
+        {
+          "name": "og:image",
+          "content": "https://scout.storkcoin.xyz/opengraph-image?12daf2fdc4775651"
+        },
+        {
+          "name": "og:image:width",
+          "content": "1200"
+        },
+        {
+          "name": "og:image:height",
+          "content": "630"
+        },
+        {
+          "name": "og:type",
+          "content": "website"
+        },
+        {
+          "name": "twitter:card",
+          "content": "summary_large_image"
+        },
+        {
+          "name": "twitter:title",
+          "content": "SCOUT — Find reward-asset memecoins"
+        },
+        {
+          "name": "twitter:description",
+          "content": "Verified pair identities. Honest reward evidence."
+        },
+        {
+          "name": "twitter:image:alt",
+          "content": "UNFARMD · proposed launch brand · live checks restricted · dated examples, not live data"
+        },
+        {
+          "name": "twitter:image:type",
+          "content": "image/png"
+        },
+        {
+          "name": "twitter:image",
+          "content": "https://scout.storkcoin.xyz/opengraph-image?12daf2fdc4775651"
+        },
+        {
+          "name": "twitter:image:width",
+          "content": "1200"
+        },
+        {
+          "name": "twitter:image:height",
+          "content": "630"
+        }
+      ]
+    },
+    {
+      "path": "/research/cards",
+      "title": "CARDS pair research | SCOUT",
+      "icons": [
+        {
+          "rel": "icon",
+          "href": "/icon.svg?2b2b1f1d156fb597",
+          "type": "image/svg+xml",
+          "sizes": "any"
+        },
+        {
+          "rel": "apple-touch-icon",
+          "href": "/apple-icon?bd3b07c996497ee3",
+          "type": "image/png",
+          "sizes": "180x180"
+        }
+      ],
+      "metas": [
+        {
+          "name": "description",
+          "content": "Explore exact CARDS pair identities, source evidence and honest performance-coverage limits. Read-only research, not recommendations."
+        },
+        {
+          "name": "robots",
+          "content": "noindex, nofollow"
+        },
+        {
+          "name": "og:title",
+          "content": "CARDS pair research | SCOUT"
+        },
+        {
+          "name": "og:description",
+          "content": "Explore exact CARDS pair identities, source evidence and honest performance-coverage limits. Read-only research, not recommendations."
+        },
+        {
+          "name": "og:type",
+          "content": "website"
+        },
+        {
+          "name": "twitter:card",
+          "content": "summary"
+        },
+        {
+          "name": "twitter:title",
+          "content": "CARDS pair research | SCOUT"
+        },
+        {
+          "name": "twitter:description",
+          "content": "Explore exact CARDS pair identities, source evidence and honest performance-coverage limits. Read-only research, not recommendations."
+        }
+      ]
+    },
+    {
+      "path": "/terminal",
+      "title": "SCOUT | Find reward-asset memecoins",
+      "icons": [
+        {
+          "rel": "icon",
+          "href": "/icon.svg?2b2b1f1d156fb597",
+          "type": "image/svg+xml",
+          "sizes": "any"
+        },
+        {
+          "rel": "apple-touch-icon",
+          "href": "/apple-icon?bd3b07c996497ee3",
+          "type": "image/png",
+          "sizes": "180x180"
+        }
+      ],
+      "metas": [
+        {
+          "name": "description",
+          "content": "Find memecoins that reward holders in the assets you follow. Explore verified pair identities and honest reward evidence."
+        },
+        {
+          "name": "og:title",
+          "content": "SCOUT — Find reward-asset memecoins"
+        },
+        {
+          "name": "og:description",
+          "content": "Choose a reward asset. Explore its memecoins and reward evidence."
+        },
+        {
+          "name": "og:image:alt",
+          "content": "SCOUT — Follow the money. Independent Stonk ecosystem intelligence."
+        },
+        {
+          "name": "og:image:type",
+          "content": "image/png"
+        },
+        {
+          "name": "og:image",
+          "content": "https://scout.storkcoin.xyz/terminal/opengraph-image?0d65dca13a6a714b"
+        },
+        {
+          "name": "og:image:width",
+          "content": "1200"
+        },
+        {
+          "name": "og:image:height",
+          "content": "630"
+        },
+        {
+          "name": "og:type",
+          "content": "website"
+        },
+        {
+          "name": "twitter:card",
+          "content": "summary_large_image"
+        },
+        {
+          "name": "twitter:title",
+          "content": "SCOUT — Find reward-asset memecoins"
+        },
+        {
+          "name": "twitter:description",
+          "content": "Verified pair identities. Honest reward evidence."
+        },
+        {
+          "name": "twitter:image:alt",
+          "content": "SCOUT — Follow the money. Independent Stonk ecosystem intelligence."
+        },
+        {
+          "name": "twitter:image:type",
+          "content": "image/png"
+        },
+        {
+          "name": "twitter:image",
+          "content": "https://scout.storkcoin.xyz/terminal/opengraph-image?0d65dca13a6a714b"
+        },
+        {
+          "name": "twitter:image:width",
+          "content": "1200"
+        },
+        {
+          "name": "twitter:image:height",
+          "content": "630"
+        }
+      ]
+    }
+  ]
+}

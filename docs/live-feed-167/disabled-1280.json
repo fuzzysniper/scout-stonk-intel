@@ -1,0 +1,18 @@
+{
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "httpStatus": 503,
+  "status": "disabled",
+  "events": null,
+  "counts": null,
+  "apiCalls": [
+    {
+      "method": "GET",
+      "path": "/api/live-events"
+    }
+  ],
+  "providerCalls": 0,
+  "scope": "Actual local optimized app and B default-OFF API. No accepted records or hosted authentication claim."
+}

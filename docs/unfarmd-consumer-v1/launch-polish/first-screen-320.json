@@ -1,0 +1,17 @@
+{
+  "build": "optimized main acd72f2 + frontend a10bf94 + launch-polish changes",
+  "viewport": {
+    "width": 320,
+    "height": 740
+  },
+  "cta": {
+    "x": 18,
+    "y": 599.53125,
+    "width": 284,
+    "height": 50
+  },
+  "apiRequests": 0,
+  "externalRequests": 0,
+  "axeViolations": 0,
+  "heroAndCopyUnchanged": true
+}

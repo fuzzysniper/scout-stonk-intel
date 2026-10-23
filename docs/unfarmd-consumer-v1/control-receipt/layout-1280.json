@@ -1,0 +1,17 @@
+{
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "copyButton": {
+    "x": 305,
+    "y": 677.484375,
+    "width": 670,
+    "height": 46
+  },
+  "apiRequests": 1,
+  "copyRequests": 0,
+  "syntheticOffline": true,
+  "authenticObservation": false,
+  "axeViolations": 0
+}

@@ -1,0 +1,41 @@
+{
+  "root": {
+    "node": 1167,
+    "python": 107,
+    "failures": 0,
+    "skipped": 0
+  },
+  "focusedConsumerAndAssets": {
+    "passed": 46,
+    "failures": 0
+  },
+  "browser": {
+    "passed": 231,
+    "failures": 0,
+    "skipped": 0,
+    "viewports": [
+      [
+        320,
+        740
+      ],
+      [
+        390,
+        844
+      ],
+      [
+        1280,
+        900
+      ]
+    ],
+    "finalRun": "231 passed (7.5m)",
+    "scope": "Combined optimized local Next app plus existing isolated test harness. Accepted data paths use labeled offline fixtures; no hosted or authentic source success is claimed."
+  },
+  "typecheck": "pass",
+  "lint": "pass",
+  "optimizedBuild": "pass",
+  "archive": "pass",
+  "physicalIPhone": "pending",
+  "actualEdge": "pending",
+  "hostedProtectionAndApiAuth": "pending",
+  "authenticProductionMintProof": "pending"
+}

@@ -1,0 +1,68 @@
+name: Private live beta integration
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'lib/live-ledger/**'
+      - 'lib/scout-live/**'
+      - 'app/api/live-events/**'
+      - 'app/consumer/live*'
+      - 'app/page.tsx'
+      - 'tests/live-feed/**'
+      - 'experiments/live-stream/**'
+      - 'tests/live-release/**'
+      - 'docs/live-beta/**'
+      - 'ops/render/scout-live.render.yaml'
+      - '.github/workflows/live-release-integration.yml'
+permissions:
+  contents: read
+jobs:
+  local-postgres-contract:
+    runs-on: ubuntu-latest
+    env:
+      UNFARMD_DATA_ACTIVATION: disabled
+      SCOUT_LIVE_STORE_ENABLED: 'false'
+      SCOUT_LIVE_API_ENABLED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/live-stream --ignore-scripts
+      - name: Reviewed component and disabled-gate checks
+        run: node --test tests/live-release/contracts.test.mjs
+      - name: Actual worker and native PostgreSQL integration (local synthetic events only)
+        run: bash tests/live-release/combined.sh
+      - name: A worker through authenticated B API to C decoder and STOP (local TLS/SQL only)
+        run: bash tests/live-release/end-to-end.sh
+      - name: Exact-head worker build and disabled start
+        run: |
+          npm run --prefix experiments/live-stream build
+          node experiments/live-stream/run.mjs
+  mobile-browser:
+    runs-on: ubuntu-latest
+    env:
+      SCOUT_LIVE_API_ENABLED: 'false'
+      SCOUT_LIVE_STORE_ENABLED: 'false'
+      UNFARMD_DATA_ACTIVATION: disabled
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Local Chromium only
+        run: node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+      - name: Guarded production build and actual disabled Node route checks
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          node tests/live-ledger/built-api.mjs
+      - name: C private feed mobile/desktop, authentication transport and accessibility
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/consumer-homepage/playwright.config.mjs
