@@ -1,0 +1,40 @@
+name: Continuous backend offline security
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'lib/scout-continuous/**'
+      - 'lib/scout-live/continuous-store.mjs'
+      - 'app/api/live-events/continuous/**'
+      - 'tests/continuous-ledger/**'
+      - 'docs/operations/continuous-backend.md'
+      - '.github/workflows/continuous-ledger.yml'
+permissions:
+  contents: read
+jobs:
+  durable-controller:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      UNFARMD_CONTINUOUS_ACTIVATION: disabled
+      UNFARMD_DATA_ACTIVATION: disabled
+      SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+      SCOUT_CONTINUOUS_API_ENABLED: 'false'
+      SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Native TLS/PostgreSQL persistence, privileges, failures and private API
+        run: bash tests/continuous-ledger/run.sh
+      - name: Exact reviewed A controller against actual durable B and unchanged C decoder
+        run: bash tests/continuous-ledger/controller.sh
+      - name: Optimized Node endpoints stay OFF
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          node tests/continuous-ledger/built-api.mjs

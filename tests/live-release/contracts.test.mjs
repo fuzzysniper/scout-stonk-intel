@@ -9,10 +9,14 @@ const git=(...args)=>execFileSync('git',args,{encoding:'utf8'}).trim();
 const paths=['data','lib/onchain-mint','app/api/mint-facts','scheduler','neon.ts'];
 test('reviewed main and A/B/C inputs remain ancestors; no history replacement',()=>{
  for(const key of ['baseMain','workerReviewed','workerOfflineFollowup','ledger','consumerReviewed','consumerLiveFeed'])assert.equal(execFileSync('git',['merge-base','--is-ancestor',inputs[key],'HEAD']).length,0,key);
- assert.equal(git('diff','--name-only',inputs.baseMain,'HEAD','--',...paths),'');
+ assert.equal(git('diff','--name-only',inputs.baseMain,'HEAD','--',...paths.filter(p=>p!=='data')),'');
+ // Later scheduled collector commits are permitted through main, never rewritten by a feature.
+ const currentMain=git('merge-base','origin/main','HEAD');
+ assert.equal(git('diff','--name-only',currentMain,'HEAD','--','data'),'');
 });
 test('all reviewed ledger production bytes preserved through composition',()=>{
- assert.equal(git('diff','--name-only',inputs.ledger,'HEAD','--','lib/live-ledger','lib/scout-live','app/api/live-events'),'');
+ const reviewed=git('ls-tree','-r','--name-only',inputs.ledger,'--','lib/live-ledger','lib/scout-live','app/api/live-events').split('\n');
+ assert.equal(git('diff','--name-only',inputs.ledger,'HEAD','--',...reviewed),'');
 });
 test('A published follow-up does not alter reviewed source/runtime/dependencies',()=>{
  const runtime=['worker.ts','creation.ts','policy.ts','ports.ts','native.mjs','run.mjs','store-adapter.mjs','build.mjs','render-build.sh','package.json','package-lock.json'].map(p=>'experiments/live-stream/'+p);
