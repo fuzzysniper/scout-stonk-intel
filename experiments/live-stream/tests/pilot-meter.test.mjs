@@ -77,3 +77,7 @@ test('observed charge is still auditable after a timing overrun; this is never a
  const r=auditClosedPilot({...receipt,settledThrough:'2026-10-24T14:10:11.000Z'},{...context,closedAt:'2026-10-24T14:10:11.000Z'});
  assert.equal(r.ok,true);assert.equal(r.measuredCredits,20);assert.equal(r.sourceGo,false);assert.equal(r.command,null);
 });
+
+test('bounded cost review requires no continuous parent or source grant',()=>{
+ const {scope,...bounded}=context;assert.ok(scope);const r=auditClosedPilot(receipt,bounded);assert.equal(r.ok,true);assert.equal(r.command,null);assert.equal(r.sourceGo,false);
+});
