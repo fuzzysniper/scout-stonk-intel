@@ -133,6 +133,9 @@ test('actual runner uses maintenance-only library path and distinct health role 
  const c=configuration(),f=runnerFixture(c);assert.equal((await runWatchdog({configPath:'CONFIG',env:f.env,runtime:f.runtime})).status,'checked');assert.deepEqual(f.ops,['tick','watchdog','leaseNotice','tick']);assert.deepEqual(f.requests,['store']);
  const health=configuration();health.mode='health';health.monitorId=health.topology.health.id;const h=runnerFixture(health);assert.equal((await runWatchdog({configPath:'CONFIG',env:h.env,runtime:h.runtime})).status,'checked');assert.deepEqual(h.ops,['tick']);
 });
+test('runner terminal summary cannot export internal DB/provider state or metadata',async()=>{
+ const c=configuration(),f=runnerFixture(c),r=await runWatchdog({configPath:'CONFIG',env:f.env,runtime:f.runtime});assert.deepEqual(Object.keys(r).sort(),['durableStopConfirmed','status']);assert.equal(r.status,'checked');assert.equal(r.durableStopConfirmed,false);
+});
 test('actual runner database outage suspends/notifies through existing fail-closed cycle',async()=>{
  const c=configuration(),f=runnerFixture(c,{dbOutage:true});const r=await runWatchdog({configPath:'CONFIG',env:f.env,runtime:f.runtime});assert.equal(r.durableStopConfirmed,false);assert.deepEqual(f.requests,['store','suspend','notify']);assert.ok(!JSON.stringify(r).includes('SECRET'));
 });

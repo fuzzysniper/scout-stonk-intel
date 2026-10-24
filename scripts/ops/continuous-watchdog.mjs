@@ -39,7 +39,10 @@ export async function runWatchdog({env=process.env,configPath,loop=false,runtime
    const checkedSuspend={suspend(){active();return suspend.suspend({signal});}};
    return watchdogCycle({enabled:true,healthOnly:c.mode==='health',port:checkedPort,scope:c.scope,journal:checkedJournal,notify:checkedNotify,suspend:checkedSuspend,approval:c.approval,observations:evidence.observations,previousMeter:evidence.previousMeter,signal,now});
   };
-  return await runCadenced({cycle,until:Date.parse(c.approval.maintenanceUntil),signal:abort.signal,loop,now:()=>Date.parse(now()),...runtime.timing});
+  const result=await runCadenced({cycle,until:Date.parse(c.approval.maintenanceUntil),signal:abort.signal,loop,now:()=>Date.parse(now()),...runtime.timing});
+  // The terminal is not a data/receipt export. Keep raw database/provider
+  // state and notification metadata inside their independently reviewed paths.
+  return {status:result.status,durableStopConfirmed:result.durableStopConfirmed===true};
  }finally{
   process.removeListener('SIGINT',stop);process.removeListener('SIGTERM',stop);
   // Never await a wedged driver indefinitely after a missed cycle deadline.
