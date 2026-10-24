@@ -43,6 +43,8 @@ for(const [name,patch,ctx] of [
  ['wrong anchor ticket',{throughTicket:2},{}],
  ['wrong anchor credit',{throughCredits:201},{}],
  ['unreserved usage',{usedCredits:301},{}],
+ ['fractional provider credits',{usedCredits:120.5},{}],
+ ['unsafe integer credits',{usedCredits:Number.MAX_SAFE_INTEGER+1},{}],
  ['billing reset',{periodStart:'2026-10-24T00:00:00.000Z'},{}],
  ['repeat final receipt',{}, {previous:receipt}],
  ['settlement rollback',{settledThrough:'2026-10-24T14:00:30.000Z'},{}],
