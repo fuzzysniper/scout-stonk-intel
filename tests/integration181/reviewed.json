@@ -1,0 +1,315 @@
+{
+  "version": "scout-reviewed-composition/181",
+  "base": "eca3ad2dcead406f9aff32379c8a2bc7b0aa081f",
+  "sources": {
+    "A": {
+      "sha": "0cb2fe813239fc81c73a6f38d2c2c4977ed00a41",
+      "diffSha256": "0958e6e4098fac81326d5d88d64df90b63543833d00e0bf478ec8d87b8b35b86"
+    },
+    "B": {
+      "sha": "e045133c3cd94bf2be743e0c3fbdd12090212953",
+      "diffSha256": "5e282b8b3b18068616b9b2b12486575fd645318fceb028f8d999eaaea24d6325"
+    },
+    "C": {
+      "sha": "6d978a468c9fb9ab6365a8d169866899acc13ba1",
+      "diffSha256": "c9fbee48266d1c88b73394f541830610384260abafd24bb68b1e9097e6eade39"
+    }
+  },
+  "files": {
+    "docs/live-feed-167/PILOT_EVIDENCE.md": {
+      "source": "A",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "8efdeca59cf922b11f6c5d7c165d60b4dcc02e05da96eac80d81055d4a6af734"
+      }
+    },
+    "docs/live-feed-167/PILOT_MOBILE.md": {
+      "source": "A",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "81c1434eabaaec1dce5c685ec0e5992f150a45aff5c7336774e7079c51acddb1"
+      }
+    },
+    "experiments/live-stream/PAID_PLAN.md": {
+      "source": "A",
+      "before": {
+        "mode": "100644",
+        "sha256": "63c8c64e2a48e892fbc5850c7acaf377dc86f36199d839f36cabf54598fb3325"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "5d5bf55d0b8eca7c6db82368f2d20f76173968cb88dddb394c72bc004e1f0214"
+      }
+    },
+    "experiments/live-stream/RUNBOOK.md": {
+      "source": "A",
+      "before": {
+        "mode": "100644",
+        "sha256": "f95ae22cf172404c44eff0147eccfa75a541f1c8a1f1529de3a51c8e245625b4"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "4b3a6993a4492251f7ea3199a655f21ebb07f148f6b34f6b11b59a760135cd24"
+      }
+    },
+    "experiments/live-stream/SOURCES.md": {
+      "source": "A",
+      "before": {
+        "mode": "100644",
+        "sha256": "69f56a3c3629e24d3ad4a12412d811dc09ce5f8268834a650f3e408740fcc46d"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "9d3477f2672e93a09c786a2ed2967cc79dfd7c2440a61203cb67b7f5ff8b6f9c"
+      }
+    },
+    "experiments/live-stream/pilot-meter-audit.mjs": {
+      "source": "A",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "a637b8749794dd9e8ca63b562f10ccaf37ea5d1dbbfd48b2333dfa5ec5191f72"
+      }
+    },
+    "experiments/live-stream/tests/pilot-meter.test.mjs": {
+      "source": "A",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "c3ca682d289e0789659d62cd87e18158d3de403fafa4b85cf9373584cef85bdf"
+      }
+    },
+    "docs/operations/watchdog-acceptance.md": {
+      "source": "B",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "619d1780b5ed275935838d0aa427906e680f8593e369f29b8c5a588c3348876b"
+      }
+    },
+    "lib/scout-continuous/ops-journal.mjs": {
+      "source": "B",
+      "before": {
+        "mode": "100644",
+        "sha256": "e2d8e9d68f9cc3cfc301d743be6c0827c19a50a63adbf787ea26e437744fbbf7"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "2e46a1722bfdf8c08be22002eb59af67a978ad6af0c547c8bd1d4c24a72e290d"
+      }
+    },
+    "lib/scout-continuous/ops-loop.mjs": {
+      "source": "B",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "1739804c37dd477df06db48d1420585cc5afb369f9ab53aabbc59a1c58aa905c"
+      }
+    },
+    "lib/scout-continuous/ops-readiness.mjs": {
+      "source": "B",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "39a2240a90006fcc6bf5dfa780fcdcb2171e1f20591e0c83c699d4ee5097d606"
+      }
+    },
+    "lib/scout-continuous/ops-transport.mjs": {
+      "source": "B",
+      "before": {
+        "mode": "100644",
+        "sha256": "fe746908205172588bc85facbf4aeb6f947615f882a7219554552bdb2b830c8a"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "fb6a76979659ac25dfea67edb715c6290ac2c4be801926e0e0d1125bd08010bb"
+      }
+    },
+    "lib/scout-continuous/watchdog.mjs": {
+      "source": "B",
+      "before": {
+        "mode": "100644",
+        "sha256": "c31f85612625d0f5974eb38c764c911b5fac7c70e323f30c6786080b18e20784"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "052b3d4a100e745b865103f9abe36d71441ec903f0bc9d98a58d6b3a4778edd2"
+      }
+    },
+    "scripts/ops/continuous-watchdog.mjs": {
+      "source": "B",
+      "before": {
+        "mode": "100644",
+        "sha256": "8c11accf1e184100fa239741ba1076bb2f0e33771226759055c59f97d47b8abb"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "86e82185134e8412b0816e55fa70d0b51b33271207191201ae1f813dcc31f943"
+      }
+    },
+    "tests/continuous-ledger/final-gates.test.mjs": {
+      "source": "B",
+      "before": {
+        "mode": "100644",
+        "sha256": "be2165e76a468618ef094adb694d3ad53bb4034db46fe73ef5bd5c8ae9e103a8"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "84933c990391759acbb2fda77605ea83911b7499c94fa2d625f6c7a88eb8060a"
+      }
+    },
+    "tests/continuous-ledger/ops-acceptance.test.mjs": {
+      "source": "B",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "db05c3d3710d14cf9cae40c9880afe952484e888d81fbd254286de251da4ca35"
+      }
+    },
+    "tests/continuous-ledger/run.sh": {
+      "source": "B",
+      "before": {
+        "mode": "100644",
+        "sha256": "e9b7f135f2bb8c2eb6ce48d84c11dd6b389ab790525a63bca42e115f6e559a89"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "eeca37345f02dd7fb98958c3f6add902fb9994d297edf3294a3f48d49eebc56e"
+      }
+    },
+    "app/consumer/live-home.tsx": {
+      "source": "C",
+      "before": {
+        "mode": "100644",
+        "sha256": "c2e9a36f2cc7883730bcdc853090c35241b7fba3cb5e17ae5f4ea9db0768eb4b"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "3f2bbe0563fbf6f34d1e23b1946fb3697c1c3296ea5c13edc54cd9bb8f89ef6e"
+      }
+    },
+    "app/consumer/live.css": {
+      "source": "C",
+      "before": {
+        "mode": "100644",
+        "sha256": "b0d29c7f8d7e4f110835e775f7c4c88097b7d63e1ef87bf8f3688e07d5bde0ff"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "61c210038b17f005b150736c8f652e04636b08df04f5969c6d8fa81e638ac633"
+      }
+    },
+    "app/consumer/operations-guide.tsx": {
+      "source": "C",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "01b262b63ec25c8ee463c517ec93f99984dface7033cbe351c85cf54183d201d"
+      }
+    },
+    "docs/mobile-ops-177/IPHONE.md": {
+      "source": "C",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "8c208da55958e3e0519b588daed02caa00f85ca101e2362b3254d14819a02a72"
+      }
+    },
+    "docs/mobile-ops-177/README.md": {
+      "source": "C",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "b092786dd65c78c972cfdf22493a3ead25f6fd14dc7a5109f3ce8ac751569de8"
+      }
+    },
+    "docs/mobile-ops-177/control-disabled-320.json": {
+      "source": "C",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "f67efb7b677b5616732281d68cfd633f88d1363057db2d373b6869add58f326e"
+      }
+    },
+    "docs/mobile-ops-177/control-disabled-390.json": {
+      "source": "C",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "f67efb7b677b5616732281d68cfd633f88d1363057db2d373b6869add58f326e"
+      }
+    },
+    "docs/mobile-ops-177/screenshots/parent-guidance-320.png": {
+      "source": "C",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "05c322c42fabc5e9a99f8c84eba098d642a595d88a02feea579c489b7ca1c16d"
+      }
+    },
+    "docs/mobile-ops-177/screenshots/parent-guidance-390.png": {
+      "source": "C",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "f0945be9de363012e38affcc5d6910bdd380749f59bf02a67aba624c3e07fa1b"
+      }
+    },
+    "docs/mobile-ops-177/screenshots/v1-scope-mock-320.png": {
+      "source": "C",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "0359569d74f05fcd3fd80893d43097e0040336ddca6010572892520fb53a419d"
+      }
+    },
+    "docs/mobile-ops-177/screenshots/v1-scope-mock-390.png": {
+      "source": "C",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "5203fd31591e9a6d890ef69e82cbac04f94b43cbc1367209d85e57afa4b4150a"
+      }
+    },
+    "docs/mobile-ops-177/verification.json": {
+      "source": "C",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "4f9479ba8450b7fa38f99f4018a70c91b962244da5075ca3ef35dc80952a2ee5"
+      }
+    },
+    "tests/consumer-homepage/playwright.config.mjs": {
+      "source": "C",
+      "before": {
+        "mode": "100644",
+        "sha256": "8187cd397bb33c054d43c7e78f09109873d96bcf9ede25efe2d0da35f573233f"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "22f6107c4cf283f5a23e3a10c4985bf1c25110f2bbe84807b505276195b2d56f"
+      }
+    },
+    "tests/live-feed/browser.spec.mjs": {
+      "source": "C",
+      "before": {
+        "mode": "100644",
+        "sha256": "678b4c368aa7d89b98aef75ec82560ec03a912afe406309589cb9dabe3538122"
+      },
+      "after": {
+        "mode": "100644",
+        "sha256": "4cdce633c6c712f4e4bc8f94ccb1b7e9ff878e1041aa0f516eaef9008f5db78c"
+      }
+    },
+    "tests/live-feed/operations.browser.spec.mjs": {
+      "source": "C",
+      "before": null,
+      "after": {
+        "mode": "100644",
+        "sha256": "29b99394fe880f649f989e174ca466ecb5b9fca19f84585cbea5b1cb09435447"
+      }
+    }
+  }
+}
