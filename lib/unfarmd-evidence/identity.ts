@@ -1,6 +1,10 @@
 import type { AssetIdentity, AssetResolution } from "./contract";
 import { object, text } from "./primitives";
 const B58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+function pastedAddress(value: unknown, max: number): string {
+  // Bound the raw input before normalization; whitespace is not part of an address.
+  return text(typeof value === "string" && value.length <= 256 ? value.trim() : value, "$.address", max);
+}
 function solanaAddress(s: string): boolean {
   if (!/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(s)) return false;
   let n = 0n;
@@ -21,14 +25,14 @@ export function resolveAssetIdentity(input: unknown): AssetResolution {
     let resolved: AssetResolution;
     if (r.kind === "solana_mint") {
       if (!["solana:mainnet", "solana:devnet", "solana:testnet"].includes(r.chain as string)) return result("conflicting_hints", unknown(), "chain_kind_mismatch");
-      const address = text(r.address, "$.address", 44).trim();
+      const address = pastedAddress(r.address, 44);
       if (!solanaAddress(address)) return result("invalid", unknown(), "invalid_solana_address");
       if (r.mic !== undefined) return result("conflicting_hints", unknown(), "market_on_token");
       const chain = r.chain as "solana:mainnet";
       resolved = result("exact_identifier", { kind: "solana_mint", chain, address, assetKey: `${chain}:${address}` }, "format_only_not_mint_verification");
     } else if (r.kind === "evm_token") {
       if (typeof r.chain !== "string" || !/^eip155:[1-9][0-9]{0,14}$/.test(r.chain)) return result("conflicting_hints", unknown(), "explicit_evm_chain_required");
-      const enteredAddress = text(r.address, "$.address", 42).trim();
+      const enteredAddress = pastedAddress(r.address, 42);
       if (!/^0x[0-9a-fA-F]{40}$/.test(enteredAddress)) return result("invalid", unknown(), "invalid_evm_address");
       if (r.mic !== undefined) return result("conflicting_hints", unknown(), "market_on_token");
       const address = enteredAddress.toLowerCase();

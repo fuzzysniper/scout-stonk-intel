@@ -13,6 +13,7 @@ test('case-sensitive Solana identity is preserved; a ticker label cannot change 
 });
 test('Solana base58 must decode to exactly 32 bytes',()=>{for(const address of ['1'.repeat(31),'1'.repeat(33),'z'.repeat(44),'0'.repeat(32),'I'.repeat(32),'0x'+'a'.repeat(40)]) assert.equal(resolve(sol({address})).state,'invalid');});
 test('different Solana clusters remain distinct',()=>{assert.notEqual(resolve(sol()).asset.assetKey,resolve(sol({chain:'solana:devnet'})).asset.assetKey);});
+test('pasted Solana address whitespace is normalized before the canonical size bound',()=>{const r=resolve(sol({address:`  ${mint}                  `}));assert.equal(r.state,'exact_identifier');assert.equal(r.asset.address,mint);});
 test('wrong chain hints fail closed',()=>{assert.equal(resolve(sol({chain:'eip155:1'})).state,'conflicting_hints');assert.equal(resolve(sol({chain:'SOL'})).state,'conflicting_hints');});
 test('EVM requires explicit chain, canonicalizes address only, preserves entered casing',()=>{
   const enteredAddress='0x'+'Ab'.repeat(20); const r=resolve({kind:'evm_token',chain:'eip155:1',address:enteredAddress});
@@ -21,6 +22,7 @@ test('EVM requires explicit chain, canonicalizes address only, preserves entered
 });
 test('EVM missing/zero/leading-zero/overlong or symbolic chain is not guessed',()=>{for(const chain of [undefined,'eip155:0','eip155:01','ethereum','eip155:9999999999999999']) assert.equal(resolve({kind:'evm_token',chain,address:'0x'+'a'.repeat(40)}).state,'conflicting_hints');});
 test('no EVM account existence, contract or checksum assurance is inferred',()=>{const r=resolve({kind:'evm_token',chain:'eip155:1',address:'0x'+'0'.repeat(40)});assert.equal(r.verification,'not_verified');});
+test('pasted EVM address whitespace is normalized without changing case evidence',()=>{const address='0x'+'Ab'.repeat(20);const r=resolve({kind:'evm_token',chain:'eip155:1',address:` ${address} `});assert.equal(r.state,'exact_identifier');assert.equal(r.asset.enteredAddress,address);});
 test('invalid EVM address and wrong-chain Solana address rejected',()=>{for(const address of [mint,'0x'+'g'.repeat(40),'0x'+'a'.repeat(39),'0X'+'a'.repeat(40)])assert.equal(resolve({kind:'evm_token',chain:'eip155:1',address}).state,'invalid');});
 test('ticker alone is ambiguous across all asset classes',()=>{for(const ticker of ['SOL','CARDS','NVDA','GOLD']){const r=resolve({kind:'unknown',ticker});assert.equal(r.state,'ambiguous');assert.equal(r.asset.assetKey,null);}});
 test('equity listing requires MIC and is not a permanent instrument identity',()=>{
