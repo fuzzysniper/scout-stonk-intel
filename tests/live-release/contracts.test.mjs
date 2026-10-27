@@ -3,6 +3,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
+import {assertReviewedTree,verifyReviewedInputs} from '../integration181/reviewed-scope.mjs';
 import {SCOPE,POLICY} from '../../lib/live-ledger/policy.mjs';
 const inputs=JSON.parse(readFileSync('docs/live-beta/inputs.json','utf8'));
 const git=(...args)=>execFileSync('git',args,{encoding:'utf8'}).trim();
@@ -25,8 +26,9 @@ test('A published follow-up does not alter reviewed source/runtime/dependencies'
  const runtime=['worker.ts','creation.ts','policy.ts','ports.ts','native.mjs','run.mjs','store-adapter.mjs','build.mjs','render-build.sh','package.json','package-lock.json'].map(p=>'experiments/live-stream/'+p);
  assert.equal(git('diff','--name-only',inputs.workerReviewed,'HEAD','--',...runtime),'');
 });
-test('C private feed UI is integrated without overwriting its frontend checkpoint',()=>{
- assert.equal(git('diff','--name-only',inputs.consumerLiveFeed,'HEAD','--','app/consumer','app/page.tsx','app/opengraph-image.tsx'),'');
+test('C checkpoint is preserved except its exact reviewed178 presentation delta',()=>{
+ verifyReviewedInputs();
+ assertReviewedTree(inputs.consumerLiveFeed,['app/consumer','app/page.tsx','app/opengraph-image.tsx']);
 });
 test('source approval example and release remain unarmed; shared scope and caps agree',()=>{
  const example=JSON.parse(readFileSync('experiments/live-stream/approval.example.json','utf8'));
