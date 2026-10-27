@@ -5,6 +5,7 @@ test('recordDecision returns a detached frozen in-memory snapshot, no storage',(
  const p=plan(),r=risk.recordDecision(p,{id:'decision-1',recordedAt:AT});assert.equal(r.ok,true);p.thesis='changed later';assert.notEqual(r.event.plan.thesis,p.thesis);assert.ok(Object.isFrozen(r.event));assert.ok(Object.isFrozen(r.event.plan.assumptions.entry.price));assert.throws(()=>r.event.plan.assumptions.entry.price.amount='1');
 });
 test('an incomplete PLAN cannot become a decision event',()=>{const p=plan();delete p.counterThesis;assert.equal(risk.recordDecision(p,{id:'decision-1',recordedAt:AT}).event,null);});
+test('event identifiers reject trailing line terminators rather than silently matching regex prefixes',()=>{for(const suffix of ['\n','\r','\u2028'])assert.equal(risk.recordDecision(plan(),{id:'decision'+suffix,recordedAt:AT}).ok,false);const e=events();e.execution.id+='\n';assert.equal(risk.reviewDecision(e,reviewContext).status,'invalid');});
 for(const decision of ['PASS','WATCH'])test(decision+' records no-entry process success without financial values',()=>{
  const e=events();e.decision=risk.recordDecision({version:'unfarmd-risk/1',decision,reason:'Deliberately do not enter'},{id:'decision-1',recordedAt:AT}).event;e.execution=null;e.review.outcome='no_entry';const r=risk.reviewDecision(e,reviewContext);assert.equal(r.status,'reviewed');assert.equal(r.adherence,'no_reported_entry');assert.equal(r.actualLoss,null);assert.equal(r.storage,'none');
 });

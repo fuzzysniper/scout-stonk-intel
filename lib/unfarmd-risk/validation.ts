@@ -6,8 +6,10 @@ export function record(v:unknown):v is RecordValue {
 export function keys(v:unknown,required:string[],optional:string[]=[]):v is RecordValue {
  return record(v)&&required.every(k=>Object.hasOwn(v,k))&&Object.keys(v).every(k=>required.includes(k)||optional.includes(k));
 }
-export const text=(v:unknown,max=2000):v is string=>typeof v==='string'&&v.length<=max&&v.trim().length>0&&!/[\u0000-\u001f\u007f]/.test(v);
-export const id=(v:unknown):v is string=>typeof v==='string'&&/^[A-Za-z0-9][A-Za-z0-9_-]{0,79}$/.test(v);
+// Prose may contain ordinary tabs/newlines. Machine identity references may not.
+export const text=(v:unknown,max=2000):v is string=>typeof v==='string'&&v.length<=max&&v.trim().length>0&&!/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(v);
+export const inlineText=(v:unknown,max=2000):v is string=>text(v,max)&&!/[\r\n\t\u2028\u2029]/.test(v);
+export const id=(v:unknown):v is string=>typeof v==='string'&&v.trim()===v&&/^[A-Za-z0-9][A-Za-z0-9_-]{0,79}$/.test(v);
 export const list=(v:unknown,max=20):v is string[]=>Array.isArray(v)&&v.length<=max&&v.every(s=>text(s,500));
 export function clock(v:unknown):v is string {
  if(typeof v!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(v))return false;
@@ -35,5 +37,5 @@ export function plainData(value:unknown):boolean {
  try{return visit(value,0);}catch{return false;}
 }
 export function asset(v:unknown):boolean {
- return keys(v,['label','assetKey'])&&text(v.label,160)&&(v.assetKey===null||text(v.assetKey,240));
+ return keys(v,['label','assetKey'])&&inlineText(v.label,160)&&(v.assetKey===null||inlineText(v.assetKey,240));
 }

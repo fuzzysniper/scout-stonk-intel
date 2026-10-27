@@ -1,6 +1,6 @@
 import {VERSION,type Assumptions,type Calculation,type Decision,type Evaluation,type Issue,type Sizing} from './contract';
 import {CENT,MAX_INPUT,SCALE,ceilDiv,decimal,format,min,money} from './decimal';
-import {asset,bps,clock,keys,list,plainData,record,text} from './validation';
+import {asset,bps,clock,inlineText,keys,list,plainData,record,text} from './validation';
 const planKeys=['version','decision','reason'];
 const planOptional=['asset','purpose','horizon','thesis','counterThesis','unknowns','affirmation','evidenceRef','assumptions','notes'];
 function amount(v:unknown,places=2):bigint|null {
@@ -103,7 +103,7 @@ export function evaluateRiskPlan(input:unknown,context:unknown):Evaluation {
   if(p.affirmation!==undefined&&(!keys(p.affirmation,['ownerEntered','lossMayExceedPlan','noExecution'])||Object.values(p.affirmation).some(v=>v!==true)))add('affirmation','explicit_affirmation_required');
   if(p.evidenceRef!==undefined){
    const e=p.evidenceRef;
-   if(!keys(e,['version','assetKey','evidenceIds'])||e.version!=='unfarmd-evidence/1'||!(e.assetKey===null||text(e.assetKey,240))||!Array.isArray(e.evidenceIds)||e.evidenceIds.length>20||e.evidenceIds.some(v=>!text(v,80))||new Set(e.evidenceIds).size!==e.evidenceIds.length)add('evidenceRef','invalid_evidence_link');
+   if(!keys(e,['version','assetKey','evidenceIds'])||e.version!=='unfarmd-evidence/1'||!(e.assetKey===null||inlineText(e.assetKey,240))||!Array.isArray(e.evidenceIds)||e.evidenceIds.length>20||e.evidenceIds.some(v=>!inlineText(v,80))||new Set(e.evidenceIds).size!==e.evidenceIds.length)add('evidenceRef','invalid_evidence_link');
    else if(!record(p.asset)||p.asset.assetKey!==e.assetKey)add('evidenceRef.assetKey','asset_link_mismatch');
    else issue(result.issues,'evidenceRef','link_only_not_admitted_evidence','warning');
   }
