@@ -65,7 +65,8 @@ export function createJournalEngine(risk:RiskEngine) {
    }else if(r.type==='execution'){
     if(!keys(e,['version','kind','id','decisionId','occurredAt','recordedAt','mode','asset','instrument','currency','units','entryPrice','stopPrice']))fail('invalid_execution');
     const d=decisions.get(e.decisionId as string);
-    if(!d?.active||d.execution!==null||!clock(e.occurredAt)||e.occurredAt>e.recordedAt||e.recordedAt<d.event.recordedAt||!['paper','simulated','user_reported'].includes(e.mode as string)||!asset(e.asset)||e.instrument!=='long_spot'||e.currency!=='USD'||!positiveDecimal(e.units)||!positiveDecimal(e.entryPrice)||(e.stopPrice!==null&&!positiveDecimal(e.stopPrice)))fail('invalid_execution_reference_or_values');
+    if(!d?.active||d.execution!==null||!clock(e.occurredAt)||e.occurredAt>e.recordedAt||!['paper','simulated','user_reported'].includes(e.mode as string)||!asset(e.asset)||e.instrument!=='long_spot'||e.currency!=='USD'||!positiveDecimal(e.units)||!positiveDecimal(e.entryPrice)||(e.stopPrice!==null&&!positiveDecimal(e.stopPrice)))fail('invalid_execution_reference_or_values');
+    if(e.recordedAt<d!.event.recordedAt)warnings.add('entry_originally_recorded_before_decision_late_import_not_precommitment');
     // One modeled entry per decision chain. Summing fills or mixing modes would
     // exceed the original single-entry risk contract and could hide cap breaches.
     if([...decisions.values()].some(x=>x.root===d!.root&&x.execution!==null))fail('multiple_entries_unsupported');

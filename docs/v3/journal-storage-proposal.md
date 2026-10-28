@@ -92,6 +92,8 @@ timezone conversion or hidden current time; a future/nonmonotonic receipt fails.
 An event's recordedAt may precede its receipt time (late transcription), but may
 not exceed it or the explicit evaluation clock. An execution's occurredAt can
 precede its decision: that is admitted as **reported late**, never preplanned.
+An entry originally recorded before the decision can arrive in a later receipt;
+its original occurredAt/recordedAt are retained, with an explicit late-import warning.
 Equal decision/entry clocks do not count as preplanned. Clock correction requires
 reconciliation, not silent time repair. These are owner clocks, not device-signed
 time, broker fills, finalized slots or provider timestamps.
@@ -245,7 +247,7 @@ No workflow edits are authorized by #195: existing root CI covers its regression
 and types/build; the new focused suite must additionally be run explicitly. A
 future aggregate should wire it into CI in that separately reviewed scope.
 
-Local results for this implementation: **148 focused cases PASS**, **1,350 existing
+Local results for this implementation: **149 focused cases PASS**, **1,350 existing
 Node regressions +107 Python tests PASS**, zero failures/skips; existing disposable
 local PG/TLS security fixtures included. Locked `npm ci --ignore-scripts`, strict
 TypeScript, lint (zero warnings), guarded optimized build, additive-scope/secret
