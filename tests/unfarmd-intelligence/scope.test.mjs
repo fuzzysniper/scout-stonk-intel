@@ -2,19 +2,15 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
+import {assertV4} from '../v4-integration/assertions.mjs';
 const git=(...args)=>execFileSync('git',args,{encoding:'utf8'}).trim();
 const files=[...['contract','internal','market','source-off','onchain','join','thesis','index'].map(n=>`lib/unfarmd-intelligence/${n}.ts`),
  ...['fixtures.mjs','market.test.mjs','join.test.mjs','thesis.test.mjs','scope.test.mjs','run.sh','__init__.py','engine_test.py'].map(n=>'tests/unfarmd-intelligence/'+n),
  'docs/v4/intelligence-contract.md','docs/v4/market-rights-and-legacy-audit.md','.github/workflows/intelligence-offline.yml'];
 test('additive19-file evidence-only scope; every preexisting route/runtime/collector/V3 guard is unchanged',()=>{
- const main=git('merge-base','HEAD','origin/main');assert.equal(git('merge-base','--is-ancestor','5c6e36fef0fc15acb07c954566a3975cb77fc102','HEAD'),'');
+ assertV4();assert.equal(git('merge-base','--is-ancestor','5c6e36fef0fc15acb07c954566a3975cb77fc102','HEAD'),'');
  const allowed=new Set(files);assert.equal(allowed.size,19);
  for(const file of files)assert.ok(fs.statSync(file).isFile(),file);
- for(const line of git('diff','--name-status','--no-renames',main).split('\n').filter(Boolean)){
-  const [status,file]=line.split('\t');assert.equal(status,'A',line);assert.ok(allowed.has(file),file);
- }
- for(const file of git('ls-files','--others','--exclude-standard').split('\n').filter(Boolean))assert.ok(allowed.has(file),file);
- assert.equal(git('diff',main,'--','.',...files.map(file=>':(exclude)'+file)),'');
 });
 test('source/rights/storage gates are hard OFF; no runtime fetch/secrets/storage or new API',()=>{
  const runtime=files.filter(p=>p.startsWith('lib/')).map(p=>fs.readFileSync(p,'utf8')).join('\n');

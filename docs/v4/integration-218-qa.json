@@ -1,0 +1,85 @@
+{
+  "version": "unfarmd-v4-local-qa/1",
+  "status": "local_browser_passed",
+  "recordedAt": "2026-10-28T21:38:00.056697+00:00",
+  "base": "5c6e36fef0fc15acb07c954566a3975cb77fc102",
+  "sourceHeads": {
+    "C": "ec527f8b4e3fb7f0c0df7b77c459ec6502267100",
+    "A": "d6af31935f6202a3c8ee243735fc86d13f601a58",
+    "B": "6ed24c97146a39599ad0855a809735f08c83f2b8"
+  },
+  "hostedPrivateVerification": "unproven_executor_project_access_404_no_authenticated_cli",
+  "physicalIphoneAcceptance": "pending_founder",
+  "fixtures": "explicit_synthetic_offline_only_no_provider_observation",
+  "root": {
+    "nodePassed": 1549,
+    "pythonPassed": 109,
+    "failed": 0,
+    "skipped": 0,
+    "nativePostgresTls": "disposable_local_only"
+  },
+  "mobile": {
+    "widths": [
+      320,
+      390,
+      1280
+    ],
+    "optimizedCombinedOriginalC": 9,
+    "optimizedIntegration": 9,
+    "optimizedOriginalCBefore": 9,
+    "legacyHomepageAndAuthStop": 39,
+    "localNativeParentStop": 5,
+    "violations": 0,
+    "apiRequests": 0,
+    "externalRequests": 0,
+    "cookies": 0,
+    "storageOrIndexedDbAccesses": 0,
+    "axe": "WCAG 2A/2AA/2.1AA/2.2AA integration checks passed",
+    "keyboard": "desktop Chromium mobile-viewports focus tests; physical iPhone keyboard unproven",
+    "ownerNotes": "invented unsaved current-session prose"
+  },
+  "sourceOriginals": {
+    "C": 2,
+    "A": 70,
+    "B": 88,
+    "failed": 0,
+    "additionalChecks": "C SSR four colors; original detached source trees"
+  },
+  "codeSha256": {
+    "app/lens/view.tsx": "84f8d35e8b2ad396323c861bd5ee6bd910bf66b1fb48eda0bf5514080c7c7e5c",
+    "lib/v4-alpha-lens/source-off-model.ts": "7db9f3f22faa4092cf036646a5bd3cf603c87f8062066e4935048559b31d0bf8",
+    "lib/v4-alpha-lens/captured-bridge.ts": "5afad3309f12a41895ddeed87e84e7f044e25976cddf1bcc51a9747ad842c00e",
+    "lib/unfarmd-intelligence/unavailable-cards.ts": "4368f78e64fb8956d269771284f46389f6e94f9209b2ae49d4ab4eafc7e65def"
+  },
+  "screenshots": {
+    "tests/v4-integration/screenshots/after-1280.png": {
+      "sha256": "9fa2404689bac54fafa9156464fa07d4a141d9be88e9e8982d0b93aa851034f9",
+      "bytes": 313606,
+      "width": 1280,
+      "height": 1337
+    },
+    "tests/v4-integration/screenshots/after-320.png": {
+      "sha256": "81dbc4c0f8b4d93ace973387dc7dad6b6cbd6cd1be9515b223a63e954887d607",
+      "bytes": 168303,
+      "width": 320,
+      "height": 1850
+    },
+    "tests/v4-integration/screenshots/after-390.png": {
+      "sha256": "02f9bfae24e00795cad6f22dcff12508d8b76a84b5a663d7b471c5280ac1136b",
+      "bytes": 185872,
+      "width": 390,
+      "height": 1718
+    },
+    "tests/v4-integration/screenshots/before-390.png": {
+      "sha256": "a497946d9be2f6808c79aadb4d3dc84c2456e4a99c108cf464c46f439423c198",
+      "bytes": 183482,
+      "width": 390,
+      "height": 1718
+    }
+  },
+  "visualLimitations": [
+    "MY THESIS requires a short scroll on 320/390, particularly after opening evidence.",
+    "Before is exact C source-OFF /lens; combined layout deliberately preserved.",
+    "No real provider facts, source authentication or physical first-time-user acceptance verified."
+  ]
+}

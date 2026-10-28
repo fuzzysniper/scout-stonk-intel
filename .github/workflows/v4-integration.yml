@@ -1,0 +1,97 @@
+name: V4 Alpha Lens source-OFF integration
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'app/lens/**'
+      - 'lib/v4-alpha-lens/**'
+      - 'lib/v4-solana-facts/**'
+      - 'lib/unfarmd-intelligence/**'
+      - 'tests/lens/**'
+      - 'tests/v4-*/**'
+      - 'tests/unfarmd-intelligence/**'
+      - 'docs/v4/**'
+      - '.github/workflows/v4-integration.yml'
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  source-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: All actual A70, B88, current C and integrated bridge/scope tests
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-solana-facts/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/unfarmd-intelligence/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-integration/run.sh
+      - name: Original unmodified source guards in exact detached input trees
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-integration/source-history.sh
+      - name: Types, lint, source-OFF build and final scope
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v4-integration/scope.test.mjs
+  mobile-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Local Chromium only
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Build and actual optimized default-OFF routes
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/live-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/built-api.mjs
+      - name: Original C9 plus integrated9, keyboard/axe/privacy at320/390/1280
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-integration/snapshots.sh
+      - name: Original homepage regression and native local parent STOP/security
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/consumer-homepage/playwright.config.mjs
+          NODE_ENV=test NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-off-v4-local-browser
+          path: tests/v4-integration/screenshots/
+          retention-days: 3
+      - name: Restore only generated QA artifacts; final exact guard
+        run: |
+          git restore -- docs/live-feed-167/screenshots/{locked,disabled}-{320,390,1280}.png docs/live-feed-167/disabled-{320,390,1280}.json
+          git restore -- docs/screenshots/continuous-local-qa/parent-stop-{320,390,1280}.png tests/v4-integration/screenshots/after-{320,390,1280}.png
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v4-integration/scope.test.mjs
