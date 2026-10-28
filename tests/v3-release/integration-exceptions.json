@@ -1,0 +1,20 @@
+{
+  ".github/workflows/desk-integration.yml": {
+    "sourceHead": "a1e461b9248d72396f038b641c7bc79d81130e7d",
+    "originalSha256": "101ab6748635026ea5d90363b9a56737ebf319ca317f34cc68e5dc06a6a08188",
+    "reviewedSha256": "cc0cc1fa090d158c5420ca09776433f4963ca056147066ba56856f2a19e15541",
+    "patchSha256": "55581c4c6f4138acf4c0545ea9d03de5b3c9651bd5927e11bf5907e5a75dd78a"
+  },
+  "tests/desk-journey/scope.test.mjs": {
+    "sourceHead": "a1e461b9248d72396f038b641c7bc79d81130e7d",
+    "originalSha256": "e458e53a84b5651e239ab9587415dfe61ada20f39019e7a403f9dd02dfdf77e6",
+    "reviewedSha256": "16da657889555d9f54deb2aaced9835f6ddf94d507650c903f415a6b925b37ff",
+    "patchSha256": "32559524417fc3d4840a0d5c2204424409529df65497a5e9ec03a858e553b944"
+  },
+  "tests/unfarmd-journal/scope.test.mjs": {
+    "sourceHead": "df36b54d09a6f5cec304a64a7d99d7a01176e872",
+    "originalSha256": "93a813f4d1ea2410aef358bac8bc9e8b45979fc480c79cfa84a6e4223ee92914",
+    "reviewedSha256": "37118a76baba1f750a0ac7653d132453c3d5468bcb9ba1d0e42150dad3756913",
+    "patchSha256": "2b26749db01dced3c88286aa1c727bd73d099af1d6a686cb3d1238201a42f7f0"
+  }
+}
