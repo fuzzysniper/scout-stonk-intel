@@ -4,7 +4,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
-export const BASE='5c6e36fef0fc15acb07c954566a3975cb77fc102';
+export const SOURCE_BASE='5c6e36fef0fc15acb07c954566a3975cb77fc102';
+export const BASE='222ccf29de01b6bf05fae6d4fa332c26b2acc2de';
 export const SOURCES={C:{head:'ec527f8b4e3fb7f0c0df7b77c459ec6502267100',count:15},A:{head:'d6af31935f6202a3c8ee243735fc86d13f601a58',count:9},B:{head:'6ed24c97146a39599ad0855a809735f08c83f2b8',count:19}};
 export const EXCEPTIONS=['app/lens/view.tsx','tests/lens/security.test.mjs','lib/unfarmd-intelligence/source-off.ts','tests/unfarmd-intelligence/scope.test.mjs'];
 export const ADDED=['lib/unfarmd-intelligence/unavailable-cards.ts','lib/v4-alpha-lens/source-off-model.ts','lib/v4-alpha-lens/captured-bridge.ts',
@@ -19,12 +20,12 @@ export function assertV4(root=process.cwd()){
  const raw=(...args)=>execFileSync('git',args,{cwd:root,maxBuffer:16*1024*1024}),git=(...args)=>raw(...args).toString().trim();
  const read=p=>fs.readFileSync(path.join(root,p));
  const manifest=JSON.parse(read('tests/v4-integration/source-manifest.json')),deltas=JSON.parse(read('tests/v4-integration/exceptions.json'));
- assert.equal(manifest.base,BASE);assert.deepEqual(manifest.sources,SOURCES);assert.equal(git('merge-base','--is-ancestor',BASE,'HEAD'),'');
+ assert.equal(manifest.base,BASE);assert.equal(manifest.sourceBase,SOURCE_BASE);assert.equal(git('merge-base',SOURCE_BASE,BASE),SOURCE_BASE);assert.deepEqual(manifest.sources,SOURCES);assert.equal(git('merge-base','--is-ancestor',BASE,'HEAD'),'');
  assert.deepEqual(Object.keys(deltas).sort(),[...EXCEPTIONS].sort());
  const originals=[];
  for(const [name,s] of Object.entries(SOURCES)){
-  assert.equal(git('merge-base',BASE,s.head),BASE);assert.equal(git('merge-base','--is-ancestor',s.head,'HEAD'),'');
-  const files=git('diff','--name-only','--no-renames',BASE,s.head).split('\n');assert.equal(files.length,s.count);
+  assert.equal(git('merge-base',SOURCE_BASE,s.head),SOURCE_BASE);assert.equal(git('merge-base','--is-ancestor',s.head,'HEAD'),'');
+  const files=git('diff','--name-only','--no-renames',SOURCE_BASE,s.head).split('\n');assert.equal(files.length,s.count);
   for(const file of files){
    assert.ok(!originals.includes(file),'overlapping_source_file:'+file);originals.push(file);
    const [mode,type,blob]=git('ls-tree',s.head,'--',file).split('\t')[0].split(' ');assert.equal(type,'blob');

@@ -2,7 +2,7 @@
   "version": "unfarmd-v4-local-qa/1",
   "status": "local_browser_passed",
   "recordedAt": "2026-10-28T21:38:00.056697+00:00",
-  "base": "5c6e36fef0fc15acb07c954566a3975cb77fc102",
+  "base": "222ccf29de01b6bf05fae6d4fa332c26b2acc2de",
   "sourceHeads": {
     "C": "ec527f8b4e3fb7f0c0df7b77c459ec6502267100",
     "A": "d6af31935f6202a3c8ee243735fc86d13f601a58",
@@ -81,5 +81,7 @@
     "MY THESIS requires a short scroll on 320/390, particularly after opening evidence.",
     "Before is exact C source-OFF /lens; combined layout deliberately preserved.",
     "No real provider facts, source authentication or physical first-time-user acceptance verified."
-  ]
+  ],
+  "sourceBase": "5c6e36fef0fc15acb07c954566a3975cb77fc102",
+  "revalidation": "collector_only_base_update_full_exact_head_CI_pending"
 }

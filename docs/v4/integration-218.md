@@ -1,7 +1,8 @@
 # Alpha Lens V4 source-OFF assembly — Issue #218
 
 Review-only integration, not a source/storage or production release.
-Base: `5c6e36fef0fc15acb07c954566a3975cb77fc102`.
+Source review base: `5c6e36fef0fc15acb07c954566a3975cb77fc102`.
+Current integration review base: `222ccf29de01b6bf05fae6d4fa332c26b2acc2de`.
 
 |Source|Original exact head|Original paths|
 |---|---|---|
@@ -14,6 +15,13 @@ merges. No individual source PR, main, V3 #200/#210 or data commit was rewritten
 merged to production, rebased, squashed or force-pushed. Only original existing
 paths are C's exact /lens chrome exception and A's single root-test hook.
 Every original blob/mode/SHA-256 is independently rederived in source-manifest.
+During CI, main advanced through the exact scheduled collector commit `222ccf2`.
+It is retained as an ordinary merge parent; all three current-main data files
+and modes are pinned exactly, with no copied/reformatted records. The successful
+GitHub schedule run `40773938446` used `reward-snapshots.yml` at the original base;
+the bot commit is unsigned, so no cryptographic signature claim is made. The
+archive checker and seven original-prefix comparisons passed offline. This
+finite new base is separate from unchanged original A/B/C source inventories.
 No source directory, data wildcard or guard-disable environment flag is admitted.
 
 ## Actual integration
@@ -116,7 +124,9 @@ Only the existing automatic Git-linked Vercel PREVIEW may build this draft. No
 manual deployment, domain/alias/protection/env change, login, key pull or share
 link is authorized. Confirm exact deployment SHA/ID/project and effective private
 Authentication before saying private-preview verified. Connected project lookup
-returned404 and this executor has no Vercel CLI; metadata/status alone cannot
+returned404, the automatic preview CONNECT was blocked by the network proxy
+with 403 before reaching Vercel, and this executor has no Vercel CLI.
+Metadata/status alone cannot
 prove protection or hosted UI. If unavailable, report HOLD with the unique link
 and owner read-back steps; do not invent access or weaken protection.
 

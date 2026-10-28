@@ -1,5 +1,5 @@
 {
-  "base": "5c6e36fef0fc15acb07c954566a3975cb77fc102",
+  "base": "222ccf29de01b6bf05fae6d4fa332c26b2acc2de",
   "sources": {
     "C": {
       "head": "ec527f8b4e3fb7f0c0df7b77c459ec6502267100",
@@ -277,18 +277,19 @@
   "data": {
     "data/collection-summary.json": {
       "mode": "100644",
-      "blob": "47d23e01d6daaafcb342663366f7b1df505a82e2",
-      "sha256": "e7e76cb810459a184fd052b429a519458dd39473792f3e16e18050e3aedf40cd"
+      "blob": "c38558c9bf3c81b07b6fd6a7151877c20a5416e5",
+      "sha256": "bb5d97f263513ff9c4f987f3313b4d9e67cf7b4cfe11b2027076db6f1b58c431"
     },
     "data/reward-snapshots.json": {
       "mode": "100644",
-      "blob": "9dd2f827709e02d6d838208478c3ac230c6831cd",
-      "sha256": "6a6b848a60830f144512e172e10c48ace381db79bbaee791761e85fe469cc354"
+      "blob": "25215efa10889b97f79825c8f53489f1550d83c0",
+      "sha256": "233095b572b2463634df4953b2b8474d2b2523d484442ba08b339083be9807dc"
     },
     "data/collector-audit.json": {
       "mode": "100644",
       "blob": "5aad201e7a01464b717f23701db186b060820c48",
       "sha256": "9d13be45b789429d5b67ef6614db7df4cd14f55a122f071c342723447c249569"
     }
-  }
+  },
+  "sourceBase": "5c6e36fef0fc15acb07c954566a3975cb77fc102"
 }
