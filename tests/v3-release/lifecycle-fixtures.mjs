@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
-import {POLICY,repository,digest} from './lifecycle.mjs';
+import {POLICY,repository,digest,auditSources} from './lifecycle.mjs';
 export const ROOT=process.cwd();
 export const copy=x=>JSON.parse(JSON.stringify(x));
 const mint='1'.repeat(31)+'2',quote='1'.repeat(31)+'3';
@@ -22,8 +22,12 @@ export function fixture({rows=2}={}){
  command(['init','-q','--initial-branch=main']);
  write('.gitignore','__pycache__/\n');write('protected.txt','UNCHANGED SECURITY BOUNDARY\n');
  write(POLICY.collector,'FROZEN SYNTHETIC COLLECTOR WORKFLOW\n');write(POLICY.workflow,'FROZEN SYNTHETIC READ-ONLY VERIFIER\n');
+ write(POLICY.auditWorkflow,'FROZEN SYNTHETIC DAILY AUDIT WORKFLOW\n');
+ write(POLICY.auditProducer,fs.readFileSync(path.join(ROOT,POLICY.auditProducer)));
  write('scripts/collect_rewards.py',fs.readFileSync(path.join(ROOT,'scripts/collect_rewards.py')));
  write('tests/v3-release/collector-append.py',fs.readFileSync(path.join(ROOT,'tests/v3-release/collector-append.py')));
+ write('tests/v3-release/audit-snapshot.py',fs.readFileSync(path.join(ROOT,'tests/v3-release/audit-snapshot.py')));
+ json(POLICY.audit,{version:1,checkedAt:'2026-10-27T00:00:00+00:00',state:'unavailable',reason:'api_unavailable',workflowState:'unknown',scheduledRunCount:null,runs:[],latestDatasetCommit:null,cadence:{state:'unavailable'}});
  const row=(at,total)=>({observedAt:at,providerGeneratedAt:at,mode:'reward',distributedTokens:total,payoutCount:total,holderCount:null,lastPayoutAt:null,quoteMint:quote,quoteSymbol:'SYNTHQ',source:token.source});
  const last=Date.parse('2026-10-28T11:00:00.000Z');
  json(POLICY.tracked,[token]);json(POLICY.data[1],{[mint]:Array.from({length:rows},(_,i)=>row(new Date(last-(rows-1-i)*3600000).toISOString(),i+1))});
@@ -51,6 +55,23 @@ export function fixture({rows=2}={}){
   const proof={commit:sha,run,artifact,hashes:Object.fromEntries(Object.entries(files).map(([k,v])=>[k,digest(v)])),steps:{'Collect observations':failed?'failure':'success','Persist observations and summary':'success','Preserve diagnostic evidence':'success'}};
   proofs.unshift(proof);return {sha,parent,proof,zip};
  }
+ function appendAudit({change=null,available=true,incomplete=false,partial=false,scheduledCount=0,now=null}={}){
+  const parent=r.git('rev-parse','HEAD'),before=JSON.parse(r.blob(parent,p.audit));
+  const observations=Object.values(JSON.parse(r.blob(parent,p.data[1]))).flat().map(v=>Date.parse(v.observedAt));
+  const datasetCommit=r.git('log','-1','--format=%H',parent,'--',p.data[1]);
+  const at=now??new Date(Math.max(Date.parse(before.checkedAt),...observations,Date.parse(r.git('show','-s','--format=%cI',parent)),Date.parse(r.git('show','-s','--format=%cI',datasetCommit)))+1000).toISOString();
+  const input={at,available,incomplete,partial,scheduledCount,datasetCommit,committedAt:r.git('show','-s','--format=%cI',datasetCommit),raw:r.blob(parent,p.data[1]).toString()};
+  // Execute the ACTUAL frozen pure audit function with a fully offline fetcher.
+  const code=`import sys,json,datetime as dt\nsys.path.insert(0,'scripts')\nimport audit_collector as a\np=json.load(sys.stdin)\ndef fetch(url,token=None,limit=None):\n if not p['available']: raise ValueError('OFFLINE_UNAVAILABLE')\n if url.endswith('/actions/workflows/reward-snapshots.yml'): return json.dumps({'state':'active','created_at':'2026-10-01T00:00:00Z'})\n if '&per_page=48' in url: return json.dumps({'workflow_runs':[],'total_count':1 if p['incomplete'] else 0})\n if '&event=schedule&per_page=1' in url: return json.dumps({'total_count':p['scheduledCount']})\n if '/commits?' in url:\n  if p['partial']: raise ValueError('OFFLINE_PARTIAL')\n  return json.dumps([{'sha':p['datasetCommit'],'commit':{'committer':{'date':p['committedAt']}}}])\n if url.startswith('https://raw.githubusercontent.com/'): return p['raw'].encode()\n raise AssertionError('unexpected offline API route')\nprint(json.dumps(a.audit(fetcher=fetch,now=dt.datetime.fromisoformat(p['at'].replace('Z','+00:00')))))`;
+  const document=JSON.parse(execFileSync('python3',['-c',code],{cwd:root,input:JSON.stringify(input),encoding:'utf8',stdio:['pipe','pipe','pipe'],env:{PATH:process.env.PATH,PYTHONDONTWRITEBYTECODE:'1'}}));
+  if(change)change(document);json(p.audit,document);
+  const oldDate=env.GIT_COMMITTER_DATE;env.GIT_COMMITTER_DATE=at;let sha;
+  try{sha=commit('OFFLINE synthetic daily audit');}finally{env.GIT_COMMITTER_DATE=oldDate;}
+  const id=200+proofs.length,run=runView(id,parent,'schedule',p.auditWorkflow);run.run_started_at=new Date(Date.parse(at)-1000).toISOString();run.updated_at=new Date(Date.parse(at)+60000).toISOString();if(!available||partial)run.conclusion='failure';
+  const zip=zipFiles({'collector-audit.json':r.blob(sha,p.audit).toString()}),artifact={id:id+10000,name:`data-health-audit-${id}-1`,expired:false,size_in_bytes:zip.length,digest:'sha256:'+digest(zip),workflow_run:{id,head_sha:parent},created_at:at,expires_at:new Date(Date.parse(run.run_started_at)+7*86400000).toISOString()};
+  const proof={kind:'audit',commit:sha,run,artifact,hashes:{'collector-audit.json':digest(r.blob(sha,p.audit))},steps:{'Bounded read-only audit':'success','Publish audit evidence':'success','Preserve audit evidence':'success'},sources:Object.fromEntries(auditSources(p).map(file=>[file,digest(r.blob(p.base,file))]))};
+  proofs.unshift(proof);return {sha,parent,proof,zip,document};
+ }
  const packet=(cp=checkpoint(base),selected=proofs)=>({version:'unfarmd-v3-main-proof/1',binding:binding(r.git('rev-parse','HEAD')),checkpoint:copy(cp),collectors:copy(selected),trigger:null});
- return {root,r,p,base,source,family,merge,mint,quote,write,json,commit,objCommit,command,append,proofs,binding,checkpoint,runView,packet,close:()=>fs.rmSync(root,{recursive:true,force:true})};
+ return {root,r,p,base,source,family,merge,mint,quote,write,json,commit,objCommit,command,append,appendAudit,proofs,binding,checkpoint,runView,packet,close:()=>fs.rmSync(root,{recursive:true,force:true})};
 }

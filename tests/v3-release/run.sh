@@ -3,6 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 node --test tests/v3-release/scope.test.mjs
 node --test tests/v3-release/lifecycle.test.mjs tests/v3-release/github-proof.test.mjs
+node --test tests/v3-release/audit.test.mjs
 bash tests/unfarmd-source-selection/run.sh
 bash tests/unfarmd-journal/run.sh
 release_build=$(mktemp -d /tmp/unfarmd-v3-link-XXXXXX)

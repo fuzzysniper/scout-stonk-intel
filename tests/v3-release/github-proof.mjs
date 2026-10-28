@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
-import {POLICY,repository,inspectRelease,segment,checkpointValid,verifyCheckpoint,verifyMainPacket,verifyRun,bindingFor,digest} from './lifecycle.mjs';
+import {POLICY,repository,inspectRelease,segment,checkpointValid,verifyCheckpoint,verifyMainPacket,verifyRun,bindingFor,digest,auditSources} from './lifecycle.mjs';
 const runView=r=>({id:r.id,run_attempt:r.run_attempt,event:r.event,path:r.path,head_branch:r.head_branch,head_sha:r.head_sha,status:r.status,conclusion:r.conclusion,run_started_at:r.run_started_at,updated_at:r.updated_at,repository:{id:r.repository?.id},head_repository:{id:r.head_repository?.id}});
 const artifactView=a=>({id:a.id,name:a.name,expired:a.expired,size_in_bytes:a.size_in_bytes,digest:a.digest,workflow_run:{id:a.workflow_run?.id,head_sha:a.workflow_run?.head_sha}});
 /** Injectable GitHub SDK for deterministic tests. Production supplies ONLY the
@@ -23,7 +23,8 @@ export async function acquireProof({github,r,binding,p=POLICY}){
  const head=binding.head,release=inspectRelease(r,head,p),packet={version:'unfarmd-v3-main-proof/1',binding,checkpoint:null,collectors:[],trigger:null};
  if(binding.event==='workflow_run'){
   packet.trigger=runView(await api('GET /repos/{owner}/{repo}/actions/runs/{run_id}',{run_id:Number(binding.triggerRunId)}));
-  verifyRun(packet.trigger,{head:packet.trigger.head_sha,event:'schedule',workflow:p.collector},p);
+  assert.ok([p.collector,p.auditWorkflow].includes(packet.trigger.path),'unapproved_trigger_workflow');
+  verifyRun(packet.trigger,{head:packet.trigger.head_sha,event:'schedule',workflow:packet.trigger.path},p);
   assert.ok(r.ancestor(packet.trigger.head_sha,head),'trigger_head_not_on_history');
  }
  let current=head,count=0;
@@ -68,6 +69,34 @@ export async function acquireProof({github,r,binding,p=POLICY}){
    assert.ok(zip.length<=p.maxBytes&&zip.length===artifact.size_in_bytes,'download_size_mismatch');assert.equal('sha256:'+digest(zip),artifact.digest,'download_digest_mismatch');
    const hashes=JSON.parse(execFileSync('python3',[path.join(r.root,'tests/v3-release/collector-append.py'),'zip'],{input:zip,cwd:r.root,maxBuffer:65536,stdio:['pipe','pipe','pipe'],env:{PATH:process.env.PATH,LANG:'C.UTF-8',PYTHONDONTWRITEBYTECODE:'1'}}));
    packet.collectors.push({commit:current,run,artifact,hashes,steps});
+  }
+  if(part.kind==='audit'){
+   assert.ok(++count<=p.maxTransitions,'catchup_budget_exceeded');
+   // Audit snapshots intentionally contain no self run ID. Require a COMPLETE,
+   // unambiguous one-run server-filtered result for this exact parent/schedule.
+   const page=await api('GET /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs',{workflow_id:path.basename(p.auditWorkflow),head_sha:part.parent,branch:'main',event:'schedule',status:'completed',per_page:5});
+   assert.equal(page.total_count,1,'audit_run_missing_or_ambiguous');assert.equal(page.workflow_runs?.length,1,'audit_run_missing_or_ambiguous');
+   const selected=runView(page.workflow_runs[0]);verifyRun(selected,{head:part.parent,event:'schedule',workflow:p.auditWorkflow},p);
+   const run=runView(await api('GET /repos/{owner}/{repo}/actions/runs/{run_id}',{run_id:selected.id}));
+   assert.deepEqual(run,selected,'audit_run_changed_during_read');
+   const jobs=await api('GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs',{run_id:run.id,per_page:30});
+   assert.equal(jobs.total_count,1,'unexpected_audit_jobs');assert.equal(jobs.jobs?.length,1,'unexpected_audit_jobs');
+   assert.equal(jobs.jobs[0].run_id,run.id,'audit_job_wrong_run');assert.ok(Number.isSafeInteger(jobs.jobs[0].id)&&jobs.jobs[0].id>0,'audit_job_id');assert.equal(jobs.jobs[0].name,'audit');assert.equal(jobs.jobs[0].status,'completed');
+   const steps=Object.fromEntries((jobs.jobs[0].steps??[]).filter(s=>['Bounded read-only audit','Publish audit evidence','Preserve audit evidence'].includes(s.name)).map(s=>[s.name,s.conclusion]));
+   const artifacts=await api('GET /repos/{owner}/{repo}/actions/runs/{run_id}/artifacts',{run_id:run.id,per_page:20});
+   assert.ok(Array.isArray(artifacts.artifacts)&&artifacts.artifacts.length<=20,'invalid_audit_artifact_page');
+   assert.equal(artifacts.total_count,artifacts.artifacts.length,'truncated_audit_artifact_page');
+   const matches=artifacts.artifacts.filter(a=>a.name===`data-health-audit-${run.id}-${run.run_attempt}`);
+   assert.equal(matches.length,1,'audit_artifact_missing_or_ambiguous');const artifact={...artifactView(matches[0]),created_at:matches[0].created_at,expires_at:matches[0].expires_at};
+   assert.ok(Number.isSafeInteger(artifact.id)&&artifact.id>0&&artifact.expired===false,'audit_artifact_unavailable');
+   assert.ok(Number.isSafeInteger(artifact.size_in_bytes)&&artifact.size_in_bytes>0&&artifact.size_in_bytes<=p.maxBytes,'audit_artifact_size');
+   assert.equal(artifact.workflow_run?.id,run.id);assert.equal(artifact.workflow_run?.head_sha,part.parent);assert.match(artifact.digest??'',/^sha256:[a-f0-9]{64}$/);
+   const data=await api('GET /repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format}',{artifact_id:artifact.id,archive_format:'zip'});
+   assert.ok(data instanceof ArrayBuffer||ArrayBuffer.isView(data),'invalid_audit_zip_response');const zip=Buffer.from(data instanceof ArrayBuffer?new Uint8Array(data):data);
+   assert.equal(zip.length,artifact.size_in_bytes,'audit_download_size_mismatch');assert.ok(zip.length<=p.maxBytes,'audit_download_size');assert.equal('sha256:'+digest(zip),artifact.digest,'audit_download_digest_mismatch');
+   const hashes=JSON.parse(execFileSync('python3',[path.join(r.root,'tests/v3-release/audit-snapshot.py'),'zip'],{input:zip,cwd:r.root,maxBuffer:65536,stdio:['pipe','pipe','pipe'],env:{PATH:process.env.PATH,LANG:'C.UTF-8',PYTHONDONTWRITEBYTECODE:'1'}}));
+   const sources=Object.fromEntries(auditSources(p).map(file=>[file,digest(r.blob(part.parent,file))]));
+   packet.collectors.push({kind:'audit',commit:current,run,artifact,hashes,steps,sources});
   }
   current=part.parent;
  }
