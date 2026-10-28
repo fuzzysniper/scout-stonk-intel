@@ -74,7 +74,7 @@ and mobile jobs: prior `branches:[main]` filters would otherwise omit this draft
 fix's checks. The old root workflow remains untouched; new root job runs only
 for PRs into the integration branch, with no secrets or write permission.
 
-**96 additional offline cases** cover the actual pure audit producer (mocked fetcher),
+**97 additional offline cases** cover the actual pure audit producer (mocked fetcher),
 checked/unavailable/partial/incomplete states, source/dataset/attempt/job/artifact/
 retention/clock substitutions, ambiguous pages, hourly/daily interleaving,
 shared quotas, fresh main before normal merge, later audits, mode changes,

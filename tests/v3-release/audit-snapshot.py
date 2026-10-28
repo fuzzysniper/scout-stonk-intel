@@ -80,7 +80,7 @@ def validate(payload):
     shape(payload['artifact'], 'createdAt,expiresAt')
     created, expires = timestamp(payload['artifact']['createdAt']), timestamp(payload['artifact']['expiresAt'])
     assert committed <= created <= finish + dt.timedelta(seconds=60)
-    assert created < expires <= start + dt.timedelta(days=7, seconds=60)
+    assert created < expires <= created + dt.timedelta(days=7)
     assert after['state'] in ('checked', 'unavailable')
     assert after['reason'] == (None if after['state'] == 'checked' else 'api_unavailable')
     assert after['workflowState'] in ('active', 'disabled', 'unknown')
