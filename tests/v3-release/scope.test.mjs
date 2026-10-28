@@ -24,6 +24,7 @@ test('CI retains all root/current C/mobile/backend/STOP suites and adds A47/B149
  for(const flag of ['PRODUCTION_RPC_ENABLED','SCOUT_LIVE_API_ENABLED','SCOUT_LIVE_STORE_ENABLED','SCOUT_CONTINUOUS_API_ENABLED','SCOUT_CONTINUOUS_CONTROL_ENABLED','SCOUT_CONTINUOUS_STORE_ENABLED','SCOUT_CONTINUOUS_MAINTENANCE_ENABLED'])assert.ok(next.includes(flag+": 'false'"),flag);
  assert.doesNotMatch(next,/\bsecrets\.|environment:|workflow_dispatch|schedule:|contents:\s*write|vercel deploy|curl\s/);
  assert.equal(next.split('ref: ${{ github.event.pull_request.head.sha }}').length-1,2,'both dedicated jobs test the actual immutable head');
+ assert.ok(next.includes('git restore -- docs/live-feed-167/screenshots/{locked,disabled}-{320,390,1280}.png docs/live-feed-167/disabled-{320,390,1280}.json'),'restore exactly the9 known outputs of unchanged legacy browser39, not a directory or safety guard');
  const run=readFileSync('tests/v3-release/run.sh','utf8');for(const source of ['tests/unfarmd-source-selection/run.sh','tests/unfarmd-journal/run.sh'])assert.ok(run.includes(source));
 });
 test('app, actual A/B math/controls and SEC/journal modules byte-match source; no new runtime caller is added',()=>{

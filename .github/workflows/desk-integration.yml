@@ -84,7 +84,7 @@ jobs:
         run: NODE_ENV=test NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
       - name: Final source pins after restoring only generated QA screenshots
         run: |
-          git restore -- docs/live-feed-167/screenshots/disabled-1280.png
+          git restore -- docs/live-feed-167/screenshots/{locked,disabled}-{320,390,1280}.png docs/live-feed-167/disabled-{320,390,1280}.json
           git restore -- docs/screenshots/continuous-local-qa/parent-stop-{320,390,1280}.png
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v3-release/scope.test.mjs
       - uses: actions/upload-artifact@v4

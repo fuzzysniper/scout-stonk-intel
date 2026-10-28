@@ -58,8 +58,9 @@ wrapper runs C's unchanged45 current browser tests against the actual optimized
 aggregate, copies their six genuine LOCAL TEST outputs to the aggregate directory,
 then restores only those known generated source PNGs from C196. No image editing,
 fake receipts or provider-response interception. Generated Next metadata and the
-known legacy homepage/three native-parent test PNGs are similarly restored before
-final source checks. Only test-generated artifacts are restored; source/runtime
+six known legacy homepage PNGs/three disabled JSON receipts and three native-parent
+test PNGs are similarly restored before final source checks. Only test-generated
+artifacts are restored; source/runtime
 files and test results are never hidden or reset.
 
 ## What this candidate does and does not connect
@@ -142,7 +143,7 @@ NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v3-releas
 NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/desk-journey/historical.sh browser
 NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/consumer-homepage/playwright.config.mjs
 NODE_ENV=test NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
-git restore -- docs/live-feed-167/screenshots/disabled-1280.png
+git restore -- docs/live-feed-167/screenshots/{locked,disabled}-{320,390,1280}.png docs/live-feed-167/disabled-{320,390,1280}.json
 git restore -- docs/screenshots/continuous-local-qa/parent-stop-{320,390,1280}.png
 node --test tests/v3-release/scope.test.mjs
 bash scripts/archive-tool.sh check origin/main
@@ -157,19 +158,27 @@ tests also assert zero API/third-party calls, cookies, browser storage and error
 Verification results and exact aggregate SHA are recorded in the PR after checks
 finish. Expected distinct suites: root1350 Node+107 Python; C113 adapter+5 scope;
 A source47; B journal149; original A evidence118/B risk171; current C45 mobile;
-legacy39 and native local STOP5; historical #19127 mobile. Extra link/source tests
+legacy39 and native local STOP5; historical #191 27 mobile. Extra link/source tests
 are reported separately. Parameterized/fuzz scenarios and repeated snapshot tests
 must not be counted as extra independent user tests.
 
 Local results: **all required suites PASS** with zero failures/skips: root1350
 Node+107 Python (including disposable PG/TLS/security), current C113+5, A47/B149,
-new aggregate scope4 + typed link24, original A118/B171 and #19160+C3, current
+new aggregate scope4 + typed link24, original A118/B171 and #191 60+C3, current
 browser45, historical browser27, legacy39 and native local auth/STOP5. Original
 standalone C113+5 and B149 also pass in exact source trees. Locked dependencies,
 types, lint, optimized build and default-OFF built endpoint checks PASS. The first
 linker run rejected an invalid synthetic ticker containing spaces; only that
 new fixture was corrected, not identity validation, arithmetic or UI. GitHub
 exact-head CI and final archive/scope evidence are recorded in the draft PR.
+
+Initial aggregate CI at `c80f87f8396efa9846721e43e3dfd03c66bb0911` passed
+root/focused and all45+27+39+5 browser/security cases, then correctly failed the
+final source guard: Ubuntu's legacy browser run changed its generated320px PNG,
+while cleanup covered only the1280px disabled PNG. Cleanup now restores exactly
+the nine paths written by unchanged legacy browser39 (six PNGs +three JSON files),
+not a directory or a code/control file. The source guard remains unchanged and
+strict; the workflow patch is re-pinned and full CI must pass on the successor.
 
 ## Current local screenshots
 
