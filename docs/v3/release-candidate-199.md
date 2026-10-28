@@ -20,7 +20,9 @@ Original PR #200 rejects the actual daily commit as
 file also fails the old two-file code/data classifier. The correction adds a
 **distinct authenticated daily audit transition**, rather than a `data/**`
 exception. The original91 cases, entire hourly verifier function and Python
-append/ZIP guard, original source manifest and C/B guard files remain byte-identical.
+append/ZIP guard, original source manifest and C guard remain byte-identical.
+The B scope guard's existing reviewed exception uses the exact three scheduled
+paths only after full aggregate verification; its original three tests remain.
 
 | Contract | Hourly | Daily |
 | --- | --- | --- |
@@ -73,6 +75,8 @@ The dependent PR target also gets immutable-head root/native security, focused
 and mobile jobs: prior `branches:[main]` filters would otherwise omit this draft
 fix's checks. The old root workflow remains untouched; new root job runs only
 for PRs into the integration branch, with no secrets or write permission.
+Archive validation receives the actual immutable PR base SHA, not an unsupported
+branch selector; the archive validator and original root workflow are unchanged.
 
 **98 additional offline cases** cover the actual pure audit producer (mocked fetcher),
 checked/unavailable/partial/incomplete states, source/dataset/attempt/job/artifact/

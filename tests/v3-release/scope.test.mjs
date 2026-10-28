@@ -37,6 +37,8 @@ test('CI retains all root/current C/mobile/backend/STOP suites and adds A47/B149
  assert.equal(next.split('ref: ${{ github.event.pull_request.head.sha }}').length-1,3,'existing focused/mobile and dependent root jobs test the actual immutable head');
  assert.ok(next.includes('branches: [main, integration/199-source-disabled-v3]'));
  assert.ok(next.includes("github.event.pull_request.base.ref == 'integration/199-source-disabled-v3'"));
+ assert.ok(next.includes('REVIEWED_BASE_SHA: ${{ github.event.pull_request.base.sha }}'));
+ assert.ok(next.includes('bash scripts/archive-tool.sh check "$REVIEWED_BASE_SHA"'));
  assert.ok(next.includes('NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm test'));
  assert.ok(next.includes('git restore -- docs/live-feed-167/screenshots/{locked,disabled}-{320,390,1280}.png docs/live-feed-167/disabled-{320,390,1280}.json'),'restore exactly the9 known outputs of unchanged legacy browser39, not a directory or safety guard');
  const run=readFileSync('tests/v3-release/run.sh','utf8');for(const source of ['tests/unfarmd-source-selection/run.sh','tests/unfarmd-journal/run.sh'])assert.ok(run.includes(source));

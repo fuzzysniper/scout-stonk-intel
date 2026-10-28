@@ -7,6 +7,7 @@ import {repository,runtimeState,POLICY,dataFiles} from './lifecycle.mjs';
 export const SOURCE_BASE='ba4b2e494f768350ec285e26791b61a90c50220b';
 export const BASE='9ed40610eb34c34b56996d55a768f2eac9b43cdd';
 export const UPSTREAM=['data/collection-summary.json','data/reward-snapshots.json'];
+export const SCHEDULED=dataFiles(); // Eligible only after assertAggregate's full main proof.
 export const SOURCES={C:{pr:196,head:'a1e461b9248d72396f038b641c7bc79d81130e7d',count:95},A:{pr:197,head:'4da9c8f39d815f2a8ee80283efbcfa808e09e352',count:4},B:{pr:198,head:'df36b54d09a6f5cec304a64a7d99d7a01176e872',count:10}};
 export const EXCEPTIONS=['.github/workflows/desk-integration.yml','tests/desk-journey/scope.test.mjs','tests/unfarmd-journal/scope.test.mjs'];
 export const ADDED=[
@@ -59,7 +60,7 @@ export function assertAggregate(){
  }
  assert.equal(expected.length,109);assert.equal(new Set(expected).size,109);
  assert.deepEqual(Object.keys(manifest.files).sort(),expected.sort());
- const scheduled=dataFiles();
+ const scheduled=SCHEDULED;
  const allowed=new Set([...expected,...ADDED,...(lifecycle.dataAllowed?scheduled:[])]);
  for(const path of [...git('diff','--name-only','--no-renames',BASE).split('\n'),...git('ls-files','--others','--exclude-standard').split('\n')].filter(Boolean))assert.ok(allowed.has(path),'unreviewed aggregate path: '+path);
  // Freeze every preexisting runtime/security/auth/SQL/data/config file, except
