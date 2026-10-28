@@ -6,7 +6,7 @@ import {assertAggregate,aggregateAllowance,BASE,SOURCES,EXCEPTIONS,ADDED,git,raw
 test('109 reviewed inputs,106 unchanged bytes/modes and exactly3 independently pinned integration exceptions',()=>{
  const manifest=assertAggregate();assert.equal(Object.keys(manifest.files).length-EXCEPTIONS.length,106);
  for(const path of ADDED){const s=lstatSync(path);assert.ok(s.isFile()&&!s.isSymbolicLink(),path);}
- assert.equal(aggregateAllowance().size,43);
+ assert.equal(aggregateAllowance().size,44);
 });
 test('each original full guard remains in immutable source history and all original test cases stay executable',()=>{
  for(const [source,path] of [['C','tests/desk-journey/scope.test.mjs'],['B','tests/unfarmd-journal/scope.test.mjs']]){

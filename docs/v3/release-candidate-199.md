@@ -85,6 +85,11 @@ shared quotas, fresh main before normal merge, later audits, mode changes,
 rollback, main-vs-PR runner evidence and categorical redaction. No financial
 quantities are fabricated or new source observations acquired by these tests.
 Original91 and all full root/native/mobile suites remain in the runner.
+An additional fully offline fresh-main rehearsal runs the actual C5/B3/release4
+scope suites against the complete candidate after synthetic hourly and daily
+updates, using the real evidence writer and private main packet. This permanently
+covers the journal's second two-file allowlist, which isolated lifecycle fixtures
+alone could not catch. It adds no financial observations or live workflow run.
 
 Read-only evidence: daily run `40706768191` and job `122880878171` report schedule,
 parent `5f0c960`, and all three publication steps successful. Artifact
@@ -167,7 +172,7 @@ their exact detached temporary worktrees. These **do not substitute** for curren
 aggregate byte/scope tests, C's actual current adapter/browser or B149. Existing
 #191 historical guards/A118/B171/browser27 also remain intact and run separately.
 
-All 24 new files are under `tests/v3-release/**` and this document, including six
+All 25 new files are under `tests/v3-release/**` and this document, including six
 new local screenshots. Original screenshots are retained unchanged. The capture
 wrapper runs C's unchanged45 current browser tests against the actual optimized
 aggregate, copies their six genuine LOCAL TEST outputs to the aggregate directory,

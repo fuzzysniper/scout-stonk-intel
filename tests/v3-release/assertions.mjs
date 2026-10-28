@@ -17,6 +17,7 @@ export const ADDED=[
  'tests/v3-release/lifecycle.mjs','tests/v3-release/github-proof.mjs','tests/v3-release/collector-append.py',
  'tests/v3-release/lifecycle-fixtures.mjs','tests/v3-release/lifecycle.test.mjs','tests/v3-release/github-proof.test.mjs',
  'tests/v3-release/audit-snapshot.py','tests/v3-release/audit.test.mjs',
+ 'tests/v3-release/main-rehearsal.mjs',
  'docs/v3/release-candidate-199.md',
  ...['incomplete','plan'].flatMap(state=>['320','390','1280'].map(size=>`tests/v3-release/screenshots/current-${state}-${size}.png`)),
 ];
