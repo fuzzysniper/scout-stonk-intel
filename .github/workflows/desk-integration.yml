@@ -1,4 +1,4 @@
-name: V3 manual Decision Desk offline integration
+name: V3 guided Decision Desk offline integration
 on:
   pull_request:
     branches: [main]
@@ -35,10 +35,10 @@ jobs:
         with:
           node-version: '24.19.0'
       - run: npm ci --ignore-scripts
-      - name: Aggregate source and adapter invariants; original C units
-        run: bash tests/desk-integration/run.sh
-      - name: Full actual A118 and B171 focused suites; no safety guards skipped
-        run: bash tests/desk-integration/engines.sh
+      - name: Actual journey/source preservation and original adapter regressions
+        run: bash tests/desk-journey/run.sh
+      - name: Exact historical 191 scope + full A/B suites; no safety guards skipped
+        run: bash tests/desk-journey/historical.sh focused
   mobile-browser:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -64,14 +64,16 @@ jobs:
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
           node tests/live-ledger/built-api.mjs
           node tests/continuous-ledger/built-api.mjs
-      - name: Integrated manual PLAN/WATCH/PASS; identity, UTC, storage, axe and focus
-        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/desk-integration/playwright.config.mjs
+      - name: Actual guided MANUAL PLAN/WATCH/PASS; identity, UTC, privacy, axe and focus
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/desk-journey/playwright.config.mjs
+      - name: Exact historical 191 browser regression (separate preserved UI)
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/desk-journey/historical.sh browser
       - name: Existing private homepage browser regression
         run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/consumer-homepage/playwright.config.mjs
       - name: Existing native HTTPS/PG parent STOP and accessibility (disposable local only)
         run: NODE_ENV=test NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
       - uses: actions/upload-artifact@v4
         with:
-          name: local-manual-decision-desk
-          path: tests/desk-integration/screenshots/
+          name: local-guided-decision-desk
+          path: tests/desk-journey/screenshots/
           retention-days: 3
