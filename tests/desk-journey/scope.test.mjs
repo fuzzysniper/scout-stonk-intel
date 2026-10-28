@@ -5,7 +5,7 @@ import {execFileSync} from 'node:child_process';
 const git=(...args)=>execFileSync('git',args,{maxBuffer:16*1024*1024}).toString().trim();
 const bytes=(ref,path)=>execFileSync('git',['show',`${ref}:${path}`],{maxBuffer:16*1024*1024});
 const MAIN='ba4b2e494f768350ec285e26791b61a90c50220b',OLD_BASE='9e5264b7edd3f37aeb35113ffb8b86aa8a50b7ec',INTEGRATION='d838cb138f9642a2b4a4572ddf432e5f7df9614b';
-const added=['app/desk/journey/model.ts','app/desk/journey/controls.tsx','app/desk/journey/summary.tsx','app/desk/journey/desk-journey.tsx','app/desk/journey/journey.module.css','tests/desk-journey/adapter.test.mjs','tests/desk-journey/browser.spec.mjs','tests/desk-journey/scope.test.mjs','tests/desk-journey/playwright.config.mjs','tests/desk-journey/run.sh','tests/desk-journey/historical.sh','docs/v3/desk-journey.md',...['consider','risk','plan','pass'].flatMap(state=>['320','390','1280'].map(size=>`tests/desk-journey/screenshots/${state}-${size}.png`))];
+const added=['app/desk/journey/feedback.ts','app/desk/journey/plan-feedback.tsx','docs/v3/desk-feedback.md',...['incomplete','plan'].flatMap(state=>['320','390','1280'].map(size=>`tests/desk-journey/screenshots/feedback-${state}-${size}.png`)),'app/desk/journey/model.ts','app/desk/journey/controls.tsx','app/desk/journey/summary.tsx','app/desk/journey/desk-journey.tsx','app/desk/journey/journey.module.css','tests/desk-journey/adapter.test.mjs','tests/desk-journey/browser.spec.mjs','tests/desk-journey/scope.test.mjs','tests/desk-journey/playwright.config.mjs','tests/desk-journey/run.sh','tests/desk-journey/historical.sh','docs/v3/desk-journey.md',...['consider','risk','plan','pass'].flatMap(state=>['320','390','1280'].map(size=>`tests/desk-journey/screenshots/${state}-${size}.png`))];
 test('exact #191 ancestry and every imported source byte/mode preserved except reviewed route and CI wiring',()=>{
  assert.equal(git('merge-base','--is-ancestor',INTEGRATION,'HEAD'),'');assert.equal(git('merge-base','--is-ancestor',MAIN,'HEAD'),'');
  const original=git('diff','--name-only',OLD_BASE,INTEGRATION).split('\n');assert.equal(original.length,61);
@@ -26,4 +26,11 @@ test('enumerated journey-only follow-up; every main collector/security/source/ST
 });
 test('journey has no I/O/storage/provider/secret/execution/unsafe-HTML capability or default market numbers',()=>{
  for(const path of added.filter(path=>path.startsWith('app/')&&/\.(ts|tsx)$/.test(path))){const text=readFileSync(path,'utf8');assert.doesNotMatch(text,/\b(?:fetch|WebSocket|XMLHttpRequest|localStorage|sessionStorage|indexedDB|process|dangerouslySetInnerHTML|eval)\b|document\.cookie|next\/(?:headers|server)|from ['"](?:pg|node:)/,path);}
+});
+
+test('P0 feedback follow-up is narrow relative to preserved #193; arithmetic, decision adapters, workflows and controls are frozen',()=>{
+ const predecessor='6eb9c6ecb35d80ce381e12a6e5b5f6eca4747d4d';assert.equal(git('merge-base','--is-ancestor',predecessor,'HEAD'),'');
+ const changed=new Set(['app/desk/journey/desk-journey.tsx','app/desk/journey/journey.module.css','app/desk/journey/feedback.ts','app/desk/journey/plan-feedback.tsx','tests/desk-journey/adapter.test.mjs','tests/desk-journey/browser.spec.mjs','tests/desk-journey/run.sh','tests/desk-journey/scope.test.mjs','docs/v3/desk-feedback.md',...['incomplete','plan'].flatMap(state=>['320','390','1280'].map(size=>`tests/desk-journey/screenshots/feedback-${state}-${size}.png`))]);
+ for(const path of [...git('diff','--name-only',predecessor).split('\n'),...git('ls-files','--others','--exclude-standard').split('\n')].filter(Boolean))assert.ok(changed.has(path),path);
+ assert.equal(git('diff',predecessor,'--','lib','app/desk/integration','app/desk/journey/model.ts','app/desk/journey/controls.tsx','app/desk/journey/summary.tsx','app/api','app/consumer','app/site-chrome.tsx','.github','data','scripts','scheduler','ops','vercel.json'),'');
 });

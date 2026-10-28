@@ -43,3 +43,33 @@ test('omitted costs remain explicit uncertainty; missing explicit percent is not
  const p=percentages();r=api.recordJourney(d,p,'PLAN',AT,'omit');assert.ok(r.event);assert.equal(r.evaluation.risk.calculation.omittedCosts,true);
  d.costMode='explicit';p.entryFee='';assert.equal(api.recordJourney(d,p,'PLAN',AT,'missing').event,null);
 });
+
+const feedbackApi=createRequire(import.meta.url)(process.env.DESK_INTEGRATION_BUILD+'/app/desk/journey/feedback.js');
+test('incomplete feedback groups actual errors, deduplicates fields and selects actual first requirement',()=>{
+ const d=api.emptyDraft(),p=api.emptyPercentages(),evaluation=api.evaluateJourney(d,p,AT),before=JSON.stringify(evaluation),f=feedbackApi.planFeedback(evaluation,d,p);
+ assert.equal(f.next.field,'asset');assert.equal(f.errors.length,evaluation.issues.filter(i=>i.severity==='error').length);assert.equal(f.fieldCount,new Set(f.items.map(i=>i.field)).size);assert.equal(f.groups.reduce((sum,g)=>sum+g.count,0),f.fieldCount);assert.ok(f.groups.length<=4);assert.equal(JSON.stringify(evaluation),before);
+ d.asset='TEST';assert.equal(feedbackApi.planFeedback(api.evaluateJourney(d,p,AT),d,p).next.field,'thesis');
+});
+test('valid manual plan has no blockers but source remains false and actual risk calculation is required',()=>{
+ const d=validDraft(),p=percentages(),r=api.evaluateJourney(d,p,AT),f=feedbackApi.planFeedback(r,d,p);assert.deepEqual(f.groups,[]);assert.equal(f.fieldCount,0);assert.equal(f.next,null);assert.equal(r.recordable,true);assert.ok(r.risk.calculation);assert.equal(r.source.sourceGo,false);
+});
+test('cost group targets a truly missing fee rather than the already chosen cost mode',()=>{
+ const d=validDraft(),p=percentages();p.entryFee='';const r=api.evaluateJourney(d,p,AT),f=feedbackApi.planFeedback(r,d,p);assert.equal(r.recordable,false);assert.equal(f.next.field,'entryFee');assert.equal(f.next.issue.code,'invalid_cost_assumptions');assert.equal(d.costMode,'explicit');
+});
+test('next step reflects repaired data, not remembered error order',()=>{
+ const d=validDraft(),p=percentages();d.thesis='';d.confirmed=false;
+ assert.equal(feedbackApi.planFeedback(api.evaluateJourney(d,p,AT),d,p).next.field,'thesis');d.thesis='Owner assumption';assert.equal(feedbackApi.planFeedback(api.evaluateJourney(d,p,AT),d,p).next.field,'confirmed');
+});
+test('unknown validator issue has disclosure fallback instead of a fake field or completion count',()=>{
+ const d=validDraft(),p=percentages(),r=api.evaluateJourney(d,p,AT);r.recordable=false;r.issues=[{field:'future_contract',code:'unknown_requirement',severity:'error'}];const f=feedbackApi.planFeedback(r,d,p);assert.equal(f.next,null);assert.equal(f.fieldCount,1);assert.deepEqual(f.groups,[{label:'Review validation details',count:1}]);
+});
+test('warning-only omitted costs do not become blockers or fake positive risk claims',()=>{
+ const d=validDraft();d.costMode='omitted';const p=percentages(),r=api.evaluateJourney(d,p,AT),f=feedbackApi.planFeedback(r,d,p);assert.equal(f.errors.length,0);assert.equal(r.recordable,true);assert.equal(r.risk.calculation.omittedCosts,true);assert.equal(r.risk.worstCaseLoss,null);
+});
+test('freshness expiry is still an actual B blocker, with the correct next time field',()=>{
+ const d=validDraft(),p=percentages(),r=api.evaluateJourney(d,p,'2026-10-27T22:30:00.001Z'),f=feedbackApi.planFeedback(r,d,p);assert.equal(r.recordable,false);assert.equal(f.next.field,'asOfUtc');assert.equal(f.next.issue.code,'stale_hypothetical_reference');
+});
+for(const [field,value] of [['entry',''],['cash',''],['allocationBps','1.001']])test('precise '+field+' error wins over enclosing B group; no correction to already-entered field',()=>{
+ const d=validDraft(),p=percentages();if(field==='allocationBps')p[field]=value;else d[field]=value;
+ const r=api.evaluateJourney(d,p,AT),f=feedbackApi.planFeedback(r,d,p);assert.equal(r.recordable,false);assert.equal(f.next.field,field);assert.ok(f.errors.length>=f.items.length);if(field==='entry')assert.equal(feedbackApi.feedbackMessage(f.next.issue),'Enter your assumed entry price.');
+});

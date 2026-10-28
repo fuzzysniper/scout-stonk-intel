@@ -5,41 +5,64 @@ import {resolveDraftIdentity,type DeskEvaluation,type Draft,type Field} from '..
 import {emptyDraft,emptyPercentages,evaluateJourney,fieldLocation,friendlyIssue,issueField,percentFields,recordJourney,steps,type Percentages,type PercentField} from './model';
 import {Control} from './controls';
 import RiskSummary from './summary';
+import PlanFeedback from './plan-feedback';
+import {planFeedback} from './feedback';
 import styles from './journey.module.css';
 const groupNames=['Prices & holding','Time & exit','Your limits','Costs'];
 function focusField(name:string){const field=document.getElementById(`journey-${name}`),details=field?.closest<HTMLDetailsElement>('details');if(details)details.open=true;field?.focus();}
 export default function DeskJourney(){
  const [draft,setDraft]=useState<Draft>(emptyDraft),[percentages,setPercentages]=useState<Percentages>(emptyPercentages);
  const [stage,setStage]=useState(0),[riskStep,setRiskStep]=useState(0),[choice,setChoice]=useState<Decision|null>(null);
+ const [correction,setCorrection]=useState<string|null>(null),[recordFailed,setRecordFailed]=useState(false);
+ const focusOutcome=useRef(false);
  const [attempt,setAttempt]=useState<Issue[]|null>(null),[evaluation,setEvaluation]=useState<DeskEvaluation|null>(null),[receipt,setReceipt]=useState<DecisionEvent|null>(null);
  const heading=useRef<HTMLHeadingElement>(null),outcome=useRef<HTMLElement>(null),pendingFocus=useRef<string|null>(null),sequence=useRef(0);
  const identity=useMemo(()=>resolveDraftIdentity(draft),[draft]);
- const reset=useCallback(()=>{setDraft(emptyDraft());setPercentages(emptyPercentages());setStage(0);setRiskStep(0);setChoice(null);setAttempt(null);setEvaluation(null);setReceipt(null);},[]);
+ const reset=useCallback(()=>{setDraft(emptyDraft());setPercentages(emptyPercentages());setStage(0);setRiskStep(0);setChoice(null);setAttempt(null);setEvaluation(null);setReceipt(null);setCorrection(null);setRecordFailed(false);},[]);
  useEffect(()=>{const show=(e:PageTransitionEvent)=>{if(e.persisted)reset();};window.addEventListener('pagehide',reset);window.addEventListener('pageshow',show);return()=>{window.removeEventListener('pagehide',reset);window.removeEventListener('pageshow',show);};},[reset]);
  useEffect(()=>{if(pendingFocus.current){focusField(pendingFocus.current);pendingFocus.current=null;}else heading.current?.focus();},[stage,riskStep]);
- useEffect(()=>{if(attempt!==null||receipt)outcome.current?.focus();},[attempt,receipt]);
+ useEffect(()=>{if(focusOutcome.current){outcome.current?.focus({preventScroll:true});outcome.current?.scrollIntoView({block:'start',behavior:'instant'});focusOutcome.current=false;}},[attempt,receipt]);
+ useEffect(()=>{
+  if(stage!==3||choice!=='PLAN'||receipt)return;
+  const refresh=()=>{const next=evaluateJourney(draft,percentages,new Date().toISOString());if(!next.recordable&&document.activeElement?.id==='journey-record-plan'){focusOutcome.current=true;setAttempt(next.issues);}setEvaluation(next);};
+  const visible=()=>{if(document.visibilityState==='visible')refresh();};
+  refresh();const timer=window.setInterval(refresh,1000);window.addEventListener('focus',refresh);document.addEventListener('visibilitychange',visible);
+  return()=>{window.clearInterval(timer);window.removeEventListener('focus',refresh);document.removeEventListener('visibilitychange',visible);};
+ },[stage,choice,receipt,draft,percentages]);
  function go(next:number,decision?:Decision){
-  setStage(next);if(decision){setChoice(decision);setReceipt(null);}setAttempt(null);
+  setCorrection(null);setStage(next);if(decision){setChoice(decision);setReceipt(null);}setAttempt(null);
   if(next===3)setEvaluation(evaluateJourney(draft,percentages,new Date().toISOString()));
-  if(next===stage)heading.current?.focus();
+  if(next===stage){if(pendingFocus.current){focusField(pendingFocus.current);pendingFocus.current=null;}else heading.current?.focus();}
  }
  function change(name:string,value:string){
   const isPercent=(percentFields as readonly string[]).includes(name),next={...draft,...(!isPercent?{[name]:value}:{}),confirmed:false,...(['costMode','entryFee','exitFee','entrySlip','exitSlip','fixed'].includes(name)?{costConfirmed:false}:{})};
   const nextPercentages=isPercent?{...percentages,[name]:value}:percentages;
   setDraft(next);if(isPercent)setPercentages(nextPercentages);
-  setReceipt(null);setAttempt(null);setEvaluation(stage===3?evaluateJourney(next,nextPercentages,new Date().toISOString()):null);
+  setReceipt(null);setAttempt(null);setRecordFailed(false);setEvaluation(stage===3?evaluateJourney(next,nextPercentages,new Date().toISOString()):null);
  }
- function confirm(name:'confirmed'|'costConfirmed',value:boolean){const next={...draft,[name]:value};setDraft(next);setReceipt(null);setAttempt(null);setEvaluation(evaluateJourney(next,percentages,new Date().toISOString()));}
+ function confirm(name:'confirmed'|'costConfirmed',value:boolean){const next={...draft,[name]:value};setDraft(next);setReceipt(null);setAttempt(null);setRecordFailed(false);setEvaluation(evaluateJourney(next,percentages,new Date().toISOString()));}
+ function checkPlan(){
+  const next=evaluateJourney(draft,percentages,new Date().toISOString());focusOutcome.current=true;setEvaluation(next);setAttempt(next.issues);setReceipt(null);setRecordFailed(false);
+ }
  function record(){
   if(!choice)return;
   const result=recordJourney(draft,percentages,choice,new Date().toISOString(),`session-decision-${++sequence.current}`);
-  setAttempt(result.evaluation.issues);setEvaluation(result.evaluation);setReceipt(result.event);outcome.current?.focus();
+  focusOutcome.current=true;setAttempt(result.evaluation.issues);setEvaluation(result.evaluation);setReceipt(result.event);setRecordFailed(!result.event&&result.evaluation.recordable);
  }
- function fix(i:Issue){
-  const field=issueField(i),location=fieldLocation(field);pendingFocus.current=field;setStage(location.stage);setRiskStep(location.riskStep);
+ const feedback=planFeedback(evaluation,draft,percentages),planReady=Boolean(evaluation?.recordable&&evaluation.risk.calculation&&!recordFailed);
+ function nextMissing(){
+  focusOutcome.current=false;
+  if(!feedback.next){const details=document.getElementById('journey-all-issues') as HTMLDetailsElement|null;if(details)details.open=true;document.getElementById('journey-issue-details')?.focus();return;}
+  const field=feedback.next.field,location=fieldLocation(field);pendingFocus.current=field;setAttempt(evaluation?.issues??null);
+  setCorrection(location.stage===3?null:field);setStage(location.stage);setRiskStep(location.riskStep);
   if(stage===location.stage&&riskStep===location.riskStep){focusField(field);pendingFocus.current=null;}
  }
- const errors=(attempt??[]).filter(i=>i.severity==='error').filter((i,index,all)=>all.findIndex(j=>issueField(j)===issueField(i)&&j.code===i.code)===index);
+ function returnToDecision(){pendingFocus.current='plan-feedback';go(3);}
+ function fixIssue(issue:Issue){
+  focusOutcome.current=false;const field=issueField(issue),location=fieldLocation(field);pendingFocus.current=field;setStage(location.stage);setRiskStep(location.riskStep);
+  if(stage===location.stage&&riskStep===location.riskStep){focusField(field);pendingFocus.current=null;}
+ }
+ const errors=(attempt??[]).filter(issue=>issue.severity==='error').filter((issue,index,all)=>all.findIndex(other=>other.field===issue.field&&other.code===issue.code)===index);
  const field=(name:Field,label:string,help?:string,options?:readonly (readonly [string,string])[],rows?:number,mode?:'decimal'|'numeric',type?:'datetime-local')=><Control key={name} {...{name,label,help,options,rows,mode,type,change}} value={(percentFields as readonly string[]).includes(name)?percentages[name as PercentField]:draft[name]} issues={attempt??[]}/>;
  const price=(name:Field,label:string,help?:string)=>field(name,label,help,undefined,undefined,'decimal');
  const nextRisk=()=>{if(riskStep===3)go(3);else setRiskStep(current=>current+1);};
@@ -53,6 +76,7 @@ export default function DeskJourney(){
   <section className={styles.card} aria-labelledby="journey-stage">
    <p className={styles.kicker}>STEP {stage+1} OF 4{stage===2?` · ${riskStep+1} OF 4 RISK CHECKS`:''}</p>
    <h1 ref={heading} id="journey-stage" tabIndex={-1}>{titles[stage]}</h1>
+   {correction&&stage!==3&&<aside className={styles.correction}><p>Your other inputs are kept in this session.</p><button type="button" onClick={returnToDecision}>Back to decision</button></aside>}
    {stage===0?<>
     <p className={styles.intro}>Trade the thesis. Not the dopamine.</p>
     {field('asset','Ticker, token address or asset name','Your entry stays unverified. No lookup runs.')}
@@ -112,20 +136,21 @@ export default function DeskJourney(){
      {receipt.plan.decision!=='PLAN'&&<p className={styles.help}>Only your reason{receipt.plan.decision==='WATCH'?' and research':''} is recorded. Unfinished risk inputs are not approved.</p>}
     </section>:<>
      <p className={styles.asset}>{draft.asset||'No asset entered'} <span>· your unverified reference</span></p>
-     <div className={styles.choices} role="group" aria-label="Choose a decision">{(['PLAN','WATCH','PASS'] as const).map(decision=><button type="button" key={decision} aria-pressed={choice===decision} onClick={()=>{setChoice(decision);setAttempt(null);setEvaluation(decision==='PLAN'?evaluateJourney(draft,percentages,new Date().toISOString()):null);}}>{decision}</button>)}</div>
+     <div className={styles.choices} role="group" aria-label="Choose a decision">{(['PLAN','WATCH','PASS'] as const).map(decision=><button type="button" key={decision} aria-pressed={choice===decision} onClick={()=>{setChoice(decision);setAttempt(null);setRecordFailed(false);setEvaluation(decision==='PLAN'?evaluateJourney(draft,percentages,new Date().toISOString()):null);}}>{decision}</button>)}</div>
      {choice==='PLAN'?<>
+      <PlanFeedback {...{feedback,checked:attempt!==null,ready:planReady,failed:recordFailed}} onNext={nextMissing} onCheck={checkPlan} feedbackRef={outcome}/>
       <details><summary>Your thesis at a glance</summary><dl className={styles.metrics}><div><dt>Why it might work</dt><dd>{draft.thesis||'Not entered'}</dd></div><div><dt>What could go wrong</dt><dd>{draft.counterThesis||'Not entered'}</dd></div><div><dt>Unknowns</dt><dd>{draft.unknowns||'Not entered'}</dd></div><div><dt>When to walk away</dt><dd>{draft.invalidation||'Not entered'}</dd></div></dl></details>
-      <RiskSummary evaluation={evaluation}/>
+      {planReady?<RiskSummary evaluation={evaluation}/>:evaluation?.risk.calculation?<details><summary>Review current risk calculation</summary><RiskSummary evaluation={evaluation}/></details>:null}
      </>:<p className={styles.help}>{choice==='PASS'?'Walking away is a complete decision. A written reason is all you need.':choice==='WATCH'?'You can wait with incomplete information. Write what you are waiting for.':'Choose a decision. Nothing is selected for you.'}</p>}
-     {field('reason',choice==='PASS'?'Why pass?':choice==='WATCH'?'What are you waiting for?':'Why this decision?',undefined,undefined,3)}
-     {choice==='PLAN'&&<>
+     {choice==='PLAN'?<details className={styles.decisionInputs}><summary>Your reason &amp; acknowledgements</summary>
+      {field('reason','Why this decision?',undefined,undefined,3)}
       <label className={styles.check}><input id="journey-costConfirmed" type="checkbox" checked={draft.costConfirmed} onChange={e=>confirm('costConfirmed',e.target.checked)}/><span>I acknowledge my {draft.costMode==='omitted'?'unestimated':'entered'} costs; actual costs can differ.</span></label>
       <label className={styles.check}><input id="journey-confirmed" type="checkbox" checked={draft.confirmed} onChange={e=>confirm('confirmed',e.target.checked)}/><span>These are my own assumptions. I understand loss can exceed the plan and nothing is executed.</span></label>
-     </>}
-     <button type="button" className={styles.primary} disabled={!choice} onClick={record}>{choice?`Record ${choice==='PLAN'?'MANUAL PLAN':choice}`:'Choose PLAN, WATCH or PASS'}</button>
-     <section ref={outcome} tabIndex={-1} aria-label="Decision outcome" aria-live="polite" className={styles.blockers}>
-      {attempt&&!receipt?<><h2>Not recorded yet</h2>{errors.length?<ul>{errors.map(i=><li key={`${i.field}:${i.code}`}><button type="button" onClick={()=>fix(i)}>{friendlyIssue(i)}</button></li>)}</ul>:<p>The record could not be created. Review your inputs.</p>}</>:null}
-     </section>
+     </details>:field('reason',choice==='PASS'?'Why pass?':choice==='WATCH'?'What are you waiting for?':'Why this decision?',undefined,undefined,3)}
+     {(choice!=='PLAN'||planReady)&&<button type="button" id={choice==='PLAN'?'journey-record-plan':undefined} className={styles.primary} disabled={!choice} onClick={record}>{choice?`Record ${choice==='PLAN'?'MANUAL PLAN':choice}`:'Choose PLAN, WATCH or PASS'}</button>}
+     {choice!=='PLAN'&&<section ref={outcome} tabIndex={-1} aria-label="Decision outcome" aria-live="polite" className={styles.blockers}>
+      {attempt?<><h2>Not recorded yet</h2>{errors.length?<ul>{errors.map(issue=><li key={`${issue.field}:${issue.code}`}><button type="button" onClick={()=>fixIssue(issue)}>{friendlyIssue(issue)}</button></li>)}</ul>:<p>The record could not be created. Review your inputs.</p>}</>:null}
+     </section>}
     </>}
     {choice==='PLAN'&&<p className={styles.warning}>Actual loss may exceed planned loss. A stop is not an order or a guaranteed exit.</p>}
     <div className={styles.navigation}><button type="button" onClick={()=>go(choice==='PLAN'?2:0)}>Back to {choice==='PLAN'?'risk':'consider'}</button>{receipt&&<button type="button" onClick={()=>{setReceipt(null);setAttempt(null);}}>Review / edit</button>}</div>
