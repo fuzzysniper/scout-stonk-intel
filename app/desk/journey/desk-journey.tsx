@@ -7,6 +7,7 @@ import {Control} from './controls';
 import RiskSummary from './summary';
 import styles from './journey.module.css';
 const groupNames=['Prices & holding','Time & exit','Your limits','Costs'];
+function focusField(name:string){const field=document.getElementById(`journey-${name}`),details=field?.closest<HTMLDetailsElement>('details');if(details)details.open=true;field?.focus();}
 export default function DeskJourney(){
  const [draft,setDraft]=useState<Draft>(emptyDraft),[percentages,setPercentages]=useState<Percentages>(emptyPercentages);
  const [stage,setStage]=useState(0),[riskStep,setRiskStep]=useState(0),[choice,setChoice]=useState<Decision|null>(null);
@@ -15,7 +16,7 @@ export default function DeskJourney(){
  const identity=useMemo(()=>resolveDraftIdentity(draft),[draft]);
  const reset=useCallback(()=>{setDraft(emptyDraft());setPercentages(emptyPercentages());setStage(0);setRiskStep(0);setChoice(null);setAttempt(null);setEvaluation(null);setReceipt(null);},[]);
  useEffect(()=>{const show=(e:PageTransitionEvent)=>{if(e.persisted)reset();};window.addEventListener('pagehide',reset);window.addEventListener('pageshow',show);return()=>{window.removeEventListener('pagehide',reset);window.removeEventListener('pageshow',show);};},[reset]);
- useEffect(()=>{if(pendingFocus.current){document.getElementById(`journey-${pendingFocus.current}`)?.focus();pendingFocus.current=null;}else heading.current?.focus();},[stage,riskStep]);
+ useEffect(()=>{if(pendingFocus.current){focusField(pendingFocus.current);pendingFocus.current=null;}else heading.current?.focus();},[stage,riskStep]);
  useEffect(()=>{if(attempt!==null||receipt)outcome.current?.focus();},[attempt,receipt]);
  function go(next:number,decision?:Decision){
   setStage(next);if(decision){setChoice(decision);setReceipt(null);}setAttempt(null);
@@ -36,7 +37,7 @@ export default function DeskJourney(){
  }
  function fix(i:Issue){
   const field=issueField(i),location=fieldLocation(field);pendingFocus.current=field;setStage(location.stage);setRiskStep(location.riskStep);
-  if(stage===location.stage&&riskStep===location.riskStep){document.getElementById(`journey-${field}`)?.focus();pendingFocus.current=null;}
+  if(stage===location.stage&&riskStep===location.riskStep){focusField(field);pendingFocus.current=null;}
  }
  const errors=(attempt??[]).filter(i=>i.severity==='error').filter((i,index,all)=>all.findIndex(j=>issueField(j)===issueField(i)&&j.code===i.code)===index);
  const field=(name:Field,label:string,help?:string,options?:readonly (readonly [string,string])[],rows?:number,mode?:'decimal'|'numeric',type?:'datetime-local')=><Control key={name} {...{name,label,help,options,rows,mode,type,change}} value={(percentFields as readonly string[]).includes(name)?percentages[name as PercentField]:draft[name]} issues={attempt??[]}/>;
