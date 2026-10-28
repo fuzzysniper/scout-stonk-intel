@@ -1,0 +1,26 @@
+{
+  "app/lens/view.tsx": {
+    "sourceHead": "ec527f8b4e3fb7f0c0df7b77c459ec6502267100",
+    "originalSha256": "76713712030825220c2b16d2f3c1794dfce7bfbc3463499da92cceb95fb3283c",
+    "reviewedSha256": "84f8d35e8b2ad396323c861bd5ee6bd910bf66b1fb48eda0bf5514080c7c7e5c",
+    "patchSha256": "fbed6615b8d90b68ff75a96e3730525879e448a83a5f96c9096c3799a50dab5b"
+  },
+  "tests/lens/security.test.mjs": {
+    "sourceHead": "ec527f8b4e3fb7f0c0df7b77c459ec6502267100",
+    "originalSha256": "6dbfe4ed7b53bd537067f7a98bf8bfd38e6a6d62aeb81c6fc205e2f2859963d4",
+    "reviewedSha256": "1a9443f978fdf9595159cd2ed3c125a249ff9d7391a853e47e0596e6337d2519",
+    "patchSha256": "81ad4ca714318b1b2d976062a9a31079c4bd3ceb82e6ea26ff1616b2e9c51820"
+  },
+  "lib/unfarmd-intelligence/source-off.ts": {
+    "sourceHead": "6ed24c97146a39599ad0855a809735f08c83f2b8",
+    "originalSha256": "323fc6a0f62aa5ec799902586b2f63b0ec929e20c4022373a00ac45e37572ccf",
+    "reviewedSha256": "1e7b9d4a6493f178f7720aba62c183bb0081176b2a2be1b632765b512ba95df3",
+    "patchSha256": "8bb6db686a6295cff77a2c55a21442a7dda5d80c5111a93cf1448b7bd9203ac3"
+  },
+  "tests/unfarmd-intelligence/scope.test.mjs": {
+    "sourceHead": "6ed24c97146a39599ad0855a809735f08c83f2b8",
+    "originalSha256": "2992b482e17c4dd9e262e40d6d6225c00f81a11ab7dd6a3f93ddc6c96fe854f4",
+    "reviewedSha256": "926ac8344684616c3c658dafbd0c720a37b1ee2c6439b9360b29109cb2411f2c",
+    "patchSha256": "9c97de1ab52f49f6c098cc8769b6f0bb4c1f38169f91c46686d93f45900f48bb"
+  }
+}

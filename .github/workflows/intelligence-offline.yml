@@ -1,0 +1,45 @@
+name: V4 intelligence contracts offline
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'lib/unfarmd-intelligence/**'
+      - 'tests/unfarmd-intelligence/**'
+      - 'docs/v4/**'
+      - '.github/workflows/intelligence-offline.yml'
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+jobs:
+  evidence-and-thesis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Source-OFF exact-mint facts, provenance, private journal and negative tests
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/unfarmd-intelligence/run.sh
+      - name: Types and lint
+        run: |
+          npx tsc --noEmit
+          npm run lint
+      - name: Source-OFF production build and final untouched-runtime guard
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/unfarmd-intelligence/run.sh
