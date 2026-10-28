@@ -1,0 +1,71 @@
+name: Decision Desk 209 independent draft checks
+on:
+  pull_request:
+    branches: [integration/199-source-disabled-v3]
+    paths: ['app/desk/journey/**', 'tests/desk-guided209/**', 'docs/v3/desk-guided209.md', '.github/workflows/desk-guided209.yml']
+permissions:
+  contents: read
+env:
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  independent-ux-and-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Existing complete root and real disposable PG-TLS/security tests
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm test
+      - name: Types, lint, optimized build, default-OFF APIs and archive
+        env:
+          REVIEWED_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/live-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/built-api.mjs
+          bash scripts/archive-tool.sh check "$REVIEWED_BASE_SHA"
+      - name: Original unchanged adapters plus new sequence and independent exact-base scope
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/desk-guided209/run.sh
+      - name: Original exact-source full guards and historical engine regressions
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v3-release/source-history.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/desk-journey/historical.sh focused
+      - name: Local Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Real offline mobile decisions, accessibility and session-only privacy
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/desk-guided209/playwright.config.mjs
+      - name: Preserved historical UI and existing private homepage
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/desk-journey/historical.sh browser
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/consumer-homepage/playwright.config.mjs
+      - name: Existing native HTTPS-PG parent STOP regression
+        run: NODE_ENV=test NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: guided209-local-mobile-evidence
+          path: tests/desk-guided209/screenshots/
+          retention-days: 3

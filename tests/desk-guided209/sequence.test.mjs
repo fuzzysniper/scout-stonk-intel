@@ -1,0 +1,9 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url),q=require(process.env.DESK_INTEGRATION_BUILD+'/app/desk/journey/sequence.js');
+test('explicit time capture preserves UTC milliseconds regardless of browser local zone; invalid clock not repaired',()=>{assert.equal(q.captureTime(new Date('2026-10-28T11:01:02.003-07:00')),'2026-10-28T18:01:02.003Z');assert.equal(q.captureTime(new Date(NaN)),null);});
+test('human durations map exactly, no preselected duration or implicit market assumption',()=>{assert.deepEqual(q.durations.map(([n])=>n),['900','3600','86400','custom']);});
+test('sequence covers every financial requirement, including optional quantity and both explicit acknowledgements',()=>{for(const f of ['purpose','horizon','thesis','counterThesis','unknowns','instrument','currency','entry','stop','asOfUtc','validSeconds','invalidation','capital','cash','existing','loss','allocationBps','costMode','entryFee','exitFee','entrySlip','exitSlip','fixed','units','reason','confirmed','costConfirmed'])assert.ok(q.questions.some(v=>v.fields.includes(f)),f);});
+test('cost omission skips entry screens only; review and original acknowledgments remain mandatory',()=>{assert.equal(q.nextScreen('costs',true),'review');assert.equal(q.nextScreen('costs',false),'fees');assert.equal(q.nextScreen('fixed',false),'review');});
+test('precise correction destinations preserve required entry price vs aggregate timestamp distinction',()=>{assert.equal(q.fieldForIssue({field:'entry',code:'required'}),'entry');assert.equal(q.fieldForIssue({field:'entry',code:'stale_hypothetical_reference'}),'asOfUtc');for(const [field,screen] of [['entry','prices'],['asOfUtc','time'],['validSeconds','validity'],['reason','review'],['confirmed','review'],['units','quantity']])assert.equal(q.screenFor(field),screen);});

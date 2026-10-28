@@ -1,0 +1,13 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {readFileSync,lstatSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const base='ae0d1918679a40aeca69da0bea3dade0a0b5e85e';
+const git=(...args)=>execFileSync('git',args,{maxBuffer:32*1024*1024}),text=(...args)=>git(...args).toString().trim();
+const hash=b=>createHash('sha256').update(b).digest('hex');
+const app=['app/desk/journey/sequence.ts','app/desk/journey/guided-desk.tsx','app/desk/journey/guided-field.tsx','app/desk/journey/guided.module.css'];
+const added=[...app,'tests/desk-guided209/run.sh','tests/desk-guided209/sequence.test.mjs','tests/desk-guided209/scope.test.mjs','tests/desk-guided209/browser.spec.mjs','tests/desk-guided209/playwright.config.mjs','docs/v3/desk-guided209.md','.github/workflows/desk-guided209.yml',...['before','after','watch','plan','time','zoom'].flatMap(s=>['320','390','1280'].map(w=>`tests/desk-guided209/screenshots/${s}-${w}.png`))];
+test('dependent draft changes only the exact frontend entry and enumerated new UX/test/evidence paths',()=>{assert.equal(text('merge-base','--is-ancestor',base,'HEAD'),'');const allowed=new Set(['app/desk/journey/desk-journey.tsx',...added]);for(const p of [...text('diff','--name-only',base).split('\n'),...text('ls-files','--others','--exclude-standard').split('\n')].filter(Boolean))assert.ok(allowed.has(p),'unreviewed '+p);assert.equal(readFileSync('app/desk/journey/desk-journey.tsx','utf8'),"'use client';\nexport {default} from './guided-desk';\n");});
+test('all original A/B, model, authentication, STOP, source pins, scope guards, historical tests and release lifecycle bytes unchanged',()=>{for(const p of text('ls-tree','-r','--name-only',base).split('\n'))if(p!=='app/desk/journey/desk-journey.tsx'){const stat=lstatSync(p);assert.ok(stat.isFile()&&!stat.isSymbolicLink(),p);assert.equal(hash(readFileSync(p)),hash(git('show',base+':'+p)),p);assert.equal(stat.mode&0o111?'100755':'100644',text('ls-tree',base,'--',p).split(' ')[0]);}});
+test('new client UI contains no provider, credential, execution, tracking or application storage capability',()=>{for(const p of app.filter(p=>/tsx?$/.test(p)))assert.doesNotMatch(readFileSync(p,'utf8'),/\b(?:fetch|WebSocket|XMLHttpRequest|localStorage|sessionStorage|indexedDB|process|dangerouslySetInnerHTML|eval)\b|document\.cookie|next\/(?:headers|server)|from ['"](?:pg|node:)/,p);});
