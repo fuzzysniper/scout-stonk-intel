@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,lstatSync} from 'node:fs';
+import {Lexer,Parser} from '@actions/expressions';
 import {assertAggregate,aggregateAllowance,BASE,SOURCES,EXCEPTIONS,ADDED,git,raw,hash} from './assertions.mjs';
 test('109 reviewed inputs,106 unchanged bytes/modes and exactly3 independently pinned integration exceptions',()=>{
  const manifest=assertAggregate();assert.equal(Object.keys(manifest.files).length-EXCEPTIONS.length,106);
@@ -26,6 +27,12 @@ test('CI retains all root/current C/mobile/backend/STOP suites and adds A47/B149
  assert.ok(next.includes('workflow_run:')&&next.includes('post-merge-current-main:'));
  assert.ok(next.includes("github.event.workflow_run.event == 'schedule'"));
  assert.ok(next.includes('actions: read')&&next.includes('retries: 0'));
+ const post=next.split('\n  post-merge-current-main:\n')[1],job=post.split('\n    steps:\n')[0];
+ const expression=job.split('    if: >-\n')[1].split('\n    runs-on:')[0].trim();
+ assert.doesNotThrow(()=>new Parser(new Lexer(expression).lex().tokens,['github','needs','vars','inputs'],[]).parse());
+ assert.doesNotMatch(job,/^    env:/m,'runner context is unavailable in job-level env; use the runner-bound step');
+ assert.throws(()=>new Parser(new Lexer('runner.temp').lex().tokens,['github','needs','strategy','matrix','vars','secrets','inputs'],[]).parse(),/Unrecognized named-value/);
+ assert.ok(post.includes('run: printf \'V3_RELEASE_EVIDENCE=%s/unfarmd-v3-main-evidence.json\\n\' "$RUNNER_TEMP" >> "$GITHUB_ENV"'));
  assert.equal(next.split('ref: ${{ github.event.pull_request.head.sha }}').length-1,2,'both dedicated jobs test the actual immutable head');
  assert.ok(next.includes('git restore -- docs/live-feed-167/screenshots/{locked,disabled}-{320,390,1280}.png docs/live-feed-167/disabled-{320,390,1280}.json'),'restore exactly the9 known outputs of unchanged legacy browser39, not a directory or safety guard');
  const run=readFileSync('tests/v3-release/run.sh','utf8');for(const source of ['tests/unfarmd-source-selection/run.sh','tests/unfarmd-journal/run.sh'])assert.ok(run.includes(source));

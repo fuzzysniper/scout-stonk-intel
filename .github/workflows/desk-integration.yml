@@ -112,8 +112,6 @@ jobs:
     permissions:
       contents: read
       actions: read
-    env:
-      V3_RELEASE_EVIDENCE: ${{ runner.temp }}/unfarmd-v3-main-evidence.json
     steps:
       - uses: actions/checkout@v4
         with:
@@ -124,6 +122,8 @@ jobs:
         with:
           node-version: '24.19.0'
       - run: npm ci --ignore-scripts
+      - name: Bind evidence path to this runner, outside the checkout
+        run: printf 'V3_RELEASE_EVIDENCE=%s/unfarmd-v3-main-evidence.json\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
       - name: Read-only GitHub provenance; no source keys, provider queries or dispatch
         uses: actions/github-script@v7
         with:

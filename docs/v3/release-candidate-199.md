@@ -282,6 +282,14 @@ GitHub/ZIP/rate/timeout failures. All91, source scope4, A47/B149 and link24 pass
 locally. Full successor CI results and the immutable revised SHA are reported in
 PR #200; older green runs are not evidence for an untested successor head.
 
+Intermediate follow-up `1a5edaa895ba5f13222ac50df8e73154ded272a4`
+produced a failed workflow validation run before any focused/mobile job started.
+Its job-level `runner.temp` expression used a context unavailable at that level.
+The evidence path is now bound in a runner step via `RUNNER_TEMP`/`GITHUB_ENV`;
+the pinned official Actions expression parser checks the main-job condition and
+rejects the unsupported old job-env context. Fresh successor CI is required;
+the intermediate root/preview checks cannot substitute for the missing jobs.
+
 Initial aggregate CI at `c80f87f8396efa9846721e43e3dfd03c66bb0911` passed
 root/focused and all45+27+39+5 browser/security cases, then correctly failed the
 final source guard: Ubuntu's legacy browser run changed its generated320px PNG,

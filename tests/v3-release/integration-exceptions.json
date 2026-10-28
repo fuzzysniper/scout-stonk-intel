@@ -2,8 +2,8 @@
   ".github/workflows/desk-integration.yml": {
     "sourceHead": "a1e461b9248d72396f038b641c7bc79d81130e7d",
     "originalSha256": "101ab6748635026ea5d90363b9a56737ebf319ca317f34cc68e5dc06a6a08188",
-    "reviewedSha256": "5a90d73ad0f673c0c6f1272eb379aba3710a27373a6d492b8ec52ff88ff8583b",
-    "patchSha256": "08fc8dc67c42ddd7d119ce31eff7cc47bb7d3a3360908477e21e280e6288295f"
+    "reviewedSha256": "7eec7bc63ad5f0ac77d94a697e66eb05f713b513187aa49abd4e94601e13061c",
+    "patchSha256": "1f11e8f349be1588d8b77ff3139f44eb12ed451f57fcfea83d524229f311fb86"
   },
   "tests/desk-journey/scope.test.mjs": {
     "sourceHead": "a1e461b9248d72396f038b641c7bc79d81130e7d",
