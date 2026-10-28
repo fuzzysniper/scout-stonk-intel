@@ -6,8 +6,11 @@ on:
       - 'app/desk/**'
       - 'lib/unfarmd-evidence/**'
       - 'lib/unfarmd-risk/**'
+      - 'lib/unfarmd-source-selection/**'
+      - 'lib/unfarmd-journal/**'
       - 'tests/desk*/**'
       - 'tests/unfarmd-*/**'
+      - 'tests/v3-release/**'
       - 'docs/v3/**'
       - '.github/workflows/desk-integration.yml'
 permissions:
@@ -36,9 +39,13 @@ jobs:
           node-version: '24.19.0'
       - run: npm ci --ignore-scripts
       - name: Actual journey/source preservation and original adapter regressions
-        run: bash tests/desk-journey/run.sh
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/desk-journey/run.sh
       - name: Exact historical 191 scope + full A/B suites; no safety guards skipped
-        run: bash tests/desk-journey/historical.sh focused
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/desk-journey/historical.sh focused
+      - name: Current aggregate source pins + A47 + B149 + actual typed offline journal linkage
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v3-release/run.sh
+      - name: Original C196 and B198 full standalone guards remain unchanged in exact source trees
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v3-release/source-history.sh
   mobile-browser:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -62,18 +69,24 @@ jobs:
       - name: Guarded production build and actual default-OFF endpoints
         run: |
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
-          node tests/live-ledger/built-api.mjs
-          node tests/continuous-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/live-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/built-api.mjs
+          git restore -- next-env.d.ts
       - name: Actual guided MANUAL PLAN/WATCH/PASS; identity, UTC, privacy, axe and focus
-        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/desk-journey/playwright.config.mjs
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v3-release/snapshots.sh
       - name: Exact historical 191 browser regression (separate preserved UI)
         run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/desk-journey/historical.sh browser
       - name: Existing private homepage browser regression
         run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/consumer-homepage/playwright.config.mjs
       - name: Existing native HTTPS/PG parent STOP and accessibility (disposable local only)
         run: NODE_ENV=test NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
+      - name: Final source pins after restoring only generated QA screenshots
+        run: |
+          git restore -- docs/live-feed-167/screenshots/disabled-1280.png
+          git restore -- docs/screenshots/continuous-local-qa/parent-stop-{320,390,1280}.png
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v3-release/scope.test.mjs
       - uses: actions/upload-artifact@v4
         with:
-          name: local-guided-decision-desk
-          path: tests/desk-journey/screenshots/
+          name: local-current-v3-decision-desk
+          path: tests/v3-release/screenshots/
           retention-days: 3
