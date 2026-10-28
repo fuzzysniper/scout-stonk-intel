@@ -44,8 +44,10 @@ def cadence(value, at):
     possibilities = set()
     for end_delta in (0, 999999):
         for start_delta in (0, 999999):
-            result = recent_cadence({'workflow_runs': [], 'total_count': 0}, at + dt.timedelta(microseconds=end_delta),
-                                    (start + dt.timedelta(microseconds=start_delta)).isoformat())
+            instant, activated = at + dt.timedelta(microseconds=end_delta), start + dt.timedelta(microseconds=start_delta)
+            if activated > instant:
+                continue
+            result = recent_cadence({'workflow_runs': [], 'total_count': 0}, instant, activated.isoformat())
             possibilities.add(tuple(result[key] for key in ('nominalSlots', 'matureSlots', 'graceSeconds')))
     assert all(type(value[key]) is int for key in ('nominalSlots', 'matureSlots', 'graceSeconds'))
     assert tuple(value[key] for key in ('nominalSlots', 'matureSlots', 'graceSeconds')) in possibilities
