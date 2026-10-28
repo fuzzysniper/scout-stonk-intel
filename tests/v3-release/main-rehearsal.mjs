@@ -13,7 +13,7 @@ const source=process.cwd(),head=execFileSync('git',['rev-parse','HEAD'],{encodin
 const root=fs.mkdtempSync(path.join(os.tmpdir(),'v3-full-main-')),temp=fs.mkdtempSync(path.join(os.tmpdir(),'v3-full-evidence-'));
 const names=['GITHUB_ACTIONS','GITHUB_EVENT_NAME','GITHUB_EVENT_PATH','GITHUB_SHA','GITHUB_REF','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','RUNNER_TEMP','V3_RELEASE_EVIDENCE'],old=Object.fromEntries(names.map(k=>[k,process.env[k]]));
 const git=(args,input,date='2027-01-01T12:00:01Z')=>execFileSync('git',args,{cwd:root,input,encoding:'utf8',stdio:['pipe','pipe','pipe'],env:{PATH:process.env.PATH,GIT_AUTHOR_DATE:date,GIT_COMMITTER_DATE:date}}).trim();
-const commit=(name,date)=>{git(['add','.']);return git(['-c','user.name=OFFLINE_FIXTURE','-c','user.email=offline@example.invalid','commit','-qm',name],undefined,date)&&git(['rev-parse','HEAD']);};
+const commit=(name,date)=>{git(['add','.']);git(['-c','user.name=OFFLINE_FIXTURE','-c','user.email=offline@example.invalid','commit','-qm',name],undefined,date);return git(['rev-parse','HEAD']);};
 try{
  execFileSync('git',['clone','--local','--shared','--no-checkout',source,root],{stdio:['ignore','pipe','pipe']});git(['checkout','--detach',POLICY.base]);fs.symlinkSync(path.join(source,'node_modules'),path.join(root,'node_modules'),'dir');
  const r=repository(root),tokens=JSON.parse(r.blob(POLICY.base,POLICY.tracked)),reward=r.blob(POLICY.base,POLICY.data[1]);
