@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {readdirSync,readFileSync} from 'node:fs';
-import {aggregateAllowance} from '../v3-release/assertions.mjs';
+import {aggregateAllowance,UPSTREAM} from '../v3-release/assertions.mjs';
 const git=(...args)=>execFileSync('git',args,{encoding:'utf8'}).trim();
 const base='ba4b2e494f768350ec285e26791b61a90c50220b';
 test('only additive journal engine/tests and one proposal; no C/runtime/collector/config/dependency changes',()=>{
@@ -10,7 +10,7 @@ test('only additive journal engine/tests and one proposal; no C/runtime/collecto
  const untracked=git('ls-files','--others','--exclude-standard').split('\n').filter(Boolean);
  const integration=aggregateAllowance('B');
  for(const p of [...paths,...untracked])assert.ok(p.startsWith('lib/unfarmd-journal/')||p.startsWith('tests/unfarmd-journal/')||p==='docs/v3/journal-storage-proposal.md'||integration.has(p),p);
- for(const line of git('diff','--name-status',base).split('\n').filter(Boolean))assert.ok(/^A\t/.test(line)||(line==='M\tapp/site-chrome.tsx'&&integration.has('app/site-chrome.tsx')),'existing bytes cannot change outside exact C source: '+line);
+ for(const line of git('diff','--name-status',base).split('\n').filter(Boolean)){const [status,path]=line.split('\t');assert.ok(status==='A'||(status==='M'&&integration.has(path)&&['app/site-chrome.tsx',...UPSTREAM].includes(path)),'existing bytes cannot change outside exact C/latest main: '+line);}
 });
 test('risk dependency is exact Git source and real executable implementation, never copied/edited',()=>{
  const sha='36ede0e45046d8dba5a5163cc57ebc94434e2513';

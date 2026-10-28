@@ -22,7 +22,7 @@ test('enumerated journey-only follow-up; every main collector/security/source/ST
  const inherited=git('diff','--name-only',OLD_BASE,INTEGRATION).split('\n'),allowed=new Set([...inherited,...added,'app/site-chrome.tsx',...aggregateAllowance()]);
  for(const path of [...git('diff','--name-only',MAIN).split('\n'),...git('ls-files','--others','--exclude-standard').split('\n')].filter(Boolean))assert.ok(allowed.has(path),'unexpected '+path);
  const protectedPaths=['app/consumer','app/api','app/page.tsx','app/layout.tsx','app/globals.css','app/site-navigation.tsx','lib/onchain-mint','lib/live-ledger','lib/scout-live','lib/scout-continuous','experiments','data','scheduler','scripts','ops','neon.ts','next.config.ts','vercel.json','package.json','package-lock.json','tests/run.sh'];
- assert.equal(git('diff',MAIN,'--',...protectedPaths),'');
+ assertOnlyPinnedIntegrationDiff(MAIN,protectedPaths);
  for(const path of git('ls-tree','-r','--name-only',MAIN,'--','.github/workflows').split('\n'))assert.equal(git('diff',MAIN,'--',path),'',path);
 });
 test('journey has no I/O/storage/provider/secret/execution/unsafe-HTML capability or default market numbers',()=>{

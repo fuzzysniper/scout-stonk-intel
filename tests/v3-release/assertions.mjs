@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import {readFileSync,lstatSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
-export const BASE='ba4b2e494f768350ec285e26791b61a90c50220b';
+export const SOURCE_BASE='ba4b2e494f768350ec285e26791b61a90c50220b';
+export const BASE='9ed40610eb34c34b56996d55a768f2eac9b43cdd';
+export const UPSTREAM=['data/collection-summary.json','data/reward-snapshots.json'];
 export const SOURCES={C:{pr:196,head:'a1e461b9248d72396f038b641c7bc79d81130e7d',count:95},A:{pr:197,head:'4da9c8f39d815f2a8ee80283efbcfa808e09e352',count:4},B:{pr:198,head:'df36b54d09a6f5cec304a64a7d99d7a01176e872',count:10}};
 export const EXCEPTIONS=['.github/workflows/desk-integration.yml','tests/desk-journey/scope.test.mjs','tests/unfarmd-journal/scope.test.mjs'];
 export const ADDED=[
@@ -19,13 +21,21 @@ export const hash=v=>createHash('sha256').update(v).digest('hex');
 const json=path=>JSON.parse(readFileSync(path,'utf8'));
 export function assertAggregate(){
  const manifest=json('tests/v3-release/source-manifest.json'),deltas=json('tests/v3-release/integration-exceptions.json');
- assert.equal(manifest.base,BASE);assert.deepEqual(manifest.sources,SOURCES);
+ assert.equal(manifest.base,SOURCE_BASE);assert.equal(manifest.main,BASE);assert.deepEqual(manifest.sources,SOURCES);
+ assert.equal(git('merge-base','--is-ancestor',BASE,'HEAD'),'');
+ assert.deepEqual(git('diff','--name-only','--no-renames',SOURCE_BASE,BASE).split('\n').sort(),[...UPSTREAM].sort());
+ assert.deepEqual(Object.keys(manifest.upstream).sort(),[...UPSTREAM].sort());
+ for(const path of UPSTREAM){
+  const [mode,type,blob]=git('ls-tree',BASE,'--',path).split('\t')[0].split(' ');assert.equal(type,'blob');
+  const sha256=hash(raw('show',BASE+':'+path));assert.deepEqual(manifest.upstream[path],{mode,blob,sha256});
+  assert.equal(hash(readFileSync(path)),sha256,path+' exact scheduled main data');
+ }
  assert.deepEqual(Object.keys(deltas).sort(),[...EXCEPTIONS].sort());
  const expected=[];
  for(const [source,pin] of Object.entries(SOURCES)){
-  assert.equal(git('merge-base',BASE,pin.head),BASE);
+  assert.equal(git('merge-base',SOURCE_BASE,pin.head),SOURCE_BASE);
   assert.equal(git('merge-base','--is-ancestor',pin.head,'HEAD'),'');
-  const paths=git('diff','--name-only','--no-renames',BASE,pin.head).split('\n');assert.equal(paths.length,pin.count);
+  const paths=git('diff','--name-only','--no-renames',SOURCE_BASE,pin.head).split('\n');assert.equal(paths.length,pin.count);
   for(const path of paths){
    expected.push(path);
    const [mode,type,blob]=git('ls-tree',pin.head,'--',path).split('\t')[0].split(' ');assert.equal(type,'blob');
@@ -59,7 +69,7 @@ export function assertAggregate(){
  * from the OTHER exact inputs, plus this enumerated offline integration delta. */
 export function aggregateAllowance(source='C'){
  assert.ok(['C','B'].includes(source));
- const manifest=assertAggregate();return new Set([...Object.keys(manifest.files).filter(p=>manifest.files[p].source!==source),...ADDED,...EXCEPTIONS]);
+ const manifest=assertAggregate();return new Set([...Object.keys(manifest.files).filter(p=>manifest.files[p].source!==source),...ADDED,...EXCEPTIONS,...UPSTREAM]);
 }
 export function assertOnlyPinnedIntegrationDiff(from,paths){
  const allowed=aggregateAllowance();

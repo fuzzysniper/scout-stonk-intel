@@ -5,7 +5,7 @@ import {assertAggregate,aggregateAllowance,BASE,SOURCES,EXCEPTIONS,ADDED,git,raw
 test('109 reviewed inputs,106 unchanged bytes/modes and exactly3 independently pinned integration exceptions',()=>{
  const manifest=assertAggregate();assert.equal(Object.keys(manifest.files).length-EXCEPTIONS.length,106);
  for(const path of ADDED){const s=lstatSync(path);assert.ok(s.isFile()&&!s.isSymbolicLink(),path);}
- assert.equal(aggregateAllowance().size,32);
+ assert.equal(aggregateAllowance().size,34);
 });
 test('each original full guard remains in immutable source history and all original test cases stay executable',()=>{
  for(const [source,path] of [['C','tests/desk-journey/scope.test.mjs'],['B','tests/unfarmd-journal/scope.test.mjs']]){
@@ -23,6 +23,7 @@ test('CI retains all root/current C/mobile/backend/STOP suites and adds A47/B149
  assert.ok(readFileSync('tests/v3-release/snapshots.sh','utf8').includes('tests/desk-journey/playwright.config.mjs'));
  for(const flag of ['PRODUCTION_RPC_ENABLED','SCOUT_LIVE_API_ENABLED','SCOUT_LIVE_STORE_ENABLED','SCOUT_CONTINUOUS_API_ENABLED','SCOUT_CONTINUOUS_CONTROL_ENABLED','SCOUT_CONTINUOUS_STORE_ENABLED','SCOUT_CONTINUOUS_MAINTENANCE_ENABLED'])assert.ok(next.includes(flag+": 'false'"),flag);
  assert.doesNotMatch(next,/\bsecrets\.|environment:|workflow_dispatch|schedule:|contents:\s*write|vercel deploy|curl\s/);
+ assert.equal(next.split('ref: ${{ github.event.pull_request.head.sha }}').length-1,2,'both dedicated jobs test the actual immutable head');
  const run=readFileSync('tests/v3-release/run.sh','utf8');for(const source of ['tests/unfarmd-source-selection/run.sh','tests/unfarmd-journal/run.sh'])assert.ok(run.includes(source));
 });
 test('app, actual A/B math/controls and SEC/journal modules byte-match source; no new runtime caller is added',()=>{

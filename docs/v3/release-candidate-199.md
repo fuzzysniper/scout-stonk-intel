@@ -5,7 +5,13 @@ No production release, provider acquisition or journal persistence is authorized
 
 ## Exact inputs and preservation
 
-Fresh main: `ba4b2e494f768350ec285e26791b61a90c50220b`.
+Release main: `9ed40610eb34c34b56996d55a768f2eac9b43cdd`.
+Original source base: `ba4b2e494f768350ec285e26791b61a90c50220b`.
+Main advanced during validation by one scheduled collector commit. Its summary
+and reward snapshots were carried through unchanged by merging that exact commit;
+the manifest separately pins those two original main blobs/modes/content hashes.
+Historical guards accept only that specific verified main update, never a general
+collector/data exception. Diff versus release main contains no data changes.
 
 | Source | Immutable head | Original paths |
 | --- | --- | --- |
@@ -29,7 +35,9 @@ and full-index patch digests in `integration-exceptions.json`:
 1. Existing `.github/workflows/desk-integration.yml`: add source/journal/integration
    triggers; run A47/B149 and typed current-head link tests; retain all original
    root/current/historical/mobile/native-STOP checks. No secret/environment grant,
-   dispatch, schedule, provider endpoint or deployment command.
+   dispatch, schedule, provider endpoint or deployment command. Both dedicated
+   jobs explicitly check out the immutable PR head; unchanged root CI continues
+   GitHub's normal PR integration check.
 2. C `tests/desk-journey/scope.test.mjs`: admit only independently hash-verified
    A/B inputs and enumerated integration files. All five original tests remain;
    protected-path freeze still rejects any unpinned mutation. Financial/UI checks
@@ -198,7 +206,8 @@ when that access is separately permitted; do not invoke any source/proof endpoin
 separate encrypted-file/server-storage choice, privacy/key custody/cost/deletion/
 PITR/backup/restore review and pilot implementation; SEC live decoder/identity,
 rights/attribution/retention/admission and a distinct source GO; any operational or
-production release authorization. Existing Helius/unattended operational blockers
+production release authorization and applicable commercial/adviser/branding review.
+Existing Helius/unattended operational blockers
 remain separate, unresolved and not bypassed by a manual journal or green UI CI.
 
 ## Rollback

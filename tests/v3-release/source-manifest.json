@@ -672,5 +672,18 @@
       "blob": "a782ac05bcd76f19dda73eb5667bdc76ff7a6316",
       "sha256": "93a813f4d1ea2410aef358bac8bc9e8b45979fc480c79cfa84a6e4223ee92914"
     }
+  },
+  "main": "9ed40610eb34c34b56996d55a768f2eac9b43cdd",
+  "upstream": {
+    "data/collection-summary.json": {
+      "mode": "100644",
+      "blob": "3273bc1a0e7074bf649051a383bb1fe46e1c675f",
+      "sha256": "97cb1c323aa3817d99974ae80b22a14fd517da0ee8b4206513650a548cd33a4c"
+    },
+    "data/reward-snapshots.json": {
+      "mode": "100644",
+      "blob": "070478bbe0a28577c76c34c8c83863770a2c8c33",
+      "sha256": "8f40b33599d073c1080e1bab2b7f7431b7352a3dbe47c15750e74cf6765c1c93"
+    }
   }
 }
