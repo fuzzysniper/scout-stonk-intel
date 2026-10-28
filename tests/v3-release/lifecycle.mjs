@@ -10,6 +10,7 @@ export const POLICY=Object.freeze({
  sources:['a1e461b9248d72396f038b641c7bc79d81130e7d','4da9c8f39d815f2a8ee80283efbcfa808e09e352','df36b54d09a6f5cec304a64a7d99d7a01176e872'],
  marker:'tests/v3-release/lifecycle.mjs',workflow:'.github/workflows/desk-integration.yml',collector:'.github/workflows/reward-snapshots.yml',
  data:['data/collection-summary.json','data/reward-snapshots.json'],tracked:'data/tracked-mints.json',
+ audit:'data/collector-audit.json',auditWorkflow:'.github/workflows/data-health.yml',auditProducer:'scripts/audit_collector.py',
  maxTransitions:8,maxApiCalls:64,maxBytes:4*1024*1024,timeoutMs:5000,
 });
 export const digest=b=>createHash('sha256').update(b).digest('hex');
@@ -22,8 +23,9 @@ export function repository(root=process.cwd()){
   names:(a,b)=>git('diff','--name-only','--no-renames',a,b).split('\n').filter(Boolean),
  };
 }
-const sameData=(r,a,b,p)=>p.data.every(file=>r.git('rev-parse',a+':'+file)===r.git('rev-parse',b+':'+file));
-const onlyData=(r,a,b,p)=>r.names(a,b).every(file=>p.data.includes(file));
+export const dataFiles=(p=POLICY)=>[...p.data,p.audit];
+const sameData=(r,a,b,p)=>dataFiles(p).every(file=>r.git('ls-tree',a,'--',file)===r.git('ls-tree',b,'--',file));
+const onlyData=(r,a,b,p)=>r.names(a,b).every(file=>dataFiles(p).includes(file));
 /** Merge commits are deliberately required. Byte-equivalent squash/rebase is
  * unsupported; do not replace lost source ancestry with a caller flag. */
 export function inspectRelease(r,head,p=POLICY){
@@ -44,6 +46,11 @@ export function segment(r,current,release,p=POLICY){
  if(current===release.merge)return {kind:'release',parent:release.parents[0]};
  const parents=r.parents(current);assert.equal(parents.length,1,'collector_commit_must_be_single_parent');
  const changed=r.names(parents[0],current);
+ if(changed.length===1&&changed[0]===p.audit){
+  assert.equal(r.git('ls-tree',current,'--',p.audit).split(' ')[0],'100644','audit_file_mode_changed');
+  for(const file of auditSources(p))assert.deepEqual(r.blob(parents[0],file),r.blob(p.base,file),'audit_source_changed');
+  return {kind:'audit',parent:parents[0]};
+ }
  assert.ok(changed.length>0&&changed.every(file=>p.data.includes(file)),'collector_only_paths_required');
  for(const file of p.data)assert.equal(r.git('ls-tree',current,'--',file).split(' ')[0],'100644','collector_file_mode_changed');
  assert.equal(r.git('diff',parents[0],current,'--',p.tracked,p.collector),'','collector_contract_changed');
@@ -88,6 +95,25 @@ export function verifyCollectorProof(proof,commit,parent,r,p=POLICY){
  assert.equal(summary.runId,proof.run.id,'summary_run_mismatch');assert.equal(summary.event,'schedule','manual_collection_not_accepted');
  assert.equal(summary.expectedDatasetRevision,'sha256:'+digest(r.blob(commit,p.data[1])),'dataset_revision_mismatch');
 }
+export const auditSources=(p=POLICY)=>[p.auditWorkflow,p.auditProducer,'scripts/collect_rewards.py',p.tracked];
+export function verifyAuditProof(proof,commit,parent,r,p=POLICY){
+ assert.equal(proof?.kind,'audit','distinct_audit_proof_required');assert.equal(proof.commit,commit,'wrong_audit_commit');
+ verifyRun(proof.run,{head:parent,event:'schedule',workflow:p.auditWorkflow},p);
+ for(const file of auditSources(p))assert.deepEqual(r.blob(parent,file),r.blob(p.base,file),'audit_source_changed');
+ assert.deepEqual(proof.sources,Object.fromEntries(auditSources(p).map(file=>[file,digest(r.blob(p.base,file))])),'audit_source_hash_mismatch');
+ for(const step of ['Bounded read-only audit','Publish audit evidence','Preserve audit evidence'])assert.equal(proof.steps?.[step],'success','audit_execution_or_persistence_not_proven');
+ const a=proof.artifact;
+ assert.ok(a&&safeId(a.id)&&a.expired===false,'audit_artifact_unavailable');
+ assert.equal(a.name,`data-health-audit-${proof.run.id}-${proof.run.run_attempt}`);
+ assert.ok(Number.isSafeInteger(a.size_in_bytes)&&a.size_in_bytes>0&&a.size_in_bytes<=p.maxBytes,'audit_artifact_size');
+ assert.match(a.digest??'',/^sha256:[a-f0-9]{64}$/);assert.equal(a.workflow_run?.id,proof.run.id);assert.equal(a.workflow_run?.head_sha,parent);
+ assert.deepEqual(Object.keys(proof.hashes??{}),['collector-audit.json']);
+ assert.equal(proof.hashes['collector-audit.json'],digest(r.blob(commit,p.audit)),'audit_artifact_git_bytes_mismatch');
+ const datasetCommit=r.git('log','-1','--format=%H',parent,'--',p.data[1]);assert.ok(sha(datasetCommit),'audit_dataset_history_missing');
+ const input={beforeRaw:r.blob(parent,p.audit).toString(),afterRaw:r.blob(commit,p.audit).toString(),run:proof.run,artifact:{createdAt:a.created_at,expiresAt:a.expires_at},
+  committedAt:r.git('show','-s','--format=%cI',commit),dataset:{sha:datasetCommit,committedAt:r.git('show','-s','--format=%cI',datasetCommit),revision:'sha256:'+digest(r.blob(parent,p.data[1]))}};
+ execFileSync('python3',[path.join(r.root,'tests/v3-release/audit-snapshot.py')],{input:JSON.stringify(input),cwd:r.root,maxBuffer:65536,stdio:['pipe','pipe','pipe'],env:{PATH:process.env.PATH,LANG:'C.UTF-8',PYTHONDONTWRITEBYTECODE:'1'}});
+}
 /** Packet is produced by the read-only GitHub step in THIS isolated main job.
  * It is never accepted from a PR, journal import or repository-owned JSON file. */
 export function verifyMainPacket(r,head,packet,binding,p=POLICY){
@@ -96,7 +122,8 @@ export function verifyMainPacket(r,head,packet,binding,p=POLICY){
  assert.equal(packet?.version,'unfarmd-v3-main-proof/1');assert.deepEqual(packet.binding,binding,'evidence_context_mismatch');
  if(binding.event==='workflow_run'){
   assert.equal(String(packet.trigger?.id),binding.triggerRunId,'trigger_run_mismatch');
-  verifyRun(packet.trigger,{head:packet.trigger.head_sha,event:'schedule',workflow:p.collector},p);
+  assert.ok([p.collector,p.auditWorkflow].includes(packet.trigger?.path),'unapproved_trigger_workflow');
+  verifyRun(packet.trigger,{head:packet.trigger.head_sha,event:'schedule',workflow:packet.trigger.path},p);
   assert.ok(r.ancestor(packet.trigger.head_sha,head),'trigger_head_not_on_history');
  }else assert.equal(packet.trigger,null,'unexpected_trigger');
  const release=inspectRelease(r,head,p),cp=packet.checkpoint;
@@ -106,12 +133,13 @@ export function verifyMainPacket(r,head,packet,binding,p=POLICY){
   assert.ok(n<=p.maxTransitions+1,'catchup_budget_exceeded');
   const part=segment(r,current,release,p);assert.ok(part,'checkpoint_not_on_first_parent');
   if(part.kind==='release'){assert.equal(releaseSeen,false);releaseSeen=true;}
-  else{chain.push({commit:current,parent:part.parent});assert.ok(chain.length<=p.maxTransitions,'catchup_budget_exceeded');}
+  else{chain.push({commit:current,parent:part.parent,...(part.kind==='audit'?{kind:'audit'}:{})});assert.ok(chain.length<=p.maxTransitions,'catchup_budget_exceeded');}
   current=part.parent;
  }
  assert.equal(packet.collectors?.length,chain.length,'incomplete_or_extra_collector_proofs');
  for(let i=0;i<chain.length;i++){
   const transition=chain[i],proof=packet.collectors[i];
+  if(transition.kind==='audit'){verifyAuditProof(proof,transition.commit,transition.parent,r,p);continue;}
   verifyCollectorProof(proof,transition.commit,transition.parent,r,p);
   const input={beforeRaw:r.blob(transition.parent,p.data[1]).toString(),afterRaw:r.blob(transition.commit,p.data[1]).toString(),summaryRaw:r.blob(transition.commit,p.data[0]).toString(),trackedRaw:r.blob(p.base,p.tracked).toString(),run:proof.run};
   execFileSync('python3',[path.join(r.root,'tests/v3-release/collector-append.py')],{input:JSON.stringify(input),cwd:r.root,maxBuffer:1024*1024,stdio:['pipe','pipe','pipe'],env:{PATH:process.env.PATH,LANG:'C.UTF-8',PYTHONDONTWRITEBYTECODE:'1'}});
@@ -128,7 +156,7 @@ export function bindingFor(eventName,event,{head,runId,runAttempt,ref},p=POLICY)
   assert.equal(event.workflow_run?.event,'schedule');assert.equal(event.workflow_run?.head_branch,'main');
   assert.equal(event.workflow_run?.head_repository?.id,p.repositoryId);
   assert.ok(Number.isSafeInteger(event.workflow_run?.id)&&event.workflow_run.id>0,'invalid_trigger_id');
-  if(event.workflow_run.path!==undefined)assert.equal(event.workflow_run.path,p.collector);
+  if(event.workflow_run.path!==undefined)assert.ok([p.collector,p.auditWorkflow].includes(event.workflow_run.path),'unapproved_trigger_workflow');
  }
  return {event:eventName,repositoryId:p.repositoryId,head,runId:String(runId),runAttempt:String(runAttempt),triggerRunId:eventName==='workflow_run'?String(event.workflow_run.id):null};
 }
@@ -136,7 +164,7 @@ export function bindingFor(eventName,event,{head,runId,runAttempt,ref},p=POLICY)
  * convert a PR into a main proof or authorize changed data. */
 export function runtimeState(r,p=POLICY){
  if(process.env.GITHUB_ACTIONS!=='true'||process.env.GITHUB_EVENT_NAME==='pull_request'){
-  for(const file of p.data)assert.equal(digest(fs.readFileSync(path.join(r.root,file))),digest(r.blob(p.base,file)),'feature_branch_data_change');
+  for(const file of dataFiles(p))assert.equal(digest(fs.readFileSync(path.join(r.root,file))),digest(r.blob(p.base,file)),'feature_branch_data_change');
   return {mode:'proposal',dataAllowed:false};
  }
  const head=r.git('rev-parse','HEAD'),event=JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH,'utf8'));
@@ -147,6 +175,6 @@ export function runtimeState(r,p=POLICY){
  const stat=fs.lstatSync(expected);assert.ok(stat.isFile()&&!stat.isSymbolicLink()&&stat.size<=256*1024,'invalid_evidence_file');
  const packet=JSON.parse(fs.readFileSync(expected,'utf8'));
  const result=verifyMainPacket(r,head,packet,binding,p);
- for(const file of p.data)assert.equal(digest(fs.readFileSync(path.join(r.root,file))),digest(r.blob(head,file)),'dirty_main_data');
+ for(const file of dataFiles(p))assert.equal(digest(fs.readFileSync(path.join(r.root,file))),digest(r.blob(head,file)),'dirty_main_data');
  return result;
 }

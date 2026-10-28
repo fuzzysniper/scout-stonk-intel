@@ -3,11 +3,11 @@ on:
   push:
     branches: [main]
   workflow_run:
-    workflows: [Collect reward snapshots]
+    workflows: [Collect reward snapshots, SCOUT data health audit]
     types: [completed]
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: [main, integration/199-source-disabled-v3]
     paths:
       - 'app/desk/**'
       - 'lib/unfarmd-evidence/**'
@@ -32,6 +32,35 @@ env:
   SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
   SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
 jobs:
+  dependent-root-security:
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'integration/199-source-disabled-v3'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci --ignore-scripts
+      - name: Dependent PR archive, full root and native PG-TLS security regressions
+        env:
+          REVIEWED_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          bash scripts/archive-tool.sh check "$REVIEWED_BASE_SHA"
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm test
+      - name: Dependent PR types, lint, source-disabled production build and exact source freeze
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/live-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v3-release/scope.test.mjs
   focused-engines-and-adapter:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest

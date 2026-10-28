@@ -3,6 +3,122 @@
 Issue #199 · 2026-10-28 · **DRAFT / product GO remains HOLD**.
 No production release, provider acquisition or journal persistence is authorized.
 
+## Dependent Issue #204 correction — 2026-10-28
+
+This separate draft fix starts at exact PR #200 head
+`8d990bccef331cad94ddf22af55123605f1dd576` and targets only
+`integration/199-source-disabled-v3`. It does not update that branch or main.
+Verified new main is `80d356854fdfd2db7246c50e23e1a3cd0a277f2d`:
+
+| Retained commit | Exact change |
+| --- | --- |
+| `5f0c9603392754fc1a5ae930d284b50fd9d5b5f0` | Hourly summary + reward snapshots |
+| `80d356854fdfd2db7246c50e23e1a3cd0a277f2d` | Daily `data/collector-audit.json` only |
+
+Original PR #200 rejects the actual daily commit as
+`collector_only_paths_required`; a normal merge preserving latest main's daily
+file also fails the old two-file code/data classifier. The correction adds a
+**distinct authenticated daily audit transition**, rather than a `data/**`
+exception. The original91 cases, entire hourly verifier function and Python
+append/ZIP guard, original source manifest and C guard remain byte-identical.
+The B scope guard's existing reviewed exception uses the exact three scheduled
+paths only after full aggregate verification; its original three tests remain.
+
+| Contract | Hourly | Daily |
+| --- | --- | --- |
+| Allowed changed files | Exactly the existing two-file subset | Exactly `data/collector-audit.json`; no mixed update |
+| Scheduled workflow / job | `reward-snapshots.yml` / `collect` | `data-health.yml` / `audit` |
+| Required successful steps | Existing collection/persist/evidence semantics | Bounded read-only audit, Publish audit evidence, Preserve audit evidence |
+| Artifact | `collector-evidence-<run>-<attempt>`, exact two regular entries | `data-health-audit-<run>-<attempt>`, exact one regular audit entry |
+| Data semantics | Existing exact append +193-row retention | Whole operational snapshot replacement; old blobs stay in Git |
+
+The audit document has no self run ID. The reader therefore requires a complete,
+unambiguous **one-run** result filtered by the exact parent, main branch, schedule,
+completed status and audit workflow, then independently re-reads that run and
+binds its attempt/job/steps/artifact. Missing, truncated, multiple, changed-during-read
+or manual candidates fail closed. It never guesses a run ID from the bot author,
+commit message, clock or audit's reported collector run history. Both producers
+retain their existing unchanged source/workflow bytes. Daily proof includes SHA-256s
+for `data-health.yml`, `audit_collector.py`, `collect_rewards.py` and the exact
+tracked-mint allowlist, derived from immutable baseline `9ed4061`.
+
+Daily validation requires exact producer schema, UTC clocks inside the actual
+run/publication/artifact interval, increasing `checkedAt`, regular file mode,
+matching Git dataset commit/time/content revision, and configured seven-day
+artifact lifetime. It rejects unknown/extra fields, duplicates/nonfinite JSON,
+wrong source/quote-contract inputs, invalid ZIPs and stale replacement. The
+producer captures a microsecond clock but serializes seconds: UTC cadence boundary
+checks account only for that quantization, rather than inventing subsecond precision.
+Unavailable/partial API facts, incomplete cadence, null counts/links and
+`intendedSlotsKnown:false` retain their original meaning. Reported run counts may
+fall with GitHub retention/deletion; they are not cumulative payout/admission
+counters or proof of provider execution. Audit freshness is **not** reward-source
+freshness, coverage, returns or collection success.
+
+Hourly and daily updates share the original global **8 unseen transitions,
+64 serial GitHub reads,5s hard timeout/read,0 retries and4MiB ZIP budget**. Daily
+decoded JSON is additionally capped at256KiB. The exact previous successful
+same-code main job remains the only non-baseline checkpoint. No alternate identity,
+API, missing-evidence bypass, reset or source retry is permitted.
+
+The first approved normal main merge must retain latest main's **three** data
+files, including Git modes, and candidate non-data bytes. Proposal/local checks
+still require the original baseline files; this branch neither copies current
+main's data nor changes the original manifest's historical pins. Fresh-base and
+future interleaved snapshots are accepted only after their independent main proofs.
+All other protected paths and original A/B/C identities/modes/SHA-256s stay frozen.
+
+Verification hooks now include scheduled completion of **SCOUT data health audit**
+as well as **Collect reward snapshots**, because both use existing `GITHUB_TOKEN`
+pushes. No schedule, dispatch, producer workflow or source permission is edited.
+The dependent PR target also gets immutable-head root/native security, focused
+and mobile jobs: prior `branches:[main]` filters would otherwise omit this draft
+fix's checks. The old root workflow remains untouched; new root job runs only
+for PRs into the integration branch, with no secrets or write permission.
+Archive validation receives the actual immutable PR base SHA, not an unsupported
+branch selector; the archive validator and original root workflow are unchanged.
+
+**98 additional offline cases** cover the actual pure audit producer (mocked fetcher),
+checked/unavailable/partial/incomplete states, source/dataset/attempt/job/artifact/
+retention/clock substitutions, ambiguous pages, hourly/daily interleaving,
+shared quotas, fresh main before normal merge, later audits, mode changes,
+rollback, main-vs-PR runner evidence and categorical redaction. No financial
+quantities are fabricated or new source observations acquired by these tests.
+Original91 and all full root/native/mobile suites remain in the runner.
+An additional fully offline fresh-main rehearsal runs the actual C5/B3/release4
+scope suites against the complete candidate after synthetic hourly and daily
+updates, using the real evidence writer and private main packet. This permanently
+covers the journal's second two-file allowlist, which isolated lifecycle fixtures
+alone could not catch. It adds no financial observations or live workflow run.
+
+Read-only evidence: daily run `40706768191` and job `122880878171` report schedule,
+parent `5f0c960`, and all three publication steps successful. Artifact
+`12825030105` is unexpired,963 bytes, with reported ZIP digest
+`f24de97098412a3c5a7da3b8f3adaaac3ddd0ab68ce2948ed791513e48f94a5d`.
+Hourly run `40666617412` / job `122742618218` / artifact `12806680671` independently
+match parent `9ed4061`. These are existing GitHub metadata reads, not a new run.
+Independent delivery of the existing ZIP bytes was unavailable in this executor;
+**no actual ZIP-content match or real post-merge guardian execution is claimed**.
+The runtime protocol requires that byte/digest/Git match and fails closed if it
+cannot obtain it. Synthetic ZIP tests are explicitly offline evidence.
+
+Release sequence remains: independently review/approve this exact draft head;
+only if separately authorized integrate into PR #200 with ancestry retained;
+recheck its new exact head, newest main, root/focused/mobile and synthetic merge;
+only then consider a separate normal-main-merge/normal-Git-release approval.
+The old8d990bc root/test-merge checks against9ed4061 are stale for80d3568.
+No squash/rebase/force-update, data rollback, old-canary retry or automatic clock
+extension. Missing evidence, >8 unseen transitions or any unrelated main code
+change means HOLD and a new reviewed profile, never rebaseline/reset.
+
+Production remains **NO-GO** until the owner resolves the previously recorded
+Vercel403/404 identity/protection/OFF/rollback checks and main's reported
+`protected:false`/empty visible rulesets. A green offline compatibility fix is
+not production authentication, provider rights or source activation. Source-disabled
+private `/desk`, physical PLAN/VoiceOver acceptance and future journal/SEC/Helius
+work remain independent. Rollback is a separately reviewed code-only revert on
+latest main preserving all three current data files and every counter/STOP gate.
+
 ## Exact inputs and preservation
 
 Release main: `9ed40610eb34c34b56996d55a768f2eac9b43cdd`.
@@ -56,7 +172,7 @@ their exact detached temporary worktrees. These **do not substitute** for curren
 aggregate byte/scope tests, C's actual current adapter/browser or B149. Existing
 #191 historical guards/A118/B171/browser27 also remain intact and run separately.
 
-All 22 new files are under `tests/v3-release/**` and this document, including six
+All 25 new files are under `tests/v3-release/**` and this document, including six
 new local screenshots. Original screenshots are retained unchanged. The capture
 wrapper runs C's unchanged45 current browser tests against the actual optimized
 aggregate, copies their six genuine LOCAL TEST outputs to the aggregate directory,
