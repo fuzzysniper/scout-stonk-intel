@@ -10,8 +10,10 @@ Original source base: `ba4b2e494f768350ec285e26791b61a90c50220b`.
 Main advanced during validation by one scheduled collector commit. Its summary
 and reward snapshots were carried through unchanged by merging that exact commit;
 the manifest separately pins those two original main blobs/modes/content hashes.
-Historical guards accept only that specific verified main update, never a general
+Proposal/PR guards still accept only that specific main snapshot, never a general
 collector/data exception. Diff versus release main contains no data changes.
+The separately checked post-merge policy below admits later scheduled updates
+only with authenticated GitHub provenance and producer-compatible append checks.
 
 | Source | Immutable head | Original paths |
 | --- | --- | --- |
@@ -34,8 +36,10 @@ and full-index patch digests in `integration-exceptions.json`:
 
 1. Existing `.github/workflows/desk-integration.yml`: add source/journal/integration
    triggers; run A47/B149 and typed current-head link tests; retain all original
-   root/current/historical/mobile/native-STOP checks. No secret/environment grant,
-   dispatch, schedule, provider endpoint or deployment command. Both dedicated
+   root/current/historical/mobile/native-STOP checks. Add a distinct read-only
+   current-main verification job and scheduled-collector completion trigger.
+   No configured secret/environment grant, dispatch, new schedule, provider
+   endpoint or deployment command. Both dedicated PR
    jobs explicitly check out the immutable PR head; unchanged root CI continues
    GitHub's normal PR integration check.
 2. C `tests/desk-journey/scope.test.mjs`: admit only independently hash-verified
@@ -52,7 +56,7 @@ their exact detached temporary worktrees. These **do not substitute** for curren
 aggregate byte/scope tests, C's actual current adapter/browser or B149. Existing
 #191 historical guards/A118/B171/browser27 also remain intact and run separately.
 
-All 16 new files are under `tests/v3-release/**` and this document, including six
+All 22 new files are under `tests/v3-release/**` and this document, including six
 new local screenshots. Original screenshots are retained unchanged. The capture
 wrapper runs C's unchanged45 current browser tests against the actual optimized
 aggregate, copies their six genuine LOCAL TEST outputs to the aggregate directory,
@@ -98,6 +102,104 @@ schemas/policies/roles/counters, source policies, authentication/Origin/CSP/STOP
 worker, collector, scheduler, infrastructure and dependencies are all unchanged.
 No hosted/manual SQL, key access, trading, financial file or storage installation.
 Existing regression suites use only disposable local synthetic PG/TLS fixtures.
+
+## Release-engineering review: supported merge and future collector commits
+
+Addresses [the independent review](https://github.com/fuzzysniper/scout-stonk-intel/pull/200#issuecomment-6459730125).
+**Preferred and only supported release strategy: normal two-parent merge commit.**
+Squash, rebase-and-merge and fast-forward are **NO-GO**, even when their trees are
+byte-identical. The original C/A/B ancestry checks and 109 source-byte pins remain
+mandatory; no copied manifest or environment flag substitutes for lost ancestry.
+This does not authorize any merge or production release.
+
+The immutable reviewed family anchor is
+`b8fbace0f3d71e597af7c01dbc7ffeaedee043b9`. It is not a substitute for approving the
+exact successor head reported in the PR. The main first-parent commit that first
+introduces `tests/v3-release/lifecycle.mjs` must have exactly two parents, in order:
+current main, then the reviewed candidate containing that anchor and every original
+source head. Its non-data tree must exactly match its candidate parent; its two
+collector files must exactly match its main parent. All other protected paths,
+permissions, runtime gates, source inputs and original guard tests remain frozen.
+A later non-data change requires a separately reviewed successor policy, rather
+than an automatic directory exception. No branch protection/settings are changed.
+
+There are three separate verification contexts:
+
+| Context | Required evidence / behavior |
+| --- | --- |
+| Local / PR | Exact proposal data at `9ed4061`, all source hashes/ancestry and complete exception patches. Cannot borrow a main evidence packet to permit feature-branch data edits. Existing root CI checks GitHub's PR integration tree; dedicated focused/mobile jobs check the immutable PR head. |
+| First main merge | Explicit two-parent/order/tree check, original source ancestry and byte checks, unchanged main data. If scheduled data advanced before merge, verify those transitions too; never replace it with old candidate data. |
+| Later main collector update | Same reviewed code; single-parent data-only commit, unchanged collector/allowlist, authenticated scheduled run + successful persistence/evidence steps + matching artifact ZIP/Git hashes; independently replay exact producer-compatible append and retention. |
+
+The new `post-merge-current-main` job is verification, not collection. It runs on
+main pushes and on **scheduled** `Collect reward snapshots` completions. The latter
+is necessary because the existing collector pushes with `GITHUB_TOKEN`, which
+normally suppresses a second push-triggered workflow. No collector workflow,
+schedule, dispatch, credential, claim gate or source permission is changed.
+Manual collector runs are deliberately outside this narrowly reviewed allowance.
+The job uses only the short-lived built-in GitHub client with `contents:read` and
+`actions:read`. It never receives configured source keys, calls a market/provider
+API, requests a deployment or writes repository contents. Current-main regression,
+source, type, lint, build, default-OFF API and archive checks remain separate steps.
+
+GitHub evidence is acquired serially: at most **64 API calls**, **8 unverified
+collector transitions**, **5 seconds per call**, **zero retries**, and **4 MiB per
+ZIP/decoded artifact**. Only the exact two regular artifact basenames are accepted;
+traversal, duplicate/extra entries, symlinks, encryption, invalid compression,
+oversized/decompression-bomb input and digest mismatches fail closed. Runs bind
+repository ID `1415026436`, workflow path, main branch, schedule event, exact Git
+parent, run ID/attempt and actual job/step conclusions. A bot name/message or green
+unrelated job is insufficient. New main-job evidence binds the current SHA, event,
+run and attempt in a mode-0600, create-once file outside the checkout. It contains
+hashes and metadata only, is not uploaded or reused, and never prints artifact
+bodies, URLs, tokens or raw SDK errors. Unknown/missing/expired/403/429/503/timeout
+evidence stops verification without changing data or retrying a source.
+
+An actual successful same-code `post-merge-current-main` job at an exact ancestor
+is an inductive checkpoint; unrelated/skipped/failed/PR/current-run statuses cannot
+serve as one. That bounds repeated verification without downloading all historical
+artifacts forever. Existing collector artifacts last **7 days**; a gap of more than
+8 unverified transitions, missing evidence or non-data history needs explicit
+review/recovery. Green CI is not a promise of indefinite unattended operation.
+
+The producer already retains **193 observations per token**. Validation imports
+only its frozen pure append/identity helpers, never its fetch/collect entry points.
+Each update must be exactly the old observations plus at most one valid row per
+existing exact mint, with only the producer's oldest-overflow trimming at 193.
+Source/quote/mode/provider and observation clocks, null/zero and failure semantics
+are retained. Failed attempts can update only the accurate summary. Old rows and
+commits remain in immutable Git history; no history rewrite, reset, new mint or
+retention expansion is permitted. There is no new claim about payout flow or rights.
+
+Offline synthetic repositories exercise real Git parents/trees, the actual main
+packet loader, actual pure producer append logic and mocked GitHub ZIP/SDK reads.
+They cover normal merge, identical squash/rebase/fast-forward rejection, a collector
+advance before merge, future collector commits, retention rollover, missed jobs,
+checkpoint attacks, wrong clocks/identity, historical edits, evidence substitution,
+dirty checkouts, request/byte limits and aborting a request that never resolves.
+They are **not** a real post-merge/main Actions observation. The new main-only job
+is intentionally skipped in this PR, and must be observed after any separately
+approved normal merge; main must not be declared verified from synthetic tests.
+
+Future owner review sequence (not execution authorization):
+
+1. Confirm exact reviewed head, fresh main and green root/focused/mobile CI. Review
+   all three exception patches; preserve the original draft inputs and #182.
+2. If release is separately approved, use **Create a merge commit**, with main as
+   first parent and the approved candidate as second. Stop if only squash/rebase
+   is offered or if source/code/data preservation fails; do not change repo
+   settings, force-push or hand-resolve protected files to make it pass.
+3. Confirm the resulting two parent SHAs, exact source ancestry, candidate non-data
+   tree and current-main data. Observe the actual root and current-main jobs. On
+   the next already-authorized schedule, observe its independent read-only followup;
+   never dispatch or acquire data just to test this verification code.
+4. On missing/invalid evidence, keep HOLD and preserve commits/artifacts. Review
+   the failed categorical condition; no counter reset, data rollback, source retry
+   or bypass flag. Any next code epoch needs independently pinned review/tests.
+
+Mobile approval card: **Review PR #200 exact successor SHA, normal-merge-only
+restriction and green CI; source/public operation and journal persistence remain
+OFF. A release decision remains separate from any provider or infrastructure GO.**
 
 ## Founder evidence: keep the distinction
 
@@ -171,6 +273,14 @@ types, lint, optimized build and default-OFF built endpoint checks PASS. The fir
 linker run rejected an invalid synthetic ticker containing spaces; only that
 new fixture was corrected, not identity validation, arithmetic or UI. GitHub
 exact-head CI and final archive/scope evidence are recorded in the draft PR.
+
+Release-engineering follow-up adds **91 offline lifecycle/GitHub-evidence cases**
+to the existing runner; none replaces an original test. They include exact-parent
+data preservation when main advances before merge, the actual main file loader,
+authenticated-evidence/checkpoint attacks, rolling193 append integrity and terminal
+GitHub/ZIP/rate/timeout failures. All91, source scope4, A47/B149 and link24 pass
+locally. Full successor CI results and the immutable revised SHA are reported in
+PR #200; older green runs are not evidence for an untested successor head.
 
 Initial aggregate CI at `c80f87f8396efa9846721e43e3dfd03c66bb0911` passed
 root/focused and all45+27+39+5 browser/security cases, then correctly failed the

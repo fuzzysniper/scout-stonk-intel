@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,lstatSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
+import {repository,runtimeState,POLICY} from './lifecycle.mjs';
 export const SOURCE_BASE='ba4b2e494f768350ec285e26791b61a90c50220b';
 export const BASE='9ed40610eb34c34b56996d55a768f2eac9b43cdd';
 export const UPSTREAM=['data/collection-summary.json','data/reward-snapshots.json'];
@@ -12,6 +13,8 @@ export const ADDED=[
  'tests/v3-release/assertions.mjs','tests/v3-release/source-manifest.json','tests/v3-release/integration-exceptions.json',
  'tests/v3-release/scope.test.mjs','tests/v3-release/link-fixtures.ts','tests/v3-release/link.test.mjs',
  'tests/v3-release/run.sh','tests/v3-release/source-history.sh','tests/v3-release/snapshots.sh',
+ 'tests/v3-release/lifecycle.mjs','tests/v3-release/github-proof.mjs','tests/v3-release/collector-append.py',
+ 'tests/v3-release/lifecycle-fixtures.mjs','tests/v3-release/lifecycle.test.mjs','tests/v3-release/github-proof.test.mjs',
  'docs/v3/release-candidate-199.md',
  ...['incomplete','plan'].flatMap(state=>['320','390','1280'].map(size=>`tests/v3-release/screenshots/current-${state}-${size}.png`)),
 ];
@@ -20,6 +23,8 @@ export const git=(...args)=>raw(...args).toString().trim();
 export const hash=v=>createHash('sha256').update(v).digest('hex');
 const json=path=>JSON.parse(readFileSync(path,'utf8'));
 export function assertAggregate(){
+ assert.equal(BASE,POLICY.base);assert.deepEqual(UPSTREAM,POLICY.data);
+ const lifecycle=runtimeState(repository());
  const manifest=json('tests/v3-release/source-manifest.json'),deltas=json('tests/v3-release/integration-exceptions.json');
  assert.equal(manifest.base,SOURCE_BASE);assert.equal(manifest.main,BASE);assert.deepEqual(manifest.sources,SOURCES);
  assert.equal(git('merge-base','--is-ancestor',BASE,'HEAD'),'');
@@ -28,7 +33,7 @@ export function assertAggregate(){
  for(const path of UPSTREAM){
   const [mode,type,blob]=git('ls-tree',BASE,'--',path).split('\t')[0].split(' ');assert.equal(type,'blob');
   const sha256=hash(raw('show',BASE+':'+path));assert.deepEqual(manifest.upstream[path],{mode,blob,sha256});
-  assert.equal(hash(readFileSync(path)),sha256,path+' exact scheduled main data');
+  if(!lifecycle.dataAllowed)assert.equal(hash(readFileSync(path)),sha256,path+' exact proposal main data');
  }
  assert.deepEqual(Object.keys(deltas).sort(),[...EXCEPTIONS].sort());
  const expected=[];
@@ -53,14 +58,14 @@ export function assertAggregate(){
  }
  assert.equal(expected.length,109);assert.equal(new Set(expected).size,109);
  assert.deepEqual(Object.keys(manifest.files).sort(),expected.sort());
- const allowed=new Set([...expected,...ADDED]);
+ const allowed=new Set([...expected,...ADDED,...(lifecycle.dataAllowed?UPSTREAM:[])]);
  for(const path of [...git('diff','--name-only','--no-renames',BASE).split('\n'),...git('ls-files','--others','--exclude-standard').split('\n')].filter(Boolean))assert.ok(allowed.has(path),'unreviewed aggregate path: '+path);
  // Freeze every preexisting runtime/security/auth/SQL/data/config file, except
  // C's exact reviewed /desk-only chrome conditional, already hash-pinned above.
  for(const line of git('diff','--name-status','--no-renames',BASE).split('\n').filter(Boolean)){
-  const [status,path]=line.split('\t');assert.ok(status==='A'||(status==='M'&&path==='app/site-chrome.tsx'),line);
+  const [status,path]=line.split('\t');assert.ok(status==='A'||(status==='M'&&(path==='app/site-chrome.tsx'||(lifecycle.dataAllowed&&UPSTREAM.includes(path)))),line);
  }
- assert.equal(git('diff',BASE,'--','app/api','app/consumer','app/page.tsx','app/layout.tsx','app/globals.css','lib/onchain-mint','lib/scout-live','lib/scout-continuous','lib/live-ledger','experiments','data','scheduler','scripts','ops','neon.ts','next.config.ts','vercel.json','package.json','package-lock.json','tests/run.sh'),'');
+ assert.equal(git('diff',BASE,'--','app/api','app/consumer','app/page.tsx','app/layout.tsx','app/globals.css','lib/onchain-mint','lib/scout-live','lib/scout-continuous','lib/live-ledger','experiments','data',...(lifecycle.dataAllowed?[':(exclude)data/collection-summary.json',':(exclude)data/reward-snapshots.json']:[]),'scheduler','scripts','ops','neon.ts','next.config.ts','vercel.json','package.json','package-lock.json','tests/run.sh'),'');
  for(const path of git('ls-tree','-r','--name-only',BASE,'--','.github/workflows').split('\n'))assert.equal(git('diff',BASE,'--',path),'',path);
  assert.notEqual(git('merge-base','fb07947be8f10902fdba52ee7b148d11c32654ef','HEAD'),'fb07947be8f10902fdba52ee7b148d11c32654ef','#182 remains excluded');
  return manifest;
