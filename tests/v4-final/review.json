@@ -430,6 +430,6 @@
     "tests/v4-final/screenshots/combined-390.png": "bb0fd8255b48e23f258c19f4c93c2491784531d835e5cc15399904e324f05fff",
     "tests/v4-final/screenshots/combined-1280.png": "3e91d767b2c18b92c08c84429ae523cde9833a2a97613900d4507692f9506a46",
     "docs/v4/final-composition-237.md": "c2dbdd4c210ef87f484c72178f6306272396c3df15f6ca3c447351d7f0f4ba99",
-    ".github/workflows/v4-final-offline.yml": "b2b4c13422ba803f995cb1a59d0f53db880770366fca299ff380fe8a5468e95f"
+    ".github/workflows/v4-final-offline.yml": "cece361c325c91dbf897ee6b779d87e844b5b9a2e6a0426a89f896cb6e90131d"
   }
 }

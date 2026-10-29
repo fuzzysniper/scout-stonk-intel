@@ -83,6 +83,11 @@ jobs:
           sudo sysctl -w net.ipv4.ip_unprivileged_port_start=443
       - name: Combined real package strict roles owner J mobile source OFF and STOP
         run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-final/run.sh browser
+      - uses: actions/upload-artifact@v4
+        with:
+          name: combined-local-237-mobile
+          path: tests/v4-final/screenshots/
+          retention-days: 3
       - name: Original owner and B session history ambiguity accessibility controls
         run: |
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-owner-thesis/run.sh browser
@@ -91,15 +96,11 @@ jobs:
         run: |
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
           git restore -- next-env.d.ts
+          git restore -- tests/v4-owner-thesis/screenshots/local-bridge-{320,390,1280}.png tests/v4-thesis/screenshots/local-save-history-{320,390,1280}.png tests/v4-final/screenshots/combined-{320,390,1280}.png
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-final/built-off.mjs
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-integration/snapshots.sh
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/consumer-homepage/playwright.config.mjs
           NODE_ENV=test NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
-      - uses: actions/upload-artifact@v4
-        with:
-          name: combined-local-237-mobile
-          path: tests/v4-final/screenshots/
-          retention-days: 3
       - name: Restore only generated QA images and final exact guard
         run: |
           git restore -- docs/live-feed-167/screenshots/{locked,disabled}-{320,390,1280}.png docs/live-feed-167/disabled-{320,390,1280}.json

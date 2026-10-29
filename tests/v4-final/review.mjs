@@ -5,7 +5,7 @@ export const INPUTS={native:'696ca6c5698c75fc926bff4623a563f6994ce032',package:'
 export const PARENTS={native:'6efb0eb66a79087b9c7a59b9a06ad584e9130ee9',package:'76dea8aab3f26eef39c2fcbc1b0b37d13180388f'};
 export const RESOLUTIONS=['tests/v4-owner-ledger/review.mjs','tests/v4-owner-ledger/scope.test.mjs','tests/v4-owner-thesis/review.mjs','tests/v4-owner-thesis/scope.test.mjs','tests/v4-helius-native/review.mjs','tests/v4-helius-native/scope.test.mjs','tests/v4-journal-deployment/review.mjs','tests/v4-private-journal/scope.test.mjs'];
 export const ADDED=[...['review.mjs','review.json','scope.test.mjs','fixture.mjs','combined.test.mjs','run.sh','__init__.py','engine_test.py','browser-server.mjs','browser.spec.mjs','playwright.config.mjs','built-off.mjs','source-history.sh'].map(f=>'tests/v4-final/'+f),...['320','390','1280'].map(n=>'tests/v4-final/screenshots/combined-'+n+'.png'),'docs/v4/final-composition-237.md','.github/workflows/v4-final-offline.yml'];
-const REVIEW_SHA='26f32905a59b36af0961b68eba0c6ee75b5d76a25314925c9266b4635a6641b5';
+const REVIEW_SHA='c45aef7b12f1d7908e95ec070e0d34a2ce5e85f87a2a7e63d9c26c69c56605e9';
 export const sha=b=>createHash('sha256').update(b).digest('hex');
 export function assertFinal(root=process.cwd()){
  const raw=(...a)=>execFileSync('git',a,{cwd:root,maxBuffer:32*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=f=>fs.readFileSync(path.join(root,f));
