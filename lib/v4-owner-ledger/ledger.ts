@@ -5,9 +5,10 @@ import type { GlobalLedgerPort, LedgerCommand, LedgerReply } from '../v4-helius-
 import { prepareProfile } from '../v4-helius-pilot/server/profile';
 import { verifiedPool, unavailable } from './postgres';
 import { snapshotCommand, validateReply } from './commands';
-import { PROOF_SQL, STEP_SHA } from './sql-proof';
+import {pilotDurabilityProof,assertNeonTarget,type NeonAdmission} from './neon-durability';
 /** Real PG/TLS adapter. No environment/DSN read, SQL provisioning, reset, retry or memory fallback. */
-export function createPostgresPilotLedger(pool: Pool, host: string, profileInput: unknown): GlobalLedgerPort {
+export function createPostgresPilotLedger(pool: Pool, host: string, profileInput: unknown, durability?:NeonAdmission): GlobalLedgerPort {
+  if(durability!==undefined)assertNeonTarget(durability,host);
   const prepared = prepareProfile(profileInput); if (!prepared) throw unavailable();
   const { hash, profile } = prepared, db = verifiedPool(pool, host), fence = randomUUID();
   // Deliberately process-local FAIL-CLOSED latch; all counters/STOP/fence are durable in PG.
@@ -18,7 +19,7 @@ export function createPostgresPilotLedger(pool: Pool, host: string, profileInput
     try {
       await c.query('BEGIN');
       await c.query("SET LOCAL synchronous_commit=on; SET LOCAL statement_timeout='500ms'; SET LOCAL lock_timeout='100ms'; SET LOCAL search_path=pg_catalog");
-      const proof = await c.query(PROOF_SQL,[STEP_SHA]);
+      const proof = await pilotDurabilityProof(c,host,durability);
       if (proof.rowCount !== 1 || proof.rows[0]?.durable !== true) throw unavailable();
       const json = JSON.stringify(command); if (Buffer.byteLength(json)>8192) throw unavailable();
       const r = await c.query<{reply: LedgerReply}>('SELECT unfarmd_v4_pilot.step($1::jsonb,$2::uuid,$3::text) AS reply',[json,fence,hash]);
