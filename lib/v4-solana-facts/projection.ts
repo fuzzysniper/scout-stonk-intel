@@ -40,7 +40,9 @@ export function unavailable(mint: unknown, reason: ProjectionReason, state: Fact
 }
 function object(v: unknown): v is Record<string, unknown> { return v !== null && typeof v === "object" && !Array.isArray(v); }
 function keys(v: Record<string, unknown>, allowed: readonly string[], required: readonly string[] = allowed): boolean {
-  return Object.keys(v).every(k => allowed.includes(k)) && required.every(k => Object.hasOwn(v, k));
+  return (Object.getPrototypeOf(v) === Object.prototype || Object.getPrototypeOf(v) === null)
+    && Reflect.ownKeys(v).every(k => typeof k === "string" && allowed.includes(k) && "value" in Object.getOwnPropertyDescriptor(v, k)!)
+    && required.every(k => Object.hasOwn(v, k));
 }
 /** Strictly bounded RPC error codes; never returns provider text, URLs, headers, params or unknown codes. */
 function providerFailure(text: string, id: number): { reason: ProjectionReason; rpcCode: number | null } | null {
@@ -72,7 +74,14 @@ export async function projectHeliusCapture(requestedMint: unknown, input: unknow
       "unavailable", { httpStatus: input.httpStatus as number, rpcCode: null });
     if (typeof input.text !== "string") return unavailable(requestedMint, "invalid_response");
     if (input.text.length > LIMITS.bytes || new TextEncoder().encode(input.text).byteLength > LIMITS.bytes) return unavailable(requestedMint, "response_too_large");
-    const captured = input as unknown as HeliusCapture;
+    if (typeof input.requestStartedAt !== "string" || typeof input.responseReceivedAt !== "string" || typeof input.evaluatedAt !== "string"
+      || (input.httpDate !== undefined && input.httpDate !== null && typeof input.httpDate !== "string")) return unavailable(requestedMint, "invalid_clock");
+    // Copy every original primitive BEFORE hashing awaits. Never read caller objects again.
+    const captured: HeliusCapture = Object.freeze({ kind: input.kind,
+      request: Object.freeze({ network: "solana-mainnet", endpointHost: "mainnet.helius-rpc.com", method: "getAccountInfo",
+        encoding: "jsonParsed", commitment: "finalized", mint: requestedMint, id: r.id as number }),
+      requestStartedAt: input.requestStartedAt, responseReceivedAt: input.responseReceivedAt, evaluatedAt: input.evaluatedAt,
+      httpDate: input.httpDate, httpStatus: input.httpStatus as number, text: input.text });
     const decoded = await decodeResponse({ mint: requestedMint, requestId: captured.request.id, text: captured.text,
       requestStartedAt: captured.requestStartedAt, responseReceivedAt: captured.responseReceivedAt, evaluatedAt: captured.evaluatedAt,
       httpDate: captured.httpDate, acquisition: captured.kind, endpointHost: "mainnet.helius-rpc.com" });

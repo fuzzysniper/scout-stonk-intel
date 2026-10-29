@@ -4,19 +4,24 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
+import {PILOT_ADDED} from '../v4-helius-pilot/review.mjs';
+import {assertComposition,COMPOSITION_ADDED} from '../v4-private-integration/review.mjs';
+import {ADDITIONS as JOURNAL_ADDITIONS} from '../v4-private-journal/dependency.mjs';
 export const SOURCE_BASE='5c6e36fef0fc15acb07c954566a3975cb77fc102';
 export const BASE='222ccf29de01b6bf05fae6d4fa332c26b2acc2de';
 export const SOURCES={C:{head:'ec527f8b4e3fb7f0c0df7b77c459ec6502267100',count:15},A:{head:'d6af31935f6202a3c8ee243735fc86d13f601a58',count:9},B:{head:'6ed24c97146a39599ad0855a809735f08c83f2b8',count:19}};
-export const EXCEPTIONS=['app/lens/view.tsx','tests/lens/security.test.mjs','lib/unfarmd-intelligence/source-off.ts','tests/unfarmd-intelligence/scope.test.mjs'];
+export const EXCEPTIONS=['app/lens/view.tsx','tests/lens/security.test.mjs','lib/unfarmd-intelligence/source-off.ts','tests/unfarmd-intelligence/scope.test.mjs','lib/v4-solana-facts/projection.ts'];
 export const ADDED=['lib/unfarmd-intelligence/unavailable-cards.ts','lib/v4-alpha-lens/source-off-model.ts','lib/v4-alpha-lens/captured-bridge.ts',
  'tests/v4-integration/assertions.mjs','tests/v4-integration/source-manifest.json','tests/v4-integration/exceptions.json',
  'tests/v4-integration/fixtures.mjs','tests/v4-integration/bridge.test.mjs','tests/v4-integration/scope.test.mjs',
  'tests/v4-integration/run.sh','tests/v4-integration/source-history.sh','tests/v4-integration/snapshots.sh',
  'tests/v4-integration/browser.spec.mjs','tests/v4-integration/playwright.config.mjs','tests/v4-integration/__init__.py','tests/v4-integration/engine_test.py',
  'docs/v4/integration-218.md','docs/v4/integration-218-qa.json','.github/workflows/v4-integration.yml',
- ...['before-390','after-320','after-390','after-1280'].map(n=>'tests/v4-integration/screenshots/'+n+'.png')];
+ ...['before-390','after-320','after-390','after-1280'].map(n=>'tests/v4-integration/screenshots/'+n+'.png'),...PILOT_ADDED];
 export const digest=b=>createHash('sha256').update(b).digest('hex');
 export function assertV4(root=process.cwd()){
+ assertComposition(root);
+ const dependent=[...JOURNAL_ADDITIONS,...COMPOSITION_ADDED];
  const raw=(...args)=>execFileSync('git',args,{cwd:root,maxBuffer:16*1024*1024}),git=(...args)=>raw(...args).toString().trim();
  const read=p=>fs.readFileSync(path.join(root,p));
  const manifest=JSON.parse(read('tests/v4-integration/source-manifest.json')),deltas=JSON.parse(read('tests/v4-integration/exceptions.json'));
@@ -38,14 +43,14 @@ export function assertV4(root=process.cwd()){
   }
  }
  assert.equal(originals.length,43);assert.deepEqual(Object.keys(manifest.files).sort(),originals.sort());
- const allowed=new Set([...originals,...ADDED]);assert.equal(ADDED.length,23);assert.equal(allowed.size,66);
+ const allowed=new Set([...originals,...ADDED]);assert.equal(ADDED.length,43);assert.equal(allowed.size,86);
  for(const file of ADDED){const stat=fs.lstatSync(path.join(root,file));assert.ok(stat.isFile()&&!stat.isSymbolicLink(),file);assert.equal(stat.mode&0o111,0,file);}
- for(const file of [...git('diff','--name-only','--no-renames',BASE).split('\n'),...git('ls-files','--others','--exclude-standard').split('\n')].filter(Boolean))assert.ok(allowed.has(file),'unreviewed_integration_path:'+file);
+ for(const file of [...git('diff','--name-only','--no-renames',BASE).split('\n'),...git('ls-files','--others','--exclude-standard').split('\n')].filter(Boolean))assert.ok(allowed.has(file)||dependent.includes(file),'unreviewed_integration_path:'+file);
  for(const line of git('diff','--name-status','--no-renames',BASE).split('\n').filter(Boolean)){
   const [status,file]=line.split('\t');assert.ok(status==='A'||(status==='M'&&['app/site-chrome.tsx','tests/run.sh'].includes(file)),line);
  }
  // Freeze every old code/config/data/workflow, admitting ONLY exact C chrome + A test hook.
- assert.equal(git('diff',BASE,'--','.',...originals.concat(ADDED).map(f=>':(exclude)'+f)),'');
+ assert.equal(git('diff',BASE,'--','.',...originals.concat(ADDED,dependent).map(f=>':(exclude)'+f)),'');
  for(const file of ['data/collection-summary.json','data/reward-snapshots.json','data/collector-audit.json']){
   const [mode,type,blob]=git('ls-tree',BASE,'--',file).split('\t')[0].split(' ');
   assert.deepEqual(manifest.data[file],{mode,blob,sha256:digest(raw('show',BASE+':'+file))});assert.equal(type,'blob');assert.equal(digest(read(file)),manifest.data[file].sha256,file);

@@ -1,12 +1,14 @@
 import test from 'node:test';
+import {COMPOSITION_ADDED} from '../v4-private-integration/review.mjs';
+import {ADDITIONS as JOURNAL_ADDITIONS} from '../v4-private-journal/dependency.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {assertV4,BASE,SOURCES,ADDED,EXCEPTIONS} from './assertions.mjs';
-test('independent43 original paths/modes/hashes/ancestry +4 exact patches +23 additions',()=>{
- assert.equal(Object.keys(assertV4().files).length,43);assert.equal(EXCEPTIONS.length,4);assert.equal(ADDED.length,23);
+test('independent43 original paths/modes/hashes/ancestry +5 exact patches +43 finite additions',()=>{
+ assert.equal(Object.keys(assertV4().files).length,43);assert.equal(EXCEPTIONS.length,5);assert.equal(ADDED.length,43);
 });
 test('original root/native runner and chrome are exactly source A and C; no broad exemptions',()=>{
  assert.deepEqual(fs.readFileSync('tests/run.sh'),execFileSync('git',['show',SOURCES.A.head+':tests/run.sh']));
@@ -18,7 +20,8 @@ for(const file of ['app/api/mint-facts/route.ts','lib/onchain-mint/server/lookup
   execFileSync('git',['clone','--shared','--no-checkout',process.cwd(),root],{stdio:'ignore'});
   // Copy only the current reviewed working tree, including uncommitted integration.
   execFileSync('git',['checkout','--detach','HEAD'],{cwd:root,stdio:'ignore'});
-  for(const p of [...Object.keys(assertV4().files),...ADDED]){fs.mkdirSync(path.dirname(path.join(root,p)),{recursive:true});fs.copyFileSync(p,path.join(root,p));}
+  for(const p of [...Object.keys(assertV4().files),...ADDED,...JOURNAL_ADDITIONS,...COMPOSITION_ADDED]){fs.mkdirSync(path.dirname(path.join(root,p)),{recursive:true});fs.copyFileSync(p,path.join(root,p));}
+  assertV4(root);
   fs.appendFileSync(path.join(root,file),'\nUNREVIEWED DRIFT\n');assert.throws(()=>assertV4(root));
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
