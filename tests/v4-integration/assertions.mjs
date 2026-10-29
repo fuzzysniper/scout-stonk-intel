@@ -1,5 +1,6 @@
 // Review-only exact source composition, never a directory-wide/safety exemption.
 import assert from 'node:assert/strict';
+import {assertJournalScope} from '../v4-private-journal/dependency.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
@@ -17,6 +18,7 @@ export const ADDED=['lib/unfarmd-intelligence/unavailable-cards.ts','lib/v4-alph
  ...['before-390','after-320','after-390','after-1280'].map(n=>'tests/v4-integration/screenshots/'+n+'.png')];
 export const digest=b=>createHash('sha256').update(b).digest('hex');
 export function assertV4(root=process.cwd()){
+ const dependent=assertJournalScope(root);
  const raw=(...args)=>execFileSync('git',args,{cwd:root,maxBuffer:16*1024*1024}),git=(...args)=>raw(...args).toString().trim();
  const read=p=>fs.readFileSync(path.join(root,p));
  const manifest=JSON.parse(read('tests/v4-integration/source-manifest.json')),deltas=JSON.parse(read('tests/v4-integration/exceptions.json'));
@@ -40,12 +42,12 @@ export function assertV4(root=process.cwd()){
  assert.equal(originals.length,43);assert.deepEqual(Object.keys(manifest.files).sort(),originals.sort());
  const allowed=new Set([...originals,...ADDED]);assert.equal(ADDED.length,23);assert.equal(allowed.size,66);
  for(const file of ADDED){const stat=fs.lstatSync(path.join(root,file));assert.ok(stat.isFile()&&!stat.isSymbolicLink(),file);assert.equal(stat.mode&0o111,0,file);}
- for(const file of [...git('diff','--name-only','--no-renames',BASE).split('\n'),...git('ls-files','--others','--exclude-standard').split('\n')].filter(Boolean))assert.ok(allowed.has(file),'unreviewed_integration_path:'+file);
+ for(const file of [...git('diff','--name-only','--no-renames',BASE).split('\n'),...git('ls-files','--others','--exclude-standard').split('\n')].filter(Boolean))assert.ok(allowed.has(file)||dependent.includes(file),'unreviewed_integration_path:'+file);
  for(const line of git('diff','--name-status','--no-renames',BASE).split('\n').filter(Boolean)){
   const [status,file]=line.split('\t');assert.ok(status==='A'||(status==='M'&&['app/site-chrome.tsx','tests/run.sh'].includes(file)),line);
  }
  // Freeze every old code/config/data/workflow, admitting ONLY exact C chrome + A test hook.
- assert.equal(git('diff',BASE,'--','.',...originals.concat(ADDED).map(f=>':(exclude)'+f)),'');
+ assert.equal(git('diff',BASE,'--','.',...originals.concat(ADDED,dependent).map(f=>':(exclude)'+f)),'');
  for(const file of ['data/collection-summary.json','data/reward-snapshots.json','data/collector-audit.json']){
   const [mode,type,blob]=git('ls-tree',BASE,'--',file).split('\t')[0].split(' ');
   assert.deepEqual(manifest.data[file],{mode,blob,sha256:digest(raw('show',BASE+':'+file))});assert.equal(type,'blob');assert.equal(digest(read(file)),manifest.data[file].sha256,file);
