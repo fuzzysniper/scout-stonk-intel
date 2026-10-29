@@ -11,8 +11,8 @@ export function validateRecovery(anchor,restored){
   for(const v of [anchor,restored]){
    if(!fields(v,keys)||v.version!=='unfarmd-v4-recovery/1'||!hash(v.databaseId)||!num(v.generation)||!hash(v.authHash))return blocked();
    for(const name of ['journal','tombstones','owners','rates'])if(!Array.isArray(v[name])||v[name].length>2048)return blocked();
-   const specs={journal:['id','revision','head'],tombstones:['id','head'],owners:['id','journals','events'],rates:['id','windowAt','lastAt','reads','writes']};
-   for(const [name,f] of Object.entries(specs)){const seen=new Set();for(const row of v[name]){if(!fields(row,f)||!hash(row.id)||seen.has(row.id))return blocked();seen.add(row.id);for(const k of f.filter(k=>k!=='id'))if(k==='head'?!hash(row[k]):!num(row[k]))return blocked();}}
+   const specs={journal:['id','revision','head','metadataHash'],tombstones:['id','head','metadataHash'],owners:['id','journals','events'],rates:['id','windowAt','lastAt','reads','writes']};
+   for(const [name,f] of Object.entries(specs)){const seen=new Set();for(const row of v[name]){if(!fields(row,f)||!hash(row.id)||seen.has(row.id))return blocked();seen.add(row.id);for(const k of f.filter(k=>k!=='id'))if((k==='head'||k==='metadataHash')?!hash(row[k]):!num(row[k]))return blocked();}}
    if(v.pilot!==null&&(!fields(v.pilot,['policyHash','reads','attempts','credits','stopped','fence','leaseHash','historyHash'])||!hash(v.pilot.policyHash)||!['reads','attempts','credits'].every(k=>num(v.pilot[k]))||typeof v.pilot.stopped!=='boolean'||![v.pilot.fence,v.pilot.leaseHash].every(x=>x===null||hash(x))||!hash(v.pilot.historyHash)))return blocked();
   }
   if(anchor.databaseId!==restored.databaseId||anchor.generation!==restored.generation)return blocked();

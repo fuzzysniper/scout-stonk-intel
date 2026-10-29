@@ -24,7 +24,9 @@ test('TLS wrong CA/hostname and bad authentication fail closed with categorical 
 test('real local journal-ciphertext pg_dump/pg_restore preserves catalog, tombstones, quota/STOP/lease and rejects older valid backup',async()=>{
  const backup=f.dir+'/encrypted-local.dump';f.tool('pg_dump',['--format=custom','--file='+backup]);fs.chmodSync(backup,0o600);
  const stamp=async db=>({version:'unfarmd-v4-recovery/1',databaseId:'a'.repeat(64),generation:1,...(await db.query(fs.readFileSync('ops/v4-journal/snapshot.sql','utf8'))).rows[0].snapshot});
- const captured=await stamp(f.owner);const restored=await fixture();
+ const captured=await stamp(f.owner);
+ await f.owner.query('BEGIN');try{await f.owner.query('UPDATE unfarmd_v4_pilot.state SET highest_slot=highest_slot+1,client_ms=client_ms+1,server_ms=server_ms+1 WHERE singleton');assert.equal(validateRecovery(captured,await stamp(f.owner)).status,'blocked');}finally{await f.owner.query('ROLLBACK');}
+ const restored=await fixture();
  try{
   // Recreate ONLY reviewed cluster-global NOLOGIN role definitions/config; not secrets.
   const text=render().split('\n').filter(s=>/^(CREATE ROLE |ALTER ROLE |GRANT unfarmd_|REVOKE ALL ON DATABASE |GRANT CONNECT ON DATABASE )/.test(s)).join('\n');
