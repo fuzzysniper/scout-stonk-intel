@@ -19,6 +19,7 @@
     "tests/v4-neon-durability/build-pg18.sh",
     "tests/v4-neon-durability/replay.sh",
     "tests/v4-neon-durability/browser.sh",
+    "tests/v4-neon-durability/built-off.sh",
     "tests/v4-neon-durability/review.mjs",
     "tests/v4-neon-durability/review.json",
     "tests/v4-neon-durability/scope.test.mjs",
@@ -45,8 +46,9 @@
     "tests/v4-neon-durability/signing.mjs": "6adca378067d77d81bcf4818230f898fde4cf4dac48e52ca66a5b15550ed3d50",
     "tests/v4-neon-durability/build-pg18.sh": "2d9ff97b7a18a55822c30549f9a5ad9ec80ebeb4ec3a98580b691a2c51248e2d",
     "tests/v4-neon-durability/replay.sh": "7ab5a7065f742a9ffe4c301c296d7565a65e9b5896dbf93f3c0454ed58297c4f",
-    "tests/v4-neon-durability/browser.sh": "56385cf8f314b3ff591c753b1edc24a6630cc115343ea31919fc105e57f2ea7f",
-    "docs/v4/neon-durability-239.md": "4bbd89c082a3fdae6d0bdc10653d531608ee723d8a1cec975b2a96df39fcbc88",
-    ".github/workflows/neon-durability-off.yml": "022da91e823ab110bc8fb3fe6d5bf72bf42959488e4a1544c79c79e4279735a5"
+    "tests/v4-neon-durability/browser.sh": "39669a2842bb59d8f3a0be418397061fe0a92d1249be41b7ff791152cfacb216",
+    "tests/v4-neon-durability/built-off.sh": "303929539680339c106a1bc1d468008ef0e3e962448e8035bed7fc04d7a70176",
+    "docs/v4/neon-durability-239.md": "225bc212da2b1f8cc15fb51723b1cba5154577d25217ae2b049fea12066a36a7",
+    ".github/workflows/neon-durability-off.yml": "30a0cf64da1d7b940666c07fa400dcd08342733072d26c03c1a8a63def891f52"
   }
 }

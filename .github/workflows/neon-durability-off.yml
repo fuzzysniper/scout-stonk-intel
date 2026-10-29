@@ -40,10 +40,7 @@ jobs:
           npm run lint
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
           git restore -- next-env.d.ts
-          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-final/built-off.mjs
-          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-thesis/built-off.mjs
-          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/live-ledger/built-api.mjs
-          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-neon-durability/built-off.sh
           bash scripts/archive-tool.sh check 1133d6813e6913a6846cd08f11117f2a0635d6b1
           node --test tests/v4-neon-durability/scope.test.mjs
   immutable-historical-security:

@@ -4,9 +4,9 @@ export const BASE='1133d6813e6913a6846cd08f11117f2a0635d6b1';
 export const INPUTS=['696ca6c5698c75fc926bff4623a563f6994ce032','11d97aab4823bdac797019322beeefe32a578003','698021ea716c390072872e3d482aae188375b186'];
 export const EXCEPTION='lib/v4-owner-ledger/ledger.ts';
 export const ADDED=['lib/v4-owner-ledger/neon-durability.ts','ops/v4-journal/native-tls.d.mts','ops/v4-neon-durability/admission.sql','ops/v4-neon-durability/render.mjs','ops/v4-neon-durability/probe.mjs','ops/v4-neon-durability/evidence.json',
- 'tests/v4-neon-durability/run.sh','tests/v4-neon-durability/contract.test.mjs','tests/v4-neon-durability/postgres18.test.mjs','tests/v4-neon-durability/signing.mjs','tests/v4-neon-durability/build-pg18.sh','tests/v4-neon-durability/replay.sh','tests/v4-neon-durability/browser.sh','tests/v4-neon-durability/review.mjs','tests/v4-neon-durability/review.json','tests/v4-neon-durability/scope.test.mjs',
+ 'tests/v4-neon-durability/run.sh','tests/v4-neon-durability/contract.test.mjs','tests/v4-neon-durability/postgres18.test.mjs','tests/v4-neon-durability/signing.mjs','tests/v4-neon-durability/build-pg18.sh','tests/v4-neon-durability/replay.sh','tests/v4-neon-durability/browser.sh','tests/v4-neon-durability/built-off.sh','tests/v4-neon-durability/review.mjs','tests/v4-neon-durability/review.json','tests/v4-neon-durability/scope.test.mjs',
  'docs/v4/neon-durability-239.md','.github/workflows/neon-durability-off.yml'];
-const MANIFEST_SHA='d3df3e8eab00ee76854fb0e64e500d07c5e5f5806e1f5cfaf7128dac0ec93e01';
+const MANIFEST_SHA='e323b65d0f81d10c8df1aedeec254a3d40310c8acf1ab1ff72ded13cc69943c9';
 export const sha=b=>createHash('sha256').update(b).digest('hex');
 export function review(root=process.cwd()){
  const raw=(...a)=>execFileSync('git',a,{cwd:root,maxBuffer:32*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=f=>fs.readFileSync(path.join(root,f));

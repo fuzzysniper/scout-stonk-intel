@@ -9,10 +9,10 @@ trap restore_qa EXIT
 bash tests/v4-final/run.sh browser
 bash tests/v4-owner-thesis/run.sh browser
 bash tests/v4-thesis/run.sh browser
+restore_qa
 npm run build
 git restore -- next-env.d.ts
-node tests/v4-final/built-off.mjs
-node tests/v4-thesis/built-off.mjs
+bash tests/v4-neon-durability/built-off.sh
 bash tests/v4-integration/snapshots.sh
 node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/consumer-homepage/playwright.config.mjs
 NODE_ENV=test node tests/continuous-ledger/mobile.test.mjs
