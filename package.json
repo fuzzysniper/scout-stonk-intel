@@ -12,6 +12,7 @@
     "archive:dry-run": "bash scripts/run-verification.sh dry-run"
   },
   "dependencies": {
+    "better-auth": "1.7.14",
     "next": "15.5.28",
     "pg": "8.23.1",
     "react": "19.1.1",
