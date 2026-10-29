@@ -1,0 +1,79 @@
+name: Private journal OFF local security
+on:
+  pull_request:
+    branches: [integration/v4-alpha-lens-source-off]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  journal-native-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Full root, native PG TLS, actual A B C and journal security tests
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm test
+      - name: Original unmodified source guards
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-integration/source-history.sh
+      - name: Types, lint, source-OFF optimized build and archive
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          bash scripts/archive-tool.sh check b56475c681311d35f95ee9879d9969b868a1724e
+          node --test tests/v4-private-journal/scope.test.mjs
+  unchanged-mobile-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Local Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Guarded production build and disabled routes
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/live-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/built-api.mjs
+      - name: Original and integrated lens, homepage, auth and native STOP mobile regressions
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-integration/snapshots.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/consumer-homepage/playwright.config.mjs
+          NODE_ENV=test NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
+      - name: Restore generated QA only; assert exact dependent and all original guards
+        run: |
+          git restore -- docs/live-feed-167/screenshots/{locked,disabled}-{320,390,1280}.png docs/live-feed-167/disabled-{320,390,1280}.json
+          git restore -- docs/screenshots/continuous-local-qa/parent-stop-{320,390,1280}.png tests/v4-integration/screenshots/after-{320,390,1280}.png
+          node --test tests/v4-private-journal/scope.test.mjs tests/v4-integration/scope.test.mjs
