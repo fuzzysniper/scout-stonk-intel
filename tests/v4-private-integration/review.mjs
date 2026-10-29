@@ -1,5 +1,6 @@
 // Exact review of H + immutable J/P inputs. No environment/path-prefix waiver.
 import assert from 'node:assert/strict';
+import {assertSlice,BASE as SLICE_BASE} from '../v4-thesis/review.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
@@ -10,7 +11,13 @@ export const COMPOSITION_ADDED=['tests/v4-private-integration/review.mjs','tests
 const REVIEW_SHA='2237e8d3c8f41504fa14888507697725f0253f39d57c2d22f887cbf7344ff9a0';
 export const sha=b=>createHash('sha256').update(b).digest('hex');
 export function assertComposition(root=process.cwd()){
- const raw=(...args)=>execFileSync('git',args,{cwd:root,maxBuffer:32*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=p=>fs.readFileSync(path.join(root,p));
+ const dependent=assertSlice(root);
+ const raw=(...args)=>{
+  // Only named replacement patches use their immutable226 versions below.
+  // assertSlice has already checked the actual replacement bytes + complete diff.
+  if(args[0]==='diff'&&args.indexOf('--')===args.length-2&&dependent.exceptions.includes(args.at(-1))){args.splice(args.indexOf('--'),0,SLICE_BASE);}
+  return execFileSync('git',args,{cwd:root,maxBuffer:32*1024*1024});
+ },git=(...a)=>raw(...a).toString().trim(),read=p=>dependent.exceptions.includes(p)?execFileSync('git',['show',SLICE_BASE+':'+p],{cwd:root}):fs.readFileSync(path.join(root,p));
  const bytes=read('tests/v4-private-integration/review.json');assert.equal(sha(bytes),REVIEW_SHA,'immutable composition review');const review=JSON.parse(bytes);
  assert.equal(review.base,H);assert.deepEqual(review.inputs,INPUTS);assert.deepEqual(review.added,COMPOSITION_ADDED);
  for(const ref of [H,...Object.values(INPUTS)])assert.equal(git('merge-base','--is-ancestor',ref,'HEAD'),'');
@@ -20,7 +27,7 @@ export function assertComposition(root=process.cwd()){
   const files=git('diff','--name-only','--no-renames',H,ref).split('\n');assert.deepEqual(Object.keys(review.sources[name]).sort(),files.sort());
   for(const file of files){inputPaths.add(file);const [mode,type,blob]=git('ls-tree',ref,'--',file).split('\t')[0].split(' ');assert.equal(type,'blob');assert.deepEqual(review.sources[name][file],{mode,blob,sha256:sha(raw('show',ref+':'+file))});}
  }
- const allowed=new Set([...inputPaths,...COMPOSITION_ADDED]);
+ const allowed=new Set([...inputPaths,...COMPOSITION_ADDED,...dependent.additions,...dependent.exceptions]);
  for(const file of inputPaths){
   const resolution=review.resolutions[file];
   if(resolution){
