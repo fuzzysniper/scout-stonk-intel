@@ -395,7 +395,7 @@
     "tests/v4-final/browser-server.mjs": "40903af570ee77804642a3f6bce210d262c7f5e2c88099398c96c84c80267e41",
     "tests/v4-final/browser.spec.mjs": "e36d48763bc7162dc12ca50f34c7331e4f7df85afa00c9f53b9d8e558241e6ef",
     "tests/v4-final/playwright.config.mjs": "0a9c9fb6321ca1b087e4875ad8e560219e94c7e4ff609e2cbd32e992a6e12af7",
-    "tests/v4-final/built-off.mjs": "eba4721c580e89a29a83082414726f47537f96a0d4cf43aee9c79ed49d260b5c",
+    "tests/v4-final/built-off.mjs": "d9fd13e166dc5b667002acec52626bbfc88f5eeaee234523ade96dab13790b86",
     "tests/v4-final/source-history.sh": "0f00027ce0a9b7f463001e76caa90b5b2dd3deaf1c358e10e7a5edd95610905e",
     "tests/v4-final/screenshots/combined-320.png": "7de951a0b77b0d32a8fcfc59dc40157926bb42aa6d8c40bc7cf5ffa73a4ad407",
     "tests/v4-final/screenshots/combined-390.png": "bb0fd8255b48e23f258c19f4c93c2491784531d835e5cc15399904e324f05fff",

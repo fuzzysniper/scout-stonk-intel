@@ -3,8 +3,16 @@ import {assertFinal} from './review.mjs';
 import {spawn} from 'node:child_process';import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';
 function files(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?files(path.join(dir,e.name)):[path.join(dir,e.name)]);}
 assertFinal();
-const traces=files('.next/server/app/api').filter(f=>f.endsWith('route.js.nft.json'));assert.ok(traces.length>=20);
-for(const f of traces){const trace=JSON.parse(fs.readFileSync(f));for(const dependency of trace.files)assert.doesNotMatch(dependency,/lib\/v4-owner-thesis\/bridge|lib\/v4-helius-native\/(?:producer|testing|transport)|ops\/v4-journal\//,f+' unselected private/native/package dependency');}
+const appManifest=JSON.parse(fs.readFileSync('.next/server/app-paths-manifest.json'));
+const edgeManifest=JSON.parse(fs.readFileSync('.next/server/middleware-manifest.json')).functions;
+const routes=files('app/api').filter(f=>/\/route\.tsx?$/.test(f)).map(f=>'/'+f.replace(/^app\//,'').replace(/\.tsx?$/,''));
+assert.deepEqual(Object.keys(appManifest).filter(k=>k.startsWith('/api/')).sort(),[...routes].sort());
+for(const route of routes){
+ const nft='.next/server/'+appManifest[route]+'.nft.json';
+ const trace=fs.existsSync(nft)?JSON.parse(fs.readFileSync(nft)):edgeManifest[route];
+ assert.ok(trace&&Array.isArray(trace.files),route+' requires actual Node trace or Edge dependency inventory');
+ for(const dependency of trace.files)assert.doesNotMatch(dependency,/lib\/v4-owner-thesis\/bridge|lib\/v4-helius-native\/(?:producer|testing|transport)|ops\/v4-journal\//,route+' unselected private/native/package dependency');
+}
 const port=4237,base='http://127.0.0.1:'+port;
 const child=spawn(process.execPath,['node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port',String(port)],{stdio:'ignore'});
 try{
@@ -16,5 +24,5 @@ try{
  for(const url of ['/api/mint-facts?mint='+mint,'/api/live-events','/api/live-events/continuous','/api/live-events/continuous/control']){const r=await fetch(base+url);assert.ok([401,403,503].includes(r.status),url+' cannot activate');}
  for(const url of ['/api/live-events/stop','/api/live-events/continuous/stop','/api/live-events/continuous/maintenance']){const r=await fetch(base+url,{method:'POST',headers:{Origin:base},body:'SYNTHETIC'});assert.ok([401,403,503].includes(r.status),url+' remains protected/OFF');}
  for(const url of ['/api/v4/helius-pilot','/api/v4/auth/get-session'])assert.equal((await fetch(base+url)).status,404,'no new installed issuer or native producer route');
- console.log('PASS: all '+traces.length+' installed API function traces exclude new capabilities; owner/source/control HTTP gates OFF, no issuer/native route.');
+ console.log('PASS: all '+routes.length+' installed API Node/Edge dependency inventories exclude new capabilities; owner/source/control HTTP gates OFF, no issuer/native route.');
 }finally{child.kill('SIGTERM');await new Promise(r=>child.once('exit',r));}
