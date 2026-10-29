@@ -1,0 +1,107 @@
+name: V4.5 final three-source composition OFF
+on:
+  pull_request:
+    branches: [integration/v4-owner-thesis-disabled]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  immutable-input-replays:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Finite composition and current package mutation controls
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v4-final/scope.test.mjs tests/v4-journal-deployment/scope.test.mjs
+      - name: All exact original source guards and suites unchanged
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-final/source-history.sh
+  complete-native-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Full root Node Python including hardened package bridge producer coexistence
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm test
+      - name: Types lint optimized build all installed capability-OFF traces and archive
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-final/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-thesis/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/live-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/built-api.mjs
+          bash scripts/archive-tool.sh check 11d97aab4823bdac797019322beeefe32a578003
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v4-final/scope.test.mjs
+  combined-and-original-mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Local Chromium and disposable HTTPS443 fixture
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+          sudo sysctl -w net.ipv4.ip_unprivileged_port_start=443
+      - name: Combined real package strict roles owner J mobile source OFF and STOP
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-final/run.sh browser
+      - name: Original owner and B session history ambiguity accessibility controls
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-owner-thesis/run.sh browser
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-thesis/run.sh browser
+      - name: Actual installed OFF original Lens feed and native SQL STOP
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-final/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-integration/snapshots.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/consumer-homepage/playwright.config.mjs
+          NODE_ENV=test NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: combined-local-237-mobile
+          path: tests/v4-final/screenshots/
+          retention-days: 3
+      - name: Restore only generated QA images and final exact guard
+        run: |
+          git restore -- docs/live-feed-167/screenshots/{locked,disabled}-{320,390,1280}.png docs/live-feed-167/disabled-{320,390,1280}.json
+          git restore -- docs/screenshots/continuous-local-qa/parent-stop-{320,390,1280}.png tests/v4-integration/screenshots/after-{320,390,1280}.png tests/v4-thesis/screenshots/local-save-history-{320,390,1280}.png tests/v4-owner-thesis/screenshots/local-bridge-{320,390,1280}.png tests/v4-final/screenshots/combined-{320,390,1280}.png
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v4-final/scope.test.mjs
