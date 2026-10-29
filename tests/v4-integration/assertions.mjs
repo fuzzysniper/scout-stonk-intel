@@ -1,5 +1,6 @@
 // Review-only exact source composition, never a directory-wide/safety exemption.
 import assert from 'node:assert/strict';
+import {assertSlice,BASE as SLICE_BASE} from '../v4-thesis/review.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
@@ -21,9 +22,10 @@ export const ADDED=['lib/unfarmd-intelligence/unavailable-cards.ts','lib/v4-alph
 export const digest=b=>createHash('sha256').update(b).digest('hex');
 export function assertV4(root=process.cwd()){
  assertComposition(root);
- const dependent=[...JOURNAL_ADDITIONS,...COMPOSITION_ADDED];
- const raw=(...args)=>execFileSync('git',args,{cwd:root,maxBuffer:16*1024*1024}),git=(...args)=>raw(...args).toString().trim();
- const read=p=>fs.readFileSync(path.join(root,p));
+ const slice=assertSlice(root);
+ const dependent=[...JOURNAL_ADDITIONS,...COMPOSITION_ADDED,...slice.additions];
+ const raw=(...args)=>{if(args[0]==='diff'&&args.indexOf('--')===args.length-2&&slice.exceptions.includes(args.at(-1)))args.splice(args.indexOf('--'),0,SLICE_BASE);return execFileSync('git',args,{cwd:root,maxBuffer:16*1024*1024});},git=(...args)=>raw(...args).toString().trim();
+ const read=p=>slice.exceptions.includes(p)?execFileSync('git',['show',SLICE_BASE+':'+p],{cwd:root}):fs.readFileSync(path.join(root,p));
  const manifest=JSON.parse(read('tests/v4-integration/source-manifest.json')),deltas=JSON.parse(read('tests/v4-integration/exceptions.json'));
  assert.equal(manifest.base,BASE);assert.equal(manifest.sourceBase,SOURCE_BASE);assert.equal(git('merge-base',SOURCE_BASE,BASE),SOURCE_BASE);assert.deepEqual(manifest.sources,SOURCES);assert.equal(git('merge-base','--is-ancestor',BASE,'HEAD'),'');
  assert.deepEqual(Object.keys(deltas).sort(),[...EXCEPTIONS].sort());
@@ -56,6 +58,6 @@ export function assertV4(root=process.cwd()){
   assert.deepEqual(manifest.data[file],{mode,blob,sha256:digest(raw('show',BASE+':'+file))});assert.equal(type,'blob');assert.equal(digest(read(file)),manifest.data[file].sha256,file);
   assert.equal(git('ls-files','-s','--',file).split(' ')[0],mode,file);
  }
- assert.equal(git('diff',BASE,'--','app/api','app/consumer','app/page.tsx','app/layout.tsx','app/globals.css','lib/onchain-mint','lib/trader-pulse','lib/live-ledger','lib/scout-live','lib/scout-continuous','data','scripts','scheduler','ops','package.json','package-lock.json','next.config.ts','neon.ts'),'');
+ assert.equal(git('diff',BASE,'--','app/api','app/consumer','app/page.tsx','app/layout.tsx','app/globals.css','lib/onchain-mint','lib/trader-pulse','lib/live-ledger','lib/scout-live','lib/scout-continuous','data','scripts','scheduler','ops','package.json','package-lock.json','next.config.ts','neon.ts',...slice.additions.map(f=>':(exclude,literal)'+f)),'');
  return manifest;
 }

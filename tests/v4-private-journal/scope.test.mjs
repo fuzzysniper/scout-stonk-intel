@@ -8,7 +8,7 @@ import {assertJournalScope,BASE,ADDITIONS,EXCEPTIONS} from './dependency.mjs';
 test('exact dependent base +18 additions +two finite test-only patches, no old runtime/data/UI/source changes',()=>{assert.equal(assertJournalScope().length,18);});
 test('production entry has no env/auth/key/storage/network dependency; no routes or consumer wiring',()=>{
  const s=fs.readFileSync('lib/v4-private-journal/index.ts','utf8');assertJournalScope();assert.doesNotMatch(s,/process|\bfetch\b|\bpg\b|require|from |repository|keys|OwnerAuthority/);
- assert.equal(execFileSync('git',['diff',BASE,'--','app','lib/onchain-mint','lib/unfarmd-intelligence','data','scripts','scheduler','ops','package.json','package-lock.json']).toString(),'');
+ assert.equal(execFileSync('git',['diff',BASE,'--','app','lib/onchain-mint','lib/unfarmd-intelligence','data','scripts','scheduler','ops','package.json','package-lock.json',':(exclude,literal)app/lens/view.tsx',':(exclude,literal)app/api/v4/theses/route.ts',':(exclude,literal)app/api/v4/theses/[journalId]/route.ts',':(exclude,literal)app/lens/journal-controls.tsx']).toString(),'');
 });
 for(const file of ['app/lens/view.tsx','lib/onchain-mint/server/lookup-policy.ts','lib/v4-solana-facts/projection.ts','tests/run.sh','data/reward-snapshots.json',...EXCEPTIONS])test('dependent guard rejects tampered protected '+file,()=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'j222-negative-'));try{

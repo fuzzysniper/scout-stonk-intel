@@ -1,0 +1,61 @@
+{
+  "base": "4af9532709c3a9bca9efe71356124328955a2877",
+  "additions": [
+    "app/lens/journal-controls.tsx",
+    "app/api/v4/theses/route.ts",
+    "app/api/v4/theses/[journalId]/route.ts",
+    "lib/v4-thesis-api/owner-context.ts",
+    "lib/v4-thesis-api/client-contract.ts",
+    "lib/v4-thesis-api/installed.ts",
+    "lib/v4-thesis-api/handler.ts",
+    "lib/v4-thesis-api/rate.ts",
+    "lib/v4-thesis-api/rate.sql",
+    "tests/v4-thesis/fixture.mjs",
+    "tests/v4-thesis/api.test.mjs",
+    "tests/v4-thesis/browser-entry.tsx",
+    "tests/v4-thesis/browser-server.mjs",
+    "tests/v4-thesis/css-loader.cjs",
+    "tests/v4-thesis/browser.spec.mjs",
+    "tests/v4-thesis/playwright.config.mjs",
+    "tests/v4-thesis/run.sh",
+    "tests/v4-thesis/__init__.py",
+    "tests/v4-thesis/engine_test.py",
+    "tests/v4-thesis/review.mjs",
+    "tests/v4-thesis/review.json",
+    "tests/v4-thesis/scope.test.mjs",
+    "tests/v4-thesis/source-history.sh",
+    "tests/v4-thesis/built-off.mjs",
+    "tests/v4-thesis/screenshots/local-save-history-320.png",
+    "tests/v4-thesis/screenshots/local-save-history-390.png",
+    "tests/v4-thesis/screenshots/local-save-history-1280.png",
+    "docs/v4/thesis-save-228.md",
+    ".github/workflows/thesis-save.yml"
+  ],
+  "exceptions": {
+    "app/lens/view.tsx": {
+      "originalSha256": "84f8d35e8b2ad396323c861bd5ee6bd910bf66b1fb48eda0bf5514080c7c7e5c",
+      "reviewedSha256": "96f2958d42da9aaaf1ba4fe16bab863254c24e2016fd2285990bf9968fc17dbb",
+      "patchSha256": "eec6926b006e59988ed1fcd900bb53c9cf78a6b11a00da6220028894e0e7e478"
+    },
+    "tests/v4-integration/assertions.mjs": {
+      "originalSha256": "00619fa8f9ce8a74f387745acfcbc17da5adc5e534f7dbe53e13264137c16980",
+      "reviewedSha256": "f1c288d290b1dff33628079fb664d5c0e261061a21374669e54a555993719a19",
+      "patchSha256": "4a5fda9c3ea2d2c48d784371f3fc5bf6af384a8397544b70c1df30dc55bdddfe"
+    },
+    "tests/v4-private-integration/review.mjs": {
+      "originalSha256": "55a4e02b536868cb1320203b17f2bcde55ffc6301cee324a615c37f6ca60cdf8",
+      "reviewedSha256": "7eea9d0e810c36442e40a68ab83276a44820e02223d350761d86b867c332f167",
+      "patchSha256": "917aa46f9f28e5dc3840ea11728e7654f1fb7ed156cb8cafd0f2320bdb38afa1"
+    },
+    "tests/v4-private-integration/scope.test.mjs": {
+      "originalSha256": "6c89db497117ffd28db1c9b1e9d75984833805ce1bd6fb2dcc210b20fbbbc723",
+      "reviewedSha256": "cca239ea6394f2d5b414447b2e097d1a6579f2e0fb77651b99cc66a38437b2d4",
+      "patchSha256": "79345cb432ad9eecf50aab69d556265b8ff71a609de3aa192189c8cd04bb6687"
+    },
+    "tests/v4-private-journal/scope.test.mjs": {
+      "originalSha256": "1451891a8300a72d16b970aecefad99234d6a22284eed31529542371256274a2",
+      "reviewedSha256": "8327033f14092ef0024fad743fbde583ee63d1d8fa96cd2b4a5939a85b606357",
+      "patchSha256": "e1df59e4a6f333f43b2b90a41b05ca393dd5dbd8448af1f3a13fb240a3ab96d5"
+    }
+  }
+}
