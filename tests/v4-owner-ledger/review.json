@@ -1,0 +1,76 @@
+{
+  "parent": "4af9532709c3a9bca9efe71356124328955a2877",
+  "modified": {
+    "package.json": {
+      "originalSha256": "efda0c3fb5c2cca026e2b6e553beaf8b0f8fe4f551ee86bbff7c2136f53cc606",
+      "reviewedSha256": "ef13283c0bdcd53710e01315fcce9f686a1f5366fa11b947b31293559a0ee118",
+      "patchSha256": "69fb7afa24f20ae50636d93d3fdba8a96e136ce181d0c995b94dc2db8a379220"
+    },
+    "package-lock.json": {
+      "originalSha256": "af29a696f90a4d8af383ec11a17341d51ecae934be1d9b569d6ff4336cc691cf",
+      "reviewedSha256": "3b2aab5c3ad9fc407e1d8f6c560fae5da0c6183dcb8643ea13aa0802e7894883",
+      "patchSha256": "620ebf71b80f402a0daea8bb7fc35069a85fa13563aa5f5fa831e991bf13b0ce"
+    },
+    "tests/v4-integration/assertions.mjs": {
+      "originalSha256": "00619fa8f9ce8a74f387745acfcbc17da5adc5e534f7dbe53e13264137c16980",
+      "reviewedSha256": "30d422ddd0b816c59aca7c5ea2ce95e94f3acc1a5299bb53e209fad4a5521649",
+      "patchSha256": "a65200f8d81fb70e3ac7e947755feb63a15b4830f118c896aa2b4b3098b1b865"
+    },
+    "tests/v4-private-integration/review.mjs": {
+      "originalSha256": "55a4e02b536868cb1320203b17f2bcde55ffc6301cee324a615c37f6ca60cdf8",
+      "reviewedSha256": "094e91a1a225212fdfb763a6f494eb27f78388f6628cfddfff85499afd61b082",
+      "patchSha256": "f3f6c25fab83f3d532414fe63259d703813e04a2eb47d1e7c3eea6ac606f2e22"
+    },
+    "tests/v4-private-integration/scope.test.mjs": {
+      "originalSha256": "6c89db497117ffd28db1c9b1e9d75984833805ce1bd6fb2dcc210b20fbbbc723",
+      "reviewedSha256": "21d45bc04fae67242d4b7134c70b3d3583962125541011f02f4b2b038aad05b1",
+      "patchSha256": "8c6b0eee5d07f13731486205d47fa13e10b2ffcd71134ff5cd4e8de0c25cfcb9"
+    },
+    "tests/v4-private-journal/scope.test.mjs": {
+      "originalSha256": "1451891a8300a72d16b970aecefad99234d6a22284eed31529542371256274a2",
+      "reviewedSha256": "0a0c4f4ac9486c56fa893fdba7b3f4de921dcecd2c28f598b0d430c1eee5d00b",
+      "patchSha256": "96527b9a24670db3410ac7f32805dd98ca52023a04b478158a9dcbc436df2275"
+    }
+  },
+  "added": [
+    ".github/workflows/v4-owner-ledger-offline.yml",
+    "docs/v4/owner-ledger-227.md",
+    "lib/v4-owner-ledger/auth.ts",
+    "lib/v4-owner-ledger/commands.ts",
+    "lib/v4-owner-ledger/contract.ts",
+    "lib/v4-owner-ledger/index.ts",
+    "lib/v4-owner-ledger/ledger.ts",
+    "lib/v4-owner-ledger/postgres.ts",
+    "lib/v4-owner-ledger/schema.sql",
+    "lib/v4-owner-ledger/sql-proof.ts",
+    "tests/v4-owner-ledger/__init__.py",
+    "tests/v4-owner-ledger/engine_test.py",
+    "tests/v4-owner-ledger/fixtures.mjs",
+    "tests/v4-owner-ledger/native.test.mjs",
+    "tests/v4-owner-ledger/review.json",
+    "tests/v4-owner-ledger/review.mjs",
+    "tests/v4-owner-ledger/run.sh",
+    "tests/v4-owner-ledger/scope.test.mjs",
+    "tests/v4-owner-ledger/security.test.mjs",
+    "tests/v4-owner-ledger/source-history.sh"
+  ],
+  "newFiles": {
+    ".github/workflows/v4-owner-ledger-offline.yml": "4f29cf01f804d49354bc783053381a954a842970e503cacb7ea803ea9a02a7ac",
+    "docs/v4/owner-ledger-227.md": "e21db60ecf715c8fb227b1bef12a22d4884e3270f2f7ae300cba35ba73f0fb44",
+    "lib/v4-owner-ledger/auth.ts": "9963097a123387644131b2b9a555e8491427d33e4166b811cbd08a6c8aa7b942",
+    "lib/v4-owner-ledger/commands.ts": "4092a079799546ff1c6e528a673c9630bb63f9c62af3c75873eae9dc401222ba",
+    "lib/v4-owner-ledger/contract.ts": "d353870dcdec110344751cb8439417d3b017d9ad1db8ceca551450e7befda637",
+    "lib/v4-owner-ledger/index.ts": "a61e3a26432bdfdae67a9a1297ea19549fd6999ef526d8cce3f72f89e793e845",
+    "lib/v4-owner-ledger/ledger.ts": "a0a540010619b09c78a3ed737ba06e5de47563b417ccbdf3abf643dc623485be",
+    "lib/v4-owner-ledger/postgres.ts": "ff58b8db8f75c10beff9e26b22212974271e9f7042cd01410bdadd433ba076a4",
+    "lib/v4-owner-ledger/schema.sql": "a46364732965ad271e9713913d2c6ded72abf520635ae9d69bbb4a54a4092322",
+    "lib/v4-owner-ledger/sql-proof.ts": "e74fe4610b44a7303eec72a9092f559675c1628ad198e4795ed669fe9ec4396f",
+    "tests/v4-owner-ledger/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/v4-owner-ledger/engine_test.py": "662eaa5cc51fc1d6a6fe2a1fa28f08b920dee8d6815a31a899cfa1f78ca60248",
+    "tests/v4-owner-ledger/fixtures.mjs": "11c28674bb6a231a1aff93fcea02560df502161a83e14346605613b49902b0b4",
+    "tests/v4-owner-ledger/native.test.mjs": "5f31b081d2e24b616d54e35f64543db7e2bdb8c0d4087ddea4d8dd271b7029c4",
+    "tests/v4-owner-ledger/run.sh": "dc54fef321836622b03a5768a07e491f907796bd967b30e200bc96226699adea",
+    "tests/v4-owner-ledger/security.test.mjs": "d269e644c65ca763a17c41a073ef00b87bbb02aa20a61b6795fdcbbcf9149673",
+    "tests/v4-owner-ledger/source-history.sh": "8a2c89bb33851e36099338983af0a751c6131c0992cb7ac335e292262b5a9a02"
+  }
+}
