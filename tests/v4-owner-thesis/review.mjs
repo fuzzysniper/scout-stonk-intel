@@ -4,7 +4,7 @@ export const BASE='4af9532709c3a9bca9efe71356124328955a2877';
 export const INPUTS={A:'6efb0eb66a79087b9c7a59b9a06ad584e9130ee9',B:'76dea8aab3f26eef39c2fcbc1b0b37d13180388f'};
 export const RESOLUTIONS=['app/lens/view.tsx','tests/v4-integration/assertions.mjs','tests/v4-private-integration/review.mjs','tests/v4-private-integration/scope.test.mjs','tests/v4-private-journal/scope.test.mjs','tests/v4-owner-ledger/review.mjs','tests/v4-owner-ledger/scope.test.mjs','tests/v4-thesis/review.mjs'];
 export const ADDED=['lib/v4-owner-thesis/index.ts','lib/v4-owner-thesis/bridge.ts',...['review.mjs','review.json','scope.test.mjs','fixture.mjs','bridge.test.mjs','browser-server.mjs','browser.spec.mjs','playwright.config.mjs','run.sh','source-history.sh','__init__.py','engine_test.py'].map(f=>'tests/v4-owner-thesis/'+f),...['320','390','1280'].map(n=>'tests/v4-owner-thesis/screenshots/local-bridge-'+n+'.png'),'docs/v4/owner-thesis-231.md','.github/workflows/v4-owner-thesis.yml'];
-const REVIEW_SHA='31fdb21092fca40e140d158197bc6b24a643c700a6870818531c4e43b2b8db3d';
+const REVIEW_SHA='86e2857c7e5825e9bdda0b45ca8a73fccb1b02767d955d4feea224a9a9d96dcd';
 export const sha=b=>createHash('sha256').update(b).digest('hex');
 export function assertUnified(root=process.cwd()){
  const raw=(...a)=>execFileSync('git',a,{cwd:root,maxBuffer:32*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=f=>fs.readFileSync(path.join(root,f));

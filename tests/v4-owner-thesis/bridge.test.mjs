@@ -62,3 +62,7 @@ test('authorized mapped owner cannot decrypt a different legitimate J owner jour
  await x.repository.append(other,{journalId:id,mint:MINT,requestId:randomUUID(),expectedHead:null,change:{kind:'created',content:{thesis:'SYNTHETIC other private owner',invalidation:null,contradictions:null},fact_snapshot_refs:[]}});
  const response=await read(await x.handler(f.request(s,'/api/v4/theses/'+id+'?mint='+MINT)));assert.equal(response.status,410);assert.doesNotMatch(JSON.stringify(response.body),/other private owner/);
 });
+
+test('CSRF browser capability retains actual session expiry, independent of short J request principal',async()=>{
+ const req=f.request(s),a=await x.boundary.journal().verify(req),claims=x.boundary.inspect(a),token=await x.bridge.issueCsrf(req);assert.ok(token);assert.equal(token.expiresAtMs,claims.expiresAt);assert.ok(token.expiresAtMs>Date.now()+60000);assert.equal(Number(token.csrfToken.split('.')[0]),claims.expiresAt);
+});

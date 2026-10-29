@@ -448,9 +448,9 @@
   ],
   "newFiles": {
     "lib/v4-owner-thesis/index.ts": "6da27f551502ce025a2c13c9fa4c88600c6593160b4bec9f8d0bbda8a8c6bdb7",
-    "lib/v4-owner-thesis/bridge.ts": "57023aed3db02efd195e78e1d68bb56645030d8b7e9ea6dd73028b9a85bae696",
+    "lib/v4-owner-thesis/bridge.ts": "9ab2b55e6f702f07112545d15b0af40681a68242f8d18ff7de6c30fce4b04903",
     "tests/v4-owner-thesis/fixture.mjs": "1c2cffbc89ec2f078e334112ba5fd41053f00027990e00ef8d7c828ac79f7284",
-    "tests/v4-owner-thesis/bridge.test.mjs": "fe0bcd459fd6da9f0fa44a13672ab2ee4f0e7c35a15afaae8589efead08da26e",
+    "tests/v4-owner-thesis/bridge.test.mjs": "98fc02eb3d459926efddeff1ff52cedc46a0bd02dcd6da44bd5f974d925129e9",
     "tests/v4-owner-thesis/browser-server.mjs": "438570b277dd1d9f99a91f4bdde1fce7e843472188cd7078742a01d7ce342b43",
     "tests/v4-owner-thesis/browser.spec.mjs": "b3fb70c8f52af37fcc8a3e772a199b415d1d65f42c6060f79c0c0fef5b05c24e",
     "tests/v4-owner-thesis/playwright.config.mjs": "d6081ce3c9e8cf4bbcb367c4940c1d874719c0fdcccf698d92abfc5e6063a7a1",
@@ -458,10 +458,10 @@
     "tests/v4-owner-thesis/source-history.sh": "35e007f90d678457fb48dd6852325dfc6f3ba6c3c163d2d823c4b7292f12b729",
     "tests/v4-owner-thesis/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "tests/v4-owner-thesis/engine_test.py": "eab55db3eeab04626c6cebf7e259d1b94cce6fd5290bb0a21da835b173f43762",
-    "tests/v4-owner-thesis/screenshots/local-bridge-320.png": "14aa62445354885e68c059bab5f25c0fa89ee4d82a3166f5b43e69d7ea2f4cd3",
-    "tests/v4-owner-thesis/screenshots/local-bridge-390.png": "6122bccccbe9587a5f1d9599a1d1a4998f6a1e3625cb370fc80dbcabb9b7cde8",
-    "tests/v4-owner-thesis/screenshots/local-bridge-1280.png": "9e29b8debf054f535060f61861b930807fd18c4edc6b59b1cd03d318a66bf8f8",
-    "docs/v4/owner-thesis-231.md": "a9b6c87849ef71fa41ee34aa3140424494fd224b569925fede2fd8f0891dc065",
+    "tests/v4-owner-thesis/screenshots/local-bridge-320.png": "a43932ec958e6e157f45bc699590ea0a8f1af07e86e52d6e30c90c4c0bd545ea",
+    "tests/v4-owner-thesis/screenshots/local-bridge-390.png": "ec30d8f430c186e8440a0201c8408f6e9e9f60706eaf3467d82cef85766c028c",
+    "tests/v4-owner-thesis/screenshots/local-bridge-1280.png": "b5dfed3fe21f9d167d71d0c34f0dd60c625070bc37ef9fcd724df686f01550be",
+    "docs/v4/owner-thesis-231.md": "0332de6465e3ec2abeb621152e9f7b53fe7d2f4e379fb88a7aedc21cd03dc7f8",
     ".github/workflows/v4-owner-thesis.yml": "dfa28706dafb351618aec298bcd385d7fd20b873749e001b2349e719fc55a4e7"
   }
 }

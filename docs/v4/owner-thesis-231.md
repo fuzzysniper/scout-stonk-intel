@@ -1,6 +1,6 @@
 # Owner → encrypted thesis bridge (code-only)
 
-**Review GO. Hosted auth/storage/source HOLD.** One dependent draft from A#2296efb0eb retaining B#23076dea8a by ordinary two-parent merge. Original branches and collector data are untouched. Installed Next routes still return503 storage_off before request/auth/key/SQL access. /lens defaults to NOT SAVED with no Save/Load capability. The new bridge has no installed issuer, environment loader, route or production selector.
+**Review GO. Hosted auth/storage/source HOLD.** One dependent draft from A #229 `6efb0eb` retaining B #230 `76dea8a` by ordinary two-parent merge. Original branches and collector data are untouched. Installed Next routes still return503 storage_off before request/auth/key/SQL access. /lens defaults to NOT SAVED with no Save/Load capability. The new bridge has no installed issuer, environment loader, route or production selector.
 
 ## Real method-to-principal trace
 
@@ -10,7 +10,7 @@
 
 ## CSRF issuance proposal, unselected
 
-Only a genuine journal GET with exact intent can obtain an opaque session-bound HMAC token after the actual shared SQL read budget is charged and fresh A recheck succeeds. Token binds owner/mapping/issuer/audience/session/auth-time/expiry, random nonce and ≤60-second expiry. POST/PATCH require exact Origin and constant-time HMAC validation; another session, missing/changed token or revoked session denies. No auth-cookie/login issuer is installed. The server proposal is not an active endpoint. Real key delivery/rotation, session renewal and issuing-route review remain HOLD.
+Only a genuine journal GET with exact intent can obtain an opaque session-bound HMAC token after the actual shared SQL read budget is charged and fresh A recheck succeeds. Token binds owner/mapping/issuer/audience/session/auth-time/expiry, random nonce and the actual verified session expiry (at most 15 minutes). POST/PATCH require exact Origin and constant-time HMAC validation; another session, missing/changed token or revoked session denies. No auth-cookie/login issuer is installed. The server proposal is not an active endpoint. The browser capability expires with the actual A session, not the shorter request-local J principal; this avoids treating a CSRF refresh as logout and erasing a valid-session draft. Real key delivery/rotation, session renewal and issuing-route review remain HOLD.
 
 The mobile test server alone implements a SYNTHETIC CSRF-bootstrap proposal at actual GET /api/v4/theses with a test-only intent header. It uses real signed Secure/HttpOnly/Strict cookies and the same original HTTPS localhost method/Origin throughout. Two independent app objects have separate A boundaries, J authorities, repositories/rate pools and share the real local database/encryption-provider fixture. They are not two hosted deployments or a production distributed-key proof. The fixture binds loopback HTTPS443 without rewriting the real method, Origin or Host. Only in the disposable CI VM, the low-port bind threshold is443 so the unprivileged test process can listen; no deployed auth/network protection changes. Self-signed browser HTTPS is test-only; native DB TLS/SNI/CA/SCRAM remains verified. Production gates are unchanged.
 

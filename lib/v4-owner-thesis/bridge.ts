@@ -35,7 +35,7 @@ export function createOwnerThesisBridge(config:Config){
   async verifyCsrf(request:Request,context:VerifiedOwnerContext){try{
    const b=admitted.get(context);if(!b||b.request!==request||!['POST','PATCH'].includes(request.method)||request.headers.get('origin')!==b.claims.audience)return false;
    const c=await refresh(b),token=request.headers.get('x-csrf-token')??'',m=/^(\d{13})\.([A-Za-z0-9_-]{22})\.([A-Za-z0-9_-]{43})$/.exec(token),now=Date.now();
-   if(!c||!m||Number(m[1])<=now||Number(m[1])>now+60000||Number(m[1])>c.expiresAt)return false;
+   if(!c||!m||Number(m[1])<=now||Number(m[1])>now+900000||Number(m[1])>c.expiresAt)return false;
    const supplied=Buffer.from(m[3],'base64url'),expected=mac(c,m[1],m[2]);return supplied.length===expected.length&&timingSafeEqual(supplied,expected)&&await owners.isCurrent(context);
   }catch{return false;}},
  });
@@ -45,7 +45,7 @@ export function createOwnerThesisBridge(config:Config){
    */
   async issueCsrf(request:Request){try{
    if(request.method!=='GET')return null;const context=await owners.resolve(request);if(!context||!await rate.reserve(context.principal,'read')||!await owners.isCurrent(context))return null;
-   const b=admitted.get(context)!;const expiresAtMs=Math.min(Date.now()+60000,context.expiresAtMs),expiry=String(expiresAtMs),nonce=randomBytes(16).toString('base64url');
+   const b=admitted.get(context)!;const expiresAtMs=b.claims.expiresAt,expiry=String(expiresAtMs),nonce=randomBytes(16).toString('base64url');
    return Object.freeze({csrfToken:expiry+'.'+nonce+'.'+mac(b.claims,expiry,nonce).toString('base64url'),expiresAtMs});
   }catch{return null;}},
  });
