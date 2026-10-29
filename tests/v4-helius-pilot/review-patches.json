@@ -1,0 +1,47 @@
+{
+  "parent": "b56475c681311d35f95ee9879d9969b868a1724e",
+  "files": {
+    "lib/v4-solana-facts/projection.ts": {
+      "originalSha256": "2511772bd7bc7cc365143560707ebeaf737ebd9ec1b95abbc6c0b9fb74b40c6c",
+      "reviewedSha256": "afe55ed36a68e9802b4f8d446273f97fd04c1e39dfa37a561ab643fa19476c0f",
+      "patchSha256": "2dc3146010b905415575b485a86e5ae652b7e680161c7c4765a4cf56e927705e"
+    },
+    "tests/v4-integration/assertions.mjs": {
+      "originalSha256": "28e3fd242540dfc002218afcea40eda0e02a6c2f1393b63b4896061427753572",
+      "reviewedSha256": "de75494b9abb9a9dd7f32b5bc861b82fa4dab66e545e0438087871e7a014f58b",
+      "patchSha256": "c6a388859956ab2b30f314f5af846481c667a666a66a13b053c52aca7ba388d6"
+    },
+    "tests/v4-integration/exceptions.json": {
+      "originalSha256": "7608d516a756e9fef13b58e7e49a29dfdaf39e0e7e02425201e05ae85479190d",
+      "reviewedSha256": "0546e49b968793c67b8ff2edb627b1570fcb633f8837fad5490041421c9c708c",
+      "patchSha256": "a73c506ae7d46edc085d92ff4bb0dd7d3ac6bb67e65712be63527a70c829b967"
+    },
+    "tests/v4-integration/scope.test.mjs": {
+      "originalSha256": "53ed23c366174c2b61bfc47f95f7397f4c4eeb16f23e277b0814b4beed8bab0f",
+      "reviewedSha256": "2de96b6b9f9716c4e548b48dc3fdab7ab095f2f45ad18120423d7716dbc3d7c2",
+      "patchSha256": "270cdcd302926d51d43ccd46c4ce69151d316864fd3fb57a887ed8a9f095e3e0"
+    }
+  },
+  "added": [
+    "lib/v4-helius-pilot/server/contract.ts",
+    "lib/v4-helius-pilot/server/policy.ts",
+    "lib/v4-helius-pilot/server/result.ts",
+    "lib/v4-helius-pilot/server/index.ts",
+    "lib/v4-helius-pilot/server/transport.ts",
+    "lib/v4-helius-pilot/server/profile.ts",
+    "lib/v4-helius-pilot/server/engine.ts",
+    "lib/v4-helius-pilot/server/testing.ts",
+    "tests/v4-helius-pilot/fixtures.mjs",
+    "tests/v4-helius-pilot/run.sh",
+    "tests/v4-helius-pilot/capture.test.mjs",
+    "tests/v4-helius-pilot/pilot.test.mjs",
+    "tests/v4-helius-pilot/security.test.mjs",
+    "tests/v4-helius-pilot/scope.test.mjs",
+    "tests/v4-helius-pilot/review.mjs",
+    "tests/v4-helius-pilot/review-patches.json",
+    "tests/v4-helius-pilot/__init__.py",
+    "tests/v4-helius-pilot/engine_test.py",
+    "docs/v4/helius-pilot-221.md",
+    ".github/workflows/v4-helius-pilot-offline.yml"
+  ]
+}

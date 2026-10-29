@@ -22,5 +22,11 @@
     "originalSha256": "2992b482e17c4dd9e262e40d6d6225c00f81a11ab7dd6a3f93ddc6c96fe854f4",
     "reviewedSha256": "926ac8344684616c3c658dafbd0c720a37b1ee2c6439b9360b29109cb2411f2c",
     "patchSha256": "9c97de1ab52f49f6c098cc8769b6f0bb4c1f38169f91c46686d93f45900f48bb"
+  },
+  "lib/v4-solana-facts/projection.ts": {
+    "sourceHead": "d6af31935f6202a3c8ee243735fc86d13f601a58",
+    "originalSha256": "2511772bd7bc7cc365143560707ebeaf737ebd9ec1b95abbc6c0b9fb74b40c6c",
+    "reviewedSha256": "afe55ed36a68e9802b4f8d446273f97fd04c1e39dfa37a561ab643fa19476c0f",
+    "patchSha256": "2dc3146010b905415575b485a86e5ae652b7e680161c7c4765a4cf56e927705e"
   }
 }

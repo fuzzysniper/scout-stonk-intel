@@ -5,8 +5,8 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {assertV4,BASE,SOURCES,ADDED,EXCEPTIONS} from './assertions.mjs';
-test('independent43 original paths/modes/hashes/ancestry +4 exact patches +23 additions',()=>{
- assert.equal(Object.keys(assertV4().files).length,43);assert.equal(EXCEPTIONS.length,4);assert.equal(ADDED.length,23);
+test('independent43 original paths/modes/hashes/ancestry +5 exact patches +43 finite additions',()=>{
+ assert.equal(Object.keys(assertV4().files).length,43);assert.equal(EXCEPTIONS.length,5);assert.equal(ADDED.length,43);
 });
 test('original root/native runner and chrome are exactly source A and C; no broad exemptions',()=>{
  assert.deepEqual(fs.readFileSync('tests/run.sh'),execFileSync('git',['show',SOURCES.A.head+':tests/run.sh']));
