@@ -1,0 +1,19 @@
+// Synthetic PostgreSQL wire peer on localhost; real TLS, no real credentials/data.
+import {test} from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {execFileSync} from 'node:child_process';import net from 'node:net';import tls from 'node:tls';import dns from 'node:dns';
+import {StrictJournalClient} from '../../ops/v4-journal/native-tls.mjs';
+dns.setDefaultResultOrder('ipv4first');
+const frame=(type,payload)=>{const size=Buffer.alloc(4);size.writeInt32BE(payload.length+4);return Buffer.concat([Buffer.from(type),size,payload]);};
+const auth=(n,body=Buffer.alloc(0))=>{const code=Buffer.alloc(4);code.writeInt32BE(n);return frame('R',Buffer.concat([code,body]));};
+async function peer(mode){
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'journal233-wire-')),key=path.join(dir,'local.key'),cert=path.join(dir,'local.crt');execFileSync('openssl',['req','-x509','-newkey','rsa:2048','-nodes','-days','1','-subj','/CN=localhost','-addext','subjectAltName=DNS:localhost','-keyout',key,'-out',cert],{stdio:'ignore'});fs.chmodSync(key,0o600);
+ const sockets=new Set(),seen={connections:0,passwords:0,queries:0},context=tls.createSecureContext({key:fs.readFileSync(key),cert:fs.readFileSync(cert)});
+ const server=net.createServer(socket=>{seen.connections++;sockets.add(socket);socket.on('error',()=>{});socket.on('close',()=>sockets.delete(socket));if(mode==='timeout')return;
+  socket.once('data',ssl=>{assert.equal(ssl.readInt32BE(4),80877103);socket.write('S');const secure=new tls.TLSSocket(socket,{isServer:true,secureContext:context});sockets.add(secure);secure.on('error',()=>{});secure.on('close',()=>sockets.delete(secure));let startup=true,stage=0,pending=Buffer.alloc(0);
+   secure.on('data',b=>{pending=Buffer.concat([pending,b]);if(startup){if(pending.length<4||pending.length<pending.readInt32BE(0))return;pending=pending.subarray(pending.readInt32BE(0));startup=false;if(mode==='trust')secure.write(Buffer.concat([auth(0),frame('Z',Buffer.from('I'))]));else if(mode==='md5')secure.write(auth(5,Buffer.from('salt')));else if(mode==='cleartext')secure.write(auth(3));else secure.write(auth(10,Buffer.from((mode==='signature'?'SCRAM-SHA-256-PLUS\0':'')+'SCRAM-SHA-256\0\0')));}
+    while(pending.length>=5&&pending.length>=1+pending.readInt32BE(1)){const kind=String.fromCharCode(pending[0]),data=pending.subarray(5,1+pending.readInt32BE(1));pending=pending.subarray(1+pending.readInt32BE(1));if(kind==='Q')seen.queries++;if(kind==='p'){seen.passwords++;if(mode==='signature'&&stage++===0){const value=data.toString(),nonce=/r=([^,]+)/.exec(value)?.[1];secure.write(auth(11,Buffer.from('r='+nonce+'server,s=c3ludGhldGlj,i=4096')));}else if(mode==='signature')secure.write(auth(12,Buffer.from('v=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=')));}}
+   });
+  });
+ });await new Promise(r=>server.listen(0,'127.0.0.1',r));
+ return {seen,config:{host:'localhost',port:server.address().port,user:'unfarmd_v4_auth_login',password:'SYNTHETIC_WIRE_ONLY_SECRET_233',database:'unfarmd_v4_pilot',connectionTimeoutMillis:600,ssl:{ca:fs.readFileSync(cert,'utf8'),servername:'localhost',rejectUnauthorized:true},enableChannelBinding:true},async close(){for(const s of sockets)s.destroy();await new Promise(r=>server.close(r));fs.rmSync(dir,{recursive:true,force:true});}};
+}
+for(const mode of ['plain_scram','trust','md5','cleartext','signature','timeout'])test('strict native peer rejects '+mode+' without query or retry',async()=>{const f=await peer(mode),client=new StrictJournalClient(f.config),start=Date.now();try{await assert.rejects(client.connect(),e=>e.message==='journal_native_unavailable');assert.equal(f.seen.queries,0);assert.equal(f.seen.connections,1);if(!['signature'].includes(mode))assert.equal(f.seen.passwords,0);else assert.equal(f.seen.passwords,2);assert.ok(Date.now()-start<2000);}finally{await client.end().catch(()=>{});await f.close();}});

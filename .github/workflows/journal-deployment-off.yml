@@ -1,0 +1,68 @@
+name: Journal deployment package OFF
+on:
+  pull_request:
+    branches: [feat/228-thesis-save-slice]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  native-package-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Pin independently reviewed A schema source
+        run: git fetch origin 6efb0eb66a79087b9c7a59b9a06ad584e9130ee9
+      - name: Actual combined package on local PostgreSQL TLS only
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-journal-deployment/run.sh
+      - name: Every original regression and guard unchanged plus actual-tree freeze
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-journal-deployment/parent-regression.sh
+      - name: Actual PR types lint build installed OFF and archive
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-thesis/built-off.mjs
+          bash scripts/archive-tool.sh check 76dea8aab3f26eef39c2fcbc1b0b37d13180388f
+          node --test tests/v4-journal-deployment/scope.test.mjs
+  unchanged-mobile-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Chromium executable
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Actual unchanged Save Load history, mobile axe keyboard auth STOP and installed OFF
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-journal-deployment/parent-regression.sh browser
