@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "base": "76dea8aab3f26eef39c2fcbc1b0b37d13180388f",
+  "ownerHead": "6efb0eb66a79087b9c7a59b9a06ad584e9130ee9",
+  "ownerPath": "lib/v4-owner-ledger/schema.sql",
+  "sha256": {
+    "lib/v4-private-journal/schema.sql": "114f59cd0a501d51f0e8204d278b1ee8247abf097a5a96fbd02b3aa234c08518",
+    "lib/v4-thesis-api/rate.sql": "db833923aa9f5c50273b7352d951d010f7d462e71f22621eaeef1adc827f7fb1",
+    "ops/v4-journal/sources/owner-ledger.sql": "a46364732965ad271e9713913d2c6ded72abf520635ae9d69bbb4a54a4092322"
+  },
+  "driver": {
+    "version": "8.23.1",
+    "files": {
+      "pg/lib/client.js": "ad6aa93c26b0bf26db1f2ebe74216212790a04c41af5585c63760f9fa8322a32",
+      "pg/lib/crypto/sasl.js": "99f1a2607fe2a29f1c4dd1aaf43dec0fc2b5de8755de72b39d3aa8c575bd6a71",
+      "pg/lib/connection.js": "f93e914bf408657f2301393489da561a5a464e9c30f4f51b681b18a21a5f1c84"
+    }
+  }
+}
