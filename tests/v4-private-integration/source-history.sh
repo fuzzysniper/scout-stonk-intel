@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")/../.."
 source_root=$PWD
 source_tree=$(mktemp -d /tmp/v4-private-original-XXXXXX)
-trap 'git worktree remove --force "$source_tree" >/dev/null 2>&1' EXIT
+trap 'git worktree remove --force "$source_tree" >/dev/null 2>&1 || true' EXIT
 for ref in d2c4a64d6b13bd9e1ffe609b50d88f6ab581d99e ffcef289ddee14b46d17cb6223eb21bcbfed42cf; do
  git worktree add --detach "$source_tree" "$ref"
  ln -s "$source_root/node_modules" "$source_tree/node_modules"

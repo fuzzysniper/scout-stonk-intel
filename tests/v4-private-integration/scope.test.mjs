@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {execFileSync} from 'node:child_process';
 import {assertComposition,sha,H,INPUTS} from './review.mjs';
-const REVIEWER_SHA='89ff70f5a24452d15a03936bf9af716d60d21b1bec83931fdeec74108a605c61';
+const REVIEWER_SHA='55a4e02b536868cb1320203b17f2bcde55ffc6301cee324a615c37f6ca60cdf8';
 test('reviewer independently pinned; full exact H/J/P source composition passes',()=>{assert.equal(sha(fs.readFileSync('tests/v4-private-integration/review.mjs')),REVIEWER_SHA);const r=assertComposition();assert.equal(r.base,H);assert.deepEqual(r.inputs,INPUTS);assert.equal(Object.keys(r.resolutions).length,7);});
 for(const file of ['tests/v4-private-journal/dependency.mjs','tests/v4-helius-pilot/review.mjs','tests/v4-integration/assertions.mjs','tests/v4-integration/exceptions.json','tests/v4-private-journal/dependency.json','tests/v4-helius-pilot/review-patches.json','lib/v4-private-journal/index.ts','lib/v4-helius-pilot/server/index.ts','lib/v4-solana-facts/projection.ts','lib/onchain-mint/server/lookup-policy.ts','app/lens/view.tsx','data/reward-snapshots.json'])test('passing control then reject source/OFF/protected mutation '+file,()=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'v4-private-negative-'));try{execFileSync('git',['clone','--shared',process.cwd(),root],{stdio:'ignore'});assertComposition(root);fs.appendFileSync(path.join(root,file),'\nUNREVIEWED\n');assert.throws(()=>assertComposition(root));}finally{fs.rmSync(root,{recursive:true,force:true});}

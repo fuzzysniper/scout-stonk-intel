@@ -7,7 +7,7 @@ import {execFileSync} from 'node:child_process';
 export const H='b56475c681311d35f95ee9879d9969b868a1724e';
 export const INPUTS={J:'d2c4a64d6b13bd9e1ffe609b50d88f6ab581d99e',P:'ffcef289ddee14b46d17cb6223eb21bcbfed42cf'};
 export const COMPOSITION_ADDED=['tests/v4-private-integration/review.mjs','tests/v4-private-integration/review.json','tests/v4-private-integration/scope.test.mjs','tests/v4-private-integration/run.sh','tests/v4-private-integration/source-history.sh','docs/v4/private-integration-225.md','.github/workflows/v4-private-integration.yml'];
-const REVIEW_SHA='4b5a09ea86996f3b8da996234381712112879bb4d095a5cb13ce057c2e67b810';
+const REVIEW_SHA='2237e8d3c8f41504fa14888507697725f0253f39d57c2d22f887cbf7344ff9a0';
 export const sha=b=>createHash('sha256').update(b).digest('hex');
 export function assertComposition(root=process.cwd()){
  const raw=(...args)=>execFileSync('git',args,{cwd:root,maxBuffer:32*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=p=>fs.readFileSync(path.join(root,p));

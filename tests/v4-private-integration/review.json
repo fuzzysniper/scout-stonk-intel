@@ -322,7 +322,7 @@
   ],
   "newFiles": {
     "tests/v4-private-integration/run.sh": "baea05437e7c726eb77ba8392fa199710725d024b018115f01feb61744c5bd5a",
-    "tests/v4-private-integration/source-history.sh": "5677435b45cf55fee3f5a1006593178a8bac8f87208c98d510feeaf45ed47c0a",
+    "tests/v4-private-integration/source-history.sh": "65ad9eedd59ada7fba800ca7dd5c09e393de2e73b6ac15fab90e6e0bc9360294",
     "docs/v4/private-integration-225.md": "60c38c1d1402a6f3282a2ee5d7d22d4e443af9487f92362b0cde59d2a697394e",
     ".github/workflows/v4-private-integration.yml": "cf6ba68143205aa550e201543cc161666e5dc5d3b858c4d3d794e641c9778411"
   }
