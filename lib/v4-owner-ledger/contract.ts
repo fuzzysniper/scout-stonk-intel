@@ -10,10 +10,12 @@ export type VerifiedOwnerClaims = Readonly<{
 export type VerifiedOwnerPort = Readonly<{
   verify(request: Request): Promise<VerifiedOwnerContext | null>;
   inspect(context: unknown): VerifiedOwnerClaims | null;
+  reverify(request: Request, previous: unknown): Promise<VerifiedOwnerContext | null>;
 }>;
 export type OwnerPolicy = Readonly<{
   issuer: string; audience: string; ownerSubject: string; journalOwnerId: string;
 }>;
 export type OwnerBoundary = VerifiedOwnerPort & Readonly<{
   pilot(profile: unknown): OwnerIdentityPort;
+  journal(): VerifiedOwnerPort;
 }>;

@@ -2,6 +2,7 @@ import 'server-only';
 import { betterAuth } from 'better-auth';
 import { createHash } from 'node:crypto';
 import type { Pool } from 'pg';
+import { isExactPublicKey } from '../onchain-mint/validation';
 import { data, prepareProfile, time } from '../v4-helius-pilot/server/profile';
 import type { OwnerBoundary, OwnerPolicy, VerifiedOwnerClaims, VerifiedOwnerContext } from './contract';
 import { verifiedPool, unavailable } from './postgres';
@@ -26,7 +27,8 @@ export function createVerifiedOwnerBoundary(input: OwnerPolicy, secret: string, 
     // Explicit __Host name + all required attributes; no Domain or insecure issuance path.
     advanced: OWNER_COOKIE_OPTIONS,
   });
-  const capabilities = new WeakMap<object, VerifiedOwnerClaims>(); let terminal = false, lastClock = 0;
+  const capabilities = new WeakMap<object, VerifiedOwnerClaims>();
+  const requests = new WeakMap<object, { request: Request; purpose: 'pilot' | 'journal' }>(); let terminal = false, lastClock = 0;
   const clock = () => { const t = now(); if (!time(t) || t < lastClock) { terminal = true; throw unavailable(); } lastClock = t; return t; };
   const inspect = (context: unknown): VerifiedOwnerClaims | null => {
     try { const t = clock(), c = context && typeof context === 'object' ? capabilities.get(context) : undefined;
@@ -34,15 +36,29 @@ export function createVerifiedOwnerBoundary(input: OwnerPolicy, secret: string, 
       return !terminal && c && t >= c.verifiedAt && t < c.expiresAt && t - c.verifiedAt <= 1000 ? c : null;
     } catch { return null; }
   };
-  const verify = async (request: Request): Promise<VerifiedOwnerContext | null> => {
+  const verify = async (request: Request, purpose: 'pilot' | 'journal' = 'pilot'): Promise<VerifiedOwnerContext | null> => {
     if (terminal) return null;
     try {
       const started = clock(), u = new URL(request.url), h = request.headers;
-      if (request.signal.aborted || request.method !== 'POST' || u.origin !== policy.audience || u.username || u.password || u.hash
-        || h.get('origin') !== policy.audience || h.get('sec-fetch-site') !== 'same-origin'
-        || !/^application\/json(?:;\s*charset=utf-8)?$/i.test(h.get('content-type') ?? '')
-        || !/^(read|stop|journal)$/.test(h.get('x-unfarmd-v4-owner-intent') ?? h.get('x-unfarmd-v4-pilot-intent') ?? '')
-        || ['authorization','x-owner-id','x-owner-subject','x-user-email','x-api-key','purpose','sec-purpose'].some(k => h.has(k))) return null;
+      if (request.signal.aborted || u.origin !== policy.audience || u.username || u.password || u.hash
+        || h.get('sec-fetch-site') !== 'same-origin' || h.has('origin') && h.get('origin') !== policy.audience
+        || ['authorization','x-owner-id','x-owner-subject','x-owner-email','x-user-email','x-api-key','purpose','sec-purpose'].some(k => h.has(k))
+        || h.has('sec-fetch-dest') && h.get('sec-fetch-dest') !== 'empty') return null;
+      const json = /^application\/json(?:;\s*charset=utf-8)?$/i.test(h.get('content-type') ?? '');
+      if (purpose === 'pilot') {
+        if (request.method !== 'POST' || u.pathname !== '/api/v4/helius-pilot' || u.search || h.get('origin') !== policy.audience || !json
+          || !/^(read|stop)$/.test(h.get('x-unfarmd-v4-pilot-intent') ?? '')) return null;
+      } else {
+        const collection = u.pathname === '/api/v4/theses', item = /^\/api\/v4\/theses\/([0-9a-f-]+)$/.exec(u.pathname);
+        if (!collection && !(item && UUID.test(item[1]))) return null;
+        const read = request.method === 'GET', write = collection ? request.method === 'POST' : request.method === 'PATCH';
+        if (!read && !write) return null;
+        if (read) {
+          if (request.body || [...u.searchParams.keys()].some(k => k !== 'mint') || u.searchParams.getAll('mint').length !== 1 || !isExactPublicKey(u.searchParams.get('mint'))) return null;
+        } else if (u.search || h.get('origin') !== policy.audience || !json) return null;
+        // Journal CSRF token/currentness belongs to B's separately reviewed route adapter.
+        // No fake Origin, content type or rewritten method is supplied to get a capability.
+      }
       if (['host','x-forwarded-host'].some(k => h.has(k) && h.get(k) !== u.host)
         || h.has('x-forwarded-proto') && h.get('x-forwarded-proto') !== 'https') return null;
       let size = 0; h.forEach((v,k) => { size += Buffer.byteLength(v+k)+4; }); if (size > 16384) return null;
@@ -63,11 +79,23 @@ export function createVerifiedOwnerBoundary(input: OwnerPolicy, secret: string, 
       if (terminal || at-started > 1000 || request.signal.aborted || rows.rowCount !== 1 || !p?.enabled || p.owner_subject !== policy.ownerSubject
         || p.journal_owner_id !== policy.journalOwnerId || p.issuer !== policy.issuer || p.audience !== policy.audience || p.secret_sha256 !== secretHash || at >= expires) return null;
       const result = Object.freeze({}) as VerifiedOwnerContext;
+      requests.set(result, { request, purpose });
       capabilities.set(result, Object.freeze({ ownerSubject: policy.ownerSubject, journalOwnerId: policy.journalOwnerId, issuer: policy.issuer,
         audience: policy.audience, sessionId: s.id, authenticatedAt: created, verifiedAt: at, expiresAt: expires })); return result;
     } catch { return null; }
   };
-  return Object.freeze({ verify, inspect, pilot(profileInput: unknown) {
+  const reverify = async (request: Request, previous: unknown): Promise<VerifiedOwnerContext | null> => {
+    const old = previous && typeof previous === 'object' ? capabilities.get(previous) : undefined;
+    const binding = previous && typeof previous === 'object' ? requests.get(previous) : undefined;
+    if (!old || !binding || binding.request !== request) return null;
+    const fresh = await verify(request, binding.purpose), c = inspect(fresh);
+    if (!c || c.ownerSubject !== old.ownerSubject || c.journalOwnerId !== old.journalOwnerId || c.sessionId !== old.sessionId
+      || c.issuer !== old.issuer || c.audience !== old.audience || c.authenticatedAt !== old.authenticatedAt || c.expiresAt !== old.expiresAt) return null;
+    return fresh;
+  };
+  return Object.freeze({ verify: (request: Request) => verify(request, 'pilot'), inspect, reverify,
+    journal: () => Object.freeze({ verify: (request: Request) => verify(request, 'journal'), inspect, reverify }),
+    pilot(profileInput: unknown) {
     const prepared = prepareProfile(profileInput);
     return Object.freeze({ async authenticate(request: Request) {
       if (!prepared || prepared.profile.ownerSubject !== policy.ownerSubject || prepared.profile.identityIssuer !== policy.issuer || prepared.profile.origin !== policy.audience) return null;

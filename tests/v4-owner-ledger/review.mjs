@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';
 import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';
 export const PARENT='4af9532709c3a9bca9efe71356124328955a2877';
-const REVIEW_SHA='6452a1d1b62bbf3d70b92c3d05e373b6a306512c15f3a7bf0aad66e532cee4c1';
+const REVIEW_SHA='3b31d162cddf41b49db6d574b5ea9e4da19e311ad4e19cb1945ac87cb25fb040';
 export const sha=b=>createHash('sha256').update(b).digest('hex');
 export function assertOwnerLedgerScope(root=process.cwd()){
  const raw=(...a)=>execFileSync('git',a,{cwd:root,maxBuffer:32*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=p=>fs.readFileSync(path.join(root,p));
