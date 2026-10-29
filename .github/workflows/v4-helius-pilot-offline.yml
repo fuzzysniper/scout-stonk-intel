@@ -1,0 +1,48 @@
+name: V4 Helius pilot source-OFF
+on:
+  pull_request:
+    branches: [integration/v4-alpha-lens-source-off]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  offline-pilot-and-full-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: New mock pilot, corrected provenance and exact original source suites
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-helius-pilot/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-integration/source-history.sh
+      - name: Complete root including native disposable PostgreSQL/TLS/security, A/B/C and integration
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm test
+      - name: Types, lint, archive integrity and guarded production build
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          bash scripts/archive-tool.sh check b56475c681311d35f95ee9879d9969b868a1724e
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+      - name: Actual built APIs remain source OFF; final independent scope
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/live-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v4-integration/scope.test.mjs

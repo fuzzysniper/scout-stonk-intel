@@ -1,0 +1,329 @@
+{
+  "base": "b56475c681311d35f95ee9879d9969b868a1724e",
+  "inputs": {
+    "J": "d2c4a64d6b13bd9e1ffe609b50d88f6ab581d99e",
+    "P": "ffcef289ddee14b46d17cb6223eb21bcbfed42cf"
+  },
+  "sources": {
+    "J": {
+      ".github/workflows/private-journal.yml": {
+        "mode": "100644",
+        "blob": "23584066ab7a074a8ba5f42ddae9cc480fb695b6",
+        "sha256": "095e15a9cf881e7dc962329ec97a5abdb229ffdcced9c2eb6697f404f3e6d5ee"
+      },
+      "docs/v4/private-journal-222.md": {
+        "mode": "100644",
+        "blob": "3c34be64bac116736a56f29f0552006885cf77e5",
+        "sha256": "016f1e56120276e2f559765e67ee7dbae716c485c21a3b0f96402d03728be04a"
+      },
+      "lib/v4-private-journal/auth.ts": {
+        "mode": "100644",
+        "blob": "9c5350aa91a8323cef51cb30ddcf7c7a446953a6",
+        "sha256": "6e90d6e0bb3d27c121f40933ad64f821a6324257a39fa09fe06e82ee0a6c2a2b"
+      },
+      "lib/v4-private-journal/contract.ts": {
+        "mode": "100644",
+        "blob": "4e23c158dc41cd94ca37654c62145f7be7d454a0",
+        "sha256": "574bbde056a2547e72dea1faccd46e1e4bdbb4c1b0c40231949c155dea0595f6"
+      },
+      "lib/v4-private-journal/crypto.ts": {
+        "mode": "100644",
+        "blob": "8306f32713a46bd2750a9c01fdaff769788e7567",
+        "sha256": "8d2b91da4d40ad68133c57402e8c1ab294b6223f513f02c8356e67b21b6f9970"
+      },
+      "lib/v4-private-journal/index.ts": {
+        "mode": "100644",
+        "blob": "0869d900c27f72a169976b2c2a9bb373ae45fded",
+        "sha256": "717d38b9010c2a92e0e8e8a70826431e7d44e081dc28839bb06a240359b35e1c"
+      },
+      "lib/v4-private-journal/repository.ts": {
+        "mode": "100644",
+        "blob": "561d8432825e1e6f9b4b70ca05d446c04fc0210f",
+        "sha256": "842dcab9a2655f503459ca84f0fd9537725f95e8184557cb5080bcee47e5c991"
+      },
+      "lib/v4-private-journal/schema.sql": {
+        "mode": "100644",
+        "blob": "bdcff0b5c3694e9fcdac2af03f065c91e7b37192",
+        "sha256": "114f59cd0a501d51f0e8204d278b1ee8247abf097a5a96fbd02b3aa234c08518"
+      },
+      "lib/v4-private-journal/validation.ts": {
+        "mode": "100644",
+        "blob": "9c5eea71e9ff0bbd080c1fa2e389014bc9ff3d92",
+        "sha256": "515e3f52dbaf3c0c64187b01fcbf286fe5de9ed573075ceb9c78766dad3f2ea6"
+      },
+      "tests/v4-integration/assertions.mjs": {
+        "mode": "100644",
+        "blob": "4041b6d40f9cc4e4f2940b1609cc32ae6aa07017",
+        "sha256": "16bbfdf57dff620782f5fb263ee9965219e1bfea5c7239422b8e3230eccb20f5"
+      },
+      "tests/v4-integration/scope.test.mjs": {
+        "mode": "100644",
+        "blob": "68faed7f8f7da1a64b84079a73361237b72907ca",
+        "sha256": "da34f147265d22e92c0b9cc6da4041a34fa23e873f6c122bd42a9547495a9c3b"
+      },
+      "tests/v4-private-journal/__init__.py": {
+        "mode": "100644",
+        "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "tests/v4-private-journal/dependency.json": {
+        "mode": "100644",
+        "blob": "02116d767ed236b21daf760e131bde528fb83746",
+        "sha256": "2ace4f2d0a82032cc59f9a1a58157804dfae24e79a80bab02a71c5e974650210"
+      },
+      "tests/v4-private-journal/dependency.mjs": {
+        "mode": "100644",
+        "blob": "581455abba28a4d293add6adc3ddc7b0b38c616b",
+        "sha256": "efb0bc1d28d0de68bb32998aebbfa108472bbed1ba41f9b31643649090d0d227"
+      },
+      "tests/v4-private-journal/engine_test.py": {
+        "mode": "100644",
+        "blob": "f7239c035c39d88d83a6ea94d1055d35453404bb",
+        "sha256": "8bd179518db7ff4cabb3284e655ad04a3702d536272c1faf906f614b9d5636ad"
+      },
+      "tests/v4-private-journal/fixtures.mjs": {
+        "mode": "100644",
+        "blob": "e07d4de4f9ec8abb1988638147910c75d5edff34",
+        "sha256": "aab8c55b8fba450869a58c52498ac76aa5343ad6ebb06d7d5412d7921bb833f1"
+      },
+      "tests/v4-private-journal/postgres.test.mjs": {
+        "mode": "100644",
+        "blob": "f727f1e948e064dbed6e8f2752a999e896b465f9",
+        "sha256": "becba761c4ee373151f3c265dd41caa34f05433767a4166a86ea0f4abfa88eee"
+      },
+      "tests/v4-private-journal/run.sh": {
+        "mode": "100644",
+        "blob": "f2e73a1456c4963f2a86e476d429eb5e53fbeb2c",
+        "sha256": "199a6b8044612ebb138dc11d94e1db73f1a66284ad2e71b87fbb3b7f199f2166"
+      },
+      "tests/v4-private-journal/scope.test.mjs": {
+        "mode": "100644",
+        "blob": "db5872f2216f5813ce27dcaf01bdedd2494f3de5",
+        "sha256": "6f97b9e981d6eaf1a02f4122fdf438e87b7ff9fd01501345fc0e6187cb00ebe4"
+      },
+      "tests/v4-private-journal/security.test.mjs": {
+        "mode": "100644",
+        "blob": "2613ce137f3fe7e86ee876588aeb169cffaf360d",
+        "sha256": "8032f0d1b4548f474738da4e2b6f7747f4921ff35f42c8cf7658d432cc158145"
+      }
+    },
+    "P": {
+      ".github/workflows/v4-helius-pilot-offline.yml": {
+        "mode": "100644",
+        "blob": "05fe8da2746e00f9c844a40baad9539e00d5743b",
+        "sha256": "9848650b21023d46b1a61e835a951abc9dd50f73cf06d78807efd8a06139f045"
+      },
+      "docs/v4/helius-pilot-221.md": {
+        "mode": "100644",
+        "blob": "f289374190457a901faec194b68370f089241b86",
+        "sha256": "a086fddec8ca393b114b1ec92bb7cddb1211076986a613360ff1bbd3f9347193"
+      },
+      "lib/v4-helius-pilot/server/contract.ts": {
+        "mode": "100644",
+        "blob": "e182213f76df6630292c2e079b3d509f300e3b81",
+        "sha256": "6cfc48b4eb0f1eb85cf432b122c72c4cd2ac8654fdbbf9b60b0390a82c5ff4a4"
+      },
+      "lib/v4-helius-pilot/server/engine.ts": {
+        "mode": "100644",
+        "blob": "b2a45eae2a0c877488579ff568372b46dd38a96e",
+        "sha256": "ded6c003154d1284a3c4bad7211151e379e7576a31eb9c880b3b2e5e8c7a8fb7"
+      },
+      "lib/v4-helius-pilot/server/index.ts": {
+        "mode": "100644",
+        "blob": "6cf0c0a8b21ab868289f4947cd2f4f1d2e608d7d",
+        "sha256": "b660ecf035a250fe66cfb448c4df0b145c507cf31ab8a515001afe5fdf0b4c4a"
+      },
+      "lib/v4-helius-pilot/server/policy.ts": {
+        "mode": "100644",
+        "blob": "a7d6cdef544a6e22b50a0cacc2587dae15fb0bcb",
+        "sha256": "12eb3422beeada31cd415754f023939752b89699c6ab6a9c294d139adf718b07"
+      },
+      "lib/v4-helius-pilot/server/profile.ts": {
+        "mode": "100644",
+        "blob": "416f185415ff9637487a39abee981ceae66c82ef",
+        "sha256": "ed340c6f2b7b97887783c1222b75a2886504ebc3342e59cc4d608c17f3083279"
+      },
+      "lib/v4-helius-pilot/server/result.ts": {
+        "mode": "100644",
+        "blob": "e8e2ed277dd0f4fc7a4577c09eae6edb635f21c0",
+        "sha256": "8e55eaf89c336bdcb6aeaaf9e960548658c8f55054a1a108a9bdfaa4d9ab54fe"
+      },
+      "lib/v4-helius-pilot/server/testing.ts": {
+        "mode": "100644",
+        "blob": "00b6d79f595971f01b339194e218747803a1c9e6",
+        "sha256": "cf1e820c8ae5aba32560b6160f5ed4f2c1f9672b6b6f281569dec0eed1362cc7"
+      },
+      "lib/v4-helius-pilot/server/transport.ts": {
+        "mode": "100644",
+        "blob": "90e47b896a3618ee031c460ebce44cdbab6ff44b",
+        "sha256": "bf885e9c05ef4a3c57f7dac51701805cd9d7b26641e3ba90554e031420b983fd"
+      },
+      "lib/v4-solana-facts/projection.ts": {
+        "mode": "100644",
+        "blob": "b1ef1fc1df4f65532951a0e881549b5774bb7cc7",
+        "sha256": "afe55ed36a68e9802b4f8d446273f97fd04c1e39dfa37a561ab643fa19476c0f"
+      },
+      "tests/v4-helius-pilot/__init__.py": {
+        "mode": "100644",
+        "blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "tests/v4-helius-pilot/capture.test.mjs": {
+        "mode": "100644",
+        "blob": "8788fa8ba84e3c7d4dbf1b29d2481f070e6e9b98",
+        "sha256": "c1d2ef8b159a8ee8e2081c40478bf0224835792fc2861d2cd9ca6268d9cac562"
+      },
+      "tests/v4-helius-pilot/engine_test.py": {
+        "mode": "100644",
+        "blob": "d84e62773fc8428f3f5f03f025cb42191418e915",
+        "sha256": "9c01c165550ea9fb3b715b3961aae1538fbae110ec5d51e6bf8cda1165bab5e8"
+      },
+      "tests/v4-helius-pilot/fixtures.mjs": {
+        "mode": "100644",
+        "blob": "26b0978d24c970d3d4be1d0102dbf7cad97784ad",
+        "sha256": "cc98a8b12293f35a45a2e9dfede7779d3c13f1fa774ddf17ba52359bb2389208"
+      },
+      "tests/v4-helius-pilot/pilot.test.mjs": {
+        "mode": "100644",
+        "blob": "8cd0ccfa65150a9c32e33733d6879eacd1491b19",
+        "sha256": "dffd344ee46ec9260ff7756ef6bfbe19585f7c2bb13824379991e4172984c056"
+      },
+      "tests/v4-helius-pilot/review-patches.json": {
+        "mode": "100644",
+        "blob": "7cf3350b97aea6092960171b0b89f6e7f6c6b1b3",
+        "sha256": "8bf0aebe5bc5ae42cd3052162496b7112ae0e1201afd115a6ee6bf12b05b864f"
+      },
+      "tests/v4-helius-pilot/review.mjs": {
+        "mode": "100644",
+        "blob": "6b28bd9bde830090028768b352b9560aa4f2977c",
+        "sha256": "5657982ffe62e552778502db9c303004cfc804982ed61cf1e1f49246d52efb5a"
+      },
+      "tests/v4-helius-pilot/run.sh": {
+        "mode": "100644",
+        "blob": "dfc744375a6686c47a006848536d150430f6bab6",
+        "sha256": "71e50e0703fa0c363eabfd751a64afcf4515e02efe642bf6b83785fd24ef36ed"
+      },
+      "tests/v4-helius-pilot/scope.test.mjs": {
+        "mode": "100644",
+        "blob": "e0955237048ae25876943a22792290bba9294c73",
+        "sha256": "46d027de1da46e2fc40e38bca6286ed5eeb1302a2a93e96bb342f25c6dc20d98"
+      },
+      "tests/v4-helius-pilot/security.test.mjs": {
+        "mode": "100644",
+        "blob": "f94db6f47386f5640996e6a2e3bb2028ee5745a7",
+        "sha256": "358856a2a7d587127303540678bbe0738711b13dae52c12ae6e556d24424ff3a"
+      },
+      "tests/v4-integration/assertions.mjs": {
+        "mode": "100644",
+        "blob": "4444a32a88e7071336631fa2e6cd117dd0bdb816",
+        "sha256": "de75494b9abb9a9dd7f32b5bc861b82fa4dab66e545e0438087871e7a014f58b"
+      },
+      "tests/v4-integration/exceptions.json": {
+        "mode": "100644",
+        "blob": "12d601a3da3791dff70e0e398cca62939ce2611e",
+        "sha256": "0546e49b968793c67b8ff2edb627b1570fcb633f8837fad5490041421c9c708c"
+      },
+      "tests/v4-integration/scope.test.mjs": {
+        "mode": "100644",
+        "blob": "95a28d534dcda42c69eb2267de5ec24e520bc8dd",
+        "sha256": "2de96b6b9f9716c4e548b48dc3fdab7ab095f2f45ad18120423d7716dbc3d7c2"
+      }
+    }
+  },
+  "resolutions": {
+    ".github/workflows/v4-helius-pilot-offline.yml": {
+      "reviewedSha256": "4ae43bac2b354c33cb8069a1d112ba946d96453059afd71d7ad29e4d22059d5d",
+      "from": {
+        "P": {
+          "originalSha256": "9848650b21023d46b1a61e835a951abc9dd50f73cf06d78807efd8a06139f045",
+          "patchSha256": "5b36a1f132b8d27e83eab5c47621ef97763eea54e6e1849b8e910daf533f51a6"
+        }
+      }
+    },
+    "tests/v4-integration/assertions.mjs": {
+      "reviewedSha256": "00619fa8f9ce8a74f387745acfcbc17da5adc5e534f7dbe53e13264137c16980",
+      "from": {
+        "H": {
+          "originalSha256": "28e3fd242540dfc002218afcea40eda0e02a6c2f1393b63b4896061427753572",
+          "patchSha256": "636e985bb18809d797df5c8baa43b92102e0585c1f5b85e266260a351a3d3218"
+        },
+        "J": {
+          "originalSha256": "16bbfdf57dff620782f5fb263ee9965219e1bfea5c7239422b8e3230eccb20f5",
+          "patchSha256": "cd1b61cecd9d33bd6e1a7f3e28f71d0fd7a304d8e479b3b9907c4e1b44f9d3d9"
+        },
+        "P": {
+          "originalSha256": "de75494b9abb9a9dd7f32b5bc861b82fa4dab66e545e0438087871e7a014f58b",
+          "patchSha256": "d2782b6b381acc93bcf710cef6238242b67077f87bd539b718d40fc735b7e9ee"
+        }
+      }
+    },
+    "tests/v4-integration/scope.test.mjs": {
+      "reviewedSha256": "c943caa8cf2662ff724eac109db1312a0808fc41fb8a26e2f91c073d0fd1c4d6",
+      "from": {
+        "H": {
+          "originalSha256": "53ed23c366174c2b61bfc47f95f7397f4c4eeb16f23e277b0814b4beed8bab0f",
+          "patchSha256": "367545788b9b4b874519a5b4960be4c0ecdfa28f5f527084bc06acbea7991970"
+        },
+        "J": {
+          "originalSha256": "da34f147265d22e92c0b9cc6da4041a34fa23e873f6c122bd42a9547495a9c3b",
+          "patchSha256": "d15cc345beffeb437838bbecd7516ed65a3fd09e36556ad2fc6f652b71518ab3"
+        },
+        "P": {
+          "originalSha256": "2de96b6b9f9716c4e548b48dc3fdab7ab095f2f45ad18120423d7716dbc3d7c2",
+          "patchSha256": "65b34fe212246c8ebecde307fcee0c42e31012db8230df7cb1e1da451e658c42"
+        }
+      }
+    },
+    "tests/v4-private-journal/dependency.mjs": {
+      "reviewedSha256": "c9c21bb7a1d0e9564585d8f342b151b759eac4f21995a42d7d2b9e1b8e7128f1",
+      "from": {
+        "J": {
+          "originalSha256": "efb0bc1d28d0de68bb32998aebbfa108472bbed1ba41f9b31643649090d0d227",
+          "patchSha256": "12670f7013bb0b2cc85113d4b98d45ec67f6c71ceb719fb4988a5f13d07a1b8c"
+        }
+      }
+    },
+    "tests/v4-private-journal/scope.test.mjs": {
+      "reviewedSha256": "1451891a8300a72d16b970aecefad99234d6a22284eed31529542371256274a2",
+      "from": {
+        "J": {
+          "originalSha256": "6f97b9e981d6eaf1a02f4122fdf438e87b7ff9fd01501345fc0e6187cb00ebe4",
+          "patchSha256": "6472917cbcb782abcde11ea35ae3abced2c09ab557f723a901c9961363282cee"
+        }
+      }
+    },
+    "tests/v4-helius-pilot/review.mjs": {
+      "reviewedSha256": "9f28a1f6634b0f958a14876965ac9549136812e7778bc7f4e2a3fd8162300637",
+      "from": {
+        "P": {
+          "originalSha256": "5657982ffe62e552778502db9c303004cfc804982ed61cf1e1f49246d52efb5a",
+          "patchSha256": "746b826045e9dd3bbee4b4fab71d11b2375b63c7e7b5a40b16add7e8e3cc7d19"
+        }
+      }
+    },
+    "tests/v4-helius-pilot/scope.test.mjs": {
+      "reviewedSha256": "e98ac2fe42255f65b19324c98c739ded97ad0618cbca09fbacc1101ac3f950df",
+      "from": {
+        "P": {
+          "originalSha256": "46d027de1da46e2fc40e38bca6286ed5eeb1302a2a93e96bb342f25c6dc20d98",
+          "patchSha256": "ab6fcaa59df1c144e89404411e4c5c75b0e41cf444fbdeb90b4b246a39c827e5"
+        }
+      }
+    }
+  },
+  "added": [
+    "tests/v4-private-integration/review.mjs",
+    "tests/v4-private-integration/review.json",
+    "tests/v4-private-integration/scope.test.mjs",
+    "tests/v4-private-integration/run.sh",
+    "tests/v4-private-integration/source-history.sh",
+    "docs/v4/private-integration-225.md",
+    ".github/workflows/v4-private-integration.yml"
+  ],
+  "newFiles": {
+    "tests/v4-private-integration/run.sh": "baea05437e7c726eb77ba8392fa199710725d024b018115f01feb61744c5bd5a",
+    "tests/v4-private-integration/source-history.sh": "5677435b45cf55fee3f5a1006593178a8bac8f87208c98d510feeaf45ed47c0a",
+    "docs/v4/private-integration-225.md": "60c38c1d1402a6f3282a2ee5d7d22d4e443af9487f92362b0cde59d2a697394e",
+    ".github/workflows/v4-private-integration.yml": "cf6ba68143205aa550e201543cc161666e5dc5d3b858c4d3d794e641c9778411"
+  }
+}
