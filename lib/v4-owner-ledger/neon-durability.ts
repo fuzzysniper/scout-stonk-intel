@@ -8,7 +8,7 @@ import {unavailable} from './postgres';
 
 export const NEON_STEP_SHA='7901e92e0e19389d84044ab1da5f34062a4c0a71e3d79925a5c0cadb5de0f1b0';
 export const NEON_ADMISSION_SHA='9c796ed1b6adae3f9934d75c68d0a921c26b55597eca59132de49798fcaa25f1';
-export const NEON_MIGRATION_SHA='375173150e2d693d53cde08762f9032eae162fe471a5cf906f909eb3243e0471';
+export const NEON_MIGRATION_SHA='aff935848ac7c1b7868bfba2800d9ae80807d92a1d3424644b0ba5fd1bbb4042';
 export const NEON_EVIDENCE_SHA='0756f3910bc125dec2ca0c8663fe966582c5a5b5c8f080677aa3fa8b071acb7d';
 const conventional="current_setting('fsync')='on' AND current_setting('synchronous_commit')='on' AND NOT pg_is_in_recovery()";
 /** The original role/function proof remains; only its durability predicate is provider-specific. */
