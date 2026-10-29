@@ -41,7 +41,7 @@ BEGIN
 END $neon$;
 CREATE FUNCTION unfarmd_v4_deploy.assert_neon_durability() RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $gate$
 BEGIN
- IF NOT unfarmd_v4_deploy.neon_durability_admitted(NULL) THEN RAISE EXCEPTION 'neon_durability_required';END IF;
+ IF unfarmd_v4_deploy.neon_durability_admitted(NULL) IS DISTINCT FROM true THEN RAISE EXCEPTION 'neon_durability_required';END IF;
  IF TG_OP='DELETE' THEN RETURN OLD;END IF;RETURN NEW;
 END $gate$;
 CREATE FUNCTION unfarmd_v4_deploy.keep_neon_contract() RETURNS trigger LANGUAGE plpgsql SET search_path=pg_catalog AS $keep$

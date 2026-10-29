@@ -3,7 +3,7 @@ import fs from 'node:fs';import {fileURLToPath} from 'node:url';import path from
 import {render as conventional,sha} from '../v4-journal/package.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 export const OLD_STEP="IF current_setting('fsync')<>'on' OR current_setting('synchronous_commit')<>'on' OR pg_is_in_recovery() THEN RAISE EXCEPTION 'pilot_durability_required';END IF;";
-export const NEW_STEP="IF NOT unfarmd_v4_deploy.neon_durability_admitted(NULL) THEN RAISE EXCEPTION 'pilot_durability_required';END IF;";
+export const NEW_STEP="IF unfarmd_v4_deploy.neon_durability_admitted(NULL) IS DISTINCT FROM true THEN RAISE EXCEPTION 'pilot_durability_required';END IF;";
 const replaceOne=(text,from,to)=>{if(text.split(from).length!==2)throw Error('reviewed_patch_mismatch');return text.replace(from,()=>to);};
 export function candidate(){
  const source=fs.readFileSync(path.join(root,'lib/v4-owner-ledger/schema.sql'),'utf8');
