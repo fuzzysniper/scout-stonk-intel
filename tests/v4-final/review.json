@@ -364,6 +364,35 @@
           "patchSha256": "f6a70f12e61ce9a15e5843ef04e09b68303cf084e8edabcf379f0245e4070c63"
         }
       }
+    },
+    "tests/v4-private-journal/scope.test.mjs": {
+      "reviewedSha256": "fc15946a1e0786d239f78c2a65f75a4d52de81ad0d4df769a3df6eec45d2dc89",
+      "from": {
+        "base": {
+          "original": {
+            "mode": "100644",
+            "blob": "9a9b1d8ab5afcf7c403f82d34d37a5849cd2eb65",
+            "sha256": "71d6dd11834eb7d9c88ad8b8079997c50c27e2be555e1a269c59c7aef56daa1c"
+          },
+          "patchSha256": "af6a6fdff613dbb6ebd632a7df1886ec03e9e4bbd8d3a8bd107db98b26ef3e9d"
+        },
+        "native": {
+          "original": {
+            "mode": "100644",
+            "blob": "5da5defa72508abfcdefc16edf41c8a0305fca52",
+            "sha256": "0a0c4f4ac9486c56fa893fdba7b3f4de921dcecd2c28f598b0d430c1eee5d00b"
+          },
+          "patchSha256": "c1820e68da47dcf57af30f921e915c4bb0011f2aef3869f17576f92682af3735"
+        },
+        "package": {
+          "original": {
+            "mode": "100644",
+            "blob": "a54176630ae751b2e62f026af26174ed9d779671",
+            "sha256": "8327033f14092ef0024fad743fbde583ee63d1d8fa96cd2b4a5939a85b606357"
+          },
+          "patchSha256": "9c671a3c85008147199b2ece39af4f4d62cc676dbcb1d2dd0d56f6c7d8a23396"
+        }
+      }
     }
   },
   "added": [
@@ -400,7 +429,7 @@
     "tests/v4-final/screenshots/combined-320.png": "7de951a0b77b0d32a8fcfc59dc40157926bb42aa6d8c40bc7cf5ffa73a4ad407",
     "tests/v4-final/screenshots/combined-390.png": "bb0fd8255b48e23f258c19f4c93c2491784531d835e5cc15399904e324f05fff",
     "tests/v4-final/screenshots/combined-1280.png": "3e91d767b2c18b92c08c84429ae523cde9833a2a97613900d4507692f9506a46",
-    "docs/v4/final-composition-237.md": "5bdacacfdc60e539180ed3b4bd1aa1fd2b9fd35cfcd71f2153680337d8f235ad",
+    "docs/v4/final-composition-237.md": "c2dbdd4c210ef87f484c72178f6306272396c3df15f6ca3c447351d7f0f4ba99",
     ".github/workflows/v4-final-offline.yml": "b2b4c13422ba803f995cb1a59d0f53db880770366fca299ff380fe8a5468e95f"
   }
 }
