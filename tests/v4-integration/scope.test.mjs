@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {ADDITIONS as JOURNAL_ADDITIONS} from '../v4-private-journal/dependency.mjs';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -18,7 +19,8 @@ for(const file of ['app/api/mint-facts/route.ts','lib/onchain-mint/server/lookup
   execFileSync('git',['clone','--shared','--no-checkout',process.cwd(),root],{stdio:'ignore'});
   // Copy only the current reviewed working tree, including uncommitted integration.
   execFileSync('git',['checkout','--detach','HEAD'],{cwd:root,stdio:'ignore'});
-  for(const p of [...Object.keys(assertV4().files),...ADDED]){fs.mkdirSync(path.dirname(path.join(root,p)),{recursive:true});fs.copyFileSync(p,path.join(root,p));}
+  for(const p of [...Object.keys(assertV4().files),...ADDED,...JOURNAL_ADDITIONS]){fs.mkdirSync(path.dirname(path.join(root,p)),{recursive:true});fs.copyFileSync(p,path.join(root,p));}
+  assertV4(root);
   fs.appendFileSync(path.join(root,file),'\nUNREVIEWED DRIFT\n');assert.throws(()=>assertV4(root));
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
