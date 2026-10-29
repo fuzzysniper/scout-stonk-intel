@@ -51,8 +51,8 @@ test('edits made while a save is pending stay visibly unsaved after the prior dr
 });
 test('real concurrent-session conflict keeps current draft and does not silently overwrite history',async({page,context,request})=>{
  const session=await authenticate(context,request);await page.goto('/lens');await select(page);await page.getByLabel('What do you believe, and why?').fill(note);await page.getByRole('button',{name:'Save thesis'}).click();await expect(page.locator('#journal-status')).toContainText('Thesis saved');
- const list=await (await page.request.get('/api/v4/theses?mint='+mint)).json(),id=list.items[0].journalId;
- const saved=await (await page.request.get('/api/v4/theses/'+id+'?mint='+mint)).json();
- const response=await page.request.patch('/api/v4/theses/'+id,{headers:{Origin:'http://127.0.0.1:4288','X-CSRF-Token':session.csrf},data:{mint,requestId:crypto.randomUUID(),expectedHead:saved.receipt.storageHead,action:'revise',thesis:'SYNTHETIC ONLY other session change',invalidation:null}});expect(response.status()).toBe(200);
+ const list=await (await page.request.get('/api/v4/theses?mint='+mint,{headers:{'X-UNFARMD-V4-OWNER-INTENT':'journal'}})).json(),id=list.items[0].journalId;
+ const saved=await (await page.request.get('/api/v4/theses/'+id+'?mint='+mint,{headers:{'X-UNFARMD-V4-OWNER-INTENT':'journal'}})).json();
+ const response=await page.request.patch('/api/v4/theses/'+id,{headers:{Origin:'http://127.0.0.1:4288','X-UNFARMD-V4-OWNER-INTENT':'journal','X-CSRF-Token':session.csrf},data:{mint,requestId:crypto.randomUUID(),expectedHead:saved.receipt.storageHead,action:'revise',thesis:'SYNTHETIC ONLY other session change',invalidation:null}});expect(response.status()).toBe(200);
  await page.getByLabel('What do you believe, and why?').fill('SYNTHETIC ONLY conflicting local draft');await page.getByRole('button',{name:'Add update'}).click();await expect(page.locator('#journal-status')).toContainText('Changed elsewhere');await expect(page.getByLabel('What do you believe, and why?')).toHaveValue('SYNTHETIC ONLY conflicting local draft');
 });

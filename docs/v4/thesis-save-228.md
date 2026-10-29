@@ -16,8 +16,16 @@ verified owner, issuer/audience/session, immutable ONE-owner allowlist, signed
 HttpOnly cookie, revocation, CSRF and genuine J principal mapping. B does not
 invent an issuer, trust an email/wallet/header or cast A's context to J's principal.
 `owner-context.ts` is a B-side typed adapter proposal coordinated on #227; it is
-not a claim of compatibility with an unpublished A implementation. No live A
-adapter is installed. The synthetic fixture uses J's actual Ed25519 verifier and
+not a replacement for A. `owner-adapter.ts` structurally consumes the published
+A#229 verify/inspect contract at `7a1409581a482580ad9ba82d7adf2d22b92b328a`,
+without copying its opaque brand. It re-verifies the original request around I/O,
+requires the identical owner/journal mapping/session/issuer/audience, and invokes
+an injected legitimate J capability mapper and CSRF verifier. No cast or new B
+issuer is provided. No live A adapter is installed. A currently permits POST only:
+GET/PATCH correctly fail closed until A reviews a journal-specific genuine method
+policy. B never rewrites a GET/PATCH to a fake POST or forges Origin. Its1-second
+capability is refreshed through verification, not cached as a durable identity.
+Actual principal mint/mapping and session-CSRF issuance remain explicit HOLDs. The synthetic fixture uses J's actual Ed25519 verifier and
 authority-bound capability, generated ephemeral keys and fake local sessions only.
 
 |Method/path|Bounded operation|
@@ -29,7 +37,7 @@ authority-bound capability, generated ephemeral keys and fake local sessions onl
 
 No other method, source acquisition, arbitrary URL, owner parameter or public note
 link. No CORS grants. Fixed configured origin, Fetch Metadata and write Origin
-checks precede authentication; every write additionally requires A's session-bound
+and explicit journal-intent checks precede authentication; every write additionally requires A's session-bound
 CSRF verifier. Context validity is checked before I/O and before returning private
 data, with the real J capability independently validated by its own authority.
 Forged/nonowner/revoked sessions deny before keys/DB. No client principal/session
@@ -102,7 +110,7 @@ Expanded original and history repeat the original on purpose for review, not a
 collapsed default wall of text. No factual market/source activity is shown.
 
 Five exact replacement patches are recorded with original/reviewed/full-diff
-hashes: Lens view and four scope/reviewer compatibility paths.29 named additions,
+hashes: Lens view and four scope/reviewer compatibility paths.30 named additions,
 no directory/flag waiver. An outer reviewer freezes every other226 blob/mode and
 every original manifest. The original reviewer still checks original versions of
 those specifically replaced paths while independently pinning their live new
@@ -114,7 +122,7 @@ legacy test is removed/skipped. New mutation controls pass before tampering.
 
 **GO: offline engineering review only. HOLD: every hosted Save/auth/DB/source.**
 
-1. Review exact dependent SHA, all CI and the29-addition/five-patch manifest; do not
+1. Review exact dependent SHA, all CI and the30-addition/five-patch manifest; do not
    merge into main or activate storage. Confirm no Agent A auth/pilot module edits.
 2. Review A's actual verify/inspect capability and legitimate A→J mapping. No cast,
    client-subject shortcut, mock session, Vercel badge or new B issuer is acceptable.

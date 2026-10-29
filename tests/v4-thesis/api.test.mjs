@@ -1,8 +1,11 @@
 import {test,before,after,beforeEach} from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
+import {createRequire} from 'node:module';
+import {join} from 'node:path';
 import {fixture,createBody,request,MINT,installedThesisRoute,THESIS_APPROVAL,PostgresThesisRate} from './fixture.mjs';
 let f,handler,s;
+const {adaptVerifiedOwnerPort}=createRequire(import.meta.url)(join(process.env.JOURNAL_BUILD,'lib/v4-thesis-api/owner-adapter.js'));
 before(async()=>{f=await fixture();});after(async()=>{await f?.close();});beforeEach(async()=>{await f.reset();handler=f.makeHandler();s=f.session();});
 const get=async r=>({status:r.status,body:await r.json()});
 async function create(){const body=createBody(),response=await get(await handler(request(s,undefined,'POST',body)));assert.equal(response.status,201);return {body,result:response.body};}
@@ -25,7 +28,7 @@ test('even forged injected context must carry principal from the repository auth
  const h=f.makeHandler({owners:{resolve:async()=>({principal:{},sessionTag:'a'.repeat(32),expiresAtMs:Date.now()+10000}),isCurrent:async()=>true,verifyCsrf:async()=>true}});
  assert.equal((await h(request(s,undefined,'POST',createBody()))).status,401);
 });
-for(const [name,headers] of [['cross origin',{Origin:'https://evil.invalid'}],['cross-site',{'Sec-Fetch-Site':'cross-site'}],['CSRF missing',{'X-CSRF-Token':''}],['other-session CSRF',{'X-CSRF-Token':'x'.repeat(32)}],['owner header',{'X-Owner-Id':'client-owner'}]])test(name+' fails before storage',async()=>{
+for(const [name,headers] of [['cross origin',{Origin:'https://evil.invalid'}],['cross-site',{'Sec-Fetch-Site':'cross-site'}],['CSRF missing',{'X-CSRF-Token':''}],['other-session CSRF',{'X-CSRF-Token':'x'.repeat(32)}],['owner header',{'X-Owner-Id':'client-owner'}],['missing journal intent',{'X-UNFARMD-V4-OWNER-INTENT':''}]])test(name+' fails before storage',async()=>{
  const r=await handler(request(s,undefined,'POST',createBody(),headers));assert.ok(r.status===400||r.status===403);assert.equal((await f.db.owner.query('SELECT count(*)::int AS n FROM unfarmd_journal.events')).rows[0].n,0);
 });
 test('no Origin on write, duplicate query, wrong method, mint alias and owner/body overrides fail closed',async()=>{
@@ -38,11 +41,11 @@ test('body limits, duplicate JSON keys, compression and content type cannot invo
 });
 test('unbounded/slow stream fails closed without write or retry',async()=>{
  const stream=new ReadableStream({start(c){c.enqueue(new Uint8Array(17000));c.close();}});
- const r=await handler(new Request('http://127.0.0.1:4288/api/v4/theses',{method:'POST',headers:{Cookie:'synthetic_thesis='+s.id,Origin:'http://127.0.0.1:4288','Content-Type':'application/json','X-CSRF-Token':s.csrf},body:stream,duplex:'half'}));assert.equal(r.status,413);
+ const r=await handler(new Request('http://127.0.0.1:4288/api/v4/theses',{method:'POST',headers:{Cookie:'synthetic_thesis='+s.id,Origin:'http://127.0.0.1:4288','X-UNFARMD-V4-OWNER-INTENT':'journal','Content-Type':'application/json','X-CSRF-Token':s.csrf},body:stream,duplex:'half'}));assert.equal(r.status,413);
 });
 test('absolute body deadline and excessive empty chunks cannot hold an unbounded authenticated stream',async()=>{
  for(const stream of [new ReadableStream({start(){}}),new ReadableStream({pull(c){c.enqueue(new Uint8Array());}})]){
-  const req=new Request('http://127.0.0.1:4288/api/v4/theses',{method:'POST',headers:{Cookie:'synthetic_thesis='+s.id,Origin:'http://127.0.0.1:4288','Content-Type':'application/json','X-CSRF-Token':s.csrf},body:stream,duplex:'half'});const r=await handler(req);assert.ok([413,503].includes(r.status));
+  const req=new Request('http://127.0.0.1:4288/api/v4/theses',{method:'POST',headers:{Cookie:'synthetic_thesis='+s.id,Origin:'http://127.0.0.1:4288','X-UNFARMD-V4-OWNER-INTENT':'journal','Content-Type':'application/json','X-CSRF-Token':s.csrf},body:stream,duplex:'half'});const r=await handler(req);assert.ok([413,503].includes(r.status));
  }
  assert.equal((await f.db.owner.query('SELECT count(*)::int AS n FROM unfarmd_journal.events')).rows[0].n,0);
 });
@@ -85,4 +88,24 @@ test('future durable rate clock denies, and actual outage cannot return a succes
 test('revocation after I/O denies response; in-flight outcome is never falsely reported as unsaved or deleted',async()=>{
  const {body}=await create(),original=f.owners.isCurrent;let calls=0;f.owners.isCurrent=async ctx=>{if(++calls===3)s.revoked=true;return original(ctx);};
  try{const r=await get(await handler(request(s,'/api/v4/theses/'+body.journalId+'?mint='+MINT)));assert.equal(r.status,401);assert.doesNotMatch(JSON.stringify(r.body),/original hypothesis/);}finally{f.owners.isCurrent=original;}
+});
+function upstream(){
+ const caps=new WeakMap(),authenticatedAt=Date.now()-1000;let revoked=false,subject=f.ownerId,calls=0;
+ const port={async verify(req){calls++;if(revoked)return null;const opaque=Object.freeze({});caps.set(opaque,{ownerSubject:subject,journalOwnerId:f.ownerId,issuer:'SYNTHETIC_OWNER',audience:new URL(req.url).origin,sessionId:s.id,authenticatedAt,verifiedAt:Date.now(),expiresAt:s.context.expiresAtMs});return opaque;},inspect(c){return caps.get(c)??null;}};
+ return {port,revoke(){revoked=true;},switch(){subject=f.otherId;},get calls(){return calls;}};
+}
+test('A-shaped opaque verify/inspect adapter uses legitimate J principal, fresh checks and unchanged actual method',async()=>{
+ const a=upstream(),methods=[],original=a.port.verify;a.port.verify=async req=>{methods.push(req.method);return original(req);};
+ const bridge=adaptVerifiedOwnerPort({source:a.port,authority:f.authority,principal:async()=>s.context.principal,csrf:async req=>req.headers.get('x-csrf-token')===s.csrf});
+ const h=f.makeHandler({owners:bridge}),r=await h(request(s,undefined,'POST',createBody()));assert.equal(r.status,201);assert.ok(a.calls>=3);assert.ok(methods.every(m=>m==='POST'));
+});
+test('opaque owner adapter denies cloned context, changed owner/session, revoked verifier and forged principal mapping',async()=>{
+ const a=upstream(),bridge=adaptVerifiedOwnerPort({source:a.port,authority:f.authority,principal:async()=>s.context.principal,csrf:async()=>true});
+ const req=request(s,undefined,'POST',createBody()),ctx=await bridge.resolve(req);assert.ok(ctx);assert.equal(await bridge.isCurrent({...ctx}),false);a.switch();assert.equal(await bridge.isCurrent(ctx),false);a.revoke();assert.equal(await bridge.resolve(req),null);
+ const forged=adaptVerifiedOwnerPort({source:upstream().port,authority:f.authority,principal:async()=>({}),csrf:async()=>true});assert.equal(await forged.resolve(req),null);
+});
+test('A current POST-only policy remains an explicit GET/PATCH integration HOLD; no synthesized verification request',async()=>{
+ const a=upstream(),verify=a.port.verify;a.port.verify=async req=>req.method==='POST'?verify(req):null;
+ const bridge=adaptVerifiedOwnerPort({source:a.port,authority:f.authority,principal:async()=>s.context.principal,csrf:async()=>true}),h=f.makeHandler({owners:bridge});
+ assert.equal((await h(request(s,'/api/v4/theses?mint='+MINT))).status,401);assert.equal((await h(request(s,'/api/v4/theses/'+randomUUID(),'PATCH',{mint:MINT,requestId:randomUUID(),expectedHead:null,action:'revise',thesis:'SYNTHETIC ONLY',invalidation:null}))).status,401);
 });

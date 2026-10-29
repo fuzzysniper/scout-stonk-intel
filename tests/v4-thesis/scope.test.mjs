@@ -1,6 +1,6 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {execFileSync} from 'node:child_process';
 import {assertSlice,BASE,EXCEPTIONS,ADDITIONS} from './review.mjs';
-test('exact226 ancestry, all original source/code/data/modes +five finite full patches and29 additions',()=>{assertSlice();assert.equal(EXCEPTIONS.length,5);assert.equal(ADDITIONS.length,29);});
+test('exact226 ancestry, all original source/code/data/modes +five finite full patches and30 additions',()=>{assertSlice();assert.equal(EXCEPTIONS.length,5);assert.equal(ADDITIONS.length,30);});
 for(const f of ['lib/v4-private-journal/index.ts','lib/v4-private-journal/repository.ts','lib/v4-private-journal/auth.ts','lib/v4-helius-pilot/server/index.ts','lib/onchain-mint/server/lookup-policy.ts','data/reward-snapshots.json',...EXCEPTIONS])test('passing control then reject source/guard/private/OFF tamper '+f,()=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'thesis228-negative-'));try{execFileSync('git',['clone','--shared',process.cwd(),root],{stdio:'ignore'});assertSlice(root);fs.appendFileSync(path.join(root,f),'\nUNREVIEWED\n');assert.throws(()=>assertSlice(root));}finally{fs.rmSync(root,{recursive:true,force:true});}
 });

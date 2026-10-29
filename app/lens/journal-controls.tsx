@@ -17,7 +17,7 @@ export default function JournalControls({mint,capability,thesis,counter,onLoad,o
  if(capability.kind!=='verified_owner'||!mint)return null;
  async function request(path:string,init:RequestInit={}){
   const controller=new AbortController();active.current=controller;const timer=setTimeout(()=>controller.abort(),5000);
-  try{const response=await fetch(path,{...init,credentials:'same-origin',cache:'no-store',redirect:'error',signal:controller.signal,headers:{...(init.method?{'Content-Type':'application/json','X-CSRF-Token':capability.kind==='verified_owner'?capability.csrfToken:''}:{}),...init.headers}});
+  try{const response=await fetch(path,{...init,credentials:'same-origin',cache:'no-store',redirect:'error',signal:controller.signal,headers:{'X-UNFARMD-V4-OWNER-INTENT':'journal',...(init.method?{'Content-Type':'application/json','X-CSRF-Token':capability.kind==='verified_owner'?capability.csrfToken:''}:{}),...init.headers}});
    if(!response.ok)throw Object.assign(Error('journal_request_failed'),{status:response.status});
    const reader=response.body?.getReader();if(!reader)throw Error('invalid_response');const parts:Uint8Array[]=[];let size=0;try{for(;;){const n=await reader.read();if(n.done)break;size+=n.value.byteLength;if(size>262144)throw Error('invalid_response');parts.push(n.value);}}finally{void reader.cancel().catch(()=>{});reader.releaseLock();}
    const bytes=new Uint8Array(size);let at=0;for(const part of parts){bytes.set(part,at);at+=part.length;}return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bytes));

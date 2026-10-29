@@ -38,5 +38,5 @@ export async function fixture(origin='http://127.0.0.1:4288'){
 }
 export const createBody=()=>({journalId:randomUUID(),mint:MINT,requestId:randomUUID(),thesis:'SYNTHETIC ONLY original hypothesis',invalidation:null});
 export function request(session,path='/api/v4/theses',method='GET',data,headers={}){
- return new Request('http://127.0.0.1:4288'+path,{method,headers:{...(session?{Cookie:'synthetic_thesis='+session.id,'X-CSRF-Token':session.csrf}:{}),Origin:'http://127.0.0.1:4288','Sec-Fetch-Site':'same-origin',...(data===undefined?{}:{'Content-Type':'application/json'}),...headers},...(data===undefined?{}:{body:typeof data==='string'?data:JSON.stringify(data)})});
+ return new Request('http://127.0.0.1:4288'+path,{method,headers:{...(session?{Cookie:'synthetic_thesis='+session.id,'X-CSRF-Token':session.csrf}:{}),Origin:'http://127.0.0.1:4288','X-UNFARMD-V4-OWNER-INTENT':'journal','Sec-Fetch-Site':'same-origin',...(data===undefined?{}:{'Content-Type':'application/json'}),...headers},...(data===undefined?{}:{body:typeof data==='string'?data:JSON.stringify(data)})});
 }

@@ -34,6 +34,7 @@ export function createThesisHandler(config:Readonly<{origin:string;owners:Verifi
    if(request.headers.get('origin')!==null&&request.headers.get('origin')!==config.origin)return reject(403,'origin_denied');
    if(write&&request.headers.get('origin')!==config.origin)return reject(403,'origin_denied');
    if(request.headers.has('x-owner-id')||request.headers.has('x-owner-email')||request.headers.has('x-wallet-address'))return reject(400,'owner_override_denied');
+   if(request.headers.get('x-unfarmd-v4-owner-intent')!=='journal')return reject(403,'journal_intent_required');
    const context=await bounded(config.owners.resolve(request));
    async function current(c:VerifiedOwnerContext|null){
     if(!c||typeof c.sessionTag!=='string'||!/^[A-Za-z0-9_-]{16,128}$/.test(c.sessionTag)||!Number.isSafeInteger(c.expiresAtMs)||Date.now()>=c.expiresAtMs||!await bounded(config.owners.isCurrent(c)))return reject(401,'session_required');

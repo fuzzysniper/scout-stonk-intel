@@ -5,6 +5,7 @@
     "app/api/v4/theses/route.ts",
     "app/api/v4/theses/[journalId]/route.ts",
     "lib/v4-thesis-api/owner-context.ts",
+    "lib/v4-thesis-api/owner-adapter.ts",
     "lib/v4-thesis-api/client-contract.ts",
     "lib/v4-thesis-api/installed.ts",
     "lib/v4-thesis-api/handler.ts",
