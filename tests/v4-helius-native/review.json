@@ -1,0 +1,52 @@
+{
+  "parent": "6efb0eb66a79087b9c7a59b9a06ad584e9130ee9",
+  "modified": {
+    "tests/v4-owner-ledger/review.mjs": {
+      "originalSha256": "d7d519207208094c3df0355ba88e2af5fabd3fda854cd485756a08a517f23517",
+      "reviewedSha256": "70a35ba1e04f720863130978237a81cda837232897b836abb79b994fb0b1cd42",
+      "patchSha256": "1f376ba8996dfb1adc2ae8d82f74504d9f5336c6a227a0b74f8706c665a91807"
+    },
+    "tests/v4-owner-ledger/scope.test.mjs": {
+      "originalSha256": "22acc563495ad3d1dc503058adafce5de0fefd47a44717de6e8d21821f35cb9d",
+      "reviewedSha256": "c44565f6ee317e6592afb05f141fada97c512f0a40713825ffe91b2174cfb3b2",
+      "patchSha256": "627ace22122fe59fa1b4f4cb44dd48a095a46b66a327f1dab36ffcb9f2df810f"
+    }
+  },
+  "added": [
+    ".github/workflows/v4-helius-native-offline.yml",
+    "docs/v4/helius-native-232.md",
+    "lib/v4-helius-native/capture.ts",
+    "lib/v4-helius-native/contract.ts",
+    "lib/v4-helius-native/index.ts",
+    "lib/v4-helius-native/producer.ts",
+    "lib/v4-helius-native/testing.ts",
+    "lib/v4-helius-native/transport.ts",
+    "tests/v4-helius-native/__init__.py",
+    "tests/v4-helius-native/engine_test.py",
+    "tests/v4-helius-native/fixtures.mjs",
+    "tests/v4-helius-native/native.test.mjs",
+    "tests/v4-helius-native/review.json",
+    "tests/v4-helius-native/review.mjs",
+    "tests/v4-helius-native/run.sh",
+    "tests/v4-helius-native/scope.test.mjs",
+    "tests/v4-helius-native/security.test.mjs",
+    "tests/v4-helius-native/source-history.sh"
+  ],
+  "newFiles": {
+    ".github/workflows/v4-helius-native-offline.yml": "a884ad627d2c7ed18e068e9dc4a367beda5d6b0463c6b503cdeb3dca0e087b86",
+    "docs/v4/helius-native-232.md": "cd49876d72ee9dfd91f81850dfa3fb5a6dd004fa56e19f213e0294a4ef72f507",
+    "lib/v4-helius-native/capture.ts": "96dde314dfdf88e1c8a765e57d32ffa712e53f4bdc131d5dd8dd3c2009c72433",
+    "lib/v4-helius-native/contract.ts": "fec08d0212a63155626816ef578e06071e0370c685a80f769518036eec404baf",
+    "lib/v4-helius-native/index.ts": "c266cb8e0ffe8c41782a089de73b203df827a9b9721fa19e0e22b97220aa4976",
+    "lib/v4-helius-native/producer.ts": "1e69ecc3b5e4294d22114accb3223505c7957bf3bada1ee6c9e8aa622c43a876",
+    "lib/v4-helius-native/testing.ts": "8b33965192770cf7771632a2874981af730d81d04d71daaf09adacba1973d51d",
+    "lib/v4-helius-native/transport.ts": "2019467a2b48943090c03fe38bb750daca4ed48a39d326eef97e09fdc2214c4b",
+    "tests/v4-helius-native/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/v4-helius-native/engine_test.py": "660b73f3e8b1d6ea191d5d33947b561e1d5a1ca3c611455c74f7a2bbea7f6f0b",
+    "tests/v4-helius-native/fixtures.mjs": "0736d234e017000417bb753f3bddead805783a0064e49abf5f07189d100cadce",
+    "tests/v4-helius-native/native.test.mjs": "b1eb45f95769c36d2adc8f380d0c9d5616ddb7777376e97a660ae45dbf7ad03a",
+    "tests/v4-helius-native/run.sh": "6a3ac0f7d85b32e364b519489445f93763236b592a04ff165f272f6236f2c383",
+    "tests/v4-helius-native/security.test.mjs": "6f58f7f4b303dc66ea3a33f09c014772fb8171d0bd842b82dc3c4c32491e0d3d",
+    "tests/v4-helius-native/source-history.sh": "1da77a784d61bc105e9177572723066a0b2f71ac0e0b859fd51d4026d3a451d2"
+  }
+}
