@@ -1,0 +1,92 @@
+name: V4.4 genuine owner encrypted thesis OFF
+on:
+  pull_request:
+    branches: [feat/227-owner-pg-off]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  full-native-joint-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Current finite composition and all unchanged original source controls
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v4-owner-thesis/scope.test.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-owner-thesis/source-history.sh
+      - name: Complete root Node Python actual native PG TLS owner journal pilot STOP
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm test
+      - name: Types lint optimized OFF build exact target archive and final guard
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-thesis/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/live-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/built-api.mjs
+          bash scripts/archive-tool.sh check 6efb0eb66a79087b9c7a59b9a06ad584e9130ee9
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v4-owner-thesis/scope.test.mjs
+  genuine-mobile-and-OFF:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Local Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Disposable fixture may bind local HTTPS443 without rewriting A origin policy
+        run: sudo sysctl -w net.ipv4.ip_unprivileged_port_start=443
+      - name: Actual A Better Auth to J encrypted Save Load revision, CSRF, uncertain outcome
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-owner-thesis/run.sh browser
+      - name: Original B mobile history/conflict/pending/ambiguity controls
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-thesis/run.sh browser
+      - name: Build installed OFF, original mobile privacy and native auth STOP
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-thesis/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-integration/snapshots.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/consumer-homepage/playwright.config.mjs
+          NODE_ENV=test NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: local-signed-owner-journal-mobile
+          path: tests/v4-owner-thesis/screenshots/
+          retention-days: 3
+      - name: Restore only generated QA screenshots then final exact guard
+        run: |
+          git restore -- docs/live-feed-167/screenshots/{locked,disabled}-{320,390,1280}.png docs/live-feed-167/disabled-{320,390,1280}.json
+          git restore -- docs/screenshots/continuous-local-qa/parent-stop-{320,390,1280}.png tests/v4-integration/screenshots/after-{320,390,1280}.png tests/v4-thesis/screenshots/local-save-history-{320,390,1280}.png tests/v4-owner-thesis/screenshots/local-bridge-{320,390,1280}.png
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v4-owner-thesis/scope.test.mjs

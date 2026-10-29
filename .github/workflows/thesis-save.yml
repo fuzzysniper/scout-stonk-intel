@@ -1,0 +1,82 @@
+name: Thesis slice OFF native security
+on:
+  pull_request:
+    branches: [integration/v4-alpha-private-disabled]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  native-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Exact current and all original A B C J P guard checks
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v4-thesis/scope.test.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-private-integration/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-thesis/source-history.sh
+      - name: Full root, native PostgreSQL TLS, auth STOP and actual Save API
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm test
+      - name: Types lint build actual installed OFF and archive
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-thesis/built-off.mjs
+          bash scripts/archive-tool.sh check 4af9532709c3a9bca9efe71356124328955a2877
+          node --test tests/v4-thesis/scope.test.mjs
+  browser-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Local Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Actual React plus synthetic auth and native TLS PostgreSQL Save Load revision
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-thesis/run.sh browser
+      - name: Guarded optimized OFF routes and original mobile auth STOP
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-thesis/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-integration/snapshots.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/consumer-homepage/playwright.config.mjs
+          NODE_ENV=test NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
+      - name: Restore only generated QA captures, final full guards
+        run: |
+          git restore -- docs/live-feed-167/screenshots/{locked,disabled}-{320,390,1280}.png docs/live-feed-167/disabled-{320,390,1280}.json
+          git restore -- docs/screenshots/continuous-local-qa/parent-stop-{320,390,1280}.png tests/v4-integration/screenshots/after-{320,390,1280}.png tests/v4-thesis/screenshots/local-save-history-{320,390,1280}.png
+          node --test tests/v4-thesis/scope.test.mjs tests/v4-private-integration/scope.test.mjs
