@@ -1,6 +1,6 @@
 import 'server-only';
 // Exact reviewed SQL function body, not a self-healing or automatic migration check.
-export const STEP_SHA = 'df5b3955aadf8e9451c4f95aaa8eb507ad6a447111eb686ba95283c722fef202';
+export const STEP_SHA = 'deda6ec6b8e3bbf6df9c405e69815fc67a112d58e10f753fd4ae7a01b835e35e';
 export const PROOF_SQL = `SELECT
  current_setting('fsync')='on' AND current_setting('synchronous_commit')='on' AND NOT pg_is_in_recovery()
  AND EXISTS(SELECT 1 FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace JOIN pg_roles r ON r.oid=p.proowner

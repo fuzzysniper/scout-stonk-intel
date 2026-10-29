@@ -58,6 +58,7 @@ CREATE FUNCTION unfarmd_v4_pilot.step(c jsonb, caller uuid, expected_hash text) 
 DECLARE p unfarmd_v4_pilot.policy;s unfarmd_v4_pilot.state; stored unfarmd_v4_pilot.permits;
  k text:=c->>'kind';t bigint;server_t bigint;pol text;own text;m text;v_permit jsonb;l jsonb;r jsonb;reply jsonb;why text;
 BEGIN
+ IF current_setting('fsync')<>'on' OR current_setting('synchronous_commit')<>'on' OR pg_is_in_recovery() THEN RAISE EXCEPTION 'pilot_durability_required';END IF;
  IF octet_length(c::text)>8192 OR caller IS NULL OR expected_hash IS NULL OR expected_hash!~'^[a-f0-9]{64}$' OR jsonb_typeof(c)<>'object' THEN RAISE EXCEPTION 'pilot_invalid'; END IF;
  IF k IS NULL OR k NOT IN ('admit','reserve','finish','stop') THEN RAISE EXCEPTION 'pilot_invalid';END IF;
  IF NOT c ?& (CASE WHEN k='admit' THEN ARRAY['kind','policyHash','ownerSubject','mint','now'] WHEN k='stop' THEN ARRAY['kind','policyHash','ownerSubject','reason','now'] WHEN k='reserve' THEN ARRAY['kind','permit','now'] ELSE ARRAY['kind','permit','lease','report','now'] END) THEN RAISE EXCEPTION 'pilot_invalid';END IF;

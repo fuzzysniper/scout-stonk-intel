@@ -61,16 +61,16 @@
     "lib/v4-owner-ledger/commands.ts": "4092a079799546ff1c6e528a673c9630bb63f9c62af3c75873eae9dc401222ba",
     "lib/v4-owner-ledger/contract.ts": "74f188b2d24c3a49c2cb237231469d5b3304916d89b7991d07e81229e3958eb9",
     "lib/v4-owner-ledger/index.ts": "a61e3a26432bdfdae67a9a1297ea19549fd6999ef526d8cce3f72f89e793e845",
-    "lib/v4-owner-ledger/ledger.ts": "6ae0a7ce4a83ad8dd6d39148023286d708b4457eeda5d093ec9fff41ad77cae4",
+    "lib/v4-owner-ledger/ledger.ts": "a0a540010619b09c78a3ed737ba06e5de47563b417ccbdf3abf643dc623485be",
     "lib/v4-owner-ledger/postgres.ts": "ff58b8db8f75c10beff9e26b22212974271e9f7042cd01410bdadd433ba076a4",
-    "lib/v4-owner-ledger/schema.sql": "517654fb88adb4478b022371056157272c1c65c26136a8503cd15d04a283d351",
-    "lib/v4-owner-ledger/sql-proof.ts": "d9681dd9c91ad134e90bb61c491c366eed3bd9aab6247bd2850cf66e0848a210",
+    "lib/v4-owner-ledger/schema.sql": "a46364732965ad271e9713913d2c6ded72abf520635ae9d69bbb4a54a4092322",
+    "lib/v4-owner-ledger/sql-proof.ts": "e74fe4610b44a7303eec72a9092f559675c1628ad198e4795ed669fe9ec4396f",
     "tests/v4-owner-ledger/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "tests/v4-owner-ledger/engine_test.py": "662eaa5cc51fc1d6a6fe2a1fa28f08b920dee8d6815a31a899cfa1f78ca60248",
     "tests/v4-owner-ledger/fixtures.mjs": "11c28674bb6a231a1aff93fcea02560df502161a83e14346605613b49902b0b4",
-    "tests/v4-owner-ledger/native.test.mjs": "8948e85cb9b369eaabea299190c170be85e6087b301ca28783716167b8b0edd3",
+    "tests/v4-owner-ledger/native.test.mjs": "10c3d08e92ef425f84d8b6c6cf7f64af83b2de6b8bf03a20ed8f04b5b8649b13",
     "tests/v4-owner-ledger/run.sh": "dc54fef321836622b03a5768a07e491f907796bd967b30e200bc96226699adea",
-    "tests/v4-owner-ledger/security.test.mjs": "96e22d4fb14add496648e531421df602befb07f8172adfda890eeffc58593efa",
+    "tests/v4-owner-ledger/security.test.mjs": "d269e644c65ca763a17c41a073ef00b87bbb02aa20a61b6795fdcbbcf9149673",
     "tests/v4-owner-ledger/source-history.sh": "8a2c89bb33851e36099338983af0a751c6131c0992cb7ac335e292262b5a9a02"
   }
 }

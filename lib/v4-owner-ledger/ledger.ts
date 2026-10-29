@@ -29,18 +29,19 @@ export function createPostgresPilotLedger(pool: Pool, host: string, profileInput
     } finally { c.release(!committed); }
   };
   return Object.freeze({ scope: 'global_atomic_durable' as const, async transact(command: LedgerCommand): Promise<LedgerReply> {
-    if (terminal && command.kind !== 'stop') return { kind:'denied',reason:'stopped' };
+    let isStop = false;
     try {
       // Snapshot plain JSON before await; no mutable request object crosses the DB boundary.
-      const stable = snapshotCommand(command);
+      const stable = snapshotCommand(command); isStop = stable.kind === 'stop';
+      if (terminal && !isStop) return { kind:'denied',reason:'stopped' };
       const reply = await transaction(stable);
-      if (terminal && command.kind !== 'stop') throw unavailable();
+      if (terminal && !isStop) throw unavailable();
       if (reply.kind==='stopped' || reply.kind==='denied' && ['stopped','invalid_clock'].includes(reply.reason)) terminal=true;
       return reply;
     } catch {
       terminal = true;
       // One best-effort terminal write. Unknown ACK is NEVER retried as the original operation.
-      if (command.kind !== 'stop') {
+      if (!isStop) {
         stopAttempt ??= transaction({kind:'stop',policyHash:hash,ownerSubject:profile.ownerSubject,reason:'uncertain',now:0}).catch(() => undefined);
         await stopAttempt; // One attempt total, even with multiple simultaneous failures. Never an ACK claim.
       }
