@@ -11,6 +11,7 @@ export function candidate(){
  const step=source.slice(source.indexOf('CREATE FUNCTION unfarmd_v4_pilot.step')).split('AS $f$')[1].split('$f$;')[0];
  if(!step)throw Error('source_function_missing');
  const patchedStep=replaceOne(step,OLD_STEP,NEW_STEP),admission=fs.readFileSync(path.join(root,'ops/v4-neon-durability/admission.sql'),'utf8');
+ if(!admission.includes("IS NOT DISTINCT FROM 'ep-tiny-truth-b4bx6xt9.c-6.us-east-2.aws.neon.tech'")||!admission.includes("IS DISTINCT FROM 'ep-tiny-truth-b4bx6xt9.c-6.us-east-2.aws.neon.tech'"))throw Error('direct_host_pin_missing');
  const admissionBody=admission.split('AS $neon$')[1]?.split('$neon$;')[0];if(!admissionBody)throw Error('admission_function_missing');
  let sql=conventional();
  sql=replaceOne(sql,OLD_STEP,NEW_STEP);

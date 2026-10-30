@@ -1,0 +1,77 @@
+{
+  "base": "add2a47a3707cca0d380325b09552b0aff0613ad",
+  "inputs": [
+    "1133d6813e6913a6846cd08f11117f2a0635d6b1",
+    "696ca6c5698c75fc926bff4623a563f6994ce032",
+    "11d97aab4823bdac797019322beeefe32a578003",
+    "698021ea716c390072872e3d482aae188375b186"
+  ],
+  "added": [
+    ".github/workflows/neon-direct-host-off.yml",
+    "docs/v4/neon-direct-host-241.md",
+    "tests/v4-neon-host/affected.sh",
+    "tests/v4-neon-host/browser.sh",
+    "tests/v4-neon-host/host.test.mjs",
+    "tests/v4-neon-host/postgres.test.mjs",
+    "tests/v4-neon-host/replay.sh",
+    "tests/v4-neon-host/review.json",
+    "tests/v4-neon-host/review.mjs",
+    "tests/v4-neon-host/scope.test.mjs"
+  ],
+  "exceptions": {
+    "docs/v4/neon-durability-239.md": {
+      "originalSha256": "abd38986faf5b78532f07af9c5b53a33d120d3ea2ba46293c760c011dba2cdf6",
+      "reviewedSha256": "858103b1757a3b650bb4f787ff762f7f6f053382400f33ef6765a27e0d5adc4c",
+      "patchSha256": "af3514c3135a1c7e268acbdb866852cd5f4e6ab90733e6c96931d2bcb88ee1d1"
+    },
+    "lib/v4-owner-ledger/neon-durability.ts": {
+      "originalSha256": "b1e7d9227c404282d9497b66f5812726b7117c4ff13e334e46b330e722f04206",
+      "reviewedSha256": "6a07436591c38dbc57e9b3937869db325b2711aec60bdbb6c6e3db60f455ce37",
+      "patchSha256": "b1d2a9cccc1a6e13c549b848fcfcb85aa68f67baf0977cd5b98e46f8754dd605"
+    },
+    "ops/v4-journal/native-tls.mjs": {
+      "originalSha256": "e87c3b1ff2bffeabd60eb85717d87aeda44868bc1df6f12f5e9ccfde5efa936d",
+      "reviewedSha256": "a4858a42375cf85b38bc8b1c61768bb7f51858a5245fe12796246d7f39d80308",
+      "patchSha256": "7380efbf8066f2ceda77e3a4596223e7e004f354f4b59c4611f3c39385b02d6b"
+    },
+    "ops/v4-neon-durability/admission.sql": {
+      "originalSha256": "fa215611fd3065bdfadf4a0a367e27f654a30eacbe0b8c901f610b1aea14e87c",
+      "reviewedSha256": "9092c39aacbf1c05714e8dddaecf9b7f39c88f181de84921a077ca76870b204d",
+      "patchSha256": "06311675e9afeb003db4ac3ab114e33d95671c219e3613f3d0422e35cc7d25a9"
+    },
+    "ops/v4-neon-durability/evidence.json": {
+      "originalSha256": "0756f3910bc125dec2ca0c8663fe966582c5a5b5c8f080677aa3fa8b071acb7d",
+      "reviewedSha256": "d7f94d6a5e39428430e97fbc108d6e63e46a63cb5f73e6a73ab9e6796f9fd122",
+      "patchSha256": "6fa24a28251e266412b6b86df8a4dac825a3010f92594a15c4ddc8ec30aaad9f"
+    },
+    "ops/v4-neon-durability/probe.mjs": {
+      "originalSha256": "ad85d5a0a1c21bb1dfe51855a03e2ec0323db084ae9d881d29fa4fe4090f99da",
+      "reviewedSha256": "f169d13824f868213b98e8311af8bcae7be55a5bcf4fa59680ef9963e0a2c7d5",
+      "patchSha256": "7b6dccfcb3c0ec341270d2b62c61bcce5ad5dbda56d323b3531ddf4712c51926"
+    },
+    "ops/v4-neon-durability/render.mjs": {
+      "originalSha256": "439e50ca3cbf61ce976813ef869c671dcced3f6958a34b61612d33bb82d152f6",
+      "reviewedSha256": "c59b46483c6341c5b81dca9b786709253bfbaa3bb4b540d08a9d8222cdf2042a",
+      "patchSha256": "0204d42a26af90f5d1402b7041448ff050d69f2c4ce3ff9a9dfb9d3a30b69e44"
+    },
+    "tests/v4-neon-durability/postgres18.test.mjs": {
+      "originalSha256": "fb38bf606f15b1d8d6640dbd456661b4d347cd1f971d1938352e5a7c62e3e8a3",
+      "reviewedSha256": "26e09ba420a8ecc45baff2f86807eb7c271608489d7497c5ed6bc9057356a135",
+      "patchSha256": "d9fbaa481f628c502740f04791d97a6e10785a782beb6f6a4b2232e43edad135"
+    },
+    "tests/v4-neon-durability/signing.mjs": {
+      "originalSha256": "6adca378067d77d81bcf4818230f898fde4cf4dac48e52ca66a5b15550ed3d50",
+      "reviewedSha256": "056f7016d7ab0edfb66e2484e56c035fed93f770e5ba19e3e2579cd1530efebe",
+      "patchSha256": "e611f5f6b78d54f050d935cea1927ba925bcef811fdeeaf491c5ef8965b383c8"
+    }
+  },
+  "newFiles": {
+    ".github/workflows/neon-direct-host-off.yml": "0c722ffb2fbfb29ef3bbd0e4e074d06a08e88b6ee1abc93625e0ca1113811cc0",
+    "docs/v4/neon-direct-host-241.md": "4129275be5a1238fef4a36150326848bf871d6d84e56fb2e94b0826a7cb9f403",
+    "tests/v4-neon-host/affected.sh": "303a0adb3b818bb65fe9ae805f1894ade8a880214c0a94c25b2489bc6bc53614",
+    "tests/v4-neon-host/browser.sh": "9cbd2c7199a6e9d7d83cf7b2d0ddfddf4d0bc2c04a91060e80bd06d27da2585b",
+    "tests/v4-neon-host/host.test.mjs": "5ec1a581cba8d55617af71c09ef22b794932539cc79427718ea35715d04c9216",
+    "tests/v4-neon-host/postgres.test.mjs": "ba892a14325911041a16ce088d0008fdcb8a1c97da20dd664d890021f0a26b87",
+    "tests/v4-neon-host/replay.sh": "8eae68714f461a456939d3bc4c07348fce9ff43d685fe643a9ddbfb2d2212f0d"
+  }
+}

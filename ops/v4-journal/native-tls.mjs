@@ -6,12 +6,16 @@ import {createHash} from 'node:crypto';
 import {checkServerIdentity,TLSSocket} from 'node:tls';
 const require=createRequire(import.meta.url),{Client}=require('pg');
 const fail=()=>new Error('journal_native_unavailable');
+// Nonsecret #241 owner-reported direct target; never an automatic connection/selection.
+export const NEON_DIRECT_HOST='ep-tiny-truth-b4bx6xt9.c-6.us-east-2.aws.neon.tech';
+export const isPoolerHost=host=>typeof host==='string'&&host.split('.')[0].toLowerCase().endsWith('-pooler');
 const proof=new WeakSet();
 let driverChecked=false;
 function checkDriver(){if(driverChecked)return;const m=JSON.parse(fs.readFileSync(new URL('./sources.json',import.meta.url),'utf8'));if(require('pg/package.json').version!==m.driver.version)throw fail();for(const [file,hash] of Object.entries(m.driver.files))if(createHash('sha256').update(fs.readFileSync(require.resolve(file))).digest('hex')!==hash)throw fail();driverChecked=true;}
 export function tlsVerified(c){const s=c.connection?.stream;return !!(s instanceof TLSSocket&&s.encrypted&&s.authorized&&s.servername===c.__journalHost&&['TLSv1.2','TLSv1.3'].includes(s.getProtocol?.()??''));}
 export class StrictJournalClient extends Client{
  constructor(config){
+  if(!config||isPoolerHost(config.host))throw fail();
   checkDriver();if(!config||config.connection!==undefined||config.stream!==undefined||config.ssl?.checkServerIdentity!==undefined&&config.ssl.checkServerIdentity!==checkServerIdentity||config.connectionString!==undefined||config.database!=='unfarmd_v4_pilot'||config.ssl?.rejectUnauthorized!==true||!config.ssl?.servername||config.ssl.servername!==config.host||config.enableChannelBinding!==true||!Number.isInteger(config.connectionTimeoutMillis)||config.connectionTimeoutMillis<1||config.connectionTimeoutMillis>1000)throw fail();
   super(config);Object.defineProperty(this,'__journalHost',{value:config.host});
  }
@@ -26,7 +30,7 @@ export class StrictJournalClient extends Client{
 export const strictBindingEstablished=c=>proof.has(c)&&tlsVerified(c);
 export function configuration(dsn,approvedHost,ca){
  try{
-  if(typeof dsn!=='string'||dsn.length>4096||!/^ep-[a-z0-9-]+\.[a-z0-9.-]+\.neon\.tech$/.test(approvedHost)||approvedHost.includes('-pooler.')||typeof ca!=='string'||!ca.includes('BEGIN CERTIFICATE'))throw fail();
+  if(typeof dsn!=='string'||dsn.length>4096||!/^ep-[a-z0-9-]+\.[a-z0-9.-]+\.neon\.tech$/.test(approvedHost)||isPoolerHost(approvedHost)||typeof ca!=='string'||!ca.includes('BEGIN CERTIFICATE'))throw fail();
   const u=new URL(dsn);if(!['postgres:','postgresql:'].includes(u.protocol)||u.hostname!==approvedHost||u.pathname!=='/unfarmd_v4_pilot'||u.hash||u.port&&u.port!=='5432')throw fail();
   if(u.searchParams.get('sslmode')!=='verify-full'||u.searchParams.get('channel_binding')!=='require'||[...u.searchParams].length!==2)throw fail();
   const user=decodeURIComponent(u.username),password=decodeURIComponent(u.password);
@@ -34,3 +38,5 @@ export function configuration(dsn,approvedHost,ca){
   return {host:approvedHost,port:5432,database:'unfarmd_v4_pilot',user,password,ssl:{ca,servername:approvedHost,rejectUnauthorized:true,minVersion:'TLSv1.2',checkServerIdentity},enableChannelBinding:true,connectionTimeoutMillis:1000,query_timeout:1200,statement_timeout:800,application_name:'unfarmd-v4-journal',options:'-c search_path=pg_catalog'};
  }catch{throw fail();}
 }
+/** Pure #241 project wrapper. Wrong DSN host fails before Client/password handling; no connection. */
+export function pinnedNeonConfiguration(dsn,ca){return configuration(dsn,NEON_DIRECT_HOST,ca);}
