@@ -1,0 +1,75 @@
+{
+  "version": "unfarmd-neon-durability-evidence/1",
+  "retrievedAt": "2026-10-29",
+  "neonSourceCommit": "fa504217c61bbcaf5c512d75830564541f917f8f",
+  "sources": [
+    {
+      "url": "https://neon.com/docs/introduction/architecture-overview",
+      "kind": "official_documentation",
+      "sha256": "6c093c833d819dd4e8de89590898d8818642897ff78f8987383e6d5da78d3f32"
+    },
+    {
+      "url": "https://neon.com/docs/reference/compatibility",
+      "kind": "official_documentation",
+      "sha256": "ae3217e658ac7956066bbde075a89dfafeea3aec63fcb16b6b3f69783f49ee6c"
+    },
+    {
+      "url": "https://neon.com/docs/connect/connect-securely",
+      "kind": "official_documentation",
+      "sha256": "7be02848378b262de07de9d988c9e6be81e4d3bdf7d9d339a30f96096a73b809"
+    },
+    {
+      "url": "https://neon.com/docs/reference/glossary",
+      "kind": "official_documentation",
+      "sha256": "e9117875f7be75909bbe518946b140ac9c2fa9a2751811a6de0767fd7ca1eca9"
+    },
+    {
+      "url": "https://github.com/neondatabase/neon/blob/fa504217c61bbcaf5c512d75830564541f917f8f/pgxn/neon/walproposer.c",
+      "kind": "official_source",
+      "commit": "fa504217c61bbcaf5c512d75830564541f917f8f",
+      "sha256": "ee3580269ecc6d11a3c85bd09211a09063f9f96d4f5e67a12bfbdfb8d13eb331"
+    },
+    {
+      "url": "https://github.com/neondatabase/neon/blob/fa504217c61bbcaf5c512d75830564541f917f8f/pgxn/neon/walproposer_pg.c",
+      "kind": "official_source",
+      "commit": "fa504217c61bbcaf5c512d75830564541f917f8f",
+      "sha256": "2cfb7b3bea81ebaeee86fb12906435a49bb98770e7cd326a1dad986f267f51bd"
+    },
+    {
+      "url": "https://github.com/neondatabase/neon/blob/fa504217c61bbcaf5c512d75830564541f917f8f/safekeeper/src/wal_storage.rs",
+      "kind": "official_source",
+      "commit": "fa504217c61bbcaf5c512d75830564541f917f8f",
+      "sha256": "ce4cb89287a6952583ba80cb1d19ec35c3af11c112a7634eb9f09d09aff17ea2"
+    },
+    {
+      "url": "https://github.com/neondatabase/neon/blob/fa504217c61bbcaf5c512d75830564541f917f8f/docs/safekeeper-protocol.md",
+      "kind": "official_source",
+      "commit": "fa504217c61bbcaf5c512d75830564541f917f8f",
+      "sha256": "3fc23e12369472e255455ebc3492d29585e2504a7c64db20b16014e909121b8d"
+    },
+    {
+      "url": "https://github.com/neondatabase/neon/blob/fa504217c61bbcaf5c512d75830564541f917f8f/pgxn/neon/libpagestore.c",
+      "kind": "official_source",
+      "commit": "fa504217c61bbcaf5c512d75830564541f917f8f",
+      "sha256": "aa146f24cc76912135358500303595a4a1f9b616b588caf431156b9a09967f6b",
+      "blobSha": "87bdbf376c89590747f35db8b80990dcf7d27b31"
+    }
+  ],
+  "founderReportedProject": {
+    "id": "twilight-hall-57571802",
+    "branch": "br-sweet-voice-b4x4et5q",
+    "databaseExists": "neondb",
+    "prospectiveDatabase": "unfarmd_v4_pilot",
+    "databaseCreationApproved": false,
+    "major": 18,
+    "minorReported": "18.6",
+    "nativeObservationPerformed": false,
+    "hostedSqlExecutedByThisTask": false
+  },
+  "localPostgresSource": {
+    "repository": "postgres/postgres",
+    "tag": "REL_18_6",
+    "commit": "724edf9bde9d356724ad384a2e196edc3c9f80f7",
+    "archiveSha256": "970fe3be21ec37e7a11addcc6bf81da71de95b5a830f4bd7c3744476486a002c"
+  }
+}

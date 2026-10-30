@@ -1,0 +1,54 @@
+{
+  "base": "1133d6813e6913a6846cd08f11117f2a0635d6b1",
+  "inputs": [
+    "696ca6c5698c75fc926bff4623a563f6994ce032",
+    "11d97aab4823bdac797019322beeefe32a578003",
+    "698021ea716c390072872e3d482aae188375b186"
+  ],
+  "added": [
+    "lib/v4-owner-ledger/neon-durability.ts",
+    "ops/v4-journal/native-tls.d.mts",
+    "ops/v4-neon-durability/admission.sql",
+    "ops/v4-neon-durability/render.mjs",
+    "ops/v4-neon-durability/probe.mjs",
+    "ops/v4-neon-durability/evidence.json",
+    "tests/v4-neon-durability/run.sh",
+    "tests/v4-neon-durability/contract.test.mjs",
+    "tests/v4-neon-durability/postgres18.test.mjs",
+    "tests/v4-neon-durability/signing.mjs",
+    "tests/v4-neon-durability/build-pg18.sh",
+    "tests/v4-neon-durability/replay.sh",
+    "tests/v4-neon-durability/browser.sh",
+    "tests/v4-neon-durability/built-off.sh",
+    "tests/v4-neon-durability/review.mjs",
+    "tests/v4-neon-durability/review.json",
+    "tests/v4-neon-durability/scope.test.mjs",
+    "docs/v4/neon-durability-239.md",
+    ".github/workflows/neon-durability-off.yml"
+  ],
+  "exceptions": {
+    "lib/v4-owner-ledger/ledger.ts": {
+      "originalSha256": "a0a540010619b09c78a3ed737ba06e5de47563b417ccbdf3abf643dc623485be",
+      "reviewedSha256": "0479c72ea8e360a2350f4e65e59ae8345b1994b4890a5b61164b8cb60f99c7cc",
+      "patchSha256": "876c00fa598dfa68b7908acddc4d4c6639133b515736ea8cbffa5d4267539034"
+    }
+  },
+  "newFiles": {
+    "lib/v4-owner-ledger/neon-durability.ts": "b1e7d9227c404282d9497b66f5812726b7117c4ff13e334e46b330e722f04206",
+    "ops/v4-journal/native-tls.d.mts": "2b760d3222bab317bc4d8e7fdcd35c91a9cf193a360f982a02da1742bf357bd1",
+    "ops/v4-neon-durability/admission.sql": "fa215611fd3065bdfadf4a0a367e27f654a30eacbe0b8c901f610b1aea14e87c",
+    "ops/v4-neon-durability/render.mjs": "439e50ca3cbf61ce976813ef869c671dcced3f6958a34b61612d33bb82d152f6",
+    "ops/v4-neon-durability/probe.mjs": "ad85d5a0a1c21bb1dfe51855a03e2ec0323db084ae9d881d29fa4fe4090f99da",
+    "ops/v4-neon-durability/evidence.json": "0756f3910bc125dec2ca0c8663fe966582c5a5b5c8f080677aa3fa8b071acb7d",
+    "tests/v4-neon-durability/run.sh": "7e945287d16c1aa605a7ef1a5e2f771e32f1b48e97446f61fc557a2c56098468",
+    "tests/v4-neon-durability/contract.test.mjs": "9d2c1cdeeeba6756a108fa75fdd722b27dc257a3cd21d77f35b58765c9d75cb5",
+    "tests/v4-neon-durability/postgres18.test.mjs": "fb38bf606f15b1d8d6640dbd456661b4d347cd1f971d1938352e5a7c62e3e8a3",
+    "tests/v4-neon-durability/signing.mjs": "6adca378067d77d81bcf4818230f898fde4cf4dac48e52ca66a5b15550ed3d50",
+    "tests/v4-neon-durability/build-pg18.sh": "2d9ff97b7a18a55822c30549f9a5ad9ec80ebeb4ec3a98580b691a2c51248e2d",
+    "tests/v4-neon-durability/replay.sh": "7ab5a7065f742a9ffe4c301c296d7565a65e9b5896dbf93f3c0454ed58297c4f",
+    "tests/v4-neon-durability/browser.sh": "39669a2842bb59d8f3a0be418397061fe0a92d1249be41b7ff791152cfacb216",
+    "tests/v4-neon-durability/built-off.sh": "303929539680339c106a1bc1d468008ef0e3e962448e8035bed7fc04d7a70176",
+    "docs/v4/neon-durability-239.md": "abd38986faf5b78532f07af9c5b53a33d120d3ea2ba46293c760c011dba2cdf6",
+    ".github/workflows/neon-durability-off.yml": "30a0cf64da1d7b940666c07fa400dcd08342733072d26c03c1a8a63def891f52"
+  }
+}
