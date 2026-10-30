@@ -4,12 +4,11 @@ import {parseJupiterCapture} from './market';
 import {assemble,unavailable} from './result';
 import type {MarketEvidence} from './contract';
 import {presentIntelligence} from '../v4-owner-preview/presentation';
+import {internalMarketPreview,marketPreviewHost} from './private-development-gate';
 
 // This isolated lane is for the founder's Vercel-authenticated INTERNAL DEVELOPMENT
 // preview only. No Helius, keys, public routes, paid plans, exports or persistence.
 // Production/main, other feature branches and unsigned local builds remain OFF.
-const PROJECT='prj_OaA9snVrMUkpXuz6cMSKfSZ6fx5Q';
-const BRANCH='feat/250-jupiter-private-market';
 const jsonHeaders={
  'Cache-Control':'private, no-store, max-age=0',
  'Content-Type':'application/json; charset=utf-8',
@@ -17,15 +16,6 @@ const jsonHeaders={
  'Referrer-Policy':'no-referrer',
  'Vary':'Cookie, Origin',
 };
-const urlHost=()=>process.env.VERCEL_URL??'';
-export function internalMarketPreview():boolean{
- const host=urlHost();
- return process.env.VERCEL_ENV==='preview'
-  &&process.env.VERCEL_PROJECT_ID===PROJECT
-  &&process.env.VERCEL_GIT_COMMIT_REF===BRANCH
-  &&/^scout-stonk-intel-[a-z0-9-]+-riskledgerapp\.vercel\.app$/.test(host)
-  &&!(process.env.UNFARMD_OWNER_RELEASE||'').trim();
-}
 const response=(body:unknown,status=200)=>Response.json(body,{status,headers:jsonHeaders});
 function bodyTooLarge(reader:ReadableStreamDefaultReader<Uint8Array>,limit:number){
  return (async()=>{let total=0;const parts:Uint8Array[]=[];try{for(;;){const c=await reader.read();if(c.done)break;total+=c.value.byteLength;if(total>limit)throw Error('bounded_response');parts.push(c.value);}}finally{void reader.cancel().catch(()=>{});reader.releaseLock();}
@@ -54,12 +44,12 @@ export async function inspectPrivateDevelopment(request:Request):Promise<Respons
  if(!internalMarketPreview())return response({error:'private_development_off'},503);
  let mint:string|null=null;
  try{
-  const u=new URL(request.url),origin='https://'+urlHost();
+  const u=new URL(request.url),origin='https://'+marketPreviewHost();
   // Vercel terminates TLS before Next.js, so request.url can reflect an internal
   // HTTP origin. Bind the externally authenticated deployment to Host + HTTPS
   // forwarding + Origin instead of trusting that internal proxy URL's scheme.
   const host=request.headers.get('host'),forwardedHost=request.headers.get('x-forwarded-host'),proto=request.headers.get('x-forwarded-proto');
-  if(request.method!=='POST'||host!==urlHost()||(forwardedHost!==null&&forwardedHost!==host)
+  if(request.method!=='POST'||host!==marketPreviewHost()||(forwardedHost!==null&&forwardedHost!==host)
    ||(proto!==null?proto!=='https':u.protocol!=='https:')
    ||u.pathname!=='/api/v4/ca-intelligence'||u.search||u.hash
    ||request.headers.get('origin')!==origin||request.headers.get('sec-fetch-site')!=='same-origin'
