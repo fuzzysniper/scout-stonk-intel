@@ -62,8 +62,9 @@ export async function inspectPrivateDevelopment(request:Request):Promise<Respons
    ||request.headers.has('authorization')||request.headers.has('x-api-key')
    ||request.headers.has('content-encoding')
    ||Number(request.headers.get('content-length')??0)>256)return response({error:'request_denied'},403);
-  const raw=await request.text();
-  if(Buffer.byteLength(raw)>256)return response({error:'request_denied'},413);
+  const inbound=request.body?.getReader();
+  if(!inbound)return response({error:'request_denied'},400);
+  const raw=await bodyTooLarge(inbound,256);
   const o:unknown=JSON.parse(raw);
   if(!o||typeof o!=='object'||Array.isArray(o)||Object.keys(o).sort().join(',')!=='action,mint')return response({error:'invalid_request'},400);
   const p=o as {action?:unknown;mint?:unknown};
