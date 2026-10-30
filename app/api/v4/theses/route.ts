@@ -1,5 +1,5 @@
-import {installedThesisRoute} from '../../../../lib/v4-thesis-api/installed';
+import {installedRoute} from '../../../../lib/v4-owner-preview/installed';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
-export const GET=installedThesisRoute;
-export const POST=installedThesisRoute;
+export const GET=installedRoute('journal');
+export const POST=installedRoute('journal');
