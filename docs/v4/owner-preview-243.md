@@ -19,7 +19,7 @@ Target `fix/241-neon-exact-direct-host`, exact #242 `9aff67c14d0feb5597a7bca8fd2
 | Dynamic source admission | Separate signed policy, same-DB atomic lookup/reserve/finish, global spend, per-provider cooldown, terminal STOP, process fencing; native assembly built | **OFF**, unselected; A native binding itself stays code-OFF |
 | iPhone preview | Chromium 320/390/1280, keyboard/reflow/axe, real password and SQL; screenshots below | **LOCAL-ONLY**; Safari/physical founder acceptance pending |
 
-Unknowns stay grey: USD buy/sell volume and volume/liquidity (units unconfirmed), canonical/current pools, holder concentration, LP locks, independent token age. MC ≠ FDV, first pool ≠ current execution pool, pool age ≠ mint age, transactions ≠ people. Provider record-update time is not each metric/window cutoff. RPC receipt is not block time. No zero substitutes for missing data. An unlisted token can still be RPC-observed; this is explicit on screen. Source errors retain an unavailable state and do not issue automatic retries/fallbacks.
+Unknowns stay grey: USD buy/sell volume and volume/liquidity (units unconfirmed), canonical/current pools, holder concentration, LP locks, independent token age. MC ≠ FDV, first pool ≠ current execution pool, pool age ≠ mint age, transactions ≠ people. Provider record-update time is not each metric/window cutoff. RPC receipt is not block time. No zero substitutes for missing data. An unlisted token can still be RPC-observed; this is explicit on screen. Explicitly unsupported/missing mint observations have no Save control. Source errors retain an unavailable state and do not issue automatic retries/fallbacks.
 
 ## Local evidence and repeat
 

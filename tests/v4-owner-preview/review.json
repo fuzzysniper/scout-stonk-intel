@@ -42,7 +42,7 @@
     },
     "app/lens/ca-view.tsx": {
       "mode": "100644",
-      "sha256": "d26a19701612f51a26448c37cc720ebe23ed4e31cfbbe7c2aca114636a7d89e2"
+      "sha256": "b4b08e53a840d58813da8004d496c724a4a300698ac4dcf59c26eec16891b26f"
     },
     "docs/v4/ca-intelligence-244-sources.json": {
       "mode": "100644",
@@ -54,7 +54,7 @@
     },
     "docs/v4/owner-preview-243.md": {
       "mode": "100644",
-      "sha256": "0c982cc78516a11ab231df86eb57c9e16e5d38fe9bca8719cd49ec5c79cbb3c2"
+      "sha256": "7f6c378099146c87f8763e07278134fa68ab51ebb110f25a090d0db61ef9192d"
     },
     "docs/v4/owner-preview-243/entry-1280.png": {
       "mode": "100644",
@@ -70,27 +70,27 @@
     },
     "docs/v4/owner-preview-243/facts-1280.png": {
       "mode": "100644",
-      "sha256": "2f1c06f64856c4d34a1e0ef6ccaaa478065d560d45e316329fdacb41ae5bbc1e"
+      "sha256": "0b5d8b7f8558e17a949158117622ed4d654390000dc44a738fa7a2538c62e8f6"
     },
     "docs/v4/owner-preview-243/facts-320.png": {
       "mode": "100644",
-      "sha256": "6dcaa5fee57b0b8140f068b051b5a6275209308606afbaa4bb79bb2af82d2126"
+      "sha256": "0a1a97e517a8c70629a8ebcd43267b90563dc5f8590d5bf86e00dfb71401ee09"
     },
     "docs/v4/owner-preview-243/facts-390.png": {
       "mode": "100644",
-      "sha256": "b1a373cba81025349802e98a66616363ea972395a3145ba7c6f945e084d994e8"
+      "sha256": "6cab722a040bc1e012927b4c6ba5b6b4f8bbb59023c14777c8c9a5bbd17734c6"
     },
     "docs/v4/owner-preview-243/journal-1280.png": {
       "mode": "100644",
-      "sha256": "80a7c2442018b385c7ac002547f289269cac4bf509c48b11bed24332ad986734"
+      "sha256": "2da37206dcdc0242537a165a49cb3a7edbee05b31d264b9c2793e89e4a2bb0d1"
     },
     "docs/v4/owner-preview-243/journal-320.png": {
       "mode": "100644",
-      "sha256": "f1f32244b0d23f1d175b4e03511e9b8166d29eced31e56abbd03fa9e426a22a5"
+      "sha256": "1c462410ee9829e77d708ff1efac7f80a69b86ad2000e9fe7724f121b8a18d08"
     },
     "docs/v4/owner-preview-243/journal-390.png": {
       "mode": "100644",
-      "sha256": "2e6f8ef777c793cfd064ba62931ffa1ebbbcc36ef68f7af828c616f0f616065e"
+      "sha256": "23b8b189873e3badbd728ba7c0facf475a22d1900ce14838906e50c97ecaec5c"
     },
     "lib/v4-ca-intelligence/admission.ts": {
       "mode": "100644",
@@ -146,7 +146,7 @@
     },
     "lib/v4-owner-preview/presentation.ts": {
       "mode": "100644",
-      "sha256": "db6631976c77b1f7fff4afc32f20ade3365ed944942abee16a082cd165244869"
+      "sha256": "7db7c498e47c9e2477ec26fb7e559ab6efadf54c7f020ebab90ef1336afca3c6"
     },
     "lib/v4-owner-preview/release.ts": {
       "mode": "100644",
@@ -254,7 +254,7 @@
     },
     "tests/v4-owner-preview/browser.spec.mjs": {
       "mode": "100644",
-      "sha256": "d8b43128694b38c0a33a4fff5749082d1542aa8e455f84ab132daa086d2906cb"
+      "sha256": "7a9d8ab082578f9eebcf21b1023e4e4957a378dc1bda3e6c636c5122a7e1979f"
     },
     "tests/v4-owner-preview/built-off.mjs": {
       "mode": "100644",
@@ -282,7 +282,7 @@
     },
     "tests/v4-owner-preview/presentation.test.mjs": {
       "mode": "100644",
-      "sha256": "96d9eea2f3c8067147b14865cff5e7d05dbf81b43bb26ea80b3eb93fca2b0970"
+      "sha256": "1f29e85a603bb300b38d963b85e2e9d2f1ee28b1bc8d6fb5a2bfa4c2e506b0a4"
     },
     "tests/v4-owner-preview/replay.sh": {
       "mode": "100755",

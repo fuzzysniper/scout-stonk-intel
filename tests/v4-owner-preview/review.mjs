@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
 export const BASE='9aff67c14d0feb5597a7bca8fd20fbb101d3640f',SOURCE='2f1eca1976d0bda04c94b6b1ce099494d804d779';
 export const sha=b=>createHash('sha256').update(b).digest('hex');
-const MANIFEST_SHA='fa3fe203d548a4e082dff8b7a81525b6ff78c881976ffc81e8605005bb8d6b4d';
+const MANIFEST_SHA='a023dbbc43f532f16552555ed59b221bd42a805ea7d72cfd8780c825fe1b744c';
 export function review(root=process.cwd()){
  const raw=(...a)=>execFileSync('git',a,{cwd:root,maxBuffer:32*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=f=>fs.readFileSync(path.join(root,f));
  const bytes=read('tests/v4-owner-preview/review.json');assert.equal(sha(bytes),MANIFEST_SHA,'independently pinned finite manifest');const m=JSON.parse(bytes);assert.equal(m.base,BASE);assert.equal(m.source,SOURCE);
