@@ -1,6 +1,7 @@
 import {installedRoute} from '../../../../lib/v4-owner-preview/installed';
 import {installedOwnerPreview} from '../../../../lib/v4-owner-preview/installed';
-import {inspectPrivateDevelopment,internalMarketPreview} from '../../../../lib/v4-ca-intelligence/private-development';
+import {inspectPrivateDevelopment} from '../../../../lib/v4-ca-intelligence/private-development';
+import {internalMarketPreview} from '../../../../lib/v4-ca-intelligence/private-development-gate';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
 export const revalidate=0;
