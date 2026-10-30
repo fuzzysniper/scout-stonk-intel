@@ -10,7 +10,7 @@ import {unavailable} from './postgres';
 export const NEON_DIRECT_HOST='ep-tiny-truth-b4bx6xt9.c-6.us-east-2.aws.neon.tech';
 export const NEON_STEP_SHA='bbaa082b55baa70adef7da22b154bf09eb2baa63bcfc941f4a1c745e6d83caa2';
 export const NEON_ADMISSION_SHA='001295a426a5d7b9b84420c7cfef79ba74a2ca0ef45d7cf72925429ab9b1f5b0';
-export const NEON_MIGRATION_SHA='3416da1b71a2ece227bffc4343a5ea910c61252c246707ded6a1892aed634105';
+export const NEON_MIGRATION_SHA='e4e1cd5e8336cf93051a2bd9cb3999bce178e8e110df3b1d9e6ba7b82aa2afb3';
 export const NEON_EVIDENCE_SHA='d7f94d6a5e39428430e97fbc108d6e63e46a63cb5f73e6a73ab9e6796f9fd122';
 const conventional="current_setting('fsync')='on' AND current_setting('synchronous_commit')='on' AND NOT pg_is_in_recovery()";
 /** The original role/function proof remains; only its durability predicate is provider-specific. */

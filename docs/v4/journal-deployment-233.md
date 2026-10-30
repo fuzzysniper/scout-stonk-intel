@@ -1,3 +1,5 @@
+> Installation instructions superseded by [#247 PG18 non-superuser installer](pg18-installer-247.md). Do not reuse an older SQL artifact or inline workaround.
+
 # Isolated journal database package — review only
 
 **CODE REVIEW GO / HOSTED SAVE, SQL, AUTH AND SOURCES HOLD.** This package executes only in disposable local tests. Rendering SQL does not authorize provisioning, a hosted connection, migration, key installation, login enrollment or Save. No clocks or activation gates change.

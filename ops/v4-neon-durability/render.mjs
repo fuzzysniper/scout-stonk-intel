@@ -18,7 +18,7 @@ export function candidate(){
  const old="current_setting('fsync')<>'on'";
  const guard="(current_setting('fsync')<>'off' OR current_setting('full_page_writes')<>'off' OR current_setting('synchronous_standby_names')<>'walproposer' OR current_setting('server_version_num')::int/10000<>18 OR current_setting('neon.project_id',true) IS DISTINCT FROM 'twilight-hall-57571802' OR current_setting('neon.branch_id',true) IS DISTINCT FROM 'br-sweet-voice-b4x4et5q' OR (SELECT count(*) FROM pg_settings WHERE name IN ('neon.project_id','neon.branch_id') AND context='postmaster')<>2 OR current_setting('neon.tenant_id',true) IS NULL OR current_setting('neon.timeline_id',true) IS NULL OR NOT EXISTS(SELECT 1 FROM pg_settings WHERE name='neon.tenant_id' AND context='postmaster') OR NOT EXISTS(SELECT 1 FROM pg_settings WHERE name='neon.timeline_id' AND context='postmaster'))";
  sql=replaceOne(sql,old,guard);
- const needle='INSERT INTO unfarmd_v4_deploy.installation SELECT true,';sql=replaceOne(sql,needle,admission+'\n'+needle);
+ const needle='INSERT INTO unfarmd_v4_deploy.installation SELECT true,';sql=replaceOne(sql,needle,admission+'\nSET LOCAL ROLE unfarmd_v4_deploy_owner;\n'+needle);
  const oldDigest=/release_digest='([a-f0-9]{64})'/.exec(sql)?.[1];if(!oldDigest||sql.split(oldDigest).length!==3)throw Error('release_digest_mismatch');
  const digest=sha(JSON.stringify(['unfarmd-neon-durability/1',oldDigest,sha(guard),sha(admission),sha(patchedStep)]));sql=sql.replaceAll(oldDigest,digest);
  return Object.freeze({sql,sqlSha256:sha(sql),stepSha256:sha(patchedStep),admissionSha256:sha(admissionBody),releaseSha256:digest});

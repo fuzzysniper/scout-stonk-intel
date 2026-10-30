@@ -1,0 +1,89 @@
+{
+  "base": "334400a6535d198a36bc17433d7e2813d855e603",
+  "inputs": [
+    "9aff67c14d0feb5597a7bca8fd20fbb101d3640f",
+    "2f1eca1976d0bda04c94b6b1ce099494d804d779",
+    "1133d6813e6913a6846cd08f11117f2a0635d6b1",
+    "add2a47a3707cca0d380325b09552b0aff0613ad"
+  ],
+  "added": [
+    ".github/workflows/pg18-non-superuser-install.yml",
+    "docs/v4/pg18-installer-247.md",
+    "ops/v4-journal/install-reviewed.sh",
+    "tests/v4-pg18-install/command.test.mjs",
+    "tests/v4-pg18-install/fixture.mjs",
+    "tests/v4-pg18-install/permissions.test.mjs",
+    "tests/v4-pg18-install/replay.sh",
+    "tests/v4-pg18-install/review.json",
+    "tests/v4-pg18-install/review.mjs",
+    "tests/v4-pg18-install/run.sh",
+    "tests/v4-pg18-install/scope.test.mjs"
+  ],
+  "exceptions": {
+    "docs/v4/journal-deployment-233.md": {
+      "originalSha256": "1b696a29b6776fa17d5e0d33b79a6baec6e5f32de56b8d0b796d95b2ecaafdd9",
+      "reviewedSha256": "73f6c5e9c20d854f7e5f78e5b5f9b424f62cc355ee21795339691c0407dbc2a3",
+      "patchSha256": "f609f51b189b7ce951a77e62b75296dc63ef984ac91ca96f36d942ae22910f40"
+    },
+    "docs/v4/neon-direct-host-241.md": {
+      "originalSha256": "191403b61a8b126a164eb6b54097f01ffd9c87a49f331e07f529623acffe9bac",
+      "reviewedSha256": "e4ebd62172e2595253a85d89fea3cd0de76897a87dfe9a5635e93cb2452926ac",
+      "patchSha256": "0a199a5f446230a396da2df1d5ba33e94c203c4e53aeaed70f1764b4c455a9eb"
+    },
+    "docs/v4/owner-preview-243.md": {
+      "originalSha256": "7f6c378099146c87f8763e07278134fa68ab51ebb110f25a090d0db61ef9192d",
+      "reviewedSha256": "9c1f91eacef5209b5ba9b519f9eda080baea061edf80792fc56583b920714291",
+      "patchSha256": "d7f362aaccd7496d659b5b713c8eeaa4f3b718452375756dbc37e4380018545c"
+    },
+    "lib/v4-owner-ledger/neon-durability.ts": {
+      "originalSha256": "6a07436591c38dbc57e9b3937869db325b2711aec60bdbb6c6e3db60f455ce37",
+      "reviewedSha256": "598c73210e9d23f026ea28c891007d0f2c02b316a1e820a9beb525b0d852ff4e",
+      "patchSha256": "4caea236511658375fa8921ddc477fc121246a966bcc9aceed707f4b0f68a344"
+    },
+    "lib/v4-owner-preview/release.ts": {
+      "originalSha256": "3f9564f853b7f2f2240670d97f34f7eda4c9cdee799af0551ab9bf8b27471cf7",
+      "reviewedSha256": "5d646b7c9fd1b0f6912d9d16056b8b3083e7c3ff3d8f5891fb2b32fa4fb0aab6",
+      "patchSha256": "22405767780b9d1739f5ff97f62633597b360c8cadeeead74069b27c88b6677b"
+    },
+    "lib/v4-owner-preview/sql-pins.ts": {
+      "originalSha256": "39d8eba8b33dad9c12cd3d7b7700d4fa71c77430541525a0cb4d237ea6106aef",
+      "reviewedSha256": "2d6a14c7d33488dc817f2988b3c95eb18f35daddeb24362f933be9fab166c040",
+      "patchSha256": "d5e6200d63fdb3fecc8c444a5202b67fe167404a19b3be3dca5526e52920247c"
+    },
+    "ops/v4-journal/hardening.sql": {
+      "originalSha256": "9e404f468c624af45ff6a6d9412af4599727a525e4d09623abad539dbb67851d",
+      "reviewedSha256": "f40386d5fb99e6929570b2e13f88dd5de21eec88ad2242f458a3db4676080338",
+      "patchSha256": "75120fa215d792d740b1e0a0bf580bf8c296c7517c29f53df7c45b8851480404"
+    },
+    "ops/v4-journal/package.mjs": {
+      "originalSha256": "7932a2550afd542ac3d176e9ecbb2657c667c1c9e52285275f507c6c07c31fc1",
+      "reviewedSha256": "e40e674f4fcab80aca7b0cbff85069680edef5214fd09a7d7023c96f4d2b68bc",
+      "patchSha256": "775300c6202273846f7404e1a44fe581ca9b8c21863de4fab8cac244f41a26cb"
+    },
+    "ops/v4-neon-durability/admission.sql": {
+      "originalSha256": "9092c39aacbf1c05714e8dddaecf9b7f39c88f181de84921a077ca76870b204d",
+      "reviewedSha256": "94a66e22b70b021b5f296dc29bb25b401d4e093f838e743fd1bd827744fd9ff8",
+      "patchSha256": "47dcb09902aa0fd200f6c54bdd88811e391a1c8993be1c886da838030e2b73de"
+    },
+    "ops/v4-neon-durability/render.mjs": {
+      "originalSha256": "c59b46483c6341c5b81dca9b786709253bfbaa3bb4b540d08a9d8222cdf2042a",
+      "reviewedSha256": "c67ad846d39012712a9790e7fb077bb16dc7d1937277f8d414b60f40e784adc2",
+      "patchSha256": "badc4f3a35dc88d6a78cf09775be0799d1c11d16a2433da400845008ae25b27a"
+    },
+    "ops/v4-owner-auth/issuer.sql": {
+      "originalSha256": "18785a325f8fc411b91e90b53955f94b304a705a83a3e282f8f6b925eeed129f",
+      "reviewedSha256": "355ab3abf775f7b8bf74a9f1cf50f3e93618d34f80bda9544ba7a4bdc68eff55",
+      "patchSha256": "75ffa0929eadf8c59651da0ef6b8cc801b1627d4809ac74fa6bfb5c27662adb6"
+    }
+  },
+  "newFiles": {
+    ".github/workflows/pg18-non-superuser-install.yml": "337cbda3efb144c1f411706008f83dda37d01af365c05b2b864e79ba706875b6",
+    "docs/v4/pg18-installer-247.md": "bbf162d012fcc8b044b078ea1a44b12d465ddd73edb45c7a61da1d1e338c7425",
+    "ops/v4-journal/install-reviewed.sh": "ed593ff3c3d1cb1aea1d7bb50d1b79e9b05073abb844274c423ad955397cc8fe",
+    "tests/v4-pg18-install/command.test.mjs": "443db8310e5f72d7fee79aed0a6b1c6596365ecd3e6ea9fbfd028acd2ef17cc8",
+    "tests/v4-pg18-install/fixture.mjs": "56c1188d66f6877b986a6e87f887fffada7264c20c2b5419af2b1d0a0ecf4565",
+    "tests/v4-pg18-install/permissions.test.mjs": "df384c81137c0801221ceb59f27663b700a3b9cd7b98c74dd5af1b17ab0ee043",
+    "tests/v4-pg18-install/replay.sh": "a06bdb04d3e39d0892040ad839c1d28fe7caff8c7e6de6e1ea4e19b637b66786",
+    "tests/v4-pg18-install/run.sh": "f51b49f3144563e1a7058aae75b29eed4c81a1a63380673a0565cb994f6ea07f"
+  }
+}

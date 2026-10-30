@@ -52,15 +52,25 @@ REVOKE ALL ON unfarmd_v4_deploy.neon_durability_contract FROM PUBLIC;
 REVOKE ALL ON FUNCTION unfarmd_v4_deploy.neon_durability_admitted(text),unfarmd_v4_deploy.assert_neon_durability(),unfarmd_v4_deploy.keep_neon_contract() FROM PUBLIC;
 GRANT USAGE ON SCHEMA unfarmd_v4_deploy TO unfarmd_v4_pilot_app,unfarmd_v4_boundary_owner,unfarmd_journal_owner,unfarmd_journal_app,unfarmd_thesis_rate_app;
 GRANT EXECUTE ON FUNCTION unfarmd_v4_deploy.neon_durability_admitted(text) TO unfarmd_v4_pilot_app,unfarmd_v4_boundary_owner,unfarmd_journal_owner,unfarmd_journal_app,unfarmd_thesis_rate_app;
+GRANT EXECUTE ON FUNCTION unfarmd_v4_deploy.assert_neon_durability() TO unfarmd_journal_owner,unfarmd_v4_boundary_owner;
 RESET ROLE;
 -- Covers J appends/owner quotas, rate reservations and all pilot ledger mutations.
 -- The original monotone STOP/fence/counter/erasure guards remain installed unchanged.
+SET LOCAL ROLE unfarmd_journal_owner;
 CREATE TRIGGER neon_journals BEFORE INSERT OR UPDATE OR DELETE ON unfarmd_journal.journals FOR EACH ROW EXECUTE FUNCTION unfarmd_v4_deploy.assert_neon_durability();
 CREATE TRIGGER neon_events BEFORE INSERT ON unfarmd_journal.events FOR EACH ROW EXECUTE FUNCTION unfarmd_v4_deploy.assert_neon_durability();
 CREATE TRIGGER neon_owners BEFORE INSERT OR UPDATE ON unfarmd_journal.owners FOR EACH ROW EXECUTE FUNCTION unfarmd_v4_deploy.assert_neon_durability();
+RESET ROLE;
+SET LOCAL ROLE unfarmd_v4_deploy_owner;
 CREATE TRIGGER neon_rates BEFORE INSERT OR UPDATE ON unfarmd_thesis_rate.usage FOR EACH ROW EXECUTE FUNCTION unfarmd_v4_deploy.assert_neon_durability();
+RESET ROLE;
+SET LOCAL ROLE unfarmd_v4_boundary_owner;
 CREATE TRIGGER neon_pilot_state BEFORE INSERT OR UPDATE ON unfarmd_v4_pilot.state FOR EACH ROW EXECUTE FUNCTION unfarmd_v4_deploy.assert_neon_durability();
 CREATE TRIGGER neon_pilot_permits BEFORE INSERT OR UPDATE ON unfarmd_v4_pilot.permits FOR EACH ROW EXECUTE FUNCTION unfarmd_v4_deploy.assert_neon_durability();
 CREATE TRIGGER neon_pilot_reports BEFORE INSERT OR UPDATE ON unfarmd_v4_pilot.reports FOR EACH ROW EXECUTE FUNCTION unfarmd_v4_deploy.assert_neon_durability();
 CREATE TRIGGER neon_pilot_history BEFORE INSERT ON unfarmd_v4_pilot.history FOR EACH ROW EXECUTE FUNCTION unfarmd_v4_deploy.assert_neon_durability();
+RESET ROLE;
+SET LOCAL ROLE unfarmd_v4_deploy_owner;
 CREATE TRIGGER neon_tombstones BEFORE INSERT ON unfarmd_v4_deploy.tombstones FOR EACH ROW EXECUTE FUNCTION unfarmd_v4_deploy.assert_neon_durability();
+REVOKE EXECUTE ON FUNCTION unfarmd_v4_deploy.assert_neon_durability() FROM unfarmd_journal_owner,unfarmd_v4_boundary_owner;
+RESET ROLE;

@@ -1,3 +1,5 @@
+> Installation instructions superseded by [#247 PG18 non-superuser installer](pg18-installer-247.md). Do not reuse an older SQL artifact or inline workaround.
+
 # #241: exact direct-host correction; all hosted actions HOLD
 
 Dependent on #240 `add2a47a3707cca0d380325b09552b0aff0613ad` (tree `7c7b65de4e6d05918b5572fe7b8248e2b6eb754b`), targeting its `fix/239-neon-durability-contract` branch. #238/#234/#235/#236 and collector history remain immutable. Latest main observed `5bb26051f4183b081625387ebd3d8609fa46e620`; no rebase or upstream edits.
