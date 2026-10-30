@@ -31,8 +31,8 @@
     },
     "ops/v4-journal/native-tls.mjs": {
       "originalSha256": "e87c3b1ff2bffeabd60eb85717d87aeda44868bc1df6f12f5e9ccfde5efa936d",
-      "reviewedSha256": "a4858a42375cf85b38bc8b1c61768bb7f51858a5245fe12796246d7f39d80308",
-      "patchSha256": "7380efbf8066f2ceda77e3a4596223e7e004f354f4b59c4611f3c39385b02d6b"
+      "reviewedSha256": "7782e0f4467b50a959ac420ea4be09036b0bea7e89adec6f2bea462d24831381",
+      "patchSha256": "b3448ccb4e50232f49bbafc150d2547dde290c6fa6519c1f16ab8e6952edbdf7"
     },
     "ops/v4-neon-durability/admission.sql": {
       "originalSha256": "fa215611fd3065bdfadf4a0a367e27f654a30eacbe0b8c901f610b1aea14e87c",
@@ -67,10 +67,10 @@
   },
   "newFiles": {
     ".github/workflows/neon-direct-host-off.yml": "0c722ffb2fbfb29ef3bbd0e4e074d06a08e88b6ee1abc93625e0ca1113811cc0",
-    "docs/v4/neon-direct-host-241.md": "4129275be5a1238fef4a36150326848bf871d6d84e56fb2e94b0826a7cb9f403",
+    "docs/v4/neon-direct-host-241.md": "191403b61a8b126a164eb6b54097f01ffd9c87a49f331e07f529623acffe9bac",
     "tests/v4-neon-host/affected.sh": "303a0adb3b818bb65fe9ae805f1894ade8a880214c0a94c25b2489bc6bc53614",
     "tests/v4-neon-host/browser.sh": "9cbd2c7199a6e9d7d83cf7b2d0ddfddf4d0bc2c04a91060e80bd06d27da2585b",
-    "tests/v4-neon-host/host.test.mjs": "5ec1a581cba8d55617af71c09ef22b794932539cc79427718ea35715d04c9216",
+    "tests/v4-neon-host/host.test.mjs": "c02c5338183a65fe09e47db05c2696b0cba0b6e4e5169e463e91581ec53a33b3",
     "tests/v4-neon-host/postgres.test.mjs": "ba892a14325911041a16ce088d0008fdcb8a1c97da20dd664d890021f0a26b87",
     "tests/v4-neon-host/replay.sh": "8eae68714f461a456939d3bc4c07348fce9ff43d685fe643a9ddbfb2d2212f0d"
   }

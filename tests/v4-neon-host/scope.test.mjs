@@ -1,6 +1,6 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import {execFileSync} from 'node:child_process';
 import {review,sha,BASE,EXCEPTIONS,ADDED} from './review.mjs';
-const REVIEWER_SHA='ee438fcb8e247206f34b3e27a52a6e51bdf6cac4f73795adc0d985b015830302';
+const REVIEWER_SHA='4c29c15129db1dec9bf27eb62f6c9014ce83f541176f462b78904f7a228f1d71';
 const clone=()=>{const dir=fs.mkdtempSync(path.join(os.tmpdir(),'neon241-review-'));execFileSync('git',['clone','--shared',process.cwd(),dir],{stdio:'ignore'});review(dir);return dir;};
 test('exact240 history, nine complete reviewed patches, ten additions and every other byte/mode frozen',()=>{assert.equal(sha(fs.readFileSync('tests/v4-neon-host/review.mjs')),REVIEWER_SHA);review();assert.equal(EXCEPTIONS.length,9);assert.equal(ADDED.length,10);});
 for(const f of [...EXCEPTIONS,'tests/v4-neon-host/review.json','tests/v4-neon-host/host.test.mjs','lib/v4-owner-ledger/ledger.ts','lib/v4-private-journal/crypto.ts','lib/v4-owner-thesis/bridge.ts','lib/v4-helius-native/producer.ts','lib/onchain-mint/server/lookup-policy.ts','data/reward-snapshots.json','tests/v4-neon-durability/review.mjs'])test('passing control rejects unreviewed bytes '+f,()=>{const dir=clone();try{fs.appendFileSync(path.join(dir,f),'\nUNREVIEWED\n');assert.throws(()=>review(dir));}finally{fs.rmSync(dir,{recursive:true,force:true});}});

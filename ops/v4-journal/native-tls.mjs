@@ -15,9 +15,11 @@ function checkDriver(){if(driverChecked)return;const m=JSON.parse(fs.readFileSyn
 export function tlsVerified(c){const s=c.connection?.stream;return !!(s instanceof TLSSocket&&s.encrypted&&s.authorized&&s.servername===c.__journalHost&&['TLSv1.2','TLSv1.3'].includes(s.getProtocol?.()??''));}
 export class StrictJournalClient extends Client{
  constructor(config){
-  if(!config||isPoolerHost(config.host))throw fail();
-  checkDriver();if(!config||config.connection!==undefined||config.stream!==undefined||config.ssl?.checkServerIdentity!==undefined&&config.ssl.checkServerIdentity!==checkServerIdentity||config.connectionString!==undefined||config.database!=='unfarmd_v4_pilot'||config.ssl?.rejectUnauthorized!==true||!config.ssl?.servername||config.ssl.servername!==config.host||config.enableChannelBinding!==true||!Number.isInteger(config.connectionTimeoutMillis)||config.connectionTimeoutMillis<1||config.connectionTimeoutMillis>1000)throw fail();
-  super(config);Object.defineProperty(this,'__journalHost',{value:config.host});
+  let host;try{const h=Object.getOwnPropertyDescriptor(config,'host');if(!h||!('value'in h)||typeof h.value!=='string'||isPoolerHost(h.value))throw fail();host=h.value;}catch{throw fail();}
+  checkDriver();if(!config||config.connection!==undefined||config.stream!==undefined||config.ssl?.checkServerIdentity!==undefined&&config.ssl.checkServerIdentity!==checkServerIdentity||config.connectionString!==undefined||config.database!=='unfarmd_v4_pilot'||config.ssl?.rejectUnauthorized!==true||!config.ssl?.servername||config.ssl.servername!==host||config.enableChannelBinding!==true||!Number.isInteger(config.connectionTimeoutMillis)||config.connectionTimeoutMillis<1||config.connectionTimeoutMillis>1000)throw fail();
+  // pg-pool makes passwords non-enumerable. Preserve descriptors while fixing the host once.
+  const descriptors=Object.getOwnPropertyDescriptors(config);descriptors.host={value:host,enumerable:true};
+  super(Object.create(Object.getPrototypeOf(config),descriptors));Object.defineProperty(this,'__journalHost',{value:host});
  }
  _deny(){this.connection?.stream?.destroy();this._handleErrorWhileConnecting(fail());}
  _handleAuthCleartextPassword(){this._deny();}
