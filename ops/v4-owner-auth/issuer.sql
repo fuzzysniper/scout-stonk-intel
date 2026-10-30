@@ -6,17 +6,18 @@ DO $check$ BEGIN IF current_database()<>'unfarmd_v4_pilot' OR to_regclass('unfar
 CREATE ROLE unfarmd_v4_issuer_owner NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS;
 CREATE ROLE unfarmd_v4_issuer_login NOLOGIN INHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS CONNECTION LIMIT 4;
 GRANT CONNECT ON DATABASE unfarmd_v4_pilot TO unfarmd_v4_issuer_login;
-GRANT USAGE ON SCHEMA public,unfarmd_v4_owner TO unfarmd_v4_issuer_login;
+GRANT USAGE ON SCHEMA public,unfarmd_v4_owner,unfarmd_v4_deploy TO unfarmd_v4_issuer_login;
 GRANT SELECT ON unfarmd_v4_owner.policy TO unfarmd_v4_issuer_login;
 GRANT SELECT ON public.v4_owner_user,public.v4_owner_account TO unfarmd_v4_issuer_login;
 GRANT SELECT,INSERT,DELETE ON public.v4_owner_session TO unfarmd_v4_issuer_login;
 ALTER ROLE unfarmd_v4_issuer_login SET search_path=pg_catalog,public;
 CREATE ROLE unfarmd_v4_enroll_login NOLOGIN INHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS CONNECTION LIMIT 2;
 GRANT CONNECT ON DATABASE unfarmd_v4_pilot TO unfarmd_v4_enroll_login;
-GRANT USAGE ON SCHEMA public,unfarmd_v4_owner TO unfarmd_v4_enroll_login;
+GRANT USAGE ON SCHEMA public,unfarmd_v4_owner,unfarmd_v4_deploy TO unfarmd_v4_enroll_login;
 GRANT SELECT ON unfarmd_v4_owner.policy TO unfarmd_v4_enroll_login;
 GRANT SELECT,INSERT ON public.v4_owner_user,public.v4_owner_account TO unfarmd_v4_enroll_login;
 ALTER ROLE unfarmd_v4_enroll_login SET search_path=pg_catalog,public;
+DO $grant$ BEGIN IF to_regprocedure('unfarmd_v4_deploy.neon_durability_admitted(text)') IS NOT NULL THEN GRANT EXECUTE ON FUNCTION unfarmd_v4_deploy.neon_durability_admitted(text) TO unfarmd_v4_issuer_login,unfarmd_v4_enroll_login;END IF;END $grant$;
 -- Enrollment identity is never supplied to the installed application. Disable LOGIN after setup.
 CREATE SCHEMA unfarmd_v4_auth_ops AUTHORIZATION unfarmd_v4_issuer_owner;
 REVOKE ALL ON SCHEMA unfarmd_v4_auth_ops FROM PUBLIC;

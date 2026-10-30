@@ -1,4 +1,4 @@
-name: Arbitrary CA intelligence OFF
+name: CA owner preview OFF
 on:
   pull_request:
     branches: [fix/241-neon-exact-direct-host]
@@ -29,22 +29,24 @@ jobs:
           node-version: '24.19.0'
       - run: npm ci --ignore-scripts
       - name: New exact source contracts local HTTPS precision rights gates and fail-grey controls
-        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-ca-intelligence/run.sh
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-owner-preview/replay.sh source
       - name: Disposable pinned public PostgreSQL18.6 build
         run: bash tests/v4-neon-durability/build-pg18.sh
+      - name: Actual owner issuer journal and durable dynamic source admission
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-owner-preview/run.sh
       - name: Unchanged native owner SQL TLS quotas STOP and direct-host controls
-        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-ca-intelligence/replay.sh native
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-owner-preview/replay.sh native
       - name: Full exact inherited root regression with ALL original guards unchanged
-        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-ca-intelligence/replay.sh root
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-owner-preview/replay.sh root
       - name: Current head types lint build built OFF archive final exact guard
         run: |
           npx tsc --noEmit
           npm run lint
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
           git restore -- next-env.d.ts
-          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-ca-intelligence/replay.sh built
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-owner-preview/built-off.sh
           bash scripts/archive-tool.sh check 9aff67c14d0feb5597a7bca8fd20fbb101d3640f
-          node --test tests/v4-ca-intelligence/scope.test.mjs
+          node --test tests/v4-owner-preview/scope.test.mjs
   unchanged-historical-security:
     runs-on: ubuntu-latest
     timeout-minutes: 40
@@ -58,7 +60,8 @@ jobs:
         with:
           node-version: '24.19.0'
       - run: npm ci --ignore-scripts
-      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-ca-intelligence/replay.sh history
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-owner-preview/replay.sh history
   unchanged-browser-and-off:
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -81,4 +84,13 @@ jobs:
             node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
           fi
           sudo sysctl -w net.ipv4.ip_unprivileged_port_start=443
-      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-ca-intelligence/replay.sh browser
+      - name: Disposable pinned PostgreSQL18.6 for actual current CA owner journey
+        run: bash tests/v4-neon-durability/build-pg18.sh
+      - name: Actual current CA-first real password SQL and source-OFF browser acceptance
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-owner-preview/run.sh browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: current-ca-owner-mobile
+          path: docs/v4/owner-preview-243/*.png
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-owner-preview/replay.sh browser

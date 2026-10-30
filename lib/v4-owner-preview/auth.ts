@@ -7,6 +7,8 @@ import {verifiedPool} from '../v4-owner-ledger/postgres';
 import {strictBindingEstablished} from '../../ops/v4-journal/native-tls.mjs';
 import {parsePacket} from '../trader-pulse/validation';
 import {OwnerReleaseAuthority,type OwnerRelease} from './release';
+import {AUTH_RATE_BODY_SHA} from './sql-pins';
+import {NEON_ADMISSION_SHA} from '../v4-owner-ledger/neon-durability';
 export type VerifiedSession=Readonly<{ownerSubject:string;journalOwnerId:string;issuer:string;audience:string;sessionId:string;authenticatedAt:number;expiresAt:number}>;
 const headers={'Cache-Control':'private, no-store','Vary':'Cookie, Origin','Referrer-Policy':'no-referrer','X-Content-Type-Options':'nosniff'};
 const reply=(status:number,error:string)=>Response.json({error},{status,headers});
@@ -18,10 +20,18 @@ async function packet(request:Request){
 /** Real Better Auth issuer. No public signup/reset/OAuth, no cookie synthesis or principal cast. */
 export function createOwnerIssuer(config:Readonly<{authority:OwnerReleaseAuthority;release:OwnerRelease;pool:Pool;enrollmentPool?:Pool;tlsHost:string;secret:string}>){
  const admitted=()=>config.authority.inspect(config.release);const release=admitted();if(!release)throw Error('owner_preview_not_admitted');
- if(typeof config.secret!=='string'||Buffer.byteLength(config.secret)<64||Buffer.byteLength(config.secret)>256||createHash('sha256').update(config.secret).digest('hex')!==release.authSecretSha256)throw Error('owner_issuer_configuration');
+ const secret=config.secret;
+ if(typeof secret!=='string'||Buffer.byteLength(secret)<64||Buffer.byteLength(secret)>256||createHash('sha256').update(secret).digest('hex')!==release.authSecretSha256)throw Error('owner_issuer_configuration');
  const db=verifiedPool(config.pool,config.tlsHost),enrollDb=config.enrollmentPool?verifiedPool(config.enrollmentPool,config.tlsHost):null;let enrolling=false,enrollmentEmail='';
- async function policy(){const r=admitted();if(!r)return null;const c=await db.connect();try{if(!strictBindingEstablished(c))throw Error('native_binding_required');const row=(await c.query('SELECT owner_subject,journal_owner_id,issuer,audience,secret_sha256,enabled FROM unfarmd_v4_owner.policy WHERE singleton=true')).rows[0];return admitted()&&row?.enabled===true&&row.owner_subject===r.ownerSubject&&row.journal_owner_id===r.journalOwnerId&&row.issuer===r.issuer&&row.audience===r.identity.origin&&row.secret_sha256===r.authSecretSha256?r:null;}finally{c.release();}}
- const options={appName:'UNFARMD owner',baseURL:release.identity.origin,basePath:'/api/v4/owner',secret:config.secret,database:db,
+ async function policy(){const r=admitted();if(!r)return null;const c=await db.connect();try{if(!strictBindingEstablished(c))throw Error('native_binding_required');
+  const role=(await c.query("SELECT current_user='unfarmd_v4_issuer_login' AND session_user=current_user AND NOT has_database_privilege(current_user,current_database(),'CREATE,TEMP') AS ok")).rows[0]?.ok;if(role!==true)return null;
+  const rateProof=(await c.query("SELECT p.prosecdef AND p.proconfig=ARRAY['search_path=pg_catalog'] AND r.rolname='unfarmd_v4_issuer_owner' AND NOT(r.rolcanlogin OR r.rolsuper OR r.rolbypassrls) AND encode(sha256(convert_to(p.prosrc,'UTF8')),'hex')=$1 AND NOT EXISTS(SELECT 1 FROM pg_roles x WHERE x.rolname<>current_user AND pg_has_role(current_user,x.oid,'MEMBER')) AS ok FROM pg_proc p JOIN pg_roles r ON r.oid=p.proowner WHERE p.oid='unfarmd_v4_auth_ops.reserve_attempt()'::regprocedure",[AUTH_RATE_BODY_SHA])).rows[0]?.ok;if(rateProof!==true)return null;
+  if(r.identity.kind==='private_preview'){
+   const proof=await c.query("SELECT EXISTS(SELECT 1 FROM pg_proc p JOIN pg_roles r ON r.oid=p.proowner WHERE p.oid='unfarmd_v4_deploy.neon_durability_admitted(text)'::regprocedure AND p.prosecdef AND NOT p.proisstrict AND p.proconfig=ARRAY['search_path=pg_catalog'] AND r.rolname='unfarmd_v4_deploy_owner' AND NOT(r.rolcanlogin OR r.rolsuper OR r.rolbypassrls) AND encode(sha256(convert_to(p.prosrc,'UTF8')),'hex')=$1) AND unfarmd_v4_deploy.neon_durability_admitted(NULL) IS TRUE AS ok",[NEON_ADMISSION_SHA]);if(proof.rows[0]?.ok!==true)return null;
+  }else if((await c.query("SELECT current_setting('fsync')='on' AND current_setting('synchronous_commit')='on' AND NOT pg_is_in_recovery() AS ok")).rows[0]?.ok!==true)return null;
+  const row=(await c.query('SELECT owner_subject,journal_owner_id,issuer,audience,secret_sha256,enabled FROM unfarmd_v4_owner.policy WHERE singleton=true')).rows[0];return admitted()&&row?.enabled===true&&row.owner_subject===r.ownerSubject&&row.journal_owner_id===r.journalOwnerId&&row.issuer===r.issuer&&row.audience===r.identity.origin&&row.secret_sha256===r.authSecretSha256?r:null;
+ }finally{c.release();}}
+ const options={appName:'UNFARMD owner',baseURL:release.identity.origin,basePath:'/api/v4/owner',secret:secret,database:db,
   telemetry:{enabled:false},logger:{disabled:true},trustedOrigins:[release.identity.origin],socialProviders:{},plugins:[],rateLimit:{enabled:false},
   emailAndPassword:{enabled:true,autoSignIn:false,disableSignUp:false,minPasswordLength:16,maxPasswordLength:128},
   user:{modelName:'v4_owner_user'},account:{modelName:'v4_owner_account'},verification:{modelName:'v4_owner_verification'},
@@ -36,7 +46,7 @@ export function createOwnerIssuer(config:Readonly<{authority:OwnerReleaseAuthori
  const auth=betterAuth(options),enrollAuth=enrollDb?betterAuth({...options,database:enrollDb}):null;
  function safe(request:Request,write=false){try{const r=admitted(),url=new URL(request.url);return !!r&&!request.signal.aborted&&url.origin===r.identity.origin&&!url.search&&!url.hash&&request.headers.get('sec-fetch-site')==='same-origin'&&(!request.headers.has('origin')||request.headers.get('origin')===r.identity.origin)&&(!write||request.headers.get('origin')===r.identity.origin)&&!['authorization','x-owner-id','x-owner-subject','x-owner-email','x-api-key','purpose','sec-purpose'].some(k=>request.headers.has(k));}catch{return false;}}
  async function session(request:Request):Promise<VerifiedSession|null>{try{
-  if(!safe(request))return null;const r=await policy();if(!r)return null;const list=(request.headers.get('cookie')??'').split(';').map(v=>v.trim()).filter(v=>v.startsWith(OWNER_COOKIE+'='));if(list.length!==1||list[0].length>1024)return null;
+  if(!safe(request,!['GET','HEAD'].includes(request.method)))return null;const r=await policy();if(!r)return null;const list=(request.headers.get('cookie')??'').split(';').map(v=>v.trim()).filter(v=>v.startsWith(OWNER_COOKIE+'='));if(list.length!==1||list[0].length>1024)return null;
   const result=await auth.api.getSession({headers:new Headers({cookie:list[0]}),query:{disableCookieCache:true,disableRefresh:true}});const s=result?.session,t=Date.now();
   if(!result||!s||result.user.id!==r.ownerSubject||s.userId!==r.ownerSubject||s.issuer!==r.issuer||s.audience!==r.identity.origin||!admitted())return null;
   const start=new Date(s.createdAt).getTime(),end=new Date(s.expiresAt).getTime();if(start>t||end<=t||end-start>900000||end>r.expiresAt||typeof s.id!=='string'||!/^[A-Za-z0-9_-]{16,128}$/.test(s.id)||!await policy())return null;
@@ -45,7 +55,7 @@ export function createOwnerIssuer(config:Readonly<{authority:OwnerReleaseAuthori
  return Object.freeze({session,
   /** Server/operator-only one-time enrollment, never exposed by handler. Unknown ACK => HOLD. */
   async enroll(email:string,password:string){if(!enrollDb||!enrollAuth||enrolling||!await policy()||typeof email!=='string'||email.length>254||email!==email.toLowerCase()||password.length<16||password.length>128)throw Error('owner_enrollment_denied');
-   const lock=await enrollDb.connect();try{if(!strictBindingEstablished(lock))throw Error('native_binding_required');await lock.query('SELECT pg_advisory_lock(243,2)');const count=(await lock.query('SELECT count(*)::int n FROM public.v4_owner_user')).rows[0]?.n;if(count!==0)throw Error('owner_already_enrolled');enrolling=true;enrollmentEmail=email;
+   const lock=await enrollDb.connect();try{if(!strictBindingEstablished(lock))throw Error('native_binding_required');if((await lock.query("SELECT current_user='unfarmd_v4_enroll_login' AND session_user=current_user AND NOT has_database_privilege(current_user,current_database(),'CREATE,TEMP') AS ok")).rows[0]?.ok!==true)throw Error('enrollment_role_denied');await lock.query('SELECT pg_advisory_lock(243,2)');const count=(await lock.query('SELECT count(*)::int n FROM public.v4_owner_user')).rows[0]?.n;if(count!==0)throw Error('owner_already_enrolled');enrolling=true;enrollmentEmail=email;
     const result=await enrollAuth.api.signUpEmail({body:{name:'UNFARMD owner',email,password}});if(!result||result.user.id!==release.ownerSubject||!await policy())throw Error('owner_enrollment_uncertain');return Object.freeze({enrolled:true});
    }catch{throw Error('owner_enrollment_denied_or_uncertain');}finally{enrolling=false;enrollmentEmail='';try{await lock.query('SELECT pg_advisory_unlock(243,2)');}finally{lock.release();}}
   },
