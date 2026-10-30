@@ -1,0 +1,52 @@
+{
+  "reviewedAt": "2026-10-30",
+  "source": "official_documentation_only_no_market_requests",
+  "jupiterDocsCommit": "acbe70268b8bb985362548e36ac2e76a8ac89631",
+  "decision": "HOLD_PROVIDER_CONFIRMATION",
+  "documents": [
+    {
+      "url": "https://github.com/jup-ag/docs/blob/acbe70268b8bb985362548e36ac2e76a8ac89631/openapi-spec/tokens/v2/tokens.yaml",
+      "sha256": "a1ba94ded9c4cc2a4afe1d20c675bf09e50e4e388f2dffd1042f1ef348837535"
+    },
+    {
+      "url": "https://github.com/jup-ag/docs/blob/acbe70268b8bb985362548e36ac2e76a8ac89631/tokens/token-information.mdx",
+      "sha256": "b684278e9a8a037a917360ffa3de179c2a1b4fc3406dd6bc9682b96fa16a2fd9"
+    },
+    {
+      "url": "https://github.com/jup-ag/docs/blob/acbe70268b8bb985362548e36ac2e76a8ac89631/guides/how-to-get-token-information.mdx",
+      "sha256": "89a4c977a3aace67438e347b1db2c0317b763b9a86c4e612465066740307c42e"
+    },
+    {
+      "url": "https://github.com/jup-ag/docs/blob/acbe70268b8bb985362548e36ac2e76a8ac89631/portal/rate-limits.mdx",
+      "sha256": "b973eaaf917e40f32b49d4629a78ef0f78dbc6d163264798c40a02f66eaba3d3"
+    },
+    {
+      "url": "https://github.com/jup-ag/docs/blob/acbe70268b8bb985362548e36ac2e76a8ac89631/portal/plans.mdx",
+      "sha256": "3870d9aa2d1110115f6538ca06e4a198be7d6052bbc0553f8103d082d3d5498a"
+    },
+    {
+      "url": "https://github.com/jup-ag/docs/blob/acbe70268b8bb985362548e36ac2e76a8ac89631/legal/sdk-api-license-agreement.mdx",
+      "sha256": "b9c7ca861307b1d24883fd300becce235d2eaf074460e18ca512cc5e16bf53f4"
+    },
+    {
+      "url": "https://github.com/jup-ag/docs/blob/acbe70268b8bb985362548e36ac2e76a8ac89631/legal/terms-of-use.mdx",
+      "sha256": "12b0e57f4a23f628ef600c1d83eb3dae1b98d467b58e85d927e85decd9f0e3fa"
+    },
+    {
+      "url": "https://github.com/jup-ag/docs/blob/acbe70268b8bb985362548e36ac2e76a8ac89631/static/files/legal/sdk-and-api-license-agreement-16-october-2025.docx",
+      "sha256": "b8be39eaeec1a69f99f30ecf85210f2200d0655cfaab0a7d651ff95cd4a8e948"
+    }
+  ],
+  "unresolved": [
+    "standalone_informational_business_display",
+    "outside_data_combination",
+    "token_api_attribution",
+    "retention_derived_hashes_backup_deletion",
+    "buy_sell_volume_units_and_window_clocks",
+    "actual_account_allowance_debit_and_protection"
+  ],
+  "heliusEvidence": "https://github.com/fuzzysniper/scout-stonk-intel/pull/220#issuecomment-6481670166",
+  "liveRequests": 0,
+  "providerContactSent": false,
+  "rawProviderDataCommitted": false
+}
