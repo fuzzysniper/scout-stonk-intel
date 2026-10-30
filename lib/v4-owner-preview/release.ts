@@ -2,7 +2,7 @@ import 'server-only';
 import {verify,type KeyObject} from 'node:crypto';
 import {parsePacket} from '../trader-pulse/validation';
 import {AUTH_SQL_SHA} from './sql-pins';
-export const BASE_MIGRATION='3416da1b71a2ece227bffc4343a5ea910c61252c246707ded6a1892aed634105';
+export const BASE_MIGRATION='e4e1cd5e8336cf93051a2bd9cb3999bce178e8e110df3b1d9e6ba7b82aa2afb3';
 export const TARGET=Object.freeze({project:'twilight-hall-57571802',branch:'br-sweet-voice-b4x4et5q',database:'unfarmd_v4_pilot',host:'ep-tiny-truth-b4bx6xt9.c-6.us-east-2.aws.neon.tech'});
 export type DeploymentIdentity=Readonly<{kind:'private_preview'|'local_fixture';commit:string;deployment:string;project:string;origin:string}>;
 export type ReleaseRecord=Readonly<{version:'unfarmd-owner-preview/1';identity:DeploymentIdentity;ownerSubject:string;journalOwnerId:string;issuer:string;authSecretSha256:string;migrationSha256:string;authSqlSha256:string;issuedAt:number;expiresAt:number;protectionReviewed:true;sourceGo:false}>;

@@ -18,12 +18,16 @@ ALTER ROLE unfarmd_v4_pilot_login SET search_path=pg_catalog;
 ALTER ROLE unfarmd_v4_erasure_login SET search_path=pg_catalog;
 ALTER ROLE unfarmd_v4_stopper_login SET search_path=pg_catalog;
 -- Rate SECURITY DEFINER objects must not be owned by the migration administrator.
-ALTER SCHEMA unfarmd_thesis_rate OWNER TO unfarmd_v4_deploy_owner;
+-- Temporary CREATE is needed by the NEW owner, even for a database-owner migrator.
+GRANT CREATE ON DATABASE unfarmd_v4_pilot TO unfarmd_v4_deploy_owner;
+GRANT USAGE,CREATE ON SCHEMA unfarmd_thesis_rate TO unfarmd_v4_deploy_owner;
 ALTER TABLE unfarmd_thesis_rate.usage OWNER TO unfarmd_v4_deploy_owner;
 ALTER FUNCTION unfarmd_thesis_rate.reserve(uuid,text) OWNER TO unfarmd_v4_deploy_owner;
+ALTER SCHEMA unfarmd_thesis_rate OWNER TO unfarmd_v4_deploy_owner;
 CREATE SCHEMA unfarmd_v4_deploy AUTHORIZATION unfarmd_v4_deploy_owner;
-REVOKE ALL ON SCHEMA unfarmd_v4_deploy FROM PUBLIC;
+REVOKE CREATE ON DATABASE unfarmd_v4_pilot FROM unfarmd_v4_deploy_owner;
 SET LOCAL ROLE unfarmd_v4_deploy_owner;
+REVOKE ALL ON SCHEMA unfarmd_v4_deploy FROM PUBLIC;
 ALTER DEFAULT PRIVILEGES IN SCHEMA unfarmd_v4_deploy REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
 CREATE TABLE unfarmd_v4_deploy.installation(singleton boolean PRIMARY KEY CHECK(singleton),release_digest text NOT NULL,catalog_digest text NOT NULL);
 -- Minimal durable tombstones, not private prose or a claim of physical erasure.
@@ -59,12 +63,29 @@ REVOKE ALL ON ALL FUNCTIONS IN SCHEMA unfarmd_v4_deploy FROM PUBLIC;
 GRANT USAGE ON SCHEMA unfarmd_v4_deploy TO unfarmd_v4_stopper_login;
 GRANT EXECUTE ON FUNCTION unfarmd_v4_deploy.stop_pilot() TO unfarmd_v4_stopper_login;
 RESET ROLE;
--- These exact privileges are available only to the non-login function owner.
+-- These exact privileges are granted BY the real non-login pilot object owner.
+SET LOCAL ROLE unfarmd_v4_boundary_owner;
 GRANT USAGE ON SCHEMA unfarmd_v4_pilot TO unfarmd_v4_deploy_owner;
 GRANT SELECT,UPDATE ON unfarmd_v4_pilot.state TO unfarmd_v4_deploy_owner;
 GRANT INSERT ON unfarmd_v4_pilot.history TO unfarmd_v4_deploy_owner;
 GRANT USAGE ON SEQUENCE unfarmd_v4_pilot.history_seq_seq TO unfarmd_v4_deploy_owner;
+RESET ROLE;
+-- Trigger creation checks EXECUTE once; installation-only rights are revoked below.
+SET LOCAL ROLE unfarmd_v4_deploy_owner;
+GRANT USAGE ON SCHEMA unfarmd_v4_deploy TO unfarmd_journal_owner,unfarmd_v4_boundary_owner;
+GRANT EXECUTE ON FUNCTION unfarmd_v4_deploy.remember_erasure(),unfarmd_v4_deploy.reject_resurrection() TO unfarmd_journal_owner;
+GRANT EXECUTE ON FUNCTION unfarmd_v4_deploy.monotone_pilot() TO unfarmd_v4_boundary_owner;
+RESET ROLE;
+SET LOCAL ROLE unfarmd_journal_owner;
 CREATE TRIGGER journal_erasure_tombstone BEFORE DELETE ON unfarmd_journal.journals FOR EACH ROW EXECUTE FUNCTION unfarmd_v4_deploy.remember_erasure();
 CREATE TRIGGER journal_no_resurrection BEFORE INSERT ON unfarmd_journal.journals FOR EACH ROW EXECUTE FUNCTION unfarmd_v4_deploy.reject_resurrection();
+RESET ROLE;
+SET LOCAL ROLE unfarmd_v4_boundary_owner;
 CREATE TRIGGER pilot_monotone BEFORE UPDATE OR DELETE ON unfarmd_v4_pilot.state FOR EACH ROW EXECUTE FUNCTION unfarmd_v4_deploy.monotone_pilot();
 CREATE TRIGGER pilot_no_truncate BEFORE TRUNCATE ON unfarmd_v4_pilot.state FOR EACH STATEMENT EXECUTE FUNCTION unfarmd_v4_deploy.monotone_pilot();
+RESET ROLE;
+SET LOCAL ROLE unfarmd_v4_deploy_owner;
+REVOKE EXECUTE ON FUNCTION unfarmd_v4_deploy.remember_erasure(),unfarmd_v4_deploy.reject_resurrection() FROM unfarmd_journal_owner;
+REVOKE EXECUTE ON FUNCTION unfarmd_v4_deploy.monotone_pilot() FROM unfarmd_v4_boundary_owner;
+REVOKE USAGE ON SCHEMA unfarmd_v4_deploy FROM unfarmd_journal_owner,unfarmd_v4_boundary_owner;
+RESET ROLE;

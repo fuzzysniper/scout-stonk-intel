@@ -1,5 +1,5 @@
 // Exact unexecuted supplement/body digests. No SQL or credentials execute here.
-export const AUTH_SQL_SHA="18785a325f8fc411b91e90b53955f94b304a705a83a3e282f8f6b925eeed129f";
+export const AUTH_SQL_SHA="355ab3abf775f7b8bf74a9f1cf50f3e93618d34f80bda9544ba7a4bdc68eff55";
 export const AUTH_RATE_BODY_SHA="dac8ae395d93e555a03b24968d67a7ed58cb89de257d81a364f734180b2c2976";
 export const SOURCE_SQL_SHA="3bfc5c5746e8d5dd3f7fa7dcf369e80da0f01d10340040e18d9db86d6c7bf526";
 export const SOURCE_BODIES=Object.freeze({
