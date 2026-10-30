@@ -1,0 +1,86 @@
+name: Neon exact direct host OFF
+on:
+  pull_request:
+    branches: [fix/239-neon-durability-contract]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  pg18-runtime-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Build exact public PostgreSQL18.6 only inside disposable runner
+        run: bash tests/v4-neon-durability/build-pg18.sh
+      - name: Actual pinned direct/pooler denial and modified runtime on real PG18/TLS
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-neon-host/affected.sh
+      - name: Exact immutable240 and238 root on PostgreSQL18 plus finite patch guards
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-neon-host/replay.sh root
+      - name: Actual head types lint build OFF surfaces archive and final guards
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-neon-host/replay.sh built
+          bash scripts/archive-tool.sh check add2a47a3707cca0d380325b09552b0aff0613ad
+          node --test tests/v4-neon-host/scope.test.mjs
+  immutable-historical-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: All original source guards and histories unchanged
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-neon-host/replay.sh history
+  actual-mobile-and-off:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Local Chromium and ephemeral HTTPS test port
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+          sudo sysctl -w net.ipv4.ip_unprivileged_port_start=443
+      - name: Actual current backend default path, owner history, auth STOP and source-OFF99 browser cases
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v4-neon-host/browser.sh
+      - name: Actual immutable byte and mutation review
+        run: node --test tests/v4-neon-host/scope.test.mjs

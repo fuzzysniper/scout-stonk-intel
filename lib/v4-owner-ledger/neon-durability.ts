@@ -6,10 +6,12 @@ import {canonical,deepFreeze} from '../unfarmd-intelligence/internal';
 import {PROOF_SQL,STEP_SHA} from './sql-proof';
 import {unavailable} from './postgres';
 
+/** Nonsecret owner-reported #241 compute pin. Rotation requires a new reviewed signed contract. */
+export const NEON_DIRECT_HOST='ep-tiny-truth-b4bx6xt9.c-6.us-east-2.aws.neon.tech';
 export const NEON_STEP_SHA='bbaa082b55baa70adef7da22b154bf09eb2baa63bcfc941f4a1c745e6d83caa2';
-export const NEON_ADMISSION_SHA='9c796ed1b6adae3f9934d75c68d0a921c26b55597eca59132de49798fcaa25f1';
-export const NEON_MIGRATION_SHA='92a71e5dcc48088678b8adea1eb6b7399c1628ed1dcf06262f5709df4ece473f';
-export const NEON_EVIDENCE_SHA='0756f3910bc125dec2ca0c8663fe966582c5a5b5c8f080677aa3fa8b071acb7d';
+export const NEON_ADMISSION_SHA='001295a426a5d7b9b84420c7cfef79ba74a2ca0ef45d7cf72925429ab9b1f5b0';
+export const NEON_MIGRATION_SHA='3416da1b71a2ece227bffc4343a5ea910c61252c246707ded6a1892aed634105';
+export const NEON_EVIDENCE_SHA='d7f94d6a5e39428430e97fbc108d6e63e46a63cb5f73e6a73ab9e6796f9fd122';
 const conventional="current_setting('fsync')='on' AND current_setting('synchronous_commit')='on' AND NOT pg_is_in_recovery()";
 /** The original role/function proof remains; only its durability predicate is provider-specific. */
 export const NEON_PROOF_SQL=PROOF_SQL.replace(conventional,'unfarmd_v4_deploy.neon_durability_admitted($2)').replace('AND p.prosecdef AND NOT p.proleakproof','AND p.prosecdef AND NOT p.proleakproof AND NOT p.proisstrict AND p.provolatile=\'v\' AND p.proparallel=\'u\'').replace(' AS durable',`
@@ -40,7 +42,7 @@ export function verifyNeonAdmission(envelope:unknown,ownerPublicKey:KeyObject):N
   const parsed=parsePacket(payload);if(!parsed||typeof parsed!=='object'||Array.isArray(parsed))return null;const p={...parsed as Record<string,unknown>};
   const keys=['version','mode','projectId','branchId','database','host','postgresMajor','tenantId','timelineId','evidenceSha256','migrationSqlSha256','nativeAcceptanceSha256','recoveryAnchorPolicySha256','ownerApprovalId'];
   if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).sort().join(',')!==keys.sort().join(',')||canonical(p)!==payload)return null;
-  if(p.version!=='unfarmd-neon-durability/1'||p.mode!=='neon-safekeeper-quorum/v1'||p.projectId!=='twilight-hall-57571802'||p.branchId!=='br-sweet-voice-b4x4et5q'||p.database!=='unfarmd_v4_pilot'||p.postgresMajor!==18||typeof p.host!=='string'||!/^ep-[a-z0-9-]+\.us-east-2\.aws\.neon\.tech$/.test(p.host)||p.host.includes('-pooler.')||!hex(p.tenantId,32)||!hex(p.timelineId,32)||p.evidenceSha256!==NEON_EVIDENCE_SHA||p.migrationSqlSha256!==NEON_MIGRATION_SHA||!hex(p.nativeAcceptanceSha256)||!hex(p.recoveryAnchorPolicySha256)||typeof p.ownerApprovalId!=='string'||!/^owner-go-[a-f0-9]{16,64}$/.test(p.ownerApprovalId))return null;
+  if(p.version!=='unfarmd-neon-durability/1'||p.mode!=='neon-safekeeper-quorum/v1'||p.projectId!=='twilight-hall-57571802'||p.branchId!=='br-sweet-voice-b4x4et5q'||p.database!=='unfarmd_v4_pilot'||p.postgresMajor!==18||p.host!==NEON_DIRECT_HOST||!hex(p.tenantId,32)||!hex(p.timelineId,32)||p.evidenceSha256!==NEON_EVIDENCE_SHA||p.migrationSqlSha256!==NEON_MIGRATION_SHA||!hex(p.nativeAcceptanceSha256)||!hex(p.recoveryAnchorPolicySha256)||typeof p.ownerApprovalId!=='string'||!/^owner-go-[a-f0-9]{16,64}$/.test(p.ownerApprovalId))return null;
   const cap=Object.freeze({}) as NeonAdmission;
   capabilities.set(cap,Object.freeze({record:deepFreeze(p) as RecordV1,hash:createHash('sha256').update(payload).digest('hex'),payload}));return cap;
  }catch{return null;}

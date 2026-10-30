@@ -1,5 +1,7 @@
 # Neon durability admission — code review GO, hosted operation HOLD
 
+Historical #239 snapshot. [#241 direct-host correction and current installation order](neon-direct-host-241.md) supersedes the hostname and database-existence assumptions below: the founder now reports `unfarmd_v4_pilot` exists. Do not recreate it. No hosted verification has been performed by this task.
+
 Dependent on exact #238 `1133d6813e6913a6846cd08f11117f2a0635d6b1`, tree `5af0ebf9b34905513f127f1a74dac3e09bead0f4`, targeting `integration/v4-final-source-off`. #234/#235/#236 remain ordinary immutable ancestors. Latest observed main `320d216f2b9f278ffa623b29fe367c6fcc50be08` and collector history are untouched. No hosted SQL, connection string/password lookup, resource creation, settings/keys, provider call, deployment, merge or activation occurs here.
 
 ## Conclusion and evidence

@@ -1,6 +1,6 @@
 // UNINSTALLED, owner-operated ONE connection / read-only transaction. No env/DSN/key input.
 import {createHash} from 'node:crypto';
-import {StrictJournalClient,strictBindingEstablished} from '../v4-journal/native-tls.mjs';
+import {StrictJournalClient,strictBindingEstablished,NEON_DIRECT_HOST} from '../v4-journal/native-tls.mjs';
 export const PURPOSE='READ_NEON_COMPATIBILITY_ONCE';
 const out=(status,sqlExecuted=false)=>Object.freeze({version:'unfarmd-neon-native-preflight/1',status,sqlExecuted,durabilityProven:false,sourceGo:false,saveGo:false});
 export const COMPATIBILITY_SQL=`SELECT
@@ -26,6 +26,7 @@ export async function runNativeAcceptance(client,approval){
  if(approval===undefined)return out('disabled');
  if(!approval||typeof approval!=='object'||Array.isArray(approval)||![null,Object.prototype].includes(Object.getPrototypeOf(approval))||Object.values(Object.getOwnPropertyDescriptors(approval)).some(d=>!('value' in d)))return out('invalid_target');
  if(approval.purpose!==PURPOSE)return out('disabled');
+ if(approval.host!==NEON_DIRECT_HOST)return out('invalid_target');
  if(!(client instanceof StrictJournalClient)||!approval||typeof approval.host!=='string'||client.__journalHost!==approval.host||typeof approval.tenantId!=='string'||!/^[a-f0-9]{32}$/.test(approval.tenantId)||typeof approval.timelineId!=='string'||!/^[a-f0-9]{32}$/.test(approval.timelineId))return out('invalid_target');
  const bindingSha256=createHash('sha256').update(JSON.stringify({purpose:PURPOSE,host:approval.host,tenantId:approval.tenantId,timelineId:approval.timelineId,projectId:'twilight-hall-57571802',branchId:'br-sweet-voice-b4x4et5q',database:'unfarmd_v4_pilot'})).digest('hex');
  const observed=status=>Object.freeze({...out(status,true),bindingSha256,observedAtMs:Date.now()});

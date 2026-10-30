@@ -9,7 +9,8 @@ CREATE TABLE unfarmd_v4_deploy.neon_durability_contract(
  CHECK(record_text::jsonb->>'projectId'='twilight-hall-57571802'),
  CHECK(record_text::jsonb->>'branchId'='br-sweet-voice-b4x4et5q'),
  CHECK(record_text::jsonb->>'database'='unfarmd_v4_pilot'),
- CHECK(record_text::jsonb->>'postgresMajor'='18')
+ CHECK(record_text::jsonb->>'postgresMajor'='18'),
+ CHECK((record_text::jsonb->>'host') IS NOT DISTINCT FROM 'ep-tiny-truth-b4bx6xt9.c-6.us-east-2.aws.neon.tech')
 );
 CREATE FUNCTION unfarmd_v4_deploy.neon_durability_admitted(expected text) RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $neon$
 DECLARE r unfarmd_v4_deploy.neon_durability_contract; p jsonb;
@@ -30,7 +31,7 @@ BEGIN
  OR NOT EXISTS(SELECT 1 FROM pg_settings WHERE name='neon.branch_id' AND context='postmaster')
  OR p->>'nativeAcceptanceSha256' IS NULL OR p->>'nativeAcceptanceSha256'!~'^[a-f0-9]{64}$'
  OR p->>'recoveryAnchorPolicySha256' IS NULL OR p->>'recoveryAnchorPolicySha256'!~'^[a-f0-9]{64}$'
- OR p->>'host' IS NULL OR p->>'host'!~'^ep-[a-z0-9-]+\.us-east-2\.aws\.neon\.tech$' OR p->>'host' LIKE '%-pooler.%'
+ OR p->>'host' IS DISTINCT FROM 'ep-tiny-truth-b4bx6xt9.c-6.us-east-2.aws.neon.tech' OR split_part(p->>'host','.',1) LIKE '%-pooler'
  OR (SELECT count(*) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE c.relkind='r' AND c.relpersistence='p' AND (n.nspname IN ('unfarmd_journal','unfarmd_thesis_rate','unfarmd_v4_owner','unfarmd_v4_pilot','unfarmd_v4_deploy') OR (n.nspname='public' AND c.relname LIKE 'v4_owner_%')))<>17
  OR p->>'tenantId' IS NULL OR p->>'tenantId'!~'^[a-f0-9]{32}$' OR p->>'timelineId' IS NULL OR p->>'timelineId'!~'^[a-f0-9]{32}$'
  OR p->>'tenantId' IS DISTINCT FROM current_setting('neon.tenant_id',true)

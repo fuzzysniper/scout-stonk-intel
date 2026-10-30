@@ -71,5 +71,15 @@
     "tag": "REL_18_6",
     "commit": "724edf9bde9d356724ad384a2e196edc3c9f80f7",
     "archiveSha256": "970fe3be21ec37e7a11addcc6bf81da71de95b5a830f4bd7c3744476486a002c"
+  },
+  "issue241ReportedTarget": {
+    "source": "https://github.com/fuzzysniper/scout-stonk-intel/issues/241",
+    "reportedObservationDate": "2026-10-29",
+    "directHost": "ep-tiny-truth-b4bx6xt9.c-6.us-east-2.aws.neon.tech",
+    "poolerHost": "ep-tiny-truth-b4bx6xt9-pooler.c-6.us-east-2.aws.neon.tech",
+    "databaseExists": "unfarmd_v4_pilot",
+    "rolesSchemaInstalled": false,
+    "nativeObservationPerformedByThisTask": false,
+    "hostedSqlExecutedByThisTask": false
   }
 }
