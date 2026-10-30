@@ -1,13 +1,10 @@
-import {installedRoute} from '../../../../lib/v4-owner-preview/installed';
-import {installedOwnerPreview} from '../../../../lib/v4-owner-preview/installed';
 import {inspectPrivateDevelopment} from '../../../../lib/v4-ca-intelligence/private-development';
 import {internalMarketPreview} from '../../../../lib/v4-ca-intelligence/private-development-gate';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
 export const revalidate=0;
-export const POST=async(request:Request):Promise<Response>=>{
- // A successfully signed private-owner release takes precedence over this dev-only lane.
- if(installedOwnerPreview()||!internalMarketPreview())return installedRoute('source')(request);
- return inspectPrivateDevelopment(request);
-};
-export const GET=installedRoute('source');
+const off=()=>Response.json({error:'private_development_off'},{status:503,headers:{'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'}});
+// Source-only internal-development branch: no owner DB, auth issuer, or journal
+// is mounted through this route. Do not reuse this branch for a signed Save release.
+export const POST=(request:Request):Promise<Response>|Response=>internalMarketPreview()?inspectPrivateDevelopment(request):off();
+export const GET=off;
