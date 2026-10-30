@@ -42,7 +42,7 @@ export function verifyNeonAdmission(envelope:unknown,ownerPublicKey:KeyObject):N
   if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).sort().join(',')!==keys.sort().join(',')||canonical(p)!==payload)return null;
   if(p.version!=='unfarmd-neon-durability/1'||p.mode!=='neon-safekeeper-quorum/v1'||p.projectId!=='twilight-hall-57571802'||p.branchId!=='br-sweet-voice-b4x4et5q'||p.database!=='unfarmd_v4_pilot'||p.postgresMajor!==18||typeof p.host!=='string'||!/^ep-[a-z0-9-]+\.us-east-2\.aws\.neon\.tech$/.test(p.host)||p.host.includes('-pooler.')||!hex(p.tenantId,32)||!hex(p.timelineId,32)||p.evidenceSha256!==NEON_EVIDENCE_SHA||p.migrationSqlSha256!==NEON_MIGRATION_SHA||!hex(p.nativeAcceptanceSha256)||!hex(p.recoveryAnchorPolicySha256)||typeof p.ownerApprovalId!=='string'||!/^owner-go-[a-f0-9]{16,64}$/.test(p.ownerApprovalId))return null;
   const cap=Object.freeze({}) as NeonAdmission;
-  capabilities.set(cap,{record:deepFreeze(p) as RecordV1,hash:createHash('sha256').update(payload).digest('hex'),payload});return cap;
+  capabilities.set(cap,Object.freeze({record:deepFreeze(p) as RecordV1,hash:createHash('sha256').update(payload).digest('hex'),payload}));return cap;
  }catch{return null;}
 }
 export function assertNeonTarget(cap:NeonAdmission,host:string){const v=cap&&capabilities.get(cap);if(!v||v.record.host!==host)throw unavailable();return v;}

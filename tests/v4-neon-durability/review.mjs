@@ -6,7 +6,7 @@ export const EXCEPTION='lib/v4-owner-ledger/ledger.ts';
 export const ADDED=['lib/v4-owner-ledger/neon-durability.ts','ops/v4-journal/native-tls.d.mts','ops/v4-neon-durability/admission.sql','ops/v4-neon-durability/render.mjs','ops/v4-neon-durability/probe.mjs','ops/v4-neon-durability/evidence.json',
  'tests/v4-neon-durability/run.sh','tests/v4-neon-durability/contract.test.mjs','tests/v4-neon-durability/postgres18.test.mjs','tests/v4-neon-durability/signing.mjs','tests/v4-neon-durability/build-pg18.sh','tests/v4-neon-durability/replay.sh','tests/v4-neon-durability/browser.sh','tests/v4-neon-durability/built-off.sh','tests/v4-neon-durability/review.mjs','tests/v4-neon-durability/review.json','tests/v4-neon-durability/scope.test.mjs',
  'docs/v4/neon-durability-239.md','.github/workflows/neon-durability-off.yml'];
-const MANIFEST_SHA='d8b2242fb457ccb9b278d157c06324e1ff3cf15ca927ccc90a0ea216a14bbaed';
+const MANIFEST_SHA='3f728ca2e1fc5b059a67212922e4cad96cd5aa189a963f07e114ce80997967cc';
 export const sha=b=>createHash('sha256').update(b).digest('hex');
 export function review(root=process.cwd()){
  const raw=(...a)=>execFileSync('git',a,{cwd:root,maxBuffer:32*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=f=>fs.readFileSync(path.join(root,f));

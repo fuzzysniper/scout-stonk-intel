@@ -34,21 +34,21 @@
     }
   },
   "newFiles": {
-    "lib/v4-owner-ledger/neon-durability.ts": "ddea5b93ae177ff5f7d9fbcddc5c1ce2753be340fa7e51cd658a1b591b1bcf39",
+    "lib/v4-owner-ledger/neon-durability.ts": "b1e7d9227c404282d9497b66f5812726b7117c4ff13e334e46b330e722f04206",
     "ops/v4-journal/native-tls.d.mts": "2b760d3222bab317bc4d8e7fdcd35c91a9cf193a360f982a02da1742bf357bd1",
     "ops/v4-neon-durability/admission.sql": "fa215611fd3065bdfadf4a0a367e27f654a30eacbe0b8c901f610b1aea14e87c",
     "ops/v4-neon-durability/render.mjs": "439e50ca3cbf61ce976813ef869c671dcced3f6958a34b61612d33bb82d152f6",
     "ops/v4-neon-durability/probe.mjs": "ad85d5a0a1c21bb1dfe51855a03e2ec0323db084ae9d881d29fa4fe4090f99da",
     "ops/v4-neon-durability/evidence.json": "0756f3910bc125dec2ca0c8663fe966582c5a5b5c8f080677aa3fa8b071acb7d",
     "tests/v4-neon-durability/run.sh": "7e945287d16c1aa605a7ef1a5e2f771e32f1b48e97446f61fc557a2c56098468",
-    "tests/v4-neon-durability/contract.test.mjs": "96cac04ade7eb2ef31b27bc67d70f2c85e782c4c67abf4f1a1a1cae373f71706",
+    "tests/v4-neon-durability/contract.test.mjs": "9d2c1cdeeeba6756a108fa75fdd722b27dc257a3cd21d77f35b58765c9d75cb5",
     "tests/v4-neon-durability/postgres18.test.mjs": "fb38bf606f15b1d8d6640dbd456661b4d347cd1f971d1938352e5a7c62e3e8a3",
     "tests/v4-neon-durability/signing.mjs": "6adca378067d77d81bcf4818230f898fde4cf4dac48e52ca66a5b15550ed3d50",
     "tests/v4-neon-durability/build-pg18.sh": "2d9ff97b7a18a55822c30549f9a5ad9ec80ebeb4ec3a98580b691a2c51248e2d",
     "tests/v4-neon-durability/replay.sh": "7ab5a7065f742a9ffe4c301c296d7565a65e9b5896dbf93f3c0454ed58297c4f",
     "tests/v4-neon-durability/browser.sh": "39669a2842bb59d8f3a0be418397061fe0a92d1249be41b7ff791152cfacb216",
     "tests/v4-neon-durability/built-off.sh": "303929539680339c106a1bc1d468008ef0e3e962448e8035bed7fc04d7a70176",
-    "docs/v4/neon-durability-239.md": "8e1cae58444ea9d53d578e65ef2776954af546f474e7642ff4185ecbb5cb7094",
+    "docs/v4/neon-durability-239.md": "abd38986faf5b78532f07af9c5b53a33d120d3ea2ba46293c760c011dba2cdf6",
     ".github/workflows/neon-durability-off.yml": "30a0cf64da1d7b940666c07fa400dcd08342733072d26c03c1a8a63def891f52"
   }
 }
