@@ -55,7 +55,13 @@ export async function inspectPrivateDevelopment(request:Request):Promise<Respons
  let mint:string|null=null;
  try{
   const u=new URL(request.url),origin='https://'+urlHost();
-  if(request.method!=='POST'||u.origin!==origin||u.pathname!=='/api/v4/ca-intelligence'||u.search||u.hash
+  // Vercel terminates TLS before Next.js, so request.url can reflect an internal
+  // HTTP origin. Bind the externally authenticated deployment to Host + HTTPS
+  // forwarding + Origin instead of trusting that internal proxy URL's scheme.
+  const host=request.headers.get('host'),forwardedHost=request.headers.get('x-forwarded-host'),proto=request.headers.get('x-forwarded-proto');
+  if(request.method!=='POST'||host!==urlHost()||(forwardedHost!==null&&forwardedHost!==host)
+   ||(proto!==null?proto!=='https':u.protocol!=='https:')
+   ||u.pathname!=='/api/v4/ca-intelligence'||u.search||u.hash
    ||request.headers.get('origin')!==origin||request.headers.get('sec-fetch-site')!=='same-origin'
    ||request.headers.get('x-unfarmd-ca-intent')!=='inspect'
    ||request.headers.get('content-type')!=='application/json'
