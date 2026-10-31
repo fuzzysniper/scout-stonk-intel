@@ -1,0 +1,26 @@
+[
+  {
+    "id": "onchain-mint-authority",
+    "pillar": "rug",
+    "tone": "red",
+    "title": "[SYNTHETIC] Mint authority",
+    "value": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "explanation": "Base authority can issue tokens under the mint permission. Signer control/PDA/multisig ownership is unknown. Acct DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP; request 2026-10-18T12:00:00.000Z; receipt 2026-10-18T12:00:00.000Z; RPC SHA256 f7260719b8e7b95f7a6e1df8425281b49a9c95907de4482048e5eeb9938e7fe4; bytes SHA256 f2811ae0f5e4126e163f0ad0af12178122122db2cac224677520cb80e314cac9. Decoder oracle-onchain/1: account<=8192B/RPC<=65536B/TLV<=32. Captured request binds account (not echoed); slot is context, not mutation/block time. Origin unauthenticated; not independent replay.",
+    "fieldPath": "result.value.data[0]#bytes[0:36]",
+    "source": "SYNTHETIC OFFLINE mainnet.helius-rpc.com getAccountInfo/base64 finalized slot 400000001",
+    "observedAt": "2026-10-18T12:00:00.000Z",
+    "responseSha256": "f7260719b8e7b95f7a6e1df8425281b49a9c95907de4482048e5eeb9938e7fe4"
+  },
+  {
+    "id": "onchain-lp-custody",
+    "pillar": "rug",
+    "tone": "gray",
+    "title": "LP withdrawal custody",
+    "value": null,
+    "explanation": "Current pool identity, LP mint/position ownership, lock terms and withdrawal authority are not proven. Jupiter total liquidity is not custody evidence.",
+    "fieldPath": null,
+    "source": null,
+    "observedAt": null,
+    "responseSha256": null
+  }
+]
