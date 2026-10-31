@@ -2,18 +2,25 @@
 -- Separate rights/signed-policy/native-source GO required. Existing exact3 ledger is untouched.
 BEGIN;
 SET LOCAL search_path=pg_catalog;
-DO $guard$ BEGIN IF current_database()<>'unfarmd_v4_pilot' OR to_regclass('unfarmd_v4_deploy.installation') IS NULL THEN RAISE EXCEPTION 'approved_base_required';END IF;END $guard$;
+-- PG16+ CREATEROLE alone does not confer SET ROLE. Transaction-local, never INHERIT.
+DO $membership$ BEGIN IF current_setting('server_version_num')::int>=160000 THEN PERFORM set_config('createrole_self_grant','set',true);END IF;END $membership$;
+DO $guard$ BEGIN IF current_database()<>'unfarmd_v4_pilot' OR NOT EXISTS(SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='unfarmd_v4_deploy' AND c.relname='installation' AND c.relkind='r') THEN RAISE EXCEPTION 'approved_base_required';END IF;
+ IF EXISTS(SELECT 1 FROM pg_namespace WHERE nspname='unfarmd_v4_ca_budget') OR EXISTS(SELECT 1 FROM pg_roles WHERE rolname IN ('unfarmd_v4_ca_owner','unfarmd_v4_ca_login','unfarmd_v4_ca_stopper_login')) THEN RAISE EXCEPTION 'ca_install_already_present_or_partial';END IF;END $guard$;
 CREATE ROLE unfarmd_v4_ca_owner NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS;
 CREATE ROLE unfarmd_v4_ca_login NOLOGIN INHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS CONNECTION LIMIT 2;
 CREATE ROLE unfarmd_v4_ca_stopper_login NOLOGIN INHERIT NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS CONNECTION LIMIT 1;
 GRANT CONNECT ON DATABASE unfarmd_v4_pilot TO unfarmd_v4_ca_login,unfarmd_v4_ca_stopper_login;
+SET LOCAL ROLE unfarmd_v4_boundary_owner;
 GRANT USAGE ON SCHEMA unfarmd_v4_pilot TO unfarmd_v4_ca_owner;
 GRANT EXECUTE ON FUNCTION unfarmd_v4_pilot.valid_mint(text) TO unfarmd_v4_ca_owner;
+RESET ROLE;
+SET LOCAL ROLE unfarmd_v4_deploy_owner;
 GRANT USAGE ON SCHEMA unfarmd_v4_deploy TO unfarmd_v4_ca_owner;
 DO $grant$ BEGIN IF to_regprocedure('unfarmd_v4_deploy.neon_durability_admitted(text)') IS NOT NULL THEN GRANT EXECUTE ON FUNCTION unfarmd_v4_deploy.neon_durability_admitted(text) TO unfarmd_v4_ca_owner;END IF;END $grant$;
+RESET ROLE;
 CREATE SCHEMA unfarmd_v4_ca_budget AUTHORIZATION unfarmd_v4_ca_owner;
-REVOKE ALL ON SCHEMA unfarmd_v4_ca_budget FROM PUBLIC;
 SET LOCAL ROLE unfarmd_v4_ca_owner;
+REVOKE ALL ON SCHEMA unfarmd_v4_ca_budget FROM PUBLIC;
 ALTER DEFAULT PRIVILEGES IN SCHEMA unfarmd_v4_ca_budget REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
 CREATE TABLE unfarmd_v4_ca_budget.policy(
  singleton boolean PRIMARY KEY CHECK(singleton),record_text text NOT NULL CHECK(octet_length(record_text)<=8192),hash text NOT NULL CHECK(hash~'^[a-f0-9]{64}$'),
@@ -97,9 +104,9 @@ BEGIN
 END $f$;
 REVOKE ALL ON ALL TABLES IN SCHEMA unfarmd_v4_ca_budget FROM PUBLIC;
 REVOKE ALL ON ALL FUNCTIONS IN SCHEMA unfarmd_v4_ca_budget FROM PUBLIC;
-RESET ROLE;
 GRANT USAGE ON SCHEMA unfarmd_v4_ca_budget TO unfarmd_v4_ca_login,unfarmd_v4_ca_stopper_login;
 GRANT EXECUTE ON FUNCTION unfarmd_v4_ca_budget.inspect_policy(text) TO unfarmd_v4_ca_login;
 GRANT EXECUTE ON FUNCTION unfarmd_v4_ca_budget.step(jsonb,uuid,text) TO unfarmd_v4_ca_login,unfarmd_v4_ca_stopper_login;
+RESET ROLE;
 -- No policy/state INSERT, runtime LOGIN, provider selection or existing-pilot mutation is executed.
 COMMIT;
