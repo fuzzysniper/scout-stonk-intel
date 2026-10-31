@@ -5,6 +5,7 @@ import {assemble,unavailable} from './result';
 import type {MarketEvidence} from './contract';
 import {presentIntelligence} from '../v4-owner-preview/presentation';
 import {internalMarketPreview,marketPreviewHost} from './private-development-gate';
+import {jupiterRiskFindings} from './risk-evidence';
 
 // This isolated lane is for the founder's Vercel-authenticated INTERNAL DEVELOPMENT
 // preview only. No Helius, keys, public routes, paid plans, exports or persistence.
@@ -86,7 +87,7 @@ export async function inspectPrivateDevelopment(request:Request):Promise<Respons
   // Never claim a fixture/replay as live; only actual completed HTTPS can label native_https.
   const normalized=nativeEvidence(captured);
   const view=presentIntelligence(assemble(mint,normalized,null));
-  return response(view);
+  return response({...view,riskFindings:jupiterRiskFindings(text,mint,normalized)});
  }catch{
   // Fail closed. No fake price, guessed mint identity or plaintext provider body in logs.
   return mint?response(presentIntelligence(unavailable(mint,'unavailable'))):response({error:'inspection_unavailable'},503);
