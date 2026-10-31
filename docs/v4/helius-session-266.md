@@ -39,6 +39,13 @@ The existing producer already imposes the tighter <=3-attempt ceiling even thoug
 the generic source-policy type can express broader policies. Never sign the older
 <=6/<=10-attempt example from a different integration for this session.
 
+**Budget scope is Helius only.** The existing Jupiter request is a different
+provider read, not charged to or authorized by this Helius grant. C must preserve
+its existing separately admitted development scope and identify both provider
+reads in any combined-session approval; no added Jupiter fetch/retry is permitted
+by this card. The native grant must remain `providers: ['helius']`, not widen to
+two providers or claim its three attempts are a combined-provider global budget.
+
 ## Retention and publication: the actual footprint
 
 | Data | Existing behavior to qualify, not an erasure guarantee |
@@ -68,7 +75,7 @@ Before a source GO, the authorized reviewer must complete an actual server-owned
   owner_mint_provider_utc_hash_counters_immutable` only after the reviewer resolves
   the real footprint above; these literals do not grant a licence.
 - Positive `verifiedDebit`, sufficient `includedAllowance`, genuinely reviewed
-  `overageProtectionReviewed`; original signed source policy `providers: [helius]`
+  `overageProtectionReviewed`; original signed source policy `providers: ['helius']`
   and `rights.helius = SHA256(JSON.stringify(the actual Review))`. Original policy
   validation also requires nonzero Jupiter/combination rights hashes: bind genuine
   separately reviewed scope evidence, never dummy values. Preserve SQL pins,
