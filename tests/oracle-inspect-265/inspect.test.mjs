@@ -35,6 +35,8 @@ test('finite source diff: only dedicated error diagnostics and exact Preview bra
  assert.ok(preview.includes('projectOnchainRisk({mint:view.mint,evaluatedAt,onchain:null,jupiter:null})'));
  assert.ok(preview.includes("nativeMint:{state:'unavailable',reason:'not_selected'}"));
  assert.ok(preview.includes("holders:{state:'unavailable',reason:'receipt_bridge_not_admitted'"));
+ assert.ok(preview.includes("throw Error('invalid_source_view')"));
+ assert.ok(preview.includes("throw Error('oracle_compose_failed')"));
  for(const forbidden of ["from '../../../../lib/v4-oracle/native-mint'","from '../../../../lib/v4-owner-preview/auth'","from 'pg'","from './qualified-inputs'","from './compose-oracle'"])
   assert.ok(!preview.includes(forbidden),'no heavy native source import: '+forbidden);
 });
