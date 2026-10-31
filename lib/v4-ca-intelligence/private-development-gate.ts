@@ -3,7 +3,7 @@
  * An exact Vercel Authentication-protected Preview is mandatory separately.
  */
 const PROJECT='prj_OaA9snVrMUkpXuz6cMSKfSZ6fx5Q';
-const BRANCH='feat/251-evidence-risk-readout';
+const BRANCH='feat/258-oracle-integrated-preview';
 export const marketPreviewHost=()=>process.env.VERCEL_URL??'';
 export function internalMarketPreview():boolean{
  const host=marketPreviewHost();
