@@ -1,0 +1,137 @@
+name: ORACLE decision-first iPhone integration
+on:
+  pull_request:
+    branches: [feat/258-oracle-integrated-preview]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  exact-head-contracts-and-build:
+    if: github.head_ref == 'feat/261-decision-first-oracle'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Finite aggregate review and actual qualified evidence
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/oracle-v5/scope.test.mjs
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - name: Actual HEAD UI source security and original A B functional tests
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-v5/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-v5/run.sh peers
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/peer-tests.sh
+      - name: Exact HEAD types lint optimized app and actual source OFF controls
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-oracle-onchain/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/oracle-v5/scope.test.mjs
+          bash scripts/archive-tool.sh check 34d6a59763d62399cdcd94f7bccb7ea89e579a18
+  mobile-and-accessibility:
+    if: github.head_ref == 'feat/261-decision-first-oracle'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Actual decision-first UI at3203901280
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-v5/run.sh browser
+      - name: Actual optimized Next artifact browser and accessibility
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-v5/run.sh artifact
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oracle261-local-invented-mobile-evidence
+          path: docs/oracle-v5/screenshots/*.png
+  original-A-native-TLS-and-root:
+    if: github.head_ref == 'feat/261-decision-first-oracle'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - name: Original A guards native PostgreSQL TLS owner quotas STOP source and root security
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-v5/inputs.sh a-native-root
+  original-A-immutable-security-history:
+    if: github.head_ref == 'feat/261-decision-first-oracle'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - name: Original A whole-tree guards and immutable security history unchanged
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-v5/inputs.sh a-history
+  immutable-input-reviews:
+    if: github.head_ref == 'feat/261-decision-first-oracle'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - name: Original258 A B C and both new peer complete suites including scope guards
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-v5/inputs.sh foundation
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-v5/inputs.sh peers
