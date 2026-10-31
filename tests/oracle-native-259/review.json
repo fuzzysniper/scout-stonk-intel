@@ -34,7 +34,7 @@
     "tests/oracle-native-259/producer.test.mjs": "6e374cd3dd3ffb1ef39b275da7af3daa911d0766fa4b1fd1f1426833c170861d",
     "tests/oracle-native-259/replay.sh": "1554744e45c1eb4b4bd3ebc96377f9edaa456ab86f7e98569ff7665f91f501db",
     "tests/oracle-native-259/run.sh": "7329c38c7771f33f86c7763209b484e3a100e0b217312cec074877532837dc81",
-    "tests/oracle-native-259/security.test.mjs": "a3efabd7459de6652a01a52ffd2b1b0509cdebf1f1950fea47433d8faa4ab059",
+    "tests/oracle-native-259/security.test.mjs": "0dbca1ce0fd93e2b3f2fc13df39a828e038e81fec091a9de0afb915d3458de2a",
     "tests/oracle-native-259/sources.json": "57dfb9b981cbc51f1688d57e2a0bff2ba8fc4adce1a6f18e4535796996c418db"
   }
 }
