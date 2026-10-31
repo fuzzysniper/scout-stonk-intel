@@ -25,7 +25,7 @@ test('integration preserves all three exact original merge parents and bounded f
  const parents=git('show','-s','--format=%P', 'e2bdd08fd9e4b1b8606498f0f7d7969ef22c84d4').split(' ');
  assert.deepEqual(parents,[C,B,A]);
  const actual=git('diff','--name-only',C,'HEAD').split('\n').sort();
- const expected=[...bpaths,rights,sourceGate,nativeGate,'tests/oracle-integration-271/verify.test.mjs'].sort();
+ const expected=[...bpaths,rights,sourceGate,nativeGate,'tests/oracle-integration-271/verify.test.mjs','.github/workflows/oracle-integration-271.yml'].sort();
  assert.deepEqual(actual,expected);
 });
 test('B SQL + body hash + tests and A provider rights are byte-identical to original signed reviews',()=>{
