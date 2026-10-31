@@ -1,0 +1,115 @@
+{
+  "reviewedAt": "2026-10-31",
+  "networkRequests": "official_public_GitHub_protocol_source_only_no_RPC_or_market_data",
+  "token2022": {
+    "repo": "solana-program/token-2022",
+    "commit": "986b3aa58cbcc40dea12b369912017a4066804e7",
+    "committedAt": "2026-10-30T15:51:05Z",
+    "licence": "Apache-2.0_source_licence_not_provider_data_permission",
+    "files": [
+      {
+        "path": "interface/src/extension/confidential_transfer/mod.rs",
+        "url": "https://github.com/solana-program/token-2022/blob/986b3aa58cbcc40dea12b369912017a4066804e7/interface/src/extension/confidential_transfer/mod.rs",
+        "sha256": "bba9969afcc4599ce3f7f995b871f8e2d3c726f790561dcc3cb4d3ba885abe31"
+      },
+      {
+        "path": "interface/src/extension/default_account_state/mod.rs",
+        "url": "https://github.com/solana-program/token-2022/blob/986b3aa58cbcc40dea12b369912017a4066804e7/interface/src/extension/default_account_state/mod.rs",
+        "sha256": "2f99ac0590ada4ae651bce35dcbe4c1ede983331f0a34598c640eb5b590dd3df"
+      },
+      {
+        "path": "interface/src/extension/mod.rs",
+        "url": "https://github.com/solana-program/token-2022/blob/986b3aa58cbcc40dea12b369912017a4066804e7/interface/src/extension/mod.rs",
+        "sha256": "d273a87617b06f4a813a2c3c3bbab8180a0a4c657d836a95475259eca9e40f5a"
+      },
+      {
+        "path": "interface/src/extension/pausable/mod.rs",
+        "url": "https://github.com/solana-program/token-2022/blob/986b3aa58cbcc40dea12b369912017a4066804e7/interface/src/extension/pausable/mod.rs",
+        "sha256": "ec2d0b938dc296c73c27bbf98b9b1ca7c71124c76cc3a2e9740cdf7093c2d708"
+      },
+      {
+        "path": "interface/src/extension/permanent_delegate.rs",
+        "url": "https://github.com/solana-program/token-2022/blob/986b3aa58cbcc40dea12b369912017a4066804e7/interface/src/extension/permanent_delegate.rs",
+        "sha256": "2b6e8554448539d2c8bdb456080f24455e6011b50938612f26470afe59a49ee0"
+      },
+      {
+        "path": "interface/src/extension/transfer_fee/mod.rs",
+        "url": "https://github.com/solana-program/token-2022/blob/986b3aa58cbcc40dea12b369912017a4066804e7/interface/src/extension/transfer_fee/mod.rs",
+        "sha256": "2f51ac04733271b7578f0fb8c05805aac237f1521ffa1505b4055c03b6cbda5c"
+      },
+      {
+        "path": "interface/src/extension/transfer_hook/mod.rs",
+        "url": "https://github.com/solana-program/token-2022/blob/986b3aa58cbcc40dea12b369912017a4066804e7/interface/src/extension/transfer_hook/mod.rs",
+        "sha256": "23245c8a47f09adaf4803a6ffca8d6dfc9da1e4c87741b33338efedd07d90e3e"
+      },
+      {
+        "path": "interface/src/state.rs",
+        "url": "https://github.com/solana-program/token-2022/blob/986b3aa58cbcc40dea12b369912017a4066804e7/interface/src/state.rs",
+        "sha256": "4566daf8b06ff2e7b975bed3e631ef4ab9591a95ddabd4117300ca1f639a59d2"
+      }
+    ]
+  },
+  "protocolFeasibility": [
+    {
+      "repo": "pump-fun/pump-public-docs",
+      "commit": "639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22",
+      "date": "2026-10-13T15:37:48Z",
+      "files": [
+        {
+          "path": "idl/pump_amm.json",
+          "url": "https://github.com/pump-fun/pump-public-docs/blob/639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22/idl/pump_amm.json",
+          "sha256": "b7d8c57a4d9c4dd0109a9ab893052352333252d4eedced10ac091d4d66cab89b"
+        }
+      ]
+    },
+    {
+      "repo": "raydium-io/raydium-cp-swap",
+      "commit": "f4b9b26342afe9122d5ff67cd7a4f19ded4ac0a5",
+      "date": "2026-10-20T06:25:24Z",
+      "files": [
+        {
+          "path": "programs/cp-swap/src/states/pool.rs",
+          "url": "https://github.com/raydium-io/raydium-cp-swap/blob/f4b9b26342afe9122d5ff67cd7a4f19ded4ac0a5/programs/cp-swap/src/states/pool.rs",
+          "sha256": "e2a836869400bf3cbe3aa52e664235620f82a5c701edd4ced75789f6d7d124ad"
+        }
+      ]
+    },
+    {
+      "repo": "raydium-io/raydium-clmm",
+      "commit": "6d7a0f82d2f293c553c69aaf943377367c6c4cc6",
+      "date": "2026-10-27T06:25:38Z",
+      "files": [
+        {
+          "path": "programs/amm/src/states/pool.rs",
+          "url": "https://github.com/raydium-io/raydium-clmm/blob/6d7a0f82d2f293c553c69aaf943377367c6c4cc6/programs/amm/src/states/pool.rs",
+          "sha256": "f9f8927810502ba5aed4a31ad088e368246d3957398608b24a1f8a3c9ef4ba3f"
+        },
+        {
+          "path": "programs/amm/src/states/personal_position.rs",
+          "url": "https://github.com/raydium-io/raydium-clmm/blob/6d7a0f82d2f293c553c69aaf943377367c6c4cc6/programs/amm/src/states/personal_position.rs",
+          "sha256": "5777139612547b901038319436a6b8b8088f22642b4a98811ba2d1abe62ca2f0"
+        }
+      ]
+    },
+    {
+      "repo": "orca-so/whirlpools",
+      "commit": "cc683ec92acb5e7606caa3d8e514d9383e9c7c11",
+      "date": "2026-10-12T09:29:17Z",
+      "files": [
+        {
+          "path": "programs/whirlpool/src/state/position.rs",
+          "url": "https://github.com/orca-so/whirlpools/blob/cc683ec92acb5e7606caa3d8e514d9383e9c7c11/programs/whirlpool/src/state/position.rs",
+          "sha256": "4d5916e91fe81e5a0e87cbd0ba1fbeab1a048d27126b03a35cad9e51bc93b193"
+        },
+        {
+          "path": "programs/whirlpool/src/state/whirlpool.rs",
+          "url": "https://github.com/orca-so/whirlpools/blob/cc683ec92acb5e7606caa3d8e514d9383e9c7c11/programs/whirlpool/src/state/whirlpool.rs",
+          "sha256": "4845d76fe436368683807104d8b893109f7b4e7ca6a7279c5cc256d7a981cec0"
+        }
+      ]
+    }
+  ],
+  "realRpcObservations": 0,
+  "providerRights": "HOLD_owner_account_encoding_display_retention_and_combination_review",
+  "sourceGo": false
+}
