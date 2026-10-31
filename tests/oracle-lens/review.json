@@ -1,0 +1,134 @@
+{
+  "base": "8c89c37a2d738ec1e9ab48b9a7a38510b7f30e2e",
+  "changed": {
+    "app/lens/ca-view.module.css": {
+      "before": "9afd565a4262671e3237d76324579732b02f0b2d76b9a6e43f3e1ca7c462d3fd",
+      "after": "7ecc7a4a03d65d35d64f4cf071e9b89f75eebb705433e98fcff922e1ee15507f",
+      "patch": "36a25aa5cbefa57e301dc0a6ed7893c41f94c11a3525c4f090840bb0d8a3e10a"
+    },
+    "app/lens/ca-view.tsx": {
+      "before": "b802616b499387d35d9715c4359fc08e95392a8edaf1bfdf5d6d03103ddc0277",
+      "after": "bea0cd768f8e9954f1d3d16e23fcd6cf442b591335946206d48af88fedba4da6",
+      "patch": "aa3cdbc8539693b65e118feb3282e367655042d6b1259ff4ee49d5d1882f1a65"
+    }
+  },
+  "added": {
+    ".github/workflows/oracle-lens.yml": {
+      "mode": "100644",
+      "sha256": "c9e9cf1aea267f35245135d2c08a703ce68b351ab2ee0582fefadfa2a951a150"
+    },
+    "app/lens/intelligence-desk.tsx": {
+      "mode": "100644",
+      "sha256": "43c5135fb89f978bc74b7eec6e0d58ffeec4a811a4f63aeac3ca7c75e2450d7f"
+    },
+    "app/lens/intelligence-model.ts": {
+      "mode": "100644",
+      "sha256": "547137928926d1164fea86498bd37d8e33f5dbc888f08e894473a3f84e82855f"
+    },
+    "docs/oracle-254/README.md": {
+      "mode": "100644",
+      "sha256": "d94b38057ce7c6ed479c5a811107eac9260cb1b580b3113efbca5853f7ed6ccf"
+    },
+    "docs/oracle-254/screenshots/after-1280.png": {
+      "mode": "100644",
+      "sha256": "7b81d5fb2c2512c416e0f687576dd22233fcfb28b726f4347c9496737b71558e"
+    },
+    "docs/oracle-254/screenshots/after-320.png": {
+      "mode": "100644",
+      "sha256": "6a8942835745f5d4f6b0fc650f09cb01645236d9c72774c65d1ffb96e89b50ef"
+    },
+    "docs/oracle-254/screenshots/after-390.png": {
+      "mode": "100644",
+      "sha256": "e73197d3aa868449fa665b61479417f751e81f5dcac2aca0fa0edcfd2aaf05a1"
+    },
+    "docs/oracle-254/screenshots/before-1280.png": {
+      "mode": "100644",
+      "sha256": "5e5a933854643cf1da6cfc9522725ea189eeb95eb9e371c59eb46b514fb5887b"
+    },
+    "docs/oracle-254/screenshots/before-320.png": {
+      "mode": "100644",
+      "sha256": "bd1a81f7f4beba9a4aea079a85beeff93d0e5e86f96a39535ba97557f1cced7b"
+    },
+    "docs/oracle-254/screenshots/before-390.png": {
+      "mode": "100644",
+      "sha256": "e9116208dace9fb5ff70f5118e8850e54bd501d3d4569facbdba89feac765482"
+    },
+    "docs/oracle-254/screenshots/evidence-1280.png": {
+      "mode": "100644",
+      "sha256": "ceea2efa613cd8074ac066e800c7e0a6d1252dd2bf8b7e24a22edd921ef297f0"
+    },
+    "docs/oracle-254/screenshots/evidence-320.png": {
+      "mode": "100644",
+      "sha256": "109c38d2a682fbe99525d450d8d60e2628cb23187d1f3c2fb120de5f1da04c60"
+    },
+    "docs/oracle-254/screenshots/evidence-390.png": {
+      "mode": "100644",
+      "sha256": "f95f7deea21385748e7633404d3badd7dd43b47a1e57c7b27e499f43dae35484"
+    },
+    "docs/oracle-254/screenshots/fold-1280.png": {
+      "mode": "100644",
+      "sha256": "cbf9877380872fda5d3191b422741681e09654c0d12f989884f019c88a872846"
+    },
+    "docs/oracle-254/screenshots/fold-320.png": {
+      "mode": "100644",
+      "sha256": "c6e7c09a9069b3199186121ea73c744410b42c8cf0db8e8466d142cecd4a9194"
+    },
+    "docs/oracle-254/screenshots/fold-390.png": {
+      "mode": "100644",
+      "sha256": "8156a101e08cfdd70a560b62d23bdebff5fc2d7d2f67225d820f477b9eef5f64"
+    },
+    "tests/oracle-lens/before.mjs": {
+      "mode": "100644",
+      "sha256": "f534b9c732312bfacc0089acd88b7a774266adb1ce872597cb55df2dd9766eb3"
+    },
+    "tests/oracle-lens/before.sh": {
+      "mode": "100755",
+      "sha256": "3854fee42e1c06b945d486f04354e634728c4d2059e8b1961d64be0d66118cb5"
+    },
+    "tests/oracle-lens/browser-entry.tsx": {
+      "mode": "100644",
+      "sha256": "e7313f2349b5680672eab14ab02e97e0e9274a25a32fbe8d569e1dce2847b69d"
+    },
+    "tests/oracle-lens/browser-server.mjs": {
+      "mode": "100644",
+      "sha256": "050a56609af0afb14a8680483151a70f9741da23f8d1ff748f23e13b974261e6"
+    },
+    "tests/oracle-lens/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "48624cad0155e44c23303ff3b65ab4ee95be6d2b91861dcdf02f297bd974f795"
+    },
+    "tests/oracle-lens/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "b1dff563694d0f47996cbf7d40105aee43c9f7384fedfaa2b2c626edc1f9b0b0"
+    },
+    "tests/oracle-lens/model.test.mjs": {
+      "mode": "100644",
+      "sha256": "2053dd5c3f9a8fa2fc0a5991a25fa20a5fc3fd1119f60c2f41e453ad49432d97"
+    },
+    "tests/oracle-lens/playwright.config.mjs": {
+      "mode": "100644",
+      "sha256": "c1685d43d68c714612f3714a1d4f82e9460d7e8326386103e0061d9ee64fdd7a"
+    },
+    "tests/oracle-lens/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-lens/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-lens/run.sh": {
+      "mode": "100755",
+      "sha256": "0a2f5414f9bb5415314e4f728673416f15bc7fc6abb0e1a7751ef1e179b37dc7"
+    },
+    "tests/oracle-lens/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-lens/source-tests.sh": {
+      "mode": "100755",
+      "sha256": "3750e5845dd20e24981347ce262b766a2f796d088a3b47c37bb43099f62d0479"
+    }
+  },
+  "peers": []
+}
