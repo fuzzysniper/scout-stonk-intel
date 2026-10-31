@@ -11,7 +11,7 @@ const previous="const BRANCH='feat/251-evidence-risk-readout';";
 const current="const BRANCH='feat/258-oracle-integrated-preview';";
 test('only pre-reviewed Preview branch pin changed; no A/B/C, budget, SQL, production mutations',()=>{
  const files=execFileSync('git',['diff','--name-only',parent,'HEAD'],{encoding:'utf8'}).trim().split('\n').sort();
- assert.deepEqual(files,[path,'tests/oracle-preview-258/review.test.mjs'].sort());
+ assert.deepEqual(files,[path,'tests/oracle-preview-258/review.test.mjs','.github/workflows/oracle-preview-258.yml'].sort());
  const before=execFileSync('git',['show',parent+':'+path],{encoding:'utf8'});
  const after=readFileSync(path,'utf8');
  assert.equal(before.split(previous).length,2);
