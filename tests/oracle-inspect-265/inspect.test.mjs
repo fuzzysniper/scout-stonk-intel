@@ -10,6 +10,7 @@ test('finite source diff: only dedicated error diagnostics and exact Preview bra
  assert.deepEqual(files,[
   'app/lens/ca-view.tsx','app/lens/inspect-errors.ts',
   'app/api/v4/ca-intelligence/route.ts',
+  'app/api/v4/ca-intelligence/compose-preview.ts',
   'lib/v4-ca-intelligence/private-development-gate.ts',
   'tests/oracle-inspect-265/inspect.test.mjs'
  ].sort());
@@ -28,6 +29,14 @@ test('finite source diff: only dedicated error diagnostics and exact Preview bra
  assert.ok(route.includes("unavailable('source_module')"));
  assert.ok(route.includes("unavailable('oracle_module')"));
  assert.ok(!route.includes('import {inspectPrivateDevelopment}'));
+ assert.ok(route.includes("import('./compose-preview')"));
+ assert.ok(!route.includes("import('./compose-oracle')"));
+ const preview=readFileSync('app/api/v4/ca-intelligence/compose-preview.ts','utf8');
+ assert.ok(preview.includes('projectOnchainRisk({mint:view.mint,evaluatedAt,onchain:null,jupiter:null})'));
+ assert.ok(preview.includes("nativeMint:{state:'unavailable',reason:'not_selected'}"));
+ assert.ok(preview.includes("holders:{state:'unavailable',reason:'receipt_bridge_not_admitted'"));
+ for(const forbidden of ["from '../../../../lib/v4-oracle/native-mint'","from '../../../../lib/v4-owner-preview/auth'","from 'pg'","from './qualified-inputs'","from './compose-oracle'"])
+  assert.ok(!preview.includes(forbidden),'no heavy native source import: '+forbidden);
 });
 
 test('classify Vercel HTTP, auth, source and validation denials without copying private payloads',()=>{
