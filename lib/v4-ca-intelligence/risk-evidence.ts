@@ -3,7 +3,9 @@ import {numericJson,decimal} from './decimal';
 import type {MarketEvidence,SourceRef} from './contract';
 
 /** Evidence-specific conditions. Not a token safety score or a rug prediction. */
-import type {RiskFinding,RiskTone,RiskPillar} from '../v4-owner-preview/view-contract';
+import type {RiskFinding} from '../v4-owner-preview/view-contract';
+type RiskTone=RiskFinding['tone'];
+type RiskPillar=RiskFinding['pillar'];
 
 const unknown=(id:string,pillar:RiskPillar,title:string,reason:string):RiskFinding=>Object.freeze({
  id,pillar,tone:'gray' as const,title,value:null,explanation:reason,
