@@ -46,7 +46,7 @@ jobs:
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
           git restore -- next-env.d.ts
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-oracle-onchain/built-off.mjs
-          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/run.sh artifact
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
           node --test tests/oracle-integration-271/verify.test.mjs
           bash scripts/archive-tool.sh check f80ecba0d39ad854d189ff5b4c699f4310a45c1d
   inherited-original-reviews:
@@ -97,4 +97,4 @@ jobs:
         run: |
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
           git restore -- next-env.d.ts
-          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/run.sh artifact
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
