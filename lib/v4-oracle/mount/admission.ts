@@ -8,7 +8,7 @@ import {data,time} from '../../v4-helius-pilot/server/profile';
 import {isExactPublicKey} from '../../onchain-mint/validation';
 import {parsePacket} from '../../trader-pulse/validation';
 import type {Review,Config} from '../native-mint/contract';
-export const NATIVE_BRANCH='feat/266-native-oracle-mount';
+export const NATIVE_BRANCH='integration/271-oracle-native-source-reviewed';
 export const PUBLIC_PACKETS=['UNFARMD_ORACLE_OWNER_RELEASE','UNFARMD_ORACLE_SOURCE_GRANT','UNFARMD_ORACLE_NATIVE_REVIEW']as const;
 declare const brand:unique symbol;
 export type MountPlan=Readonly<{[brand]:true}>;
