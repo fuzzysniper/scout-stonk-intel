@@ -3,13 +3,7 @@ import {numericJson,decimal} from './decimal';
 import type {MarketEvidence,SourceRef} from './contract';
 
 /** Evidence-specific conditions. Not a token safety score or a rug prediction. */
-export type RiskTone='red'|'yellow'|'green'|'gray';
-export type RiskPillar='rug'|'farm'|'momentum';
-export type RiskFinding=Readonly<{
- id:string;pillar:RiskPillar;tone:RiskTone;title:string;value:string|null;
- explanation:string;fieldPath:string|null;source:string|null;
- observedAt:string|null;responseSha256:string|null;
-}>;
+import type {RiskFinding,RiskTone,RiskPillar} from '../v4-owner-preview/view-contract';
 
 const unknown=(id:string,pillar:RiskPillar,title:string,reason:string):RiskFinding=>Object.freeze({
  id,pillar,tone:'gray' as const,title,value:null,explanation:reason,
@@ -66,7 +60,7 @@ export function jupiterRiskFindings(text:string,mint:string,market:MarketEvidenc
   const concentration=rawAudit&&decimal(rawAudit.topHoldersPercentage);
   if(concentration!==null&&concentration!==undefined&&typeof audit?.topHoldersPercentage==='number'&&Number.isFinite(audit.topHoldersPercentage)&&audit.topHoldersPercentage>=0&&audit.topHoldersPercentage<=100){
    const n=audit.topHoldersPercentage;
-   const tone:RiskTone=n>=50?'red':n>=20?'yellow':'green';
+   const tone:Exclude<RiskTone,'gray'>=n>=50?'red':n>=20?'yellow':'green';
    const description=n>=50?'At least 50% is attributed to top holders by Jupiter, an elevated concentration flag.':n>=20?'At least 20% is attributed to top holders by Jupiter.':'Below the 20% concentration watch level in Jupiter\'s reported data.';
    put(observed('concentration','farm','Top-holder concentration',tone,concentration+'%',description+' Thresholds are UNFARMD screening heuristics, not calibrated rug probabilities. Top-holder composition, related wallets and beneficial control are not verified.','audit.topHoldersPercentage',source));
   }
