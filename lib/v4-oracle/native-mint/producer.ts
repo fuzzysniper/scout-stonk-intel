@@ -4,6 +4,7 @@ import type {ClientRequest,IncomingMessage} from 'node:http';
 import {randomUUID} from 'node:crypto';
 import {freeze,isExactPublicKey,strictJson} from '../../onchain-mint/validation';
 import {data,time} from '../../v4-helius-pilot/server/profile';
+import {SourcePolicyAuthority} from '../../v4-owner-preview/source-policy';
 import {createSourceLedger} from '../../v4-owner-preview/source-ledger';
 import {createOwnerIssuer} from '../../v4-owner-preview/auth';
 import {createSourceOwner} from '../../v4-owner-preview/source-owner';
@@ -202,7 +203,10 @@ function build(config:Config,fixtureWire?:LocalWire,fixtureClock?:{now:()=>numbe
    const u=new URL(request.url),host=new URL(p.origin).host;
    if(u.origin!==p.origin||u.pathname!=='/api/v4/ca-intelligence'||u.search||u.hash||request.headers.get('host')!==host
     ||request.headers.has('x-forwarded-host')&&request.headers.get('x-forwarded-host')!==host||request.headers.has('x-forwarded-proto')&&request.headers.get('x-forwarded-proto')!=='https')return gray('admission_denied');
-   const g=await owner.verify(request,mint,hash),c=g&&owner.inspect(g);if(!c||c.ownerSubject!==p.ownerSubject||c.policyHash!==hash||c.mint!==mint)return gray('admission_denied');
+   // STOP must remain available after an uncertain source ACK or expired source window.
+   // Verify the ORIGINAL issuer directly; SourceOwner.snapshot intentionally denies a stopped ledger.
+   const approved=SourcePolicyAuthority.prototype.inspect.call(config.authority,config.approval,true),session=await issuer.session(request);
+   if(!approved||approved.hash!==hash||!session||session.ownerSubject!==p.ownerSubject||session.expiresAt<=Date.now())return gray('admission_denied');
    return gray(await halt()==='confirmed'?'stopped':'stop_uncertain');
   }catch{return gray('stop_uncertain');}
  };
