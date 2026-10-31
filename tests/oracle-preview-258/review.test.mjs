@@ -31,7 +31,7 @@ test('passing reviewer rejects gate widening, peer edits, security-test omission
   execFileSync('git',['worktree','add','--detach',dir,'HEAD'],{cwd:root,stdio:'ignore'});review(dir);
   for(const [f,kind] of [[GATE,'append'],['lib/v4-oracle/onchain/project.ts','append'],['lib/v4-oracle/farming/index.ts','append'],['tests/v4-oracle-onchain/security.test.mjs','remove'],['.github/workflows/oracle-onchain-off.yml','append'],['app/lens/journal-controls.tsx','append'],['data/reward-snapshots.json','append'],['.github/workflows/oracle-preview-258.yml','append'],['tests/oracle-preview-258/run.sh','mode'],['tests/oracle-preview-258/gate.test.mjs','symlink'],['tests/oracle-preview-258/UNREVIEWED','append']]){
    const p=path.join(dir,f),bytes=fs.existsSync(p)?fs.readFileSync(p):null,mode=bytes?fs.statSync(p).mode:0;
-   try{if(kind==='remove')fs.unlinkSync(p);else if(kind==='mode')fs.chmodSync(p,0o755);else if(kind==='symlink'){fs.unlinkSync(p);fs.symlinkSync('review.test.mjs',p);}else fs.writeFileSync(p,Buffer.concat([bytes??Buffer.alloc(0),Buffer.from('\nUNREVIEWED\n')]));assert.throws(()=>review(dir),f);}
+   try{if(kind==='remove')fs.unlinkSync(p);else if(kind==='mode')fs.chmodSync(p,0o755);else if(kind==='symlink'){fs.unlinkSync(p);fs.symlinkSync('review.test.mjs',p);}else fs.writeFileSync(p,Buffer.concat([bytes??Buffer.alloc(0),Buffer.from('\nUNREVIEWED\n')]));assert.throws(()=>review(dir),undefined,'must reject '+f);}
    finally{if(fs.existsSync(p)||kind==='symlink')fs.rmSync(p,{force:true});if(bytes){fs.writeFileSync(p,bytes);fs.chmodSync(p,mode);}}
   }
  }finally{try{execFileSync('git',['worktree','remove','--force',dir],{cwd:root,stdio:'ignore'});}catch{fs.rmSync(dir,{recursive:true,force:true});}}
