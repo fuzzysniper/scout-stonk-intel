@@ -3,7 +3,7 @@ import {createServer} from 'node:http';import {readFileSync,copyFileSync,mkdirSy
 import {ownerShape,inspection} from './fixtures.mjs';
 const build=process.env.ORACLE_LENS_BUILD,load=createRequire(import.meta.url),w=load('next/dist/compiled/webpack/webpack');w.init();
 mkdirSync(join(build,'app/lens'),{recursive:true});copyFileSync('app/lens/ca-view.module.css',join(build,'app/lens/ca-view.module.css'));
-await new Promise((ok,no)=>w.webpack({mode:'production',target:'web',entry:join(build,'tests/oracle-lens/browser-entry.js'),output:{path:join(build,'browser'),filename:'app.js'},resolve:{modules:[resolve('node_modules')],alias:{react:resolve('node_modules/react'),'react-dom':resolve('node_modules/react-dom')}},module:{rules:[{test:/\.css$/,use:[resolve('tests/v4-thesis/css-loader.cjs')]}]},optimization:{minimize:false}},(e,s)=>e||s.hasErrors()?no(Error('local_bundle_failed')):ok()));
+await new Promise((ok,no)=>w.webpack({mode:'production',target:'web',entry:join(build,'tests/oracle-v5/browser-entry.js'),output:{path:join(build,'browser'),filename:'app.js'},resolve:{modules:[resolve('node_modules')],alias:{react:resolve('node_modules/react'),'react-dom':resolve('node_modules/react-dom')}},module:{rules:[{test:/\.css$/,use:[resolve('tests/v4-thesis/css-loader.cjs')]}]},optimization:{minimize:false}},(e,s)=>e||s.hasErrors()?no(Error('local_bundle_failed')):ok()));
 let mode='owner';
 const server=createServer(async(req,res)=>{try{const u=new URL(req.url,'http://127.0.0.1:3861');res.setHeader('Cache-Control','no-store');
  if(u.pathname==='/__fixture/mode'){mode=u.searchParams.get('mode')??'owner';return res.end('LOCAL_ONLY');}

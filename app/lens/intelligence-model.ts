@@ -1,6 +1,7 @@
 import {isInspectView,type InspectView,type RiskFinding} from '../../lib/v4-owner-preview/view-contract';
 import {isFarmDisclosure,type FarmDisclosure} from './evidence-disclosure';
-export type LensView=InspectView & Readonly<{farmEvidence?:FarmDisclosure}>;
+import {isOracleEvidence,ORACLE_FINDING_IDS,type OracleEvidence} from './oracle-evidence';
+export type LensView=InspectView & Readonly<{farmEvidence?:FarmDisclosure;oracleEvidence?:OracleEvidence}>;
 
 export const PILLARS = [
   {id:'rug',name:'RUG EXPOSURE',question:'Who can change the rules or remove liquidity?'},
@@ -22,13 +23,24 @@ export function counts(findings:readonly RiskFinding[]):Counts {
 export function isLensResponse(value:unknown,mint:string):value is LensView {
   if(!value||typeof value!=='object'||Array.isArray(value))return false;
   const v=value as LensView,findings=v.riskFindings;
+  const keys=['mint','state','identity','name','symbol','identityNote','facts','windows','controls','observations','contradictions','gaps','riskFindings','farmEvidence','oracleEvidence'];
+  if(Object.keys(v).some(k=>!keys.includes(k)))return false;
   if(v.farmEvidence!==undefined&&!isFarmDisclosure(v.farmEvidence))return false;
-  if(findings===undefined)return isInspectView(v,mint);
+  if(findings===undefined)return isInspectView(v,mint)&&(v.oracleEvidence===undefined||isOracleEvidence(v.oracleEvidence,mint,[]));
   if(!Array.isArray(findings)||findings.length>48||findings.some(f=>!f||typeof f!=='object'))return false;
   if(new Set(findings.map(f=>f.id)).size!==findings.length)return false;
   if(!isInspectView({...v,riskFindings:undefined},mint))return false;
   for(let i=0;i<findings.length;i+=12)
     if(!isInspectView({...v,riskFindings:findings.slice(i,i+12)},mint))return false;
+  if(v.oracleEvidence!==undefined&&!isOracleEvidence(v.oracleEvidence,mint,findings))return false;
+  const test=v.state==='offline_fixture'||v.state==='offline_replay';
+  const independent=findings.filter(f=>f.tone!=='gray'&&!/fixture|synthetic|replay/i.test((f.source??'')+' '+f.title));
+  if(!test&&independent.some(f=>f.id.startsWith('farming-')))return false; // B has no admitted native bridge in v1.
+  if(!test&&independent.some(f=>f.id.startsWith('onchain-'))&&v.oracleEvidence?.nativeMint.state!=='observed')return false;
+  const fixtureData=test||findings.some(f=>f.tone!=='gray'&&/fixture|synthetic|replay/i.test((f.source??'')+' '+f.title))||v.facts.some(f=>f.status==='reported'&&(f.captureKind==='synthetic_fixture'||f.captureKind==='recorded_response'));
+  if(v.oracleEvidence&&!fixtureData&&(findings.length!==ORACLE_FINDING_IDS.length||findings.some(f=>!ORACLE_FINDING_IDS.includes(f.id))))return false;
+  if(fixtureData&&v.oracleEvidence?.nativeMint.state==='observed')return false;
+  if(v.oracleEvidence?.nativeMint.state==='observed'&&v.state!=='partial')return false;
   return true;
 }
 

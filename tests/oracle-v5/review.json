@@ -1,0 +1,332 @@
+{
+  "base": "34d6a59763d62399cdcd94f7bccb7ea89e579a18",
+  "changed": {
+    "app/api/v4/ca-intelligence/compose-oracle.ts": {
+      "before": "cc0145e66223597b0446d21aa1f4b7c49e19e5735f8db0d95442a9631b19b620",
+      "after": "261fbe72e9d763a486dc77f52faefbb13cdab1c48131c2311216a5d6645f0efc",
+      "patch": "f0d168f405306de92e10050fcd09b690baaf5147ed01134ec06fbd295d1fbb0c"
+    },
+    "app/lens/ca-view.module.css": {
+      "before": "dd80a5e40bfc3277da2f87589366bb2ad7a5078bf5d6616901fca2ea5088d97e",
+      "after": "80be22df5fc3cd6092fc5f198d3a9e88bfa19ba1ac1edbebbf52a416b93bff54",
+      "patch": "2dc110cea3f603d4f7d05644aca657bf89a40c5fc0d2d71bf4092319e3c81ac7"
+    },
+    "app/lens/ca-view.tsx": {
+      "before": "73697bb0f2e427be3091f8600d78d6b1a160ebf7d3e8e8d6875679a17c006e48",
+      "after": "93411cd6f180b6e6d379131be60d6661388cb36f46e37252749582c6e8e39386",
+      "patch": "323e0d2a57b069a8abc09d8c9758f5a7ee246e576b046dd1f9e3c484c4ac7e8d"
+    },
+    "app/lens/intelligence-desk.tsx": {
+      "before": "978061ff7ce732c348224a06ed1f3af46ad563710a7a4a00165ff136206e71d7",
+      "after": "a6ed8081687995bc9be9f8886243bdbb9372e63a3ee3662fd0340ac3a19a6315",
+      "patch": "b3644f911202e69ea14d51d731fddd7f400908d6a527028b9d9fbe8452219872"
+    },
+    "app/lens/intelligence-model.ts": {
+      "before": "725f44590c95a78782a8b156993563cd5b32e1f35a6e165501b1bb177b3d00a8",
+      "after": "36e7f39203978bdbeedd364a6ce4c06e22359634c3a1243aa5f2332feb0bedbd",
+      "patch": "5782d44eedb0d5cba6440eedece6cd2fb160554491809188613a15f6aafe1270"
+    },
+    "lib/v4-ca-intelligence/private-development-gate.ts": {
+      "before": "7c13c5e1f543150ccddf719dea06788d024876b6d2e99bf48925052b04a6054c",
+      "after": "99d342147b81fe99fdfd67bfdbed5daac6f633a7df5a516516ea9d8c7af0791c",
+      "patch": "8cef62ecc95a8f03416c48bcbc8e67e270d222fd23fe46c4edb2bfc7f9b4d960"
+    }
+  },
+  "added": {
+    ".github/workflows/oracle-holders-260.yml": {
+      "mode": "100644",
+      "sha256": "5a5cb0595306c21135eda94b437aff33a28bb9e5dfe27997639af3606ee1d9c3"
+    },
+    ".github/workflows/oracle-native-259.yml": {
+      "mode": "100644",
+      "sha256": "2f96b7fbd5e65c233cfcb1b42b3ed90e408e8e2ef156b23bbf67d62e26b7c125"
+    },
+    ".github/workflows/oracle-v5.yml": {
+      "mode": "100644",
+      "sha256": "4f4856903ea8fe8fe344588bfd2081a3746e7117f5d5a0a82dbf632070f108a2"
+    },
+    "app/api/v4/ca-intelligence/qualified-inputs.ts": {
+      "mode": "100644",
+      "sha256": "17dc8f7c2aca2ef36f25216573e0150c0107af79bd316e7db1eb4364cd834b12"
+    },
+    "app/lens/decision-brief.ts": {
+      "mode": "100644",
+      "sha256": "d9fafe55144b9c79376cd425f4efcec09baf0079f28420cc3860669473f4cbde"
+    },
+    "app/lens/oracle-evidence.ts": {
+      "mode": "100644",
+      "sha256": "7276cabc82fffde0a213a62a505daeb30a9bd79cefeac1ea4936e79cd74f4a60"
+    },
+    "docs/oracle-v5/README.md": {
+      "mode": "100644",
+      "sha256": "066ac691d19f0c83ed26adeec0168b875c6682628b05e0f771e0cd3873119e63"
+    },
+    "docs/oracle-v5/screenshots/details-1280.png": {
+      "mode": "100644",
+      "sha256": "afafd09caf35fd3b9373ca49ee5290ccad3b69387172d7b7320d0beff120c0f8"
+    },
+    "docs/oracle-v5/screenshots/details-320.png": {
+      "mode": "100644",
+      "sha256": "232ad2069ad9cbf5cc5fbad22317fd7b274750acfb5cc9f22cf41a539023e5b3"
+    },
+    "docs/oracle-v5/screenshots/details-390.png": {
+      "mode": "100644",
+      "sha256": "3796874221919cb14b05e2286b7920fecae67006942ba18c891e53bd127e47ad"
+    },
+    "docs/oracle-v5/screenshots/first-1280.png": {
+      "mode": "100644",
+      "sha256": "c95de0a77c2d0d6ef96e840a16e6bc6e9bc4d03dde2e28c5e237480d00763f3b"
+    },
+    "docs/oracle-v5/screenshots/first-320.png": {
+      "mode": "100644",
+      "sha256": "2ac10e1bb06bcd8faf0213424d0985695d57894ad703f30167fe56d9d9ed0ddb"
+    },
+    "docs/oracle-v5/screenshots/first-390.png": {
+      "mode": "100644",
+      "sha256": "77d01fe99c0f70f8ea1d66c7d52b76b583a26944bbec2451d759bbe757e15015"
+    },
+    "docs/oracle-v5/screenshots/overview-1280.png": {
+      "mode": "100644",
+      "sha256": "4a9265796fc7e2921b059477c48e66427d2b503548d43afa7eae17d946b96dec"
+    },
+    "docs/oracle-v5/screenshots/overview-320.png": {
+      "mode": "100644",
+      "sha256": "fc8145c3b90f4a74b17f26cb8d11b5a528df30ad9efa327944a567bfbc51566f"
+    },
+    "docs/oracle-v5/screenshots/overview-390.png": {
+      "mode": "100644",
+      "sha256": "596c3e87e5b0af0ebe56e373956650c1f40110db3e91c08219fa8c00ff27493e"
+    },
+    "docs/oracle-v5/screenshots/red-1280.png": {
+      "mode": "100644",
+      "sha256": "7ba0c38d775a36313565eed6330bd88f88b0b25e68f074696799ea0faca45400"
+    },
+    "docs/oracle-v5/screenshots/red-320.png": {
+      "mode": "100644",
+      "sha256": "83e2d2fb61e34653d3f2be50c4c0a8044aacfd919820a8f07d7e1309c6a4bf2e"
+    },
+    "docs/oracle-v5/screenshots/red-390.png": {
+      "mode": "100644",
+      "sha256": "9d90c00e62c1ed15c62aaf49a77925228d6f5675cbc7bacd7eca2b7c9b407380"
+    },
+    "lib/v4-oracle/holders/README.md": {
+      "mode": "100644",
+      "sha256": "28a1a61b9bb45fb91b56f7c7f36fdb0aa7422722f87650f1416b22a4972fdc82"
+    },
+    "lib/v4-oracle/holders/accounts.ts": {
+      "mode": "100644",
+      "sha256": "c30c60e7be5126a64a6bc868e434bd1edeffef87ca975b32ff52a863cb675777"
+    },
+    "lib/v4-oracle/holders/contract.ts": {
+      "mode": "100644",
+      "sha256": "72c930c1602ef8ea9f820e962e3677159e15e01a56540375623e95ba16dc64a4"
+    },
+    "lib/v4-oracle/holders/decode.ts": {
+      "mode": "100644",
+      "sha256": "766426e0110e87c25ec45fd62a99599375b657f708310941b947d74c984182cd"
+    },
+    "lib/v4-oracle/holders/index.ts": {
+      "mode": "100644",
+      "sha256": "9152afc9545d99bf2538fe6b58af4ee4a138c62e4e6ee9b558abcbaccb595e55"
+    },
+    "lib/v4-oracle/holders/requests.ts": {
+      "mode": "100644",
+      "sha256": "f0ef241a4cca7da814a09ea0414a7d249c18d32f6fa3d0455a435b39042d5c9d"
+    },
+    "lib/v4-oracle/native-mint/README.md": {
+      "mode": "100644",
+      "sha256": "151cda0278a6e72ac8bdd72d863adad17086d6e98051035ed7360a27df2b0122"
+    },
+    "lib/v4-oracle/native-mint/contract.ts": {
+      "mode": "100644",
+      "sha256": "b7ce287b0c1c21f36c1ce4a65470cbcfc9b53e63a679ecc0eede4bed88b7ce98"
+    },
+    "lib/v4-oracle/native-mint/index.ts": {
+      "mode": "100644",
+      "sha256": "155bf344329cadcb85797fe96fa5a3df320c2e09b86ec1ba2b138828a34bcf36"
+    },
+    "lib/v4-oracle/native-mint/producer.ts": {
+      "mode": "100644",
+      "sha256": "f6b0351ba646d88e14990763f2de1aaf47fdf82273fb57b0bf5ac28b4d4ccbee"
+    },
+    "lib/v4-oracle/native-mint/project.ts": {
+      "mode": "100644",
+      "sha256": "6145c1c523639f3997811a3cafbeb2e058ac3e4dcdfabaadb7d08fe62e5d0414"
+    },
+    "lib/v4-oracle/native-mint/qualification.ts": {
+      "mode": "100644",
+      "sha256": "686f40f7a3f2c9140e6bdcb295a836d6a02152e4b9d60d0ee86c4cd8dd12d5c3"
+    },
+    "lib/v4-oracle/native-mint/testing.ts": {
+      "mode": "100644",
+      "sha256": "01814bb5ccfff97f119acee24e5e507e3ce6e63dcfd108c36e7164e471f11dd6"
+    },
+    "tests/oracle-holders-260/evidence.test.mjs": {
+      "mode": "100644",
+      "sha256": "5eed578651197e23eff64889568cf23a30b90c4c4986642e8a13430df57fbd78"
+    },
+    "tests/oracle-holders-260/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "665ed826039e01769a8536f9a61ca48f10848113c59384073af26b2488c9251f"
+    },
+    "tests/oracle-holders-260/replay.sh": {
+      "mode": "100644",
+      "sha256": "776dae6427bfdd54d5b8234b7ac34669c054f5513007b51560f7ead7d7c58c9e"
+    },
+    "tests/oracle-holders-260/run.sh": {
+      "mode": "100644",
+      "sha256": "a87338a0c291b7ed40641bd4bbb11ede4b256050e74c018b0027c403c1adabac"
+    },
+    "tests/oracle-holders-260/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": "4b8911b0327190e483be441c491e34d55a144a4f43f5668bad9ab474d36e9b85"
+    },
+    "tests/oracle-holders-260/security.test.mjs": {
+      "mode": "100644",
+      "sha256": "3df5cbb203b9e4adc8bc085a1b667bb5a015e2b1ec246b6da944c62e6b1455ce"
+    },
+    "tests/oracle-native-259/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "bc40a073f7f34f863949c13a8ae55bf71e70e85865f2e15bb23e533af653cc39"
+    },
+    "tests/oracle-native-259/operations.test.mjs": {
+      "mode": "100644",
+      "sha256": "3e2d963306460f8b1458a2b42671050d664b773f00f758bdc2d48e21acf2ecc9"
+    },
+    "tests/oracle-native-259/producer.test.mjs": {
+      "mode": "100644",
+      "sha256": "6e374cd3dd3ffb1ef39b275da7af3daa911d0766fa4b1fd1f1426833c170861d"
+    },
+    "tests/oracle-native-259/replay.sh": {
+      "mode": "100644",
+      "sha256": "1554744e45c1eb4b4bd3ebc96377f9edaa456ab86f7e98569ff7665f91f501db"
+    },
+    "tests/oracle-native-259/review.json": {
+      "mode": "100644",
+      "sha256": "d1e461265b9d3da8854d499c99b338e70bb6c063fbee8affd6cb8f479bbe1ce8"
+    },
+    "tests/oracle-native-259/review.mjs": {
+      "mode": "100644",
+      "sha256": "f4028cfb5bea1051a9199a0c7dd49f7911dfb187681968686d655e4d39002372"
+    },
+    "tests/oracle-native-259/run.sh": {
+      "mode": "100644",
+      "sha256": "7329c38c7771f33f86c7763209b484e3a100e0b217312cec074877532837dc81"
+    },
+    "tests/oracle-native-259/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": "0662e2374704425fcf9c456770783bcb8869318c3f5d89e5080546208ebc0fac"
+    },
+    "tests/oracle-native-259/security.test.mjs": {
+      "mode": "100644",
+      "sha256": "289da519e5d2f29c39b7a31bba198490f13ce68462fec3418d52e6812ae5a883"
+    },
+    "tests/oracle-native-259/sources.json": {
+      "mode": "100644",
+      "sha256": "57dfb9b981cbc51f1688d57e2a0bff2ba8fc4adce1a6f18e4535796996c418db"
+    },
+    "tests/oracle-v5/artifact.config.mjs": {
+      "mode": "100644",
+      "sha256": "2d2e3007911dc73a7c65a888cc65242c8cc603f58eade7ce0f5ddaafd5256473"
+    },
+    "tests/oracle-v5/artifact.spec.mjs": {
+      "mode": "100644",
+      "sha256": "3a67f228082ae8244a7b1f27ad3748ab46ebaa232fe8572fa9db1593eb1c7f26"
+    },
+    "tests/oracle-v5/browser-entry.tsx": {
+      "mode": "100644",
+      "sha256": "ea15ea22badb83cbce2194f2a3f3611531925166f8aaa869cae92d8600df0547"
+    },
+    "tests/oracle-v5/browser-server.mjs": {
+      "mode": "100644",
+      "sha256": "bd3628b7be9a3990cc7d0232e8e7a7ff6eed2b2b05c7e0f11dbca2d4b50e40b0"
+    },
+    "tests/oracle-v5/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "9e5ba5e5149d44ca6f1f1253a757fee079f3576f0353a8f6d6d2fe3db15b4bf5"
+    },
+    "tests/oracle-v5/decision.test.mjs": {
+      "mode": "100644",
+      "sha256": "3f5de2f5d4b8cb36f6f8907cff9e0d5b22a0ba59281227630e94bd883a73edae"
+    },
+    "tests/oracle-v5/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "91a97cfd7d4159b82d863d6884953f1fbd7fdd55e14b5f5277832769adb8e7fc"
+    },
+    "tests/oracle-v5/gate.test.mjs": {
+      "mode": "100644",
+      "sha256": "aaf236b3476620cb1a5de8788a1a5c50f9b1b547b6df6c250893f324d576d449"
+    },
+    "tests/oracle-v5/inputs.sh": {
+      "mode": "100644",
+      "sha256": "a6726da5bcf39aae5266619752bc6fe330a7cfbdfa88824aea0162608b239205"
+    },
+    "tests/oracle-v5/playwright.config.mjs": {
+      "mode": "100644",
+      "sha256": "0cd16e6af08012137b4dd6fb84bb650a28cbcc6fd2871030f2d71b21736de585"
+    },
+    "tests/oracle-v5/qualification.test.mjs": {
+      "mode": "100644",
+      "sha256": "aa009f43ca6881fd747cd4e755fbdf8a1ceffe910f3b4f043d2f668637e2c618"
+    },
+    "tests/oracle-v5/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-v5/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-v5/run.sh": {
+      "mode": "100644",
+      "sha256": "a7d1edf77d8bb483ca480268a3c596d998f9901fc8812237926c08e47794371b"
+    },
+    "tests/oracle-v5/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    }
+  },
+  "peers": [
+    {
+      "sha": "ad8a82a55b0214d3c21287522e29c9608e55ab09",
+      "files": [
+        ".github/workflows/oracle-native-259.yml",
+        "lib/v4-oracle/native-mint/README.md",
+        "lib/v4-oracle/native-mint/contract.ts",
+        "lib/v4-oracle/native-mint/index.ts",
+        "lib/v4-oracle/native-mint/producer.ts",
+        "lib/v4-oracle/native-mint/project.ts",
+        "lib/v4-oracle/native-mint/qualification.ts",
+        "lib/v4-oracle/native-mint/testing.ts",
+        "tests/oracle-native-259/fixtures.mjs",
+        "tests/oracle-native-259/operations.test.mjs",
+        "tests/oracle-native-259/producer.test.mjs",
+        "tests/oracle-native-259/replay.sh",
+        "tests/oracle-native-259/review.json",
+        "tests/oracle-native-259/review.mjs",
+        "tests/oracle-native-259/run.sh",
+        "tests/oracle-native-259/scope.test.mjs",
+        "tests/oracle-native-259/security.test.mjs",
+        "tests/oracle-native-259/sources.json"
+      ]
+    },
+    {
+      "sha": "e6d049045f387609bc821c7337721678c9b12a79",
+      "files": [
+        ".github/workflows/oracle-holders-260.yml",
+        "lib/v4-oracle/holders/README.md",
+        "lib/v4-oracle/holders/accounts.ts",
+        "lib/v4-oracle/holders/contract.ts",
+        "lib/v4-oracle/holders/decode.ts",
+        "lib/v4-oracle/holders/index.ts",
+        "lib/v4-oracle/holders/requests.ts",
+        "tests/oracle-holders-260/evidence.test.mjs",
+        "tests/oracle-holders-260/fixtures.mjs",
+        "tests/oracle-holders-260/replay.sh",
+        "tests/oracle-holders-260/run.sh",
+        "tests/oracle-holders-260/scope.test.mjs",
+        "tests/oracle-holders-260/security.test.mjs"
+      ]
+    }
+  ]
+}
