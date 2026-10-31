@@ -34,9 +34,9 @@ export async function composePreviewResponse(response:Response,evaluatedAt=new D
  if(!response.ok)return response;
  try{
   const value:unknown=await response.clone().json();
-  if(!value||typeof value!=='object'||!('mint'in value)||!isExactPublicKey(value.mint)||!isInspectView(value,value.mint))return response;
+  if(!value||typeof value!=='object'||!('mint'in value)||!isExactPublicKey(value.mint)||!isInspectView(value,value.mint))throw Error('invalid_source_view');
   const headers=new Headers(response.headers);headers.delete('Content-Length');
   return new Response(JSON.stringify(composePreview(value,evaluatedAt)),{
    status:response.status,statusText:response.statusText,headers});
- }catch{return response;}
+ }catch{throw Error('oracle_compose_failed');}
 }
