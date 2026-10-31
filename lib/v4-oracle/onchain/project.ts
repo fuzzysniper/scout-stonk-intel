@@ -22,6 +22,7 @@ function provenance(s:Provenance):string {
 }
 function report(value:unknown,mint:string,at:bigint):JupiterReport|null {
  if(!data(value,['mint','sourceUpdatedAt','receivedAt','responseSha256'],['mintAuthorityDisabled','freezeAuthorityDisabled','tokenProgram','decimals'])||value.mint!==mint||typeof value.responseSha256!=='string'||!/^([a-f0-9]{64})$/.test(value.responseSha256))return null;
+ if(['mintAuthorityDisabled','freezeAuthorityDisabled','tokenProgram','decimals'].every(f=>value[f]===undefined))return null;
  const updated=nanos(value.sourceUpdatedAt),received=nanos(value.receivedAt),evaluated=at*1000n;if(updated===null||received===null||updated>received||received>evaluated||evaluated-updated>60000000000n)return null;
  for(const f of ['mintAuthorityDisabled','freezeAuthorityDisabled'])if(value[f]!==undefined&&typeof value[f]!=='boolean')return null;
  if(value.tokenProgram!==undefined&&!isExactPublicKey(value.tokenProgram)||value.decimals!==undefined&&(!Number.isInteger(value.decimals)||Number(value.decimals)<0||Number(value.decimals)>255))return null;
