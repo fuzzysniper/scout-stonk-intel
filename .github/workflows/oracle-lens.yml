@@ -1,0 +1,81 @@
+name: ORACLE intelligence Lens
+on:
+  pull_request:
+    branches: [feat/251-evidence-risk-readout]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+jobs:
+  contracts-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Current bounded UI model and canonical contract
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/run.sh
+      - name: Current unchanged source parser engine and security cases
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
+      - name: Exact reviewed A B input scope guards and current aggregate runtime
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/peer-tests.sh inputs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/peer-tests.sh
+      - name: Typecheck lint and optimized build
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-oracle-onchain/built-off.mjs
+      - name: Finite source scope and archive preservation
+        run: |
+          node --test tests/oracle-lens/scope.test.mjs
+          bash scripts/archive-tool.sh check 8c89c37a2d738ec1e9ab48b9a7a38510b7f30e2e
+  mobile-and-accessibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Original parent comparison using the same local fixture inputs
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/before.sh
+      - name: Actual current UI at3203901280 keyboard axe and privacy
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/run.sh browser
+      - name: Actual optimized Next artifact default-OFF browser and accessibility
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/run.sh artifact
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oracle-mobile-evidence
+          path: docs/oracle-254/screenshots/*.png

@@ -1,0 +1,340 @@
+{
+  "base": "8c89c37a2d738ec1e9ab48b9a7a38510b7f30e2e",
+  "changed": {
+    "app/api/v4/ca-intelligence/route.ts": {
+      "before": "91cb42133cc38f6fc9b1b9425fd04c17d55856a58bad9b7abd9a43910f1681e2",
+      "after": "83dcc5c54aa92bef5eadf471040cad5a9c5013d528e4736a276a6647abb97704",
+      "patch": "0fb5abddbcf4527560667a0cbdd95a76449593e60c258f527b652b9369b61a71"
+    },
+    "app/lens/ca-view.module.css": {
+      "before": "9afd565a4262671e3237d76324579732b02f0b2d76b9a6e43f3e1ca7c462d3fd",
+      "after": "dd80a5e40bfc3277da2f87589366bb2ad7a5078bf5d6616901fca2ea5088d97e",
+      "patch": "1e85f6155b1df3afddc24e8a1fc62053cbdf9827972f27735b739ae9374c5989"
+    },
+    "app/lens/ca-view.tsx": {
+      "before": "b802616b499387d35d9715c4359fc08e95392a8edaf1bfdf5d6d03103ddc0277",
+      "after": "73697bb0f2e427be3091f8600d78d6b1a160ebf7d3e8e8d6875679a17c006e48",
+      "patch": "d126fc44073cb615ba372bd4d934ebdf859f7fac821aeb39a037c614c6e1d386"
+    }
+  },
+  "added": {
+    ".github/workflows/oracle-lens.yml": {
+      "mode": "100644",
+      "sha256": "df3ca6cb692f989a9e2ad6e0c8cc88583fd347ebb767837c04e46fc69223c5dd"
+    },
+    ".github/workflows/oracle-onchain-off.yml": {
+      "mode": "100644",
+      "sha256": "d3f5471bfb2cbf49301fd8928e057df9cb7e3b1a66ac696ea920c4cb446b2f64"
+    },
+    "app/api/v4/ca-intelligence/compose-oracle.ts": {
+      "mode": "100644",
+      "sha256": "cc0145e66223597b0446d21aa1f4b7c49e19e5735f8db0d95442a9631b19b620"
+    },
+    "app/lens/evidence-disclosure.ts": {
+      "mode": "100644",
+      "sha256": "c5670112d75201018c5d1a8c960ea5a4358275192893ae43b052dec486a5e76a"
+    },
+    "app/lens/intelligence-desk.tsx": {
+      "mode": "100644",
+      "sha256": "978061ff7ce732c348224a06ed1f3af46ad563710a7a4a00165ff136206e71d7"
+    },
+    "app/lens/intelligence-model.ts": {
+      "mode": "100644",
+      "sha256": "725f44590c95a78782a8b156993563cd5b32e1f35a6e165501b1bb177b3d00a8"
+    },
+    "docs/oracle-254/README.md": {
+      "mode": "100644",
+      "sha256": "f465d325ff12ad21dd9464c093cde06bd169d911bb8425e34d84316bd7a4aac6"
+    },
+    "docs/oracle-254/screenshots/after-1280.png": {
+      "mode": "100644",
+      "sha256": "7b81d5fb2c2512c416e0f687576dd22233fcfb28b726f4347c9496737b71558e"
+    },
+    "docs/oracle-254/screenshots/after-320.png": {
+      "mode": "100644",
+      "sha256": "6a8942835745f5d4f6b0fc650f09cb01645236d9c72774c65d1ffb96e89b50ef"
+    },
+    "docs/oracle-254/screenshots/after-390.png": {
+      "mode": "100644",
+      "sha256": "e73197d3aa868449fa665b61479417f751e81f5dcac2aca0fa0edcfd2aaf05a1"
+    },
+    "docs/oracle-254/screenshots/before-1280.png": {
+      "mode": "100644",
+      "sha256": "5e5a933854643cf1da6cfc9522725ea189eeb95eb9e371c59eb46b514fb5887b"
+    },
+    "docs/oracle-254/screenshots/before-320.png": {
+      "mode": "100644",
+      "sha256": "bd1a81f7f4beba9a4aea079a85beeff93d0e5e86f96a39535ba97557f1cced7b"
+    },
+    "docs/oracle-254/screenshots/before-390.png": {
+      "mode": "100644",
+      "sha256": "e9116208dace9fb5ff70f5118e8850e54bd501d3d4569facbdba89feac765482"
+    },
+    "docs/oracle-254/screenshots/combined-1280.png": {
+      "mode": "100644",
+      "sha256": "f0bcd7f83b0983a7badb20c81e6cb6898627d7ca14360ee37e28daaa9391a11b"
+    },
+    "docs/oracle-254/screenshots/combined-320.png": {
+      "mode": "100644",
+      "sha256": "c2aa91dc37e0edfa68c318dcbe3bdd03650a5167e4aabdf1538f2c9d4e3ab206"
+    },
+    "docs/oracle-254/screenshots/combined-390.png": {
+      "mode": "100644",
+      "sha256": "08569a596c5ed6f8723f57f43d08504957cb2be89f11af705829e399ac067c20"
+    },
+    "docs/oracle-254/screenshots/evidence-1280.png": {
+      "mode": "100644",
+      "sha256": "9d0be69c77e99a0ed9fe6225201c9db96463ce9fb9df9f050a2b04cbf19efc7d"
+    },
+    "docs/oracle-254/screenshots/evidence-320.png": {
+      "mode": "100644",
+      "sha256": "bac216702303ba1be7c6f5e27a5360be574b03d41d1c2542f0a824cf81cff8e0"
+    },
+    "docs/oracle-254/screenshots/evidence-390.png": {
+      "mode": "100644",
+      "sha256": "d826eff5f715fb4f191472402ab7a7c565e92a7c9de36b98439f291c320f6b30"
+    },
+    "docs/oracle-254/screenshots/fold-1280.png": {
+      "mode": "100644",
+      "sha256": "cbf9877380872fda5d3191b422741681e09654c0d12f989884f019c88a872846"
+    },
+    "docs/oracle-254/screenshots/fold-320.png": {
+      "mode": "100644",
+      "sha256": "c6e7c09a9069b3199186121ea73c744410b42c8cf0db8e8466d142cecd4a9194"
+    },
+    "docs/oracle-254/screenshots/fold-390.png": {
+      "mode": "100644",
+      "sha256": "8156a101e08cfdd70a560b62d23bdebff5fc2d7d2f67225d820f477b9eef5f64"
+    },
+    "lib/v4-oracle/farming/README.md": {
+      "mode": "100644",
+      "sha256": "15e95b7e94ac8147aa91da1df782a18ff842bf22cb15c5197b9904615f1d96cc"
+    },
+    "lib/v4-oracle/farming/contract.ts": {
+      "mode": "100644",
+      "sha256": "2034d26be9c05bb940c03374e8774c2285ff6084715cfb7bc37995b868e32099"
+    },
+    "lib/v4-oracle/farming/index.ts": {
+      "mode": "100644",
+      "sha256": "fe615cab91684eb6532b6ddf6346846ff02e9ebe3f1e88291713e6cca26aa0c6"
+    },
+    "lib/v4-oracle/farming/validation.ts": {
+      "mode": "100644",
+      "sha256": "51af916371bbf7de78a0f474f6f83e7bd504d7ec1af949989fcd7147240e58ee"
+    },
+    "lib/v4-oracle/onchain/README.md": {
+      "mode": "100644",
+      "sha256": "17926cadeb3b12ae0dfda291797d6adba3911df287e0d776609400bf66650303"
+    },
+    "lib/v4-oracle/onchain/bytes.ts": {
+      "mode": "100644",
+      "sha256": "cfc950fa40b357deed7af485a7ed88954d7a18d0d8fbc50e128d4a42bb0eab42"
+    },
+    "lib/v4-oracle/onchain/contract.ts": {
+      "mode": "100644",
+      "sha256": "2b5f56cc5533fd82c0c7d24664f671c10bf44b952d0665732c59a2dc4b853431"
+    },
+    "lib/v4-oracle/onchain/evidence.ts": {
+      "mode": "100644",
+      "sha256": "e4b437a4f865481471e595f95da54da7879841def462eb2fb588e7fb144e301b"
+    },
+    "lib/v4-oracle/onchain/examples.json": {
+      "mode": "100644",
+      "sha256": "f77e350fc2389f8a301c9a574d5d0ab48bcbfbca403205353bbe78efd7422df3"
+    },
+    "lib/v4-oracle/onchain/index.ts": {
+      "mode": "100644",
+      "sha256": "d57f514a3799fe3c8a9f24cc212ed90e6d232119a4192462ec977d0db45bbaec"
+    },
+    "lib/v4-oracle/onchain/plan.ts": {
+      "mode": "100644",
+      "sha256": "1bf53c71c14c1e2aa61eeba987e7e2955903603e8f160a7132b61093b76cd9c3"
+    },
+    "lib/v4-oracle/onchain/project.ts": {
+      "mode": "100644",
+      "sha256": "9ffb16b56fd857183d69edf0bd739ffbacc12dce30fb01f55e73a56946e4cf5b"
+    },
+    "tests/oracle-lens/artifact.config.mjs": {
+      "mode": "100644",
+      "sha256": "937624255bd49f6a0f0d397b505b9c5843ef774ed8444b17342d7779baa39943"
+    },
+    "tests/oracle-lens/artifact.spec.mjs": {
+      "mode": "100644",
+      "sha256": "08a5432c971df70f7ba89c8b7d1d38861d0f5d448b8ef42204ea193b14ca37c8"
+    },
+    "tests/oracle-lens/before.mjs": {
+      "mode": "100644",
+      "sha256": "f534b9c732312bfacc0089acd88b7a774266adb1ce872597cb55df2dd9766eb3"
+    },
+    "tests/oracle-lens/before.sh": {
+      "mode": "100755",
+      "sha256": "3854fee42e1c06b945d486f04354e634728c4d2059e8b1961d64be0d66118cb5"
+    },
+    "tests/oracle-lens/browser-entry.tsx": {
+      "mode": "100644",
+      "sha256": "e7313f2349b5680672eab14ab02e97e0e9274a25a32fbe8d569e1dce2847b69d"
+    },
+    "tests/oracle-lens/browser-server.mjs": {
+      "mode": "100644",
+      "sha256": "3fefcaac6174822205d4a18455760847438da76e901c323079ce684a694d2487"
+    },
+    "tests/oracle-lens/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "ab28ca59115d22a6f363f61f96a9b9640beb61177e8f8e1ad7f76ae10f912725"
+    },
+    "tests/oracle-lens/combined-fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "717f740ed5dcfc77016d0cb54c850781c01efdc45c3650b49ffc80ef7688fd02"
+    },
+    "tests/oracle-lens/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "b1dff563694d0f47996cbf7d40105aee43c9f7384fedfaa2b2c626edc1f9b0b0"
+    },
+    "tests/oracle-lens/integration.test.mjs": {
+      "mode": "100644",
+      "sha256": "ed35bc22a06136241d1fb4abf060ce2e885d6b5d705840f6d87594819cc76f76"
+    },
+    "tests/oracle-lens/model.test.mjs": {
+      "mode": "100644",
+      "sha256": "b9cc004648a34ac30fda759921176d1361c865c9331f49499e0e41b21921de2e"
+    },
+    "tests/oracle-lens/peer-tests.sh": {
+      "mode": "100644",
+      "sha256": "a15ab6aec42db5f8c61dd57696bf857511a0d07902948ef160abf6a2b6aa33ef"
+    },
+    "tests/oracle-lens/playwright.config.mjs": {
+      "mode": "100644",
+      "sha256": "c1685d43d68c714612f3714a1d4f82e9460d7e8326386103e0061d9ee64fdd7a"
+    },
+    "tests/oracle-lens/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-lens/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-lens/run.sh": {
+      "mode": "100755",
+      "sha256": "d1985f620e515554a531ce9026520d6fefff9637c9538271c5368627a03dcfcb"
+    },
+    "tests/oracle-lens/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-lens/source-tests.sh": {
+      "mode": "100755",
+      "sha256": "3750e5845dd20e24981347ce262b766a2f796d088a3b47c37bb43099f62d0479"
+    },
+    "tests/v4-oracle-farming/adversarial.test.mjs": {
+      "mode": "100644",
+      "sha256": "10875a0285be614d601cb76074b4470a9cbc85ad11cdbab0cdb098bf967750f1"
+    },
+    "tests/v4-oracle-farming/analytics.test.mjs": {
+      "mode": "100644",
+      "sha256": "787b8b2a35a632531edcf90edafaf445d886114284f389416bdb7ba31d12ef8a"
+    },
+    "tests/v4-oracle-farming/fixture.mjs": {
+      "mode": "100644",
+      "sha256": "7714e725bc90061ae19052d601b1a2f5e897b4d2a8ac2c60768eeb761b76f43f"
+    },
+    "tests/v4-oracle-farming/replay.sh": {
+      "mode": "100644",
+      "sha256": "066156ad8b7b79bc3ee5f49d72a025d230ce31a1984adfc12cbcb80d8f9e8df6"
+    },
+    "tests/v4-oracle-farming/run.sh": {
+      "mode": "100644",
+      "sha256": "04794baca5d946b7991df991bfa143ed592e126f9ee7e81ff0c0bc76b600af7b"
+    },
+    "tests/v4-oracle-farming/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": "466ab7c73eee4b6f91a71c4deb8264233a891cca52b8dc02a2c4d134c55ecfcc"
+    },
+    "tests/v4-oracle-onchain/built-off.mjs": {
+      "mode": "100644",
+      "sha256": "b5201b2a99317b95ab8ae62a55e2c26780bef63e8ca34e17a8de0a07453bd9c8"
+    },
+    "tests/v4-oracle-onchain/controls.test.mjs": {
+      "mode": "100644",
+      "sha256": "03f8975099368861ed9c44c8f7c8a4f467489d60c17553dd4d2ba8913da4589c"
+    },
+    "tests/v4-oracle-onchain/example.mjs": {
+      "mode": "100644",
+      "sha256": "48cff0fbf6a5ea51a2f6f116c58a410e5ae81b15dbb00e31072c0b7c1a2ad1f2"
+    },
+    "tests/v4-oracle-onchain/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "c08fa6eea20600a42e5601112e28ca04ed09c40f8592e69cdced89cb26aa9504"
+    },
+    "tests/v4-oracle-onchain/replay.sh": {
+      "mode": "100644",
+      "sha256": "e655017f3ad20e7060254357023d8fe72c00b920a8fa96451a3c49a62073ec5c"
+    },
+    "tests/v4-oracle-onchain/review.json": {
+      "mode": "100644",
+      "sha256": "2267a0063eae5a9643216beb1febfc4776aefd6319908d9a0c37d01c07b8c1a5"
+    },
+    "tests/v4-oracle-onchain/review.mjs": {
+      "mode": "100644",
+      "sha256": "c3f7b702da02a4515f68464a77270786e4c29135a5879b0f8720083d40004308"
+    },
+    "tests/v4-oracle-onchain/run.sh": {
+      "mode": "100644",
+      "sha256": "198dc8ef04622521a508a31f1f9e5d98ee7b54ad0d544a289f062beff206e670"
+    },
+    "tests/v4-oracle-onchain/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": "942630e34946028407f48ab1ca3ce0cf390daa2f003b8ced2262ed6031be6d5a"
+    },
+    "tests/v4-oracle-onchain/security.test.mjs": {
+      "mode": "100644",
+      "sha256": "c9b9c8115327cd9dfb4c31d20f00d5477a1c40852f2265841baf1239538e1727"
+    },
+    "tests/v4-oracle-onchain/sources.json": {
+      "mode": "100644",
+      "sha256": "3e60105eb6925e7b14a1c5dece99b1ece071df294ea63e73516544901fe3f24b"
+    }
+  },
+  "peers": [
+    {
+      "sha": "d303cca4911d865e935379d4477a89cdbe63e62d",
+      "files": [
+        ".github/workflows/oracle-onchain-off.yml",
+        "lib/v4-oracle/onchain/README.md",
+        "lib/v4-oracle/onchain/bytes.ts",
+        "lib/v4-oracle/onchain/contract.ts",
+        "lib/v4-oracle/onchain/evidence.ts",
+        "lib/v4-oracle/onchain/examples.json",
+        "lib/v4-oracle/onchain/index.ts",
+        "lib/v4-oracle/onchain/plan.ts",
+        "lib/v4-oracle/onchain/project.ts",
+        "tests/v4-oracle-onchain/built-off.mjs",
+        "tests/v4-oracle-onchain/controls.test.mjs",
+        "tests/v4-oracle-onchain/example.mjs",
+        "tests/v4-oracle-onchain/fixtures.mjs",
+        "tests/v4-oracle-onchain/replay.sh",
+        "tests/v4-oracle-onchain/review.json",
+        "tests/v4-oracle-onchain/review.mjs",
+        "tests/v4-oracle-onchain/run.sh",
+        "tests/v4-oracle-onchain/scope.test.mjs",
+        "tests/v4-oracle-onchain/security.test.mjs",
+        "tests/v4-oracle-onchain/sources.json"
+      ]
+    },
+    {
+      "sha": "fba5fa185f624550a38431bbb38b85c9c7c8eab7",
+      "files": [
+        "lib/v4-oracle/farming/README.md",
+        "lib/v4-oracle/farming/contract.ts",
+        "lib/v4-oracle/farming/index.ts",
+        "lib/v4-oracle/farming/validation.ts",
+        "tests/v4-oracle-farming/adversarial.test.mjs",
+        "tests/v4-oracle-farming/analytics.test.mjs",
+        "tests/v4-oracle-farming/fixture.mjs",
+        "tests/v4-oracle-farming/replay.sh",
+        "tests/v4-oracle-farming/run.sh",
+        "tests/v4-oracle-farming/scope.test.mjs"
+      ]
+    }
+  ]
+}
