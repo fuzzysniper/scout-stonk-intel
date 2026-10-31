@@ -1,0 +1,132 @@
+name: ORACLE266 source installer and preserved V5 security
+on:
+  pull_request:
+    branches: [feat/265-oracle-inspect-diagnostics]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  actual-source-install-and-app:
+    if: github.head_ref == 'feat/266-source-admission-install-review'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - name: Actual changed installer, existing auth source and native database contract
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/oracle-source-install-266/scope.test.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-source-install-266/run.sh
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-oracle-onchain/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-regression-265/run.sh artifact
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/oracle-source-install-266/scope.test.mjs
+          bash scripts/archive-tool.sh check f80ecba0d39ad854d189ff5b4c699f4310a45c1d
+  preserved-265-head:
+    if: github.head_ref == 'feat/266-source-admission-install-review'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-source-install-266/replay.sh head
+  preserved-265-inputs:
+    if: github.head_ref == 'feat/266-source-admission-install-review'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-source-install-266/replay.sh inputs
+  preserved-265-native-root:
+    if: github.head_ref == 'feat/266-source-admission-install-review'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-source-install-266/replay.sh native-root
+  preserved-265-history:
+    if: github.head_ref == 'feat/266-source-admission-install-review'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-source-install-266/replay.sh history
+  preserved-265-browser:
+    if: github.head_ref == 'feat/266-source-admission-install-review'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Chromium
+        run: |
+          if command -v google-chrome >/dev/null;then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-source-install-266/replay.sh browser

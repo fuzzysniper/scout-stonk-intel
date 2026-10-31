@@ -1,0 +1,100 @@
+name: ORACLE271 reviewed A B C integration OFF
+on:
+  pull_request:
+    branches: [feat/266-native-oracle-mount]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  actual-integrated-head:
+    if: github.head_ref == 'integration/271-oracle-native-source-reviewed'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - name: Three-parent full-tree finite integrity and original source pins
+        run: node --test tests/oracle-integration-271/verify.test.mjs
+      - name: ACTUAL current PG18 non-superuser source installer and issuer tests
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-source-install-266/run.sh
+      - name: ACTUAL current owner-mint mount and source decoders
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/run.sh peers
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
+      - name: Exact HEAD types lint optimized source-OFF build and archive
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-oracle-onchain/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
+          node --test tests/oracle-integration-271/verify.test.mjs
+          bash scripts/archive-tool.sh check f80ecba0d39ad854d189ff5b4c699f4310a45c1d
+  inherited-original-reviews:
+    if: github.head_ref == 'integration/271-oracle-native-source-reviewed'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - name: All A/B/C original immutable reviewers on exact source inputs
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/inputs.sh reviews
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/inputs.sh a-native-root
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/inputs.sh a-history
+  protected-mobile-browser:
+    if: github.head_ref == 'integration/271-oracle-native-source-reviewed'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Actual 320/390/1280 mobile source-OFF, keyboard and privacy
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/run.sh browser
+      - name: Optimized browser artifact, default OFF and no secrets
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
