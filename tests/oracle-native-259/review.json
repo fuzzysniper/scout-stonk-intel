@@ -1,0 +1,40 @@
+{
+  "base": "34d6a59763d62399cdcd94f7bccb7ea89e579a18",
+  "added": [
+    ".github/workflows/oracle-native-259.yml",
+    "lib/v4-oracle/native-mint/README.md",
+    "lib/v4-oracle/native-mint/contract.ts",
+    "lib/v4-oracle/native-mint/index.ts",
+    "lib/v4-oracle/native-mint/producer.ts",
+    "lib/v4-oracle/native-mint/project.ts",
+    "lib/v4-oracle/native-mint/qualification.ts",
+    "lib/v4-oracle/native-mint/testing.ts",
+    "tests/oracle-native-259/fixtures.mjs",
+    "tests/oracle-native-259/operations.test.mjs",
+    "tests/oracle-native-259/producer.test.mjs",
+    "tests/oracle-native-259/replay.sh",
+    "tests/oracle-native-259/review.json",
+    "tests/oracle-native-259/review.mjs",
+    "tests/oracle-native-259/run.sh",
+    "tests/oracle-native-259/scope.test.mjs",
+    "tests/oracle-native-259/security.test.mjs",
+    "tests/oracle-native-259/sources.json"
+  ],
+  "newFiles": {
+    ".github/workflows/oracle-native-259.yml": "2f96b7fbd5e65c233cfcb1b42b3ed90e408e8e2ef156b23bbf67d62e26b7c125",
+    "lib/v4-oracle/native-mint/README.md": "bbbda73e7e45b543ac79999b62d8f732825d57992493594c5718c81bd2160de4",
+    "lib/v4-oracle/native-mint/contract.ts": "94fda34c50bf74adeb610721a1b25075ced61ec01e13762c7d12c65ddb64a9bd",
+    "lib/v4-oracle/native-mint/index.ts": "155bf344329cadcb85797fe96fa5a3df320c2e09b86ec1ba2b138828a34bcf36",
+    "lib/v4-oracle/native-mint/producer.ts": "3080d9f6639e19e85e724b3dc33fa1c1cda93bd5d065eeefef4c504b3cc110f9",
+    "lib/v4-oracle/native-mint/project.ts": "6145c1c523639f3997811a3cafbeb2e058ac3e4dcdfabaadb7d08fe62e5d0414",
+    "lib/v4-oracle/native-mint/qualification.ts": "0cca4f6a5002398eef1ea3175e4ca8d332d93cfbd2d9a8834c88cf39fdafb2d2",
+    "lib/v4-oracle/native-mint/testing.ts": "01814bb5ccfff97f119acee24e5e507e3ce6e63dcfd108c36e7164e471f11dd6",
+    "tests/oracle-native-259/fixtures.mjs": "7d5f4d6061b230ed43da761468df7bdeeb5f41a346990e89f550982ca997c648",
+    "tests/oracle-native-259/operations.test.mjs": "13ed04c403326198132891c24b53431c7533f83957b4b42d7ec369b0c2b24af2",
+    "tests/oracle-native-259/producer.test.mjs": "6e374cd3dd3ffb1ef39b275da7af3daa911d0766fa4b1fd1f1426833c170861d",
+    "tests/oracle-native-259/replay.sh": "1554744e45c1eb4b4bd3ebc96377f9edaa456ab86f7e98569ff7665f91f501db",
+    "tests/oracle-native-259/run.sh": "7329c38c7771f33f86c7763209b484e3a100e0b217312cec074877532837dc81",
+    "tests/oracle-native-259/security.test.mjs": "a3efabd7459de6652a01a52ffd2b1b0509cdebf1f1950fea47433d8faa4ab059",
+    "tests/oracle-native-259/sources.json": "57dfb9b981cbc51f1688d57e2a0bff2ba8fc4adce1a6f18e4535796996c418db"
+  }
+}
