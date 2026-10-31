@@ -13,12 +13,12 @@ function Fact({fact:f}:{fact:FactView}){const display=formatFact(f);return <deta
 const pillars=[{id:'rug',name:'RUG EXPOSURE',subtitle:'Can token rules or liquidity still be changed?'},{id:'farm',name:'FARM EXPOSURE',subtitle:'Could concentrated holders or artificial participation be extracting value?'},{id:'momentum',name:'MOMENTUM QUALITY',subtitle:'Is there credible evidence of genuine demand?'}] as const;
 function riskDisplay(f:RiskFinding):string{
  if(!f.value)return 'NOT VERIFIED';
- if(f.id==='concentration'&&/^\\d+(?:\\.\\d+)?%$/.test(f.value)){
+ if(f.id==='concentration'&&/^\d+(?:\.\d+)?%$/.test(f.value)){
   const v=Number(f.value.slice(0,-1));
   if(Number.isFinite(v))return new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(v)+'%';
  }
  if(f.id==='organic'){
-  const m=/^(\\d+(?:\\.\\d+)?)\/100 · (HIGH|MEDIUM|LOW)$/.exec(f.value);
+  const m=/^(\d+(?:\.\d+)?)\/100 · (HIGH|MEDIUM|LOW)$/.exec(f.value);
   if(m){const v=Number(m[1]);if(Number.isFinite(v))return new Intl.NumberFormat('en-US',{maximumFractionDigits:1}).format(v)+'/100 · '+m[2];}
  }
  return f.value;
