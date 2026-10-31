@@ -1,53 +1,53 @@
 {
   "version": 1,
-  "startedAt": "2026-10-30T23:51:32+00:00",
-  "finishedAt": "2026-10-30T23:51:33+00:00",
+  "startedAt": "2026-10-31T05:49:17+00:00",
+  "finishedAt": "2026-10-31T05:49:18+00:00",
   "event": "schedule",
-  "runId": 41146907861,
-  "overall": "complete",
+  "runId": 41174076843,
+  "overall": "failed",
   "expectedDatasetRevision": "sha256:ef75405b318d16b0a38bfe4f1c6e91d302bfd00bacb45475d6e0f6f74c42cef1",
   "results": [
     {
       "mint": "4MMQY9bwkxxTtsK3W227Q5ABT6yFY8Pmn9Ze7wmAXKY8",
-      "status": "collected",
-      "reason": "collected",
-      "observedAt": "2026-10-30T23:51:32+00:00"
+      "status": "failed",
+      "reason": "source_redirect",
+      "observedAt": null
     },
     {
       "mint": "HcRLc9VDgjLeK154xDawfb1dmVJ98DoSqcwTHGqiDeJR",
-      "status": "collected",
-      "reason": "collected",
-      "observedAt": "2026-10-30T23:51:32+00:00"
+      "status": "failed",
+      "reason": "source_redirect",
+      "observedAt": null
     },
     {
       "mint": "B32ocrADBEo1XHsGVnxqP81SaK2NiZkQmmAoTnmT8Ybu",
-      "status": "collected",
-      "reason": "collected",
-      "observedAt": "2026-10-30T23:51:33+00:00"
+      "status": "failed",
+      "reason": "source_redirect",
+      "observedAt": null
     },
     {
       "mint": "8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
-      "status": "collected",
-      "reason": "collected",
-      "observedAt": "2026-10-30T23:51:33+00:00"
+      "status": "failed",
+      "reason": "source_redirect",
+      "observedAt": null
     },
     {
       "mint": "6UtY9iTZMQQ5QZVrbzFnNaJntV7oySm9k97mvwnuZcxr",
-      "status": "collected",
-      "reason": "collected",
-      "observedAt": "2026-10-30T23:51:33+00:00"
+      "status": "failed",
+      "reason": "source_redirect",
+      "observedAt": null
     },
     {
       "mint": "HuAXPyDWDaMYFKuwQHpqL1oPnj93zdzWmtvFGzCeCUa7",
-      "status": "collected",
-      "reason": "collected",
-      "observedAt": "2026-10-30T23:51:33+00:00"
+      "status": "failed",
+      "reason": "source_redirect",
+      "observedAt": null
     },
     {
       "mint": "DEW9dSN6QpWyNthphCpMmAbZP1Q4cEKR9xQXAri98WDP",
-      "status": "collected",
-      "reason": "collected",
-      "observedAt": "2026-10-30T23:51:33+00:00"
+      "status": "failed",
+      "reason": "source_redirect",
+      "observedAt": null
     }
   ]
 }
