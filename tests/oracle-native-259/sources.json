@@ -1,0 +1,31 @@
+{
+  "reviewedDate": "2026-10-31",
+  "rpcCallsPerformed": 0,
+  "sources": [
+    {
+      "name": "clusters",
+      "repository": "solana-foundation/solana-com",
+      "commit": "4cb392f61c2ab0f8953cc314378aaf8256b7699a",
+      "commitDate": "2026-10-30T19:23:25Z",
+      "reviewedDate": "2026-10-31",
+      "url": "https://github.com/solana-foundation/solana-com/blob/4cb392f61c2ab0f8953cc314378aaf8256b7699a/apps/docs/content/docs/en/references/clusters.mdx",
+      "bytes": 6703,
+      "sha256": "aea5c800e9cb836334adfc891d81f25e40a6a7218dc6c0b27894d1a0b865d8ff"
+    },
+    {
+      "name": "getAccountInfo",
+      "repository": "solana-foundation/solana-com",
+      "commit": "4cb392f61c2ab0f8953cc314378aaf8256b7699a",
+      "commitDate": "2026-10-30T19:23:25Z",
+      "reviewedDate": "2026-10-31",
+      "url": "https://github.com/solana-foundation/solana-com/blob/4cb392f61c2ab0f8953cc314378aaf8256b7699a/apps/docs/content/docs/en/rpc/http/getaccountinfo.mdx",
+      "bytes": 12995,
+      "sha256": "7aa4ddb1c51eaa6fc9065ef4aca580688607548c991ab7325a774edba2a9b1d3"
+    }
+  ],
+  "rights": {
+    "public_rpc": "HOLD: documentation permits developer interaction and excludes production; private-business retention/display permission not established",
+    "helius": "HOLD: current terms/account/meter not independently available; direct terms GET blocked by environment proxy CONNECT403, no provider/API request",
+    "ownerSuppliedReceipt": "Issue259 metadata only; original wire bytes not provided, not reconstructed or admitted as native evidence"
+  }
+}
