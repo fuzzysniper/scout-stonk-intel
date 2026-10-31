@@ -1,4 +1,6 @@
 import {isInspectView,type InspectView,type RiskFinding} from '../../lib/v4-owner-preview/view-contract';
+import {isFarmDisclosure,type FarmDisclosure} from './evidence-disclosure';
+export type LensView=InspectView & Readonly<{farmEvidence?:FarmDisclosure}>;
 
 export const PILLARS = [
   {id:'rug',name:'RUG EXPOSURE',question:'Who can change the rules or remove liquidity?'},
@@ -17,9 +19,10 @@ export function counts(findings:readonly RiskFinding[]):Counts {
 /** UI admission only: the SAME canonical field validation, with a finite combined A/B/Jupiter limit.
  * Do not truncate a late red finding to the original twelve-item transport limit.
  */
-export function isLensResponse(value:unknown,mint:string):value is InspectView {
+export function isLensResponse(value:unknown,mint:string):value is LensView {
   if(!value||typeof value!=='object'||Array.isArray(value))return false;
-  const v=value as InspectView,findings=v.riskFindings;
+  const v=value as LensView,findings=v.riskFindings;
+  if(v.farmEvidence!==undefined&&!isFarmDisclosure(v.farmEvidence))return false;
   if(findings===undefined)return isInspectView(v,mint);
   if(!Array.isArray(findings)||findings.length>48||findings.some(f=>!f||typeof f!=='object'))return false;
   if(new Set(findings.map(f=>f.id)).size!==findings.length)return false;
@@ -41,7 +44,7 @@ export function availableFindings(view:InspectView):readonly RiskFinding[] {
 
 // Editorial order of individual checks, not a numerical risk score or financial calculation.
 const critical = ['contradiction','permanent-delegate','transfer-restrictions','freeze-authority','mint-authority','liquidity-removal','lp-custody','suspicious','concentration'];
-const materialUnknown = ['lp-custody','lp-control','exit-route','wallet-links','funding','extraction','cohort','retention','transfer','mint','organic','verification'];
+const materialUnknown = ['lp-custody','lp-control','exit-route','farming-exits','wallet-links','funding','extraction','cohort','retention','transfer','mint','organic','verification'];
 function position(id:string,order:readonly string[]){const i=order.findIndex(key=>id.includes(key));return i<0?order.length:i;}
 export function prioritize(findings:readonly RiskFinding[]):RiskFinding[] {
   const rank={red:0,yellow:1,gray:2,green:3};
@@ -70,7 +73,18 @@ export function evidenceKind(f:RiskFinding):string {
   return s?'Source reported':'Source unavailable';
 }
 
+/** A's observedAt is its capture RECEIPT, B's is its declared context clock,
+ * Jupiter's is its record update. The canonical field name does not unify them.
+ */
+export function findingClockLabel(f:RiskFinding):string {
+  if(f.id.startsWith('onchain-'))return 'Capture received · not block time';
+  if(f.id.startsWith('farming-'))return 'Declared source/context clock';
+  if(/jupiter/i.test(f.source??''))return 'Provider record updated';
+  return 'Returned clock · semantics in source evidence';
+}
+
 export function nextVerification(f:RiskFinding):string {
+  if(f.id==='farming-exits')return 'Reconcile opening tokens, buys and transfers with sells and closing tokens for the covered wallets and window. This does not establish profit or USD extracted.';
   if(/contradiction/.test(f.id))return 'Reconcile the exact mint, account, slot and original source fields before relying on either report.';
   if(/lp|liquidity|exit-route/.test(f.id))return 'Check protocol-specific pool custody and withdrawal rights, then a current executable quote. Aggregate liquidity proves neither.';
   if(/mint-authority|freeze-authority|delegate|transfer|rug-unavailable/.test(f.id))return 'Inspect the exact mint account and all supported token extensions using an admitted independent source.';
@@ -84,6 +98,7 @@ export function nextVerification(f:RiskFinding):string {
 }
 
 export function whyItMatters(f:RiskFinding):string {
+  if(f.id==='farming-exits')return 'Without reconciled wallet inventories, selling and value extraction remain unknown.';
   if(/contradiction/.test(f.id))return 'The sources disagree. Neither report should silently override the other.';
   if(/lp|liquidity|exit-route/.test(f.id))return 'Displayed liquidity does not establish who can remove it or whether you can exit.';
   if(/freeze-authority/.test(f.id))return 'A freeze permission can restrict token accounts; other controls still need review.';

@@ -29,12 +29,17 @@ jobs:
         run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/run.sh
       - name: Current unchanged source parser engine and security cases
         run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
+      - name: Exact reviewed A B input scope guards and current aggregate runtime
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/peer-tests.sh inputs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/peer-tests.sh
       - name: Typecheck lint and optimized build
         run: |
           npx tsc --noEmit
           npm run lint
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
           git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-oracle-onchain/built-off.mjs
       - name: Finite source scope and archive preservation
         run: |
           node --test tests/oracle-lens/scope.test.mjs
@@ -64,6 +69,11 @@ jobs:
         run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/before.sh
       - name: Actual current UI at3203901280 keyboard axe and privacy
         run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/run.sh browser
+      - name: Actual optimized Next artifact default-OFF browser and accessibility
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/run.sh artifact
       - uses: actions/upload-artifact@v4
         if: always()
         with:
