@@ -113,7 +113,7 @@ function build(config:Config,fixtureWire?:LocalWire,fixtureClock?:{now:()=>numbe
  const still=()=>!terminal&&!!qualify(config,fixture)&&(!fixture||process.env.NODE_ENV==='test');
  const inspect:Source['inspect']=async(request,mint)=>{
   if(!still())return gray(terminal?'stopped':'admission_denied');
-  if(!isExactPublicKey(mint)||active)return gray('admission_denied');
+  if(!isExactPublicKey(mint)||!q.review.mints.includes(mint)||active)return gray('admission_denied');
   const canonical=canonicalRequest(request,p.origin);if(!canonical)return gray('admission_denied');request=canonical;
   active=true;known=false;charged=false;
   const abort=new AbortController();inFlight=abort;let timeout:ReturnType<typeof setTimeout>|undefined;
