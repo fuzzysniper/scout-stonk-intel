@@ -4,10 +4,52 @@ import {isExactPublicKey} from '../../lib/onchain-mint/validation';
 import {unavailableView,isInspectView,type InspectView,type FactView} from '../../lib/v4-owner-preview/view-contract';
 import {JOURNAL_OFF,type JournalCapability} from '../../lib/v4-thesis-api/client-contract';
 import JournalControls from './journal-controls';
+import {formatFact} from './format-fact';
+import type {RiskFinding} from '../../lib/v4-owner-preview/view-contract';
 import styles from './ca-view.module.css';
 const compactClock=(s:string)=>{const d=new Date(s);return Number.isFinite(d.getTime())?d.toISOString().slice(5,10)+' '+d.toISOString().slice(11,16)+'Z':'time unknown';};
 const clock=(s:string|null)=>s&&Number.isFinite(Date.parse(s))?new Date(s).toLocaleString():null;
-function Fact({fact:f}:{fact:FactView}){return <details className={styles.fact} data-state={f.status}><summary><span>{f.label}</span><strong>{f.value??'—'}{f.value!==null&&f.unit.startsWith('USD')?<small> USD</small>:f.value!==null&&f.unit==='percent'?<small>%</small>:null}</strong><span className={styles.source}>{f.status==='stale'?'STALE · ':''}{f.source??'Not observed'}{f.observedAt?<time dateTime={f.observedAt}> · {compactClock(f.observedAt)}</time>:<span> · time unknown</span>}</span></summary><div><p>{f.reason}</p><p>Unit: {f.unit}. Source time: {clock(f.observedAt)??'Unknown'}. Received: {clock(f.receivedAt)??'Unknown'}.</p>{f.path?<p>Source field: {f.path}</p>:null}{f.responseSha256?<p>Response SHA-256: <code>{f.responseSha256}</code>. Capture: {f.captureKind}.</p>:null}</div></details>;}
+function Fact({fact:f}:{fact:FactView}){const display=formatFact(f);return <details className={styles.fact} data-state={f.status}><summary><span>{f.label}</span><strong>{display.value}{display.unit?<small>{display.unit}</small>:null}</strong><span className={styles.source}>{f.status==='stale'?'STALE · ':''}{f.source??'Not observed'}{f.observedAt?<time dateTime={f.observedAt}> · {compactClock(f.observedAt)}</time>:<span> · time unknown</span>}</span></summary><div><p>{f.reason}</p><p>Exact returned value: <code>{f.value??'not observed'}</code>. Unit: {f.unit}. Source time: {clock(f.observedAt)??'Unknown'}. Received: {clock(f.receivedAt)??'Unknown'}.</p>{f.path?<p>Source field: {f.path}</p>:null}{f.responseSha256?<p>Response SHA-256: <code>{f.responseSha256}</code>. Capture: {f.captureKind}.</p>:null}</div></details>;}
+const pillars=[{id:'rug',name:'RUG EXPOSURE',subtitle:'Can token rules or liquidity still be changed?'},{id:'farm',name:'FARM EXPOSURE',subtitle:'Could concentrated holders or artificial participation be extracting value?'},{id:'momentum',name:'MOMENTUM QUALITY',subtitle:'Is there credible evidence of genuine demand?'}] as const;
+function riskDisplay(f:RiskFinding):string{
+ if(!f.value)return 'NOT VERIFIED';
+ if(f.id==='concentration'&&/^\d+(?:\.\d+)?%$/.test(f.value)){
+  const v=Number(f.value.slice(0,-1));
+  if(Number.isFinite(v))return new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(v)+'%';
+ }
+ if(f.id==='organic'){
+  const m=/^(\d+(?:\.\d+)?)\/100 · (HIGH|MEDIUM|LOW)$/.exec(f.value);
+  if(m){const v=Number(m[1]);if(Number.isFinite(v))return new Intl.NumberFormat('en-US',{maximumFractionDigits:1}).format(v)+'/100 · '+m[2];}
+ }
+ return f.value;
+}
+function RiskCard({finding:f}:{finding:RiskFinding}){
+ return <article className={styles.riskCard} data-tone={f.tone}>
+  <div className={styles.riskTop}><h4>{f.title}</h4><span className={styles.riskTone}>{f.tone.toUpperCase()}</span></div>
+  <strong className={styles.riskValue}>{riskDisplay(f)}</strong>
+  <p>{f.explanation}</p>
+  <details><summary>Evidence &amp; source</summary>
+   <p>Source: {f.source??'Not available'}. Field: {f.fieldPath??'None checked'}.</p>{f.value?<p>Exact source value: <code>{f.value}</code>.</p>:null}
+   <p>Provider record updated: {f.observedAt?compactClock(f.observedAt):'Unknown'}. No metric-specific event timestamp is established.</p>
+   {f.responseSha256?<code>SHA-256: {f.responseSha256}</code>:null}
+  </details>
+ </article>;
+}
+function RiskReadout({findings}:{findings:readonly RiskFinding[]}){
+ const count=(tone:RiskFinding['tone'])=>findings.filter(f=>f.tone===tone).length;
+ return <section className={styles.riskSection} aria-labelledby="risk-heading">
+  <h2 id="risk-heading">UNFARMD INTELLIGENCE</h2>
+  <p className={styles.riskIntro}>Each color applies to a specific check—not the token as a whole. Jupiter reports are not independent on-chain verification.</p>
+  <div className={styles.riskCounts} aria-label="Evidence status totals">
+   {(['red','yellow','green','gray'] as const).map(t=><span key={t} data-tone={t}><b>{count(t)}</b> {t==='gray'?'UNKNOWN':t.toUpperCase()}</span>)}
+  </div>
+  {pillars.map(p=><section key={p.id} className={styles.riskPillar}>
+   <h3>{p.name}</h3><p>{p.subtitle}</p>
+   <div className={styles.riskGrid}>{findings.filter(f=>f.pillar===p.id).map(f=><RiskCard key={f.id} finding={f}/>)}</div>
+  </section>)}
+  <p className={styles.riskDisclaimer}>RED = a reported serious warning or remaining capability, not proven malicious intent. GREEN = one narrow positive finding, never a safety guarantee. YELLOW = caution/heuristic. GRAY = not checked or no valid evidence.</p>
+ </section>;
+}
 const boundedFetch=(url:string,init:RequestInit={})=>fetch(url,{...init,signal:init.signal?AbortSignal.any([init.signal,AbortSignal.timeout(6000)]):AbortSignal.timeout(6000)});
 async function getJson(response:Response){if(!response.ok)throw Object.assign(Error('request_failed'),{status:response.status});const reader=response.body?.getReader();if(!reader)throw Error('invalid_response');let total=0;const chunks:Uint8Array[]=[];try{for(;;){const n=await reader.read();if(n.done)break;total+=n.value.byteLength;if(total>131072)throw Error('response_too_large');chunks.push(n.value);}}finally{void reader.cancel().catch(()=>{});reader.releaseLock();}const bytes=new Uint8Array(total);let at=0;for(const part of chunks){bytes.set(part,at);at+=part.length;}return JSON.parse(new TextDecoder('utf8',{fatal:true}).decode(bytes));}
 export default function CaLens({previewAvailable=false,marketPreviewAvailable=false}:{previewAvailable?:boolean;marketPreviewAvailable?:boolean}={}){
@@ -40,6 +82,7 @@ export default function CaLens({previewAvailable=false,marketPreviewAvailable=fa
   <div ref={result} tabIndex={-1} className={styles.results} aria-live="polite" aria-busy={busy}>
   {view?<>
    <div className={styles.identity}><div><h1>{view.name??(view.identity==='not_found'?'No token observation':view.identity==='unsupported'?'Unsupported token account':'Token unverified')}{view.symbol?<small> {view.symbol}</small>:null}</h1><p>{view.identityNote}</p></div><span className={styles.badge}>{view.state==='offline_fixture'?'LOCAL FIXTURE · NOT LIVE':view.state==='offline_replay'?'RECORDED REPLAY · NOT LIVE':view.state==='sources_off'?'SOURCES OFF':view.state==='unavailable'?'UNAVAILABLE':'PARTIAL EVIDENCE'}</span></div>
+   {view.riskFindings?.length?<RiskReadout findings={view.riskFindings}/>:<p className={styles.muted}>Risk verification is unavailable for this inspection. No assessment has been inferred from price or volume.</p>}
    <div className={styles.grid} aria-label="Token facts">{view.facts.map(f=><Fact key={f.id} fact={f}/>)}</div>
    <section className={styles.activity} aria-labelledby="activity-title"><div className={styles.row}><h2 id="activity-title">Activity</h2><div className={styles.periods} role="group" aria-label="Activity period">{(['5m','1h','24h'] as const).map(p=><button key={p} type="button" aria-pressed={period===p} onClick={()=>setPeriod(p)}>{p}</button>)}</div></div>{windows.length?<div className={styles.grid}>{windows.slice(0,3).map(f=><Fact key={f.id} fact={f}/>)}</div>:<p className={styles.muted}>No observed {period} volume, transactions or participant data.</p>}{windows.length>3?<details><summary>Participation, volume &amp; calculation details</summary><div className={styles.grid}>{windows.slice(3).map(f=><Fact key={f.id} fact={f}/>)}</div></details>:null}</section>
    <section className={styles.readout} aria-labelledby="readout-title"><h2 id="readout-title">UNFARMD READOUT</h2>{readout?<p>{readout}</p>:<p>{observed?'Returned facts do not establish a trend or prediction.':'No evidence-grounded signal is available. Address format alone does not establish token existence.'}</p>}{view.contradictions.length?<><h3>Contradictions</h3><ul>{view.contradictions.map((v,i)=><li key={i}>{v}</li>)}</ul></>:null}<details><summary>Missing evidence &amp; limits</summary>{view.observations.filter(v=>v!==readout).map((v,i)=><p key={i}>{v}</p>)}<ul>{view.gaps.map((v,i)=><li key={i}>{v}</li>)}</ul><p>A signal is an observation, not a prediction. No safety verdict or buy/sell recommendation.</p></details></section>
