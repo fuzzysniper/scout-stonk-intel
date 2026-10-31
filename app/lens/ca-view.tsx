@@ -11,13 +11,25 @@ const compactClock=(s:string)=>{const d=new Date(s);return Number.isFinite(d.get
 const clock=(s:string|null)=>s&&Number.isFinite(Date.parse(s))?new Date(s).toLocaleString():null;
 function Fact({fact:f}:{fact:FactView}){const display=formatFact(f);return <details className={styles.fact} data-state={f.status}><summary><span>{f.label}</span><strong>{display.value}{display.unit?<small>{display.unit}</small>:null}</strong><span className={styles.source}>{f.status==='stale'?'STALE · ':''}{f.source??'Not observed'}{f.observedAt?<time dateTime={f.observedAt}> · {compactClock(f.observedAt)}</time>:<span> · time unknown</span>}</span></summary><div><p>{f.reason}</p><p>Exact returned value: <code>{f.value??'not observed'}</code>. Unit: {f.unit}. Source time: {clock(f.observedAt)??'Unknown'}. Received: {clock(f.receivedAt)??'Unknown'}.</p>{f.path?<p>Source field: {f.path}</p>:null}{f.responseSha256?<p>Response SHA-256: <code>{f.responseSha256}</code>. Capture: {f.captureKind}.</p>:null}</div></details>;}
 const pillars=[{id:'rug',name:'RUG EXPOSURE',subtitle:'Can token rules or liquidity still be changed?'},{id:'farm',name:'FARM EXPOSURE',subtitle:'Could concentrated holders or artificial participation be extracting value?'},{id:'momentum',name:'MOMENTUM QUALITY',subtitle:'Is there credible evidence of genuine demand?'}] as const;
+function riskDisplay(f:RiskFinding):string{
+ if(!f.value)return 'NOT VERIFIED';
+ if(f.id==='concentration'&&/^\\d+(?:\\.\\d+)?%$/.test(f.value)){
+  const v=Number(f.value.slice(0,-1));
+  if(Number.isFinite(v))return new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(v)+'%';
+ }
+ if(f.id==='organic'){
+  const m=/^(\\d+(?:\\.\\d+)?)\/100 · (HIGH|MEDIUM|LOW)$/.exec(f.value);
+  if(m){const v=Number(m[1]);if(Number.isFinite(v))return new Intl.NumberFormat('en-US',{maximumFractionDigits:1}).format(v)+'/100 · '+m[2];}
+ }
+ return f.value;
+}
 function RiskCard({finding:f}:{finding:RiskFinding}){
  return <article className={styles.riskCard} data-tone={f.tone}>
   <div className={styles.riskTop}><h4>{f.title}</h4><span className={styles.riskTone}>{f.tone.toUpperCase()}</span></div>
-  <strong className={styles.riskValue}>{f.value??'NOT VERIFIED'}</strong>
+  <strong className={styles.riskValue}>{riskDisplay(f)}</strong>
   <p>{f.explanation}</p>
   <details><summary>Evidence &amp; source</summary>
-   <p>Source: {f.source??'Not available'}. Field: {f.fieldPath??'None checked'}.</p>
+   <p>Source: {f.source??'Not available'}. Field: {f.fieldPath??'None checked'}.</p>{f.value?<p>Exact source value: <code>{f.value}</code>.</p>:null}
    <p>Provider record updated: {f.observedAt?compactClock(f.observedAt):'Unknown'}. No metric-specific event timestamp is established.</p>
    {f.responseSha256?<code>SHA-256: {f.responseSha256}</code>:null}
   </details>
