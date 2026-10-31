@@ -9,6 +9,7 @@ test('finite source diff: only dedicated error diagnostics and exact Preview bra
  const files=execFileSync('git',['diff','--name-only',parent,'HEAD'],{encoding:'utf8'}).trim().split('\n').sort();
  assert.deepEqual(files,[
   'app/lens/ca-view.tsx','app/lens/inspect-errors.ts',
+  'app/api/v4/ca-intelligence/route.ts',
   'lib/v4-ca-intelligence/private-development-gate.ts',
   'tests/oracle-inspect-265/inspect.test.mjs'
  ].sort());
@@ -20,6 +21,13 @@ test('finite source diff: only dedicated error diagnostics and exact Preview bra
  assert.ok(ui.includes('setError(inspectFailureMessage(e,controller.signal.aborted))'));
  assert.ok(ui.includes('r.status===503&&!previewAvailable&&!marketPreviewAvailable'));
  assert.ok(ui.includes("redirect:'error'"));
+ assert.ok(ui.includes("response.headers.get('x-unfarmd-inspect-stage')"));
+ assert.ok(ui.includes("response.headers.get('x-vercel-id')"));
+ const route=readFileSync('app/api/v4/ca-intelligence/route.ts','utf8');
+ assert.ok(route.includes('if(!internalMarketPreview())return off()'));
+ assert.ok(route.includes("unavailable('source_module')"));
+ assert.ok(route.includes("unavailable('oracle_module')"));
+ assert.ok(!route.includes('import {inspectPrivateDevelopment}'));
 });
 
 test('classify Vercel HTTP, auth, source and validation denials without copying private payloads',()=>{
@@ -37,4 +45,10 @@ test('classify Vercel HTTP, auth, source and validation denials without copying 
  ];
  for(const [e,expected] of matrix){const m=message(e,false);assert.ok(m.includes(expected),expected+': '+m);assert.ok(!m.includes('PRIVATE_SECRET'));}
  assert.ok(message({},true).includes('interrupted'));
+ assert.ok(message({status:503,stage:'oracle_module'},false).includes('ORACLE_MODULE'));
+ const id='iad1::very_safe_request_123';
+ assert.ok(message({status:500,requestId:id},false).includes(id));
+ assert.ok(!message({status:500,requestId:'PRIVATE SECRET / injected'},false).includes('PRIVATE SECRET'));
+ assert.ok(!message({status:503,stage:'../../private_password'},false).includes('private_password'));
+
 });
