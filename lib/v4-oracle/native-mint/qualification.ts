@@ -1,5 +1,6 @@
 import 'server-only';
 import {createHash} from 'node:crypto';
+import {isExactPublicKey} from '../../onchain-mint/validation';
 import {data,time} from '../../v4-helius-pilot/server/profile';
 import {TARGET,OwnerReleaseAuthority} from '../../v4-owner-preview/release';
 import {SourcePolicyAuthority,sourceHash} from '../../v4-owner-preview/source-policy';
@@ -19,13 +20,15 @@ export function qualify(config:Config,fixture=false){
   const approved=SourcePolicyAuthority.prototype.inspect.call(config.authority,config.approval);
   if(!release||!approved||approved.releaseHash!==sourceHash(JSON.stringify(release)))return null;
   const r=config.review;
-  if(!data(r,['version','source','host','method','encoding','commitment','ownerSubject','origin','commit','branch','reviewedAt','decision','termsUrl','termsSha256','accountEvidenceSha256','keySha256','privateDisplay','rawRetention','derivedRetention','hashRetention','publicRedistribution','verifiedDebit','includedAllowance','overageProtectionReviewed']))return null;
-  const review=Object.freeze({...r}) as Review,now=Date.now(),p=approved.policy;
+  if(!data(r,['version','source','host','method','encoding','commitment','ownerSubject','origin','commit','branch','mints','reviewedAt','decision','termsUrl','termsSha256','accountEvidenceSha256','keySha256','privateDisplay','rawRetention','derivedRetention','ledgerRetention','publicRedistribution','verifiedDebit','includedAllowance','overageProtectionReviewed']))return null;
+  if(!Array.isArray(r.mints)||r.mints.length<1||r.mints.length>3||Reflect.ownKeys(r.mints).length!==r.mints.length+1)return null;
+  const mints:string[]=[];for(let i=0;i<r.mints.length;i++){const d=Object.getOwnPropertyDescriptor(r.mints,String(i));if(!d||!('value'in d)||!isExactPublicKey(d.value)||mints.includes(d.value))return null;mints.push(d.value);}
+  const review=Object.freeze({...r,mints:Object.freeze(mints)}) as Review,now=Date.now(),p=approved.policy;
   if(review.version!=='unfarmd-native-mint-review/1'||review.source!=='helius_standard_rpc'||review.host!=='mainnet.helius-rpc.com'
    ||review.method!=='getAccountInfo'||review.encoding!=='base64'||review.commitment!=='finalized'
    ||review.decision!=='approved_protected_private_beta'||review.termsUrl!=='https://www.helius.dev/terms'
    ||!nonzero(review.termsSha256)||!nonzero(review.accountEvidenceSha256)||!nonzero(review.keySha256)||review.privateDisplay!==true||review.publicRedistribution!==false
-   ||review.rawRetention!=='request_memory_only'||review.derivedRetention!=='60_seconds'||review.hashRetention!=='existing_immutable_budget_history'||review.overageProtectionReviewed!==true
+   ||review.rawRetention!=='request_memory_only'||review.derivedRetention!=='60_seconds'||review.ledgerRetention!=='owner_mint_provider_utc_hash_counters_immutable'||review.overageProtectionReviewed!==true
    ||!time(review.reviewedAt)||review.reviewedAt>now||now-review.reviewedAt>86400000
    ||review.ownerSubject!==p.ownerSubject||review.origin!==p.origin||review.commit!==release.identity.commit
    ||typeof review.branch!=='string'||!/^[-a-zA-Z0-9_/]{8,120}$/.test(review.branch)||review.branch==='main'

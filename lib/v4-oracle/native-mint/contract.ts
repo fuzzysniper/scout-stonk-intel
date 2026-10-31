@@ -6,10 +6,10 @@ export type {Controls,JupiterReport};
 export type Review=Readonly<{
  version:'unfarmd-native-mint-review/1';source:'helius_standard_rpc';host:'mainnet.helius-rpc.com';
  method:'getAccountInfo';encoding:'base64';commitment:'finalized';
- ownerSubject:string;origin:string;commit:string;branch:string;reviewedAt:number;
+ ownerSubject:string;origin:string;commit:string;branch:string;mints:readonly string[];reviewedAt:number;
  decision:'approved_protected_private_beta';termsUrl:'https://www.helius.dev/terms';termsSha256:string;accountEvidenceSha256:string;keySha256:string;
  privateDisplay:true;rawRetention:'request_memory_only';derivedRetention:'60_seconds';
- hashRetention:'existing_immutable_budget_history';publicRedistribution:false;
+ ledgerRetention:'owner_mint_provider_utc_hash_counters_immutable';publicRedistribution:false;
  verifiedDebit:number;includedAllowance:number;overageProtectionReviewed:true;
 }>;
 export type Config=Readonly<{

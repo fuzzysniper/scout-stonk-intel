@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';import fs from 'node:fs';import path fro
 export const BASE='34d6a59763d62399cdcd94f7bccb7ea89e579a18';
 
 export const sha=b=>createHash('sha256').update(b).digest('hex');
-const MANIFEST_SHA='c2a87a0be6c14c03ce0a0a1f287cfa080b4345b70b641788213a4eee91ceffbb';
+const MANIFEST_SHA='d1e461265b9d3da8854d499c99b338e70bb6c063fbee8affd6cb8f479bbe1ce8';
 export function review(root=process.cwd()){
  const raw=(...a)=>execFileSync('git',a,{cwd:root,maxBuffer:32*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=f=>fs.readFileSync(path.join(root,f));
  const bytes=read('tests/oracle-native-259/review.json');assert.equal(sha(bytes),MANIFEST_SHA,'immutable onchain review');const m=JSON.parse(bytes);assert.equal(m.base,BASE);for(const ref of [BASE])assert.equal(git('merge-base','--is-ancestor',ref,'HEAD'),'');

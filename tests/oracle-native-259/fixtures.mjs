@@ -20,9 +20,9 @@ export async function fixture({reviewPatch={},policyPatch={},mode='normal',bytes
   await f.db.owner.query(readFileSync('ops/v4-owner-auth/source-admission.sql','utf8'));
   for(const role of ['ca','ca_stopper'])await f.db.owner.query("ALTER ROLE unfarmd_v4_"+role+"_login LOGIN PASSWORD '"+f.rolePassword+"'");
   const now=Date.now(),review={version:'unfarmd-native-mint-review/1',source:'helius_standard_rpc',host:'mainnet.helius-rpc.com',method:'getAccountInfo',encoding:'base64',commitment:'finalized',
-   ownerSubject:OWNER,origin:f.identity.origin,commit:f.identity.commit,branch:'feat/SYNTHETIC_LOCAL_259',reviewedAt:now,
+   ownerSubject:OWNER,origin:f.identity.origin,commit:f.identity.commit,branch:'feat/SYNTHETIC_LOCAL_259',mints:[MINT,OTHER],reviewedAt:now,
    decision:'approved_protected_private_beta',termsUrl:'https://www.helius.dev/terms',termsSha256:'a'.repeat(64),accountEvidenceSha256:'b'.repeat(64),keySha256:hash('SYNTHETIC_LOCAL_259_NOT_A_PROVIDER_KEY'),
-   privateDisplay:true,rawRetention:'request_memory_only',derivedRetention:'60_seconds',hashRetention:'existing_immutable_budget_history',publicRedistribution:false,
+   privateDisplay:true,rawRetention:'request_memory_only',derivedRetention:'60_seconds',ledgerRetention:'owner_mint_provider_utc_hash_counters_immutable',publicRedistribution:false,
    verifiedDebit:1,includedAllowance:3,overageProtectionReviewed:true,...reviewPatch};
   const p={id:'SYNTHETIC_NATIVE_259_NO_PROVIDER_APPROVAL',ownerSubject:OWNER,origin:f.identity.origin,startsAt:now-1000,expiresAt:now+600000,providers:['helius'],jupiterAccess:'keyless',maxLookups:3,maxAttempts:3,maxCredits:3,debit:{jupiter:1,helius:1},rights:{jupiter:'d'.repeat(64),helius:hash(JSON.stringify(review)),combination:'e'.repeat(64)},...policyPatch};
   const pair=generateKeyPairSync('ed25519'),sqlSha=hash(readFileSync('ops/v4-owner-auth/source-admission.sql')),authority=new SourcePolicyAuthority(pair.publicKey,f.trust,f.release,sqlSha),releaseHash=hash(JSON.stringify(f.record));
