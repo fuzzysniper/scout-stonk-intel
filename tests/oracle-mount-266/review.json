@@ -1,0 +1,181 @@
+{
+  "base": "f80ecba0d39ad854d189ff5b4c699f4310a45c1d",
+  "changed": {
+    "app/lens/ca-view.module.css": {
+      "before": "80be22df5fc3cd6092fc5f198d3a9e88bfa19ba1ac1edbebbf52a416b93bff54",
+      "after": "e06096eb01db51c6b8e6043a89d01ed53fc19df89359220f68d6e2a079a0e4e2",
+      "patch": "4ca691da0120967182b47c711d2786a96de009c938761af97566fdae37cffd2a"
+    },
+    "app/lens/ca-view.tsx": {
+      "before": "371207f1100a04049e1cc6dd965c467a6986aed12d38c4392019ea0d748af5c5",
+      "after": "d08f5e9b930518f175a7f0e33632dc65f73718bcc3ba990c0a57e7db7be03f7f",
+      "patch": "d66377a5333f5b64ab50a97acb20290bc5a6c5e35b8f8488a71a038a35025515"
+    },
+    "app/lens/intelligence-desk.tsx": {
+      "before": "a6ed8081687995bc9be9f8886243bdbb9372e63a3ee3662fd0340ac3a19a6315",
+      "after": "bc4e7932b6141c730d20227e6a8a44cda3bf718d95b403201336f34d8132b718",
+      "patch": "22f013526d748100685ed9069471851391b7b04138f8ffeeb72cdf66db27481e"
+    },
+    "app/lens/page.tsx": {
+      "before": "f7e9debabcbb9de50ab03c726bd527c709f0e365046af6d952fb915ba640893d",
+      "after": "c4fda7370c75ec490142d949fb2f7749a7bd359b93cc8f1dc25ee1767093ca72",
+      "patch": "a6f318b42e5e482da8b93600f59fe5ee36145cb2753598e988f69879f14dab0e"
+    },
+    "lib/v4-ca-intelligence/private-development-gate.ts": {
+      "before": "2d99a00a006308359fad4c9b3a749354662ae6879f4a5feec332bbecb14a2a6e",
+      "after": "933d9096b522e19fb1b59bde06eb033204ff0cd38f44a0c9db4d188804cd9f18",
+      "patch": "dbc5eef0b69c8bac111f6ebdea5f248ee764981dcd0f32bd8c9aedc79fe286b2"
+    }
+  },
+  "added": {
+    ".github/workflows/oracle-mount-266.yml": {
+      "mode": "100644",
+      "sha256": "403e4be85db846d1ed48081547aa729ff3f1d69977c625642135ac0234679afa"
+    },
+    "app/api/v4/native-mint/route.ts": {
+      "mode": "100644",
+      "sha256": "2dc0801f888709bd6513e0e89ead36f4bb916673ebf9721aff076fe43f56bb07"
+    },
+    "app/api/v4/native-owner/[...all]/route.ts": {
+      "mode": "100644",
+      "sha256": "b64f79b13b0bc51ed917df9c3882b559882327db3ec8893ad9884d43b12f8e20"
+    },
+    "app/lens/native-approval.ts": {
+      "mode": "100644",
+      "sha256": "f06fbda13ad2f7df4069443bc8246062fc6cf04d6b85812fb7083aa05073d632"
+    },
+    "app/lens/native-session.ts": {
+      "mode": "100644",
+      "sha256": "696ad30bd87f1ce764c9ca28f07fee70f592a3376b56083a4ae753b3c1cdbe23"
+    },
+    "docs/oracle-266/README.md": {
+      "mode": "100644",
+      "sha256": "b9f4c7626e31e10e69b33004fa613736a256323777aa301a5221baceba285e0e"
+    },
+    "docs/oracle-266/screenshots/clear-1280.png": {
+      "mode": "100644",
+      "sha256": "70ef5d130b8e6c17913634b7e40d1ce1826ff334b3445901182489f4d1c1e83d"
+    },
+    "docs/oracle-266/screenshots/clear-320.png": {
+      "mode": "100644",
+      "sha256": "4bbd581ed4a119affb06a9c72cf7a8181825c4b032253bc2e991f886a5c799cc"
+    },
+    "docs/oracle-266/screenshots/clear-390.png": {
+      "mode": "100644",
+      "sha256": "554fe8748732ff3195b07fb45308b55fd392660f678068b490d9b5adfe7653ff"
+    },
+    "docs/oracle-266/screenshots/guarded-1280.png": {
+      "mode": "100644",
+      "sha256": "d2e69e5d390c1b309e15d05212b2ab9db8825151aedde5e9f6cb8c6c8cd25920"
+    },
+    "docs/oracle-266/screenshots/guarded-320.png": {
+      "mode": "100644",
+      "sha256": "acd1a9afa74d86397976ae51bb9ca69ea14f92debdd0e50a9d4c29bba94503e9"
+    },
+    "docs/oracle-266/screenshots/guarded-390.png": {
+      "mode": "100644",
+      "sha256": "38ea8a5be23c9c72c7054ef91d7c9770ca994b81d0e85e8cbe9f8220bfe1f09b"
+    },
+    "docs/oracle-266/screenshots/jupiter-1280.png": {
+      "mode": "100644",
+      "sha256": "901e8cc5bba55a7922541faa85878f8c4fc988a08d55a45e53890350ab61b6fe"
+    },
+    "docs/oracle-266/screenshots/jupiter-320.png": {
+      "mode": "100644",
+      "sha256": "08270bdbd9220e2f7027519fb7b2da85c80ba417f4dc6efdaf0f15e372e027de"
+    },
+    "docs/oracle-266/screenshots/jupiter-390.png": {
+      "mode": "100644",
+      "sha256": "d4a7fe945184d8d7c0704282ac4f7e5cfa8c3d772a43aeff2e3cb4cec58eba0e"
+    },
+    "docs/oracle-266/screenshots/stop-unknown-1280.png": {
+      "mode": "100644",
+      "sha256": "f1dec766b759592134449c0a432a723c460b7b1c18982e8f8546ea90da869dbe"
+    },
+    "docs/oracle-266/screenshots/stop-unknown-320.png": {
+      "mode": "100644",
+      "sha256": "4575f717dca6bd751b8676d39f21756c5d871133f7cda4199111863c3b9797e3"
+    },
+    "docs/oracle-266/screenshots/stop-unknown-390.png": {
+      "mode": "100644",
+      "sha256": "c415c5606dffd1058f22bfe9a75297d5593f759afcb177b787c8a12024e395ac"
+    },
+    "lib/v4-oracle/mount/admission.ts": {
+      "mode": "100644",
+      "sha256": "6584b71b000f08b006e11a08dffec0e88db668f4a829c5bf4ea18588f44483f5"
+    },
+    "lib/v4-oracle/mount/bootstrap.ts": {
+      "mode": "100644",
+      "sha256": "18a3ddc84452f14f8bfc78a6e95536439d2880cedcc377646b74b9c2478afe1e"
+    },
+    "lib/v4-oracle/mount/dispatch.ts": {
+      "mode": "100644",
+      "sha256": "4252740503f4617790c5d87e66e9711d1e74cc7dda80859ebc50bcaf7909a4e2"
+    },
+    "lib/v4-oracle/mount/http.ts": {
+      "mode": "100644",
+      "sha256": "f092f1d90065221fcb90d9d3581858a195e4d776d7a5845cdd074ba7f94d0d70"
+    },
+    "lib/v4-oracle/mount/runtime.ts": {
+      "mode": "100644",
+      "sha256": "1ecbcde3606a130cda187c70d52a67a36ba6f5d3fd8f891af28ec5c5fba741af"
+    },
+    "tests/oracle-mount-266/admission.test.mjs": {
+      "mode": "100644",
+      "sha256": "cb26a1929e1030345ca287218e37afa82c3f0e13732cc2a64ff290371df07c6b"
+    },
+    "tests/oracle-mount-266/artifact.mjs": {
+      "mode": "100644",
+      "sha256": "472c59d5078f234802acdbe2067f13f4b29a1c24517d39128da8f4d301cd0d06"
+    },
+    "tests/oracle-mount-266/browser-entry.tsx": {
+      "mode": "100644",
+      "sha256": "baab9832cf2fbdaa6a3d7c836bf0280b104fd45ecdace73e3fd30c36ce9d7a32"
+    },
+    "tests/oracle-mount-266/browser-server.mjs": {
+      "mode": "100644",
+      "sha256": "9e98a822a86684151ec67806592c488df784b624d3b496efc3d2fb7f8d97b032"
+    },
+    "tests/oracle-mount-266/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "15cb1f884f55f1b120999a292c0700f3ee257375e58ceb7470df2ab609c9bd3c"
+    },
+    "tests/oracle-mount-266/client.test.mjs": {
+      "mode": "100644",
+      "sha256": "72219b0cab77249704ec3c6e3cdcd229898276d3a3fb1ee2f92ea1fa44653e98"
+    },
+    "tests/oracle-mount-266/compat.sh": {
+      "mode": "100644",
+      "sha256": "5a972b0cbff6505fbc156ea7a3c4bd39428991ab87b86defa91f0800e4312edd"
+    },
+    "tests/oracle-mount-266/inputs.sh": {
+      "mode": "100644",
+      "sha256": "4b720efe89ab905967e7ffa6c70b9f29a7022d5979f6f2374941f7fda18c9a41"
+    },
+    "tests/oracle-mount-266/playwright.config.mjs": {
+      "mode": "100644",
+      "sha256": "b057dfe6f0e4e86aae4e0a05fd91565d7efb85c1d22102e429582326f16a45d5"
+    },
+    "tests/oracle-mount-266/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-mount-266/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-mount-266/run.sh": {
+      "mode": "100644",
+      "sha256": "8b9cf8fc61e7bc6614ca044dfd3d5a5a279ef0dcbf2fdcc79110ba9f24539042"
+    },
+    "tests/oracle-mount-266/runtime.test.mjs": {
+      "mode": "100644",
+      "sha256": "8a02f15764f27a8226e55db190e9baa5f57f6ae31989ce88c3e21ef9b94bb427"
+    },
+    "tests/oracle-mount-266/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    }
+  },
+  "peers": []
+}
