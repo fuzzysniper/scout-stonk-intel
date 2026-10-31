@@ -26,8 +26,8 @@ export async function POST(request:Request):Promise<Response>{
  let result:Response;
  try{result=await inspect(request);}catch{return unavailable('source_execution');}
  if(!result.ok)return result;
- let compose:typeof import('./compose-oracle').composeOracleResponse;
- try{({composeOracleResponse:compose}=await import('./compose-oracle'));}
+ let compose:typeof import('./compose-preview').composePreviewResponse;
+ try{({composePreviewResponse:compose}=await import('./compose-preview'));}
  catch{return unavailable('oracle_module');}
  try{return await compose(result);}catch{return unavailable('oracle_execution');}
 }
