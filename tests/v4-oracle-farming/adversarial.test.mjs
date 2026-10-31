@@ -13,6 +13,8 @@ for(const field of Object.keys(keys))for(const [label,mutate] of [
  ['receipt before source',o=>{o.evidence.receivedAt=time(3500);}],
  ['missing original source time',o=>{delete o.evidence.sourceAt;}],
  ['unfinalized',o=>{o.evidence.commitment='confirmed';}],
+ ['missing independent clock hash',o=>{delete o.evidence.clockResponseSha256;}],
+ ['missing original clock path',o=>{o.evidence.clockFieldPath=null;}],
  ['unknown clock semantics',o=>{o.evidence.clockKind='last_trade';}],
  ['wrong chain',o=>{o.evidence.network='solana-devnet';}],
  ['Jupiter heuristic is not onchain farm evidence',o=>{o.evidence.provider='jupiter';}],

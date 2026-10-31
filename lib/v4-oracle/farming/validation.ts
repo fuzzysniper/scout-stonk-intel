@@ -44,11 +44,13 @@ export function raw(v: unknown): bigint { need(typeof v === 'string' && /^(0|[1-
 export function list<T>(v: readonly T[], min = 0): void { need(Array.isArray(v) && v.length >= min && v.length <= MAX_RECORDS, 'record_budget'); }
 export function unique(v: readonly string[]): void { need(new Set(v).size === v.length, 'duplicate_record'); }
 export function evidence(e: Evidence, asOf: number, fresh = false): void {
-  obj(e, ['provider','captureKind','network','commitment','responseSha256','fieldPath','clockKind','sourceAt','receivedAt','contextSlot','rights']);
+  obj(e, ['provider','captureKind','network','commitment','responseSha256','fieldPath','clockKind','clockResponseSha256','clockFieldPath','sourceAt','receivedAt','contextSlot','rights']);
   need(['solana_rpc','helius_indexer'].includes(e.provider) && ['synthetic_fixture','recorded_response','native_https'].includes(e.captureKind), 'unsupported_source');
   need(e.network === 'solana-mainnet-beta' && e.commitment === 'finalized', 'unfinalized_source');
   need(typeof e.responseSha256 === 'string' && HASH.test(e.responseSha256), 'missing_hash');
   need(typeof e.fieldPath === 'string' && /^\$(?:\.[A-Za-z0-9_]+|\[\d{1,6}\]){1,16}$/.test(e.fieldPath) && e.fieldPath.length <= 128, 'invalid_path');
+  need(typeof e.clockResponseSha256 === 'string' && HASH.test(e.clockResponseSha256)
+    && typeof e.clockFieldPath === 'string' && /^\$(?:\.[A-Za-z0-9_]+|\[\d{1,6}\]){1,16}$/.test(e.clockFieldPath) && e.clockFieldPath.length <= 128, 'missing_clock_reference');
   obj(e.rights, ['analysis','reviewSha256']);
   need(e.rights.analysis === 'approved_private' && typeof e.rights.reviewSha256 === 'string' && HASH.test(e.rights.reviewSha256), 'rights_hold');
   need(['provider_as_of','finalized_block_time'].includes(e.clockKind), 'unknown_source_clock');

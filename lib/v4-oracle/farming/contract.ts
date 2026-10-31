@@ -7,6 +7,8 @@ export type Evidence = Readonly<{
   network: 'solana-mainnet-beta'; commitment: 'finalized';
   responseSha256: string; fieldPath: string;
   clockKind: 'provider_as_of' | 'finalized_block_time';
+  /** Original clock record, separate when getBlockTime corroborates an RPC context slot. */
+  clockResponseSha256: string; clockFieldPath: string;
   /** Declared provider as-of OR the context slot's corroborated block-time estimate. Never receipt time or last account change. */
   sourceAt: string; receivedAt: string; contextSlot: number;
   rights: Readonly<{ analysis: 'approved_private' | 'unreviewed' | 'restricted'; reviewSha256: string | null }>;

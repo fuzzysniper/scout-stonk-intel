@@ -5,7 +5,7 @@ export const key=n=>b58(Uint8Array.from({length:32},(_,i)=>(n+i)%256));
 export const sig=n=>b58(Uint8Array.from({length:64},(_,i)=>(n+i)%256));
 export const MINT=key(1),QUOTE=key(2),ASOF='2026-10-31T12:00:10.000Z';
 export const time=s=>new Date(Date.parse('2026-10-31T11:00:00.000Z')+s*1000).toISOString();
-export function evidence(sourceAt=time(3600),contextSlot=200){return {provider:'solana_rpc',captureKind:'synthetic_fixture',network:'solana-mainnet-beta',commitment:'finalized',responseSha256:'a'.repeat(64),fieldPath:'$.result.value',clockKind:'finalized_block_time',sourceAt,receivedAt:ASOF,contextSlot,rights:{analysis:'approved_private',reviewSha256:'b'.repeat(64)}};}
+export function evidence(sourceAt=time(3600),contextSlot=200){return {provider:'solana_rpc',captureKind:'synthetic_fixture',network:'solana-mainnet-beta',commitment:'finalized',responseSha256:'a'.repeat(64),fieldPath:'$.result.value',clockKind:'finalized_block_time',clockResponseSha256:'d'.repeat(64),clockFieldPath:'$.result',sourceAt,receivedAt:ASOF,contextSlot,rights:{analysis:'approved_private',reviewSha256:'b'.repeat(64)}};}
 export function tx(n,second=3500,slot=190){return {signature:sig(n),instructionIndex:0,status:'succeeded',slot,blockTime:time(second),evidence:evidence()};}
 export function observation(data){return {mint:MINT,evidence:evidence(),window:{from:time(0),to:time(3600),firstSlot:100,lastSlot:200,status:'complete'},data};}
 export function input(){return {mint:MINT,asOf:ASOF};}
