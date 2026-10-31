@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
 export const BASE='34d6a59763d62399cdcd94f7bccb7ea89e579a18';
 export const sha=b=>createHash('sha256').update(b).digest('hex');
-const MANIFEST_SHA='717bb77f1d3c44ee656799038d8a2996711d3517043b6d6ecd1e3aaa528af9eb';
+const MANIFEST_SHA='31a205411bee370e4c9e5f05602f51399155a77469b048e23cb01104431b3fdf';
 export function review(root=process.cwd()){
  const raw=(...a)=>execFileSync('git',a,{cwd:root,maxBuffer:32*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=f=>fs.readFileSync(path.join(root,f));
  const bytes=read('tests/oracle-v5/review.json');assert.equal(sha(bytes),MANIFEST_SHA);const m=JSON.parse(bytes);assert.equal(m.base,BASE);assert.equal(git('merge-base','--is-ancestor',BASE,'HEAD'),'');

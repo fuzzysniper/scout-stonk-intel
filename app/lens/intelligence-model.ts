@@ -26,7 +26,7 @@ export function isLensResponse(value:unknown,mint:string):value is LensView {
   const keys=['mint','state','identity','name','symbol','identityNote','facts','windows','controls','observations','contradictions','gaps','riskFindings','farmEvidence','oracleEvidence'];
   if(Object.keys(v).some(k=>!keys.includes(k)))return false;
   if(v.farmEvidence!==undefined&&!isFarmDisclosure(v.farmEvidence))return false;
-  if(findings===undefined)return isInspectView(v,mint)&&(v.oracleEvidence===undefined||isOracleEvidence(v.oracleEvidence,mint,[]));
+  if(findings===undefined)return v.oracleEvidence===undefined&&isInspectView(v,mint);
   if(!Array.isArray(findings)||findings.length>48||findings.some(f=>!f||typeof f!=='object'))return false;
   if(new Set(findings.map(f=>f.id)).size!==findings.length)return false;
   if(!isInspectView({...v,riskFindings:undefined},mint))return false;
