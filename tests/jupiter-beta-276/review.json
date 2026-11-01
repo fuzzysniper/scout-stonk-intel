@@ -1,0 +1,100 @@
+{
+  "base": "b0c0db20c54b46119fe41d96e448eaf1574adecb",
+  "baseTree": "96c01b61f06dda174c4de628a86094a21df3b5a7",
+  "sourceEnabled": false,
+  "changed": {
+    "app/api/v4/ca-intelligence/route.ts": {
+      "before": "e6d5fa5260cb2a2cf0ae4a67e2b0580f1dc848e93e277e677582d46b6b225e02",
+      "after": "f8c8690feb43c3c4da6a08093e0b813c5337bf0d5e7044ba8f64f01399b8d5a0",
+      "patch": "22d04cdc18b4a2e02034c04e61898a883461e33adb391dd54a6066415ba195b8"
+    },
+    "app/lens/ca-view.tsx": {
+      "before": "171dc92e27e81513db0d00e7eeae62cc535b6df3645fc12c241ece9e06a0d0d4",
+      "after": "5471c225a065fd123bad4c2a53ca3bf8a74840397e4cd81c7fb4e306889a3428",
+      "patch": "418445b701c1e83559c68502b38f9bad7d9dae4a4e3530375b469a0cc0f898e8"
+    },
+    "lib/v4-ca-intelligence/private-development-gate.ts": {
+      "before": "9f53dbb9f16e4628416e801ed87879778f2c77ab7794a6908d45e8590f205ffa",
+      "after": "b1f39a4ca56c566d916694bed53ddf8ef0944736172a2708e6ef82d66ebc452e",
+      "patch": "6a0dbff3bd9ed1b9883dc375404d2a5a041e52f128f81c58e2af61a0753c7c05"
+    }
+  },
+  "added": {
+    ".github/workflows/jupiter-beta-276.yml": {
+      "mode": "100644",
+      "sha256": "a04e8268cccaaa685bb8db3d55ec7abe82fc17b42e9d2259f9669383f0aaa1c8"
+    },
+    "app/lens/jupiter-beta-approval.ts": {
+      "mode": "100644",
+      "sha256": "e04185963bda5911f5084606f3535705d850beae0ef73d355ce0d198cbca9750"
+    },
+    "docs/jupiter-beta-276/README.txt": {
+      "mode": "100644",
+      "sha256": "fafb8fa50e00214333d9717a5e220a01afd5cc7487678a6dd1672e8a0f492fc4"
+    },
+    "docs/jupiter-beta-276/off-1280.png": {
+      "mode": "100644",
+      "sha256": "c325a733d2f0683b6d73b56a05cdaae148f8fec54b2ca76f7b46365cc0c430a9"
+    },
+    "docs/jupiter-beta-276/off-320.png": {
+      "mode": "100644",
+      "sha256": "f20d138dd7090a421193f991fe98b90c7a97e5dd395ac13391077254a7e414cb"
+    },
+    "docs/jupiter-beta-276/off-390.png": {
+      "mode": "100644",
+      "sha256": "91bda8f7ccc322428a2ae83711d4818337df768fd387d49187c427c022c4f3cf"
+    },
+    "lib/v4-ca-intelligence/jupiter-beta-admission.ts": {
+      "mode": "100644",
+      "sha256": "72860d0fc3dffcd191c6f6c964ac57e73fd3d60490d610caa8a6c878b130654b"
+    },
+    "lib/v4-ca-intelligence/jupiter-beta-contract.ts": {
+      "mode": "100644",
+      "sha256": "ff2dd557bf34f3f6b4e681824de31a31b4364129d8cb9b26ea12b5f70fbfd1d7"
+    },
+    "tests/jupiter-beta-276/admission.test.mjs": {
+      "mode": "100644",
+      "sha256": "9e848c82fcc0b6462783f62105ba82b8c1e717fc38a9787d948b3f251dbaf95f"
+    },
+    "tests/jupiter-beta-276/artifact.mjs": {
+      "mode": "100644",
+      "sha256": "2f948b837cde767f1451f42404cbd81a620ad60dcb5f81c27b6a40b11d2cee59"
+    },
+    "tests/jupiter-beta-276/browser.config.mjs": {
+      "mode": "100644",
+      "sha256": "d1bdb45f41059672e3dcea11828e49bfb28f8ecc66a7654a2c2037d762fe190c"
+    },
+    "tests/jupiter-beta-276/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "3d0b7422650a56b82f4e306aa011a905904a4c39577bc062fd162a19136a1510"
+    },
+    "tests/jupiter-beta-276/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "a47d931e99c0734d81c0dd459a344d3f80e9e9e34c97edbb28b7e42b7faa862b"
+    },
+    "tests/jupiter-beta-276/replay.sh": {
+      "mode": "100644",
+      "sha256": "c261653b28ba2cd2c64c34cd2686323aaa2c35b104529f1f8084e63413539aa9"
+    },
+    "tests/jupiter-beta-276/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/jupiter-beta-276/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/jupiter-beta-276/route.test.mjs": {
+      "mode": "100644",
+      "sha256": "fa5803d257253d2e25c9f61e463f443c045bd3a25270305175e52af73a89c2f9"
+    },
+    "tests/jupiter-beta-276/run.sh": {
+      "mode": "100644",
+      "sha256": "fe2f7511ef26eda6f3d4ad77d39dbb84c9cf05f31e4d3a4914d4e36cde8c26e9"
+    },
+    "tests/jupiter-beta-276/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    }
+  }
+}
