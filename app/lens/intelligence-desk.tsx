@@ -8,11 +8,13 @@ import {decisionBrief,briefFindingTitle} from './decision-brief';
 import {validNativeDetails,type NativeAccountDetails} from './native-session';
 import {observedMintFor,type OracleEvidence} from './oracle-evidence';
 import {CLAIMS,testClaim,type ClaimId,type ClaimReference} from './claim-check';
+import {oracleTake,type TakePart,type TakeReference} from './take-model';
 
 const time=(raw:string|null)=>raw?new Date(raw).toLocaleString():null;
-function Finding({finding:f,detail,compact=false,evidence,claim}:{finding:RiskFinding;detail?:EvidenceJson;compact?:boolean;evidence?:OracleEvidence;claim?:ClaimReference}) {
+function Finding({finding:f,detail,compact=false,evidence,claim,takeReference}:{finding:RiskFinding;detail?:EvidenceJson;compact?:boolean;evidence?:OracleEvidence;claim?:ClaimReference;takeReference?:ClaimReference}) {
+  const reference=claim??takeReference;
   const observed=observedMintFor(evidence,f),reported=evidenceKind(f),kind=observed?(f.tone==='gray'?'Solana RPC OBSERVED · check unresolved':'Solana RPC OBSERVED · snapshot'):reported==='Jupiter reported'&&f.id==='concentration'?'Jupiter REPORTED · derived screen':reported==='Jupiter reported'&&f.id==='organic'?'Jupiter REPORTED · provider-derived score':reported;
-  return <details className={styles.finding} data-tone={f.tone} data-finding-id={claim?undefined:f.id} data-claim-finding-id={claim?f.id:undefined} data-compact={compact}>
+  return <details className={styles.finding} data-tone={f.tone} data-finding-id={reference?undefined:f.id} data-claim-finding-id={claim?f.id:undefined} data-take-finding-id={takeReference?f.id:undefined} data-compact={compact} open={takeReference?true:undefined}>
     <summary>
       <span className={styles.findingMeta}><span>{f.tone==='gray'?'UNKNOWN':f.tone.toUpperCase()}</span><span>{PILLARS.find(p=>p.id===f.pillar)?.name}</span></span>
       <span className={styles.findingTitle}>{compact?briefFindingTitle(f):f.title}</span>
@@ -25,7 +27,7 @@ function Finding({finding:f,detail,compact=false,evidence,claim}:{finding:RiskFi
       <h4>What to verify next</h4><p>{nextVerification(f)}</p>
       <h4>Source evidence</h4>
       <dl>
-        {claim?<><dt>Exact finding / current use</dt><dd><code>{f.id}</code>{claim.current?'Within the display window; source scope still applies.':'Historical or incomplete reference; no current conclusion.'}</dd><dt>Matching response received</dt><dd><code>{claim.receivedAt??'No separate receipt clock returned'}</code></dd></>:null}
+        {reference?<><dt>Exact finding / current use</dt><dd><code>{f.id}</code>{reference.current?'Within the display window; source scope still applies.':'Historical or incomplete reference; no current conclusion.'}</dd><dt>Matching response received</dt><dd><code>{reference.receivedAt??'No separate receipt clock returned'}</code></dd></>:null}
         <dt>Evidence type</dt><dd>{kind}. A report or calculation is not an independent safety certification.</dd>
         <dt>Source</dt><dd>{f.source??'Unavailable. No positive conclusion has been made.'}</dd>
         <dt>Exact returned value</dt><dd><code>{f.value??'Not observed'}</code></dd>
@@ -42,6 +44,22 @@ function Finding({finding:f,detail,compact=false,evidence,claim}:{finding:RiskFi
 
 function Findings({items,farmEvidence,evidence}:{items:readonly RiskFinding[];farmEvidence?:FarmDisclosure;evidence?:OracleEvidence}) {
   return <div className={styles.findings}>{items.map(f=><Finding key={f.id} finding={f} detail={farmDetail(farmEvidence,f.id)} evidence={evidence}/>)}</div>;
+}
+
+function TakeEvidence({reference:r,view}:{reference:TakeReference;view:LensView}){
+ if(r.kind==='finding')return <Finding finding={r.reference.finding} evidence={view.oracleEvidence} detail={farmDetail(view.farmEvidence,r.reference.finding.id)} takeReference={r.reference}/>;
+ const f=r.fact;return <div className={styles.evidence} data-take-fact-id={f.id}><dl><dt>Exact fact / current use</dt><dd><code>{f.id}</code>{r.current?'Within the display window; provider report only.':'Historical or incomplete reference; no current thesis.'}</dd><dt>Source / field</dt><dd>{f.source??'Unavailable'}<code>{f.path??'No field returned'}</code></dd><dt>Exact returned value / units</dt><dd><code>{f.value??'Not observed'}</code>{f.unit}</dd><dt>Provider record update / response received</dt><dd><code>{f.observedAt??'Unknown'}</code><code>{f.receivedAt??'Unknown'}</code></dd><dt>Response SHA-256</dt><dd><code>{f.responseSha256??'Unavailable'}</code></dd><dt>Scope and uncertainty</dt><dd>{f.reason}</dd></dl><p>Transactions are not unique people, capital flows or independently verified organic demand. Provider record time is not a metric-specific clock or exact window cutoff. Liquidity is not exit capacity.</p></div>;
+}
+function Take({view,withheld}:{view:LensView;withheld:boolean}){
+ const [,refresh]=useState(0),take=oracleTake(view,Date.now(),withheld);
+ useEffect(()=>{const update=()=>refresh(n=>n+1),timer=take.validUntil===null?undefined:setTimeout(update,Math.max(0,take.validUntil-Date.now()));document.addEventListener('visibilitychange',update);window.addEventListener('pageshow',update);return()=>{clearTimeout(timer);document.removeEventListener('visibilitychange',update);window.removeEventListener('pageshow',update);};},[take.validUntil]);
+ const clock=(s:string|null)=>s?new Date(s).toISOString().slice(11,19)+'Z':'unknown';
+ const row=(id:string,title:string,part:TakePart)=><details key={id} data-take-part={id} data-tone={part.tone} className={styles.takeRow}><summary><span>{title}</span><strong>{part.text}</strong><small>Evidence &amp; limits · open</small></summary><div>{part.references.length?part.references.map((r,i)=><TakeEvidence key={i} reference={r} view={view}/>):<p className={styles.muted}>No current source receipt supports a thesis. Nothing has been inferred.</p>}</div></details>;
+ return <section className={styles.take} data-oracle-take aria-label="Oracle take">
+  {take.test?<p className={styles.takeTest}>LOCAL / SYNTHETIC OR REPLAY · NOT LIVE</p>:null}
+  <p className={styles.takeFreshness}>{take.withheld?'Thesis withheld after STOP request':take.sourceOff?'Source OFF · no current receipt':take.freshness?`${take.freshness.native?(take.test?'TEST capture':'RPC capture'):'Jupiter record'} ${clock(take.freshness.observedAt)} · received ${clock(take.freshness.receivedAt)}`:'No current supporting receipt'}</p>
+  {row('take','THE TAKE',take.take)}{row('breaks','WHAT BREAKS IT',take.breaks)}{row('why','WHY IT COULD RUN',take.why)}{row('unknown',"WHAT’S UNPROVEN",take.unknown)}
+ </section>;
 }
 
 function ClaimCheck({view}:{view:LensView}){
@@ -67,7 +85,7 @@ function ClaimCheck({view}:{view:LensView}){
  </details>;
 }
 
-export default function IntelligenceDesk({view,nativeDetails}:{view:LensView;nativeDetails?:NativeAccountDetails|null}) {
+export default function IntelligenceDesk({view,nativeDetails,takeWithheld=false}:{view:LensView;nativeDetails?:NativeAccountDetails|null;takeWithheld?:boolean}) {
   const findings=availableFindings(view),farmEvidence=view.farmEvidence,brief=decisionBrief(view);
   const [selected,setSelected]=useState<Pillar|null>(null),[expanded,setExpanded]=useState(false),sorted=prioritize(findings);
   const reds=brief.reds;
@@ -78,6 +96,7 @@ export default function IntelligenceDesk({view,nativeDetails}:{view:LensView;nat
   return <section className={styles.intelligence} aria-labelledby="lens-intelligence-title">
     <h2 id="lens-intelligence-title" tabIndex={-1}>UNFARMD ORACLE</h2>
     <p className={styles.intelligenceIntro}>Know what is reported. See what still needs proof.</p>
+    <Take view={view} withheld={takeWithheld}/>
     <div className={styles.pillarBar} role="group" aria-label="Evidence categories">
       {PILLARS.map(p=>{const c=counts(sorted.filter(f=>f.pillar===p.id));return <button type="button" key={p.id} aria-pressed={selected===p.id} onClick={()=>{setSelected(current=>current===p.id?null:p.id);setExpanded(true);}} className={styles.pillarButton} data-has-red={c.red>0}>
         <span className={styles.pillarName}>{p.name}</span>
