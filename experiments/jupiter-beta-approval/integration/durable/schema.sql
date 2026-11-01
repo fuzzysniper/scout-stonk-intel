@@ -35,7 +35,7 @@ CREATE FUNCTION unfarmd_beta.transition(op text, input jsonb) RETURNS jsonb LANG
 DECLARE p unfarmd_beta.policy%ROWTYPE; g unfarmd_beta.grants%ROWTYPE; r jsonb; at_ms bigint; h text; seq_next bigint; gid uuid; state_next text; payload_hash text; previous text; history_seq bigint; e record;
 BEGIN
  SELECT * INTO STRICT p FROM unfarmd_beta.policy WHERE id FOR UPDATE;
- IF op='stop' AND p.stopped THEN RETURN jsonb_build_object('status','ok','seq',p.seq::text,'head',p.head,'stateHash',p.state_hash); END IF;
+ IF op='stop' AND p.stopped THEN RETURN jsonb_build_object('status','stopped','operation','stop','stopped',true,'seq',p.seq::text,'head',p.head,'stateHash',p.state_hash); END IF;
  IF op='stop' THEN UPDATE unfarmd_beta.policy SET stopped=true WHERE id;
  ELSE
   IF clock_timestamp()<p.last_clock THEN RETURN unfarmd_beta.transition('stop','{}'::jsonb); END IF;
@@ -101,7 +101,8 @@ BEGIN
   INSERT INTO unfarmd_beta.events(seq,previous_hash,event_hash,payload_hash,state_hash,observed_ms,kind,grant_id) VALUES(seq_next,p.head,h,payload_hash,state_next,at_ms,op,gid);
   UPDATE unfarmd_beta.policy SET seq=seq_next,head=h WHERE id;
  ELSE seq_next=p.seq;h=p.head; END IF;
- RETURN jsonb_build_object('status',CASE op WHEN 'prepare' THEN 'prepared' WHEN 'publish' THEN 'published' ELSE 'ok' END,'fence',g.fence::text,'seq',seq_next::text,'head',h,'stateHash',state_next);
+ -- STOP commits normally (never RAISE/rollback), but is never operation success.
+ RETURN jsonb_build_object('status',CASE op WHEN 'stop' THEN 'stopped' WHEN 'prepare' THEN 'prepared' WHEN 'publish' THEN 'published' ELSE 'ok' END,'operation',op,'stopped',op='stop','fence',g.fence::text,'seq',seq_next::text,'head',h,'stateHash',state_next);
 END $$;
 REVOKE ALL ON FUNCTION unfarmd_beta.transition(text,jsonb) FROM PUBLIC;
 CREATE FUNCTION unfarmd_beta.issue(op text,input jsonb) RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$ BEGIN IF op NOT IN ('prepare','call','publish','uncertain','revoke') THEN RAISE EXCEPTION 'operation_denied';END IF;RETURN unfarmd_beta.transition(op,input);END $$;

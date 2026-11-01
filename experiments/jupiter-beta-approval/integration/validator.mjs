@@ -20,7 +20,7 @@ export function validatorComponent({publicTrust,sdk,transport,ledger,clock,autho
   try{
    need(authorized());const owner=snapshot(input);need(owner.url===API+PATHS.raw&&ownerStamp(owner,t));const now=clock(),d=readRaw(json(owner.body),t,now);need(now-Number(d.q.timestampMs)<=60000);grant=d.r.grantId;
    const reserved=await ledger.prepare(d.r,hash(owner.body));need(reserved.status==='prepared');token=reserved.fence;
-   const send=async(signed,kind)=>{need(authorized()&&clock()<d.r.expiresAt&&clock()-Number(d.q.timestampMs)<=60000);need(await ledger.beforeCall(grant,token));need(signed.stamp.stampHeaderName==='X-Stamp-Webauthn'?ownerStamp(signed,t):validatorStamp(signed,t));const out=await transport.send(signed,kind);need(authorized()&&clock()<d.r.expiresAt&&clock()-Number(d.q.timestampMs)<=60000);return out;};
+   const send=async(signed,kind)=>{need(authorized()&&clock()<d.r.expiresAt&&clock()-Number(d.q.timestampMs)<=60000);need((await ledger.beforeCall(grant,token))===true);need(signed.stamp.stampHeaderName==='X-Stamp-Webauthn'?ownerStamp(signed,t):validatorStamp(signed,t));const out=await transport.send(signed,kind);need(authorized()&&clock()<d.r.expiresAt&&clock()-Number(d.q.timestampMs)<=60000);return out;};
    organization((await send(await sdk.organization(),'organization')).value,t);
    const initial=await send(owner,'raw'),pending=activity(initial.value,d.q,t,null,'ACTIVITY_STATUS_CONSENSUS_NEEDED');need(pending.votes?.length===1&&pending.votes[0].userId===t.owner.userId&&pending.votes[0].selection==='VOTE_SELECTION_APPROVED');
    const observed=await send(await sdk.activity(pending.id),'activity');activity(observed.value,d.q,t,pending,'ACTIVITY_STATUS_CONSENSUS_NEEDED');
