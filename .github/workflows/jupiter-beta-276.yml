@@ -1,0 +1,113 @@
+name: Jupiter beta276 exact admission source OFF
+on:
+  pull_request:
+    branches: [integration/274-take-recovery-off]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  exact-head-admission-source-build-OFF:
+    if: github.head_ref == 'beta/276-jupiter-founder-only'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Finite source-HOLD and immutable full-tree guard plus negative controls
+        run: node --test tests/jupiter-beta-276/scope.test.mjs
+      - name: Actual signature and identity verifier request binding and source-OFF routes
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-beta-276/run.sh
+      - name: Unchanged exact risk claims and source parser engine security
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-take-274/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
+      - name: Type lint optimized production actual OFF APIs cold-start and import isolation
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-oracle-onchain/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/jupiter-beta-276/artifact.mjs
+          node --test tests/jupiter-beta-276/scope.test.mjs
+          bash scripts/archive-tool.sh check b0c0db20c54b46119fe41d96e448eaf1574adecb
+  exact-head-mobile-accessibility-privacy:
+    if: github.head_ref == 'beta/276-jupiter-founder-only'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Original 24-finding TAKE claims and STOP mobile suites remain unchanged
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-take-274/run.sh browser
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-claim-266/run.sh browser
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/run.sh browser
+          git restore -- docs/oracle-take-274/*.png docs/oracle-claim-266/*.png docs/oracle-266/screenshots/*.png
+      - name: Actual optimized source OFF public-carrier privacy and accessibility at3203901280
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-v5/run.sh artifact
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-take-274/run.sh optimized
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/jupiter-beta-276/browser.config.mjs
+          mkdir -p node_modules/.cache/jupiter-beta-276-proof
+          cp docs/jupiter-beta-276/*.png node_modules/.cache/jupiter-beta-276-proof/
+          git restore -- docs/jupiter-beta-276/*.png
+          node --test tests/jupiter-beta-276/scope.test.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jupiter-beta276-LOCAL-SYNTHETIC-source-OFF
+          path: node_modules/.cache/jupiter-beta-276-proof/*.png
+  original-immutable-input-reviewers:
+    if: github.head_ref == 'beta/276-jupiter-founder-only'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Original265271272273275276 security STOP source and finite reviewers on exact inputs
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-beta-276/replay.sh
+      - run: node --test tests/jupiter-beta-276/scope.test.mjs

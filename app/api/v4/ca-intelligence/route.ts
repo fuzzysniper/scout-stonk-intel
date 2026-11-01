@@ -1,4 +1,5 @@
 import {internalMarketPreview} from '../../../../lib/v4-ca-intelligence/private-development-gate';
+import {withJupiterBeta} from '../../../../lib/v4-ca-intelligence/jupiter-beta-admission';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
 export const revalidate=0;
@@ -19,6 +20,9 @@ const unavailable=(stage:'source_module'|'source_execution'|'oracle_module'|'ora
  * No user-controlled module name, URL, credential, retry, fallback or new source.
  */
 export async function POST(request:Request):Promise<Response>{
+ return withJupiterBeta(request,inspect);
+}
+async function inspect(request:Request):Promise<Response>{
  if(!internalMarketPreview())return off();
  let inspect:typeof import('../../../../lib/v4-ca-intelligence/private-development').inspectPrivateDevelopment;
  try{({inspectPrivateDevelopment:inspect}=await import('../../../../lib/v4-ca-intelligence/private-development'));}
@@ -26,9 +30,10 @@ export async function POST(request:Request):Promise<Response>{
  let result:Response;
  try{result=await inspect(request);}catch{return unavailable('source_execution');}
  if(!result.ok)return result;
+ if(!internalMarketPreview())return off();
  let compose:typeof import('./compose-preview').composePreviewResponse;
  try{({composePreviewResponse:compose}=await import('./compose-preview'));}
  catch{return unavailable('oracle_module');}
- try{return await compose(result);}catch{return unavailable('oracle_execution');}
+ try{const composed=await compose(result);return internalMarketPreview()?composed:off();}catch{return unavailable('oracle_execution');}
 }
 export const GET=off;

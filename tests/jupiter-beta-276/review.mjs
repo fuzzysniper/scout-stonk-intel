@@ -1,0 +1,22 @@
+// Finite dependent review: all accepted276 bytes/modes frozen except three exact patches.
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {execFileSync} from 'node:child_process';
+export const BASE='b0c0db20c54b46119fe41d96e448eaf1574adecb';
+const MANIFEST_SHA='9681687589c4f774a1db9b160b2080b8c7899077b20a3bb084bacc78bcd059de';
+export const sha=b=>createHash('sha256').update(b).digest('hex');
+const blob=b=>createHash('sha1').update('blob '+b.length+'\0').update(b).digest('hex');
+export function review(root=process.cwd()){
+ const raw=(...a)=>execFileSync('git',a,{cwd:root,maxBuffer:64*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=f=>fs.readFileSync(path.join(root,f));
+ const bytes=read('tests/jupiter-beta-276/review.json');assert.equal(sha(bytes),MANIFEST_SHA);const m=JSON.parse(bytes);assert.equal(m.base,BASE);assert.equal(git('rev-parse',BASE+'^{tree}'),'96c01b61f06dda174c4de628a86094a21df3b5a7');assert.equal(git('merge-base','--is-ancestor',BASE,'HEAD'),'');
+ const gate='lib/v4-ca-intelligence/private-development-gate.ts',before=raw('show',BASE+':'+gate).toString();
+ assert.equal(read(gate).toString(),before.replace("const PROJECT=","import {betaPreviewCurrent} from './jupiter-beta-admission';\nconst PROJECT=").replace(" return process.env.VERCEL_ENV==='preview'"," return betaPreviewCurrent()||process.env.VERCEL_ENV==='preview'"),'legacy265 gate predicates unchanged; only closed beta context added');
+ assert.ok(read('lib/v4-ca-intelligence/jupiter-beta-admission.ts').toString().includes('export const JUPITER_BETA_SOURCE_ENABLED=false;'),'independent source HOLD cannot be weakened');
+ for(const f of ['lib/v4-ca-intelligence/private-development.ts','lib/v4-ca-intelligence/market.ts','lib/v4-ca-intelligence/decimal.ts','lib/v4-ca-intelligence/risk-evidence.ts','app/api/v4/ca-intelligence/compose-preview.ts'])assert.deepEqual(read(f),raw('show','f80ecba0d39ad854d189ff5b4c699f4310a45c1d:'+f),f+' original265 producer/parser/composer bytes');
+ const ca='app/lens/ca-view.tsx',current=read(ca).toString(),original=raw('show',BASE+':'+ca).toString();
+ for(const[start,end]of [[' async function stopNative()',' async function inspect()'],[' async function signIn()',' const observed='],[' async function journalCapability(',' useEffect(()=>{const n=view?.oracleEvidence?.nativeMint;']]){const chunk=s=>s.slice(s.indexOf(start),s.indexOf(end,s.indexOf(start)));assert.ok(original.includes(start)&&original.includes(end));assert.equal(chunk(current),chunk(original),'original owner/STOP/journal function '+start);}
+ for(const[f,e]of Object.entries(m.changed)){assert.equal(e.before,sha(raw('show',BASE+':'+f)));assert.equal(e.after,sha(read(f)),f);assert.equal(e.patch,sha(raw('diff','--binary','--full-index','--no-ext-diff','--no-textconv','--no-renames',BASE,'--',f)),f+' full exact patch');}
+ const baseFiles=new Map();for(const line of git('ls-tree','-r',BASE).split('\n')){const[meta,f]=line.split('\t'),[mode,type,id]=meta.split(' ');assert.equal(type,'blob');baseFiles.set(f,{mode,id});const s=fs.lstatSync(path.join(root,f));assert.ok(s.isFile()&&!s.isSymbolicLink(),f);assert.equal(s.mode&0o111?'100755':'100644',mode,f);if(!Object.hasOwn(m.changed,f))assert.equal(blob(read(f)),id,f+' immutable276');}
+ const files=[...new Set([...git('diff','--name-only','--no-renames',BASE).split('\n'),...git('ls-files','--others','--exclude-standard').split('\n')].filter(Boolean))].sort();assert.deepEqual(files,[...Object.keys(m.changed),...Object.keys(m.added)].sort(),'complete finite working delta');
+ for(const[f,e]of Object.entries(m.added)){assert.equal(baseFiles.has(f),false);const s=fs.lstatSync(path.join(root,f));assert.ok(s.isFile()&&!s.isSymbolicLink(),f);assert.equal(s.mode&0o111?'100755':'100644',e.mode,f);if(e.sha256)assert.equal(sha(read(f)),e.sha256,f);}
+ if(git('rev-parse','HEAD')!==BASE){assert.equal(git('show','-s','--format=%P','HEAD'),BASE,'one dependent commit, old heads immutable');const head=git('ls-tree','-r','HEAD').split('\n');assert.deepEqual(head.map(l=>l.split('\t')[1]).sort(),[...baseFiles.keys(),...Object.keys(m.added)].sort());for(const line of head){const[meta,f]=line.split('\t'),[mode,,id]=meta.split(' ');assert.equal(blob(read(f)),id,f+' exact committed bytes');assert.equal(fs.lstatSync(path.join(root,f)).mode&0o111?'100755':'100644',mode,f);}}
+ return m;
+}
