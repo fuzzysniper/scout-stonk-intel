@@ -1,0 +1,137 @@
+name: ORACLE claim tests and scoped decision brief
+on:
+  pull_request:
+    branches: [integration/271-oracle-native-source-reviewed]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  exact-head-claims-security-build:
+    if: github.head_ref == 'feat/266-test-the-claim'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Exact finite scope and negative controls
+        run: node --test tests/oracle-claim-266/scope.test.mjs
+      - name: Integrated Ed25519 control and deterministic claims
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-claim-266/run.sh
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - name: Unchanged actual issuer source TLS STOP and source decoders
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-source-install-266/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/run.sh peers
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
+      - name: Exact HEAD types lint optimized app OFF and original cold-start assertions
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-oracle-onchain/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
+          node --test tests/oracle-claim-266/scope.test.mjs
+          bash scripts/archive-tool.sh check 8effe6ba0967d7a83e976840d5ed8df1d95fcbf5
+  mobile-browser-accessibility:
+    if: github.head_ref == 'feat/266-test-the-claim'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Actual modified lens with synthetic claims no added requests
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-claim-266/run.sh browser
+      - name: Original C browser STOP privacy and24-card assertions unchanged
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/run.sh browser
+      - name: Actual optimized Next browser and isolated native OFF functions
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-v5/run.sh artifact
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oracle-claim266-LOCAL-SYNTHETIC-mobile
+          path: docs/oracle-claim-266/*.png
+  immutable-input-reviews:
+    if: github.head_ref == 'feat/266-test-the-claim'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-claim-266/inputs.sh
+  original-A-native-TLS-root:
+    if: github.head_ref == 'feat/266-test-the-claim'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/inputs.sh a-native-root
+  original-A-immutable-security-history:
+    if: github.head_ref == 'feat/266-test-the-claim'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-mount-266/inputs.sh a-history

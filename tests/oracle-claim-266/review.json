@@ -1,0 +1,110 @@
+{
+  "base": "8effe6ba0967d7a83e976840d5ed8df1d95fcbf5",
+  "changed": {
+    "app/lens/ca-view.module.css": {
+      "before": "e06096eb01db51c6b8e6043a89d01ed53fc19df89359220f68d6e2a079a0e4e2",
+      "after": "ca46df3732816aa6be708b3d25a94433f336404b4b88a2ea68a3eb225fbd7277",
+      "patch": "248524352736713dcbcb44b532baed4c777db574f9e84365fa8ed0bdd4a92e5f"
+    },
+    "app/lens/intelligence-desk.tsx": {
+      "before": "bc4e7932b6141c730d20227e6a8a44cda3bf718d95b403201336f34d8132b718",
+      "after": "179c21dd675c9476e3a6f0573f94455f0040c36f3b4bc9f39f0c411ddddc9879",
+      "patch": "25cf72233beb21d9e1f48e2327d122450070c966f5006c8a1cc4ad442fb55518"
+    }
+  },
+  "added": {
+    ".github/workflows/oracle-claim-266.yml": {
+      "mode": "100644",
+      "sha256": "f93bbc48e8e8ed5e47e5b7589bab03a318fb2cced3981c320026a3b7c664dc62"
+    },
+    "app/lens/claim-check.ts": {
+      "mode": "100644",
+      "sha256": "e03d027d34e99c93d8e35e6d91ea69274a26c4bfc1802c79c826915d0af35766"
+    },
+    "docs/oracle-claim-266/README.txt": {
+      "mode": "100644",
+      "sha256": "b9f2e3d2dab84015fce127932c0ee65fb1d78e9ea000ff2d0448bd2f9097a957"
+    },
+    "docs/oracle-claim-266/conflict-1280.png": {
+      "mode": "100644",
+      "sha256": "296b9078c6adb219afd58ba9b617a1d318a27765b272f0bb77869e3d27a1a46a"
+    },
+    "docs/oracle-claim-266/conflict-320.png": {
+      "mode": "100644",
+      "sha256": "31d23ec11f8320392473a3935587615f8a11f606de0105a2b9e53afb9743fdac"
+    },
+    "docs/oracle-claim-266/conflict-390.png": {
+      "mode": "100644",
+      "sha256": "e16795224e288f3dde9a2eadcf2d718056367ac95a73b520576cc036df76b347"
+    },
+    "docs/oracle-claim-266/organic-390.png": {
+      "mode": "100644",
+      "sha256": "9d8f4b8d321061628b814019c5f50a0de463dd85e0db926ecdae8b2e75645825"
+    },
+    "docs/oracle-claim-266/supported-390.png": {
+      "mode": "100644",
+      "sha256": "63b2f22289e5c7d0a94b1c351d7e4eee4045c351c064ba244aa78e043fc6c287"
+    },
+    "tests/oracle-claim-266/admission.sh": {
+      "mode": "100644",
+      "sha256": "c8788f6af3dd754a0bbc9529dd54d45847e5d79e91fc6ea49fdc0895592e8248"
+    },
+    "tests/oracle-claim-266/admission.test.mjs": {
+      "mode": "100644",
+      "sha256": "52556aaa0f4e99e02ff66e2a79f818f461d8f666f1f30e37480e6defdd00ea59"
+    },
+    "tests/oracle-claim-266/browser-entry.tsx": {
+      "mode": "100644",
+      "sha256": "fdff001112f7d707b2f80e22e1c0268e4cc450dd33df93bc8cc7705f240d0fc3"
+    },
+    "tests/oracle-claim-266/browser-server.mjs": {
+      "mode": "100644",
+      "sha256": "cb66680268e37918d7159a975e633ee5b07bd800d2c7f40001ea2e9708a38dab"
+    },
+    "tests/oracle-claim-266/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "17a1f6dbeaab5d47c164f51a4a43ed49c56221263b4731b6d5e05f961288d1b6"
+    },
+    "tests/oracle-claim-266/claims.test.mjs": {
+      "mode": "100644",
+      "sha256": "42f883925b538beccad616897ea66379e695eaa4559e0c4c9df193320a1e1cb4"
+    },
+    "tests/oracle-claim-266/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "3741e585a2a913006f7497e4a037289bd928628dd787787f4831891922035d05"
+    },
+    "tests/oracle-claim-266/inputs.sh": {
+      "mode": "100644",
+      "sha256": "6bfc67735b2af6a7c3a929bd0977e579af06b253b3d774076f17d183a7159a18"
+    },
+    "tests/oracle-claim-266/playwright.config.mjs": {
+      "mode": "100644",
+      "sha256": "c75da2aa6efffb693494cf6fac709311917cbc7244f9d3a1f59cdd9279ec23e6"
+    },
+    "tests/oracle-claim-266/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-claim-266/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-claim-266/run.sh": {
+      "mode": "100644",
+      "sha256": "587a72f8f3310f4ab5163d6032b7b18ccc11dd3cc89a042fd690aaa0919834a2"
+    },
+    "tests/oracle-claim-266/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    }
+  },
+  "peers": [
+    {
+      "sha": "a07479725f2aacecbec15dfd3b4ef8c712ac3277",
+      "files": [
+        "tests/oracle-claim-266/admission.sh",
+        "tests/oracle-claim-266/admission.test.mjs"
+      ]
+    }
+  ]
+}

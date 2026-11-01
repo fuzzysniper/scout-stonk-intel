@@ -1,5 +1,5 @@
 'use client';
-import {useState} from 'react';
+import {useEffect,useState} from 'react';
 import type {RiskFinding} from '../../lib/v4-owner-preview/view-contract';
 import {PILLARS,TONES,availableFindings,counts,evidenceKind,findingClockLabel,nextVerification,prioritize,riskDisplay,whyItMatters,type Pillar,type LensView} from './intelligence-model';
 import styles from './ca-view.module.css';
@@ -7,11 +7,12 @@ import {farmDetail,type FarmDisclosure,type EvidenceJson} from './evidence-discl
 import {decisionBrief,briefFindingTitle} from './decision-brief';
 import {validNativeDetails,type NativeAccountDetails} from './native-session';
 import {observedMintFor,type OracleEvidence} from './oracle-evidence';
+import {CLAIMS,testClaim,type ClaimId,type ClaimReference} from './claim-check';
 
 const time=(raw:string|null)=>raw?new Date(raw).toLocaleString():null;
-function Finding({finding:f,detail,compact=false,evidence}:{finding:RiskFinding;detail?:EvidenceJson;compact?:boolean;evidence?:OracleEvidence}) {
+function Finding({finding:f,detail,compact=false,evidence,claim}:{finding:RiskFinding;detail?:EvidenceJson;compact?:boolean;evidence?:OracleEvidence;claim?:ClaimReference}) {
   const observed=observedMintFor(evidence,f),reported=evidenceKind(f),kind=observed?(f.tone==='gray'?'Solana RPC OBSERVED · check unresolved':'Solana RPC OBSERVED · snapshot'):reported==='Jupiter reported'&&f.id==='concentration'?'Jupiter REPORTED · derived screen':reported==='Jupiter reported'&&f.id==='organic'?'Jupiter REPORTED · provider-derived score':reported;
-  return <details className={styles.finding} data-tone={f.tone} data-finding-id={f.id} data-compact={compact}>
+  return <details className={styles.finding} data-tone={f.tone} data-finding-id={claim?undefined:f.id} data-claim-finding-id={claim?f.id:undefined} data-compact={compact}>
     <summary>
       <span className={styles.findingMeta}><span>{f.tone==='gray'?'UNKNOWN':f.tone.toUpperCase()}</span><span>{PILLARS.find(p=>p.id===f.pillar)?.name}</span></span>
       <span className={styles.findingTitle}>{compact?briefFindingTitle(f):f.title}</span>
@@ -24,6 +25,7 @@ function Finding({finding:f,detail,compact=false,evidence}:{finding:RiskFinding;
       <h4>What to verify next</h4><p>{nextVerification(f)}</p>
       <h4>Source evidence</h4>
       <dl>
+        {claim?<><dt>Exact finding / current use</dt><dd><code>{f.id}</code>{claim.current?'Within the display window; source scope still applies.':'Historical or incomplete reference; no current conclusion.'}</dd><dt>Matching response received</dt><dd><code>{claim.receivedAt??'No separate receipt clock returned'}</code></dd></>:null}
         <dt>Evidence type</dt><dd>{kind}. A report or calculation is not an independent safety certification.</dd>
         <dt>Source</dt><dd>{f.source??'Unavailable. No positive conclusion has been made.'}</dd>
         <dt>Exact returned value</dt><dd><code>{f.value??'Not observed'}</code></dd>
@@ -40,6 +42,29 @@ function Finding({finding:f,detail,compact=false,evidence}:{finding:RiskFinding;
 
 function Findings({items,farmEvidence,evidence}:{items:readonly RiskFinding[];farmEvidence?:FarmDisclosure;evidence?:OracleEvidence}) {
   return <div className={styles.findings}>{items.map(f=><Finding key={f.id} finding={f} detail={farmDetail(farmEvidence,f.id)} evidence={evidence}/>)}</div>;
+}
+
+function ClaimCheck({view}:{view:LensView}){
+ const [open,setOpen]=useState(false),[selected,setSelected]=useState<ClaimId>('mint-authority'),[,refresh]=useState(0);
+ const claim=testClaim(view,selected);
+ const references=prioritize(claim.references.map(r=>r.finding)).map(f=>claim.references.find(r=>r.finding===f)!);
+ useEffect(()=>{
+  if(!open)return;const update=()=>refresh(n=>n+1);
+  const timer=claim.validUntil===null?undefined:setTimeout(update,Math.max(0,claim.validUntil-Date.now()));
+  document.addEventListener('visibilitychange',update);window.addEventListener('pageshow',update);
+  return()=>{clearTimeout(timer);document.removeEventListener('visibilitychange',update);window.removeEventListener('pageshow',update);};
+ },[open,claim.validUntil]);
+ return <details data-claim-check className={styles.claimCheck} open={open} onToggle={e=>setOpen(e.currentTarget.open)}>
+  <summary>Test the claim <span>Use this inspection’s evidence</span></summary>
+  {open?<div className={styles.claimBody}>
+   <label htmlFor="oracle-claim">Choose a claim</label><select id="oracle-claim" className={styles.claimSelect} value={selected} onChange={e=>{const id=CLAIMS.find(c=>c.id===e.target.value)?.id;if(id)setSelected(id);}}>{CLAIMS.map(c=><option value={c.id} key={c.id}>{c.label}</option>)}</select>
+   {claim.test?<p className={styles.claimTest}>LOCAL / SYNTHETIC OR REPLAY · NOT A LIVE CONCLUSION</p>:null}
+   <p role="status" aria-live="polite" className={styles.claimOutcome} data-outcome={claim.outcome}>{claim.outcome}</p>
+   <p>{claim.reason}</p><p className={styles.muted}>{claim.test?'Fixture scope only. ':''}{claim.scope}</p>
+   <h4>Exact evidence &amp; limits</h4>
+   {references.length?references.map(ref=><Finding key={ref.finding.id} finding={ref.finding} evidence={view.oracleEvidence} detail={farmDetail(view.farmEvidence,ref.finding.id)} claim={ref}/>):<p>No matching finding was returned. Nothing has been inferred.</p>}
+  </div>:null}
+ </details>;
 }
 
 export default function IntelligenceDesk({view,nativeDetails}:{view:LensView;nativeDetails?:NativeAccountDetails|null}) {
@@ -69,6 +94,7 @@ export default function IntelligenceDesk({view,nativeDetails}:{view:LensView;nat
         {!brief.knownFindings.length&&!brief.knownFacts.length?<p>No source receipt was returned. Nothing has been inferred.</p>:null}
         <h4>Independent source qualification</h4>{brief.native?<dl><dt>Observed account / program</dt><dd><code>{brief.native.account}</code><code>{brief.native.program}</code></dd>{nativeDetails&&validNativeDetails(nativeDetails,brief.native)?<><dt>Observed raw supply / decimals</dt><dd><code>{nativeDetails.rawSupply}</code> base units · {nativeDetails.decimals} decimals. No USD value or safety inference.</dd></>:null}<dt>RPC-reported finalized context slot</dt><dd>{brief.native.contextSlot}. Slot is not UTC or the account-change time.</dd><dt>Request / receipt / evaluation</dt><dd><code>{brief.native.requestStartedAt}</code><code>{brief.native.receivedAt}</code><code>{brief.native.evaluatedAt}</code></dd><dt>Original RPC / account / request SHA-256</dt><dd><code>{brief.native.responseSha256}</code><code>{brief.native.accountDataSha256}</code><code>{brief.native.requestSha256}</code></dd></dl>:<p>No production-qualified mint observation was returned. Verified owner, source rights and durable request/STOP admission remain required; source strings, local TLS tests and replay captures are insufficient.</p>}<p>Holder sample unavailable. Its native receipt bridge and method-specific admission are not selected. Acquisition is bounded to20 token accounts; that is not full holders, unique people, beneficial ownership or an atomic snapshot. minContextSlot is only a lower bound across calls.</p><p>Provider reports and derived calculations are distinct from an authenticated independent account observation. A source hash does not establish safety.</p>
       </div></details></div>
+      <ClaimCheck view={view}/>
       <section className={styles.mainUnknown} aria-labelledby="biggest-question"><h3 id="biggest-question">Biggest unanswered control</h3>{brief.primary?<Finding finding={brief.primary} detail={farmDetail(farmEvidence,brief.primary.id)} compact evidence={view.oracleEvidence}/>:<p>No unanswered check was returned. Complete coverage has not been established.</p>}</section>
       <div className={styles.nextCheck}><h3>Next verification</h3><p>{brief.next}</p></div>
       <p className={styles.questionCount}>{brief.unknownCount} unanswered {brief.unknownCount===1?'question':'questions'} · Missing evidence, not a token verdict.{!reds.length?' No red finding was returned; that does not establish safety.':''}</p>
