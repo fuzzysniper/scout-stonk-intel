@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>UNFARMD · Synthetic approval lab</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body><main>
+<p class="badge">TEST ONLY · NO LIVE AUTHORITY</p><h1>Approval lab</h1>
+<p class="intro">Owner review → independent validator → simulated grant.</p>
+<aside aria-label="Simulation boundaries">Co-located local harness with ephemeral test keys. No real passkey, Turnkey account, owner authentication or provider request. Production stays OFF.</aside>
+<form id="proposal"><label for="scope">Finite synthetic mint scope</label><div class="controls"><select id="scope"><option value="single">USDC · one test use</option><option value="pair">USDC + SOL · two test uses</option></select><button type="submit" id="create">Create TEST proposal</button></div></form>
+<p id="status" role="status" aria-live="polite">Loading local simulation.</p>
+<section id="review" hidden aria-labelledby="review-title"><h2 id="review-title">Review exact TEST permission</h2><dl><dt>Target</dt><dd id="target"></dd><dt>Expires</dt><dd id="expires"></dd><dt>Record SHA-256</dt><dd id="record-hash" class="hash"></dd></dl><details><summary>Full scope, deployment and synthetic evidence</summary><pre id="record"></pre></details></section>
+<ol class="actors"><li><h2>1 · Owner</h2><p>TEST WebAuthn-shaped assertion. No Face ID prompt or credential enrollment.</p><button id="owner" disabled>Simulate owner approval</button><span id="owner-state">Pending</span></li><li><h2>2 · Validator</h2><p>Checks the exact request, both roles, target, scope and clocks.</p><button id="validator" disabled>Validate &amp; coapprove TEST</button><span id="validator-state">Pending</span></li></ol>
+<section aria-labelledby="result-title"><h2 id="result-title">Research consumer</h2><p id="verification">No simulated grant.</p><p>Signing and acquisition connected: <strong>NO</strong></p><div id="uses" class="controls"></div><p id="budget">Local budget: no grant.</p></section>
+<details><summary>Adversarial TEST controls</summary><div class="controls adversarial"><button id="tamper" disabled>Alter approved payload</button><button id="replay" disabled>Replay last test use</button><button id="expire" disabled>Advance to expiry</button><button id="revoke">Revoke TEST key</button><button id="stop" class="danger">Permanent local STOP</button></div></details>
+<details><summary>Local audit · memory only</summary><p>Not durable or distributed. Restart cannot recover old grants. Production recovery and storage remain separate approvals.</p><pre id="audit"></pre></details>
+<p class="footer">No wallet, transaction, market facts or source acquisition. Test signatures cannot authorize #277.</p>
+</main></body></html>
