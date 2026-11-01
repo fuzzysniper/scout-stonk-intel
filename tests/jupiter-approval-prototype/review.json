@@ -1,0 +1,129 @@
+{
+  "base": "672229542d68b81caa955a16387fd92527f1bb9d",
+  "added": {
+    ".github/workflows/jupiter-approval-prototype.yml": {
+      "mode": "100644",
+      "sha256": "5c94a590ed0f29378924c2fff566b6a3642c92e3d4e53efd0e1f08852aba7515"
+    },
+    "experiments/jupiter-beta-approval/README.md": {
+      "mode": "100644",
+      "sha256": "e48bf2c9b1d297bd15dd08555fa16e77f6164d7281815f368a720d56a0a635dc"
+    },
+    "experiments/jupiter-beta-approval/SETUP.md": {
+      "mode": "100644",
+      "sha256": "1476b052322bc7747fcc06cb283b62458d8a3a78218a4566cdedde9d1b4246a6"
+    },
+    "experiments/jupiter-beta-approval/demo/app.js": {
+      "mode": "100644",
+      "sha256": "289445ceb252f1d6bb6befd75d6e1ba9c126f1c2408600cf879b3e20dda4a9b7"
+    },
+    "experiments/jupiter-beta-approval/demo/index.html": {
+      "mode": "100644",
+      "sha256": "72572bb52671445a58aa06024ed969a5522f7c9bd85362586b0cc3da43b293e5"
+    },
+    "experiments/jupiter-beta-approval/demo/server.mjs": {
+      "mode": "100644",
+      "sha256": "ee25f91b4b89f6d72c4e27662ba0d93362ecf70c83f981744f3d345791badd9e"
+    },
+    "experiments/jupiter-beta-approval/demo/style.css": {
+      "mode": "100644",
+      "sha256": "7f7c81a218f802aff4133ee8071a944684477e09685dde68ee55a7b73148f666"
+    },
+    "experiments/jupiter-beta-approval/local-ledger.d.mts": {
+      "mode": "100644",
+      "sha256": "b4bc861a9373bf997a0943da406a0bf066aec0ffeed7921d490653a23c768c39"
+    },
+    "experiments/jupiter-beta-approval/local-ledger.mjs": {
+      "mode": "100644",
+      "sha256": "a3b232f6b0ae24f48b8d7bc7a05a0cb3c79e23084b0405e5e4cb6c506c85afa7"
+    },
+    "experiments/jupiter-beta-approval/policy.mjs": {
+      "mode": "100644",
+      "sha256": "a443d398851d2afd9f6046a9ce6d2bc40dfce231526c2811eee79d32b6cd70d8"
+    },
+    "experiments/jupiter-beta-approval/protocol.d.mts": {
+      "mode": "100644",
+      "sha256": "e3078f4bc77ab992b67ecf2a0f0aaa37327986e15542657edf9f3c121d56b657"
+    },
+    "experiments/jupiter-beta-approval/protocol.mjs": {
+      "mode": "100644",
+      "sha256": "7d7fae6d4f075642c204cf280a70292e9e70ad2d3916957bbca8b7fc1bf25749"
+    },
+    "experiments/jupiter-beta-approval/test-only/harness.mjs": {
+      "mode": "100644",
+      "sha256": "99d0f4fa9642a6cc842e45df2ad2f9ef7d7ef01976c2b8833b15963c241d804b"
+    },
+    "experiments/jupiter-beta-approval/validator.d.mts": {
+      "mode": "100644",
+      "sha256": "5b63243ecea69a5df802ae7e31b067cc8b5777907fb264c5ae037e2cf1d3506e"
+    },
+    "experiments/jupiter-beta-approval/validator.mjs": {
+      "mode": "100644",
+      "sha256": "9244f1bbad485904b121f3b1eabdbed592338bb76ab19b5c26c01fdcc3b62eb9"
+    },
+    "tests/jupiter-approval-prototype/artifact.mjs": {
+      "mode": "100644",
+      "sha256": "f3812711f03aaec8f6cb41263e5cd9797e042eaefe8c2189d0f566ee7544b4fd"
+    },
+    "tests/jupiter-approval-prototype/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "326dbd999a9027feb27e46aa2ad650766083984a0653c2accd66cb287ed229e7"
+    },
+    "tests/jupiter-approval-prototype/budget.test.mjs": {
+      "mode": "100644",
+      "sha256": "7a2391bc85f07eef4ba5d6bf021395cd63db4d4120cfd16e376f4bee1a49ca8d"
+    },
+    "tests/jupiter-approval-prototype/http.test.mjs": {
+      "mode": "100644",
+      "sha256": "45f7b97a19061c308d528f93aaa2c7696126379b063d3a06174277d0de721045"
+    },
+    "tests/jupiter-approval-prototype/legacy-isolation.test.mjs": {
+      "mode": "100644",
+      "sha256": "b1d7b50f2b6b6dbb23c912a533ab4096863fb266bfd5605c8bf852d3fc1f190a"
+    },
+    "tests/jupiter-approval-prototype/legacy.sh": {
+      "mode": "100644",
+      "sha256": "0a6036eb9bc4abadca7c707ce0dd3291ec026ae2f3726004d6fac86396cde787"
+    },
+    "tests/jupiter-approval-prototype/original-mobile.sh": {
+      "mode": "100644",
+      "sha256": "4f381d6c8b43e8ec76ed7e52eb4b2f43f2b7e18632fa102b36f2e67dab1f4ced"
+    },
+    "tests/jupiter-approval-prototype/playwright.config.mjs": {
+      "mode": "100644",
+      "sha256": "82566aa4a9b45ebefad03e55904e2c992519afe7a615f50f95e802e75430b260"
+    },
+    "tests/jupiter-approval-prototype/policy.test.mjs": {
+      "mode": "100644",
+      "sha256": "9168c8792a5b2203c11bee2d9dda0c0ee51c4a5fb0992cd2aa8c8f4b59f30b32"
+    },
+    "tests/jupiter-approval-prototype/protocol.test.mjs": {
+      "mode": "100644",
+      "sha256": "9ec2e614b948e81e41df3392410876dda5c2727239730cd3c39ec66ebf74d723"
+    },
+    "tests/jupiter-approval-prototype/replay.sh": {
+      "mode": "100644",
+      "sha256": "2272d0d7f6f9bed6fc200a816f4a9d1fefc5ac78888c85a301713d751b82f155"
+    },
+    "tests/jupiter-approval-prototype/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/jupiter-approval-prototype/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/jupiter-approval-prototype/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/jupiter-approval-prototype/types.mts": {
+      "mode": "100644",
+      "sha256": "40cda51a11f42432851ecf67484b701966743e4d5540f39064ba23e94a7dfc31"
+    },
+    "tests/jupiter-approval-prototype/validator.test.mjs": {
+      "mode": "100644",
+      "sha256": "733d28caa624c625b64bd69359863f285ba17a24477daafc0d2214a79c79fe3e"
+    }
+  }
+}
