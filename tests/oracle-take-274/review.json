@@ -1,0 +1,115 @@
+{
+  "base": "0b342b7f2447e4ab07b09d9a8a36feb66daacbc9",
+  "changed": {
+    "app/lens/ca-view.module.css": {
+      "before": "ca46df3732816aa6be708b3d25a94433f336404b4b88a2ea68a3eb225fbd7277",
+      "after": "8f9cc62b56c656233feb99f406bf1ae76b372c6a7161fe4e976e56b37824bc67",
+      "patch": "3462a44d47fa2b62c240614037d727df9a6875453c4984e16be2239487dd3693"
+    },
+    "app/lens/ca-view.tsx": {
+      "before": "d08f5e9b930518f175a7f0e33632dc65f73718bcc3ba990c0a57e7db7be03f7f",
+      "after": "171dc92e27e81513db0d00e7eeae62cc535b6df3645fc12c241ece9e06a0d0d4",
+      "patch": "f3b94a4ac1bc64f5ecac4e8f35993ad227e34b15ace101912d486b2883330455"
+    },
+    "app/lens/intelligence-desk.tsx": {
+      "before": "179c21dd675c9476e3a6f0573f94455f0040c36f3b4bc9f39f0c411ddddc9879",
+      "after": "9f77eea0adc3d95fc543b6c6501a95b9ede94a599628fdf4c87b150bb35b6833",
+      "patch": "da7d903281e8496a6e32b94fc749bfdaf7741ca69c8f497047d210df850dbf78"
+    }
+  },
+  "added": {
+    ".github/workflows/oracle-take-274.yml": {
+      "mode": "100644",
+      "sha256": "764329a01387d93caede7564cd6191e1fa061b8b88d8637353e36e7b2dc18f48"
+    },
+    "app/lens/take-model.ts": {
+      "mode": "100644",
+      "sha256": "1839731b77fd63406258aa072f27fe1e61343e8c35feecbc834750225c6b79e4"
+    },
+    "docs/oracle-take-274/README.txt": {
+      "mode": "100644",
+      "sha256": "44e7ae39364c830d85d2178f322869650f1b9598e80cbfb83f3dd8378e6deda8"
+    },
+    "docs/oracle-take-274/after-1280.png": {
+      "mode": "100644",
+      "sha256": "a3b8fd1a85004baf27ed7280fe7bc6302943cfeb49fbd242a5c8a865826e44ee"
+    },
+    "docs/oracle-take-274/after-320.png": {
+      "mode": "100644",
+      "sha256": "7ee50555f72b17696ab203d38d7b59c7536347e663d9fecafa947e3d6d237424"
+    },
+    "docs/oracle-take-274/after-390.png": {
+      "mode": "100644",
+      "sha256": "075cb49ccd2c7f516922efdf7464960e65c6188f7b1672827223c65cd4fc3254"
+    },
+    "docs/oracle-take-274/before-1280.png": {
+      "mode": "100644",
+      "sha256": "229d72e01e8c128a77a7727eae75e5ca5628e3fc8687a2bf3ec31ebf5257d579"
+    },
+    "docs/oracle-take-274/before-320.png": {
+      "mode": "100644",
+      "sha256": "236b1d907479666bf3cdfe9097041671a198224fd64649444729ee9dcf3c9b24"
+    },
+    "docs/oracle-take-274/before-390.png": {
+      "mode": "100644",
+      "sha256": "81826de5e732ad1d473ebbcd6826b70c21887353b6f39d47992d82835935d27a"
+    },
+    "tests/oracle-take-274/baseline-server.sh": {
+      "mode": "100644",
+      "sha256": "de9692fa6ce66d6a53e2d305bb2947d28daf111cf3ed23f48556b0c95f1fda49"
+    },
+    "tests/oracle-take-274/browser-entry.tsx": {
+      "mode": "100644",
+      "sha256": "39dd56e9a8fa4ab282ed2d732a71fb0c56267c9f586d5ff8cc7ef92ef3622e32"
+    },
+    "tests/oracle-take-274/browser-server.mjs": {
+      "mode": "100644",
+      "sha256": "35d24f5d672ccd737a041dccd8116ce9ba42f50ce001825bb55a7848e9e351a7"
+    },
+    "tests/oracle-take-274/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "e4c400266972a80d06c612394a0de4af1e7ee572067a8113fa5c0444fcb01768"
+    },
+    "tests/oracle-take-274/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "4fb68118c31f6ead8dc4beb7810d34f6f6e687bc9a9eae1c87f9021882301832"
+    },
+    "tests/oracle-take-274/inputs.sh": {
+      "mode": "100644",
+      "sha256": "fbf666a437944bd6ed58418f01e195e97a138adfa5cdcae8c911a087f9231042"
+    },
+    "tests/oracle-take-274/model.test.mjs": {
+      "mode": "100644",
+      "sha256": "d1a551ae69b09c8d17369be59fc6438029253679606583c72c190c381e9cfb7f"
+    },
+    "tests/oracle-take-274/optimized.config.mjs": {
+      "mode": "100644",
+      "sha256": "64c7c5775eadb54393246623cb767116f73dfbd5d328e1fa24944ba1a93ed20b"
+    },
+    "tests/oracle-take-274/optimized.spec.mjs": {
+      "mode": "100644",
+      "sha256": "05d39bc4bb95b7b88c9235b6d9310d48be3d0834aa94600e9e3d5f0758e72950"
+    },
+    "tests/oracle-take-274/playwright.config.mjs": {
+      "mode": "100644",
+      "sha256": "cbabc834e67efe318e1e3c0bba21f9d552a4701602fc7d74ecdc5d024fdaeb89"
+    },
+    "tests/oracle-take-274/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-take-274/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-take-274/run.sh": {
+      "mode": "100644",
+      "sha256": "0ac7c4d9507056ad5de03a942eca0bd40f45056179a725496332f6c0b74aa912"
+    },
+    "tests/oracle-take-274/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    }
+  },
+  "peers": []
+}
