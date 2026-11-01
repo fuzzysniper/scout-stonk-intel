@@ -1,0 +1,124 @@
+{
+  "version": "unfarmd-clock-stop-review/1",
+  "base": "0ba7b2355acb72386f0d4f810f3601290cacb0cb",
+  "modified": {
+    "experiments/jupiter-beta-approval/integration/C-INTEGRATION.md": {
+      "sha256": "052a20d2e1955cc52934ed3f263af6128b7a81e6e081376b67d3e7173eec3dd9",
+      "patchSha256": "6d7e218f054be2a404f63c3e67aff1fb7227d7ef4cb0c1f9ed7cf5213232eab3"
+    },
+    "experiments/jupiter-beta-approval/integration/SETUP.md": {
+      "sha256": "f2a24e2d7d0f71363295f0c219d72f2ff6982d5c18613ef9717725394a762213",
+      "patchSha256": "8683d3555926224bb8027b2ef22eee18bab686dc6a636a1715c895f2a2eaff23"
+    },
+    "experiments/jupiter-beta-approval/integration/authority.mjs": {
+      "sha256": "b2c30f575ba6147699b73b6a484d8a9c0e6741f1fee582e830cad8d46e0a1e7d",
+      "patchSha256": "c891bdc1ade141acf149b2c035787402697510e0e07a14d4ed1da5de13cc47aa"
+    },
+    "experiments/jupiter-beta-approval/integration/consumer.d.mts": {
+      "sha256": "640a13cae659150a56e3b3e1f6f7fe65eec106f0bb16967a48d3938012dd3985",
+      "patchSha256": "31bca29294942e814d69f513ad7d63649917ab1a7a446b2499ff3eb5f3abf35d"
+    },
+    "experiments/jupiter-beta-approval/integration/consumer.mjs": {
+      "sha256": "e8ca22d1d23d7f880513b1e2a7d0d6a35cfb524a2ee891d2d1a1f18be8cf6738",
+      "patchSha256": "25412bbddb35a2acd1f9ea306f87c128df5e1e10078c415bcd60608db49b1ba8"
+    },
+    "experiments/jupiter-beta-approval/integration/durable/function-pins.json": {
+      "sha256": "53d73768cab9ec3a2bb3cc97067c172ec8b3244cadf6f57481186a2b6f778ddc",
+      "patchSha256": "6bdb650ae8496d52a9afa05cc5b370dda337d665fe763208f426d27d93d33362"
+    },
+    "experiments/jupiter-beta-approval/integration/durable/postgres.mjs": {
+      "sha256": "77129e6422928a4c7054695f7e1170abfb966798e2625c1bc185644df3638e66",
+      "patchSha256": "73aba61ccb980f46553936e3bf804c741381f62a9930b4e83c45f51fe9883ba3"
+    },
+    "experiments/jupiter-beta-approval/integration/durable/schema.sql": {
+      "sha256": "4fbf3e0e1eebd85159a87731080da6448d02378e1d56ad6db70f25353324991c",
+      "patchSha256": "603997fc7c4362287c35c20806c94ee97d3630b0d24bca85676aaab9e649f382"
+    },
+    "experiments/jupiter-beta-approval/integration/test/consumer.test.mjs": {
+      "sha256": "3edc76d05eeae265ba15ac66969a821a28afc909f64bef8d04d46a1963a1dfa5",
+      "patchSha256": "400c174eb50ebbf99995e7e38701360aab698deac5f8583c563f0e227e6eacf4"
+    },
+    "experiments/jupiter-beta-approval/integration/test/fixtures.mjs": {
+      "sha256": "b9bfc37f1c8cdf75872e7801801edb02aaba32ec71e3d6d07dfb59fec0570a0c",
+      "patchSha256": "02161ecd4cacc788f2cee8c68942a908cbf64354daeae84f49d63eb82920f621"
+    },
+    "experiments/jupiter-beta-approval/integration/test/postgres.test.mjs": {
+      "sha256": "8f3e83deff587630a28f4d0a7ab43c50b3be391a29a02163584f1fcc9c6e84aa",
+      "patchSha256": "d9147dee7f164bfd146feb7169e0c509e3d2879bed8b9dd218d766c14d6be81a"
+    },
+    "experiments/jupiter-beta-approval/integration/test/services.test.mjs": {
+      "sha256": "4dc57af83e4dff81ffd72b7a8d1c4f7b582771c770941e91f070848f4762d07f",
+      "patchSha256": "3afecb6bfe3ffe6074b5a98515228572df07e5dcb4314a12cb8e6b5146365dbb"
+    },
+    "experiments/jupiter-beta-approval/integration/validator.mjs": {
+      "sha256": "d553444923c0f45850f0d5299852ae3b1f0769c536cc8aaee1d57a0f2d57bb42",
+      "patchSha256": "25ce7bd2b6a254fd47098e431c6ba3b60ac3654cf86a6fa629b046d88a24a345"
+    },
+    "vercel.json": {
+      "sha256": "a870915ede8b0d37a10f85866bda9a0eb3c0dfb997fc4dd5e6ecbd11e516ba8c",
+      "patchSha256": "63cce6b77c3d1671a611160b2152dd5edcd0387429eff40881be0423004664d2"
+    }
+  },
+  "added": {
+    ".github/workflows/jupiter-stop-correction.yml": {
+      "mode": "100644",
+      "sha256": "8d5a5ee20d3f0a3b18260b0f7221a9dafeb69db9e62e69e1d08fd18789095aed"
+    },
+    "experiments/jupiter-beta-approval/integration/owner/IPHONE-BOOTSTRAP.md": {
+      "mode": "100644",
+      "sha256": "901f6925240807908548a019f9ecfd392d37a0c4837479b4d35a3c8af7c3c9a4"
+    },
+    "experiments/jupiter-beta-approval/integration/owner/iphone-bootstrap.mjs": {
+      "mode": "100644",
+      "sha256": "3783249adff97bd40530dabe9c68e11e49f89c20552b1d21bd200791126b0224"
+    },
+    "tests/jupiter-stop-correction/README.md": {
+      "mode": "100644",
+      "sha256": "ed02f79267342d4903a5b6ae9aa99f9516259d7b50cffd060bb6442196def540"
+    },
+    "tests/jupiter-stop-correction/clock.c": {
+      "mode": "100644",
+      "sha256": "d2e1af47a834262e7af2a208c08df4ed98645f19f61f1569b5ff923eba0e8182"
+    },
+    "tests/jupiter-stop-correction/local-only.mjs": {
+      "mode": "100644",
+      "sha256": "b1de6fcd79a5b445e273790e12a3acbfab07e6cceef2dfce7cf33f9780c78fae"
+    },
+    "tests/jupiter-stop-correction/original-mobile.sh": {
+      "mode": "100644",
+      "sha256": "64d04ab2475ca92f01ca05f69549cf9699978eaf02d2d6358f7ee658887f6549"
+    },
+    "tests/jupiter-stop-correction/postgres-harness.mjs": {
+      "mode": "100644",
+      "sha256": "3878a9a97cf9a03fa7fb2feace3af03e3463f9de9035a2df7802168b010fdbc6"
+    },
+    "tests/jupiter-stop-correction/postgres.test.mjs": {
+      "mode": "100644",
+      "sha256": "55b3a0c795af221fb69a2d6c04b1aea1f5141757a0dfa94a338fa0d39daae603"
+    },
+    "tests/jupiter-stop-correction/replay.sh": {
+      "mode": "100644",
+      "sha256": "87fc12c200101bafff2a3072f8e6b4297bc33a8a415517f77ef87c068baeab5f"
+    },
+    "tests/jupiter-stop-correction/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/jupiter-stop-correction/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/jupiter-stop-correction/run-pg.sh": {
+      "mode": "100644",
+      "sha256": "2576f350fb3963fefaa67ec36148fdba44a618841b39ac2e38259f468375163e"
+    },
+    "tests/jupiter-stop-correction/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/jupiter-stop-correction/unit.test.mjs": {
+      "mode": "100644",
+      "sha256": "162c7c5a22adf2791d0cdcde213d01c2b6aa5190dcc7a04a533522cbe17d0eac"
+    }
+  }
+}

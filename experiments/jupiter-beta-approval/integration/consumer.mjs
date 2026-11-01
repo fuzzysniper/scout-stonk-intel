@@ -7,6 +7,6 @@ export function researchBoundary({publicTrust,nativeIdentity,clock,authority,con
   // C must provide the existing trusted platform getter, never request identity.
   const v=verifyV3(envelope,publicTrust,clock(),nativeIdentity());need(v.status==='verified_source_off_contract'&&v.record.scope.mints.includes(mint));
   const request={path:'/reserve',operationId:randomUUID(),timestamp:clock(),envelope,mint};const result=await authority('/reserve',{request,stamp:consumerAuth.stamp(request)});
-  need(result.status==='reservation_source_off');need(verifyV3(envelope,publicTrust,clock(),nativeIdentity()).status==='verified_source_off_contract');return {...result,activate:false,sourceCalls:false};
+  need(result.status==='reservation_source_off'&&result.stopped===false);need(verifyV3(envelope,publicTrust,clock(),nativeIdentity()).status==='verified_source_off_contract');return {...result,activate:false,sourceCalls:false};
  }catch{return denied();}}});
 }
