@@ -1,0 +1,10 @@
+import type {TurnkeyClient} from '@turnkey/http';
+import type {PublicTrust,RawRequest} from '../contract.mjs';
+export type Stamp=Readonly<{stampHeaderName:string;stampHeaderValue:string}>;
+export type Signed=Readonly<{url:string;body:string;stamp:Stamp}>;
+export declare const API:'https://api.turnkey.com';
+export declare function ownerSdk(t:PublicTrust,stamper?:Readonly<{stamp(body:string):Promise<Stamp>}>):Readonly<{stamp(body:RawRequest,now:number):Promise<Signed>}>;
+export declare function validatorSdk(t:PublicTrust,stamper:Readonly<{stamp(body:string):Promise<Stamp>}>):Readonly<{activity(id:string):Promise<Signed>;approve(fingerprint:string,now:number):Promise<Signed>;organization():Promise<Signed>;policies():Promise<Signed>;owner():Promise<Signed>;key():Promise<Signed>}>;
+export declare function apiKeySdk(t:PublicTrust,credentials:Readonly<{publicKey:string;privateKey:string}>):Promise<ReturnType<typeof validatorSdk>>;
+export declare function policyInstallation(t:PublicTrust,now:number):Parameters<TurnkeyClient['stampCreatePolicy']>[0];
+export declare function policyParameters(t:PublicTrust):Parameters<TurnkeyClient['stampCreatePolicy']>[0]['parameters'];

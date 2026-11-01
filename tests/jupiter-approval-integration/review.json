@@ -1,0 +1,259 @@
+{
+  "version": "unfarmd-turnkey-integration-review/1",
+  "base": "7e13f73d8e8a5db8c274577c9d72f096b1ee50d2",
+  "sourceHolds": {
+    "activate": false,
+    "sourceCalls": false,
+    "oldGlobalRoot": "48a34ef44033ad8a6654116f211bbe9923abf05d01385c02d3713722f2c6c055"
+  },
+  "added": {
+    ".github/workflows/jupiter-approval-integration.yml": {
+      "mode": "100644",
+      "sha256": "b272b637780abeb3ad2cc07008721f8020b0c07ae52603bc1acfe38bf5de9d5e"
+    },
+    "experiments/jupiter-beta-approval/integration/C-INTEGRATION.md": {
+      "mode": "100644",
+      "sha256": "ea9a6fdc78cd28faf9d102d034c623806128a7d98e4676a47c83bb36641768d8"
+    },
+    "experiments/jupiter-beta-approval/integration/README.md": {
+      "mode": "100644",
+      "sha256": "4544acfec89e43ca57547719fdc18f9d5486e75aa1ec8a9bb652651008e3afb2"
+    },
+    "experiments/jupiter-beta-approval/integration/SETUP.md": {
+      "mode": "100644",
+      "sha256": "09a2db64eba62d4fafcf54fb436d6dc7e524e49b1682e53bab166a66067f2e15"
+    },
+    "experiments/jupiter-beta-approval/integration/authority.mjs": {
+      "mode": "100644",
+      "sha256": "9e90ba0ed0c3d6a9e696108e182d2817d396495e27be4f4a1462eafa10c97147"
+    },
+    "experiments/jupiter-beta-approval/integration/build.mjs": {
+      "mode": "100644",
+      "sha256": "e2c3f9c831bdb6492ef20d0788bb5a2570dfa7d157204b4933a9e9e91c16e519"
+    },
+    "experiments/jupiter-beta-approval/integration/consumer.d.mts": {
+      "mode": "100644",
+      "sha256": "c18da5b5a5d47b2cdd08eaf87b1c996d30b61d66576df370d0c9ba179129827c"
+    },
+    "experiments/jupiter-beta-approval/integration/consumer.mjs": {
+      "mode": "100644",
+      "sha256": "6772d04f2db93ed1daf204a7651816178b5e90d36bb726d46b80f53e94604b26"
+    },
+    "experiments/jupiter-beta-approval/integration/contract.d.mts": {
+      "mode": "100644",
+      "sha256": "4651b896ba563c9f3b6b7a34ce3546ae81d747ccd6b30b585209f031f202f873"
+    },
+    "experiments/jupiter-beta-approval/integration/contract.mjs": {
+      "mode": "100644",
+      "sha256": "142958220efdc8484f3ba0a5159d4c5402dc0f2ee62030ee0f6222297c5f7946"
+    },
+    "experiments/jupiter-beta-approval/integration/durable/anchor.mjs": {
+      "mode": "100644",
+      "sha256": "a120fb42917f36729d8c58f01e6bce8113323a252f08151d280a1af6af4da919"
+    },
+    "experiments/jupiter-beta-approval/integration/durable/driver-pins.json": {
+      "mode": "100644",
+      "sha256": "517c36d8d9fc86466e9121e8819e511e8e3fd830d146a08bf563dee349103cf0"
+    },
+    "experiments/jupiter-beta-approval/integration/durable/function-pins.json": {
+      "mode": "100644",
+      "sha256": "12eac57ed6695114c3bfbbf6a1134977aaea58129d2fd0979e8a786a83bf1253"
+    },
+    "experiments/jupiter-beta-approval/integration/durable/postgres.mjs": {
+      "mode": "100644",
+      "sha256": "695e520c3451027f66d3229f056ab6a4beea932e17376e1cab914228565a7501"
+    },
+    "experiments/jupiter-beta-approval/integration/durable/schema.sql": {
+      "mode": "100644",
+      "sha256": "125c0ab6812547f3747410afc0c6d8b8c9fdad42c777089bbc8bb573e07fb461"
+    },
+    "experiments/jupiter-beta-approval/integration/durable/serial.mjs": {
+      "mode": "100644",
+      "sha256": "0258e7900a5fb34f758db928e9cda4be649e352af1d2cd8cede651ff7f6486e6"
+    },
+    "experiments/jupiter-beta-approval/integration/durable/tls.mjs": {
+      "mode": "100644",
+      "sha256": "fe632e1ec80c9b5047a1c273a40766d0ba319429e55d784b55de51777f93f0a3"
+    },
+    "experiments/jupiter-beta-approval/integration/json.mjs": {
+      "mode": "100644",
+      "sha256": "03b6124cc31886a4e0dc3938516e4a7fc661d2528d2babd97a17d8c9ca07576e"
+    },
+    "experiments/jupiter-beta-approval/integration/owner/app.mjs": {
+      "mode": "100644",
+      "sha256": "164117b90b53cabab64fbceeaaea4121d35e6454cf91e94f3f633fc9b0306717"
+    },
+    "experiments/jupiter-beta-approval/integration/owner/client.mjs": {
+      "mode": "100644",
+      "sha256": "df3607ce6b6da5fa9159b36e3d23fdb7d9dae54f25c7c9908c2107ae380dffca"
+    },
+    "experiments/jupiter-beta-approval/integration/owner/enrollment.mjs": {
+      "mode": "100644",
+      "sha256": "27b00f8b25ea92e5f15752f98bfa2f7e64b7eed83ec049fdebd7bd64aa57ec0e"
+    },
+    "experiments/jupiter-beta-approval/integration/owner/index.html": {
+      "mode": "100644",
+      "sha256": "687cafaeb3b7cdc58efa0cfbc8bceee201ef338939ac21d6bbc545544beea886"
+    },
+    "experiments/jupiter-beta-approval/integration/owner/style.css": {
+      "mode": "100644",
+      "sha256": "7f7c81a218f802aff4133ee8071a944684477e09685dde68ee55a7b73148f666"
+    },
+    "experiments/jupiter-beta-approval/integration/package-lock.json": {
+      "mode": "100644",
+      "sha256": "90197efac51f5f64adacdb56f3242f0000e8627c857af6348bd2356c192a530f"
+    },
+    "experiments/jupiter-beta-approval/integration/package.json": {
+      "mode": "100644",
+      "sha256": "681c5400691aa9d09c3e1b8339cc38607a1b15b18140f2acbefca88a747eafb4"
+    },
+    "experiments/jupiter-beta-approval/integration/release.json": {
+      "mode": "100644",
+      "sha256": "9eb9cbef83269bd01a8bfd887bbe28657c36993b4b974b1873732bb0838edba4"
+    },
+    "experiments/jupiter-beta-approval/integration/render.yaml": {
+      "mode": "100644",
+      "sha256": "4cbf02f7758393762ca2760a89a6de5ec10f4d518d26dac0843b96748d5f56bf"
+    },
+    "experiments/jupiter-beta-approval/integration/sdk/receipts.d.mts": {
+      "mode": "100644",
+      "sha256": "d5db42ee1c360423c6312eb6fcb228c319f0b7ae2f8a863ed6fc57c15be5a517"
+    },
+    "experiments/jupiter-beta-approval/integration/sdk/receipts.mjs": {
+      "mode": "100644",
+      "sha256": "d7b503c3df867c292e2b6ca2e74655a2e78a7f2480d49adb3dfaa04a8787449a"
+    },
+    "experiments/jupiter-beta-approval/integration/sdk/requests.d.mts": {
+      "mode": "100644",
+      "sha256": "6c0d7d5e2e023fcbc769162e49b0fc1dfbaf7b173f90087e4bcef167f7acbdd0"
+    },
+    "experiments/jupiter-beta-approval/integration/sdk/requests.mjs": {
+      "mode": "100644",
+      "sha256": "3d1d21c7e6e6ef801b10d4cd7a509cd1153384c820fe9d2c2c62237613bfdd79"
+    },
+    "experiments/jupiter-beta-approval/integration/sdk/schema.mjs": {
+      "mode": "100644",
+      "sha256": "4c07567e840370b6551a414398c1b074d9c5a6dd1f67a3b414aead1e51e8c57f"
+    },
+    "experiments/jupiter-beta-approval/integration/sdk/transport.mjs": {
+      "mode": "100644",
+      "sha256": "2de79ad4cc0aa05e371c89079f456c7eceebca0166643e5ee54e62bcab8158c9"
+    },
+    "experiments/jupiter-beta-approval/integration/services/auth.mjs": {
+      "mode": "100644",
+      "sha256": "88b0ffc360d0117834a36e9364b933e6ed3e806f0b5202a032017439450286b6"
+    },
+    "experiments/jupiter-beta-approval/integration/services/bindings.mjs": {
+      "mode": "100644",
+      "sha256": "3f732b4af02d139bcbf20901ff38e84d4b1b7e368f68702bd249c07ad320b0c3"
+    },
+    "experiments/jupiter-beta-approval/integration/services/composition.mjs": {
+      "mode": "100644",
+      "sha256": "0a203e5ea56f098c9d8df8d658a97b46568f4e7d3acef2f2a64fc8516008302c"
+    },
+    "experiments/jupiter-beta-approval/integration/services/entry.mjs": {
+      "mode": "100644",
+      "sha256": "1b2f49950ac4386f7b54a6084505e84df15de2266cd9855f47082b81f94daab4"
+    },
+    "experiments/jupiter-beta-approval/integration/services/handlers.mjs": {
+      "mode": "100644",
+      "sha256": "133524210eed6333f3d47f1607b020efe6e5047c1e24570022314f0358b8631c"
+    },
+    "experiments/jupiter-beta-approval/integration/services/peers.mjs": {
+      "mode": "100644",
+      "sha256": "6b84a6550f05d8736459a2ad9baeac39bcd7d99e32548cc221dd66b754a94001"
+    },
+    "experiments/jupiter-beta-approval/integration/setup-admission.mjs": {
+      "mode": "100644",
+      "sha256": "33d3b06ab95b430232e1dac116a4a404c4b5af594769861cfc9952224b21e379"
+    },
+    "experiments/jupiter-beta-approval/integration/test/consumer.test.mjs": {
+      "mode": "100644",
+      "sha256": "4fbc40b9b66f8c929766a0e2964943e7f066c803ac56af2a5a784af0059f0410"
+    },
+    "experiments/jupiter-beta-approval/integration/test/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "b0a62330cd8e644dcae4d48d8a4c3413a0b310ba683f7799f0f85c4991bfb587"
+    },
+    "experiments/jupiter-beta-approval/integration/test/postgres.test.mjs": {
+      "mode": "100644",
+      "sha256": "47eda5d0f73efa8cdbc9b1a85c777446f9058c823338a961f698e8df3567604f"
+    },
+    "experiments/jupiter-beta-approval/integration/test/sdk.test.mjs": {
+      "mode": "100644",
+      "sha256": "d90f1a6f5b35b40c58888d1130e87966fff02b387f544b0b118d7434f21980cf"
+    },
+    "experiments/jupiter-beta-approval/integration/test/security.test.mjs": {
+      "mode": "100644",
+      "sha256": "80f05913821241b1a9443c967b0f0b5d42e3fc99ebe57967e4925582c8a0be2c"
+    },
+    "experiments/jupiter-beta-approval/integration/test/services.test.mjs": {
+      "mode": "100644",
+      "sha256": "9fb8f52a9a2d57040af596956c1ae6f63ec690282b79b094bab6489ff0d1c092"
+    },
+    "experiments/jupiter-beta-approval/integration/validator.mjs": {
+      "mode": "100644",
+      "sha256": "8d1ef165a40d8ea3735d915ec65c8a92f666a6051c4d54e421b43a581caef721"
+    },
+    "experiments/jupiter-beta-approval/integration/verifier.d.mts": {
+      "mode": "100644",
+      "sha256": "22f12d13ead235adaec1c52498fa5dcc21cbab9cae218955e5e7e4d21c41af8a"
+    },
+    "experiments/jupiter-beta-approval/integration/verifier.mjs": {
+      "mode": "100644",
+      "sha256": "df272cf9f468c685b699f69e6b526197f3f7323812d34931c7f3ae4806b3c291"
+    },
+    "tests/jupiter-approval-integration/artifact.mjs": {
+      "mode": "100644",
+      "sha256": "6d2e2c93711f70814daa4745a7e0ff86201d759bd0f8b8fc16b9e80dc1137be7"
+    },
+    "tests/jupiter-approval-integration/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "6628873e54e0eb1768d619be89685d613f1d4ba92b4208722f11719fdb3a861d"
+    },
+    "tests/jupiter-approval-integration/legacy.sh": {
+      "mode": "100644",
+      "sha256": "4b8865b208ffc80ecd6c6ee0d4fdd95988d1713d317937b38ce00efd62b09283"
+    },
+    "tests/jupiter-approval-integration/legacy.test.mjs": {
+      "mode": "100644",
+      "sha256": "14a29de49259d1fd03accddee8248a38d238ee44beea01581f3897ba7cd1ed1c"
+    },
+    "tests/jupiter-approval-integration/original-mobile.sh": {
+      "mode": "100644",
+      "sha256": "cc8f0fe70cfe166e7c9645289fa6c33980be18e9aa06c82e45d08c0280fbc757"
+    },
+    "tests/jupiter-approval-integration/parse.mjs": {
+      "mode": "100644",
+      "sha256": "87729d0d03d5bf09f1b5b2d0334de5d899d7cad51a705f37104bf204417368ea"
+    },
+    "tests/jupiter-approval-integration/playwright.config.mjs": {
+      "mode": "100644",
+      "sha256": "9337136984c85fe99e25cc7f8510d462c86d382421c776102ba3d53bfbacfda9"
+    },
+    "tests/jupiter-approval-integration/replay.sh": {
+      "mode": "100644",
+      "sha256": "25c0575c2c94e06734f022d5544b4636e76cdc43847900c5b52c0fe2a8ee730b"
+    },
+    "tests/jupiter-approval-integration/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/jupiter-approval-integration/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/jupiter-approval-integration/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/jupiter-approval-integration/types.mts": {
+      "mode": "100644",
+      "sha256": "42e1dca31be853ce8180db043b7b887b902aaa0832243a4b42af2b1dcba445f2"
+    },
+    "vercel.json": {
+      "mode": "100644",
+      "sha256": "ecbd20ed636fa168fac83ab5f4fd088d6c7a509abe43e7a479d86ce80c234f21"
+    }
+  }
+}
