@@ -1,0 +1,110 @@
+name: ORACLE CA-aware recovery v2 OFF
+on:
+  pull_request:
+    branches: [integration/271-oracle-native-source-reviewed]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  actual-v2-postgres-and-adversarial:
+    if: github.head_ref == 'feat/266-ca-recovery-v2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - name: Actual additive scope and deterministic CA-aware current-anchor tests
+        run: NODE_ENV=test NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test --test-concurrency=1 tests/oracle-ca-recovery-v2/*.test.mjs
+      - name: Existing source installer and owner security on actual HEAD
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-source-install-266/run.sh
+  app-build-and-off:
+    if: github.head_ref == 'feat/266-ca-recovery-v2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npx tsc --noEmit
+      - run: npx tsc --noEmit --strict --skipLibCheck --module nodenext --moduleResolution nodenext --target ES2023 ops/v4-journal/recovery-v2.d.mts
+      - run: npm run lint
+      - name: Actual optimized app OFF and immutable cold-start/source boundaries
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-oracle-onchain/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/oracle-ca-recovery-v2/scope.test.mjs
+          bash scripts/archive-tool.sh check 8effe6ba0967d7a83e976840d5ed8df1d95fcbf5
+  original-271-reviews:
+    if: github.head_ref == 'feat/266-ca-recovery-v2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-ca-recovery-v2/replay.sh reviews
+  original-271-native-root:
+    if: github.head_ref == 'feat/266-ca-recovery-v2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-ca-recovery-v2/replay.sh native-root
+  original-271-history:
+    if: github.head_ref == 'feat/266-ca-recovery-v2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: bash tests/v4-neon-durability/build-pg18.sh
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-ca-recovery-v2/replay.sh history
