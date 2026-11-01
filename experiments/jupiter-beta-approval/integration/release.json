@@ -1,0 +1,13 @@
+{
+  "version": "unfarmd-beta-setup/1",
+  "externalCallsEnabled": false,
+  "databaseEnabled": false,
+  "trustEnrolled": false,
+  "acquisitionEnabled": false,
+  "ownerOrigin": null,
+  "validatorOrigin": null,
+  "authorityOrigin": null,
+  "neonDirectHost": null,
+  "publicTrust": null,
+  "limits": { "mints": 4, "usesPerGrant": 4, "grantLifetimeMs": 600000, "signaturesPerEpoch": 25, "usesPerEpoch": 100, "providerRequestsPerGrant": 5, "timeoutMs": 3000, "responseBytes": 65536, "retries": 0 }
+}

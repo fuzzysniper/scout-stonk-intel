@@ -1,0 +1,10 @@
+{
+  "driver": {
+    "version": "8.23.1",
+    "files": {
+      "pg/lib/client.js": "ad6aa93c26b0bf26db1f2ebe74216212790a04c41af5585c63760f9fa8322a32",
+      "pg/lib/crypto/sasl.js": "99f1a2607fe2a29f1c4dd1aaf43dec0fc2b5de8755de72b39d3aa8c575bd6a71",
+      "pg/lib/connection.js": "f93e914bf408657f2301393489da561a5a464e9c30f4f51b681b18a21a5f1c84"
+    }
+  }
+}

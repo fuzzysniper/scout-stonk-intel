@@ -1,0 +1,16 @@
+import type {TurnkeyClient} from '@turnkey/http';
+export type Identity=Readonly<{repository:'fuzzysniper/scout-stonk-intel';branch:string;commit:string;tree:string;project:string;deployment:string;origin:string;environment:'preview'}>;
+export type Evidence=Readonly<{evidenceHash:string;reviewedAt:number;expiresAt:number}>;
+export type PublicTrust=Readonly<{organizationId:string;owner:Readonly<{userId:string;authenticatorId:string;credentialId:string;publicKey:string;root:false}>;validator:Readonly<{userId:string;apiKeyId:string;publicKey:string;root:false}>;beta:Readonly<{keyId:string;epoch:number;publicKey:string}>;policyId:string;ownerOrigin:string;identity:Identity;rights:Evidence;edge:Evidence;allowedMints:readonly string[]}>;
+export type Grant=Readonly<{version:'unfarmd-jupiter-beta-authorization/3';grantId:string;nonce:string;organizationId:string;keyId:string;epoch:number;policyHash:string;identity:Identity;rights:Evidence;edge:Evidence;scope:Readonly<{provider:'jupiter-tokens-v2';mints:readonly string[];maxUses:number;perMintLimit:number;retries:0;native:false;holders:false;save:false;publicDisplay:false}>;issuedAt:number;startsAt:number;expiresAt:number}>;
+export type Held=Readonly<{status:'held';activate:false;sourceCalls:false}>;
+export type Verified=Readonly<{status:'verified_source_off_contract';activate:false;sourceCalls:false;record:Grant;envelopeHash:string}>;
+export type RawRequest=Parameters<TurnkeyClient['stampSignRawPayload']>[0];
+export declare const VERSION:'unfarmd-jupiter-beta-authorization/3';
+export declare const DOMAIN:string;
+export declare const ENVELOPE:'unfarmd-turnkey-beta-envelope/1';
+export declare const ACTIVATION:false;
+export declare function context(value:PublicTrust):PublicTrust;
+export declare function record(text:string,t:PublicTrust,now:number,identity?:Identity):Grant;
+export declare function rawBody(text:string,t:PublicTrust,now:number):RawRequest;
+export declare function policyBinding(t:PublicTrust):string;

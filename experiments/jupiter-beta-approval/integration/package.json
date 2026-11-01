@@ -1,0 +1,26 @@
+{
+  "name": "unfarmd-jupiter-beta-approval-integration",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "build": "node build.mjs",
+    "owner": "node services/entry.mjs owner",
+    "validator": "node services/entry.mjs validator",
+    "authority": "node services/entry.mjs authority"
+  },
+  "dependencies": {
+    "@turnkey/api-key-stamper": "0.6.18",
+    "@turnkey/http": "6.7.0",
+    "@turnkey/webauthn-stamper": "0.6.0",
+    "pg": "8.23.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "libpg-query": "18.2.2"
+  }
+}

@@ -1,0 +1,148 @@
+name: Turnkey integration OFF no SQL provider or deployment
+on:
+  pull_request:
+    branches: [feat/277-synthetic-beta-approval]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  synthetic-security-crypto-budget-legacy:
+    if: github.head_ref == 'feat/278-turnkey-integration'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Finite immutable278 source and mode guards with negative controls
+        run: node --test tests/jupiter-approval-integration/scope.test.mjs
+      - name: Actual SDK offline dual approvals policy expiry receipts durable transcript and loopback security
+        run: |
+          npm ci --prefix experiments/jupiter-beta-approval/integration --ignore-scripts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm test --prefix experiments/jupiter-beta-approval/integration
+          node --import=./tests/security114/local-only.mjs --test tests/jupiter-approval-prototype/{protocol,policy,validator,budget,http}.test.mjs
+      - name: Original277 verifier positive controls and cross-protocol rejection
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-approval-integration/legacy.sh
+      - name: Public contract negative type checks
+        run: ./node_modules/.bin/tsc --noEmit --strict --target ES2023 --module NodeNext --moduleResolution NodeNext --skipLibCheck tests/jupiter-approval-integration/types.mts
+  synthetic-mobile-local-only:
+    if: github.head_ref == 'feat/278-turnkey-integration'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Existing local Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - run: npm ci --prefix experiments/jupiter-beta-approval/integration --ignore-scripts
+      - run: npm run build --prefix experiments/jupiter-beta-approval/integration
+      - name: 3203901280 real SDK with browser WebAuthn mock axe keyboard expiry no storage
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/jupiter-approval-integration/playwright.config.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: SDK-TEST-LOCAL-NO-provider-or-real-passkey
+          path: node_modules/jupiter-integration-screenshots/*.png
+      - run: node --test tests/jupiter-approval-integration/scope.test.mjs
+  unchanged-app-build-OFF-archive:
+    if: github.head_ref == 'feat/278-turnkey-integration'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Unchanged277 admission and original claim source engines
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-beta-276/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-take-274/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
+      - run: npm ci --prefix experiments/jupiter-beta-approval/integration --ignore-scripts
+      - name: Types lint optimized build and actual OFF import separation
+        run: |
+          ./node_modules/.bin/tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-oracle-onchain/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/jupiter-beta-276/artifact.mjs
+          node tests/jupiter-approval-prototype/artifact.mjs
+          node tests/jupiter-approval-integration/artifact.mjs
+          bash scripts/archive-tool.sh check 7e13f73d8e8a5db8c274577c9d72f096b1ee50d2
+          node --test tests/jupiter-approval-integration/scope.test.mjs
+  original-immutable-reviewers:
+    if: github.head_ref == 'feat/278-turnkey-integration'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Original265271272273275276277278 finite reviewers on immutable inputs NO SQL
+        run: bash tests/jupiter-approval-integration/replay.sh
+  original-mobile-source-held-guards:
+    if: github.head_ref == 'feat/278-turnkey-integration'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Existing local Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Original114 and24 browser guards unchanged on exact277278 NO SQL
+        run: bash tests/jupiter-approval-integration/original-mobile.sh

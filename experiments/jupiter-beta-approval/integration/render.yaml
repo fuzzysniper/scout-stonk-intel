@@ -1,0 +1,28 @@
+# SPECIFICATION ONLY. No auto-deploy, environment sync, secret value or account action.
+services:
+  - type: web
+    name: unfarmd-beta-owner-review
+    runtime: node
+    plan: starter
+    autoDeploy: false
+    buildCommand: npm ci --prefix experiments/jupiter-beta-approval/integration --include=dev --ignore-scripts && npm run build --prefix experiments/jupiter-beta-approval/integration
+    startCommand: npm run owner --prefix experiments/jupiter-beta-approval/integration
+    healthCheckPath: /health
+    disk:
+      name: unfarmd-beta-current-anchor
+      mountPath: /var/data/unfarmd-beta-authority
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 24.19.0
+  - type: web
+    name: unfarmd-beta-authority
+    runtime: node
+    plan: starter
+    autoDeploy: false
+    buildCommand: npm ci --prefix experiments/jupiter-beta-approval/integration --include=dev --ignore-scripts
+    startCommand: node experiments/jupiter-beta-approval/integration/services/entry.mjs control
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 24.19.0
