@@ -1,0 +1,554 @@
+{
+  "version": "oracle-union/274-1",
+  "base": "8effe6ba0967d7a83e976840d5ed8df1d95fcbf5",
+  "parents": [
+    "3316612ce256f9827b88e6272c3cec9fefb3f79b",
+    "09a11e700ea932c7b161664cdf5bbc9b3dcbe00b",
+    "94cadce1b6831d03fc58b89477353311a356ed53"
+  ],
+  "sources": [
+    {
+      "sha": "3316612ce256f9827b88e6272c3cec9fefb3f79b",
+      "from": "8effe6ba0967d7a83e976840d5ed8df1d95fcbf5",
+      "tree": "3f55481090a3613e583dc0a6969a1c71db016625",
+      "patchSha256": "164c0d60d65166ab3f3f31eb8dd1277f7ce0c57c3893b3084e848ddb066aac85",
+      "changes": [
+        {
+          "path": ".github/workflows/oracle-claim-266.yml",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "2306f10850c5c5c15684e6c84642bd36998fcdae"
+          }
+        },
+        {
+          "path": ".github/workflows/oracle-take-274.yml",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "b84405c80d6e4ad9f6d5751e225aa721ad331714"
+          }
+        },
+        {
+          "path": "app/lens/ca-view.module.css",
+          "before": {
+            "mode": "100644",
+            "id": "3b827b435f2976b2ed71f1ca9838fabde96bb22d"
+          },
+          "after": {
+            "mode": "100644",
+            "id": "abe8d10e941f72912e9bdb72b29937369ac665ff"
+          }
+        },
+        {
+          "path": "app/lens/ca-view.tsx",
+          "before": {
+            "mode": "100644",
+            "id": "1bf332685037e2c420184ee7bb60efa016fa5b23"
+          },
+          "after": {
+            "mode": "100644",
+            "id": "515f17bc08ad583c318d37a503e7d1fe2ff83f84"
+          }
+        },
+        {
+          "path": "app/lens/claim-check.ts",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "41c327ec8fb6603fdbad950b8035822118ca6b91"
+          }
+        },
+        {
+          "path": "app/lens/intelligence-desk.tsx",
+          "before": {
+            "mode": "100644",
+            "id": "bba875f4bed72a29a06fe9abf5ff6d1028bc3899"
+          },
+          "after": {
+            "mode": "100644",
+            "id": "6f7e69a2f2acd3af133f32cc2465b69a051b2d32"
+          }
+        },
+        {
+          "path": "app/lens/take-model.ts",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "54c582fe4a9b65b4790afb6357ac32d6d0035cbc"
+          }
+        },
+        {
+          "path": "docs/oracle-claim-266/README.txt",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "862ac6bdc08c9f159820a2871daa63be44fdde1d"
+          }
+        },
+        {
+          "path": "docs/oracle-claim-266/conflict-1280.png",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "e35bb15beb92840c7d9875e35f42e76b8b9168ae"
+          }
+        },
+        {
+          "path": "docs/oracle-claim-266/conflict-320.png",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "b9d450f41159c0e1f75f86b27b8e517bdc5cb1b3"
+          }
+        },
+        {
+          "path": "docs/oracle-claim-266/conflict-390.png",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "cf8c434ee1994c8c0cfd9a8912b7cd9b67287282"
+          }
+        },
+        {
+          "path": "docs/oracle-claim-266/organic-390.png",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "d2db17cfd105a402f42bf999f58359017c8eaa64"
+          }
+        },
+        {
+          "path": "docs/oracle-claim-266/supported-390.png",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "8c0239ed11ecd8f141317e763364777e058e080f"
+          }
+        },
+        {
+          "path": "docs/oracle-take-274/README.txt",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "6d9485e69c9e6bbb2a5c3a1cf3ad2628fbc76911"
+          }
+        },
+        {
+          "path": "docs/oracle-take-274/after-1280.png",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "d201ddf39057ef9b6b4f802866ff90a5d76aeb4e"
+          }
+        },
+        {
+          "path": "docs/oracle-take-274/after-320.png",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "cb8a1d6c89d727d56280090c4ab421191db5924f"
+          }
+        },
+        {
+          "path": "docs/oracle-take-274/after-390.png",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "600d304e84e2802bba3340141e9599de1429e4ea"
+          }
+        },
+        {
+          "path": "docs/oracle-take-274/before-1280.png",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "61c507e5235d784f133f7b9d58d25f06ff180f07"
+          }
+        },
+        {
+          "path": "docs/oracle-take-274/before-320.png",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "732b324f5ce453f2ae362d11ddd16b387a1c4f31"
+          }
+        },
+        {
+          "path": "docs/oracle-take-274/before-390.png",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "2dcad1d20488dc25ebad5978cc68fa3d541d69c0"
+          }
+        },
+        {
+          "path": "tests/oracle-claim-266/admission.sh",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "b341a6493ecee65718d0627d640f79f7281062fc"
+          }
+        },
+        {
+          "path": "tests/oracle-claim-266/admission.test.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "0be739f2492e95efd799ac76b89ba9258142f123"
+          }
+        },
+        {
+          "path": "tests/oracle-claim-266/browser-entry.tsx",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "c205764542065342e43efa1005853f60e7eee199"
+          }
+        },
+        {
+          "path": "tests/oracle-claim-266/browser-server.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "9321b815251494dbe1f36ed98bb27d0cc1f4072e"
+          }
+        },
+        {
+          "path": "tests/oracle-claim-266/browser.spec.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "65c96af93542a9bfb9a9000bdbe8b3b729434231"
+          }
+        },
+        {
+          "path": "tests/oracle-claim-266/claims.test.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "c39f6456b62c8409d222858f7287b62ea4c0c988"
+          }
+        },
+        {
+          "path": "tests/oracle-claim-266/fixtures.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "9ecefac6596738e683386650062dcf345bd7ad13"
+          }
+        },
+        {
+          "path": "tests/oracle-claim-266/inputs.sh",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "526edcdee5a062e8fa9eaa36c09dd2f994c11696"
+          }
+        },
+        {
+          "path": "tests/oracle-claim-266/playwright.config.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "62e3b667a501db2fc955a32c583c1fb29d9c35fb"
+          }
+        },
+        {
+          "path": "tests/oracle-claim-266/review.json",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "7263848561f9460f470f19488195f12aa578ef82"
+          }
+        },
+        {
+          "path": "tests/oracle-claim-266/review.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "2b09f22f3b6cc1b4460618ee42593203ea3e70b7"
+          }
+        },
+        {
+          "path": "tests/oracle-claim-266/run.sh",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "d7088c8a9afb66eac4eb9a04b43c040847c033da"
+          }
+        },
+        {
+          "path": "tests/oracle-claim-266/scope.test.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "a51d191ea0a82a15c71caf78307319686f563dbb"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/baseline-server.sh",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "7263452b44956216b2999c77a32b04959eaac933"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/browser-entry.tsx",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "9b6599a42449a1370554a09898728f4b44c70913"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/browser-server.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "d8a8878040f02ce679639b351bb997279a352412"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/browser.spec.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "55ce5af418e6d63d561352e9fcb793fca47d37bb"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/fixtures.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "492e991f10a6cee88ffaed7649cb5b740bd815d2"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/inputs.sh",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "8140b99ccf9c74b155a8ad65e05c1034a1e9b517"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/model.test.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "d115db284fd7c78a7edaedb7e6a8f8313f902726"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/optimized.config.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "fdf51d9e94a5da999127e68e7ab29e59e525c1bb"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/optimized.spec.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "59a8f0a34293a5124c1b6183b5980aea11e9ca48"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/playwright.config.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "7dc5a7b19e38dc4e72dabdb8df36a4c3d72475a7"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/review.json",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "153b22370f0d4720cdabf16cdb986899d7ec44ab"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/review.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "d682a8175e1988a9bdaeb7bf9772afc85ec8703c"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/run.sh",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "89432721e618b68b5647c28581f1b7589b54ae5f"
+          }
+        },
+        {
+          "path": "tests/oracle-take-274/scope.test.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "ab0634f2c0850633d4a90a7c866954141eaa527e"
+          }
+        }
+      ]
+    },
+    {
+      "sha": "09a11e700ea932c7b161664cdf5bbc9b3dcbe00b",
+      "from": "8effe6ba0967d7a83e976840d5ed8df1d95fcbf5",
+      "tree": "a30259c1ceb823d3ed7d320d97b80e61774f15d2",
+      "patchSha256": "c88423dfa84ad4b2520989b2ad05f8debc12c713f5fbaba355eaee37414476c7",
+      "changes": [
+        {
+          "path": ".github/workflows/oracle-ca-recovery-v2.yml",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "613e02e44a808a9ea6acfa52ed24108ac6000d51"
+          }
+        },
+        {
+          "path": "docs/v4/ca-recovery-v2.md",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "f97b79cba7013bfdbc3fdfd541063ca426eb6b4c"
+          }
+        },
+        {
+          "path": "ops/v4-journal/recovery-v2-extraction.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "e72204dbd088086b3b0d58c7b65a061c722218b1"
+          }
+        },
+        {
+          "path": "ops/v4-journal/recovery-v2.d.mts",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "bb745d5ed4283b4b63bbdec30f04eca72f42aee2"
+          }
+        },
+        {
+          "path": "ops/v4-journal/recovery-v2.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "d8e4e865415e745c48fcc1ebaf9ba68e6f8190f4"
+          }
+        },
+        {
+          "path": "tests/oracle-ca-recovery-v2/fixtures.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "83c44b9df74eb6b7d4bca00dbeeaae6be068b505"
+          }
+        },
+        {
+          "path": "tests/oracle-ca-recovery-v2/postgres.test.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "29fadb9846cabe13dbc2dfdd41cb5957bb71ca00"
+          }
+        },
+        {
+          "path": "tests/oracle-ca-recovery-v2/replay.sh",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "9f5c50e385d39b5670c88a90cf2802ff1dd3660a"
+          }
+        },
+        {
+          "path": "tests/oracle-ca-recovery-v2/scope.test.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "19da4e51401c9954dac7fb417e71907b512264e3"
+          }
+        },
+        {
+          "path": "tests/oracle-ca-recovery-v2/verifier.test.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "9de7c90032c1888cc9607dfc9f54d681c8736f84"
+          }
+        }
+      ]
+    },
+    {
+      "sha": "94cadce1b6831d03fc58b89477353311a356ed53",
+      "from": "01cf898e5e2b46e93c2a52c4d5bc2ecf5cca698d",
+      "tree": "ee8457fea0278269b082cf7e504d0d51c910c621",
+      "patchSha256": "bb19592d2b91b5ce63639d36d5d616fba3e5ee8fecee648b9a4d0d0205f7a93a",
+      "changes": [
+        {
+          "path": "docs/oracle-integration-274/acceptance.md",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "613983b8e3f031d48a0668f820b978c8aa837f45"
+          }
+        },
+        {
+          "path": "tests/oracle-integration-274/preflight.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "69fa9df240d0108e7a4edf0f3ec8653133d6d0c0"
+          }
+        },
+        {
+          "path": "tests/oracle-integration-274/preflight.test.mjs",
+          "before": null,
+          "after": {
+            "mode": "100644",
+            "id": "30c4d106c866b9dfe43f12f876db40ed67aab7d6"
+          }
+        }
+      ]
+    }
+  ],
+  "added": {
+    ".github/workflows/oracle-union-274.yml": {
+      "mode": "100644",
+      "sha256": "678212052ca7c603c2b919d9c3f2354c20c5a685fb1bdcfcf1add9dd2cc55ada"
+    },
+    "docs/oracle-integration-274/union.md": {
+      "mode": "100644",
+      "sha256": "eafffe34d6dfe05b8d04c1fc64523090467fceb1639ca742f9c26381fbac3d26"
+    },
+    "tests/oracle-union-274/artifact.mjs": {
+      "mode": "100644",
+      "sha256": "86b280ef5dd05e319d41810f90056ded434bf7d51cec784dbf6e3587aeb93d19"
+    },
+    "tests/oracle-union-274/replay.sh": {
+      "mode": "100644",
+      "sha256": "0a32c56604db8fa615847437a63a3ab4cbe4e0dd9f987d8a0f6141cf1ca1003c"
+    },
+    "tests/oracle-union-274/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-union-274/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/oracle-union-274/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    }
+  }
+}
