@@ -1,0 +1,18 @@
+// Actual compiled route; all runtime authority, provider and credential access denied.
+import test from 'node:test';import assert from 'node:assert/strict';import Module,{createRequire} from 'node:module';
+import {fixture,request,scopedEnv,identity} from './fixtures.mjs';
+const require=createRequire(import.meta.url),load=Module._load,originalFetch=globalThis.fetch;let loads=[],calls=0,sourceTrap=false;
+Module._load=function(s,...args){loads.push(s);if(/(?:^|\/)(?:pg(?:-[^/]*)?|better-auth|@better-auth|@turnkey)(?:\/|$)|native-tls\.mjs|native-mint|qualified-inputs|compose-oracle|jupiter-research-review/.test(s))throw Error('INACTIVE_IMPORT_BLOCKED');if(sourceTrap&&s.includes('private-development')&&!s.includes('gate'))throw Error('SOURCE_LOAD_TRAP');return load.call(this,s,...args);};
+globalThis.fetch=async()=>{calls++;throw Error('NO_REMOTE_ACTION');};
+const {POST,GET}=require(process.env.RESEARCH_BUILD+'/app/api/v4/ca-intelligence/route.js');
+test.after(()=>{Module._load=load;globalThis.fetch=originalFetch;delete globalThis.__UNFARMD_RESEARCH_BUILD__;});
+test('valid synthetic v3 public packet + intended identity still hard-OFF before body/source/authority/credentials; no env/cookie override',async()=>scopedEnv({UNFARMD_JUPITER_RESEARCH_ENABLED:'true',UNFARMD_JUPITER_RESEARCH_PUBLIC_ROOT:'SYNTHETIC_NOT_TRUST',UNFARMD_BETA_CONSUMER_MAC:'SYNTHETIC_NOT_A_KEY'},async()=>{
+ globalThis.__UNFARMD_RESEARCH_BUILD__={commit:identity().commit,tree:identity().tree};const f=fixture(),before=process.env,reads=[];
+ process.env=new Proxy(before,{get(t,k){if(/_DSN|DATABASE_URL|SECRET|PASSWORD|API_KEY|PRIVATE_KEY|CONSUMER_MAC|PUBLIC_ROOT/.test(String(k))){reads.push(k);throw Error('NO_CREDENTIAL_READ');}return t[k];}});
+ try{for(const patch of [{},{cookie:'better-auth.session_token=SYNTHETIC_FORGED','x-owner-authenticated':'true'},{'x-unfarmd-jupiter-admission':'SYNTHETIC'},{'x-unfarmd-native-approval':'SYNTHETIC'}]){loads=[];calls=0;const r=await POST(request(f,patch));assert.equal(r.status,503);assert.deepEqual(await r.json(),{error:'private_development_off'});assert.equal(r.headers.get('cache-control'),'private, no-store');assert.equal(calls,0);assert.deepEqual(reads,[]);assert.ok(!loads.some(s=>/private-development|jupiter-research-review/.test(s)));}assert.equal((await GET(request(f))).status,503);}finally{process.env=before;}
+}));
+test('v3 never enters legacy v1 or working265 admission; source gate positive control still reaches original legacy trap',async()=>{
+ const f=fixture();await scopedEnv({VERCEL_GIT_COMMIT_REF:'integration/271-oracle-native-source-reviewed'},async()=>{sourceTrap=true;calls=0;assert.equal((await POST(request(f))).headers.get('x-unfarmd-inspect-stage'),null);assert.equal(calls,0);const r=request(f);r.headers.delete('x-unfarmd-jupiter-research');const legacy=new Request(r,{body:JSON.stringify({action:'inspect',mint:f.r.scope.mints[0]})});assert.equal((await POST(legacy)).headers.get('x-unfarmd-inspect-stage'),'source_module');sourceTrap=false;});
+ await scopedEnv({VERCEL_GIT_COMMIT_REF:'beta/276-jupiter-founder-only'},async()=>{assert.equal((await POST(request(f))).status,503);assert.equal(calls,0);});
+});
+test('new branch missing/malformed/mixed protocols never falls through to source',async()=>scopedEnv({},async()=>{const f=fixture();for(const protocol of [null,'1','2','3','3, 3']){const r=request(f);if(protocol===null)r.headers.delete('x-unfarmd-jupiter-research');else r.headers.set('x-unfarmd-jupiter-research',protocol);assert.equal((await POST(r)).status,503);}assert.throws(()=>require('pg'),/INACTIVE_IMPORT_BLOCKED/);assert.equal(calls,0);}));

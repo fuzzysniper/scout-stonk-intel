@@ -1,5 +1,6 @@
 import {internalMarketPreview} from '../../../../lib/v4-ca-intelligence/private-development-gate';
 import {withJupiterBeta} from '../../../../lib/v4-ca-intelligence/jupiter-beta-admission';
+import {withJupiterResearch} from '../../../../lib/v4-ca-intelligence/jupiter-research-admission';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
 export const revalidate=0;
@@ -20,7 +21,7 @@ const unavailable=(stage:'source_module'|'source_execution'|'oracle_module'|'ora
  * No user-controlled module name, URL, credential, retry, fallback or new source.
  */
 export async function POST(request:Request):Promise<Response>{
- return withJupiterBeta(request,inspect);
+ return withJupiterResearch(request,r=>withJupiterBeta(r,inspect));
 }
 async function inspect(request:Request):Promise<Response>{
  if(!internalMarketPreview())return off();

@@ -1,0 +1,116 @@
+{
+  "version": "unfarmd-lens-v3-research-review/1",
+  "base": "e19a7ded18b0cd63b9e06c6b5efce35447719fa0",
+  "modified": {
+    "app/api/v4/ca-intelligence/route.ts": {
+      "sha256": "3270922d3e8c4f16ead1451edabaa869e6a1a784921801db3592e5c7b4ba3441",
+      "patchSha256": "6c9a1e36ca2c0049cfcf9b35713b176291f164824ef45a397a56c5f8dd031f52"
+    },
+    "app/lens/ca-view.tsx": {
+      "sha256": "2a5472ea8d5edc01059d3ab0c5c7592a1ebf9e1ed70cfacb96368da36dd844c2",
+      "patchSha256": "ded238d61eb5d2b4cd8b0c4388fa92d54f93807eea36c9df0a3a4c24b29f222c"
+    },
+    "app/lens/page.tsx": {
+      "sha256": "0f97ab78d337a4b3be2c6d19b4c50eefe2466b23e7d596491cadd24588c04d5b",
+      "patchSha256": "cd76c1ba3245be0abce61dd5261361ed134518245e7e600b564446796196711d"
+    },
+    "vercel.json": {
+      "sha256": "b07c71f1347d4e83ef99552ef96d2d4372e8e5189ed6f83ec4e5f99e241cd462",
+      "patchSha256": "c6f41894aba6843ef1f6fb2cc300efc52d29982131db02968a689930cddafabc"
+    }
+  },
+  "added": {
+    ".github/workflows/jupiter-research-v3.yml": {
+      "mode": "100644",
+      "sha256": "d2774e335d755c3da94487555208733bbcfccab60c55bf623dab564df6218c53"
+    },
+    "lib/v4-ca-intelligence/jupiter-research-admission.ts": {
+      "mode": "100644",
+      "sha256": "1aab35270febdaf0db5448ead4faee9c5df3ef790ed1392ab62d3386bdd0b316"
+    },
+    "lib/v4-ca-intelligence/jupiter-research-contract.ts": {
+      "mode": "100644",
+      "sha256": "7dd66e32d411a636193d99aa15bab5c41926cca1169efe9f530f1216a4cb80ad"
+    },
+    "lib/v4-ca-intelligence/jupiter-research-platform.ts": {
+      "mode": "100644",
+      "sha256": "38edbd83b14eeda1c9c0f2e742e428f2797b808ee3718def826c1e2d938d72a4"
+    },
+    "lib/v4-ca-intelligence/jupiter-research-review.d.mts": {
+      "mode": "100644",
+      "sha256": "4314ca21f12f3a3bb3bf83a9a4436f2b6d126b2a6f95a25c53d5b836efd317e7"
+    },
+    "lib/v4-ca-intelligence/jupiter-research-review.mjs": {
+      "mode": "100644",
+      "sha256": "2ea5a6a43cc850ab83ceddbf8d44ab4b21e8b9b99746ecc37c5a162453c9e616"
+    },
+    "next.config.mjs": {
+      "mode": "100644",
+      "sha256": "1e6f699a288f304dfe6c802861fd14a63b2042dae0cfe80f723cbf940a191027"
+    },
+    "tests/jupiter-research-v3/README.md": {
+      "mode": "100644",
+      "sha256": "3f2d0d264ab9e58b7316e56e40cb78011857cda7dd2ec084ee9bbc93f81c1e2b"
+    },
+    "tests/jupiter-research-v3/artifact.mjs": {
+      "mode": "100644",
+      "sha256": "7a6fc7bb7e8de4ae30a7ca4744747307a154507c89fe5a86f2b191602bf665ba"
+    },
+    "tests/jupiter-research-v3/browser.config.mjs": {
+      "mode": "100644",
+      "sha256": "e59492912220d474eb33057acd8535f622db006428384a21a8d3c1438056a4cc"
+    },
+    "tests/jupiter-research-v3/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "0d98e4333822223c5f8d2d8b16e221cebdc80a59f137f3a8edc8ca19e4d6d17b"
+    },
+    "tests/jupiter-research-v3/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "5610d854ed00caae01e6b63bd2d3d41862701c02d0c9bed2bbab6ce716b096a4"
+    },
+    "tests/jupiter-research-v3/mobile.sh": {
+      "mode": "100644",
+      "sha256": "a727596185c697f3258b229cf40757337ee0f78f36bd6f942c6e93fe24a59274"
+    },
+    "tests/jupiter-research-v3/original-build.sh": {
+      "mode": "100644",
+      "sha256": "3547e61fdcd0eb1fe999a865d7742cca67c2d111c055d2a12f3573485566bcbf"
+    },
+    "tests/jupiter-research-v3/platform.test.mjs": {
+      "mode": "100644",
+      "sha256": "505a7e2209c509a4968156e65ec5137556afef42ec041ed7ad28769603a3f8cf"
+    },
+    "tests/jupiter-research-v3/public.test.mjs": {
+      "mode": "100644",
+      "sha256": "dbe03714885ecd5204a3580cba9742ec48e04698774dccc393c37762cd2e0858"
+    },
+    "tests/jupiter-research-v3/replay.sh": {
+      "mode": "100644",
+      "sha256": "a99513587c0149db39d697810a4db9511b72d58ee7cde459f072a426dd5f67b3"
+    },
+    "tests/jupiter-research-v3/request.test.mjs": {
+      "mode": "100644",
+      "sha256": "95308087aac9686e26c744e202af9e4d589f869f1022d375cc0a62743e4e6815"
+    },
+    "tests/jupiter-research-v3/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/jupiter-research-v3/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/jupiter-research-v3/route.test.mjs": {
+      "mode": "100644",
+      "sha256": "7079d8eb80aaa36231189346ded7d9e47bf85281fd14081b4ba9c8e532deb3ed"
+    },
+    "tests/jupiter-research-v3/run.sh": {
+      "mode": "100644",
+      "sha256": "516b0f8e4c2ab80ac532e1cc1f8394f7ef8cdcbc04f9a70e2facc953535f221d"
+    },
+    "tests/jupiter-research-v3/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    }
+  }
+}
