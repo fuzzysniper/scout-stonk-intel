@@ -1,0 +1,3 @@
+import type {PublicTrust,Identity,Held,Verified} from '../../experiments/jupiter-beta-approval/integration/contract.mjs';
+import type {Reserved} from '../../experiments/jupiter-beta-approval/integration/consumer.mjs';
+export declare function researchReview(options:Readonly<{publicTrust:PublicTrust|null;nativeIdentity:()=>Identity;clock:()=>number;authority?:((path:'/reserve',body:unknown)=>Promise<Reserved|Held>)|null;consumerAuth?:Readonly<{stamp(body:unknown):unknown}>|null}>):Readonly<{inspect(envelope:string,mint:string):Held|Verified;reserve(envelope:string,mint:string):Promise<Reserved|Held>}>;
