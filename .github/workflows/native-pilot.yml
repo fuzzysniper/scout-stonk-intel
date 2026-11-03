@@ -1,0 +1,143 @@
+name: Native pilot OFF-only exact-head review
+on:
+  pull_request:
+    branches: [feat/280-lens-v3-public]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  exact-head-public-request-isolation:
+    if: github.head_ref == 'feat/281-native-pilot-off'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/jupiter-beta-approval/integration --ignore-scripts
+      - run: node --test tests/native-pilot/scope.test.mjs
+      - name: Native pilot focused real-file security and synthetic transport
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-pilot/run.sh
+      - name: NEW public verifier native build identity framing hard OFF and forged-packet controls
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-research-v3/run.sh
+      - name: Frozen B real SDK offline and corrected operation STOP contracts no SQL
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm test --prefix experiments/jupiter-beta-approval/integration
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/jupiter-stop-correction/unit.test.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/jupiter-approval-prototype/{protocol,policy,validator,budget,http}.test.mjs
+      - name: Original v1 and v2 positive controls and exact v3 cross-domain rejection
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-approval-integration/legacy.sh
+      - run: ./node_modules/.bin/tsc --noEmit --strict --target ES2023 --module NodeNext --moduleResolution NodeNext --skipLibCheck tests/jupiter-approval-integration/types.mts
+  exact-head-build-import-source-OFF:
+    if: github.head_ref == 'feat/281-native-pilot-off'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Actual combined admission claim risk and source regressions
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-beta-276/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-take-274/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
+      - name: Actual new head type lint optimized build OFF APIs and import isolation
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-pilot/root-offline.sh
+          ./node_modules/.bin/tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-oracle-onchain/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
+          node tests/jupiter-beta-276/artifact.mjs
+          node tests/jupiter-research-v3/artifact.mjs
+          node tests/native-pilot/artifact.mjs
+          bash scripts/archive-tool.sh check e19a7ded18b0cd63b9e06c6b5efce35447719fa0
+          node --test tests/native-pilot/scope.test.mjs
+  exact-head-mobile-accessibility-privacy:
+    if: github.head_ref == 'feat/281-native-pilot-off'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Local Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Combined head TAKE24 claims red gray evidence STOP expiry and v3 privacy at3203901280
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-research-v3/mobile.sh
+      - run: node --test tests/native-pilot/scope.test.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: LOCAL-SYNTHETIC-v3-HARD-OFF-NO-live-acceptance
+          path: node_modules/.cache/jupiter-research-proof/*.png
+  original-immutable-reviewers:
+    if: github.head_ref == 'feat/281-native-pilot-off'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Original security reviewers through280 on each immutable input
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-pilot/immutable.sh
+      - run: node --test tests/native-pilot/scope.test.mjs
+  original-optimized-isolation:
+    if: github.head_ref == 'feat/281-native-pilot-off'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Original optimized v3-absence and exact73-file trace tests unchanged on280
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-research-v3/original-build.sh
+      - run: node --test tests/native-pilot/scope.test.mjs

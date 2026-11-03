@@ -4,7 +4,8 @@
     "deploymentEnabled": {
       "feat/278-turnkey-integration": false,
       "fix/279-clock-stop": false,
-      "feat/280-lens-v3-public": false
+      "feat/280-lens-v3-public": false,
+      "feat/281-native-pilot-off": false
     }
   }
 }
