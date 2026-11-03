@@ -1,0 +1,92 @@
+{
+  "base": "ca36baba5f8d8d2d2002bcdf6e3672c2c97aa7e5",
+  "aContractCommit": "a1f9a9e0d5c3336098c5750b14b738acaec66372",
+  "vercelSha256": "ef8ac2c2cd39d2bd83ef59f2910ece9c997192390b3e3566f0201ae2ec412339",
+  "vercelPatchSha256": "c1d83bda6b300dabc500c6b1b928c48b47a792fa64c8b9c9211e8d0dee054fff",
+  "added": {
+    ".github/workflows/native-pilot.yml": {
+      "mode": "100644",
+      "sha256": "1aac1602580d0f546f502eee9ec2d3889f2c04c60bc60952a703149cab887a61"
+    },
+    "lib/native-pilot/README.md": {
+      "mode": "100644",
+      "sha256": "5ff903b945bae69d4c418e5f0e2d101add8e89bf239cdcb57c27d4ce41df8c9a"
+    },
+    "lib/native-pilot/auth.ts": {
+      "mode": "100644",
+      "sha256": "be838da84426526895325c8e3942a05fd762b80a618365f639f7176bd7b6e987"
+    },
+    "lib/native-pilot/engine.ts": {
+      "mode": "100644",
+      "sha256": "58981f0292bd9b1ceb05c66cdfa5d1595e3b8028b5592d5c5305c060df200ff6"
+    },
+    "lib/native-pilot/evidence-contract.ts": {
+      "mode": "100644",
+      "sha256": "d6941b91fed7fc2c648b9bf545af83bde6d5dbfba2d125597f46a79f166669f7"
+    },
+    "lib/native-pilot/index.ts": {
+      "mode": "100644",
+      "sha256": "6b488d97516436004f869043a97622188793a6f78c1f13487ea312fd4056b84c"
+    },
+    "lib/native-pilot/ledger.ts": {
+      "mode": "100644",
+      "sha256": "29e85154e0fb0610187c95649c6ddf521c56db5db789d8b920953e50420b5449"
+    },
+    "lib/native-pilot/plan.ts": {
+      "mode": "100644",
+      "sha256": "dea6e5de7fdd34e8890eb7bc3a7f121347f66471e3f301ed0e542ae23b4f1da2"
+    },
+    "lib/native-pilot/recipe.ts": {
+      "mode": "100644",
+      "sha256": "abc3588f0b429a436af6a7a3e3778c05f8b0d5d23ac321f89d67c35dcda0ec17"
+    },
+    "tests/native-pilot/artifact.mjs": {
+      "mode": "100644",
+      "sha256": "9c0760bb50023d39b0514996d6227bcc77d065e343ab4eee521077524e7b80da"
+    },
+    "tests/native-pilot/auth.test.mjs": {
+      "mode": "100644",
+      "sha256": "9e68ffd80803155bfbd56b9aa2acb76f679fc3d1f2723ad94295782ef3297054"
+    },
+    "tests/native-pilot/engine.test.mjs": {
+      "mode": "100644",
+      "sha256": "c987b4aaebf86beecf408d32ecc33586a0bcfe2b7a6208038b014b922abcc3ea"
+    },
+    "tests/native-pilot/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "665c7920d0df537ddcd9e5ae915b7283be70a46482a46afc161af739b77d96cb"
+    },
+    "tests/native-pilot/immutable.sh": {
+      "mode": "100644",
+      "sha256": "7c8cf866bacd4bb601e79b53a0be7354b0add7e6a398bc9af505920e4e9244b0"
+    },
+    "tests/native-pilot/ledger.test.mjs": {
+      "mode": "100644",
+      "sha256": "810945cd611a65085c749ef1fb1377998853294c51fc1a44c9785838bd169d8b"
+    },
+    "tests/native-pilot/plan.test.mjs": {
+      "mode": "100644",
+      "sha256": "d3cc1af044c41d44e15ea7851d3915f2601c1f3e744789db6ca081d888a5d5d0"
+    },
+    "tests/native-pilot/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-pilot/root-offline.sh": {
+      "mode": "100644",
+      "sha256": "520039468bb3af7370f94b3ede9bef94bd6104e8c1a365875e0b96a0ad1b1eac"
+    },
+    "tests/native-pilot/run.sh": {
+      "mode": "100644",
+      "sha256": "60966188952a407b21eef72dd50b4eece6243fb90179a1c28b792882ff350918"
+    },
+    "tests/native-pilot/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-pilot/transport.test.mjs": {
+      "mode": "100644",
+      "sha256": "22a3f0a5c0b74e0d06e26062e107e87b4d950d1f1bb54651e4f8daa0369c3085"
+    }
+  }
+}

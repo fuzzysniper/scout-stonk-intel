@@ -1,0 +1,142 @@
+name: Native-first Lens integration HARD OFF
+on:
+  pull_request:
+    branches: [feat/280-lens-v3-public]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  exact-head-public-request-isolation:
+    if: github.head_ref == 'integration/281-native-first'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/jupiter-beta-approval/integration --ignore-scripts
+      - run: node --test tests/native-lens/scope.test.mjs
+      - name: Actual A B C union and unchanged pure decoders on the combined C head NO SQL
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-evidence/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-evidence/run.sh peers
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-lens/b-pure.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-pilot/root-offline.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-lens/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-research-v3/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
+  exact-head-build-import-source-OFF:
+    if: github.head_ref == 'integration/281-native-first'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Actual combined admission claim risk and source regressions
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-beta-276/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-take-274/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
+      - name: Actual new head type lint optimized build OFF APIs and import isolation
+        run: |
+          ./node_modules/.bin/tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-oracle-onchain/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
+          node tests/jupiter-beta-276/artifact.mjs
+          node tests/jupiter-research-v3/artifact.mjs
+          node tests/native-lens/artifact.mjs
+          bash scripts/archive-tool.sh check ca36baba5f8d8d2d2002bcdf6e3672c2c97aa7e5
+          node --test tests/native-lens/scope.test.mjs
+  exact-head-mobile-accessibility-privacy:
+    if: github.head_ref == 'integration/281-native-first'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Local Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Combined head TAKE24 claims red gray evidence STOP expiry and v3 privacy at3203901280
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-research-v3/mobile.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-lens/run.sh browser
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/native-lens/optimized.config.mjs
+      - run: node --test tests/native-lens/scope.test.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: LOCAL-SYNTHETIC-native-Lens-NO-live-acceptance
+          path: node_modules/.cache/native-lens-proof/*.png
+  original-immutable-reviewers:
+    if: github.head_ref == 'integration/281-native-first'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Original A B and security reviewers through281 on each immutable input
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-lens/replay.sh
+      - run: node --test tests/native-lens/scope.test.mjs
+  original-optimized-isolation:
+    if: github.head_ref == 'integration/281-native-first'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Original optimized v3-absence and exact73-file trace tests unchanged on280
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-lens/original-build.sh
+      - run: node --test tests/native-lens/scope.test.mjs

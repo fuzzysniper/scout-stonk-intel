@@ -1,0 +1,29 @@
+{
+  "version": "native-lens-inputs/1",
+  "base": {
+    "pr": 281,
+    "sha": "ca36baba5f8d8d2d2002bcdf6e3672c2c97aa7e5",
+    "tree": "59603d673d96ee75f469a8611f1fd983f324dfba"
+  },
+  "contract": {
+    "sha": "a1f9a9e0d5c3336098c5750b14b738acaec66372",
+    "tree": "4d9d707a071c9d329d289edd2cbfc84189a5f1b7"
+  },
+  "A": {
+    "pr": 282,
+    "sha": "b7168f754ad83b6539b59106933b127c964515c1",
+    "tree": "2e40a4ba16e6c683909c69993d95eda3f563673f"
+  },
+  "B": {
+    "pr": 283,
+    "sha": "255b82014544b8d7c2d7d8219b64e810e8c030fe",
+    "tree": "26e7094ac8c4a31bd6498ea3e0e3f604df6d8341"
+  },
+  "finalUnion": true,
+  "blocker": "Actual A+B acquisition HOLD: original A holder intake rejects Helius; B single-host durable store has no verified runtime-compatible placement. No fabricated positive union.",
+  "expectedParents": [
+    "ca36baba5f8d8d2d2002bcdf6e3672c2c97aa7e5",
+    "b7168f754ad83b6539b59106933b127c964515c1",
+    "255b82014544b8d7c2d7d8219b64e810e8c030fe"
+  ]
+}

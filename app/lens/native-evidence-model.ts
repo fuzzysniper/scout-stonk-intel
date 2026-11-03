@@ -1,0 +1,75 @@
+/** C display admission over A's EXACT published NativeEvidenceV1; no analytics,
+ * decoder, provider or authenticity promotion. A/B remain the authority on data. */
+import type {NativeEvidenceV1,NativeFindingV1,RatioV1} from '../../lib/native-evidence/contract';
+import type {RiskFinding} from '../../lib/v4-owner-preview/view-contract';
+import {unavailableView} from '../../lib/v4-owner-preview/view-contract';
+import {isExactPublicKey} from '../../lib/onchain-mint/validation';
+import {ORACLE_FINDING_IDS} from './oracle-evidence';
+import type {LensView} from './intelligence-model';
+const fields=(v:unknown,keys:readonly string[]):v is Record<string,unknown>=>v!==null&&typeof v==='object'&&!Array.isArray(v)&&Object.keys(v).length===keys.length&&keys.every(k=>Object.hasOwn(v,k));
+const text=(v:unknown,max=2048):v is string=>typeof v==='string'&&v.length<=max&&!/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(v);
+const list=(v:unknown,max=64):v is unknown[]=>Array.isArray(v)&&v.length<=max;
+const integer=(v:unknown)=>Number.isSafeInteger(v)&&Number(v)>=0;
+const raw=(v:unknown):v is string=>typeof v==='string'&&/^(?:0|[1-9]\d{0,39})$/.test(v);
+const hash=(v:unknown)=>typeof v==='string'&&/^[a-f0-9]{64}$/.test(v);
+const stamp=(v:unknown):v is string=>text(v,40)&&Number.isFinite(Date.parse(v));
+const strings=(v:unknown,max=64)=>list(v,max)&&v.every(x=>text(x));
+const slot=(v:unknown)=>raw(v)&&v!=='0';
+const ratio=(v:unknown)=>v===null||fields(v,['numeratorRaw','denominatorRaw','basisPointsFloor'])&&raw(v.numeratorRaw)&&raw(v.denominatorRaw)&&(v.basisPointsFloor===null||raw(v.basisPointsFloor));
+export function isNativeEvidence(value:unknown,mint:string):value is NativeEvidenceV1{try{
+ if(!isExactPublicKey(mint)||!fields(value,['version','mint','evaluatedAt','state','origin','controls','mintSnapshot','consistency','concentration','transfers','findings','references','coverage'])||value.version!=='native-evidence/1'||value.mint!==mint||!stamp(value.evaluatedAt)||!['candidate','unavailable'].includes(String(value.state)))return false;
+ if(!fields(value.origin,['status','providerAuthenticated','label'])||value.origin.status!=='candidate_only'||value.origin.providerAuthenticated!==false||!['SYNTHETIC OFFLINE','RECORDED / ORIGIN UNVERIFIED','MIXED OFFLINE CANDIDATES','NO QUALIFIED EVIDENCE'].includes(String(value.origin.label)))return false;
+ // Bound even unused extension/coverage fields before any render or stringify.
+ let nodes=0;const walk=(x:unknown,d:number):boolean=>{if(++nodes>10000||d>12)return false;if(typeof x==='string')return text(x);if(typeof x==='number')return integer(x);if(x===null||typeof x==='boolean')return true;if(Array.isArray(x))return x.length<=128&&x.every(v=>walk(v,d+1));if(x&&typeof x==='object')return Object.keys(x).length<=40&&Object.keys(x).every(k=>!['__proto__','prototype','constructor'].includes(k))&&Object.values(x).every(v=>walk(v,d+1));return false;};if(!walk(value,0))return false;
+ if(!list(value.references,128)||!list(value.findings,64))return false;
+ for(const r of value.references){if(!fields(r,['id','kind','providerHost','method','requestSha256','responseSha256','accountDataSha256','fieldPath','requestStartedAt','receivedAt','contextSlot','commitmentRequested','commitmentEvidence','blockTime'])||!text(r.id,128)||!['synthetic_fixture','recorded_response'].includes(String(r.kind))||!['mainnet.helius-rpc.com','api.mainnet-beta.solana.com','api.mainnet.solana.com'].includes(String(r.providerHost))||!['getAccountInfo','getTokenLargestAccounts','getMultipleAccounts','getBlockTime','getTransaction'].includes(String(r.method))||r.requestSha256!==null&&!hash(r.requestSha256)||!hash(r.responseSha256)||r.accountDataSha256!==null&&!hash(r.accountDataSha256)||!text(r.fieldPath,512)||!stamp(r.requestStartedAt)||!stamp(r.receivedAt)||Date.parse(r.requestStartedAt)>Date.parse(r.receivedAt)||Date.parse(r.receivedAt)>Date.parse(value.evaluatedAt)||r.contextSlot!==null&&!slot(r.contextSlot)||!['finalized',null].includes(r.commitmentRequested as null)||!['request_only_not_independent_finality_proof','not_in_method'].includes(String(r.commitmentEvidence)))return false;
+  if(r.blockTime!==null&&(!fields(r.blockTime,['slot','utc','assurance'])||!slot(r.blockTime.slot)||!stamp(r.blockTime.utc)||r.blockTime.assurance!=='rpc_block_time_estimate'))return false;
+ }
+ const refs=new Set(value.references.map(r=>(r as {id:string}).id));if(refs.size!==value.references.length)return false;
+ const ids=new Set<string>();for(const f of value.findings){if(!fields(f,['id','rule','state','tone','title','summary','evidenceIds','limitations'])||!text(f.id,128)||ids.has(f.id)||!['native-controls/1','native-concentration/1','native-transfers/1','native-coverage/1'].includes(String(f.rule))||!['candidate','not_established'].includes(String(f.state))||!['red','yellow','green','gray'].includes(String(f.tone))||!text(f.title,128)||!text(f.summary,1000)||!strings(f.evidenceIds)||!(f.evidenceIds as string[]).every(id=>refs.has(id))||!strings(f.limitations,32))return false;ids.add(f.id);}
+ if(!['not_compared','same_mint_snapshot','different_context','conflict'].includes(String(value.consistency)))return false;
+ if(value.controls!==null){const c=value.controls;if(!fields(c,['program','ownerProgram','initialized','decimals','rawSupply','mintAuthority','freezeAuthority','permanentDelegate','transferHook','transferFee','defaultAccountState','nonTransferable','pausable','mintCloseAuthority','extensionTypes','unsupported','extensionCoverage'])||!['spl_token','token_2022'].includes(String(c.program))||!isExactPublicKey(c.ownerProgram)||c.initialized!==true||!integer(c.decimals)||Number(c.decimals)>255||!raw(c.rawSupply)||!['mintAuthority','freezeAuthority','permanentDelegate','mintCloseAuthority'].every(k=>c[k]===null||isExactPublicKey(c[k]))||!['complete_reviewed','incomplete_or_unsupported'].includes(String(c.extensionCoverage)))return false;}
+ if(value.mintSnapshot!==null&&(!fields(value.mintSnapshot,['contextSlot','supplyRaw','decimals','evidenceId'])||!slot(value.mintSnapshot.contextSlot)||!raw(value.mintSnapshot.supplyRaw)||!integer(value.mintSnapshot.decimals)||!refs.has(String(value.mintSnapshot.evidenceId))))return false;
+ const c=value.concentration;if(!fields(c,['state','reason','supplyRaw','decimals','selectionSlot','balanceSlot','selectionCount','observedAccountCount','selectionAmountsChanged','atomicAcrossCalls','minContextSlotIsLowerBoundOnly','fullHolderCoverage','beneficialOwnership','population','exclusions','selectedTotal','largestObservedAccount','largestObserved10Accounts','accounts','ownerGroups'])||!['candidate','not_established'].includes(String(c.state))||!text(c.reason)||c.supplyRaw!==null&&!raw(c.supplyRaw)||c.decimals!==null&&!integer(c.decimals)||c.selectionSlot!==null&&!slot(c.selectionSlot)||c.balanceSlot!==null&&!slot(c.balanceSlot)||!['selectionCount','observedAccountCount','selectionAmountsChanged'].every(k=>integer(c[k])&&Number(c[k])<=20)||c.atomicAcrossCalls!==false||c.minContextSlotIsLowerBoundOnly!==true||c.fullHolderCoverage!==false||c.beneficialOwnership!=='unknown'||c.population!=='previously_selected_largest_token_accounts_only'||!Array.isArray(c.exclusions)||c.exclusions.length!==0||![c.selectedTotal,c.largestObservedAccount,c.largestObserved10Accounts].every(ratio)||!list(c.accounts,20)||!list(c.ownerGroups,20))return false;
+ for(const a of c.accounts)if(!fields(a,['account','ownerAddress','amountRaw','selectionAmountRaw','state','evidenceId'])||!isExactPublicKey(a.account)||!isExactPublicKey(a.ownerAddress)||!raw(a.amountRaw)||!raw(a.selectionAmountRaw)||!['initialized','frozen'].includes(String(a.state))||!refs.has(String(a.evidenceId)))return false;
+ for(const g of c.ownerGroups)if(!fields(g,['ownerAddress','accounts','amountRaw','shareOfSupply','evidenceIds'])||!isExactPublicKey(g.ownerAddress)||!list(g.accounts,20)||!g.accounts.every(isExactPublicKey)||!raw(g.amountRaw)||!ratio(g.shareOfSupply)||!strings(g.evidenceIds)||!(g.evidenceIds as string[]).every(id=>refs.has(id)))return false;
+ const t=value.transfers;if(!fields(t,['state','reason','fromUtc','toUtc','scope','completeWalletHistory','beneficialOwnership','instructionCount','instructionAmountRaw','edges'])||!['candidate','not_established'].includes(String(t.state))||!text(t.reason)||t.fromUtc!==null&&!stamp(t.fromUtc)||t.toUtc!==null&&!stamp(t.toUtc)||t.scope!=='supplied_transactions_only'||t.completeWalletHistory!==false||t.beneficialOwnership!=='unknown'||!integer(t.instructionCount)||Number(t.instructionCount)>64||t.instructionAmountRaw!==null&&!raw(t.instructionAmountRaw)||!list(t.edges,64))return false;
+ if(!fields(value.coverage,['fullHolderCoverage','beneficialOwnership','suspectedRelationships','accountClassifications','price','momentum','exitCapacity','walletHistory'])||value.coverage.fullHolderCoverage!==false||value.coverage.beneficialOwnership!=='unknown'||value.coverage.accountClassifications!=='not_supplied_no_exclusions'||!['suspectedRelationships','price','momentum','exitCapacity','walletHistory'].every(k=>(value.coverage as Record<string,unknown>)[k]==='not_established'))return false;
+ return true;
+}catch{return false;}}
+/** Display A's FLOOR value only; never recalculate its supply or concentration. */
+export function nativePercent(r:RatioV1|null):string{if(!r||r.basisPointsFloor===null)return 'Not established';const n=BigInt(r.basisPointsFloor);return `${n/100n}.${(n%100n).toString().padStart(2,'0')}% · floor`;}
+export const nativePriority=(findings:readonly NativeFindingV1[])=>{const rank={red:0,yellow:1,gray:2,green:3};return findings.map((f,i)=>({f,i})).sort((a,b)=>rank[a.f.tone]-rank[b.f.tone]||a.i-b.i).map(x=>x.f);};
+export function nativeDeadline(e:NativeEvidenceV1,f?:NativeFindingV1):number|null{const refs=f?e.references.filter(r=>f.evidenceIds.includes(r.id)):e.references;if(!refs.length)return null;return Math.min(...refs.map(r=>Date.parse(r.receivedAt)+60000));}
+const TITLES:Record<string,string>={
+ 'mint-authority':'Provider mint-authority report','freeze-authority':'Provider freeze-authority report','lp-control':'Liquidity withdrawal control','concentration':'Provider concentration report','suspicious':'Optional provider warning','wallet-links':'Linked beneficial ownership','organic':'Organic demand','verification':'Optional provider listing','retention':'Buyer retention',
+ 'onchain-mint-identity':'Mint structure','onchain-mint-authority':'Mint authority','onchain-freeze-authority':'Freeze authority','onchain-permanent-delegate':'Permanent delegate','onchain-transfer-hook':'Transfer hook','onchain-transfer-fees':'Transfer fees','onchain-transfer-restrictions':'Other token controls','onchain-lp-custody':'LP withdrawal custody','onchain-exit-route':'Executable exit','onchain-jupiter-contradiction':'Optional source comparison',
+ 'farming-concentration':'Sampled token-account concentration','farming-funding':'Funding relationships','farming-cohorts':'Returning demand','farming-exits':'Covered-wallet selling','farming-liquidity':'Pool withdrawals'
+};
+export function nativeUnavailableView(mint:string,reason='Native pilot is HARD-OFF. No acquisition was made.'):LensView{
+ const riskFindings:RiskFinding[]=ORACLE_FINDING_IDS.map(id=>({id,pillar:id.startsWith('farming-')||['concentration','suspicious','wallet-links'].includes(id)?'farm':['organic','verification','retention'].includes(id)?'momentum':'rug',tone:'gray',title:TITLES[id],value:null,explanation:reason+' Missing evidence is not a passed check.',fieldPath:null,source:null,observedAt:null,responseSha256:null}));
+ return {...unavailableView(mint,reason),riskFindings};
+}
+/** Existing canonical view is a presentation shell, never an authenticated native receipt. */
+export function nativeCandidateView(e:NativeEvidenceV1):LensView{
+ const v=nativeUnavailableView(e.mint!,'No authenticated observation is admitted for this candidate.');
+ return {...v,state:e.origin.label==='NO QUALIFIED EVIDENCE'?'sources_off':e.origin.label==='SYNTHETIC OFFLINE'?'offline_fixture':'offline_replay',identityNote:e.origin.label+' · decoded candidate only; origin not authenticated.',riskFindings:nativeRiskFindings(e),observations:['Native controls and account-sample candidates have separate provenance. Price, liquidity and demand history are unavailable.']};
+}
+
+const CANONICAL_NATIVE:Readonly<Record<string,string>>=Object.freeze({
+ 'onchain-mint-identity':'native-mint-identity','onchain-mint-authority':'native-mint-authority','onchain-freeze-authority':'native-freeze-authority','onchain-permanent-delegate':'native-permanent-delegate','onchain-transfer-hook':'native-transfer-hook','onchain-transfer-fees':'native-transfer-fees','onchain-transfer-restrictions':'native-transfer-restrictions','farming-concentration':'native-selected-share'
+});
+export const nativeFindingFor=(e:NativeEvidenceV1,id:string)=>e.findings.find(f=>f.id===CANONICAL_NATIVE[id]);
+/** A supplies every tone/rule and quantity. Only map those exact existing checks
+ * into the24-question navigation; optional provider checks remain GRAY. */
+export function nativeRiskFindings(e:NativeEvidenceV1,now=Date.now(),withheld=false):readonly RiskFinding[]{
+ const base=nativeUnavailableView(e.mint!).riskFindings!;
+ return base.map(row=>{const f=nativeFindingFor(e,row.id);if(!f)return row;
+  const refs=e.references.filter(r=>f.evidenceIds.includes(r.id)),r=refs.find(r=>r.method==='getMultipleAccounts')??refs[0],c=e.controls;
+  let value:string|null=f.state==='not_established'?null:f.title;
+  if(c){if(row.id==='onchain-mint-identity')value=c.ownerProgram+'; decimals '+c.decimals;else if(row.id==='onchain-mint-authority')value=c.mintAuthority??'Base authority null';else if(row.id==='onchain-freeze-authority')value=c.freezeAuthority??'Base authority null';else if(row.id==='onchain-permanent-delegate')value=c.permanentDelegate??(f.tone==='green'?'No delegate configured':null);else if(row.id==='onchain-transfer-hook')value=c.transferHook?.programId??c.transferHook?.authority??(f.tone==='green'?'No hook configured':null);else if(row.id==='onchain-transfer-fees')value=c.transferFee?c.transferFee.older.basisPoints+'/'+c.transferFee.newer.basisPoints+' bps schedules':f.tone==='green'?'No transfer fee configured':null;else if(row.id==='onchain-transfer-restrictions')value=f.tone==='gray'?'Unreviewed extensions':f.tone==='green'?'No checked restriction':f.title;}
+  if(row.id==='farming-concentration')value=e.concentration.selectedTotal?nativePercent(e.concentration.selectedTotal):null;
+  const deadline=nativeDeadline(e,f),historical=withheld||deadline===null||Date.parse(e.evaluatedAt!)>now||now>=deadline;
+  return {...row,tone:historical?'gray':f.tone,title:TITLES[row.id],value,explanation:f.summary,fieldPath:r?.fieldPath??null,source:r?(withheld?'WITHHELD · ':historical?'HISTORICAL · ':'')+e.origin.label+' · UNFARMD '+(f.rule==='native-concentration/1'?'calculation':'decoder'):null,observedAt:r?.receivedAt??null,responseSha256:r?.responseSha256??null};
+ });
+}

@@ -1,0 +1,156 @@
+{
+  "version": "native-lens-review/1",
+  "base": "ca36baba5f8d8d2d2002bcdf6e3672c2c97aa7e5",
+  "modified": {
+    "app/lens/intelligence-desk.tsx": {
+      "sha256": "b42f8b637d26c3e3868fddf9d3199b12f9abc3ba4ef150cbd853f9bc911616f8",
+      "patchSha256": "535333b2c831e94c097fab95f2aefbbd7c3aaa34c844b70ca61d1b9112c0d6a0"
+    },
+    "app/lens/page.tsx": {
+      "sha256": "a7051cf5849855a6ced3be72aabb60d409b9b29819bc968a4e7fb2a19373d501",
+      "patchSha256": "c196db252efdc9a33a8884812c5ed6f258294b420ec2610f31eaef77c134e78f"
+    },
+    "vercel.json": {
+      "sha256": "beed4439a6ef7b98fbbfeb3e5fb09173917d6ab52219eae43f0e7d0bf34f11d3",
+      "patchSha256": "733e32ddaaf39bf7fffaa5a99987b95e9b069bd1b538cec86d9ae46eabc6ccff"
+    }
+  },
+  "added": {
+    ".github/workflows/native-lens.yml": {
+      "mode": "100644",
+      "sha256": "d9bd51b67f48d604d5b78c95b4ce0a9daf56f2474f84954c8bed7070728ee800"
+    },
+    "app/api/native-pilot/route.ts": {
+      "mode": "100644",
+      "sha256": "ae259497c88e26ad389c5518b7f72f7d430a592e2ad4ef9fb4642bd9cdbfaa87"
+    },
+    "app/lens/native-claim-check.tsx": {
+      "mode": "100644",
+      "sha256": "56ada2f3beb48d6af4b8559730eaaf4c98fb26a67f8d2e1f7bab7e20335f5095"
+    },
+    "app/lens/native-claim.ts": {
+      "mode": "100644",
+      "sha256": "423dd92553ae6e73a512f315453c204be7f9348a877fd5e4b5564ce72f530959"
+    },
+    "app/lens/native-evidence-cards.tsx": {
+      "mode": "100644",
+      "sha256": "1d69ed20f5de7e44e414e04ae485ad3ab4a6674c0b10abc9261aa606c04905d9"
+    },
+    "app/lens/native-evidence-model.ts": {
+      "mode": "100644",
+      "sha256": "d27f0c68671de7e28590dee76b587096988aef42459f573c45b5829026a3d8a1"
+    },
+    "app/lens/native-lens.module.css": {
+      "mode": "100644",
+      "sha256": "35d24d7e98bb20d8cb0ce33529df24c121c3821d5b446c012b7caf23588abea5"
+    },
+    "app/lens/native-lens.tsx": {
+      "mode": "100644",
+      "sha256": "417e0fa8a612a7024bf53b2e3675262ab4eb0253e3c3e2d237654d2b61bcd347"
+    },
+    "app/lens/native-take.ts": {
+      "mode": "100644",
+      "sha256": "2daee8518e48562ea1b887bed0d2d51224bf56f95f83dedab480326f27733b03"
+    },
+    "docs/native-lens/ACCEPTANCE.md": {
+      "mode": "100644",
+      "sha256": "575a237f244c4e1b197fc3a2cbd5f9f8e12285c30a257b6515ac3b63e55c2ef7"
+    },
+    "lib/native-lens/boundary.ts": {
+      "mode": "100644",
+      "sha256": "8ceae393283d133b1fce3026bc903d596f904edff0cf6d96a2c76abcdc2138c8"
+    },
+    "lib/native-lens/policy.ts": {
+      "mode": "100644",
+      "sha256": "bd328a8e59beb78383bc64245a84a0e5f8aabb3db9fa34dff760858ba5b34fcd"
+    },
+    "tests/native-lens/ab-integration.test.mjs": {
+      "mode": "100644",
+      "sha256": "07cdcb492092701f322ae8b2a63fca520d160ffedb40448d973e5ce1b2e472f3"
+    },
+    "tests/native-lens/artifact.mjs": {
+      "mode": "100644",
+      "sha256": "8693a6d5c08cb94cfb7c5d28e945f9356ad6cff603f4c2267668517e753aa6eb"
+    },
+    "tests/native-lens/b-pure.sh": {
+      "mode": "100755",
+      "sha256": "78f465f2037a488cce116758d4cf49add581245a1984319ae29d46dd43f94f52"
+    },
+    "tests/native-lens/browser-entry.tsx": {
+      "mode": "100644",
+      "sha256": "981de8e757f4e9296f6805444237aaa18729ff6b986c204013cc6f27f67f4ff5"
+    },
+    "tests/native-lens/browser-fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "28df76002f8922328adc8cfbe1219338124cd8acc5351fe46f829c7b31d5a7e0"
+    },
+    "tests/native-lens/browser-server.mjs": {
+      "mode": "100644",
+      "sha256": "49712ddf2ccc0df80bbcb2a2e559e2ea4e59dea1738c1be5bcbe78b4c75278ea"
+    },
+    "tests/native-lens/browser.config.mjs": {
+      "mode": "100644",
+      "sha256": "7fac5686c6f2892bc81c9ae5ea3916e096415b15d555bde19a58553916247426"
+    },
+    "tests/native-lens/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "6ae7f05e1737a1f314fa5512d7b17ebda229d754f7f48893ddb3bab3162bb4fb"
+    },
+    "tests/native-lens/engine-integration.test.mjs": {
+      "mode": "100644",
+      "sha256": "4272d2b8f0401c6a79587df1c4d34a1daa654fe015a27880b47df16420d325b4"
+    },
+    "tests/native-lens/inputs.json": {
+      "mode": "100644",
+      "sha256": "8e9155707e25f963fb7d9dab03d13067461a193329998f02abea083c09e5f478"
+    },
+    "tests/native-lens/off.test.mjs": {
+      "mode": "100644",
+      "sha256": "d7f3dbea76c328714e8398ec0343b2e7f97d9cc217a5e3fa58eedebc63a6de28"
+    },
+    "tests/native-lens/optimized.config.mjs": {
+      "mode": "100644",
+      "sha256": "1d25a9c41273bb15660748a99cb689f7ef2c9e1b78ae915e7372ddcfe323f7d6"
+    },
+    "tests/native-lens/optimized.spec.mjs": {
+      "mode": "100644",
+      "sha256": "d6bddad2d77fcf45569231d8d271f8cf0120ab489e08f7407f22462c84f55c77"
+    },
+    "tests/native-lens/original-build.sh": {
+      "mode": "100644",
+      "sha256": "b4ec7e08d989fb721d1504615f11032c1bfd6fe7eaa9fbde1982e5c9948ef97a"
+    },
+    "tests/native-lens/replay.sh": {
+      "mode": "100644",
+      "sha256": "488298197f71c4467acab2fcf94d402962219c8cfe83ea17bda708501f9fc478"
+    },
+    "tests/native-lens/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-lens/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-lens/run.sh": {
+      "mode": "100644",
+      "sha256": "6a6d7e3f6f751700d28891ba501dc6eb946b3e2775d4e5faa364f2b78a519a2b"
+    },
+    "tests/native-lens/schema-fixture.mjs": {
+      "mode": "100644",
+      "sha256": "7d3e173a66fb95392fb422b2ed0c7249ff2edf102f29219994706168f80d884b"
+    },
+    "tests/native-lens/schema.sh": {
+      "mode": "100644",
+      "sha256": "eca416bb49816228d301ddaebc5a15dbd4f44121bc47c4e7bc2331c72814b856"
+    },
+    "tests/native-lens/schema.test.mjs": {
+      "mode": "100644",
+      "sha256": "807888d33d6f9ed8791812560c1aac1f31ee72e440593c87f613f840a9cf812c"
+    },
+    "tests/native-lens/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    }
+  }
+}
