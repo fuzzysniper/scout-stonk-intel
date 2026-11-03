@@ -106,6 +106,8 @@ jobs:
         with:
           name: LOCAL-SYNTHETIC-native-Lens-NO-live-acceptance
           path: node_modules/.cache/native-lens-proof/*.png
+          if-no-files-found: error
+          include-hidden-files: true
   original-immutable-reviewers:
     if: github.head_ref == 'integration/281-native-first'
     runs-on: ubuntu-latest

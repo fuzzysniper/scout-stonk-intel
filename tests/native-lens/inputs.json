@@ -22,8 +22,7 @@
   "finalUnion": true,
   "blocker": "Actual A+B acquisition HOLD: original A holder intake rejects Helius; B single-host durable store has no verified runtime-compatible placement. No fabricated positive union.",
   "expectedParents": [
-    "ca36baba5f8d8d2d2002bcdf6e3672c2c97aa7e5",
-    "b7168f754ad83b6539b59106933b127c964515c1",
-    "255b82014544b8d7c2d7d8219b64e810e8c030fe"
-  ]
+    "7470fdfefd6424fe1ec78dd9b9525ada55da8513"
+  ],
+  "unionCommit": "7470fdfefd6424fe1ec78dd9b9525ada55da8513"
 }

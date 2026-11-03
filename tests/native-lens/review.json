@@ -18,7 +18,7 @@
   "added": {
     ".github/workflows/native-lens.yml": {
       "mode": "100644",
-      "sha256": "d9bd51b67f48d604d5b78c95b4ce0a9daf56f2474f84954c8bed7070728ee800"
+      "sha256": "5b6451cc8a5d9594437aae3274db6e1f057699b7f038791ef090894a73020011"
     },
     "app/api/native-pilot/route.ts": {
       "mode": "100644",
@@ -34,7 +34,7 @@
     },
     "app/lens/native-evidence-cards.tsx": {
       "mode": "100644",
-      "sha256": "1d69ed20f5de7e44e414e04ae485ad3ab4a6674c0b10abc9261aa606c04905d9"
+      "sha256": "bc073af77b547a9c7aec6da3425f549ef69287d73df2b15a70c34596ee6dff25"
     },
     "app/lens/native-evidence-model.ts": {
       "mode": "100644",
@@ -42,7 +42,7 @@
     },
     "app/lens/native-lens.module.css": {
       "mode": "100644",
-      "sha256": "35d24d7e98bb20d8cb0ce33529df24c121c3821d5b446c012b7caf23588abea5"
+      "sha256": "63b1ba7e2ba889c71f5b45298a9c5db987f1ebdbd19645c6301e0e583709121a"
     },
     "app/lens/native-lens.tsx": {
       "mode": "100644",
@@ -102,7 +102,7 @@
     },
     "tests/native-lens/inputs.json": {
       "mode": "100644",
-      "sha256": "8e9155707e25f963fb7d9dab03d13067461a193329998f02abea083c09e5f478"
+      "sha256": "b44cf6d8e793ced08631ada65716234936c847e7b5b681a1c653fe4e292d0f9a"
     },
     "tests/native-lens/off.test.mjs": {
       "mode": "100644",
@@ -142,7 +142,7 @@
     },
     "tests/native-lens/schema.sh": {
       "mode": "100644",
-      "sha256": "eca416bb49816228d301ddaebc5a15dbd4f44121bc47c4e7bc2331c72814b856"
+      "sha256": "aa0676a50a2cd16cbcf08b089590e58b2bbf546836bb4e2c260e1d37c128598b"
     },
     "tests/native-lens/schema.test.mjs": {
       "mode": "100644",

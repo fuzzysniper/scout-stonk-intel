@@ -1,7 +1,7 @@
 // C finite integration delta; exact A/B history and every inherited byte frozen.
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
 export const BASE='ca36baba5f8d8d2d2002bcdf6e3672c2c97aa7e5';
-const MANIFEST_SHA='f1a903e72170ec5f3958b4f5393a7b8b7cd79a18d25816936d3e9b65bbf85a53';
+const MANIFEST_SHA='860d3f7aecf3b947e95cfe0ffd1426f75f4e6a317907da3b6354e527e7e27166';
 export const sha=b=>createHash('sha256').update(b).digest('hex');
 const blob=b=>createHash('sha1').update('blob '+b.length+'\0').update(b).digest('hex');
 export function review(root=process.cwd(),checkHead=true){
