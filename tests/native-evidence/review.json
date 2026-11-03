@@ -1,0 +1,22 @@
+{
+  "base": "ca36baba5f8d8d2d2002bcdf6e3672c2c97aa7e5",
+  "added": {
+    ".github/workflows/native-evidence.yml": "2e3394523a1fa52e0e87c64280b959ef51b79106f41fa632fabea79804d29c5b",
+    "docs/native-evidence/LOCAL-SYNTHETIC.json": "f18ee66a7cfeb7fd86fb1036f6eef02c642953599fac7c7b00eb9cbc9f8c6c01",
+    "docs/native-evidence/README.md": "eb9e5266e520a109c795d1bc49e871d9187eaae7c3ab63098c90070cef40b77c",
+    "lib/native-evidence/contract.ts": "d6941b91fed7fc2c648b9bf545af83bde6d5dbfba2d125597f46a79f166669f7",
+    "lib/native-evidence/engine.ts": "d24537de3762ae907d44a669f4b5360b682d3c90bce502ec86bb33ef7800c2ae",
+    "lib/native-evidence/holder.ts": "b6821d627339965d8da7a6a9d5342cd62d1a11c1f6ddc859a0737ca974bd02cb",
+    "lib/native-evidence/index.ts": "7a2363871f078a6eaec1dae3a08bc0045a70e91a4fb9559b82e2f7b71e0a18ad",
+    "lib/native-evidence/transfers.ts": "dc1f214c661fa46f4846129419db56c4b56bd79a1cb7934886134aabdbb6367d",
+    "tests/native-evidence/engine.test.mjs": "4e9680cbc2715eac09d8cced54fe70fa4c21babc88df17476dda6a8aab1783ab",
+    "tests/native-evidence/examples.mjs": "bdef588f6e0383c9ff2318509bb257516b1709330212163c479ac33bdd59011f",
+    "tests/native-evidence/fixtures.mjs": "78a742ba4816657a07d389ad233b88ea6c15544793f2b7a3ab55ea82521cbb03",
+    "tests/native-evidence/replay.sh": "b101fb7e8db88ea46bf4b3498fe91779979c49234ea23263708f86dedcfb5a17",
+    "tests/native-evidence/review.json": null,
+    "tests/native-evidence/review.mjs": null,
+    "tests/native-evidence/run.sh": "fecd65aeeda7164db801be2150591d080b9e59cf5eef3de7a7fd99704d4c8cd8",
+    "tests/native-evidence/scope.test.mjs": null,
+    "tests/native-evidence/security.test.mjs": "4b1e9e2dfc5b3f02d5c90fa13e4b0c8815d077864c18f025c5cb4c902e284b82"
+  }
+}
