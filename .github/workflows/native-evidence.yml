@@ -1,0 +1,64 @@
+name: Native evidence offline exact-head review
+on:
+  pull_request:
+    branches: [feat/280-lens-v3-public]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+jobs:
+  exact-head-native-analytics:
+    if: github.head_ref == 'feat/274-native-evidence'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Actual head original-byte and mutation controls
+        run: node --test tests/native-evidence/scope.test.mjs
+      - name: Synthetic engine security and unchanged pure decoders without RPC or SQL
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-evidence/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-evidence/run.sh peers
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
+      - name: Original reviewer on immutable original input
+        run: bash tests/native-evidence/replay.sh
+      - name: Reproduce LOCAL SYNTHETIC examples exactly
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-evidence/run.sh examples > /tmp/native-examples.json
+          cmp docs/native-evidence/LOCAL-SYNTHETIC.json /tmp/native-examples.json
+          node --test tests/native-evidence/scope.test.mjs
+  exact-head-build-and-archive:
+    if: github.head_ref == 'feat/274-native-evidence'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: node --test tests/native-evidence/scope.test.mjs
+      - name: Actual head types lint optimized build and archive
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          bash scripts/archive-tool.sh check ca36baba5f8d8d2d2002bcdf6e3672c2c97aa7e5
+          node --test tests/native-evidence/scope.test.mjs

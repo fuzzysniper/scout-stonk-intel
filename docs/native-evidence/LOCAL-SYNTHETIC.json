@@ -1,0 +1,525 @@
+{
+  "notice": "ALL INVENTED LOCAL/SYNTHETIC. NO REAL TOKEN, RIGHTS, OBSERVATION OR PERFORMANCE.",
+  "largeExactCustodySample": {
+    "representation": "SELECTED FIELDS ONLY; see contract for full payload",
+    "version": "native-evidence/1",
+    "origin": {
+      "status": "candidate_only",
+      "providerAuthenticated": false,
+      "label": "SYNTHETIC OFFLINE"
+    },
+    "state": "candidate",
+    "mint": "4wBqpZM9xaSheZzJSMawUKKwhdpChKbZ5eu5ky4Vigw",
+    "evaluatedAt": "2026-10-31T12:00:37.000Z",
+    "consistency": "same_mint_snapshot",
+    "mintSnapshot": {
+      "contextSlot": "100",
+      "supplyRaw": "18446744073709551615",
+      "decimals": 6,
+      "evidenceId": "mint-account"
+    },
+    "concentration": {
+      "state": "candidate",
+      "reason": "supported_selected_sample",
+      "supplyRaw": "18446744073709551615",
+      "decimals": 6,
+      "selectionSlot": "100",
+      "balanceSlot": "100",
+      "selectionCount": 3,
+      "observedAccountCount": 3,
+      "selectionAmountsChanged": 0,
+      "atomicAcrossCalls": false,
+      "minContextSlotIsLowerBoundOnly": true,
+      "fullHolderCoverage": false,
+      "beneficialOwnership": "unknown",
+      "population": "previously_selected_largest_token_accounts_only",
+      "exclusions": [],
+      "selectedTotal": {
+        "numeratorRaw": "18014398509481985",
+        "denominatorRaw": "18446744073709551615",
+        "basisPointsFloor": "9"
+      },
+      "largestObservedAccount": {
+        "numeratorRaw": "9007199254740993",
+        "denominatorRaw": "18446744073709551615",
+        "basisPointsFloor": "4"
+      },
+      "largestObserved10Accounts": {
+        "numeratorRaw": "18014398509481985",
+        "denominatorRaw": "18446744073709551615",
+        "basisPointsFloor": "9"
+      },
+      "accounts": [
+        {
+          "account": "gCr8XkSUeFUxTpZE8HrZMGC98XdGGVyakeocBNTDibJ",
+          "ownerAddress": "7kuT1dfMhUysWcLEV1eYk8ir7RTjszHmsUdrrPQNThcv",
+          "amountRaw": "9007199254740993",
+          "selectionAmountRaw": "9007199254740993",
+          "state": "initialized",
+          "evidenceId": "holder-account-gCr8XkSUeFUxTpZE8HrZMGC98XdGGVyakeocBNTDibJ"
+        },
+        {
+          "account": "k89GqDT4wYi6Z54fRcmrE2xPHjpwLBo9AKTfZR3y3v1",
+          "ownerAddress": "7kuT1dfMhUysWcLEV1eYk8ir7RTjszHmsUdrrPQNThcv",
+          "amountRaw": "9007199254740991",
+          "selectionAmountRaw": "9007199254740991",
+          "state": "initialized",
+          "evidenceId": "holder-account-k89GqDT4wYi6Z54fRcmrE2xPHjpwLBo9AKTfZR3y3v1"
+        },
+        {
+          "account": "p3SR8gTfEqwEeKa6iwh96oidSx2cPschZz7iwTeiPEi",
+          "ownerAddress": "7ppk9w8NHnH6ehajvJyU31VcMafwZ3ybRtJWumSyD2wd",
+          "amountRaw": "1",
+          "selectionAmountRaw": "1",
+          "state": "initialized",
+          "evidenceId": "holder-account-p3SR8gTfEqwEeKa6iwh96oidSx2cPschZz7iwTeiPEi"
+        }
+      ],
+      "ownerGroups": [
+        {
+          "ownerAddress": "7kuT1dfMhUysWcLEV1eYk8ir7RTjszHmsUdrrPQNThcv",
+          "accounts": [
+            "gCr8XkSUeFUxTpZE8HrZMGC98XdGGVyakeocBNTDibJ",
+            "k89GqDT4wYi6Z54fRcmrE2xPHjpwLBo9AKTfZR3y3v1"
+          ],
+          "amountRaw": "18014398509481984",
+          "shareOfSupply": {
+            "numeratorRaw": "18014398509481984",
+            "denominatorRaw": "18446744073709551615",
+            "basisPointsFloor": "9"
+          },
+          "evidenceIds": [
+            "holder-account-gCr8XkSUeFUxTpZE8HrZMGC98XdGGVyakeocBNTDibJ",
+            "holder-account-k89GqDT4wYi6Z54fRcmrE2xPHjpwLBo9AKTfZR3y3v1"
+          ]
+        },
+        {
+          "ownerAddress": "7ppk9w8NHnH6ehajvJyU31VcMafwZ3ybRtJWumSyD2wd",
+          "accounts": [
+            "p3SR8gTfEqwEeKa6iwh96oidSx2cPschZz7iwTeiPEi"
+          ],
+          "amountRaw": "1",
+          "shareOfSupply": {
+            "numeratorRaw": "1",
+            "denominatorRaw": "18446744073709551615",
+            "basisPointsFloor": "0"
+          },
+          "evidenceIds": [
+            "holder-account-p3SR8gTfEqwEeKa6iwh96oidSx2cPschZz7iwTeiPEi"
+          ]
+        }
+      ]
+    },
+    "coverage": {
+      "fullHolderCoverage": false,
+      "beneficialOwnership": "unknown",
+      "suspectedRelationships": "not_established",
+      "accountClassifications": "not_supplied_no_exclusions",
+      "price": "not_established",
+      "momentum": "not_established",
+      "exitCapacity": "not_established",
+      "walletHistory": "not_established"
+    },
+    "findings": [
+      {
+        "id": "native-mint-identity",
+        "state": "candidate",
+        "tone": "green",
+        "summary": "Initialized spl_token mint; raw supply 18446744073709551615 with 6 decimals. No issuer/backing claim.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-mint-authority",
+        "state": "candidate",
+        "tone": "green",
+        "summary": "Base permission is absent in this captured layout; no past revocation event proven.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-freeze-authority",
+        "state": "candidate",
+        "tone": "green",
+        "summary": "Base permission is absent in this captured layout; no past revocation event proven.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-permanent-delegate",
+        "state": "candidate",
+        "tone": "green",
+        "summary": "No permanent delegate configured in reviewed layout.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-transfer-hook",
+        "state": "candidate",
+        "tone": "green",
+        "summary": "No hook/update authority configured in reviewed layout.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-transfer-fees",
+        "state": "candidate",
+        "tone": "green",
+        "summary": "No transfer fee configuration in reviewed layout.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-transfer-restrictions",
+        "state": "candidate",
+        "tone": "green",
+        "summary": "No reviewed mint-level restriction configured; per-account controls and route remain unchecked.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-selected-share",
+        "state": "candidate",
+        "tone": "yellow",
+        "summary": "Exact sampled raw balance / same-batch decoded supply. 50% flag is a screening threshold, not fraud probability.",
+        "evidenceIds": [
+          "holder-rpc-0",
+          "holder-rpc-1",
+          "holder-rpc-2",
+          "holder-mint",
+          "holder-account-gCr8XkSUeFUxTpZE8HrZMGC98XdGGVyakeocBNTDibJ",
+          "holder-account-k89GqDT4wYi6Z54fRcmrE2xPHjpwLBo9AKTfZR3y3v1",
+          "holder-account-p3SR8gTfEqwEeKa6iwh96oidSx2cPschZz7iwTeiPEi"
+        ]
+      },
+      {
+        "id": "native-top10-share",
+        "state": "candidate",
+        "tone": "yellow",
+        "summary": "Exact sampled raw balance / same-batch decoded supply. 50% flag is a screening threshold, not fraud probability.",
+        "evidenceIds": [
+          "holder-rpc-0",
+          "holder-rpc-1",
+          "holder-rpc-2",
+          "holder-mint",
+          "holder-account-gCr8XkSUeFUxTpZE8HrZMGC98XdGGVyakeocBNTDibJ",
+          "holder-account-k89GqDT4wYi6Z54fRcmrE2xPHjpwLBo9AKTfZR3y3v1",
+          "holder-account-p3SR8gTfEqwEeKa6iwh96oidSx2cPschZz7iwTeiPEi"
+        ]
+      },
+      {
+        "id": "native-owner-share",
+        "state": "candidate",
+        "tone": "yellow",
+        "summary": "Exact sampled raw balance / same-batch decoded supply. 50% flag is a screening threshold, not fraud probability.",
+        "evidenceIds": [
+          "holder-rpc-0",
+          "holder-rpc-1",
+          "holder-rpc-2",
+          "holder-mint",
+          "holder-account-gCr8XkSUeFUxTpZE8HrZMGC98XdGGVyakeocBNTDibJ",
+          "holder-account-k89GqDT4wYi6Z54fRcmrE2xPHjpwLBo9AKTfZR3y3v1",
+          "holder-account-p3SR8gTfEqwEeKa6iwh96oidSx2cPschZz7iwTeiPEi"
+        ]
+      },
+      {
+        "id": "native-transfers",
+        "state": "not_established",
+        "tone": "gray",
+        "summary": "Not established: no_history_supplied",
+        "evidenceIds": []
+      },
+      {
+        "id": "native-coverage",
+        "state": "not_established",
+        "tone": "gray",
+        "summary": "Not established by these observations.",
+        "evidenceIds": []
+      },
+      {
+        "id": "native-exit",
+        "state": "not_established",
+        "tone": "gray",
+        "summary": "Not established by these observations.",
+        "evidenceIds": []
+      }
+    ],
+    "references": [
+      {
+        "id": "mint-account",
+        "kind": "synthetic_fixture",
+        "providerHost": "mainnet.helius-rpc.com",
+        "method": "getAccountInfo",
+        "requestSha256": null,
+        "responseSha256": "be4a8307a90c0eb6220f54ce04d275f0807282d27f9e332fb54853c2d43fdf24",
+        "accountDataSha256": "87f152b0d359d129bf4266a47c456e4e89365287f1b64f2bcf71888fab5c9408",
+        "fieldPath": "$.result.value.data",
+        "requestStartedAt": "2026-10-31T12:00:32.500Z",
+        "receivedAt": "2026-10-31T12:00:33.500Z",
+        "contextSlot": "100",
+        "commitmentRequested": "finalized",
+        "commitmentEvidence": "request_only_not_independent_finality_proof",
+        "blockTime": null
+      },
+      {
+        "id": "holder-rpc-0",
+        "kind": "synthetic_fixture",
+        "providerHost": "api.mainnet.solana.com",
+        "method": "getTokenLargestAccounts",
+        "requestSha256": "649872e7c182f3528be3a4891c255fdab781733304eb57a4735023309d9fe6a9",
+        "responseSha256": "042448553bf8d46b2384c549d312da11f934db778708ceeaa26afe514d9c638b",
+        "accountDataSha256": null,
+        "fieldPath": "$.result.value",
+        "requestStartedAt": "2026-10-31T12:00:30.000Z",
+        "receivedAt": "2026-10-31T12:00:31.000Z",
+        "contextSlot": "100",
+        "commitmentRequested": "finalized",
+        "commitmentEvidence": "request_only_not_independent_finality_proof",
+        "blockTime": null
+      },
+      {
+        "id": "holder-rpc-1",
+        "kind": "synthetic_fixture",
+        "providerHost": "api.mainnet.solana.com",
+        "method": "getMultipleAccounts",
+        "requestSha256": "6f0f03fffa17ec76338a3a0eee4faf8ff9201a17c040a5b766f11fa66a0ddc3a",
+        "responseSha256": "55eff7aa30eb90856e439ad13792763f0afec336e90cabe1d1c165f662495b82",
+        "accountDataSha256": null,
+        "fieldPath": "$.result.value",
+        "requestStartedAt": "2026-10-31T12:00:32.500Z",
+        "receivedAt": "2026-10-31T12:00:33.500Z",
+        "contextSlot": "100",
+        "commitmentRequested": "finalized",
+        "commitmentEvidence": "request_only_not_independent_finality_proof",
+        "blockTime": {
+          "slot": "100",
+          "utc": "2026-10-31T12:00:00.000Z",
+          "assurance": "rpc_block_time_estimate"
+        }
+      },
+      {
+        "id": "holder-rpc-2",
+        "kind": "synthetic_fixture",
+        "providerHost": "api.mainnet.solana.com",
+        "method": "getBlockTime",
+        "requestSha256": "156cd9c81f6c37acd69c9dc2a4adc31164480d1acfc2ba8fbb4c875dbae38d58",
+        "responseSha256": "b9ddb20f6f525127066dbea409a874c762f1781c0f8c1c0f94d3cdd4abcc1448",
+        "accountDataSha256": null,
+        "fieldPath": "$.result",
+        "requestStartedAt": "2026-10-31T12:00:35.000Z",
+        "receivedAt": "2026-10-31T12:00:36.000Z",
+        "contextSlot": null,
+        "commitmentRequested": null,
+        "commitmentEvidence": "not_in_method",
+        "blockTime": {
+          "slot": "100",
+          "utc": "2026-10-31T12:00:00.000Z",
+          "assurance": "rpc_block_time_estimate"
+        }
+      },
+      {
+        "id": "holder-mint",
+        "kind": "synthetic_fixture",
+        "providerHost": "api.mainnet.solana.com",
+        "method": "getMultipleAccounts",
+        "requestSha256": "6f0f03fffa17ec76338a3a0eee4faf8ff9201a17c040a5b766f11fa66a0ddc3a",
+        "responseSha256": "55eff7aa30eb90856e439ad13792763f0afec336e90cabe1d1c165f662495b82",
+        "accountDataSha256": "87f152b0d359d129bf4266a47c456e4e89365287f1b64f2bcf71888fab5c9408",
+        "fieldPath": "$.result.value[0].data",
+        "requestStartedAt": "2026-10-31T12:00:32.500Z",
+        "receivedAt": "2026-10-31T12:00:33.500Z",
+        "contextSlot": "100",
+        "commitmentRequested": "finalized",
+        "commitmentEvidence": "request_only_not_independent_finality_proof",
+        "blockTime": {
+          "slot": "100",
+          "utc": "2026-10-31T12:00:00.000Z",
+          "assurance": "rpc_block_time_estimate"
+        }
+      }
+    ]
+  },
+  "unknownToken2022": {
+    "representation": "SELECTED FIELDS ONLY; see contract for full payload",
+    "version": "native-evidence/1",
+    "origin": {
+      "status": "candidate_only",
+      "providerAuthenticated": false,
+      "label": "SYNTHETIC OFFLINE"
+    },
+    "state": "candidate",
+    "mint": "4wBqpZM9xaSheZzJSMawUKKwhdpChKbZ5eu5ky4Vigw",
+    "evaluatedAt": "2026-10-31T12:00:37.000Z",
+    "consistency": "not_compared",
+    "mintSnapshot": {
+      "contextSlot": "100",
+      "supplyRaw": "1000000",
+      "decimals": 6,
+      "evidenceId": "mint-account"
+    },
+    "concentration": {
+      "state": "not_established",
+      "reason": "missing_qualified_holder_sample",
+      "supplyRaw": null,
+      "decimals": null,
+      "selectionSlot": null,
+      "balanceSlot": null,
+      "selectionCount": 0,
+      "observedAccountCount": 0,
+      "selectionAmountsChanged": 0,
+      "atomicAcrossCalls": false,
+      "minContextSlotIsLowerBoundOnly": true,
+      "fullHolderCoverage": false,
+      "beneficialOwnership": "unknown",
+      "population": "previously_selected_largest_token_accounts_only",
+      "exclusions": [],
+      "selectedTotal": null,
+      "largestObservedAccount": null,
+      "largestObserved10Accounts": null,
+      "accounts": [],
+      "ownerGroups": []
+    },
+    "coverage": {
+      "fullHolderCoverage": false,
+      "beneficialOwnership": "unknown",
+      "suspectedRelationships": "not_established",
+      "accountClassifications": "not_supplied_no_exclusions",
+      "price": "not_established",
+      "momentum": "not_established",
+      "exitCapacity": "not_established",
+      "walletHistory": "not_established"
+    },
+    "findings": [
+      {
+        "id": "native-mint-identity",
+        "state": "candidate",
+        "tone": "green",
+        "summary": "Initialized token_2022 mint; raw supply 1000000 with 6 decimals. No issuer/backing claim.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-mint-authority",
+        "state": "candidate",
+        "tone": "gray",
+        "summary": "Base permission null, but unknown extensions prevent absence-based clearance.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-freeze-authority",
+        "state": "candidate",
+        "tone": "gray",
+        "summary": "Base permission null, but unknown extensions prevent absence-based clearance.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-permanent-delegate",
+        "state": "candidate",
+        "tone": "gray",
+        "summary": "Extension coverage incomplete; delegate absence not established.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-transfer-hook",
+        "state": "candidate",
+        "tone": "gray",
+        "summary": "Unsupported extensions; hook absence not established.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-transfer-fees",
+        "state": "candidate",
+        "tone": "gray",
+        "summary": "Fee coverage incomplete; no zero-tax claim.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-transfer-restrictions",
+        "state": "candidate",
+        "tone": "gray",
+        "summary": "Unsupported extension IDs 65500; no general absence clearance.",
+        "evidenceIds": [
+          "mint-account"
+        ]
+      },
+      {
+        "id": "native-selected-share",
+        "state": "not_established",
+        "tone": "gray",
+        "summary": "Not established: missing_qualified_holder_sample",
+        "evidenceIds": []
+      },
+      {
+        "id": "native-top10-share",
+        "state": "not_established",
+        "tone": "gray",
+        "summary": "Not established: missing_qualified_holder_sample",
+        "evidenceIds": []
+      },
+      {
+        "id": "native-owner-share",
+        "state": "not_established",
+        "tone": "gray",
+        "summary": "Not established: missing_qualified_holder_sample",
+        "evidenceIds": []
+      },
+      {
+        "id": "native-transfers",
+        "state": "not_established",
+        "tone": "gray",
+        "summary": "Not established: no_history_supplied",
+        "evidenceIds": []
+      },
+      {
+        "id": "native-coverage",
+        "state": "not_established",
+        "tone": "gray",
+        "summary": "Not established by these observations.",
+        "evidenceIds": []
+      },
+      {
+        "id": "native-exit",
+        "state": "not_established",
+        "tone": "gray",
+        "summary": "Not established by these observations.",
+        "evidenceIds": []
+      }
+    ],
+    "references": [
+      {
+        "id": "mint-account",
+        "kind": "synthetic_fixture",
+        "providerHost": "mainnet.helius-rpc.com",
+        "method": "getAccountInfo",
+        "requestSha256": null,
+        "responseSha256": "bfd151e21e59e4a218781b57ec62d00d6c59fccc322c2c453d8938e8f9d8ef8c",
+        "accountDataSha256": "f44f61122f4645382c7ee0d94a60d17c99fa9e3b1124d3a8cdb845219fffa3fc",
+        "fieldPath": "$.result.value.data",
+        "requestStartedAt": "2026-10-31T12:00:32.500Z",
+        "receivedAt": "2026-10-31T12:00:33.500Z",
+        "contextSlot": "100",
+        "commitmentRequested": "finalized",
+        "commitmentEvidence": "request_only_not_independent_finality_proof",
+        "blockTime": null
+      }
+    ]
+  }
+}
