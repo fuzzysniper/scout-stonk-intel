@@ -1,0 +1,5 @@
+import {session,C,MINT} from './fixtures.mjs';
+const positive=await session(),negative=await session({wireMutate:(c,method)=>{if(method==='getBlockTime'){const v=JSON.parse(c.responseBytes);v.result=null;c.responseBytes=Buffer.from(JSON.stringify(v));}}});
+function stats(s){return {status:s.result.status,calls:s.calls,intakes:s.intakes,analyses:s.analyses,attempts:s.state.attempts,completed:s.state.completed,credits:s.state.credits,stopped:s.state.stopped};}
+const e=positive.result.evidence;
+console.log(JSON.stringify({notice:'ALL LOCAL/SYNTHETIC. Real B state machine/local fsync; simulated owner, identity and wire. NOT hosted/native/SQL/source acceptance.',positive:{...stats(positive),origin:e.origin,mint:e.mint,mintSnapshot:e.mintSnapshot,controls:e.controls,selectedShare:e.concentration.selectedTotal,ownerGroups:e.concentration.ownerGroups.length,coverage:e.coverage,originalRefs:e.references.filter(r=>['holder-rpc-0','holder-rpc-1','holder-rpc-2','holder-mint'].includes(r.id)),existingCProjectionAccepts:C.isNativeEvidence(e,MINT),existingCFindingCount:C.nativeCandidateView(e).riskFindings.length},nullClockNegative:stats(negative)},null,2));
