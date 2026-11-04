@@ -8,7 +8,8 @@
       "feat/274-native-evidence": false,
       "feat/281-native-pilot-off": false,
       "integration/281-native-first": false,
-      "feat/284-native-postgres-off": false
+      "feat/284-native-postgres-off": false,
+      "feat/286-pg18-validation": false
     }
   }
 }
