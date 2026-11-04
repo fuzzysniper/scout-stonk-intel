@@ -1,0 +1,33 @@
+{
+  "base": "905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a",
+  "modified": {
+    "lib/native-evidence/engine.ts": {
+      "sha256": "c1b743613bd6a8423a35b9104f386ef23ef41d6c44e6fd4b7d9825a8f2f3ced9",
+      "patchSha256": "666001974b4ee1425ce4025bb3b3782cfce196d3898ae322ddd0dd5f6dc84ad0"
+    },
+    "lib/native-evidence/index.ts": {
+      "sha256": "6fce90bd2852d350d707aa56e1d85d38c50370f27a45d5cd787a625ff7ed98d8",
+      "patchSha256": "a1822a8841c4c9f9a17f5fcfc3d5d160ef4638221797d2c1b312d241137f2056"
+    },
+    "vercel.json": {
+      "sha256": "bbb57506305c43b59480670a0acda9f402ba8773f31ee1092d47330ac3f5e2bb",
+      "patchSha256": "c6fc83364dcdbdece93c1ab6a60f58c8902205d544115e8458a18d04aa82ca22"
+    }
+  },
+  "added": {
+    ".github/workflows/helius-intake.yml": "208a5306f89fc3da304feb86837b3d212ef7f6a986c9a794cdd25667bb6d5f18",
+    "docs/helius-intake/LOCAL-SYNTHETIC.json": "2507809c1d88f7a63ffb53e97f4e75646c554d25145fca567aa00b080f38a900",
+    "docs/helius-intake/README.md": "569bcab7f2becc3400e0bbe5893ea24e63f92b6ae2456cd8ed95ac9bdf2c953a",
+    "lib/native-evidence/helius-contract.ts": "c6e6ae1c84c5fd6dd62f1725e253d3ea7a41b82f37cd7760cdc04ccf00d9682a",
+    "lib/native-evidence/helius-qualification.ts": "914887d730bddf292c89a39b808eb3c469ec2352315ba2fe3642f58c86363f10",
+    "tests/helius-intake/examples.mjs": "e708d9eb4270001411f8b33df56d313401af1fb7acd57fed9e6a7a937267715f",
+    "tests/helius-intake/fixtures.mjs": "d9d2765b801bb57a1bd96cbaf14730eee5841a189833f798c0b1af140c7c4237",
+    "tests/helius-intake/intake.test.mjs": "aebfb14ca15a75de4fae39e904d6d8cce0e96af17c3c25732185980c9198d5c5",
+    "tests/helius-intake/replay.sh": "e8559319e47b2a584819c5e7d75dd7f7759d0afceac656841f589d4f96dfb15a",
+    "tests/helius-intake/review.json": null,
+    "tests/helius-intake/review.mjs": null,
+    "tests/helius-intake/run.sh": "2a16cd8f99e4993420bb35f04b85fd6dcea8663ba995320c0c9fbbc9fe67558b",
+    "tests/helius-intake/scope.test.mjs": null,
+    "tests/helius-intake/types.ts": "70d28b5cf3ac1c94606ed6bbfb0934a45a75cf1274ff670a1270c902f6fa05a4"
+  }
+}

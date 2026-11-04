@@ -1,0 +1,65 @@
+{
+  "version": "native-union-284/1",
+  "base": {
+    "pr": 284,
+    "sha": "905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a",
+    "tree": "4aa53abb86b8168a03aa34356e52716b8a963834"
+  },
+  "A": {
+    "pr": 285,
+    "sha": "3079cb4baf9c651e0febbf0e336229448f1144b3",
+    "tree": "07b57adf07ee17d2fd84a1a05cd68494551bb5b8",
+    "scopeTests": [
+      "tests/helius-intake/scope.test.mjs"
+    ],
+    "ciRun": 41774016978
+  },
+  "B": {
+    "pr": 287,
+    "sha": "50baac4de79c026b8657ab83632b6b7a38c258e2",
+    "tree": "4b7545ba44ba742b992ee7b1d94b818783bdbd50",
+    "scopeTests": [
+      "tests/native-postgres/validation.test.mjs"
+    ],
+    "databaseValidated": true,
+    "ciRun": 41930815003,
+    "pgJob": 126926922201,
+    "installerSha256": "2ddbab84d1165686ad413dc2cb4886cb66231c4a7cc6f2ffd0f0881396180643",
+    "databaseCases": 16,
+    "tlsDowngradeCases": 6,
+    "scopeCases": 2,
+    "currentUnionAcceptance": false
+  },
+  "expectedParents": [
+    "dfcc5e08cb04d2b16ca746ac06d5c79d40ede505"
+  ],
+  "historicalRejectionInput": "905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a",
+  "CExecutesSql": false,
+  "BOnlyPgApproval": "https://github.com/fuzzysniper/scout-stonk-intel/pull/284#issuecomment-6622419328",
+  "contract": {
+    "sha": "62992d1630c0f6f261c3d594b1609262d0c935ae",
+    "tree": "acba909a9638ad8d9bc7216ad5f7773f8fb4c2eb"
+  },
+  "BPublished": {
+    "pr": 286,
+    "sha": "55a15a939d31ea9f7b79a289f930d9e2d8026d30",
+    "tree": "218f5c1f7e9243176fccafe137bd7c6369e5c251",
+    "scopeTests": [
+      "tests/native-postgres/scope.test.mjs"
+    ],
+    "ciRun": 41777213854,
+    "databaseValidated": false
+  },
+  "requiredCurrentUnionPgJob": "B-owned-current-head-PG18",
+  "sqlApproval": "https://github.com/fuzzysniper/scout-stonk-intel/pull/284#issuecomment-6622419328",
+  "historicalFailedBRun": {
+    "pr": 287,
+    "sha": "c9ec0bdda0093a5d1fdee5fd3d938805d19d5f39",
+    "tree": "a4d4d8af7fc4078025835b3ca14fe206f10e8602",
+    "ciRun": 41929397486,
+    "pgJob": 126922134880,
+    "databaseValidated": false,
+    "failure": "PG18 installer 0LP01 ADMIN option cannot be granted back to your own grantor"
+  },
+  "BJobExecutesSqlOnCurrentUnion": true
+}

@@ -1,0 +1,64 @@
+name: Corrective Helius intake offline exact-head
+on:
+  pull_request:
+    branches: [integration/281-native-first]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+jobs:
+  exact-head-B-shaped-intake:
+    if: github.head_ref == 'fix/284-helius-evidence-intake'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: node --test tests/helius-intake/scope.test.mjs
+      - name: Actual B-shaped bytes and state -> real intake -> real analytics
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/helius-intake/run.sh
+      - name: Existing analytics and pure decoders unchanged; no SQL
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-evidence/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-evidence/run.sh peers
+      - name: Historical original284 incompatibility on exact immutable original input
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/helius-intake/replay.sh
+      - name: Actual synthetic example reproduction and final scope
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/helius-intake/run.sh examples > /tmp/helius-example.json
+          cmp docs/helius-intake/LOCAL-SYNTHETIC.json /tmp/helius-example.json
+          node --test tests/helius-intake/scope.test.mjs
+  exact-head-build-and-archive:
+    if: github.head_ref == 'fix/284-helius-evidence-intake'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: node --test tests/helius-intake/scope.test.mjs
+      - name: Final head types lint optimized build archive; no blanket SQL/root runner
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          bash scripts/archive-tool.sh check 905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a
+          node --test tests/helius-intake/scope.test.mjs

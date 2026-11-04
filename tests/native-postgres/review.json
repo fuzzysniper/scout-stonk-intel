@@ -1,0 +1,127 @@
+{
+  "base": "905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a",
+  "modified": {
+    "lib/native-pilot/index.ts": {
+      "sha256": "73e4f466e35dcfe2cc4ed6fd8e733496c4e21dc2684bbc51e4cfe4a0f12af8c0",
+      "patchSha256": "28926ff127c161da5a37c41fc325a44eddd3e97e1adc110d3322e26367a5a213"
+    },
+    "vercel.json": {
+      "sha256": "382b6098f5f8c6096e5a72d34be8a5dbb850798235948c53c331b11288d9bad3",
+      "patchSha256": "1a2198c2ef8db570df38b630010d1879fe066f4f2d7b670b8ce6c045cc797c9d"
+    }
+  },
+  "added": {
+    ".github/workflows/native-postgres.yml": {
+      "mode": "100644",
+      "sha256": "cb75912fe79a2496407fab898d1ddb7f833bebbadb0714482dccc169c64e8c09"
+    },
+    "lib/native-pilot/postgres/README.md": {
+      "mode": "100644",
+      "sha256": "82c9f8adaf3ff4a28867b32fe947bf782b6238124bf4c08b79210b29b7757aed"
+    },
+    "lib/native-pilot/postgres/checkpoint.ts": {
+      "mode": "100644",
+      "sha256": "955fd044acc2042f3b8c5b30e1fa7ca6ef88f83aa8752e54f1896cf5d4d0694c"
+    },
+    "lib/native-pilot/postgres/connection.ts": {
+      "mode": "100644",
+      "sha256": "87cd20a4e09d5872fa7bbf0937ef7dc27b1ae64a6497189bafa484e3866ab39c"
+    },
+    "lib/native-pilot/postgres/http.ts": {
+      "mode": "100644",
+      "sha256": "fc207809dbd3bb00d6befb6d2abf9ee6255bb3877101dd1ca66512c67f8ab90e"
+    },
+    "lib/native-pilot/postgres/package.ts": {
+      "mode": "100644",
+      "sha256": "c42e5fb53291efce02f0d31fe3690e6357bffc197d74dafd0dc740d9f09999b1"
+    },
+    "lib/native-pilot/postgres/pins.json": {
+      "mode": "100644",
+      "sha256": "abf717cde58339c13c7bdfa02dcc3efb48303aa878a8193e50c309930259526c"
+    },
+    "lib/native-pilot/postgres/pins.ts": {
+      "mode": "100644",
+      "sha256": "f610643ae2d7ef9953f9243f6d4177492c8b7708fa9808978333c48a91fdac43"
+    },
+    "lib/native-pilot/postgres/protocol.ts": {
+      "mode": "100644",
+      "sha256": "599b1259a7d791a29bb11fd6d87b69af57dbccf048412597d5a9d55734a71a2b"
+    },
+    "lib/native-pilot/postgres/schema.sql": {
+      "mode": "100644",
+      "sha256": "b6dbb32c4845f0b461ca569fbcb862497db0b37ea7ad63df4b79f1fbd6f1a740"
+    },
+    "tests/native-postgres/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "923b33d1d578eff3ca7f39f466f3925cdd7638e40846fb9c0c077fe2bfb4acea"
+    },
+    "tests/native-postgres/immutable.sh": {
+      "mode": "100644",
+      "sha256": "83bcee4d4aa7578fcc9aa9968b42dd0ff66727615bef6104b947bd8e2d1b5e06"
+    },
+    "tests/native-postgres/namespace-only.mjs": {
+      "mode": "100644",
+      "sha256": "15b1673346a89310033f5164f45eb556b4694cfdff4fc96f121420ea5aad35be"
+    },
+    "tests/native-postgres/no-database.mjs": {
+      "mode": "100644",
+      "sha256": "de01ababb11b84f1bace9a35476e15412b92907ca0b931d1e09d83689e800993"
+    },
+    "tests/native-postgres/non-sql/checkpoint.test.mjs": {
+      "mode": "100644",
+      "sha256": "7add0457aa9da9eb3d8c90e44cd0db04e65b6ab6a742794dc5573a0941a4edf5"
+    },
+    "tests/native-postgres/non-sql/connection.test.mjs": {
+      "mode": "100644",
+      "sha256": "118cbc33da82e1393adf859d1aae222e9ac26a0f80db4d70da8762046e6445dc"
+    },
+    "tests/native-postgres/non-sql/execution-gates.test.mjs": {
+      "mode": "100644",
+      "sha256": "89cac525a079e23bb42ad42f568e4d9e054bc3272602278f8272ea8136a83d3b"
+    },
+    "tests/native-postgres/non-sql/http.test.mjs": {
+      "mode": "100644",
+      "sha256": "e8caf2cde19420e6fa1d438c3a0b91afd5a0401712872c332eeaeee188b1c0dc"
+    },
+    "tests/native-postgres/non-sql/protocol.test.mjs": {
+      "mode": "100644",
+      "sha256": "d7e56f539fb57cbc508b5a2713e7ae513dc1c63f44f3ede0b0be23d41a5fc39f"
+    },
+    "tests/native-postgres/non-sql/schema.test.mjs": {
+      "mode": "100644",
+      "sha256": "b568c9e1c75afa90a13f65b80d7517c7e3c9b36264dffc83922e73bdfa8af15e"
+    },
+    "tests/native-postgres/pg18-approval.mjs": {
+      "mode": "100644",
+      "sha256": "2d1072ff2cf95d767b8442ed8d62b425c70e95d3bcac3cd5dd0b1176769e0b1f"
+    },
+    "tests/native-postgres/pg18-isolated.sh": {
+      "mode": "100644",
+      "sha256": "7ce898c24d81257581e4ebc8302dc29225c194b85a0f6a113018e43e32349d70"
+    },
+    "tests/native-postgres/pg18.sh": {
+      "mode": "100644",
+      "sha256": "af693d5490b66de76e46803f6ada01a0bc10b61694b75d9ca4fb00081cce21cd"
+    },
+    "tests/native-postgres/pg18.test.mjs": {
+      "mode": "100644",
+      "sha256": "e121d39f31d33cb6ed123b9cb5670b2ece13aa22c0a5afeb46458bea5bfa639f"
+    },
+    "tests/native-postgres/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-postgres/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-postgres/run.sh": {
+      "mode": "100644",
+      "sha256": "a0e9d2be49ddbf8b03815bc88c63feb8edfd92fd6b7fe925f8aa7d563ad15583"
+    },
+    "tests/native-postgres/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    }
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "version": "native-union-284-review/1",
+  "base": "905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a",
+  "modified": {
+    "app/lens/page.tsx": {
+      "sha256": "11abf297f547d93dbdfb1ca6523fec35d74d9acef6669e60b7396d360c7dc222",
+      "patchSha256": "34e5b58a76b558412f5bcb1e65eeab5d8ba57dc6622803ca6ca26ccf3b07004d"
+    },
+    "lib/native-lens/boundary.ts": {
+      "sha256": "c96dc575435c7455ec67942e32f0cddb81f1e2ae25956846dcc11edca954ba8c",
+      "patchSha256": "63dc3a57647d8b32c17c6b0af11b936aff92c0e2e2f358e5f236823cc9643f37"
+    },
+    "lib/native-lens/policy.ts": {
+      "sha256": "37db792aa72e9dfc09bfca19cdfdb53fd48eb59d482e79cb71fd652ec3a9e51b",
+      "patchSha256": "d0445fa38b735cdafa7a3392bb313379a4c652ae53fad297702c02977210c486"
+    },
+    "vercel.json": {
+      "sha256": "806ba76d4addccb29df0fd6e6400d2f61dfbb61e88a453ef63ea29fc6f12606b",
+      "patchSha256": "94fb3703c67e21a23bd3e430a5fdba50ad5784b8058396baa7ff450509fe3bda"
+    }
+  },
+  "added": {
+    ".github/workflows/native-union-284.yml": {
+      "mode": "100644",
+      "sha256": "52f1080563d953ea083b49fe1029d4ee9a23e56aee745cb412340f4d4339c454"
+    },
+    "docs/native-union-284/ACCEPTANCE.md": {
+      "mode": "100644",
+      "sha256": "849f141bcd7bf09d8900f661bf164e375b35c259adcedfc7d2740fbe66d22269"
+    },
+    "tests/native-union-284/browser-server.mjs": {
+      "mode": "100644",
+      "sha256": "abe9a3b0a382f7281b195ba1b703de74b7d3bad59da082a6295527035e83b7e1"
+    },
+    "tests/native-union-284/browser.config.mjs": {
+      "mode": "100644",
+      "sha256": "4fe05133aab63c3c19f5893bc4afacedc20ebf37dd7aa0c77ccf72cf1969b6fa"
+    },
+    "tests/native-union-284/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "c4402114964b5ff9d87039d0f491708c1d3f15e5b041a4c2d594ea0ed33e7aca"
+    },
+    "tests/native-union-284/inputs.json": {
+      "mode": "100644",
+      "sha256": "f88a632bc68290ff1da335bfc6ef0c02cd6ff68e56e6ec8255a31d4f52ede52a"
+    },
+    "tests/native-union-284/off.test.mjs": {
+      "mode": "100644",
+      "sha256": "d9d59b0dbfbbc67a5148b62ebc478f9fc183e4040b654a49a584f6f12f4af7dc"
+    },
+    "tests/native-union-284/optimized.config.mjs": {
+      "mode": "100644",
+      "sha256": "68aee7a50ca3fb7ac53d481283400a3d96e1d6c8f3abc5c91d8b086402c56219"
+    },
+    "tests/native-union-284/pg18-browser.config.mjs": {
+      "mode": "100644",
+      "sha256": "ce8a28985a6efa42a1cee89d39d2891deeee78be3ea3af5004fa312ad2c57a25"
+    },
+    "tests/native-union-284/pg18-cases.mjs": {
+      "mode": "100644",
+      "sha256": "c8ac7ee97c2abd2278d4d16a655ea1c860e78ad8d5559958cf4a1441f63280ce"
+    },
+    "tests/native-union-284/pg18-context.mjs": {
+      "mode": "100644",
+      "sha256": "e45d522603a09541b33328ecbedca9c85e2d188f639409d951efea6a1663c3da"
+    },
+    "tests/native-union-284/pg18-isolated.sh": {
+      "mode": "100644",
+      "sha256": "8be34904df80686a3c8540632fb626a924c8c53cdf8d25b5442301f266d42ba2"
+    },
+    "tests/native-union-284/pg18.sh": {
+      "mode": "100644",
+      "sha256": "7d4fa190b146b4594e347fb6bec1d6ab9ff7b5940a4052a20185bf3ee9d4b819"
+    },
+    "tests/native-union-284/pg18.test.mjs": {
+      "mode": "100644",
+      "sha256": "e24f0e53fbd33410d79531a4f7b5a8510dfae8e012a84f338e06338a7b14e453"
+    },
+    "tests/native-union-284/replay.sh": {
+      "mode": "100644",
+      "sha256": "4849ca499c3815cb8bcbad39d765d4b3deb4c97f92416663adac047a4f0759f5"
+    },
+    "tests/native-union-284/require-pg-evidence.mjs": {
+      "mode": "100644",
+      "sha256": "3f2a64fd988b1bf7ccbc58619bafc83d47a4766d856127218c4acd4dedd19448"
+    },
+    "tests/native-union-284/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-union-284/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-union-284/run.sh": {
+      "mode": "100644",
+      "sha256": "2610fd3129f74e9fa158d460b5743fc606d1ace1ce4aa4e64cfe74429b815829"
+    },
+    "tests/native-union-284/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-union-284/session.mjs": {
+      "mode": "100644",
+      "sha256": "44d5ce7413cf18db496e675b6a62536cae59305a19a5d951459e2f6762ce9185"
+    },
+    "tests/native-union-284/state-machine.test.mjs": {
+      "mode": "100644",
+      "sha256": "44661c9183564168405fc56fbbdd30fd4d7bd236bbb70627d35203210a868af9"
+    }
+  }
+}

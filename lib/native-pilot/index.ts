@@ -5,7 +5,8 @@ import {checkServerIdentity,type TLSSocket} from 'node:tls';
 import type {Pool} from 'pg';
 import {acquire,type Capture,type Intake,type Analyze} from './engine';
 import {ownerSession} from './auth';
-import {openLedger,type AnchorBootstrap} from './ledger';
+import type {NativePostgresConfiguration} from './postgres/connection';
+import type {Ledger} from './ledger';
 import {policy,HOST,hash,need,LIMITS,type Policy} from './plan';
 import type {NativeEvidenceV1} from './evidence-contract';
 /** New, independent lane. Not an env toggle, old grant, caller flag or signed-lane bypass. */
@@ -58,13 +59,18 @@ function wire(body:string,key:string):Promise<Capture>{
   }catch{fail();}
  });
 }
-export type Configuration=Readonly<{policy:Policy;directory:string;anchorDirectory:string;bootstrap:AnchorBootstrap;
+export type Configuration=Readonly<{policy:Policy;store:NativePostgresConfiguration;
  issuerPool:Pool;tlsHost:string;authSecret:string;readKey:()=>string;intake:Intake;analyze:Analyze}>;
 /** No route, env/key read, SQL, filesystem, auth call or network at construction while OFF.
  * This body is the future assembly, not an operational activation supplied by this PR. */
 export function createNativePilot(config:Configuration){
  if(!NATIVE_PILOT_ENABLED||!NATIVE_PILOT_BUILD)return Object.freeze({inspect:async()=>held(),stop:async()=>held()});
- const p=policy(config.policy);need(identity(p));const ledger=openLedger({...config,policy:p});
+ const p=policy(config.policy);need(identity(p));
+ // Loader cache only, never admission state. No PG import/credential construction before owner verification.
+ let opened:Promise<Ledger>|undefined;
+ const store=()=>opened??=import('./postgres/connection').then(m=>m.openPostgresLedger(p,config.store));
+ const ledger:Ledger={inspect:async()=> (await store()).inspect(),reserve:async(...a)=> (await store()).reserve(...a),
+  finish:async(...a)=> (await store()).finish(...a),stop:async(...a)=> (await store()).stop(...a)};
  const authorize=ownerSession(p,config.authSecret,config.issuerPool,config.tlsHost);
  let terminal=false;
  const live=()=>!terminal&&identity(p);
