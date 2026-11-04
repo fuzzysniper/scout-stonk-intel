@@ -7,6 +7,10 @@ import type {HolderSample} from '../v4-oracle/holders/contract';
 import type {ConcentrationV1,Controls,EvidenceReferenceV1,NativeEvidenceInputV1,NativeEvidenceV1,NativeFindingV1,RatioV1} from './contract';
 import {transferAnalysis} from './transfers';
 import {inspectBatchMint} from './holder';
+import {inspectHeliusEvidence} from './helius-qualification';
+import type {QualifiedHolderSampleV1} from './helius-contract';
+type AnalyticHolderSample=HolderSample|QualifiedHolderSampleV1;
+const batchMint=(cap:unknown)=>inspectBatchMint(cap)??inspectHeliusEvidence(cap)?.controls??null;
 
 export const NATIVE_RULES=Object.freeze({version:'native-evidence/1',maxAgeMs:60000,topAccounts:10,flagBps:5000,maxTransfers:64,maxTransferWindowMs:3600000} as const);
 export const ratio=(n:bigint,d:bigint):RatioV1=>{if(typeof n!=='bigint'||typeof d!=='bigint'||n<0n||d<0n)throw Error('invalid_unsigned_ratio');return {numeratorRaw:String(n),denominatorRaw:String(d),basisPointsFloor:d===0n?null:String(n*10000n/d)};};
@@ -29,11 +33,11 @@ function controlFindings(c:Controls|null,ref:string|null):NativeFindingV1[]{
  rows.push(f('transfer-restrictions','Other transfer controls',restricted?'red':!complete?'gray':mutable?'yellow':'green',restricted?'Non-transferable, default-frozen or paused control present; actual account state/route remains separate.':!complete?'Unsupported extension IDs '+c.unsupported.join(',')+'; no general absence clearance.':mutable?'Additional pause/close authority present.':'No reviewed mint-level restriction configured; per-account controls and route remain unchecked.'));
  return rows;
 }
-function holderRefs(s:HolderSample):EvidenceReferenceV1[]{
+function holderRefs(s:AnalyticHolderSample):EvidenceReferenceV1[]{
  const time={slot:s.snapshotSlot,utc:s.sourceAt,assurance:'rpc_block_time_estimate' as const};
  return s.source.map((r,i)=>({id:'holder-rpc-'+i,kind:s.kind,providerHost:r.endpointHost,method:r.method,requestSha256:r.requestSha256,responseSha256:r.responseSha256,accountDataSha256:null,fieldPath:r.fieldPath,requestStartedAt:r.requestStartedAt,receivedAt:r.receivedAt,contextSlot:r.method==='getBlockTime'?null:r.contextSlot,commitmentRequested:r.method==='getBlockTime'?null:'finalized',commitmentEvidence:r.method==='getBlockTime'?'not_in_method':'request_only_not_independent_finality_proof',blockTime:i===0?null:time}));
 }
-function concentration(s:HolderSample,refs:EvidenceReferenceV1[],reason:string|null):ConcentrationV1{
+function concentration(s:AnalyticHolderSample,refs:EvidenceReferenceV1[],reason:string|null):ConcentrationV1{
  const base={...absentConcentration(reason??'supported_selected_sample'),supplyRaw:s.supplyRaw,decimals:s.decimals,selectionSlot:s.selectionSlot,balanceSlot:s.snapshotSlot,selectionCount:s.accounts.length,observedAccountCount:s.accounts.length,selectionAmountsChanged:s.selectionAmountsChanged};
  const snapshot=refs.find(r=>r.id==='holder-rpc-1')!;
  // Original decoder bounds identity, order, slots, response/account bytes and total/supply when supported.
@@ -52,12 +56,12 @@ function concentration(s:HolderSample,refs:EvidenceReferenceV1[],reason:string|n
 /** Pure deterministic analytics. Only original process-local decoder records are readable; never authenticates origin. */
 export function analyzeNativeEvidence(input:NativeEvidenceInputV1|unknown):NativeEvidenceV1{
  const findings:NativeFindingV1[]=[],references:EvidenceReferenceV1[]=[];
- let mint:string|null=null,evaluatedAt:string|null=null,controls:Controls|null=null,mintSnapshot:NativeEvidenceV1['mintSnapshot']=null,consistency:NativeEvidenceV1['consistency']='not_compared',sample:HolderSample|null=null,reason:string|null=null;
+ let mint:string|null=null,evaluatedAt:string|null=null,controls:Controls|null=null,mintSnapshot:NativeEvidenceV1['mintSnapshot']=null,consistency:NativeEvidenceV1['consistency']='not_compared',sample:AnalyticHolderSample|null=null,reason:string|null=null;
  const kinds=new Set<string>();
  const valid=(()=>{try{return data(input,['mint','evaluatedAt'],['mintEvidence','holderEvidence','transfers'])&&isExactPublicKey(input.mint)&&typeof input.evaluatedAt==='string'&&utcMicros(input.evaluatedAt)!==null;}catch{return false;}})();
  if(valid&&data(input,['mint','evaluatedAt'],['mintEvidence','holderEvidence','transfers'])){
   mint=input.mint as string;evaluatedAt=input.evaluatedAt as string;const now=utcMicros(evaluatedAt)!;
-  const m=inspectEvidence(input.mintEvidence),s=inspectHolderEvidence(input.holderEvidence)?.sample??null;
+  const m=inspectEvidence(input.mintEvidence),s=inspectHolderEvidence(input.holderEvidence)?.sample??inspectHeliusEvidence(input.holderEvidence)?.sample??null;
   if(m?.source&&m.mint===mint){
    const r=m.source;kinds.add(r.kind);references.push({id:'mint-account',kind:r.kind,providerHost:r.endpointHost,method:r.method,requestSha256:null,responseSha256:r.responseSha256,accountDataSha256:r.accountDataSha256,fieldPath:'$.result.value.data',requestStartedAt:r.requestStartedAt,receivedAt:r.receivedAt,contextSlot:r.contextSlot,commitmentRequested:r.commitment,commitmentEvidence:'request_only_not_independent_finality_proof',blockTime:null});
    if(fresh(r.receivedAt,now,r.evaluatedAt)&&m.controls){controls=m.controls;mintSnapshot={contextSlot:r.contextSlot,supplyRaw:controls.rawSupply,decimals:controls.decimals,evidenceId:'mint-account'};}
@@ -66,10 +70,10 @@ export function analyzeNativeEvidence(input:NativeEvidenceInputV1|unknown):Nativ
    sample=s;kinds.add(s.kind);references.push(...holderRefs(s));const snapshot=references.find(r=>r.id==='holder-rpc-1')!;
    references.push({...snapshot,id:'holder-mint',fieldPath:'$.result.value[0].data',accountDataSha256:s.mintAccountDataSha256});
    const block=utcMicros(s.sourceAt);if(!s.source.every(r=>fresh(r.receivedAt,now))||block===null||now<block||now-block>120000000n)reason='stale_or_future_sample';
-   if(!mintSnapshot&&!reason){const batch=inspectBatchMint(input.holderEvidence);if(batch){controls=batch;mintSnapshot={contextSlot:s.snapshotSlot,supplyRaw:batch.rawSupply,decimals:batch.decimals,evidenceId:'holder-mint'};}}
+   if(!mintSnapshot&&!reason){const batch=batchMint(input.holderEvidence);if(batch){controls=batch;mintSnapshot={contextSlot:s.snapshotSlot,supplyRaw:batch.rawSupply,decimals:batch.decimals,evidenceId:'holder-mint'};}}
    if(controls&&mintSnapshot){
     const same=mintSnapshot.contextSlot===s.snapshotSlot;
-    const batch=inspectBatchMint(input.holderEvidence),accountHash=references.find(r=>r.id===mintSnapshot!.evidenceId)?.accountDataSha256??null;
+    const batch=batchMint(input.holderEvidence),accountHash=references.find(r=>r.id===mintSnapshot!.evidenceId)?.accountDataSha256??null;
     const incompatible=controls.ownerProgram!==s.mintProgram||controls.decimals!==s.decimals;
     const baseDiff=batch&&(controls.mintAuthority!==batch.mintAuthority||controls.freezeAuthority!==batch.freezeAuthority);
     const controlState=(c:Controls)=>JSON.stringify({...c,rawSupply:'omitted_for_control_comparison'});

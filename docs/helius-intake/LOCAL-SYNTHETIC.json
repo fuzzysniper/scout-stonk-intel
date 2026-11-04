@@ -1,0 +1,150 @@
+{
+  "notice": "ALL LOCAL/SYNTHETIC. Real B state machine/local fsync; simulated owner, identity and wire. NOT hosted/native/SQL/source acceptance.",
+  "positive": {
+    "status": "candidate",
+    "calls": 3,
+    "intakes": 1,
+    "analyses": 1,
+    "attempts": 3,
+    "completed": 3,
+    "credits": 3,
+    "stopped": false,
+    "origin": {
+      "status": "candidate_only",
+      "providerAuthenticated": false,
+      "label": "SYNTHETIC OFFLINE"
+    },
+    "mint": "4wBqpZM9xaSheZzJSMawUKKwhdpChKbZ5eu5ky4Vigw",
+    "mintSnapshot": {
+      "contextSlot": "100",
+      "supplyRaw": "1000000",
+      "decimals": 6,
+      "evidenceId": "holder-mint"
+    },
+    "controls": {
+      "program": "spl_token",
+      "ownerProgram": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+      "initialized": true,
+      "decimals": 6,
+      "rawSupply": "1000000",
+      "mintAuthority": null,
+      "freezeAuthority": null,
+      "permanentDelegate": null,
+      "transferHook": null,
+      "transferFee": null,
+      "defaultAccountState": null,
+      "nonTransferable": false,
+      "pausable": null,
+      "mintCloseAuthority": null,
+      "extensionTypes": [],
+      "unsupported": [],
+      "extensionCoverage": "complete_reviewed"
+    },
+    "selectedShare": {
+      "numeratorRaw": "200000",
+      "denominatorRaw": "1000000",
+      "basisPointsFloor": "2000"
+    },
+    "ownerGroups": 20,
+    "coverage": {
+      "fullHolderCoverage": false,
+      "beneficialOwnership": "unknown",
+      "suspectedRelationships": "not_established",
+      "accountClassifications": "not_supplied_no_exclusions",
+      "price": "not_established",
+      "momentum": "not_established",
+      "exitCapacity": "not_established",
+      "walletHistory": "not_established"
+    },
+    "originalRefs": [
+      {
+        "id": "holder-rpc-0",
+        "kind": "synthetic_fixture",
+        "providerHost": "mainnet.helius-rpc.com",
+        "method": "getTokenLargestAccounts",
+        "requestSha256": "649872e7c182f3528be3a4891c255fdab781733304eb57a4735023309d9fe6a9",
+        "responseSha256": "668b61ee8a4e2cd47e5264ca69fde34f03f5908a5e9ee1d6ff711d59eb44e4cb",
+        "accountDataSha256": null,
+        "fieldPath": "$.result.value",
+        "requestStartedAt": "2026-10-31T12:00:30.000Z",
+        "receivedAt": "2026-10-31T12:00:30.100Z",
+        "contextSlot": "100",
+        "commitmentRequested": "finalized",
+        "commitmentEvidence": "request_only_not_independent_finality_proof",
+        "blockTime": null
+      },
+      {
+        "id": "holder-rpc-1",
+        "kind": "synthetic_fixture",
+        "providerHost": "mainnet.helius-rpc.com",
+        "method": "getMultipleAccounts",
+        "requestSha256": "f1d2ccd64c6539c4c4f5543a090891e9b56b6204c0d1edc8097c3deb1825f491",
+        "responseSha256": "fc47adc02f990252da208f0e95734409c64fe86e9b935f7be4b6acc35d9d63fd",
+        "accountDataSha256": null,
+        "fieldPath": "$.result.value",
+        "requestStartedAt": "2026-10-31T12:00:32.600Z",
+        "receivedAt": "2026-10-31T12:00:32.700Z",
+        "contextSlot": "100",
+        "commitmentRequested": "finalized",
+        "commitmentEvidence": "request_only_not_independent_finality_proof",
+        "blockTime": {
+          "slot": "100",
+          "utc": "2026-10-31T12:00:00.000Z",
+          "assurance": "rpc_block_time_estimate"
+        }
+      },
+      {
+        "id": "holder-rpc-2",
+        "kind": "synthetic_fixture",
+        "providerHost": "mainnet.helius-rpc.com",
+        "method": "getBlockTime",
+        "requestSha256": "156cd9c81f6c37acd69c9dc2a4adc31164480d1acfc2ba8fbb4c875dbae38d58",
+        "responseSha256": "b9ddb20f6f525127066dbea409a874c762f1781c0f8c1c0f94d3cdd4abcc1448",
+        "accountDataSha256": null,
+        "fieldPath": "$.result",
+        "requestStartedAt": "2026-10-31T12:00:35.200Z",
+        "receivedAt": "2026-10-31T12:00:35.300Z",
+        "contextSlot": null,
+        "commitmentRequested": null,
+        "commitmentEvidence": "not_in_method",
+        "blockTime": {
+          "slot": "100",
+          "utc": "2026-10-31T12:00:00.000Z",
+          "assurance": "rpc_block_time_estimate"
+        }
+      },
+      {
+        "id": "holder-mint",
+        "kind": "synthetic_fixture",
+        "providerHost": "mainnet.helius-rpc.com",
+        "method": "getMultipleAccounts",
+        "requestSha256": "f1d2ccd64c6539c4c4f5543a090891e9b56b6204c0d1edc8097c3deb1825f491",
+        "responseSha256": "fc47adc02f990252da208f0e95734409c64fe86e9b935f7be4b6acc35d9d63fd",
+        "accountDataSha256": "feeb1527502b8f9ada6947c5a12c18c480de2e53ebb89eccd644c8b0af2d7072",
+        "fieldPath": "$.result.value[0].data",
+        "requestStartedAt": "2026-10-31T12:00:32.600Z",
+        "receivedAt": "2026-10-31T12:00:32.700Z",
+        "contextSlot": "100",
+        "commitmentRequested": "finalized",
+        "commitmentEvidence": "request_only_not_independent_finality_proof",
+        "blockTime": {
+          "slot": "100",
+          "utc": "2026-10-31T12:00:00.000Z",
+          "assurance": "rpc_block_time_estimate"
+        }
+      }
+    ],
+    "existingCProjectionAccepts": true,
+    "existingCFindingCount": 24
+  },
+  "nullClockNegative": {
+    "status": "held",
+    "calls": 3,
+    "intakes": 1,
+    "analyses": 0,
+    "attempts": 3,
+    "completed": 3,
+    "credits": 3,
+    "stopped": true
+  }
+}
