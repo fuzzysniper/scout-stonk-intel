@@ -1,7 +1,7 @@
 // New finite union review; previous reviewed source guards are never broadened.
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
 export const BASE='905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a';
-const MANIFEST_SHA='035ca6ad89637138b543961d3e17a5a06d364d4539ec8d4ddfa0de4463798b79';
+const MANIFEST_SHA='60ce2d9765c459829d4071fd1417ce3267be79755fb7bc74a5da2cad63974f51';
 export const sha=b=>createHash('sha256').update(b).digest('hex');
 const blob=b=>createHash('sha1').update('blob '+b.length+'\0').update(b).digest('hex');
 export function review(root=process.cwd(),checkHead=true){

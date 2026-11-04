@@ -42,7 +42,7 @@
     },
     "tests/native-union-284/inputs.json": {
       "mode": "100644",
-      "sha256": "b90d6e11e9ee01579bf8e984ad53f3e696bd24f188466c53edf5e3415779b792"
+      "sha256": "f88a632bc68290ff1da335bfc6ef0c02cd6ff68e56e6ec8255a31d4f52ede52a"
     },
     "tests/native-union-284/off.test.mjs": {
       "mode": "100644",
@@ -54,11 +54,11 @@
     },
     "tests/native-union-284/pg18-browser.config.mjs": {
       "mode": "100644",
-      "sha256": "88a7b93214d2b4211af1efa495c68edaeb040dafbad9246b17af029da191c86d"
+      "sha256": "ce8a28985a6efa42a1cee89d39d2891deeee78be3ea3af5004fa312ad2c57a25"
     },
     "tests/native-union-284/pg18-cases.mjs": {
       "mode": "100644",
-      "sha256": "ff0f3afc113f483b1c4b731dfa40ccea97fa36f1f7d3227088c297ccd8731124"
+      "sha256": "c8ac7ee97c2abd2278d4d16a655ea1c860e78ad8d5559958cf4a1441f63280ce"
     },
     "tests/native-union-284/pg18-context.mjs": {
       "mode": "100644",

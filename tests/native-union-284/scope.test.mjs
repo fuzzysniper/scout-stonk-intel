@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import {execFileSync} from 'node:child_process';import {review,sha} from './review.mjs';
-const REVIEWER_SHA='1a2f434a811f50b4e0cf20e657ee2fc24c9218c9fcc668032b23c459f3ee2b7c';
+const REVIEWER_SHA='7be003f60e08d76272e7f7d50ec5bd9d7d852a245116611a7ce3f196cb4eb1c0';
 test('exact reviewed corrective input union, unchanged original guards/data/UI/auth/STOP and modes',()=>{assert.equal(sha(fs.readFileSync('tests/native-union-284/review.mjs')),REVIEWER_SHA);review();});
 test('passing control rejects implementation/UI/source/root/SQL/STOP/test/branch changes, symlink/mode and extra paths',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'native-union-guard-'));try{execFileSync('git',['worktree','add','--detach',dir,'HEAD'],{stdio:'ignore'});review(dir);
