@@ -1,0 +1,108 @@
+{
+  "base": "80d952c73bf4529fd04034c85985c16898ab17e8",
+  "modified": {
+    "app/api/native-pilot/route.ts": {
+      "mode": "100644",
+      "sha256": "7e13e853eaf7c1c4d87470e6cd2a61349bacc65c96ad4a525885b0f344c5aaf2"
+    },
+    "lib/native-lens/boundary.ts": {
+      "mode": "100644",
+      "sha256": "fb5a7f02c48557c0e9641ca1ae186d4f820d3664b89ee36e9236ca6ec55d832f"
+    },
+    "lib/native-pilot/index.ts": {
+      "mode": "100644",
+      "sha256": "9324cffbf33f3c1670c67f09633e3487ead2f37c0e36400ea70b74e00634d843"
+    },
+    "lib/native-pilot/postgres/connection.ts": {
+      "mode": "100644",
+      "sha256": "13d37aa293d859e38997b716ede386fdc5db71f9d6257ab6db06f89af5f1e77b"
+    },
+    "tests/native-postgres/pg18.test.mjs": {
+      "mode": "100644",
+      "sha256": "42de69752a21652a93d51e451d5f60ca8ae9548a3fc8118fcca0c3378ed77858"
+    },
+    "vercel.json": {
+      "mode": "100644",
+      "sha256": "f4e2a558294bf4e35e5ca95f9bce0b22200aa42b9e5fc9d8d3a1dd52c0ad4e15"
+    }
+  },
+  "added": {
+    ".github/workflows/native-admission.yml": {
+      "mode": "100644",
+      "sha256": "34870a0adb03407b43f5b034c86c858cfc8299c4a6420c1452f597c9884250b5"
+    },
+    "lib/native-pilot/admission/configuration.ts": {
+      "mode": "100644",
+      "sha256": "d8f45ed3bdb5a357dd1aa441b1606953c1f8f1d01ffb429571519f77763143a0"
+    },
+    "lib/native-pilot/admission/contract.ts": {
+      "mode": "100644",
+      "sha256": "7957daaa24a0474a2d54ab8ea5962c925f1973d36bf0ecd547b05b6239327b05"
+    },
+    "lib/native-pilot/admission/gates.ts": {
+      "mode": "100644",
+      "sha256": "9f12bc4422a2ec43c5f2c1f9d166b734e56dfe1adda222ae56a03d167b3e1cce"
+    },
+    "lib/native-pilot/admission/github.ts": {
+      "mode": "100644",
+      "sha256": "eacf4ae827b5e6bff8aee9d1901990b47fb033eb159df3a5b4ee808d6675c31f"
+    },
+    "lib/native-pilot/admission/installed.ts": {
+      "mode": "100644",
+      "sha256": "1233ca916031f9c8fddf2263b78534722b0421ac7dcdb101895d9036d4fd87f0"
+    },
+    "lib/native-pilot/admission/publication.ts": {
+      "mode": "100644",
+      "sha256": "50d2e7eaa88b42e10e08f2cabbe2979ec5df1c9398b83b991ceb8c731fc8219d"
+    },
+    "ops/native-pilot-admission/README.md": {
+      "mode": "100644",
+      "sha256": "289758cf87e028c1584c57b72fa73d17b04464a79d7119954fe0c09bf813db47"
+    },
+    "tests/native-admission/artifact.mjs": {
+      "mode": "100644",
+      "sha256": "1c940237959612298d609ded8b5c037a168e38d6e063e9bfaa5533296b8fd618"
+    },
+    "tests/native-admission/contract.test.mjs": {
+      "mode": "100644",
+      "sha256": "2e1c4166253f9b9f3442264d94bfc0ddae3d5b8b1e0731323d14e8341c32407d"
+    },
+    "tests/native-admission/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "ab2bd7e04c28612ad653abae4a2460183341210a036893f78dc3e7be31c3270a"
+    },
+    "tests/native-admission/github.test.mjs": {
+      "mode": "100644",
+      "sha256": "368086680b3012f70cc450c3b7e056ab06f7d852eb1c70a8f45eb952d3fb9c8a"
+    },
+    "tests/native-admission/off.test.mjs": {
+      "mode": "100644",
+      "sha256": "795a885068099dbe2f2eb9a42667bbf0a42f893da22c62be1bc6f78b9e4df87b"
+    },
+    "tests/native-admission/replay.sh": {
+      "mode": "100644",
+      "sha256": "adffd3095faa664e461e189efb53e33e6fac86e0b9fce2109d9c55b21457a13b"
+    },
+    "tests/native-admission/review.json": {
+      "mode": "100644"
+    },
+    "tests/native-admission/review.mjs": {
+      "mode": "100644"
+    },
+    "tests/native-admission/run.sh": {
+      "mode": "100644",
+      "sha256": "ea2928d74d3110fbe315c3254535a1ad408c8bc816980215fe01a41fbba880db"
+    },
+    "tests/native-admission/runtime.test.mjs": {
+      "mode": "100644",
+      "sha256": "ed62ea7a6d64670be1688cb6ae76fb393a513c2e1a78ac6735cc5ed887908a04"
+    },
+    "tests/native-admission/scope.test.mjs": {
+      "mode": "100644"
+    },
+    "tests/native-admission/transport.test.mjs": {
+      "mode": "100644",
+      "sha256": "5750f2fce0cc1d1ded39cece61ce70ef252c343aafcbdfb3ac59c469965a46d1"
+    }
+  }
+}

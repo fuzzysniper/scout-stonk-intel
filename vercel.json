@@ -11,7 +11,8 @@
       "integration/284-native-corrections": false,
       "fix/284-helius-evidence-intake": false,
       "feat/284-native-postgres-off": false,
-      "feat/286-pg18-validation": false
+      "feat/286-pg18-validation": false,
+      "feat/288-native-release-admission": false
     }
   }
 }
