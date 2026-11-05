@@ -1,16 +1,14 @@
 import 'server-only';
 import type {Pool,PoolClient} from 'pg';
 import {checkServerIdentity} from 'node:tls';
-import {createPublicKey} from 'node:crypto';
 import {StrictJournalClient,strictBindingEstablished} from '../../../ops/v4-journal/native-tls.mjs';
-import {verifyNeonAdmission,neonAdmissionRecord} from '../../v4-owner-ledger/neon-durability';
-import {OWNER_RELEASE_PUBLIC_KEY_PEM} from '../../v4-owner-preview/trust';
+import {nativeSetupRecord,type NativeSetupAdmission} from '../admission/installed';
 import {TARGET} from '../../v4-owner-preview/release';
 import pins from './pins';
-import {need,policy,type Policy} from '../plan';
+import {need,policy,hash,type Policy} from '../plan';
 import {postgresProtocol,canonical,seed,type Transaction} from './protocol';
 import {remoteCheckpoint,type Custody} from './checkpoint';
-export type NativePostgresConfiguration=Readonly<{dsn:string;ca:string;host:string;durabilityEnvelope:unknown;custody:Custody;checkpointKey:Buffer}>;
+export type NativePostgresConfiguration=Readonly<{dsn:string;ca:string;host:string;admission:NativeSetupAdmission;custody:Custody;checkpointKey:Buffer}>;
 /** Pure parser; only the new login and exact reviewed DIRECT host are accepted. Never env/default DSN. */
 export function nativeConfiguration(dsn:string,host:string,ca:string,stopper=false){
  try{
@@ -59,9 +57,8 @@ export function transaction(pool:Pick<Pool,'connect'>,binding:string,proof:(c:Po
 /** Concrete native-pg+authenticated remote witness. Nothing connects at construction. */
 export function openPostgresLedger(pInput:Policy,config:NativePostgresConfiguration){
  const p=policy(pInput),binding=seed(p).checkpoint.policyHash;
- need(OWNER_RELEASE_PUBLIC_KEY_PEM);const cap=verifyNeonAdmission(config.durabilityEnvelope,createPublicKey(OWNER_RELEASE_PUBLIC_KEY_PEM));need(cap);
- const signed=neonAdmissionRecord(cap),record=JSON.parse(signed.recordText);
- need(config.host===record.host&&config.custody.policyHash===binding&&config.custody.origin!==p.origin);
+ const admitted=nativeSetupRecord(config.admission,p),record=admitted.record.database,custody=admitted.record.checkpoint;
+ need(hash(config.ca)===record.caSha256&&config.host===record.host&&config.custody.policyHash===binding&&config.custody.origin===custody.origin&&config.custody.keySha256===custody.keySha256&&config.custody.reviewSha256===custody.reviewSha256&&config.custody.origin!==p.origin);
  const connection=nativeConfiguration(config.dsn,config.host,config.ca);
  // Fresh bounded native client per transaction: no frozen Vercel idle-pool dependency.
  const pool={async connect(){const c=new StrictJournalClient(connection);await c.connect();
@@ -71,8 +68,18 @@ export function openPostgresLedger(pInput:Policy,config:NativePostgresConfigurat
  }} as Pick<Pool,'connect'>;
  const anchor=remoteCheckpoint(config.custody,config.checkpointKey);
  const proof=async(c:PoolClient)=>{
-  need(strictBindingEstablished(c));checkProof((await c.query(PROOF)).rows[0]);
+  need(strictBindingEstablished(c));nativeSetupRecord(config.admission,p);checkProof((await c.query(PROOF)).rows[0]);
+  checkPhysicalProof((await c.query(PHYSICAL_PROOF,[record.project,record.branch,record.tenantId,record.timelineId])).rows[0]);
  };
- const tx=transaction(pool,binding,proof),durability=Object.freeze({mode:'neon-safekeeper-quorum/v1',tenantId:record.tenantId,timelineId:record.timelineId,admissionSha256:signed.sha256,custodySha256:config.custody.reviewSha256});
+ const tx=transaction(pool,binding,proof),durability=Object.freeze({mode:'neon-safekeeper-quorum/v1',tenantId:record.tenantId,timelineId:record.timelineId,admissionSha256:admitted.sha256,custodySha256:config.custody.reviewSha256});
  return postgresProtocol(p,(op,input)=>tx(op,{...input,durability}),anchor);
 }
+
+/** Real Neon shape/registered postmaster identities, checked on EVERY native transaction.
+ * A manifest hash or session-set custom GUC is not physical evidence. */
+export const PHYSICAL_PROOF=`SELECT current_setting('fsync')='off' AND current_setting('full_page_writes')='off'
+ AND current_setting('synchronous_commit')='on' AND current_setting('synchronous_standby_names')='walproposer' AND NOT pg_is_in_recovery()
+ AND current_setting('neon.project_id',true)=$1 AND current_setting('neon.branch_id',true)=$2
+ AND current_setting('neon.tenant_id',true)=$3 AND current_setting('neon.timeline_id',true)=$4
+ AND (SELECT count(*)=4 FROM pg_settings WHERE name IN ('neon.project_id','neon.branch_id','neon.tenant_id','neon.timeline_id') AND context='postmaster') AS physical_ok`;
+export function checkPhysicalProof(x:unknown){need(x&&typeof x==='object'&&(x as {physical_ok?:boolean}).physical_ok===true);}

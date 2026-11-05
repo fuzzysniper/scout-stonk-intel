@@ -121,3 +121,11 @@ test('actual wrong password/hostname never establishes native PLUS and redacts s
   const c=new StrictJournalClient({...db.config('unfarmd_native_login'),password:pass,...patch});try{await assert.rejects(()=>c.connect(),e=>e.message==='journal_native_unavailable'&&!e.message.includes(pass));assert.equal(strictBindingEstablished(c),false);}finally{await c.end().catch(()=>{});}
  }
 });
+test('actual PG18 session-set fake Neon IDs cannot satisfy native physical admission or debit a budget',async()=>{
+ const x=await scenario(),{PHYSICAL_PROOF,checkPhysicalProof}=load('connection'),c=await x.pool.connect();
+ try{await c.query("SET neon.project_id='twilight-hall-57571802'; SET neon.branch_id='br-sweet-voice-b4x4et5q'; SET neon.tenant_id='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'; SET neon.timeline_id='bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'");
+  const proof=(await c.query(PHYSICAL_PROOF,['twilight-hall-57571802','br-sweet-voice-b4x4et5q','a'.repeat(32),'b'.repeat(32)])).rows[0];assert.equal(proof.physical_ok,false);assert.throws(()=>checkPhysicalProof(proof));
+ }finally{c.release();}
+ const tx=transaction(x.pool,x.initial.checkpoint.policyHash,async c=>checkPhysicalProof((await c.query(PHYSICAL_PROOF,['twilight-hall-57571802','br-sweet-voice-b4x4et5q','a'.repeat(32),'b'.repeat(32)])).rows[0]));
+ await assert.rejects(()=>postgresProtocol(x.policy,(op,input)=>tx(op,{...input,durability:{mode:'local-fsync'}}),x.anchor).reserve('getTokenLargestAccounts',H,Date.now()));assert.equal((await x.read()).attempts,0);assert.equal((await x.read()).credits,0);
+});

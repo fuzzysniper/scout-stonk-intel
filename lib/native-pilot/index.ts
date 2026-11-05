@@ -7,6 +7,8 @@ import {acquire,type Capture,type Intake,type Analyze} from './engine';
 import {ownerSession} from './auth';
 import type {NativePostgresConfiguration} from './postgres/connection';
 import type {Ledger} from './ledger';
+import {nativeSourcePermitted,nativeSetupRecord,type NativeSourceAdmission} from './admission/installed';
+import {NATIVE_SETUP_RUNTIME_ENABLED} from './admission/gates';
 import {policy,HOST,hash,need,LIMITS,type Policy} from './plan';
 import type {NativeEvidenceV1} from './evidence-contract';
 /** New, independent lane. Not an env toggle, old grant, caller flag or signed-lane bypass. */
@@ -59,21 +61,21 @@ function wire(body:string,key:string):Promise<Capture>{
   }catch{fail();}
  });
 }
-export type Configuration=Readonly<{policy:Policy;store:NativePostgresConfiguration;
+export type Configuration=Readonly<{policy:Policy;store:NativePostgresConfiguration;sourceAdmission:NativeSourceAdmission;
  issuerPool:Pool;tlsHost:string;authSecret:string;readKey:()=>string;intake:Intake;analyze:Analyze}>;
 /** No route, env/key read, SQL, filesystem, auth call or network at construction while OFF.
  * This body is the future assembly, not an operational activation supplied by this PR. */
 export function createNativePilot(config:Configuration){
  if(!NATIVE_PILOT_ENABLED||!NATIVE_PILOT_BUILD)return Object.freeze({inspect:async()=>held(),stop:async()=>held()});
- const p=policy(config.policy);need(identity(p));
+ const p=policy(config.policy);need(identity(p)&&nativeSourcePermitted(config.sourceAdmission,config.store.admission,p));
  // Loader cache only, never admission state. No PG import/credential construction before owner verification.
  let opened:Promise<Ledger>|undefined;
  const store=()=>opened??=import('./postgres/connection').then(m=>m.openPostgresLedger(p,config.store));
  const ledger:Ledger={inspect:async()=> (await store()).inspect(),reserve:async(...a)=> (await store()).reserve(...a),
   finish:async(...a)=> (await store()).finish(...a),stop:async(...a)=> (await store()).stop(...a)};
- const authorize=ownerSession(p,config.authSecret,config.issuerPool,config.tlsHost);
+ assertOwnerBindings(config,p);const authorize=ownerSession(p,config.authSecret,config.issuerPool,config.tlsHost);
  let terminal=false;
- const live=()=>!terminal&&identity(p);
+ const live=()=>!terminal&&identity(p)&&nativeSourcePermitted(config.sourceAdmission,config.store.admission,p);
  return Object.freeze({
   async inspect(request:Request){
    if(!live())return held();
@@ -88,8 +90,27 @@ export function createNativePilot(config:Configuration){
    return Object.freeze({status:'observation' as const,activate:false as const,observation});
   },
   async stop(request:Request){
-   if(!live()||request.headers.get('x-unfarmd-native-intent')!=='stop'||!await authorize(request))return held();
-   terminal=true;try{const r=await ledger.stop(Date.now());return Object.freeze({status:r.state.stopped?'stopped':'held',activate:false});}catch{return held();}
+   if(!identity(p)||request.headers.get('x-unfarmd-native-intent')!=='stop'||!await authorize(request))return held();
+   try{nativeSetupRecord(config.store.admission,p);terminal=true;const r=await ledger.stop(Date.now());return Object.freeze({status:r.state.stopped?'stopped':'held',activate:false});}catch{return held();}
   }
  });
+}
+
+/** Setup authority can only STOP; it cannot inspect/acquire/read a provider key.
+ * Source approval/expiry is deliberately irrelevant to durable owner STOP. */
+export function createNativeStopper(config:Omit<Configuration,'sourceAdmission'|'intake'|'analyze'>){
+ if(!NATIVE_SETUP_RUNTIME_ENABLED)return Object.freeze({stop:async()=>held()});
+ const p=policy(config.policy);need(identity(p));nativeSetupRecord(config.store.admission,p);
+ assertOwnerBindings(config,p);const authorize=ownerSession(p,config.authSecret,config.issuerPool,config.tlsHost);
+ return Object.freeze({async stop(request:Request){
+  try{need(identity(p)&&request.headers.get('x-unfarmd-native-intent')==='stop'&&await authorize(request));nativeSetupRecord(config.store.admission,p);
+   const {openPostgresLedger}=await import('./postgres/connection');const r=await openPostgresLedger(p,config.store).stop(Date.now());
+   return Object.freeze({status:r.state.stopped?'stopped':'held',activate:false});
+  }catch{return held();}
+ }});
+}
+
+function assertOwnerBindings(config:Omit<Configuration,'sourceAdmission'|'intake'|'analyze'>,p:Policy){
+ const s=nativeSetupRecord(config.store.admission,p).record,o=config.issuerPool.options;
+ need(hash(config.authSecret)===s.owner.authSecretSha256&&config.tlsHost===s.database.host&&o.host===s.database.host&&o.database===s.database.database&&o.user==='unfarmd_v4_auth_login'&&typeof o.ssl==='object'&&hash(String(o.ssl.ca))===s.database.caSha256);
 }

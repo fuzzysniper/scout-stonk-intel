@@ -1,3 +1,4 @@
+import {NATIVE_SETUP_RUNTIME_ENABLED} from '../../../lib/native-pilot/admission/gates';
 import {NATIVE_LENS_SOURCE_ENABLED} from '../../../lib/native-lens/policy';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -6,7 +7,7 @@ const headers={'Cache-Control':'private, no-store','Referrer-Policy':'no-referre
 /** C OFF denial precedes all A/B/bootstrap/body/credential access. No config loader.
  * B's exact owner-session path/intent contract is preserved, not proxied. */
 export async function POST(request:Request):Promise<Response>{
- if(!NATIVE_LENS_SOURCE_ENABLED)return Response.json({error:'native_pilot_off'},{status:503,headers});
+ if(!NATIVE_LENS_SOURCE_ENABLED&&(!NATIVE_SETUP_RUNTIME_ENABLED||request.headers.get('x-unfarmd-native-intent')!=='stop'))return Response.json({error:'native_pilot_off'},{status:503,headers});
  const {nativePilotResponse}=await import('../../../lib/native-lens/boundary');
  return nativePilotResponse(request);
 }
