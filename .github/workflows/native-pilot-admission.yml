@@ -1,0 +1,103 @@
+name: Native pilot admission
+# FEATURE REF ONLY. GitHub metadata writes require exact sole-owner environment review.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Owner-approved operation; main itself always refuses
+        type: choice
+        required: true
+        default: rehearsal
+        options: [rehearsal, setup, source]
+      approved_sha:
+        description: Exact separately reviewed feature SHA
+        type: string
+        required: true
+      deployment:
+        description: Actual Vercel deployment ID; empty for non-authorizing rehearsal
+        type: string
+        required: false
+permissions: {}
+concurrency:
+  group: native-pilot-owner-${{ github.ref }}-${{ inputs.mode }}
+  cancel-in-progress: false
+jobs:
+  context:
+    if: github.repository_id == '1415026436' && github.actor_id == '58099771' && github.run_attempt == 1 && startsWith(github.ref, 'refs/heads/native-pilot/')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      artifact_id: ${{ steps.card.outputs.artifact_id }}
+      artifact_sha: ${{ steps.card.outputs.artifact_sha }}
+    env:
+      MODE: ${{ inputs.mode }}
+      APPROVED_SHA: ${{ inputs.approved_sha }}
+      DEPLOYMENT: ${{ inputs.deployment }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: node ops/native-pilot-admission/publisher.mjs context
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: inputs.mode == 'rehearsal'
+        id: rehearsal
+        with:
+          name: native-pilot-review-rehearsal-${{ github.run_id }}
+          path: /tmp/native-review-artifact/*
+          retention-days: 1
+          if-no-files-found: error
+      - id: card
+        if: inputs.mode == 'rehearsal'
+        run: node ops/native-pilot-admission/publisher.mjs card
+        env:
+          REHEARSAL_ARTIFACT_ID: ${{ steps.rehearsal.outputs.artifact-id }}
+          REHEARSAL_ARTIFACT_SHA: ${{ steps.rehearsal.outputs.artifact-digest }}
+      # For real setup/source: operator prepares the genuine record with this actual run ID
+      # and installs its private configuration variable before owner review. No placeholder evidence.
+  publish:
+    needs: context
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: ${{ inputs.mode == 'rehearsal' && 'native-pilot-review-rehearsal' || format('native-pilot-{0}', inputs.mode) }}
+    permissions:
+      contents: read
+      actions: read
+      deployments: write
+    env:
+      MODE: ${{ inputs.mode }}
+      APPROVED_SHA: ${{ inputs.approved_sha }}
+      DEPLOYMENT: ${{ inputs.deployment }}
+      REHEARSAL_ARTIFACT_ID: ${{ needs.context.outputs.artifact_id }}
+      REHEARSAL_ARTIFACT_SHA: ${{ needs.context.outputs.artifact_sha }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - if: inputs.mode != 'rehearsal'
+        run: |
+          npm ci --ignore-scripts
+          ./node_modules/.bin/tsc lib/native-pilot/admission/publication.ts --allowJs --target ES2023 --module commonjs --moduleResolution node --strict --skipLibCheck --esModuleInterop --rootDir . --outDir /tmp/native-publisher-contract
+          mkdir -p /tmp/native-publisher-contract/experiments/jupiter-beta-approval/integration
+          cp experiments/jupiter-beta-approval/integration/json.mjs /tmp/native-publisher-contract/experiments/jupiter-beta-approval/integration/
+          cp experiments/jupiter-beta-approval/protocol.mjs /tmp/native-publisher-contract/experiments/jupiter-beta-approval/
+          ln -s "$PWD/node_modules" /tmp/native-publisher-contract/node_modules
+      - name: Owner-approved GitHub metadata ONLY
+        run: node --conditions=react-server ops/native-pilot-admission/publisher.mjs publish
+        env:
+          NODE_PATH: ${{ github.workspace }}/node_modules/next/dist/compiled:${{ github.workspace }}/node_modules
+          NATIVE_PUBLISH_OPERATION: metadata-only-owner-approved
+          NATIVE_ADMISSION_READ_TOKEN: ${{ secrets.NATIVE_ADMISSION_READ_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
