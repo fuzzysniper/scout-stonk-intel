@@ -13,7 +13,8 @@
       "feat/284-native-postgres-off": false,
       "feat/286-pg18-validation": false,
       "feat/288-native-release-admission": false,
-      "native-pilot/review-rehearsal": false
+      "native-pilot/review-rehearsal": false,
+      "fix/289-publisher-diagnostics-off": false
     }
   }
 }

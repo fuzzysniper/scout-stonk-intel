@@ -1,0 +1,53 @@
+name: Native publisher diagnostic correction OFF
+on:
+  pull_request:
+    branches: [native-pilot/review-rehearsal]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  offline-parity-redaction-write-states:
+    if: github.head_ref == 'fix/289-publisher-diagnostics-off' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: bash tests/native-publisher-diagnostics/scope.sh
+      - run: bash tests/native-publisher-diagnostics/run.sh
+  exact-head-type-lint-build-archive-OFF:
+    if: github.head_ref == 'fix/289-publisher-diagnostics-off' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: ./node_modules/.bin/tsc --noEmit
+      - run: npm run lint
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/native-admission/artifact.mjs
+      - run: bash scripts/archive-tool.sh check 0a5abd56faa4fbb7aa0049f0207d139a23c051f6
+      - run: bash tests/native-publisher-diagnostics/scope.sh

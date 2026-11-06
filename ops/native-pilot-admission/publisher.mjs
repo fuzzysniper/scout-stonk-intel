@@ -14,6 +14,56 @@ const SCRIPT='ops/native-pilot-admission/publisher.mjs';
 const BASE='4c6c50b524489f5f0f98bb41e136d0a9bf7ec32e';
 const HELD=()=>Error('NATIVE_PUBLISH_HOLD');
 export function need(x){if(!x)throw HELD();}
+// Private error metadata never reads an exception's message, stack, headers or body.
+const failures=new WeakMap();
+const categories=new Set(['guard_failed','binding_invalid','http_status','tls_verification','network','timeout','pagination','response_headers','response_size','response_framing','response_json','request_build','unknown']);
+const phases=new Set(['unknown','context','mode','operation_gate','read_binding','write_binding','get_run','get_reviews','get_environment','get_branch_policy','run_contract','environment_contract','artifact_inputs','get_artifact','artifact_contract','get_variable','variable_contract','setup_source_contract','get_setup_environment','get_source_environment','get_setup_variable','owner_review','get_prior_deployments','prior_deployments_contract','preflight_complete','post_create','create_contract','post_status','complete']);
+function transportHold(category,httpStatus){
+ const error=HELD(),detail={category:categories.has(category)?category:'unknown'};
+ if(Number.isInteger(httpStatus)&&httpStatus>=100&&httpStatus<=599)detail.httpStatus=httpStatus;
+ failures.set(error,detail);return error;
+}
+function phaseFailure(error,phase){
+ const held=error!==null&&['object','function'].includes(typeof error)?error:HELD();
+ const prior=failures.get(held)??{};
+ failures.set(held,{...prior,phase:prior.phase??phase,category:prior.category??'guard_failed'});
+ return held;
+}
+// Best-effort stderr only: no file, API, durable receipt or authorization capability.
+// Missing logs never establish no attempt. Sink failure does not change request order.
+export function createDiagnostics(sink=record=>console.error(JSON.stringify(record))){
+ const writes={deployment:'not_started',status:'not_started'};
+ const snapshot=()=>Object.freeze({...writes});
+ const emit=(phase,event,error)=>{
+  const detail=failures.get(error)??{};
+  const record={kind:'NATIVE_PUBLISH_DIAGNOSTIC',phase:phases.has(phase)?phase:'unknown',event,writes:snapshot(),activate:false};
+  if(error!==undefined){record.category=categories.has(detail.category)?detail.category:'unknown';if(Number.isInteger(detail.httpStatus)&&detail.httpStatus>=100&&detail.httpStatus<=599)record.httpStatus=detail.httpStatus;}
+  Object.freeze(record);try{sink(record);}catch{/* No credentials or raw exceptions; no I/O fallback. */}
+  return record;
+ };
+ return Object.freeze({
+  check(phase,operation){
+   need(phases.has(phase));emit(phase,'started');
+   try{const result=operation();emit(phase,'passed');return result;}
+   catch(error){const held=phaseFailure(error,phase);emit(phase,'failed',held);throw held;}
+  },
+  async request(phase,operation){
+   need(phases.has(phase));emit(phase,'started');
+   try{const result=await operation();emit(phase,'passed');return result;}
+   catch(error){const held=phaseFailure(error,phase);emit(phase,'failed',held);throw held;}
+  },
+  beginWrite(which){
+   need(['deployment','status'].includes(which)&&writes[which]==='not_started');
+   writes[which]='started_unconfirmed';emit(which==='deployment'?'post_create':'post_status','intent');
+  },
+  acknowledge(which){
+   need(['deployment','status'].includes(which)&&writes[which]==='started_unconfirmed');
+   writes[which]='acknowledged';emit(which==='deployment'?'post_create':'post_status','acknowledged');
+  },
+  snapshot,
+  report(error){const detail=failures.get(error)??{};return emit(detail.phase??'unknown','failed',error);}
+ });
+}
 export const hash=x=>createHash('sha256').update(x).digest('hex');
 export function canonical(x){
  if(x===null||typeof x==='boolean'||typeof x==='string')return JSON.stringify(x);
@@ -60,20 +110,24 @@ export function allowed(method,suffix){
 }
 // Real transport only from the explicit operational CLI. No redirects, retries, pagination or logging bodies.
 export function reader(token,signal){
- need(typeof token==='string'&&/^[A-Za-z0-9_]{20,512}$/.test(token));
+ try{need(typeof token==='string'&&/^[A-Za-z0-9_]{20,512}$/.test(token));}catch{throw transportHold('binding_invalid');}
  return (method,suffix,body)=>new Promise((resolve,reject)=>{
   need(allowed(method,suffix));let req,timer,done=false,authenticated=false,total=0;const chunks=[];
-  const fail=()=>{if(done)return;done=true;clearTimeout(timer);req?.destroy();chunks.forEach(b=>b.fill(0));reject(HELD());};
+  const fail=(category,httpStatus)=>{if(done)return;done=true;clearTimeout(timer);req?.destroy();chunks.forEach(b=>b.fill(0));reject(transportHold(category,httpStatus));};
   try{
    const bytes=body===undefined?null:Buffer.from(JSON.stringify(body));
    req=https.request({hostname:'api.github.com',servername:'api.github.com',port:443,path:ROOT+suffix,method,signal,agent:false,rejectUnauthorized:true,minVersion:'TLSv1.2',checkServerIdentity,maxHeaderSize:16384,
     headers:{authorization:'Bearer '+token,accept:'application/vnd.github+json','accept-encoding':'identity','user-agent':'unfarmd-native-owner-publisher','x-github-api-version':'2022-11-28',...(bytes?{'content-type':'application/json','content-length':bytes.length}:{})}},res=>{
-     if(!authenticated||res.statusCode!==(method==='GET'?200:201)||res.headers.link||res.headers['content-encoding']&&res.headers['content-encoding']!=='identity'||!/^application\/json(?:;|$)/i.test(res.headers['content-type']??'')){res.destroy();fail();return;}
-     res.on('data',b=>{total+=b.length;if(total>65536||chunks.length>=128){res.destroy();fail();}else chunks.push(Buffer.from(b));});res.on('aborted',fail);res.on('error',fail);
-     res.on('end',()=>{if(done)return;try{need(total>0&&res.complete);const result=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(Buffer.concat(chunks)));done=true;clearTimeout(timer);chunks.forEach(b=>b.fill(0));resolve(result);}catch{fail();}});
+     const deny=(category,httpStatus)=>{res.destroy();fail(category,httpStatus);};
+     if(!authenticated){deny('tls_verification');return;}
+     if(res.statusCode!==(method==='GET'?200:201)){deny('http_status',res.statusCode);return;}
+     if(res.headers.link){deny('pagination');return;}
+     if(res.headers['content-encoding']&&res.headers['content-encoding']!=='identity'||!/^application\/json(?:;|$)/i.test(res.headers['content-type']??'')){deny('response_headers');return;}
+     res.on('data',b=>{total+=b.length;if(total>65536||chunks.length>=128){res.destroy();fail('response_size');}else chunks.push(Buffer.from(b));});res.on('aborted',()=>fail('network'));res.on('error',()=>fail('network'));
+     res.on('end',()=>{if(done)return;try{need(total>0&&res.complete);}catch{fail('response_framing');return;}try{const result=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(Buffer.concat(chunks)));done=true;clearTimeout(timer);chunks.forEach(b=>b.fill(0));resolve(result);}catch{fail('response_json');}});
     });
-   timer=setTimeout(fail,1200);req.on('error',fail);req.on('socket',s=>s.once('secureConnect',()=>{authenticated=s.encrypted&&s.authorized&&s.servername==='api.github.com'&&['TLSv1.2','TLSv1.3'].includes(s.getProtocol())&&!checkServerIdentity('api.github.com',s.getPeerCertificate());if(!authenticated)fail();}));req.end(bytes??undefined);
-  }catch{fail();}
+   timer=setTimeout(()=>fail('timeout'),1200);req.on('error',()=>fail('network'));req.on('socket',s=>s.once('secureConnect',()=>{authenticated=s.encrypted&&s.authorized&&s.servername==='api.github.com'&&['TLSv1.2','TLSv1.3'].includes(s.getProtocol())&&!checkServerIdentity('api.github.com',s.getPeerCertificate());if(!authenticated)fail('tls_verification');}));req.end(bytes??undefined);
+  }catch{fail('request_build');}
  });
 }
 function context(){
@@ -90,38 +144,47 @@ function artifactCheck(a,r,c,stage){
  need(a.workflow_run?.head_sha===c.sha&&a.workflow_run?.head_branch===c.branch&&a.workflow_run?.repository_id===1415026436&&a.workflow_run?.head_repository_id===1415026436);
 }
 const output=(k,v)=>{need(/^[a-z_]+$/.test(k)&&typeof v==='string'&&!/[\r\n]/.test(v));if(process.env.GITHUB_OUTPUT)fs.appendFileSync(process.env.GITHUB_OUTPUT,k+'='+v+'\n');};
-async function publish(c,stage){
- need(process.env.NATIVE_PUBLISH_OPERATION==='metadata-only-owner-approved');
- const read=reader(process.env.NATIVE_ADMISSION_READ_TOKEN),write=reader(process.env.GITHUB_TOKEN),env=environment(stage);
+async function publish(c,stage,diagnostics=createDiagnostics()){
+ diagnostics.check('operation_gate',()=>need(process.env.NATIVE_PUBLISH_OPERATION==='metadata-only-owner-approved'));
+ const read=diagnostics.check('read_binding',()=>reader(process.env.NATIVE_ADMISSION_READ_TOKEN)),write=diagnostics.check('write_binding',()=>reader(process.env.GITHUB_TOKEN)),env=diagnostics.check('mode',()=>environment(stage));
  // All GET preflights precede BOTH writes. An uncertain write is never retried or claimed absent.
- const [run,reviews,e,b]=await Promise.all([read('GET','/actions/runs/'+c.runId),read('GET','/actions/runs/'+c.runId+'/approvals'),read('GET','/environments/'+env),read('GET','/environments/'+env+'/deployment-branch-policies?per_page=2')]);
- need(run.id===c.runId&&run.head_sha===c.sha&&run.head_branch===c.branch&&run.path===WF&&run.event==='workflow_dispatch'&&run.status==='in_progress'&&run.repository?.id===1415026436&&run.head_repository?.id===1415026436);
- need(e.name===env);approvedEnvironment(e,b,c.branch);let packet,artifact;
+ const [run,reviews,e,b]=await Promise.all([
+  diagnostics.request('get_run',()=>read('GET','/actions/runs/'+c.runId)),
+  diagnostics.request('get_reviews',()=>read('GET','/actions/runs/'+c.runId+'/approvals')),
+  diagnostics.request('get_environment',()=>read('GET','/environments/'+env)),
+  diagnostics.request('get_branch_policy',()=>read('GET','/environments/'+env+'/deployment-branch-policies?per_page=2'))
+ ]);
+ diagnostics.check('run_contract',()=>need(run.id===c.runId&&run.head_sha===c.sha&&run.head_branch===c.branch&&run.path===WF&&run.event==='workflow_dispatch'&&run.status==='in_progress'&&run.repository?.id===1415026436&&run.head_repository?.id===1415026436));
+ diagnostics.check('environment_contract',()=>{need(e.name===env);approvedEnvironment(e,b,c.branch);});let packet,artifact;
  if(stage==='rehearsal'){
-  need(c.branch==='native-pilot/review-rehearsal'&&!process.env.DEPLOYMENT);
-  const r=rehearsalRecord(c,{id:Number(process.env.REHEARSAL_ARTIFACT_ID),sha256:process.env.REHEARSAL_ARTIFACT_SHA});packet=rehearsalPacket(r);artifact=await read('GET','/actions/artifacts/'+r.artifactId);artifactCheck(artifact,r,c,stage);
-  const v=await read('GET','/actions/variables/UNFARMD_NATIVE_REHEARSAL_'+c.runId);need(v.name==='UNFARMD_NATIVE_REHEARSAL_'+c.runId&&v.value===canonical(r));
+  diagnostics.check('artifact_inputs',()=>need(c.branch==='native-pilot/review-rehearsal'&&!process.env.DEPLOYMENT));
+  const r=diagnostics.check('artifact_inputs',()=>rehearsalRecord(c,{id:Number(process.env.REHEARSAL_ARTIFACT_ID),sha256:process.env.REHEARSAL_ARTIFACT_SHA}));packet=diagnostics.check('artifact_inputs',()=>rehearsalPacket(r));artifact=await diagnostics.request('get_artifact',()=>read('GET','/actions/artifacts/'+r.artifactId));diagnostics.check('artifact_contract',()=>artifactCheck(artifact,r,c,stage));
+  const v=await diagnostics.request('get_variable',()=>read('GET','/actions/variables/UNFARMD_NATIVE_REHEARSAL_'+c.runId));diagnostics.check('variable_contract',()=>need(v.name==='UNFARMD_NATIVE_REHEARSAL_'+c.runId&&v.value===canonical(r)));
  }else{
-  need(/^dpl_[A-Za-z0-9]{8,100}$/.test(process.env.DEPLOYMENT??''));
+  diagnostics.check('setup_source_contract',()=>need(/^dpl_[A-Za-z0-9]{8,100}$/.test(process.env.DEPLOYMENT??'')));
   const name='UNFARMD_NATIVE_'+stage.toUpperCase()+'_'+process.env.DEPLOYMENT.toUpperCase();
-  const v=await read('GET','/actions/variables/'+name);need(v.name===name&&typeof v.value==='string'&&Buffer.byteLength(v.value)<=12288);
-  const r=JSON.parse(v.value);need(canonical(r)===v.value&&r.review?.runId===c.runId&&r.review.workflowSha256===c.workflowSha256&&r.identity?.commit===c.sha&&r.identity.tree===c.tree&&r.identity.branch===c.branch&&r.identity.deployment===process.env.DEPLOYMENT);
+  const v=await diagnostics.request('get_variable',()=>read('GET','/actions/variables/'+name));diagnostics.check('variable_contract',()=>need(v.name===name&&typeof v.value==='string'&&Buffer.byteLength(v.value)<=12288));
+  const r=diagnostics.check('variable_contract',()=>JSON.parse(v.value));diagnostics.check('variable_contract',()=>need(canonical(r)===v.value&&r.review?.runId===c.runId&&r.review.workflowSha256===c.workflowSha256&&r.identity?.commit===c.sha&&r.identity.tree===c.tree&&r.identity.branch===c.branch&&r.identity.deployment===process.env.DEPLOYMENT));
   // Real schema/packet implementation from the reviewed application. No fake completed-run object.
   const require=createRequire(import.meta.url),contract=require('/tmp/native-publisher-contract/lib/native-pilot/admission/contract.js'),publisher=require('/tmp/native-publisher-contract/lib/native-pilot/admission/publication.js');
-  const [setupEnv,sourceEnv]=await Promise.all(['setup','source'].map(x=>read('GET','/environments/native-pilot-'+x)));
+  const [setupEnv,sourceEnv]=await Promise.all(['setup','source'].map(x=>diagnostics.request(x==='setup'?'get_setup_environment':'get_source_environment',()=>read('GET','/environments/native-pilot-'+x))));
   const ctx={identity:r.identity,plan:{workflowId:run.workflow_id,setupEnvironmentId:setupEnv.id,sourceEnvironmentId:sourceEnv.id,branch:c.branch}};
   let setup;
   if(stage==='source'){
-   const s=await read('GET','/actions/variables/UNFARMD_NATIVE_SETUP_'+process.env.DEPLOYMENT.toUpperCase());setup=contract.setupCandidate(s.value,ctx,Date.now());
-   need(r.setupSha256===hash(s.value));
+   const s=await diagnostics.request('get_setup_variable',()=>read('GET','/actions/variables/UNFARMD_NATIVE_SETUP_'+process.env.DEPLOYMENT.toUpperCase()));setup=diagnostics.check('setup_source_contract',()=>contract.setupCandidate(s.value,ctx,Date.now()));
+   diagnostics.check('setup_source_contract',()=>need(r.setupSha256===hash(s.value)));
   }
-  const p=publisher.publicationPacket(stage,r,ctx,Date.now(),setup);packet={body:p.request.body,comment:p.reviewComment,manifestSha256:p.manifestSha256};
-  artifact=await read('GET','/actions/artifacts/'+r.review.artifactId);artifactCheck(artifact,{artifactId:r.review.artifactId,artifactSha256:r.review.artifactSha256},c,stage);
+  const p=diagnostics.check('setup_source_contract',()=>publisher.publicationPacket(stage,r,ctx,Date.now(),setup));packet={body:p.request.body,comment:p.reviewComment,manifestSha256:p.manifestSha256};
+  artifact=await diagnostics.request('get_artifact',()=>read('GET','/actions/artifacts/'+r.review.artifactId));diagnostics.check('artifact_contract',()=>artifactCheck(artifact,{artifactId:r.review.artifactId,artifactSha256:r.review.artifactSha256},c,stage));
  }
- ownerReview(reviews,e,packet.comment);
- const q='?'+new URLSearchParams({sha:c.sha,environment:env,task:packet.body.task,per_page:'2'}),prior=await read('GET','/deployments'+q);need(Array.isArray(prior)&&prior.length===0);
- const d=await write('POST','/deployments',packet.body);need(Number.isSafeInteger(d?.id)&&d.id>0&&d.sha===c.sha&&d.creator?.login==='github-actions[bot]'&&d.creator?.id===41898282);
- await write('POST','/deployments/'+d.id+'/statuses',{state:'success',environment:env,log_url:'https://github.com/'+REPO+'/actions/runs/'+c.runId,auto_inactive:false});
+ diagnostics.check('owner_review',()=>ownerReview(reviews,e,packet.comment));
+ const q='?'+new URLSearchParams({sha:c.sha,environment:env,task:packet.body.task,per_page:'2'}),prior=await diagnostics.request('get_prior_deployments',()=>read('GET','/deployments'+q));diagnostics.check('prior_deployments_contract',()=>need(Array.isArray(prior)&&prior.length===0));
+ diagnostics.check('preflight_complete',()=>undefined);
+ diagnostics.beginWrite('deployment');
+ const d=await diagnostics.request('post_create',()=>write('POST','/deployments',packet.body));diagnostics.check('create_contract',()=>need(Number.isSafeInteger(d?.id)&&d.id>0&&d.sha===c.sha&&d.creator?.login==='github-actions[bot]'&&d.creator?.id===41898282));diagnostics.acknowledge('deployment');
+ diagnostics.beginWrite('status');
+ await diagnostics.request('post_status',()=>write('POST','/deployments/'+d.id+'/statuses',{state:'success',environment:env,log_url:'https://github.com/'+REPO+'/actions/runs/'+c.runId,auto_inactive:false}));diagnostics.acknowledge('status');
+ diagnostics.check('complete',()=>undefined);
  console.log(JSON.stringify({operation:'GITHUB_METADATA_ONLY',deploymentMetadataId:d.id,runId:c.runId,manifestSha256:packet.manifestSha256,activate:false,sourceCalls:false,admissionVerified:false}));
 }
 export async function auditRehearsal(c,artifactId,read,clock=()=>performance.now()){
@@ -141,7 +204,7 @@ export async function auditRehearsal(c,artifactId,read,clock=()=>performance.now
  const elapsed=clock()-start;need(elapsed>=0&&elapsed<=4000);
  return {kind:'NONAUTHORIZING_GITHUB_REHEARSAL_AUDIT',runId:c.runId,commit:c.sha,reads:18,elapsedMs:Math.round(elapsed*1000)/1000,activate:false,sourceCalls:false,setupAdmission:false,vercelLatencyProven:false};
 }
-async function main(){
+async function main(diagnostics=createDiagnostics()){
  const command=process.argv[2];
  if(command==='audit-rehearsal'){
   need(process.env.NATIVE_PUBLISH_OPERATION==='metadata-read-only-owner-approved');
@@ -151,7 +214,7 @@ async function main(){
   const abort=new AbortController(),timer=setTimeout(()=>abort.abort(),4000);
   try{console.log(JSON.stringify(await auditRehearsal(c,artifactId,reader(process.env.NATIVE_ADMISSION_READ_TOKEN,abort.signal))));}finally{clearTimeout(timer);abort.abort();}return;
  }
- const c=context(),stage=process.env.MODE;environment(stage);
+ const c=diagnostics.check('context',()=>context()),stage=process.env.MODE;diagnostics.check('mode',()=>environment(stage));
  if(command==='context'){
   console.log(JSON.stringify({...c,mode:stage,activate:false,sourceCalls:false}));
   if(stage==='rehearsal'){
@@ -167,6 +230,9 @@ async function main(){
   const text='NONAUTHORIZING GitHub review rehearsal only. No SQL, Vercel or provider.\n\n'+canonical(r)+'\n\nRequired review comment:\n'+p.comment+'\n';
   if(process.env.GITHUB_STEP_SUMMARY)fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,text);else console.log(text);return;
  }
- need(command==='publish');await publish(c,stage);
+ need(command==='publish');await publish(c,stage,diagnostics);
 }
-if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))main().catch(()=>{console.error('NATIVE_PUBLISH_HOLD: metadata writes may be uncertain; do not retry, delete records or infer no attempt.');process.exitCode=1;});
+if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
+ const diagnostics=createDiagnostics();
+ main(diagnostics).catch(error=>{diagnostics.report(error);console.error('NATIVE_PUBLISH_HOLD: metadata writes may be uncertain; do not retry, delete records or infer no attempt.');process.exitCode=1;});
+}
