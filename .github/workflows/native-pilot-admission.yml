@@ -1,0 +1,28 @@
+name: Native pilot admission
+# REGISTRATION ONLY. No application files, credentials, environments or publisher on main.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Owner-approved operation; main itself always refuses
+        type: choice
+        required: true
+        default: rehearsal
+        options: [rehearsal, setup, source]
+      approved_sha:
+        description: Exact separately reviewed feature SHA
+        type: string
+        required: true
+      deployment:
+        description: Actual Vercel deployment ID; empty for non-authorizing rehearsal
+        type: string
+        required: false
+permissions: {}
+jobs:
+  registration-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - run: |
+          printf '%s\n' 'HOLD: registration stub. Select the separately reviewed feature ref.'
+          exit 1
