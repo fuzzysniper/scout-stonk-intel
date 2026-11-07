@@ -9,11 +9,12 @@ import type {NativePostgresConfiguration} from './postgres/connection';
 import type {Ledger} from './ledger';
 import {nativeSourcePermitted,nativeSetupRecord,type NativeSourceAdmission} from './admission/installed';
 import {NATIVE_SETUP_RUNTIME_ENABLED} from './admission/gates';
+import {NATIVE_RUNTIME_BUILD} from './runtime/build';
 import {policy,HOST,hash,need,LIMITS,type Policy} from './plan';
 import type {NativeEvidenceV1} from './evidence-contract';
 /** New, independent lane. Not an env toggle, old grant, caller flag or signed-lane bypass. */
-export const NATIVE_PILOT_ENABLED=false;
-export const NATIVE_PILOT_BUILD:Readonly<{commit:string;tree:string}>|null=null;
+export const NATIVE_PILOT_ENABLED=NATIVE_SETUP_RUNTIME_ENABLED;
+export const NATIVE_PILOT_BUILD:Readonly<{commit:string;tree:string}>|null=NATIVE_RUNTIME_BUILD;
 export {plan,LIMITS,METHODS} from './plan';
 export type {Policy,Debit,Plan} from './plan';
 export type {NativeEvidenceV1,NativeEvidenceInputV1} from './evidence-contract';
@@ -104,7 +105,7 @@ export function createNativeStopper(config:Omit<Configuration,'sourceAdmission'|
  assertOwnerBindings(config,p);const authorize=ownerSession(p,config.authSecret,config.issuerPool,config.tlsHost);
  return Object.freeze({async stop(request:Request){
   try{need(identity(p)&&request.headers.get('x-unfarmd-native-intent')==='stop'&&await authorize(request));nativeSetupRecord(config.store.admission,p);
-   const {openPostgresLedger}=await import('./postgres/connection');const r=await openPostgresLedger(p,config.store).stop(Date.now());
+   const {openPostgresStopper}=await import('./postgres/connection');const r=await openPostgresStopper(p,config.store).stop(Date.now());
    return Object.freeze({status:r.state.stopped?'stopped':'held',activate:false});
   }catch{return held();}
  }});

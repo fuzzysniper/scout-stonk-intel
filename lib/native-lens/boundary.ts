@@ -4,6 +4,7 @@ import {analyzeNativeEvidence,intakeHeliusBatch} from '../native-evidence/index'
 import {createNativePilot,createNativeStopper,NATIVE_PILOT_ENABLED,NATIVE_PILOT_BUILD,verifiedNativeObservation,type Configuration} from '../native-pilot/index';
 import type {RawBatch} from '../native-pilot/engine';
 import type {NativeEvidenceInputV1} from '../native-evidence/contract';
+import {ownerSession} from '../native-pilot/auth';
 /** Direct exact A Helius intake. No relabel, decoder/capability duplication or fourth read. */
 export function nativeIntake(raw:RawBatch):NativeEvidenceInputV1|null{return intakeHeliusBatch(raw);}
 export type NativeLensConfiguration=Omit<Configuration,'intake'|'analyze'>;
@@ -20,6 +21,9 @@ export async function nativePilotResponse(request:Request,provided?:NativeLensCo
  const owned=!provided,config=provided??(NATIVE_SETUP_RUNTIME_ENABLED?await import('../native-pilot/admission/configuration').then(m=>m.loadApprovedNativeConfiguration(intent!=='stop')):null);
  if(!config)return Response.json({error:'native_pilot_unconfigured'},{status:503,headers});
  try{
+  // Reject unauthenticated callers BEFORE acquire's fail-closed STOP path.
+  // B still rechecks the actual session before every reservation/send/completion.
+  if(!await ownerSession(config.policy,config.authSecret,config.issuerPool,config.tlsHost)(request))return Response.json({error:'owner_session_required'},{status:401,headers});
   if(intent==='stop'){
    const r=await createNativeStopper(config).stop(request);
    if(r.status==='stopped')return Response.json({status:'stopped',activate:false},{headers});

@@ -1,0 +1,232 @@
+{
+  "version": "native-beta-release-review/1",
+  "base": "370f15cc29901e3d1d267273d09993a3283d7dd4",
+  "modified": {
+    "app/api/native-pilot/route.ts": {
+      "mode": "100644",
+      "sha256": "0b29f341aec87ca41303218fd7d6650d8063489ad3f1a6f3a4e88ad8bcfc9b4a",
+      "patchSha256": "ffeb91192d687bada887a97e6e7385a3017bf369a16f68489659682131cd8bc1"
+    },
+    "app/lens/native-lens.tsx": {
+      "mode": "100644",
+      "sha256": "aba7a4bef27db6708a7c0ed7aeab0bcb3067e3a59b05a81591448c46e6437979",
+      "patchSha256": "2d36934ee0954ae56c67c3e56bb520cb9fbe31f4cfb5201aef70eddb811b582b"
+    },
+    "app/lens/page.tsx": {
+      "mode": "100644",
+      "sha256": "dc14021b4c7be45f66a2cc2c53e6df1c95b01d6833f9ee0d9d9189e5a662ddc9",
+      "patchSha256": "c6467164c6fae414653230e3274836a45673e5a2d33b5d1d2ccabd69a94cd77a"
+    },
+    "lib/native-lens/boundary.ts": {
+      "mode": "100644",
+      "sha256": "688bd22febfa602baab1eae50526dabea8ae62c0cd92a85b91af7e5e864b3338",
+      "patchSha256": "afd7137147b0a24c4ecce56aba6b9d1e1ecbfc3e35d177192ace9df4b2b8920b"
+    },
+    "lib/native-lens/policy.ts": {
+      "mode": "100644",
+      "sha256": "528c9da0356b96b6a95030f35838cc67a7132370f9bd75e5e0a00923ded7b4ba",
+      "patchSha256": "cd341f8de1b4e2d6d94d2b7cb90318e90977990c37b0484be2fc00237eefb047"
+    },
+    "lib/native-pilot/admission/configuration.ts": {
+      "mode": "100644",
+      "sha256": "7fd9f25c50f25edf583a52b6b54fe80de759bf2ed871c873992a21c9c300994d",
+      "patchSha256": "063ddd6c8b85c67dabbe0a3d41675ef6c4c55199e50f6d8ed2dc1ea31369dafb"
+    },
+    "lib/native-pilot/admission/gates.ts": {
+      "mode": "100644",
+      "sha256": "c514e8365a6357f0ab4fead402ae8af6fc9e6ca647d3515cfa7b8c1497067e9d",
+      "patchSha256": "14d725e2c5a2083727d7a6a9c5fef0568385cbcf4f1cdc8f2b3daa0106058b7d"
+    },
+    "lib/native-pilot/admission/installed.ts": {
+      "mode": "100644",
+      "sha256": "4bb3136e497b2e532acaf0c198047d4322045cc00021af1cf40708f577a3e271",
+      "patchSha256": "da7021445f62735230bd000de3463f741bb17c44d197a609ed6b57589cfafd9e"
+    },
+    "lib/native-pilot/index.ts": {
+      "mode": "100644",
+      "sha256": "afb320b45542919af75395dfe9a89d32c389496ba5a3de71cd547b063728a3c9",
+      "patchSha256": "f85f413f223af5f18deda4b99a5ad2cf06135eae0778b077836311705d3b26aa"
+    },
+    "lib/native-pilot/postgres/connection.ts": {
+      "mode": "100644",
+      "sha256": "5df74ab09d3a4943eb46e67e0befda54585282147fd74f9c75710293c59848c8",
+      "patchSha256": "7055c3966d7090860c53fe1fe93733f398a1a3155df3c2245e0ca4f90cb21d35"
+    },
+    "next.config.mjs": {
+      "mode": "100644",
+      "sha256": "cd0ed7d75f16614c48460bd8450c97bfcf6b3c836e977f8af03fd11556e678c4",
+      "patchSha256": "450ed1706b1bba0143a731cb62a104d070966a67a30f00fbf9d1f352d42fed4f"
+    },
+    "vercel.json": {
+      "mode": "100644",
+      "sha256": "502cac7b22e51f4b0da179fc33e74add89e0a7c26fe3800aae150becbd147635",
+      "patchSha256": "012654efe577453e15409b8d60f44851615170e6e0dfb4b74fc6d0824886d234"
+    }
+  },
+  "added": {
+    ".github/workflows/native-beta-release.yml": {
+      "mode": "100644",
+      "sha256": "0c08b3afa0ce84c7214c2c5e1e378f3687eab7ee63db4d9ef47349b2030ae617"
+    },
+    "app/api/native-pilot/owner/[...all]/route.ts": {
+      "mode": "100644",
+      "sha256": "cb2d6ebd29e10a4ab5ba515093a985553a6f7034450b919f988fb866f58204fb"
+    },
+    "app/lens/native-owner-access.tsx": {
+      "mode": "100644",
+      "sha256": "1175203046fade5ebc6c7b877c87f37e8812d224bfa3752fcba27e682f3b60da"
+    },
+    "lib/native-pilot/runtime/build.ts": {
+      "mode": "100644",
+      "sha256": "04df5c971b36b096763f06aee39069a011956cbdd1cca5bb932cb61bb7ec5d89"
+    },
+    "lib/native-pilot/runtime/custodian.ts": {
+      "mode": "100644",
+      "sha256": "aab65829ed9b269b43ca9403facd1cbd92ab02bbea309e9251760db3a4020a4e"
+    },
+    "lib/native-pilot/runtime/owner.ts": {
+      "mode": "100644",
+      "sha256": "266e7816e232d99aece63752ddfa13fe4088c2d52684b570b844a54bb7ce65ef"
+    },
+    "lib/native-pilot/runtime/request.ts": {
+      "mode": "100644",
+      "sha256": "3b9e41bf975a69613b3c7249022910e38d538aad3a0cb065dd476d85b3f87f93"
+    },
+    "ops/native-beta-release/HOSTED_INSTALLATION.md": {
+      "mode": "100644",
+      "sha256": "0e0e5f8b182d5d6812f40b52e68643ecfc3ff4d4b0b58b4734908ed58c86a56a"
+    },
+    "ops/native-beta-release/build-operator.sh": {
+      "mode": "100644",
+      "sha256": "e40176efd3421619691fde507221a4ea23acb3c1af5a2a0c4c2cb992194d933d"
+    },
+    "ops/native-beta-release/checkpoint-installation.json": {
+      "mode": "100644",
+      "sha256": "ef51ab52ca8d6e4d2fd58f0a7cc00f24e5e59c1e3e0c0cedad4a6eb3499428a1"
+    },
+    "ops/native-beta-release/checkpoint-server.ts": {
+      "mode": "100644",
+      "sha256": "39614de3378831cf7ffda4be5a348de2188ecc6f96b949e9efaeff998162473f"
+    },
+    "ops/native-beta-release/enroll.ts": {
+      "mode": "100644",
+      "sha256": "0794978bd72500955de56ef9801d6cf6df05f59cbaefcc5d4d97fcf68e302f85"
+    },
+    "ops/native-beta-release/enrollment-packet.ts": {
+      "mode": "100644",
+      "sha256": "678c64fe6ce9141a2fb4c731140f0ded80696b313e3abba66c729b0d790c27a7"
+    },
+    "ops/native-beta-release/installation.json": {
+      "mode": "100644",
+      "sha256": "06d2cbd9375726d6e9d27bab8895225608b3491e886760dc0b64b30fa7bb58e2"
+    },
+    "ops/native-beta-release/owner-enrollment.json": {
+      "mode": "100644",
+      "sha256": "a72ba754bcfd72d1f8d920274f638d7de567e6bd6189f63588db87dc2c9f3559"
+    },
+    "tests/native-beta-release/artifact.mjs": {
+      "mode": "100644",
+      "sha256": "ed69840106e9e98b22c0bdf79d0afbf9784db105c6c66185f4c7779ea1ce63df"
+    },
+    "tests/native-beta-release/browser-entry.tsx": {
+      "mode": "100644",
+      "sha256": "09ad9954ce7506b3da4be3f55c1148c1320ce5431bdfeb3e58f1f6bb224bb621"
+    },
+    "tests/native-beta-release/browser-server.mjs": {
+      "mode": "100644",
+      "sha256": "287f9c480f56f8f5874efcf882fb2dea9e5300c26ff1e73ca0b38ce51f659029"
+    },
+    "tests/native-beta-release/browser.config.mjs": {
+      "mode": "100644",
+      "sha256": "18c8ea3465647acc54d86f2b9f4bc51c33a94a62f9470f7fa1379896176336fa"
+    },
+    "tests/native-beta-release/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "0e348e223bd0fc9da0de6efe9236d9237c74753c51b2e1d1cbf0b8191b3700cc"
+    },
+    "tests/native-beta-release/build.test.mjs": {
+      "mode": "100644",
+      "sha256": "9000ec496205a32d42c2ba000d78e7d4f5a6074c083966df85dab02d16aa8641"
+    },
+    "tests/native-beta-release/checkpoint.test.mjs": {
+      "mode": "100644",
+      "sha256": "e80233eb37507a06d639fe6534537ba6cd1f97cc074657b60a62050de4d4d4a8"
+    },
+    "tests/native-beta-release/enrollment-packet.test.mjs": {
+      "mode": "100644",
+      "sha256": "5c53b1a05b20348419cbff17b03f6ea4e858af5c802fe40c0e57b21819a2df47"
+    },
+    "tests/native-beta-release/fixture.mjs": {
+      "mode": "100644",
+      "sha256": "e1ffa22880256725531a9be797ec4b98b2f9bb70d90305abb46602f4afc5819e"
+    },
+    "tests/native-beta-release/inputs.json": {
+      "mode": "100644",
+      "sha256": "acf574e069fc93cd612f812c65b654492cc155ff66159fa6392271f74d940a8c"
+    },
+    "tests/native-beta-release/mobile.sh": {
+      "mode": "100644",
+      "sha256": "6876f55ffac9723576698f68f18219b92e0ea59305a2297e2e55f8b266643cfe"
+    },
+    "tests/native-beta-release/off.test.mjs": {
+      "mode": "100644",
+      "sha256": "36d03ce6990c34acfa3e8d9c90f139a38571102a3a35044404804e92aa5451e8"
+    },
+    "tests/native-beta-release/operator-defaults.test.mjs": {
+      "mode": "100644",
+      "sha256": "e0d59b29274d33b67deb517926665753649ffb2989b08ef623f940004f9e4b57"
+    },
+    "tests/native-beta-release/owner-pg-context.mjs": {
+      "mode": "100644",
+      "sha256": "b2684431b7d775c1ed6b6e72d5a82d963cc801c37f509a05178134a2431f7f29"
+    },
+    "tests/native-beta-release/pg18-isolated.sh": {
+      "mode": "100644",
+      "sha256": "901e00289e5f54760add07b6dfed027a8f9802d41c83f2d4808e3c0439ef588d"
+    },
+    "tests/native-beta-release/pg18.sh": {
+      "mode": "100644",
+      "sha256": "ef870a2a3a36e598d4740111d33e952e7609104a7147ffcdaa17988b0be261f3"
+    },
+    "tests/native-beta-release/pg18.test.mjs": {
+      "mode": "100644",
+      "sha256": "0647e8f955eab2c1eaf2668c9d3ae106a542f80b490c8f5ce5aafca81da8a45a"
+    },
+    "tests/native-beta-release/replay.sh": {
+      "mode": "100644",
+      "sha256": "bf3f6aa1c27b0e776506d4e7f29e8104842a010910857939701b6dcf58d599e8"
+    },
+    "tests/native-beta-release/require-owner-evidence.mjs": {
+      "mode": "100644",
+      "sha256": "c7ad85ccd69cefa07fb35b502fa50e1960e9e7585e5becb089689bdd8b02e19a"
+    },
+    "tests/native-beta-release/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-beta-release/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-beta-release/run.sh": {
+      "mode": "100644",
+      "sha256": "663990f3c78514046e787e6054222fc76fc3b48b4a13940b8afb9b68ae5c9592"
+    },
+    "tests/native-beta-release/runtime.test.mjs": {
+      "mode": "100644",
+      "sha256": "ae2c913fd3ad905c7ac3c5f39c8e8461ecae86175a557638818d2e9a7ed46857"
+    },
+    "tests/native-beta-release/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-beta-release/selected-build.sh": {
+      "mode": "100644",
+      "sha256": "33454b54142c191341b9e5c970e9791d8504699efc921c4edc082a450f49592d"
+    },
+    "tests/native-beta-release/selected-probe.mjs": {
+      "mode": "100644",
+      "sha256": "de1fef20f89398cd42b785f5caa0925f963a53aaefc5c3947e2a2adf1ed57d55"
+    }
+  }
+}
