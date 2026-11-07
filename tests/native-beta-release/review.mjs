@@ -3,7 +3,7 @@ import fs from 'node:fs';import path from 'node:path';import assert from 'node:a
 export const BASE='370f15cc29901e3d1d267273d09993a3283d7dd4';
 export const sha=x=>createHash('sha256').update(x).digest('hex');
 const blob=x=>createHash('sha1').update('blob '+x.length+'\0').update(x).digest('hex');
-const MANIFEST='694cba5e5b05eea9b73056f26bd4ac126109404df346ead900bfeed3df8dec12';
+const MANIFEST='8575d89f8f545d30176b5ed94389425bf0c1a7b14aa93d883ef20ff345d32a47';
 export function review(root=process.cwd(),head=true){
  const raw=(...a)=>execFileSync('git',a,{cwd:root,maxBuffer:64*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=f=>fs.readFileSync(path.join(root,f));
  const input=JSON.parse(read('tests/native-beta-release/inputs.json'));assert.equal(input.base,BASE);assert.equal(git('rev-parse',BASE+'^{tree}'),input.baseTree);git('merge-base','--is-ancestor',input.reviewed288,BASE);git('merge-base','--is-ancestor',input.reviewed289,BASE);git('merge-base','--is-ancestor',input.installedRehearsalRefUnchanged,BASE);assert.equal(input.diagnostic290Uninstalled,BASE);assert.equal(input.sourceCalls,false);assert.equal(input.hostedAcceptance,false);

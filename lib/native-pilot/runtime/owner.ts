@@ -23,6 +23,13 @@ export function nativeIssuerConfiguration(dsn:string,ca:string,enrollment=false)
 }
 const headers={'Cache-Control':'private, no-store','Vary':'Cookie, Origin','Referrer-Policy':'no-referrer','X-Content-Type-Options':'nosniff'};
 const reply=(status:number,error:string)=>Response.json({error},{status,headers});
+/** No preference, session-cache or account-data cookies cross this narrow bridge.
+ * rememberMe=false and disabled refresh make the library preference unnecessary. */
+function ownerCookie(response:Response,output:Headers,logout=false){
+ const cookies=response.headers.getSetCookie().filter(c=>c.startsWith(OWNER_COOKIE+'='));need(response.ok&&cookies.length===1);const cookie=cookies[0];
+ need(/;\s*HttpOnly(?:;|$)/i.test(cookie)&&/;\s*Secure(?:;|$)/i.test(cookie)&&/;\s*SameSite=Strict(?:;|$)/i.test(cookie)&&/;\s*Path=\/(?:;|$)/i.test(cookie)&&!/;\s*Domain=/i.test(cookie));
+ need(logout||!/;\s*(?:Max-Age|Expires)=/i.test(cookie));output.append('set-cookie',cookie);
+}
 type Input=Readonly<{policy:Policy;pool:Pool;secret:string;tlsHost:string}>;
 function ownerCore(input:Input,current:()=>number,enrollmentPool?:Pool){
  const p=policy(input.policy),secret=input.secret;
@@ -72,14 +79,14 @@ function ownerCore(input:Input,current:()=>number,enrollmentPool?:Pool){
    if(!safe(request)||request.headers.get('x-unfarmd-owner-intent')!==(status?'status':login?'login':'logout'))return reply(403,'origin_or_intent_denied');
    if(!await admitted())return reply(503,'native_owner_unavailable');
    if(status){const s=await session(request);return Response.json(s?{status:'signed_in',expiresAtMs:new Date(s.expiresAt).getTime()}:{status:'signed_out'},{headers});}
-   if(logout){if(!await session(request))return reply(401,'owner_session_required');const r=await auth.api.signOut({headers:request.headers,asResponse:true}),out=new Headers(headers);for(const c of r.headers.getSetCookie())out.append('set-cookie',c);return Response.json({status:'signed_out'},{headers:out});}
+   if(logout){if(!await session(request))return reply(401,'owner_session_required');const r=await auth.api.signOut({headers:request.headers,asResponse:true}),out=new Headers(headers);ownerCookie(r,out,true);return Response.json({status:'signed_out'},{headers:out});}
    if(request.headers.get('content-type')!=='application/json'||request.headers.has('content-encoding')||Number(request.headers.get('content-length')??0)>2048||!request.body)return reply(400,'invalid_auth_request');
    const reader=request.body.getReader(),parts:Uint8Array[]=[];let size=0,count=0,timer:ReturnType<typeof setTimeout>|undefined;
    let text:string;try{text=await Promise.race([(async()=>{for(;;){const x=await reader.read();if(x.done)break;size+=x.value.length;need(size<=2048&&++count<=32&&!request.signal.aborted);parts.push(x.value);}return new TextDecoder('utf8',{fatal:true}).decode(Buffer.concat(parts));})(),new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(Error('body_timeout')),1000);})]);}finally{clearTimeout(timer);void reader.cancel().catch(()=>{});}
    const body=parsePacket(text) as {email:string;password:string};if(!body||Object.keys(body).sort().join(',')!=='email,password'||typeof body.email!=='string'||typeof body.password!=='string'||body.email.length>254||body.password.length<16||body.password.length>128)return reply(400,'invalid_auth_request');
    const c=await db.connect();try{need(strictBindingEstablished(c));if((await c.query('SELECT unfarmd_v4_auth_ops.reserve_attempt() allowed')).rows[0]?.allowed!==true)return reply(429,'owner_auth_rate_limited');}finally{c.release();}
    const r=await auth.api.signInEmail({headers:request.headers,body:{...body,rememberMe:false},asResponse:true});if(!r.ok||!await admitted())return reply(401,'owner_signin_denied');
-   need(r.headers.getSetCookie().some(x=>x.startsWith(OWNER_COOKIE+'=')));const out=new Headers(headers);for(const cookie of r.headers.getSetCookie())out.append('set-cookie',cookie);return Response.json({status:'signed_in'},{headers:out});
+   const out=new Headers(headers);ownerCookie(r,out);return Response.json({status:'signed_in'},{headers:out});
   }catch{return reply(503,'native_owner_unavailable');}},
  });
 }

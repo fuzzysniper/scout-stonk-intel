@@ -53,11 +53,19 @@ cannot change them. The application reads no native credentials while OFF.
   auth tables/rate function. **Never overwrite/retarget an existing conflicting
   policy or account** (including #265). A conflict is a specific installation HOLD.
   `build-operator.sh` builds the uninstalled enrollment entry; it neither runs it
-  nor reads credentials. Future authorized operator sets the nonsecret finite
-  `owner-enrollment.json`, supplies separate issuer/enrollment logins plus private
-  stdin through secure operator tooling, and invokes `enroll --enroll-once`.
+  nor reads credentials. Future authorized operator separately reviews a public
+  `owner-enrollment.json` selection containing only `configuration.planSha256`,
+  the SHA256 of canonical private configuration. Supply that configuration
+  (`authSecretSha256`, `caSha256`, `expiresAt`, `ownerEmail`, exact `policy`) plus
+  `password` as one bounded private stdin packet through secure operator tooling,
+  with separate issuer/enrollment logins; invoke `enroll --enroll-once`. The hash
+  is checked before any credential access. Never commit the private packet, owner
+  identity or named mint/research scope, or send them to chat/logs/artifacts.
   It requires an already matching policy, locks/checks empty users, uses real
   Better Auth, never installs policy and never mints setup/source authority.
+  Run from the separately reviewed operator bundle root using
+  `node --conditions=react-server ops/native-beta-release/enroll.js --enroll-once`;
+  secure tooling supplies stdin/environment without shell history or logs.
   Disable enrollment LOGIN immediately; no enrollment credential goes to Vercel.
   Unknown ACK is HOLD, not permission to repeat. Existing account reuse requires
   genuine owner verification. Public signup/reset/OAuth/refresh stay absent.
@@ -72,6 +80,8 @@ cannot change them. The application reads no native credentials while OFF.
   repair endpoint, SQL/provider credential, retry or lock reclamation exists.
   Initial anchor must be separately provisioned once. Preserve all current/spent/
   uncertain history; two matching restored old copies are not currentness proof.
+  Its separately approved service command, from that bundle root, is
+  `node --conditions=react-server ops/native-beta-release/checkpoint-server.js --serve`.
 - Secure runtime entry ONLY, never chat/Git: `UNFARMD_NATIVE_GITHUB_READ_TOKEN`
   (Actions/Deployments/Contents/Variables READ only), `UNFARMD_NATIVE_PG_CA`,
   `UNFARMD_NATIVE_PG_DSN` (`unfarmd_native_login`),

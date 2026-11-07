@@ -34,7 +34,7 @@ test.before(async()=>{
 });
 test.after(async()=>{await ctx?.close();});
 test('actual PG18 Better Auth issues secure host-only cookie for the enrolled owner; original B session verifier accepts it',async()=>{
- const response=await core.handler(ownerRequest('sign-in/email',{email,password}));assert.equal(response.status,200);assert.deepEqual(await response.json(),{status:'signed_in'});const cookies=response.headers.getSetCookie();assert.equal(cookies.length,1);assert.match(cookies[0],/^__Host-unfarmd-v4-owner=/);for(const flag of ['HttpOnly','Secure','SameSite=Strict','Path=/'])assert.ok(cookies[0].toLowerCase().includes(flag.toLowerCase()));assert.ok(!/domain=/i.test(cookies[0]));cookie=cookies[0].split(';')[0];
+ const response=await core.handler(ownerRequest('sign-in/email',{email,password}));assert.equal(response.status,200);assert.deepEqual(await response.json(),{status:'signed_in'});const cookies=response.headers.getSetCookie();assert.equal(cookies.length,1);assert.match(cookies[0],/^__Host-unfarmd-v4-owner=/);for(const flag of ['HttpOnly','Secure','SameSite=Strict','Path=/'])assert.ok(cookies[0].toLowerCase().includes(flag.toLowerCase()));assert.ok(!/(?:domain|max-age|expires)=/i.test(cookies[0]));cookie=cookies[0].split(';')[0];
  assert.equal(await ownerSession(p,secret,reader,'localhost')(inspectRequest()),true);assert.equal((await (await core.handler(ownerRequest('status'))).json()).status,'signed_in');
 });
 test('actual owner cookie → original B authorize → actual native PG transaction/budget → A Helius analytics → existing Lens projection',{timeout:30000},async()=>{
