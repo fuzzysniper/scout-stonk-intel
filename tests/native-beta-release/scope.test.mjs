@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {execFileSync} from 'node:child_process';import {review,sha,BASE} from './review.mjs';
-const REVIEWER='4504cbfe51c87ed6fdc5988789da06d965c28475ad56c23a868e434647e935aa';
+const REVIEWER='023e2bfe17943daf3c5c38c1c534d73c7c67a8e5f3f76351607dfaa7b7730c5b';
 test('finite current RC with exact288/289/290 histories, guards/source/contracts/collector/SQL and OFF installation',()=>{assert.equal(sha(fs.readFileSync('tests/native-beta-release/review.mjs')),REVIEWER);review();});
 test('passing control rejects source, trust, SQL, STOP, history, publisher, UI, mode and extra-path tampering',()=>{
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'native-rc-scope-'));try{execFileSync('git',['clone','--quiet','--shared','--no-checkout',process.cwd(),dir]);execFileSync('git',['checkout','--quiet','--detach','HEAD'],{cwd:dir});review(dir);

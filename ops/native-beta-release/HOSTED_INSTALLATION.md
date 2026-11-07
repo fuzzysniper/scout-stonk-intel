@@ -1,8 +1,11 @@
 # Private native beta RC — code ready, operational HOLD
 
 This release reuses #288’s PostgreSQL → B → Helius intake → A → /lens and #289’s
-distinct setup/source admission. Its dependent #290 publisher/diagnostics remain
-separately reviewed and **uninstalled**. No live proof is claimed by local tests.
+distinct setup/source admission. #290 is a separate reviewed publisher/diagnostics
+dependency. Fresh GitHub evidence shows the owner merged it on 2026-11-07 at
+14:39:07Z into `native-pilot/review-rehearsal`; that ref is now exact
+`370f15cc29901e3d1d267273d09993a3283d7dd4`. This candidate changes neither that ref
+nor its installation. A code merge is not rehearsal/live acceptance.
 No UI redesign, analytics/score changes, new provider or journal is included.
 
 ## Exact code installation
@@ -12,10 +15,11 @@ cannot change them. The application reads no native credentials while OFF.
 
 1. **Reconcile B’s original incident first.** Preserve run `42293408658`, its
    variable and any automatic/explicit deployments. Explicit write outcome is
-   UNKNOWN. #290 `370f15cc29901e3d1d267273d09993a3283d7dd4` is diagnostic code,
-   not a successful rehearsal. Installed rehearsal ref remains
-   `0a5abd56faa4fbb7aa0049f0207d139a23c051f6`. Its correction/installation/new
-   distinct rehearsal require B’s separate approval; never rerun/clean up the old one.
+   UNKNOWN. #290 `370f15cc29901e3d1d267273d09993a3283d7dd4` is installed
+   diagnostic code, not a successful rehearsal. Historical failed-run input is
+   `0a5abd56faa4fbb7aa0049f0207d139a23c051f6`. B must reconcile original metadata
+   before a new distinct separately approved rehearsal; never rerun/clean up the
+   old one. Do not reinstall #290 or infer permission from its merge.
 2. After accepting #289’s weaker **owner-reviewed repository/cloud control-plane**
    trust model, approve one code/config installation commit on
    `native-pilot/private-beta-rc`. Set `installation.json.mode` to `installed` and

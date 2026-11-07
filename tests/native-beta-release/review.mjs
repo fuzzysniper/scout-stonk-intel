@@ -3,10 +3,10 @@ import fs from 'node:fs';import path from 'node:path';import assert from 'node:a
 export const BASE='370f15cc29901e3d1d267273d09993a3283d7dd4';
 export const sha=x=>createHash('sha256').update(x).digest('hex');
 const blob=x=>createHash('sha1').update('blob '+x.length+'\0').update(x).digest('hex');
-const MANIFEST='8575d89f8f545d30176b5ed94389425bf0c1a7b14aa93d883ef20ff345d32a47';
+const MANIFEST='7843d803e2f1b56138a33e12a275be1aa2e47568316b6292f538520d73c5cc47';
 export function review(root=process.cwd(),head=true){
  const raw=(...a)=>execFileSync('git',a,{cwd:root,maxBuffer:64*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=f=>fs.readFileSync(path.join(root,f));
- const input=JSON.parse(read('tests/native-beta-release/inputs.json'));assert.equal(input.base,BASE);assert.equal(git('rev-parse',BASE+'^{tree}'),input.baseTree);git('merge-base','--is-ancestor',input.reviewed288,BASE);git('merge-base','--is-ancestor',input.reviewed289,BASE);git('merge-base','--is-ancestor',input.installedRehearsalRefUnchanged,BASE);assert.equal(input.diagnostic290Uninstalled,BASE);assert.equal(input.sourceCalls,false);assert.equal(input.hostedAcceptance,false);
+ const input=JSON.parse(read('tests/native-beta-release/inputs.json'));assert.equal(input.base,BASE);assert.equal(git('rev-parse',BASE+'^{tree}'),input.baseTree);git('merge-base','--is-ancestor',input.reviewed288,BASE);git('merge-base','--is-ancestor',input.reviewed289,BASE);git('merge-base','--is-ancestor',input.historicalRehearsalPublisher,BASE);assert.equal(input.diagnostic290Input,BASE);assert.equal(input.sourceCalls,false);assert.equal(input.hostedAcceptance,false);
  const bytes=read('tests/native-beta-release/review.json');assert.equal(sha(bytes),MANIFEST);const m=JSON.parse(bytes);assert.equal(m.base,BASE);
  const allowed=['app/api/native-pilot/route.ts','app/lens/native-lens.tsx','app/lens/page.tsx','lib/native-lens/boundary.ts','lib/native-lens/policy.ts','lib/native-pilot/admission/configuration.ts','lib/native-pilot/admission/gates.ts','lib/native-pilot/admission/installed.ts','lib/native-pilot/index.ts','lib/native-pilot/postgres/connection.ts','next.config.mjs','vercel.json'];assert.deepEqual(Object.keys(m.modified).sort(),allowed.sort());
  const originals=new Map(git('ls-tree','-r',BASE).split('\n').map(line=>{const[a,f]=line.split('\t'),[mode,,id]=a.split(' ');return [f,{mode,id}];}));

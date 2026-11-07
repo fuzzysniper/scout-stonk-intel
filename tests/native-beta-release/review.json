@@ -94,7 +94,7 @@
     },
     "ops/native-beta-release/HOSTED_INSTALLATION.md": {
       "mode": "100644",
-      "sha256": "cd27eee372fe0447f948914f7bf8308c662d5e77fedb3c6ac361dc5ad3af2613"
+      "sha256": "0e0e5f8b182d5d6812f40b52e68643ecfc3ff4d4b0b58b4734908ed58c86a56a"
     },
     "ops/native-beta-release/build-operator.sh": {
       "mode": "100644",
@@ -162,7 +162,7 @@
     },
     "tests/native-beta-release/inputs.json": {
       "mode": "100644",
-      "sha256": "1f90f622ae977cc3e45a214d7ae9cefeaf233b4548a499a20464a140f0746d9a"
+      "sha256": "acf574e069fc93cd612f812c65b654492cc155ff66159fa6392271f74d940a8c"
     },
     "tests/native-beta-release/mobile.sh": {
       "mode": "100644",
