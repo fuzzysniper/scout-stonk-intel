@@ -1,0 +1,37 @@
+name: Native Build Output packaging OFFLINE only
+on:
+  pull_request:
+    branches: [native-pilot/private-beta-rc]
+permissions:
+  contents: read
+jobs:
+  exact-head-packet-and-genuine-offline-builder:
+    if: github.head_ref == 'ops/291-build-output-packet'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: Exact reviewed head and pinned public dependencies
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          npm ci --ignore-scripts
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts
+      - name: Packaging adversarial tests; no real upload or credential binding
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/native-beta-output/*.test.mjs
+      - name: Genuine Vercel standalone Build Output without external egress or credentials
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          bash ops/native-beta-output/build-isolated.sh verify-build "$PWD" "$PWD/ops/native-beta-output/toolchain" "$EXPECTED_HEAD" "$RUNNER_TEMP/OFFLINE-ONLY-output.private.json" > "$RUNNER_TEMP/OFFLINE-ONLY-receipt.json"
+          node -e 'const x=require(process.env.RUNNER_TEMP+"/OFFLINE-ONLY-receipt.json");if(!x.source.verificationOnly||x.deployed||x.sourceCalls)throw Error("HOLD");console.log(JSON.stringify(x));'
+      # Deliberately no upload-artifact step: generated server keys stay on the disposable runner.

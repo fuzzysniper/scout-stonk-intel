@@ -8,7 +8,7 @@ on:
         type: choice
         required: true
         default: rehearsal
-        options: [rehearsal, setup, source]
+        options: [rehearsal, setup, source, preview-output]
       approved_sha:
         description: Exact separately reviewed feature SHA
         type: string
@@ -17,13 +17,21 @@ on:
         description: Actual Vercel deployment ID; empty for non-authorizing rehearsal
         type: string
         required: false
+      preview_starts_at:
+        description: Owner-selected absolute UTC start; empty except preview-output
+        type: string
+        required: false
+      preview_expires_at:
+        description: Absolute UTC expiry, at most 30 minutes after start
+        type: string
+        required: false
 permissions: {}
 concurrency:
   group: native-pilot-owner-${{ github.ref }}-${{ inputs.mode }}
   cancel-in-progress: false
 jobs:
   context:
-    if: github.repository_id == '1415026436' && github.actor_id == '58099771' && github.run_attempt == 1 && startsWith(github.ref, 'refs/heads/native-pilot/')
+    if: inputs.mode != 'preview-output' && github.repository_id == '1415026436' && github.actor_id == '58099771' && github.run_attempt == 1 && startsWith(github.ref, 'refs/heads/native-pilot/')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -62,6 +70,7 @@ jobs:
       # For real setup/source: operator prepares the genuine record with this actual run ID
       # and installs its private configuration variable before owner review. No placeholder evidence.
   publish:
+    if: inputs.mode != 'preview-output'
     needs: context
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -101,3 +110,100 @@ jobs:
           NATIVE_PUBLISH_OPERATION: metadata-only-owner-approved
           NATIVE_ADMISSION_READ_TOKEN: ${{ secrets.NATIVE_ADMISSION_READ_TOKEN }}
           GITHUB_TOKEN: ${{ github.token }}
+
+  preview-context:
+    if: inputs.mode == 'preview-output' && inputs.deployment == '' && inputs.approved_sha == github.sha && github.repository_id == '1415026436' && github.actor_id == '58099771' && github.run_attempt == 1 && github.ref == 'refs/heads/native-pilot/private-beta-rc'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      go_json: ${{ steps.card.outputs.go_json }}
+    env:
+      MODE: ${{ inputs.mode }}
+      APPROVED_SHA: ${{ inputs.approved_sha }}
+      PREVIEW_STARTS_AT: ${{ inputs.preview_starts_at }}
+      PREVIEW_EXPIRES_AT: ${{ inputs.preview_expires_at }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - id: card
+        run: node ops/native-beta-output/step.mjs context
+  preview-output:
+    if: inputs.mode == 'preview-output'
+    needs: preview-context
+    environment:
+      name: native-pilot-setup
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+      deployments: read
+    env:
+      MODE: ${{ inputs.mode }}
+      APPROVED_SHA: ${{ inputs.approved_sha }}
+      GO_JSON: ${{ needs.preview-context.outputs.go_json }}
+      NEXT_TELEMETRY_DISABLED: '1'
+      NO_UPDATE_NOTIFIER: '1'
+      VERCEL_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: native-pilot/private-beta-rc
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: Pinned public dependencies only; no credentials bound
+        run: |
+          test "$(git rev-parse HEAD)" = "$APPROVED_SHA"
+          npm ci --ignore-scripts
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts
+          node ops/native-beta-output/step.mjs prepare "$RUNNER_TEMP/native-preview"
+      - name: Build ONCE under OS egress isolation; no environment pull
+        run: |
+          bash ops/native-beta-output/build-isolated.sh build "$PWD" "$PWD/ops/native-beta-output/toolchain" "$APPROVED_SHA" "$RUNNER_TEMP/native-preview/output.private.json" > "$RUNNER_TEMP/native-preview/receipt.json"
+      - name: Encrypt preserved generated server keys; verify original bytes
+        run: node ops/native-beta-output/step.mjs seal "$RUNNER_TEMP/native-preview"
+        env:
+          UNFARMD_NATIVE_BUILD_ARCHIVE_KEY: ${{ secrets.UNFARMD_NATIVE_BUILD_ARCHIVE_KEY }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: native-preview-preserved-${{ github.run_id }}
+          retention-days: 1
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/native-preview/build.aesgcm
+            ${{ runner.temp }}/native-preview/receipt.json
+      - name: Exactly one prebuilt Preview CLI invocation; live owner gate reread
+        id: upload
+        run: node ops/native-beta-output/upload.mjs execute "$PWD" "$PWD/ops/native-beta-output/toolchain" "$RUNNER_TEMP/native-preview/receipt.json" "$RUNNER_TEMP/native-preview/go.json" "$RUNNER_TEMP/native-preview/attempt.jsonl"
+        env:
+          NATIVE_PREVIEW_OPERATION: ONE_OWNER_APPROVED_SOURCE_OFF_PREVIEW
+          NATIVE_ADMISSION_READ_TOKEN: ${{ secrets.NATIVE_ADMISSION_READ_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.UNFARMD_NATIVE_PREVIEW_DEPLOY_TOKEN }}
+      - id: final_archive
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ${{ steps.upload.outputs.artifact_name || format('native-preview-held-{0}', github.run_id) }}
+          retention-days: 1
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/native-preview/build.aesgcm
+            ${{ runner.temp }}/native-preview/receipt.json
+            ${{ runner.temp }}/native-preview/attempt.jsonl
+            ${{ runner.temp }}/native-preview/binding.json
+      - name: Verify actual Actions artifact ID digest and exact run head OUTSIDE frozen build
+        run: node ops/native-beta-output/artifact.mjs "$RUNNER_TEMP/native-preview/binding.json"
+        env:
+          FINAL_ARTIFACT_ID: ${{ steps.final_archive.outputs.artifact-id }}
+          FINAL_ARTIFACT_DIGEST: ${{ steps.final_archive.outputs.artifact-digest }}
+          NATIVE_ADMISSION_READ_TOKEN: ${{ secrets.NATIVE_ADMISSION_READ_TOKEN }}

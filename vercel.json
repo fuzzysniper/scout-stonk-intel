@@ -15,7 +15,8 @@
       "feat/288-native-release-admission": false,
       "native-pilot/review-rehearsal": false,
       "fix/289-publisher-diagnostics-off": false,
-      "native-pilot/private-beta-rc": false
+      "native-pilot/private-beta-rc": false,
+      "ops/291-build-output-packet": false
     }
   }
 }

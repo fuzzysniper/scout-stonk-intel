@@ -1,0 +1,31 @@
+{
+  "version": "native-build-policy/1",
+  "repository": "fuzzysniper/scout-stonk-intel",
+  "repositoryId": 1415026436,
+  "ownerId": 58099771,
+  "branch": "native-pilot/private-beta-rc",
+  "projectId": "prj_OaA9snVrMUkpXuz6cMSKfSZ6fx5Q",
+  "teamId": "team_x1JQRQhMe5Ic1VFpklZMPM2j",
+  "workflowId": 409607134,
+  "environmentId": 26516929095,
+  "environment": "native-pilot-setup",
+  "baseline": "06046d1909ce39e9808cff91075e51ddbe776b31",
+  "node": "24.19.0",
+  "npm": "11.9.0",
+  "cli": "64.5.0",
+  "builder": "23.0.3",
+  "buildUtils": "14.21.3",
+  "toolLockSha256": "100ced070fb368d54d1f8e5ab3d7b1d281c118e0859bafee39511edaa4703e85",
+  "maxFiles": 20000,
+  "maxBytes": 134217728,
+  "maxBundleBytes": 201326592,
+  "cliFiles": {
+    "dist/index.js": "b4af3bc4d2b95a46873ff901b35a00695315fffd14718c3e2dd02bb4dd36f4b8",
+    "dist/commands/build/index.js": "3431e48f85ea5c994d670ff1ea9eb5b2c56c1cb321158c274043fbdf574368f1",
+    "dist/commands/deploy/index.js": "700c6d723f420abe1e7b322a36fc0583fadc47d2cdb40f536971f005d661c7ac",
+    "dist/chunks/chunk-JIGCN5QS.js": "b0c38d56734abf47a2f65e95f157f3bf2ea5e4f26767e8ac23a090296133ddc0",
+    "dist/chunks/chunk-JH257EDL.js": "777edc58020b79fad0f6237493feac6afb67c009473f74d4d7109303f43e7169",
+    "dist/chunks/chunk-WN7EJWN4.js": "193a4c91f0d1e553cf3a4ec9683fc6ba04003929fc0db4a9f1bdb906c53077fe",
+    "dist/chunks/chunk-QOFK5PKB.js": "96ad3062fdb8979f0ad7e4e62c59d9fe07aa08bf54132088ae597a7266fed555"
+  }
+}

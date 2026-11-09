@@ -1,0 +1,111 @@
+{
+  "version": "native-build-output-review/1",
+  "base": "06046d1909ce39e9808cff91075e51ddbe776b31",
+  "modified": {
+    ".github/workflows/native-beta-release.yml": {
+      "mode": "100644",
+      "sha256": "419b73e0a1724bc3b527b884b6098a6e130d10a1502e285fc1b3b6ff1a1d6881",
+      "patchSha256": "199f8ba2270a0fde5e3c7f7a75d6f7effb55f0a830bc65c0a931c42f4a28ae91"
+    },
+    ".github/workflows/native-pilot-admission.yml": {
+      "mode": "100644",
+      "sha256": "2855d0fc1258a9a5ad696a46d4d2e60441f940a8024d3c7b51a0940b4a2e1c08",
+      "patchSha256": "0ac20848a044590349236d1a0738c7a7dc959e03e13d628f4cca3460a97ba324"
+    },
+    "vercel.json": {
+      "mode": "100644",
+      "sha256": "fab8ce658bd86618694a1e97e046b3105ad3774c3b7418111984fc00aed95b8a",
+      "patchSha256": "2edc4652433316bed6124a3f34b6422694aabd573615472f41d0166e537c16c3"
+    }
+  },
+  "added": {
+    ".github/workflows/native-beta-output.yml": {
+      "mode": "100644",
+      "sha256": "1fe83d5758f990913d36f1aed81502df369bf77115569d9cc869be7da3e3af0e"
+    },
+    "ops/native-beta-output/PROCEDURE.md": {
+      "mode": "100644",
+      "sha256": "6e2851d31ce98a030e008011fe844019b823942da267adf810f23949ab1e9a94"
+    },
+    "ops/native-beta-output/artifact.mjs": {
+      "mode": "100644",
+      "sha256": "cb3f43586d75d661cfca820dc42c7f0db9e4102ceacc4d50b32a0d9ed0b0c396"
+    },
+    "ops/native-beta-output/build-isolated.sh": {
+      "mode": "100755",
+      "sha256": "524836fa04584fef7e4cd2b8ab4ba775dd371c91d5bbae3abf0558a2d9b83f09"
+    },
+    "ops/native-beta-output/build.mjs": {
+      "mode": "100644",
+      "sha256": "8ffce438aaa2f96c3dc825703a220844d1aea8f9409b6938c9e2d026a5131da6"
+    },
+    "ops/native-beta-output/output.mjs": {
+      "mode": "100644",
+      "sha256": "493e38b6d0d3baf6b8826cefa7b23b3d065f61437fc6492a441092a34e058bec"
+    },
+    "ops/native-beta-output/owner-browser.js": {
+      "mode": "100644",
+      "sha256": "10eff1a828cd584d4c0b848203b32f2ecf9b791b2749850303f1640187454ddf"
+    },
+    "ops/native-beta-output/policy.json": {
+      "mode": "100644",
+      "sha256": "faf1f2dd4352b6ad725018f35c9eea54a8fe4ad79912cb84c604dfcd7a5345a7"
+    },
+    "ops/native-beta-output/restore.mjs": {
+      "mode": "100644",
+      "sha256": "31995a4882831c4f290679d1838675c6a49b48b3cfbbdad3292cc9f5db99f9ef"
+    },
+    "ops/native-beta-output/step.mjs": {
+      "mode": "100644",
+      "sha256": "fdff8e060305c46f2e7ab39ff297ddf60f9a85f125c9cc7beea780175768d4d1"
+    },
+    "ops/native-beta-output/toolchain/package-lock.json": {
+      "mode": "100644",
+      "sha256": "100ced070fb368d54d1f8e5ab3d7b1d281c118e0859bafee39511edaa4703e85"
+    },
+    "ops/native-beta-output/toolchain/package.json": {
+      "mode": "100644",
+      "sha256": "0cfc769cc0eeb9da1c05081795d202aa56553546df350b7cdfccf44381bdae79"
+    },
+    "ops/native-beta-output/upload.mjs": {
+      "mode": "100644",
+      "sha256": "597786d5144a881d5c55b77b94f19910da3fa0943403bc604ddb0310214be107"
+    },
+    "ops/native-beta-output/verify.mjs": {
+      "mode": "100644",
+      "sha256": "5e5da6a508b7ec31cf5515a0ef0cab2b99ad9d0446cf4711520d97156f9c93c0"
+    },
+    "tests/native-beta-output/fixtures.mjs": {
+      "mode": "100644",
+      "sha256": "7ba115ac28d2d29d68cdde3d3345d994d1d20000692d298a0d9c21195b843e58"
+    },
+    "tests/native-beta-output/output.test.mjs": {
+      "mode": "100644",
+      "sha256": "d65dd1bdc26c079915f6219df1c5e6f1919ea37049beec05f414bc30efc77b3f"
+    },
+    "tests/native-beta-output/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-beta-output/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-beta-output/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/native-beta-output/upload.test.mjs": {
+      "mode": "100644",
+      "sha256": "b0deb2907612edfe2c3055c26ef939a07a10591804799d59f24ac76322d55311"
+    },
+    "tests/native-beta-output/verify.test.mjs": {
+      "mode": "100644",
+      "sha256": "4c506cb69201f5ab63736e37e7455954d88eafd3f9568a28f4e08cc1638b1f76"
+    },
+    "tests/native-beta-output/workflow.test.mjs": {
+      "mode": "100644",
+      "sha256": "cfe34ab776a07d319a03b841d5560fa357eb707e00283085dba25ea94192a043"
+    }
+  }
+}

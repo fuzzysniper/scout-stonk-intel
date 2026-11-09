@@ -1,7 +1,7 @@
 name: Native private beta RC selected assembly SOURCE OFF
 on:
   pull_request:
-    branches: [fix/289-publisher-diagnostics-off]
+    branches: [fix/289-publisher-diagnostics-off, native-pilot/private-beta-rc]
 permissions:
   contents: read
 env:
@@ -17,7 +17,7 @@ env:
   SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
 jobs:
   exact-head-public-request-isolation:
-    if: github.head_ref == 'native-pilot/private-beta-rc'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -31,7 +31,7 @@ jobs:
           node-version: '24.19.0'
       - run: npm ci --ignore-scripts
       - run: npm ci --prefix experiments/jupiter-beta-approval/integration --ignore-scripts
-      - run: node --test tests/native-beta-release/scope.test.mjs
+      - run: node --test tests/native-beta-output/scope.test.mjs
       - name: Actual A B C union and unchanged pure decoders on the combined C head NO SQL
         run: |
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-evidence/run.sh
@@ -45,7 +45,7 @@ jobs:
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-research-v3/run.sh
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
   exact-head-build-import-source-OFF:
-    if: github.head_ref == 'native-pilot/private-beta-rc'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -76,9 +76,9 @@ jobs:
           node tests/native-admission/artifact.mjs
           node tests/native-beta-release/artifact.mjs
           bash scripts/archive-tool.sh check 905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a
-          node --test tests/native-beta-release/scope.test.mjs
+          node --test tests/native-beta-output/scope.test.mjs
   exact-head-mobile-accessibility-privacy:
-    if: github.head_ref == 'native-pilot/private-beta-rc'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
@@ -105,7 +105,7 @@ jobs:
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-union-284/run.sh browser
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-beta-release/mobile.sh browser
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/native-union-284/optimized.config.mjs
-      - run: node --test tests/native-beta-release/scope.test.mjs
+      - run: node --test tests/native-beta-output/scope.test.mjs
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -116,7 +116,7 @@ jobs:
           if-no-files-found: error
           include-hidden-files: true
   original-immutable-reviewers:
-    if: github.head_ref == 'native-pilot/private-beta-rc'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -133,9 +133,9 @@ jobs:
         run: |
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-union-284/replay.sh
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-beta-release/replay.sh
-      - run: node --test tests/native-beta-release/scope.test.mjs
+      - run: node --test tests/native-beta-output/scope.test.mjs
   original-optimized-isolation:
-    if: github.head_ref == 'native-pilot/private-beta-rc'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -150,10 +150,10 @@ jobs:
       - run: npm ci --ignore-scripts
       - name: Original optimized v3-absence and exact73-file trace tests unchanged on280
         run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-lens/original-build.sh
-      - run: node --test tests/native-beta-release/scope.test.mjs
+      - run: node --test tests/native-beta-output/scope.test.mjs
 
   B-owned-current-head-PG18:
-    if: github.head_ref == 'native-pilot/private-beta-rc'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -190,7 +190,7 @@ jobs:
           node tests/native-union-284/require-pg-evidence.mjs /tmp/native-current-pg-evidence.log
           bash tests/native-beta-release/pg18-isolated.sh | tee /tmp/native-owner-pg-evidence.log
           node tests/native-beta-release/require-owner-evidence.mjs /tmp/native-owner-pg-evidence.log
-      - run: node --test tests/native-beta-release/scope.test.mjs
+      - run: node --test tests/native-beta-output/scope.test.mjs
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
@@ -203,7 +203,7 @@ jobs:
           include-hidden-files: true
 
   selected-optimized-assembly-not-permanent-OFF:
-    if: github.head_ref == 'native-pilot/private-beta-rc'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -218,4 +218,4 @@ jobs:
       - run: npm ci --ignore-scripts
       - name: Actual clean-head selected assembly and immutable original OFF profile; synthetic bindings only
         run: NODE_OPTIONS="--import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs" bash tests/native-beta-release/selected-build.sh
-      - run: node --test tests/native-beta-release/scope.test.mjs
+      - run: node --test tests/native-beta-output/scope.test.mjs
