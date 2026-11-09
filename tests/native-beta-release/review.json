@@ -66,7 +66,7 @@
   "added": {
     ".github/workflows/native-beta-release.yml": {
       "mode": "100644",
-      "sha256": "0c08b3afa0ce84c7214c2c5e1e378f3687eab7ee63db4d9ef47349b2030ae617"
+      "sha256": "3f10655efd08ff91ea12f856d29451c42b39fe50d5fac72e6ce53ba2d7317a52"
     },
     "app/api/native-pilot/owner/[...all]/route.ts": {
       "mode": "100644",
@@ -118,7 +118,7 @@
     },
     "ops/native-beta-release/installation.json": {
       "mode": "100644",
-      "sha256": "06d2cbd9375726d6e9d27bab8895225608b3491e886760dc0b64b30fa7bb58e2"
+      "sha256": "c84fe290a016b7fc1259c8f63581662bb1fb2ecffa2b95c8730479f4dac18836"
     },
     "ops/native-beta-release/owner-enrollment.json": {
       "mode": "100644",
@@ -126,7 +126,7 @@
     },
     "tests/native-beta-release/artifact.mjs": {
       "mode": "100644",
-      "sha256": "ed69840106e9e98b22c0bdf79d0afbf9784db105c6c66185f4c7779ea1ce63df"
+      "sha256": "64055c9d2a5c3a240077060f865ee3d0dd7edf09013c8110eb4db13f7ed40f31"
     },
     "tests/native-beta-release/browser-entry.tsx": {
       "mode": "100644",
@@ -146,7 +146,7 @@
     },
     "tests/native-beta-release/build.test.mjs": {
       "mode": "100644",
-      "sha256": "9000ec496205a32d42c2ba000d78e7d4f5a6074c083966df85dab02d16aa8641"
+      "sha256": "735df8d0565181ef0ab811be37c9cb8f2a24395a0336013edfa5fb93dd422cf7"
     },
     "tests/native-beta-release/checkpoint.test.mjs": {
       "mode": "100644",
@@ -162,7 +162,7 @@
     },
     "tests/native-beta-release/inputs.json": {
       "mode": "100644",
-      "sha256": "acf574e069fc93cd612f812c65b654492cc155ff66159fa6392271f74d940a8c"
+      "sha256": "8b36f571eb05c4176bdde6f019b7eecdaf136a28928f96a9b8cd126193a63912"
     },
     "tests/native-beta-release/mobile.sh": {
       "mode": "100644",
@@ -222,11 +222,11 @@
     },
     "tests/native-beta-release/selected-build.sh": {
       "mode": "100644",
-      "sha256": "33454b54142c191341b9e5c970e9791d8504699efc921c4edc082a450f49592d"
+      "sha256": "483a48d26199fa926e307628eee0802830a3324ba888b8d8b8ce6080d166676b"
     },
     "tests/native-beta-release/selected-probe.mjs": {
       "mode": "100644",
-      "sha256": "de1fef20f89398cd42b785f5caa0925f963a53aaefc5c3947e2a2adf1ed57d55"
+      "sha256": "4b902b1bfaef672d92688e4c89cbdcdf6261e9f85c0be4427335f9bf1bec2cf6"
     }
   }
 }

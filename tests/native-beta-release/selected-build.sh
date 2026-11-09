@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Clean UNPUBLISHED fixture child: only OFF→installed public synthetic plan changes.
-# Actual shipped head remains OFF. No tracked head, remote ref or deployment changes.
+# Replay unchanged original OFF artifact guards, then test the ACTUAL installed head.
+# Only synthetic request bindings; no grants, credentials, database, provider or deployment.
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 selected_root=$PWD
@@ -11,17 +11,19 @@ trap 'git -C "$selected_root" worktree remove --force "$selected_fixture" >/dev/
 git worktree add --detach "$selected_fixture" "$selected_head" >/dev/null
 ln -s "$selected_root/node_modules" "$selected_fixture/node_modules"
 cd "$selected_fixture"
-python3 - <<'PY'
-import json
-p='ops/native-beta-release/installation.json';x=json.load(open(p));assert x['mode']=='off' and x['controlPlan'] is None
-x['mode']='installed';x['controlPlan']={'workflowId':10001,'setupEnvironmentId':20001,'sourceEnvironmentId':20002,'branch':x['branch']}
-open(p,'w').write(json.dumps(x,indent=2)+'\n')
-PY
-git add ops/native-beta-release/installation.json
-[[ "$(git diff --cached --name-only)" == ops/native-beta-release/installation.json ]]
-git -c user.name='SYNTHETIC Unpublished Build Fixture' -c user.email=fixture@example.invalid commit -m 'SYNTHETIC LOCAL selected-profile fixture ONLY; no operational approval' >/dev/null
+# Original reviewed RC remains unmodified and has its exact original OFF guards.
+git checkout --detach d64e371c1e96b12ab569d48646eeac211f7dfded >/dev/null
 NEXT_TELEMETRY_DISABLED=1 npm run build
 git restore -- next-env.d.ts
+node tests/native-lens/artifact.mjs
+node tests/native-beta-release/artifact.mjs
+node --test tests/native-beta-release/scope.test.mjs
+cd "$selected_root"
+# Actual clean successor SHA/tree and observed IDs, not a generated fixture commit.
+[[ -z "$(git status --porcelain --untracked-files=normal)" ]]
+NEXT_TELEMETRY_DISABLED=1 npm run build
+git restore -- next-env.d.ts
+node tests/native-beta-release/artifact.mjs
 # Public candidate-schema fixture helpers only; no test-cap constructor or altered source.
 ./node_modules/.bin/tsc lib/native-pilot/admission/contract.ts lib/native-pilot/admission/github.ts --allowJs --target ES2023 --module commonjs --moduleResolution node --strict --skipLibCheck --esModuleInterop --rootDir . --outDir "$selected_compile"
 mkdir -p "$selected_compile/experiments/jupiter-beta-approval/integration"

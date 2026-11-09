@@ -1,6 +1,11 @@
 {
   "version": "native-private-installation/1",
-  "mode": "off",
+  "mode": "installed",
   "branch": "native-pilot/private-beta-rc",
-  "controlPlan": null
+  "controlPlan": {
+    "workflowId": 409607134,
+    "setupEnvironmentId": 26516929095,
+    "sourceEnvironmentId": 26517047948,
+    "branch": "native-pilot/private-beta-rc"
+  }
 }

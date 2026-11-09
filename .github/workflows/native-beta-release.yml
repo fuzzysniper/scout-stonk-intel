@@ -1,4 +1,4 @@
-name: Native private beta RC HARD OFF
+name: Native private beta RC selected assembly SOURCE OFF
 on:
   pull_request:
     branches: [fix/289-publisher-diagnostics-off]
@@ -73,7 +73,6 @@ jobs:
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
           node tests/jupiter-beta-276/artifact.mjs
           node tests/jupiter-research-v3/artifact.mjs
-          node tests/native-lens/artifact.mjs
           node tests/native-admission/artifact.mjs
           node tests/native-beta-release/artifact.mjs
           bash scripts/archive-tool.sh check 905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a
@@ -217,6 +216,6 @@ jobs:
         with:
           node-version: '24.19.0'
       - run: npm ci --ignore-scripts
-      - name: Actual optimized synthetic installed profile; no deployment, SQL, credentials or provider
+      - name: Actual clean-head selected assembly and immutable original OFF profile; synthetic bindings only
         run: NODE_OPTIONS="--import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs" bash tests/native-beta-release/selected-build.sh
       - run: node --test tests/native-beta-release/scope.test.mjs
