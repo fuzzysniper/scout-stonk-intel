@@ -1,7 +1,7 @@
 // Operational CLI only. No application import. Default plan performs no network/mutation.
 import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import https from 'node:https';import {checkServerIdentity} from 'node:tls';import {execFileSync} from 'node:child_process';import {fileURLToPath} from 'node:url';
 import {policy,need,hash,inventory,canonical} from './output.mjs';
-import {tools,source,cliGitMetadata} from './build.mjs';
+import {tools,source,cliGitMetadata,verifyLink} from './build.mjs';
 import {approval,ownerGate,project,aliases,unchanged,deployment,edgeProtected,bind} from './verify.mjs';
 export function context(env){need(env.MODE==='preview-output'&&env.GITHUB_EVENT_NAME==='workflow_dispatch'&&env.APPROVED_SHA===env.GITHUB_SHA);return {repositoryId:Number(env.GITHUB_REPOSITORY_ID),actorId:Number(env.GITHUB_ACTOR_ID),attempt:Number(env.GITHUB_RUN_ATTEMPT),branch:(env.GITHUB_REF??'').replace(/^refs\/heads\//,''),sha:env.GITHUB_SHA,runId:Number(env.GITHUB_RUN_ID)};}
 export function paths(ctx,id){const team='teamId='+policy.teamId,repo='/repos/'+policy.repository;return {
@@ -34,7 +34,7 @@ export function publicGET(origin,suffix){need(/^https:\/\/scout-stonk-intel-[a-z
  });}
 export async function once({root,toolRoot,receipt,go,ctx,journal,gh,vc,run,probe,clock=Date.now}){
  plan(receipt,go,ctx,clock());need(!fs.existsSync(journal));const gate=await inspectGate(ctx,go,gh,vc,clock());
- const proof=await source(root,go.commit);need(proof.tree===receipt.source.tree);await cliGitMetadata(toolRoot,root,proof);need(inventory(path.join(root,'.vercel/output')).sha256===receipt.inventorySha256);approval(go,ctx,clock());
+ const proof=await source(root,go.commit);need(proof.tree===receipt.source.tree);verifyLink(root);await cliGitMetadata(toolRoot,root,proof);need(inventory(path.join(root,'.vercel/output')).sha256===receipt.inventorySha256);approval(go,ctx,clock());
  const fd=fs.openSync(journal,'wx',0o600);try{fs.writeFileSync(fd,JSON.stringify({version:'native-preview-attempt/1',run:ctx.runId,commit:proof.commit,plainBundleSha256:receipt.plainBundleSha256,state:'started_unconfirmed',activate:false}));fs.fsyncSync(fd);}finally{fs.closeSync(fd);}
  let raw;try{raw=await run();}catch{throw Error('NATIVE_PREVIEW_HOLD_STARTED_UNCONFIRMED');}
  let d;try{const value=JSON.parse(raw);d=value.deployment??value;need(/^dpl_[A-Za-z0-9]{8,100}$/.test(d.id));}catch{throw Error('NATIVE_PREVIEW_HOLD_STARTED_UNCONFIRMED');}

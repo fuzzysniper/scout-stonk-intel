@@ -14,6 +14,12 @@ Public dependencies: Node **24.19.0**, npm **11.9.0**, CLI **64.5.0**,
 The isolated toolchain lock and critical CLI implementation files are SHA256-pinned
 in `policy.json`. Root dependencies/lockfile are unchanged. This is build tooling,
 not a new runtime transport or database. No automatic dependency upgrade is allowed.
+The fresh GitHub Node24.19 distribution contains npm11.17, so the future packaging
+job explicitly installs/checks npm11.9 rather than assuming the bundled version.
+The public build recipe directly invokes the existing Next CLI after asserting
+`scripts.build === "next build"` and absence of pre/post hooks. `npm run build`
+injects `npm_config_noproxy` and fails the original namespace credential/proxy
+guard; that guard is preserved byte-identically, not relaxed for npm.
 
 A normal clean clone of exact060 was genuinely compiled with this CLI, in an OS
 network namespace without external interfaces, DB/provider bindings or CLI auth.
@@ -131,6 +137,7 @@ commit. No auto Preview is requested. Never reuse an old approval/window.
 3. The protected job runs these reviewed commands, once:
 
    ```bash
+   npm install --global npm@11.9.0 --ignore-scripts --no-audit --no-fund
    npm ci --ignore-scripts
    npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts
    node ops/native-beta-output/step.mjs prepare "$RUNNER_TEMP/native-preview"

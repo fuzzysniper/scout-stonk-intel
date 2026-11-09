@@ -9,8 +9,8 @@
     },
     ".github/workflows/native-pilot-admission.yml": {
       "mode": "100644",
-      "sha256": "2855d0fc1258a9a5ad696a46d4d2e60441f940a8024d3c7b51a0940b4a2e1c08",
-      "patchSha256": "0ac20848a044590349236d1a0738c7a7dc959e03e13d628f4cca3460a97ba324"
+      "sha256": "35267eca5f5f25223725583a8efae8087a9fd984f4a2b666faa3291c201e91ea",
+      "patchSha256": "7b544c998ce5670382f0590c1e916f1a69094d7981bcbd6ad7deee0867dc030d"
     },
     "vercel.json": {
       "mode": "100644",
@@ -21,11 +21,11 @@
   "added": {
     ".github/workflows/native-beta-output.yml": {
       "mode": "100644",
-      "sha256": "1fe83d5758f990913d36f1aed81502df369bf77115569d9cc869be7da3e3af0e"
+      "sha256": "c9be51946cff3b61996c25e0bbbc1dc8bbe60407a5211215ab8288acdd3e0e67"
     },
     "ops/native-beta-output/PROCEDURE.md": {
       "mode": "100644",
-      "sha256": "6e2851d31ce98a030e008011fe844019b823942da267adf810f23949ab1e9a94"
+      "sha256": "13e7c91094cadf3702aeb830f23b93fc31187483ab394124f27da4ed9e649312"
     },
     "ops/native-beta-output/artifact.mjs": {
       "mode": "100644",
@@ -37,11 +37,11 @@
     },
     "ops/native-beta-output/build.mjs": {
       "mode": "100644",
-      "sha256": "8ffce438aaa2f96c3dc825703a220844d1aea8f9409b6938c9e2d026a5131da6"
+      "sha256": "fbfe0793d4fd9c423cbbf341de67f1ba3a97d6ae63ca8eccb822fcb2b754e57a"
     },
     "ops/native-beta-output/output.mjs": {
       "mode": "100644",
-      "sha256": "493e38b6d0d3baf6b8826cefa7b23b3d065f61437fc6492a441092a34e058bec"
+      "sha256": "6c83159022aea5803ccdd5d3a364109db394de7fbc9d321780dc380cd40413f8"
     },
     "ops/native-beta-output/owner-browser.js": {
       "mode": "100644",
@@ -69,7 +69,7 @@
     },
     "ops/native-beta-output/upload.mjs": {
       "mode": "100644",
-      "sha256": "597786d5144a881d5c55b77b94f19910da3fa0943403bc604ddb0310214be107"
+      "sha256": "6519821154d858b069d2f95845c1fb5fc17bb02ce5f88a8e6a4d36ab3e4a315d"
     },
     "ops/native-beta-output/verify.mjs": {
       "mode": "100644",
@@ -97,7 +97,7 @@
     },
     "tests/native-beta-output/upload.test.mjs": {
       "mode": "100644",
-      "sha256": "b0deb2907612edfe2c3055c26ef939a07a10591804799d59f24ac76322d55311"
+      "sha256": "80eb49756fefa721cd83599ad444be4651c448a43377ca2e1e8a42d2fddb2794"
     },
     "tests/native-beta-output/verify.test.mjs": {
       "mode": "100644",

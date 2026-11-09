@@ -12,6 +12,7 @@ export function tools(root){
 }
 export async function source(root,expected,{verificationOnly=false}={}){
  need(/^[a-f0-9]{40}$/.test(expected)&&fs.lstatSync(path.join(root,'.git')).isDirectory());
+ need(!fs.readdirSync(root).some(n=>/^\.env(?:\.|$)/.test(n)&&n!=='.env.example'));
  const commit=git(root,'rev-parse','HEAD'),tree=git(root,'rev-parse','HEAD^{tree}'),branch=git(root,'branch','--show-current');need(commit===expected&&/^[a-f0-9]{40}$/.test(tree)&&!git(root,'status','--porcelain','--untracked-files=normal'));
  need(verificationOnly||branch===policy.branch);need(['https://github.com/'+policy.repository,'https://github.com/'+policy.repository+'.git'].includes(git(root,'remote','get-url','origin')));
  return {commit,tree,branch,project:policy.projectId,repository:policy.repository,verificationOnly};
@@ -20,10 +21,17 @@ export async function cliGitMetadata(toolRoot,root,proof){
  tools(toolRoot);const {createGitMeta}=await import(pathToFileURL(path.join(toolRoot,'node_modules/vercel/dist/chunks/chunk-JIGCN5QS.js')).href),meta=await createGitMeta(root,{link:{repo:'scout-stonk-intel'}});
  need(meta&&meta.commitSha===proof.commit&&meta.commitRef===proof.branch&&meta.dirty===false&&['https://github.com/'+policy.repository,'https://github.com/'+policy.repository+'.git'].includes(meta.remoteUrl));return {commit:meta.commitSha,branch:meta.commitRef,dirty:false,repository:policy.repository};
 }
+export function publicProfile(){return {projectId:policy.projectId,orgId:policy.teamId,projectName:'scout-stonk-intel',settings:{framework:'nextjs',nodeVersion:'24.x',rootDirectory:null,buildCommand:'node node_modules/next/dist/bin/next build',installCommand:'',devCommand:null,outputDirectory:null}};}
+export function verifyLink(root){
+ const dir=path.join(root,'.vercel');need(fs.lstatSync(dir).isDirectory()&&!fs.lstatSync(dir).isSymbolicLink()&&fs.readdirSync(dir).every(p=>p==='project.json'||p==='output'));
+ const file=path.join(dir,'project.json');need(fs.lstatSync(file).isFile()&&!fs.lstatSync(file).isSymbolicLink()&&JSON.stringify(JSON.parse(fs.readFileSync(file)))===JSON.stringify(publicProfile()));
+ const output=path.join(dir,'output');if(fs.existsSync(output))need(fs.lstatSync(output).isDirectory()&&!fs.lstatSync(output).isSymbolicLink());return true;
+}
 export function publicLink(root){
  const dir=path.join(root,'.vercel');if(fs.existsSync(dir)){need(fs.lstatSync(dir).isDirectory()&&!fs.lstatSync(dir).isSymbolicLink());need(fs.readdirSync(dir).every(p=>p==='project.json'));}else fs.mkdirSync(dir,{mode:0o700});fs.chmodSync(dir,0o700);
- const p=path.join(dir,'project.json'),profile={projectId:policy.projectId,orgId:policy.teamId,projectName:'scout-stonk-intel',settings:{framework:'nextjs',nodeVersion:'24.x',rootDirectory:null,buildCommand:'npm run build',installCommand:'',devCommand:null,outputDirectory:null}};
+ const p=path.join(dir,'project.json'),profile=publicProfile();
  if(fs.existsSync(p))need(JSON.stringify(JSON.parse(fs.readFileSync(p)))===JSON.stringify(profile));else fs.writeFileSync(p,JSON.stringify(profile)+'\n',{flag:'wx',mode:0o600});
+ verifyLink(root);
  // Only local build metadata is ignored. No source path or identity override.
  const exclude=path.resolve(root,git(root,'rev-parse','--git-path','info/exclude'));const before=fs.readFileSync(exclude,'utf8');if(!before.split('\n').includes('.vercel/'))fs.appendFileSync(exclude,'\n.vercel/\n');
 }
@@ -31,6 +39,7 @@ export async function build(root,toolRoot,expected,destination,{verificationOnly
  need(!fs.existsSync(destination)&&!fs.existsSync(path.join(root,'.vercel/output')));const cli=tools(toolRoot);
  // Root .env files are never opened; refuse their presence before invoking any compiler.
  need(!fs.readdirSync(root).some(n=>/^\.env(?:\.|$)/.test(n)&&n!=='.env.example'));need(!fs.lstatSync(path.join(root,'node_modules')).isSymbolicLink());
+ const scripts=JSON.parse(fs.readFileSync(path.join(root,'package.json'))).scripts;need(scripts?.build==='next build'&&!scripts.prebuild&&!scripts.postbuild);
  publicLink(root);const proof=await source(root,expected,{verificationOnly});await cliGitMetadata(toolRoot,root,proof);
  const original=fs.readFileSync(path.join(root,'next-env.d.ts')),cfg=fs.mkdtempSync(path.join(os.tmpdir(),'native-empty-cli-'));fs.chmodSync(cfg,0o700);
  const preloads=[path.resolve(root,'tests/native-postgres/namespace-only.mjs'),path.resolve(root,'tests/security114/local-only.mjs'),path.resolve(root,'tests/native-postgres/no-database.mjs')];

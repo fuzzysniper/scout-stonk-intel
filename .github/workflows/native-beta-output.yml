@@ -23,6 +23,7 @@ jobs:
           EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
           test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          npm install --global npm@11.9.0 --ignore-scripts --no-audit --no-fund
           npm ci --ignore-scripts
           npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts
       - name: Packaging adversarial tests; no real upload or credential binding

@@ -164,6 +164,7 @@ jobs:
       - name: Pinned public dependencies only; no credentials bound
         run: |
           test "$(git rev-parse HEAD)" = "$APPROVED_SHA"
+          npm install --global npm@11.9.0 --ignore-scripts --no-audit --no-fund
           npm ci --ignore-scripts
           npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts
           node ops/native-beta-output/step.mjs prepare "$RUNNER_TEMP/native-preview"
