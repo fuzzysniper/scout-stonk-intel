@@ -1,0 +1,55 @@
+name: Native publisher GET-only inspection OFF
+on:
+  pull_request:
+    branches: [native-pilot/review-rehearsal, fix/289-publisher-diagnostics-off]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  fixed-GET-redaction-history-offline:
+    if: github.head_ref == 'fix/native-read-only-inspection' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: node tests/native-publisher-inspection/scope.mjs
+      - run: node --test --test-isolation=none tests/native-publisher-inspection/*.test.mjs
+      - run: bash tests/native-publisher-diagnostics/run.sh
+  exact-head-types-lint-build-archive-OFF:
+    if: github.head_ref == 'fix/native-read-only-inspection' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: ./node_modules/.bin/tsc --noEmit
+      - run: npm run lint
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+      - run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/native-admission/artifact.mjs
+      - run: bash scripts/archive-tool.sh check 370f15cc29901e3d1d267273d09993a3283d7dd4
+      - run: node tests/native-publisher-inspection/scope.mjs

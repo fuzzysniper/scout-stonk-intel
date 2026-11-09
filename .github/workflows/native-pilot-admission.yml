@@ -8,7 +8,7 @@ on:
         type: choice
         required: true
         default: rehearsal
-        options: [rehearsal, setup, source]
+        options: [inspection, rehearsal, setup, source]
       approved_sha:
         description: Exact separately reviewed feature SHA
         type: string
@@ -23,7 +23,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   context:
-    if: github.repository_id == '1415026436' && github.actor_id == '58099771' && github.run_attempt == 1 && startsWith(github.ref, 'refs/heads/native-pilot/')
+    if: inputs.mode != 'inspection' && github.repository_id == '1415026436' && github.actor_id == '58099771' && github.run_attempt == 1 && startsWith(github.ref, 'refs/heads/native-pilot/')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -62,6 +62,7 @@ jobs:
       # For real setup/source: operator prepares the genuine record with this actual run ID
       # and installs its private configuration variable before owner review. No placeholder evidence.
   publish:
+    if: inputs.mode != 'inspection'
     needs: context
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -101,3 +102,34 @@ jobs:
           NATIVE_PUBLISH_OPERATION: metadata-only-owner-approved
           NATIVE_ADMISSION_READ_TOKEN: ${{ secrets.NATIVE_ADMISSION_READ_TOKEN }}
           GITHUB_TOKEN: ${{ github.token }}
+
+  inspection:
+    # Isolated READ-ONLY lane. No publisher dependency, writer token or npm lifecycle.
+    if: inputs.mode == 'inspection' && inputs.deployment == '' && inputs.approved_sha == github.sha && github.repository_id == '1415026436' && github.actor_id == '58099771' && github.run_attempt == 1 && github.ref == 'refs/heads/native-pilot/review-rehearsal'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: native-pilot-review-rehearsal
+    permissions:
+      contents: read
+      actions: read
+      deployments: read
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: Offline inspection regressions before binding access
+        run: node --test --test-isolation=none tests/native-publisher-inspection/*.test.mjs
+      - name: Owner-approved GitHub GET inspection ONLY
+        run: node ops/native-pilot-admission/inspect.mjs
+        env:
+          MODE: ${{ inputs.mode }}
+          APPROVED_SHA: ${{ inputs.approved_sha }}
+          DEPLOYMENT: ${{ inputs.deployment }}
+          NATIVE_INSPECTION_OPERATION: github-read-only-owner-approved
+          NATIVE_ADMISSION_READ_TOKEN: ${{ secrets.NATIVE_ADMISSION_READ_TOKEN }}
