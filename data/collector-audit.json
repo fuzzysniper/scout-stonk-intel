@@ -1,11 +1,31 @@
 {
   "version": 1,
-  "checkedAt": "2026-11-09T17:50:05+00:00",
+  "checkedAt": "2026-11-10T15:47:44+00:00",
   "state": "checked",
   "reason": null,
   "workflowState": "active",
-  "scheduledRunCount": 130,
+  "scheduledRunCount": 132,
   "runs": [
+    {
+      "id": 42794682253,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "createdAt": "2026-11-10T09:54:57Z",
+      "updatedAt": "2026-11-10T09:55:11Z",
+      "collectionStep": "success",
+      "commitStep": "success"
+    },
+    {
+      "id": 42736908289,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "createdAt": "2026-11-10T01:35:53Z",
+      "updatedAt": "2026-11-10T01:36:10Z",
+      "collectionStep": null,
+      "commitStep": null
+    },
     {
       "id": 42665948235,
       "event": "schedule",
@@ -13,8 +33,8 @@
       "conclusion": "failure",
       "createdAt": "2026-11-09T17:34:32Z",
       "updatedAt": "2026-11-09T17:34:50Z",
-      "collectionStep": "success",
-      "commitStep": "success"
+      "collectionStep": null,
+      "commitStep": null
     },
     {
       "id": 42574581010,
@@ -105,26 +125,6 @@
       "updatedAt": "2026-11-07T10:18:00Z",
       "collectionStep": null,
       "commitStep": null
-    },
-    {
-      "id": 42331282143,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "createdAt": "2026-11-07T02:51:42Z",
-      "updatedAt": "2026-11-07T02:52:01Z",
-      "collectionStep": null,
-      "commitStep": null
-    },
-    {
-      "id": 42310302676,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "createdAt": "2026-11-06T23:12:31Z",
-      "updatedAt": "2026-11-06T23:12:49Z",
-      "collectionStep": null,
-      "commitStep": null
     }
   ],
   "latestDatasetCommit": {
@@ -134,30 +134,26 @@
   },
   "cadence": {
     "state": "checked",
-    "windowStart": "2026-11-08T17:50:05+00:00",
-    "windowEnd": "2026-11-09T17:50:05+00:00",
+    "windowStart": "2026-11-09T15:47:44+00:00",
+    "windowEnd": "2026-11-10T15:47:44+00:00",
     "nominalSlots": 24,
     "matureSlots": 24,
     "graceSeconds": 900,
-    "listedScheduledRuns": 4,
+    "listedScheduledRuns": 3,
     "listedManualRuns": 0,
-    "matureSlotsWithoutRunCreation": 20,
+    "matureSlotsWithoutRunCreation": 21,
     "creationOffsets": [
+      {
+        "id": 42794682253,
+        "secondsAfterPriorSlot": 2277
+      },
+      {
+        "id": 42736908289,
+        "secondsAfterPriorSlot": 1133
+      },
       {
         "id": 42665948235,
         "secondsAfterPriorSlot": 1052
-      },
-      {
-        "id": 42574581010,
-        "secondsAfterPriorSlot": 1460
-      },
-      {
-        "id": 42536688436,
-        "secondsAfterPriorSlot": 1703
-      },
-      {
-        "id": 42516688979,
-        "secondsAfterPriorSlot": 1753
       }
     ],
     "intendedSlotsKnown": false
