@@ -1,0 +1,221 @@
+name: Native private beta RC selected assembly SOURCE OFF
+on:
+  pull_request:
+    branches: [fix/289-publisher-diagnostics-off, native-pilot/private-beta-rc]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  exact-head-public-request-isolation:
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/jupiter-beta-approval/integration --ignore-scripts
+      - run: node --test tests/native-beta-output/scope.test.mjs
+      - name: Actual A B C union and unchanged pure decoders on the combined C head NO SQL
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-evidence/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-evidence/run.sh peers
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/helius-intake/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-lens/b-pure.sh
+          NODE_OPTIONS="--import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs" bash tests/native-postgres/run.sh
+          bash tests/native-beta-release/run.sh
+          NODE_OPTIONS="--import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs" bash tests/native-pilot/root-offline.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-union-284/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-research-v3/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
+  exact-head-build-import-source-OFF:
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Actual combined admission claim risk and source regressions
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-beta-276/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-take-274/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
+      - name: Actual new head type lint optimized build OFF APIs and import isolation
+        run: |
+          ./node_modules/.bin/tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/v4-oracle-onchain/built-off.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-integration-271/artifact.sh
+          node tests/jupiter-beta-276/artifact.mjs
+          node tests/jupiter-research-v3/artifact.mjs
+          node tests/native-admission/artifact.mjs
+          node tests/native-beta-release/artifact.mjs
+          bash scripts/archive-tool.sh check 905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a
+          node --test tests/native-beta-output/scope.test.mjs
+  exact-head-mobile-accessibility-privacy:
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Local Chromium
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Combined head TAKE24 claims red gray evidence STOP expiry and v3 privacy at3203901280
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-research-v3/mobile.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-union-284/run.sh browser
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-beta-release/mobile.sh browser
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/native-union-284/optimized.config.mjs
+      - run: node --test tests/native-beta-output/scope.test.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: LOCAL-SYNTHETIC-real-B-A-C-NO-hosted-acceptance
+          path: |
+            node_modules/.cache/native-union-284-proof/*.png
+            node_modules/.cache/native-beta-release-proof/owner-off-*.png
+          if-no-files-found: error
+          include-hidden-files: true
+  original-immutable-reviewers:
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Original A B and security reviewers through281 on each immutable input
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-union-284/replay.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-beta-release/replay.sh
+      - run: node --test tests/native-beta-output/scope.test.mjs
+  original-optimized-isolation:
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Original optimized v3-absence and exact73-file trace tests unchanged on280
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-lens/original-build.sh
+      - run: node --test tests/native-beta-output/scope.test.mjs
+
+  B-owned-current-head-PG18:
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: Existing B owner approval before any database setup
+        run: node --input-type=module -e "import {requireLocalPg18Approval} from './tests/native-postgres/pg18-approval.mjs'; requireLocalPg18Approval();"
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Reviewed PostgreSQL build dependencies only
+        run: sudo apt-get update && sudo apt-get install -y bison flex m4 libssl-dev
+      - name: B checksum-pinned PostgreSQL18.6 build
+        run: bash tests/v4-neon-durability/build-pg18.sh
+      - name: Local Chromium for actual PG to existing Lens
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: REQUIRED current union integration module, no ancestor or optional skip
+        run: node --input-type=module -e "import fs from 'node:fs'; if(!fs.existsSync('tests/native-union-284/pg18-cases.mjs'))throw Error('CURRENT_UNION_PG_MODULE_REQUIRED');"
+      - name: B-owned approved disposable PG18 TLS PLUS plus current B A Lens cases
+        run: |
+          set -o pipefail
+          bash tests/native-postgres/pg18-isolated.sh
+          bash tests/native-union-284/pg18-isolated.sh | tee /tmp/native-current-pg-evidence.log
+          node tests/native-union-284/require-pg-evidence.mjs /tmp/native-current-pg-evidence.log
+          bash tests/native-beta-release/pg18-isolated.sh | tee /tmp/native-owner-pg-evidence.log
+          node tests/native-beta-release/require-owner-evidence.mjs /tmp/native-owner-pg-evidence.log
+      - run: node --test tests/native-beta-output/scope.test.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: ACTUAL-PG18-current-union-SYNTHETIC-WIRE-NO-live-acceptance
+          path: |
+            node_modules/.cache/native-union-pg18-proof/*.png
+            node_modules/.cache/native-union-pg18-proof/current-head-evidence.json
+            node_modules/.cache/native-beta-release-proof/current-owner-pg-evidence.json
+          if-no-files-found: error
+          include-hidden-files: true
+
+  selected-optimized-assembly-not-permanent-OFF:
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Actual clean-head selected assembly and immutable original OFF profile; synthetic bindings only
+        run: NODE_OPTIONS="--import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs" bash tests/native-beta-release/selected-build.sh
+      - run: node --test tests/native-beta-output/scope.test.mjs
