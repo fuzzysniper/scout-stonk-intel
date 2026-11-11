@@ -11,6 +11,7 @@ NODE_PATH="$PWD/node_modules" HISTORY_TEST_BUILD="$build_dir" node --test tests/
 
 bash experiments/consumer-mvp/evidence/test.sh
 bash lib/onchain-mint/test.sh
+bash tests/v4-solana-facts/run.sh
 bash tests/onchain-api/run.sh
 bash tests/live-ledger/run.sh
 bash tests/live-feed/run.sh
