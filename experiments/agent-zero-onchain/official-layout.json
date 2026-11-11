@@ -1,0 +1,144 @@
+{
+  "sourceCommit": "639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22",
+  "idlSha256": "b7d8c57a4d9c4dd0109a9ab893052352333252d4eedced10ac091d4d66cab89b",
+  "metadata": {
+    "name": "pump_amm",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "program": "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",
+  "account": "Pool",
+  "discriminator": [
+    241,
+    154,
+    109,
+    4,
+    17,
+    177,
+    109,
+    188
+  ],
+  "serializedSize": 287,
+  "historicalSizes": [
+    211,
+    243,
+    244,
+    245,
+    261,
+    270,
+    271
+  ],
+  "extendedMinSize": 300,
+  "maxAcceptedSize": 512,
+  "fields": [
+    {
+      "name": "pool_bump",
+      "type": "u8",
+      "offset": 8,
+      "bytes": 1
+    },
+    {
+      "name": "index",
+      "type": "u16",
+      "offset": 9,
+      "bytes": 2
+    },
+    {
+      "name": "creator",
+      "type": "pubkey",
+      "offset": 11,
+      "bytes": 32
+    },
+    {
+      "name": "base_mint",
+      "type": "pubkey",
+      "offset": 43,
+      "bytes": 32
+    },
+    {
+      "name": "quote_mint",
+      "type": "pubkey",
+      "offset": 75,
+      "bytes": 32
+    },
+    {
+      "name": "lp_mint",
+      "type": "pubkey",
+      "offset": 107,
+      "bytes": 32
+    },
+    {
+      "name": "pool_base_token_account",
+      "type": "pubkey",
+      "offset": 139,
+      "bytes": 32
+    },
+    {
+      "name": "pool_quote_token_account",
+      "type": "pubkey",
+      "offset": 171,
+      "bytes": 32
+    },
+    {
+      "name": "lp_supply",
+      "type": "u64",
+      "offset": 203,
+      "bytes": 8
+    },
+    {
+      "name": "coin_creator",
+      "type": "pubkey",
+      "offset": 211,
+      "bytes": 32
+    },
+    {
+      "name": "is_mayhem_mode",
+      "type": "bool",
+      "offset": 243,
+      "bytes": 1
+    },
+    {
+      "name": "is_cashback_coin",
+      "type": "bool",
+      "offset": 244,
+      "bytes": 1
+    },
+    {
+      "name": "virtual_quote_reserves",
+      "type": "i128",
+      "offset": 245,
+      "bytes": 16
+    },
+    {
+      "name": "creator_fee_bps",
+      "type": "u64",
+      "offset": 261,
+      "bytes": 8
+    },
+    {
+      "name": "can_edit_creator_fee",
+      "type": "bool",
+      "offset": 269,
+      "bytes": 1
+    },
+    {
+      "name": "is_holder_reward",
+      "type": "bool",
+      "offset": 270,
+      "bytes": 1
+    },
+    {
+      "name": "protocol_fees",
+      "type": "u64",
+      "offset": 271,
+      "bytes": 8
+    },
+    {
+      "name": "creator_fees",
+      "type": "u64",
+      "offset": 279,
+      "bytes": 8
+    }
+  ]
+}

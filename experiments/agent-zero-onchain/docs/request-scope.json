@@ -1,0 +1,35 @@
+{
+  "sha256": "8bc80f985d5b89154f09753be405a4f832e9ea3cc6eb706adb7f837cf020cb56",
+  "scope": {
+    "version": "pumpswap-development-probe/1",
+    "issue": 153,
+    "endpoint": "https://api.mainnet-beta.solana.com/",
+    "network": "solana-mainnet",
+    "accounts": [
+      "GseMAnNDvntR5uFePZ51yZBXzNSn7GdFPkfHwfr6d77J",
+      "5jMpkf4JF4noHftLgNKyPNh6roVfPSGSjuEk3U4eLKRa",
+      "43DVcZR4kQFjh4Xm2i3DcneRxNjZp7HMud8yDrJWrDr8",
+      "7LSsEoJGhLeZzGvDofTdNg7M3JttxQqGWNLo6vWMpump",
+      "So11111111111111111111111111111111111111112"
+    ],
+    "methods": [
+      "getMultipleAccounts",
+      "getBlockTime"
+    ],
+    "commitment": "finalized",
+    "maxAttempts": 2,
+    "timeoutMs": 10000,
+    "retries": 0,
+    "limits": {
+      "attempts": 2,
+      "timeoutMs": 10000,
+      "bodyBytes": 65536,
+      "maxBlockAgeSeconds": 120,
+      "futureSkewSeconds": 5,
+      "approvalBytes": 8192,
+      "approvalHours": 24
+    },
+    "idlCommit": "639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22",
+    "idlSha256": "b7d8c57a4d9c4dd0109a9ab893052352333252d4eedced10ac091d4d66cab89b"
+  }
+}

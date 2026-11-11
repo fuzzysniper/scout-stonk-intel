@@ -1,0 +1,44 @@
+{
+  "reviewedAt": "2026-10-22T13:57:18.058902Z",
+  "scope": "Official source-code/specification reads ONLY; zero Solana RPC or market-data calls. SDK inspected, not installed or executed. Layout table is extracted wire-format facts, not a copied full IDL or a license grant.",
+  "sources": [
+    {
+      "url": "https://github.com/pump-fun/pump-public-docs/blob/639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22/idl/pump_amm.json",
+      "bytes": 191835,
+      "sha256": "b7d8c57a4d9c4dd0109a9ab893052352333252d4eedced10ac091d4d66cab89b"
+    },
+    {
+      "url": "https://github.com/pump-fun/pump-public-docs/blob/639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22/docs/PUMP_SWAP_README.md",
+      "bytes": 15523,
+      "sha256": "58edc63278cf87ff464f8ff7efd55bed83f55045319e483454abd075c34956fa"
+    },
+    {
+      "url": "https://github.com/pump-fun/pump-public-docs/blob/639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22/docs/NEGATIVE_VIRTUAL_QUOTE_RESERVES.md",
+      "bytes": 3408,
+      "sha256": "0fd53156bdf480e9b3087c860ab7848028935c65555aee58c1b71b4c03456882"
+    },
+    {
+      "url": "https://github.com/pump-fun/pump-public-docs/blob/639b87fb45c3adeffa6f7c4a1bf0cb85e392bf22/docs/VIRTUAL_QUOTE_RESERVES_FEE_ADJUSTMENT.md",
+      "bytes": 4211,
+      "sha256": "76fd3c72d644ee4ce2ba201279beb7e326f71f3954451874e44abfd16812901a"
+    },
+    {
+      "url": "https://www.npmjs.com/package/@pump-fun/pump-swap-sdk/v/2.1.0",
+      "packagePath": "src/sdk/offlinePumpAmm.ts",
+      "bytes": 57891,
+      "sha256": "ac8312ce476d56f6ce9d47019ba779144fa4c3f3b9db2939693f4b12a727b50b"
+    },
+    {
+      "url": "https://www.npmjs.com/package/@pump-fun/pump-swap-sdk/v/2.1.0",
+      "packagePath": "src/__tests__/creatorFee.spec.ts",
+      "bytes": 45601,
+      "sha256": "6f52064fd6af41b617fa1804953f4129112e63e9632d83273f547c744005f027"
+    },
+    {
+      "url": "https://github.com/solana-program/token/blob/57bd873fdec3f6c7585068b190f6122e998cd4df/interface/src/state.rs",
+      "bytes": 17520,
+      "sha256": "7b0b7bacf9610e0cb7b6182b70b9aa4b036a227c916d7a166e93ae666b5b8cf5"
+    }
+  ],
+  "sdkArchiveSha256": "1ef56832347f06653acf154d8e2072f1bfc9343f0e6c203cf4517bb1948e8865"
+}

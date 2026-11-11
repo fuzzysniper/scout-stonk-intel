@@ -1,0 +1,10 @@
+{
+  "version": "pumpswap-owner-approval/1",
+  "approved": false,
+  "scopeSha256": "8bc80f985d5b89154f09753be405a4f832e9ea3cc6eb706adb7f837cf020cb56",
+  "reviewedCommit": null,
+  "approvedAt": null,
+  "expiresAt": null,
+  "evidenceDirectory": "SET_ABSOLUTE_PRIVATE_OUTSIDE_GIT_DIRECTORY",
+  "acknowledgement": "I authorize only issue 153: two public Solana development RPC reads for the fixed PumpSwap example, with private local persistence; no Helius, Neon, production activation or trading."
+}
