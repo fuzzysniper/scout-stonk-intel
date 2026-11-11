@@ -1,0 +1,33 @@
+{
+  "baseline": "eca3ad2dcead406f9aff32379c8a2bc7b0aa081f",
+  "existingDashboardStopLifecycleSha256": "8edbe922738577c700a4718a32822d3068ddd87a4701ae3faa78b9d4503b3d32",
+  "protectedPathsUnchanged": [
+    "app/api",
+    "lib",
+    "experiments",
+    "scripts/ops",
+    "data",
+    "scheduler",
+    ".github",
+    "ops",
+    "vercel.json",
+    "package.json",
+    "package-lock.json",
+    "app/consumer/live-client.ts",
+    "app/consumer/live-model.ts"
+  ],
+  "localChecks": {
+    "mobile": 34,
+    "mobileWidths": [
+      320,
+      390
+    ],
+    "operationsRecheck": 8,
+    "contractUnits": 16,
+    "typecheck": "pass",
+    "lint": "pass",
+    "optimizedBuild": "pass"
+  },
+  "blocker": "Inherited tests/continuous-ledger/scope.test.mjs forbids all app/consumer changes; guard left intact.",
+  "hostedOrPhysicalAcceptance": "Not performed; Control disabled is not SSO or parent STOP proof."
+}
