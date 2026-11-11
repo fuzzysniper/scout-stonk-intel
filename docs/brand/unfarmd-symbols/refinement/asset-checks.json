@@ -1,0 +1,62 @@
+{
+  "result": "PASS",
+  "preservedOriginals": 6,
+  "assets": {
+    "outlier.svg": {
+      "bytes": 376,
+      "sha256": "2743ca98bc8249e1efe475f98383f0535fa25534854043fd750ee75222b8a706"
+    },
+    "outlier-16.png": {
+      "width": 16,
+      "height": 16,
+      "bytes": 303,
+      "sha256": "02e148a9aff84b0822c15d36d1e1c5cabe918665b0328161943e9d0b0bc8abc1"
+    },
+    "outlier-24.png": {
+      "width": 24,
+      "height": 24,
+      "bytes": 421,
+      "sha256": "fa85640abe7ecedbf0c6b711cc0920fe1bd04f7680de508a6406c1a315b1077b"
+    },
+    "outlier-32.png": {
+      "width": 32,
+      "height": 32,
+      "bytes": 516,
+      "sha256": "7ff7b1e1757136e6ab27e416745f39b2f705c1dc8ddff0c079a36404ceea735f"
+    },
+    "outlier-64.png": {
+      "width": 64,
+      "height": 64,
+      "bytes": 891,
+      "sha256": "1f0451b86bda812d2a351c39e3842ca18f2e5a1ddd89e50cb0af80821b5a067e"
+    },
+    "outlier-reversed.svg": {
+      "bytes": 379,
+      "sha256": "1f3aa392567a9b79f627f9d324166cda32ac589ca355f98c16586a5a5ded9dab"
+    },
+    "outlier-reversed-16.png": {
+      "width": 16,
+      "height": 16,
+      "bytes": 394,
+      "sha256": "3ae47dc819441f6a9429e1f12f07f76ed2833837df751c2ef0d2e06f031fff4c"
+    },
+    "outlier-reversed-24.png": {
+      "width": 24,
+      "height": 24,
+      "bytes": 589,
+      "sha256": "5587cd38afa59c9140644e82d7c0e2d0d159111d1323a001c1968d7528b28912"
+    },
+    "outlier-reversed-32.png": {
+      "width": 32,
+      "height": 32,
+      "bytes": 715,
+      "sha256": "04d08b7487ae4fd22c8c86057962f92c36f1b14f94660b58e519bbb8a1ee2ab8"
+    },
+    "outlier-reversed-64.png": {
+      "width": 64,
+      "height": 64,
+      "bytes": 1269,
+      "sha256": "61605f8b83629d0092879be3099fd122b13c9c685b71e42c1e2e28772bb7917a"
+    }
+  }
+}

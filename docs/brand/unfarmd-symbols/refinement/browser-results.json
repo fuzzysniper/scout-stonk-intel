@@ -1,0 +1,32 @@
+{
+  "browser": "154.0.8037.57",
+  "results": [
+    {
+      "width": 320,
+      "deviceScaleFactor": 1,
+      "result": "PASS",
+      "nativeSizeSamples": 32,
+      "externalRequests": 0,
+      "pageErrors": 0,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 390,
+      "deviceScaleFactor": 1,
+      "result": "PASS",
+      "nativeSizeSamples": 32,
+      "externalRequests": 0,
+      "pageErrors": 0,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 1280,
+      "deviceScaleFactor": 1,
+      "result": "PASS",
+      "nativeSizeSamples": 32,
+      "externalRequests": 0,
+      "pageErrors": 0,
+      "horizontalOverflow": false
+    }
+  ]
+}
