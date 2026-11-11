@@ -1,0 +1,27 @@
+{
+  "direction": "escape",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "productionArtifacts": true,
+  "syntheticTokenFacts": false,
+  "tokenFactsShown": false,
+  "liveChecks": 0,
+  "providerRequests": 0,
+  "apiRequests": 0,
+  "axeViolations": 0,
+  "axePasses": 23,
+  "button": {
+    "x": 44,
+    "y": 727.953125,
+    "width": 445,
+    "height": 52
+  },
+  "boundary": {
+    "x": 44,
+    "y": 789.953125,
+    "width": 445,
+    "height": 15
+  }
+}

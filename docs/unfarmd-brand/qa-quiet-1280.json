@@ -1,0 +1,27 @@
+{
+  "direction": "quiet",
+  "viewport": {
+    "width": 1280,
+    "height": 900
+  },
+  "productionArtifacts": true,
+  "syntheticTokenFacts": false,
+  "tokenFactsShown": false,
+  "liveChecks": 0,
+  "providerRequests": 0,
+  "apiRequests": 0,
+  "axeViolations": 0,
+  "axePasses": 23,
+  "button": {
+    "x": 363,
+    "y": 706.640625,
+    "width": 562,
+    "height": 52
+  },
+  "boundary": {
+    "x": 363,
+    "y": 768.640625,
+    "width": 562,
+    "height": 15
+  }
+}
