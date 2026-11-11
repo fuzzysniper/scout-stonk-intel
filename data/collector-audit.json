@@ -1,11 +1,51 @@
 {
   "version": 1,
-  "checkedAt": "2026-11-10T15:47:44+00:00",
+  "checkedAt": "2026-11-11T15:37:54+00:00",
   "state": "checked",
   "reason": null,
   "workflowState": "active",
-  "scheduledRunCount": 132,
+  "scheduledRunCount": 136,
   "runs": [
+    {
+      "id": 43046834886,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "createdAt": "2026-11-11T15:17:15Z",
+      "updatedAt": "2026-11-11T15:17:31Z",
+      "collectionStep": "success",
+      "commitStep": "success"
+    },
+    {
+      "id": 42972981363,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "createdAt": "2026-11-11T06:31:04Z",
+      "updatedAt": "2026-11-11T06:31:17Z",
+      "collectionStep": null,
+      "commitStep": null
+    },
+    {
+      "id": 42923388560,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "createdAt": "2026-11-10T23:26:32Z",
+      "updatedAt": "2026-11-10T23:26:49Z",
+      "collectionStep": null,
+      "commitStep": null
+    },
+    {
+      "id": 42869507543,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "createdAt": "2026-11-10T17:53:16Z",
+      "updatedAt": "2026-11-10T17:53:33Z",
+      "collectionStep": null,
+      "commitStep": null
+    },
     {
       "id": 42794682253,
       "event": "schedule",
@@ -13,8 +53,8 @@
       "conclusion": "failure",
       "createdAt": "2026-11-10T09:54:57Z",
       "updatedAt": "2026-11-10T09:55:11Z",
-      "collectionStep": "success",
-      "commitStep": "success"
+      "collectionStep": null,
+      "commitStep": null
     },
     {
       "id": 42736908289,
@@ -85,46 +125,6 @@
       "updatedAt": "2026-11-08T07:25:21Z",
       "collectionStep": null,
       "commitStep": null
-    },
-    {
-      "id": 42430842082,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "createdAt": "2026-11-08T00:40:41Z",
-      "updatedAt": "2026-11-08T00:40:57Z",
-      "collectionStep": null,
-      "commitStep": null
-    },
-    {
-      "id": 42413355054,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "createdAt": "2026-11-07T20:55:19Z",
-      "updatedAt": "2026-11-07T20:55:39Z",
-      "collectionStep": null,
-      "commitStep": null
-    },
-    {
-      "id": 42393353717,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "createdAt": "2026-11-07T16:51:03Z",
-      "updatedAt": "2026-11-07T16:51:20Z",
-      "collectionStep": null,
-      "commitStep": null
-    },
-    {
-      "id": 42363341678,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "createdAt": "2026-11-07T10:17:47Z",
-      "updatedAt": "2026-11-07T10:18:00Z",
-      "collectionStep": null,
-      "commitStep": null
     }
   ],
   "latestDatasetCommit": {
@@ -134,26 +134,30 @@
   },
   "cadence": {
     "state": "checked",
-    "windowStart": "2026-11-09T15:47:44+00:00",
-    "windowEnd": "2026-11-10T15:47:44+00:00",
+    "windowStart": "2026-11-10T15:37:54+00:00",
+    "windowEnd": "2026-11-11T15:37:54+00:00",
     "nominalSlots": 24,
     "matureSlots": 24,
     "graceSeconds": 900,
-    "listedScheduledRuns": 3,
+    "listedScheduledRuns": 4,
     "listedManualRuns": 0,
-    "matureSlotsWithoutRunCreation": 21,
+    "matureSlotsWithoutRunCreation": 20,
     "creationOffsets": [
       {
-        "id": 42794682253,
-        "secondsAfterPriorSlot": 2277
+        "id": 43046834886,
+        "secondsAfterPriorSlot": 15
       },
       {
-        "id": 42736908289,
-        "secondsAfterPriorSlot": 1133
+        "id": 42972981363,
+        "secondsAfterPriorSlot": 844
       },
       {
-        "id": 42665948235,
-        "secondsAfterPriorSlot": 1052
+        "id": 42923388560,
+        "secondsAfterPriorSlot": 572
+      },
+      {
+        "id": 42869507543,
+        "secondsAfterPriorSlot": 2176
       }
     ],
     "intendedSlotsKnown": false
