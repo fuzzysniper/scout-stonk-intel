@@ -1,0 +1,15 @@
+{
+  "scope": "LOCAL TEST; actual optimized loopback route with default flags OFF. Does not prove Vercel SSO, production host admission, owner auth, source availability or parent STOP.",
+  "status": 503,
+  "body": "Control disabled",
+  "csp": "default-src 'none'; script-src 'sha256-QmDXQYN7wLFK1clYkK2kpk75QSCCINwGKNfjKFjQ2ug='; style-src 'unsafe-inline'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+  "requests": [
+    {
+      "path": "/api/live-events/continuous/control",
+      "method": "GET"
+    }
+  ],
+  "ownerBearerForwarded": false,
+  "query": "",
+  "externalRequests": 0
+}
