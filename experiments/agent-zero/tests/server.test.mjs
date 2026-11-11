@@ -1,0 +1,21 @@
+// Loopback-only HTTP tests. No provider, wallet, SQL or production requests.
+import {test,before,after} from 'node:test';
+import {request} from 'node:http';
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {mkdtempSync,rmSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join,resolve} from 'node:path';
+const require=createRequire(import.meta.url),{Agent0}=require('../node_modules/.cache/build/experiments/agent-zero/service.js'),{localServer}=require('../node_modules/.cache/build/experiments/agent-zero/server.js');
+let app,server,directory;const origin='http://127.0.0.1:4191';
+before(async()=>{directory=mkdtempSync(join(tmpdir(),'agent0-http-'));app=new Agent0(resolve('.'),directory);server=localServer(app,4191,resolve('experiments/agent-zero/web'));await new Promise(r=>server.listen(4191,'127.0.0.1',r));});
+after(async()=>{server.closeAllConnections();await new Promise(r=>server.close(r));rmSync(directory,{recursive:true,force:true});});
+const post=(path,headers,body)=>fetch(origin+path,{method:'POST',headers,body:JSON.stringify(body)});
+const rawStatus=headers=>new Promise((resolve,reject)=>{const req=request({hostname:'127.0.0.1',port:4191,path:'/state',headers},r=>{r.resume();resolve(r.statusCode);});req.on('error',reject);req.end();});
+test('private host, cross-site and origin checks reject rebinding and cross-origin reads',async()=>{for(const headers of [{host:'attacker.invalid:4191'},{origin:'https://attacker.invalid'},{'sec-fetch-site':'cross-site'}])assert.equal(await rawStatus(headers),403);});
+test('all static assets are local; no paths expose the private directory or source files',async()=>{for(const path of ['/','/style.css','/app.js','/outlier.svg'])assert.equal((await fetch(origin+path)).status,200);for(const path of ['/recorded.jsonl','/../../recorded.jsonl','/.env','/server.ts','/execute','/buy','/wallet','/rpc'])assert.equal((await fetch(origin+path)).status,404);});
+test('CSP, no-store, nosniff, same-origin resource policy and no CORS protect local content',async()=>{const r=await fetch(origin+'/');assert.match(r.headers.get('content-security-policy'),/connect-src 'self'/);assert.match(r.headers.get('content-security-policy'),/frame-ancestors 'none'/);assert.equal(r.headers.get('access-control-allow-origin'),null);assert.equal(r.headers.get('cache-control'),'no-store');assert.equal(r.headers.get('x-content-type-options'),'nosniff');assert.equal(r.headers.get('cross-origin-resource-policy'),'same-origin');});
+test('GET state and export are read-only, no private journal is automatically seeded',async()=>{const first=await(await fetch(origin+'/state')).json();assert.equal(first.ledger.entries,0);const exported=await fetch(origin+'/export');assert.equal(await exported.text(),'');assert.equal(app.stores.recorded.read().length,0);});
+test('mutation requires same-origin JSON plus a non-simple local research header',async()=>{const body={requestId:'test-import',kind:'import_recorded',payload:{}};for(const headers of [{},{origin},{origin,'content-type':'application/json'},{origin,'content-type':'text/plain','x-agent0-local':'research-only'}])assert.equal((await post('/record',headers,body)).status,403);assert.equal(app.stores.recorded.read().length,0);});
+test('explicit local import records real local captures, never provider requests',async()=>{const r=await post('/record',{origin,'content-type':'application/json','x-agent0-local':'research-only'},{requestId:'explicit',kind:'import_recorded',payload:{}});assert.equal(r.status,200);assert((await r.json()).imported>0);assert(app.stores.recorded.read().length>0);});
+test('body size, unknown fields, invalid workspace and execution-like commands fail closed',async()=>{const headers={origin,'content-type':'application/json','x-agent0-local':'research-only'},before=app.stores.recorded.read().length;assert.equal((await post('/record',headers,{requestId:'x',kind:'buy',payload:{}})).status,409);assert.equal((await post('/record',headers,{requestId:'x',kind:'import_recorded',payload:{},confirmed:true})).status,409);assert.equal((await fetch(origin+'/state?mode=real')).status,409);assert.equal((await post('/record',headers,{requestId:'x',kind:'x',payload:{text:'x'.repeat(33000)}})).status,413);assert.equal(app.stores.recorded.read().length,before);});
