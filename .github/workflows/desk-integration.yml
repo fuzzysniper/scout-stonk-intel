@@ -1,0 +1,185 @@
+name: V3 guided Decision Desk offline integration
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: [Collect reward snapshots, SCOUT data health audit]
+    types: [completed]
+    branches: [main]
+  pull_request:
+    branches: [main, integration/199-source-disabled-v3]
+    paths:
+      - 'app/desk/**'
+      - 'lib/unfarmd-evidence/**'
+      - 'lib/unfarmd-risk/**'
+      - 'lib/unfarmd-source-selection/**'
+      - 'lib/unfarmd-journal/**'
+      - 'tests/desk*/**'
+      - 'tests/unfarmd-*/**'
+      - 'tests/v3-release/**'
+      - 'docs/v3/**'
+      - '.github/workflows/desk-integration.yml'
+permissions:
+  contents: read
+env:
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  dependent-root-security:
+    if: github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'integration/199-source-disabled-v3'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci --ignore-scripts
+      - name: Dependent PR archive, full root and native PG-TLS security regressions
+        env:
+          REVIEWED_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          bash scripts/archive-tool.sh check "$REVIEWED_BASE_SHA"
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm test
+      - name: Dependent PR types, lint, source-disabled production build and exact source freeze
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/live-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v3-release/scope.test.mjs
+  focused-engines-and-adapter:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Actual journey/source preservation and original adapter regressions
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/desk-journey/run.sh
+      - name: Exact historical 191 scope + full A/B suites; no safety guards skipped
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/desk-journey/historical.sh focused
+      - name: Current aggregate source pins + A47 + B149 + actual typed offline journal linkage
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v3-release/run.sh
+      - name: Original C196 and B198 full standalone guards remain unchanged in exact source trees
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v3-release/source-history.sh
+  mobile-browser:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+      - name: Local Chromium only
+        run: |
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Guarded production build and actual default-OFF endpoints
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/live-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/built-api.mjs
+          git restore -- next-env.d.ts
+      - name: Actual guided MANUAL PLAN/WATCH/PASS; identity, UTC, privacy, axe and focus
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v3-release/snapshots.sh
+      - name: Exact historical 191 browser regression (separate preserved UI)
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/desk-journey/historical.sh browser
+      - name: Existing private homepage browser regression
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/consumer-homepage/playwright.config.mjs
+      - name: Existing native HTTPS/PG parent STOP and accessibility (disposable local only)
+        run: NODE_ENV=test NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/mobile.test.mjs
+      - name: Final source pins after restoring only generated QA screenshots
+        run: |
+          git restore -- docs/live-feed-167/screenshots/{locked,disabled}-{320,390,1280}.png docs/live-feed-167/disabled-{320,390,1280}.json
+          git restore -- docs/screenshots/continuous-local-qa/parent-stop-{320,390,1280}.png
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v3-release/scope.test.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: local-current-v3-decision-desk
+          path: tests/v3-release/screenshots/
+          retention-days: 3
+  post-merge-current-main:
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' ||
+      (github.event_name == 'workflow_run' &&
+      github.event.workflow_run.event == 'schedule' &&
+      github.event.workflow_run.head_repository.id == github.repository_id))
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: npm ci --ignore-scripts
+      - name: Bind evidence path to this runner, outside the checkout
+        run: printf 'V3_RELEASE_EVIDENCE=%s/unfarmd-v3-main-evidence.json\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+      - name: Read-only GitHub provenance; no source keys, provider queries or dispatch
+        uses: actions/github-script@v7
+        with:
+          retries: 0
+          script: |
+            try {
+              const {pathToFileURL} = await import('node:url');
+              const m = await import(pathToFileURL(process.env.GITHUB_WORKSPACE + '/tests/v3-release/github-proof.mjs'));
+              await m.writeCurrentMainEvidence({github, context});
+              core.info('Bounded GitHub evidence acquired; no collection or activation proof is implied.');
+            } catch {
+              core.setFailed('v3_main_evidence_unavailable_or_invalid; no fallback, counter reset or source retry');
+            }
+      - name: Current-main root backend, native PG-TLS and security regressions
+        run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm test
+      - name: Current-main original source bytes, C adapters, A47, B149 and release lifecycle
+        run: |
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/desk-journey/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v3-release/run.sh
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/v3-release/source-history.sh
+      - name: Current-main types, lint, source-disabled build and final source freeze
+        run: |
+          npx tsc --noEmit
+          npm run lint
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs npm run build
+          git restore -- next-env.d.ts
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/live-ledger/built-api.mjs
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node tests/continuous-ledger/built-api.mjs
+          bash scripts/archive-tool.sh check origin/main
+          NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node --test tests/v3-release/scope.test.mjs

@@ -1,0 +1,5 @@
+// INVENTED LOCAL TEST assumptions. No market quote, verified asset or source acquisition.
+import {createRequire} from 'node:module';
+export const AT='2026-10-27T21:31:00.000Z';
+export const api=createRequire(import.meta.url)(process.env.DESK_INTEGRATION_BUILD+'/app/desk/integration/model.js');
+export function validDraft(){return {...api.emptyDraft(),asset:'SYNTH',purpose:'swing',horizon:'One hypothetical week',thesis:'Synthetic thesis for a calculation test',counterThesis:'The entered thesis may fail',unknowns:'Liquidity not observed\nGaps and exit fills unknown',notes:'LOCAL TEST; not live evidence',reason:'Record an invented manual exercise',instrument:'long_spot',currency:'USD',entry:'100',asOfUtc:'2026-10-27T21:30:00',validSeconds:'3600',stop:'90',invalidation:'Owner-entered invalidation, no stop order',capital:'10000',cash:'10000',existing:'0',loss:'100',allocationBps:'1000',costMode:'explicit',entryFee:'0',exitFee:'0',entrySlip:'0',exitSlip:'0',fixed:'0',units:'5',confirmed:true,costConfirmed:true};}
