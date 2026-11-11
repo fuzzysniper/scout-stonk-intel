@@ -1,0 +1,33 @@
+{
+  "notice": "Local static SYNTHETIC OFFLINE brief via setContent; no production/physical-device/human test.",
+  "browser": "Chromium",
+  "results": [
+    {
+      "width": 320,
+      "synthetic": true,
+      "wait": true,
+      "overflow": false,
+      "disclosure": true,
+      "keyboardLink": true,
+      "externalRequests": 0
+    },
+    {
+      "width": 390,
+      "synthetic": true,
+      "wait": true,
+      "overflow": false,
+      "disclosure": true,
+      "keyboardLink": true,
+      "externalRequests": 0
+    },
+    {
+      "width": 1280,
+      "synthetic": true,
+      "wait": true,
+      "overflow": false,
+      "disclosure": true,
+      "keyboardLink": true,
+      "externalRequests": 0
+    }
+  ]
+}

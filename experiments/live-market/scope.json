@@ -1,0 +1,30 @@
+{
+  "scope": {
+    "version": "owner-pc-launch-pilot/1",
+    "program": "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P",
+    "websocket": "wss://api.mainnet-beta.solana.com/",
+    "rpc": "https://api.mainnet-beta.solana.com/",
+    "maxConnections": 1,
+    "seconds": 120,
+    "maxFrames": 2000,
+    "maxStreamBytes": 4194304,
+    "maxFrameBytes": 65536,
+    "maxRpcReads": 6,
+    "maxRpcResponseBytes": 262144,
+    "timeoutMs": 5000,
+    "verificationDelayMs": 0,
+    "maxCandidates": 64,
+    "maxVerifications": 3,
+    "maxCostUsd": 0,
+    "retries": 0,
+    "reconnects": 0,
+    "methods": [
+      "logsSubscribe",
+      "getTransaction",
+      "getSignatureStatuses"
+    ],
+    "commitment": "finalized",
+    "publication": false
+  },
+  "scopeHash": "32752e12d052b82a0433503a05f35776ee22be79a58108e816e34b88f31f37d7"
+}

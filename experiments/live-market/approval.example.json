@@ -1,0 +1,16 @@
+{
+  "version": "owner-pc-launch-pilot/1",
+  "head": "0000000000000000000000000000000000000000",
+  "scopeHash": "32752e12d052b82a0433503a05f35776ee22be79a58108e816e34b88f31f37d7",
+  "pilotId": "pilot-owner-selected-unique-id",
+  "notBefore": "SET_EXPLICIT_UTC",
+  "expiresAt": "SET_EXPLICIT_UTC",
+  "sourceGo": false,
+  "rpcGo": false,
+  "privateResearchPermitted": false,
+  "termsEvidence": "0000000000000000000000000000000000000000000000000000000000000000",
+  "retentionHours": 24,
+  "publicOrCommercialPublication": false,
+  "maxCostUsd": 0,
+  "approval": "DISABLED — requires separate explicit founder source/rights/RPC approval"
+}
