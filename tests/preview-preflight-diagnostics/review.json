@@ -1,0 +1,76 @@
+{
+  "version": "native-preview-diagnostic-review/1",
+  "base": "972dc257f75c3f88087c49feda803af9e3bc7b7c",
+  "modified": {
+    ".github/workflows/native-beta-release.yml": {
+      "mode": "100644",
+      "sha256": "a005f697843c44142d6a9f1306b1ac6d264902002c9fd698670cb5eede711e68"
+    },
+    "ops/native-beta-output/upload.mjs": {
+      "mode": "100644",
+      "sha256": "d44fe59f9b54be8b3b15942f8c36be1a7e0d770a37662edbb382811d7179a844"
+    },
+    "ops/native-beta-output/verify.mjs": {
+      "mode": "100644",
+      "sha256": "c8b0fecfc6815843cbbfd6471699c8fe29b63c61247d85cef083f33ff6fdab24"
+    }
+  },
+  "added": {
+    ".github/workflows/preview-preflight-diagnostics.yml": {
+      "mode": "100644",
+      "sha256": "526c00fb6bf68beb8e4bfc7f088c4c300961a97d0fee3e49b82daea000bbebf4"
+    },
+    "ops/native-beta-output/INCIDENT-43518878650.md": {
+      "mode": "100644",
+      "sha256": "d33d388f94ea698ccd324b7adffaeae4ff520ae52ba9b757c169bc5b8c2ebe7b"
+    },
+    "ops/native-beta-output/checks.json": {
+      "mode": "100644",
+      "sha256": "65f965cae009da2db179481637b1207edff236b0ea379cfe6d3f552fb42de9ba"
+    },
+    "ops/native-beta-output/diagnostics.mjs": {
+      "mode": "100644",
+      "sha256": "1acf3243131f675108a3d243bd552b18e7f20efeec1ab1f12e8eb0d8dbdec8a4"
+    },
+    "ops/native-beta-output/inspect-only.mjs": {
+      "mode": "100644",
+      "sha256": "6b3725e06bce447a8f952060d2c7e509283e813190afb0dc227a81ebd5f37fbd"
+    },
+    "ops/native-beta-output/preflight.mjs": {
+      "mode": "100644",
+      "sha256": "e6e0b1667d50aa2bec54faa4fa34de404affef276964b8f05413869cf63ae6eb"
+    },
+    "tests/preview-preflight-diagnostics/contracts.test.mjs": {
+      "mode": "100644",
+      "sha256": "5cd407ce008aa1c82de3324e55433108ff125200fc1a4fbe5d8ffe4b6f77089c"
+    },
+    "tests/preview-preflight-diagnostics/real-tls.mjs": {
+      "mode": "100644",
+      "sha256": "e0ce914a99691b7425197b51e2c070130dfd99495775624330d556cb7f6237cd"
+    },
+    "tests/preview-preflight-diagnostics/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/preview-preflight-diagnostics/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/preview-preflight-diagnostics/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/preview-preflight-diagnostics/tar-reachability.test.mjs": {
+      "mode": "100644",
+      "sha256": "034e7be6f16656ecb6d622be38d578a46bb8b964cfd0a489930b4bdf58b10af0"
+    },
+    "tests/preview-preflight-diagnostics/tls-isolated.sh": {
+      "mode": "100755",
+      "sha256": "c79244b0824eba7ffc34f6f75dceed4524d37b59d1149cbfef1dac014f35c507"
+    },
+    "tests/preview-preflight-diagnostics/transport.test.mjs": {
+      "mode": "100644",
+      "sha256": "3c884ba771bd284b1215276271337e3b9b917067fabb4a8a303c51c4f0a4ea5b"
+    }
+  }
+}
