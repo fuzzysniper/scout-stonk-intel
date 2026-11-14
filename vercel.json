@@ -16,7 +16,8 @@
       "native-pilot/review-rehearsal": false,
       "fix/289-publisher-diagnostics-off": false,
       "native-pilot/private-beta-rc": false,
-      "ops/291-build-output-packet": false
+      "ops/291-build-output-packet": false,
+      "ops/293-get-only-inspection": false
     }
   }
 }

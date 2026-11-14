@@ -8,7 +8,7 @@ on:
         type: choice
         required: true
         default: rehearsal
-        options: [rehearsal, setup, source, preview-output]
+        options: [rehearsal, setup, source, preview-output, preview-inspect]
       approved_sha:
         description: Exact separately reviewed feature SHA
         type: string
@@ -31,7 +31,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   context:
-    if: inputs.mode != 'preview-output' && github.repository_id == '1415026436' && github.actor_id == '58099771' && github.run_attempt == 1 && startsWith(github.ref, 'refs/heads/native-pilot/')
+    if: inputs.mode != 'preview-output' && inputs.mode != 'preview-inspect' && github.repository_id == '1415026436' && github.actor_id == '58099771' && github.run_attempt == 1 && startsWith(github.ref, 'refs/heads/native-pilot/')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -70,7 +70,7 @@ jobs:
       # For real setup/source: operator prepares the genuine record with this actual run ID
       # and installs its private configuration variable before owner review. No placeholder evidence.
   publish:
-    if: inputs.mode != 'preview-output'
+    if: inputs.mode != 'preview-output' && inputs.mode != 'preview-inspect'
     needs: context
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -208,3 +208,60 @@ jobs:
           FINAL_ARTIFACT_ID: ${{ steps.final_archive.outputs.artifact-id }}
           FINAL_ARTIFACT_DIGEST: ${{ steps.final_archive.outputs.artifact-digest }}
           NATIVE_ADMISSION_READ_TOKEN: ${{ secrets.NATIVE_ADMISSION_READ_TOKEN }}
+
+  inspection-context:
+    if: inputs.mode == 'preview-inspect' && inputs.deployment == '' && inputs.preview_starts_at == '' && inputs.preview_expires_at == '' && inputs.approved_sha == github.sha && github.repository_id == '1415026436' && github.actor_id == '58099771' && github.run_attempt == 1 && github.ref == 'refs/heads/native-pilot/private-beta-rc'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      manifest: ${{ steps.card.outputs.manifest }}
+    env:
+      MODE: ${{ inputs.mode }}
+      APPROVED_SHA: ${{ inputs.approved_sha }}
+      DEPLOYMENT: ${{ inputs.deployment }}
+      PREVIEW_STARTS_AT: ${{ inputs.preview_starts_at }}
+      PREVIEW_EXPIRES_AT: ${{ inputs.preview_expires_at }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - id: card
+        name: Non-authorizing five-minute GET-only approval card
+        run: node ops/native-beta-output/inspection-card.mjs
+  inspection-read-only:
+    if: inputs.mode == 'preview-inspect' && inputs.deployment == '' && inputs.preview_starts_at == '' && inputs.preview_expires_at == '' && inputs.approved_sha == github.sha && github.repository_id == '1415026436' && github.actor_id == '58099771' && github.run_attempt == 1 && github.ref == 'refs/heads/native-pilot/private-beta-rc'
+    needs: inspection-context
+    environment:
+      name: native-pilot-setup
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      actions: read
+      deployments: read
+    env:
+      MODE: ${{ inputs.mode }}
+      APPROVED_SHA: ${{ inputs.approved_sha }}
+      DEPLOYMENT: ${{ inputs.deployment }}
+      PREVIEW_STARTS_AT: ${{ inputs.preview_starts_at }}
+      PREVIEW_EXPIRES_AT: ${{ inputs.preview_expires_at }}
+      INSPECTION_MANIFEST: ${{ needs.inspection-context.outputs.manifest }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: At most nine fixed GETs; no archive key or CLI; no authority granted
+        run: node ops/native-beta-output/inspection-step.mjs >> "$GITHUB_STEP_SUMMARY"
+        env:
+          NATIVE_ADMISSION_READ_TOKEN: ${{ secrets.NATIVE_ADMISSION_READ_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.UNFARMD_NATIVE_PREVIEW_DEPLOY_TOKEN }}

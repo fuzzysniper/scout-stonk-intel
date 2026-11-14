@@ -1,9 +1,7 @@
 // Private Build Output custody ONLY. No network, provider, database or authority issuance.
-import fs from 'node:fs';import path from 'node:path';import {createHash,createCipheriv,createDecipheriv,randomBytes} from 'node:crypto';
-export const policy=JSON.parse(fs.readFileSync(new URL('./policy.json',import.meta.url)));
-export const hash=b=>createHash('sha256').update(b).digest('hex');
-export function need(x){if(!x)throw Error('NATIVE_BUILD_HOLD');}
-export function canonical(x){if(x===null||typeof x==='string'||typeof x==='boolean')return JSON.stringify(x);if(typeof x==='number'){need(Number.isSafeInteger(x));return String(x);}if(Array.isArray(x))return '['+x.map(canonical).join(',')+']';need(x&&Object.getPrototypeOf(x)===Object.prototype);return '{'+Object.keys(x).sort().map(k=>JSON.stringify(k)+':'+canonical(x[k])).join(',')+'}';}
+import fs from 'node:fs';import path from 'node:path';import {createCipheriv,createDecipheriv,randomBytes} from 'node:crypto';
+import {policy,hash,need,canonical} from './identity.mjs';
+export {policy,hash,need,canonical} from './identity.mjs';
 export function safeName(p){need(typeof p==='string'&&p.length<=512&&!p.includes('\\')&&!/[\x00-\x1f\x7f]/.test(p)&&!p.startsWith('/')&&p.split('/').every(x=>x&&x!=='.'&&x!=='..'));need(!p.split('/').some(x=>/^\.env(?:\.|$)|^\.git$|^auth\.json$|^config\.json\.bak$/.test(x)));return p;}
 function inside(root,p){const r=path.relative(root,p);need(r!==''&&!r.startsWith('..'+path.sep)&&r!=='..'&&!path.isAbsolute(r));return p;}
 export function inventory(directory){

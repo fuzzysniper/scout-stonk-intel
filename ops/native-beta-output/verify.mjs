@@ -1,5 +1,5 @@
 // Pure deployment/protection/binding verification. Does not call an endpoint or confer source authority.
-import {policy,hash,canonical} from './output.mjs';
+import {policy,hash,canonical} from './identity.mjs';
 import {all} from './diagnostics.mjs';
 export function approval(x,context,now){
  all([['APPROVAL_CONTEXT_REPOSITORY',()=>context.repositoryId===policy.repositoryId],['APPROVAL_CONTEXT_OWNER',()=>context.actorId===policy.ownerId],['APPROVAL_CONTEXT_ATTEMPT',()=>context.attempt===1],['APPROVAL_CONTEXT_BRANCH',()=>context.branch===policy.branch],['APPROVAL_CONTEXT_SHA',()=>context.sha===x.commit],['APPROVAL_CONTEXT_RUN_INTEGER',()=>Number.isSafeInteger(context.runId)],['APPROVAL_CONTEXT_RUN_POSITIVE',()=>context.runId>0]]);

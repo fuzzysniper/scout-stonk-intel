@@ -1,7 +1,7 @@
 // Shared fixed-host GET preflight. No child_process, CLI, archive key or deployment write.
 import https from 'node:https';import {checkServerIdentity} from 'node:tls';
 import fs from 'node:fs';
-import {policy,hash} from './output.mjs';
+import {policy,hash} from './identity.mjs';
 import {all,fail,atAsync,responseLabel} from './diagnostics.mjs';
 import {approval,ownerGate,project,aliases} from './verify.mjs';
 export function context(env){all([

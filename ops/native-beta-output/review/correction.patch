@@ -1,0 +1,995 @@
+From 653f3dd4a636a2781b50d3c2891d71a84a7289e7 Mon Sep 17 00:00:00 2001
+From: fuzzysniper <58099771+fuzzysniper@users.noreply.github.com>
+Date: Fri, 13 Nov 2026 23:27:45 +0000
+Subject: [PATCH] fix: diagnose Preview preflight holds and correct integration
+ listing
+
+---
+ .github/workflows/native-beta-release.yml     |  14 +-
+ .../preview-preflight-diagnostics.yml         |  36 ++++
+ .../INCIDENT-43518878650.md                   | 174 ++++++++++++++++++
+ ops/native-beta-output/checks.json            | 170 +++++++++++++++++
+ ops/native-beta-output/diagnostics.mjs        |  33 ++++
+ ops/native-beta-output/inspect-only.mjs       |  39 ++++
+ ops/native-beta-output/preflight.mjs          |  55 ++++++
+ ops/native-beta-output/upload.mjs             |  51 ++---
+ ops/native-beta-output/verify.mjs             |  33 ++--
+ .../contracts.test.mjs                        |  22 +++
+ .../real-tls.mjs                              |  11 ++
+ .../preview-preflight-diagnostics/review.json |  76 ++++++++
+ .../preview-preflight-diagnostics/review.mjs  |  17 ++
+ .../scope.test.mjs                            |   5 +
+ .../tar-reachability.test.mjs                 |   8 +
+ .../tls-isolated.sh                           |  12 ++
+ .../transport.test.mjs                        |   9 +
+ 17 files changed, 708 insertions(+), 57 deletions(-)
+ create mode 100644 .github/workflows/preview-preflight-diagnostics.yml
+ create mode 100644 ops/native-beta-output/INCIDENT-43518878650.md
+ create mode 100644 ops/native-beta-output/checks.json
+ create mode 100644 ops/native-beta-output/diagnostics.mjs
+ create mode 100644 ops/native-beta-output/inspect-only.mjs
+ create mode 100644 ops/native-beta-output/preflight.mjs
+ create mode 100644 tests/preview-preflight-diagnostics/contracts.test.mjs
+ create mode 100644 tests/preview-preflight-diagnostics/real-tls.mjs
+ create mode 100644 tests/preview-preflight-diagnostics/review.json
+ create mode 100644 tests/preview-preflight-diagnostics/review.mjs
+ create mode 100644 tests/preview-preflight-diagnostics/scope.test.mjs
+ create mode 100644 tests/preview-preflight-diagnostics/tar-reachability.test.mjs
+ create mode 100755 tests/preview-preflight-diagnostics/tls-isolated.sh
+ create mode 100644 tests/preview-preflight-diagnostics/transport.test.mjs
+
+diff --git a/.github/workflows/native-beta-release.yml b/.github/workflows/native-beta-release.yml
+index c445804..0077384 100644
+--- a/.github/workflows/native-beta-release.yml
++++ b/.github/workflows/native-beta-release.yml
+@@ -31,7 +31,7 @@ jobs:
+           node-version: '24.19.0'
+       - run: npm ci --ignore-scripts
+       - run: npm ci --prefix experiments/jupiter-beta-approval/integration --ignore-scripts
+-      - run: node --test tests/native-beta-output/scope.test.mjs
++      - run: node --test tests/preview-preflight-diagnostics/scope.test.mjs
+       - name: Actual A B C union and unchanged pure decoders on the combined C head NO SQL
+         run: |
+           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-evidence/run.sh
+@@ -76,7 +76,7 @@ jobs:
+           node tests/native-admission/artifact.mjs
+           node tests/native-beta-release/artifact.mjs
+           bash scripts/archive-tool.sh check 905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a
+-          node --test tests/native-beta-output/scope.test.mjs
++          node --test tests/preview-preflight-diagnostics/scope.test.mjs
+   exact-head-mobile-accessibility-privacy:
+     if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+     runs-on: ubuntu-latest
+@@ -105,7 +105,7 @@ jobs:
+           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-union-284/run.sh browser
+           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-beta-release/mobile.sh browser
+           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/native-union-284/optimized.config.mjs
+-      - run: node --test tests/native-beta-output/scope.test.mjs
++      - run: node --test tests/preview-preflight-diagnostics/scope.test.mjs
+       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+         if: always()
+         with:
+@@ -133,7 +133,7 @@ jobs:
+         run: |
+           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-union-284/replay.sh
+           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-beta-release/replay.sh
+-      - run: node --test tests/native-beta-output/scope.test.mjs
++      - run: node --test tests/preview-preflight-diagnostics/scope.test.mjs
+   original-optimized-isolation:
+     if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+     runs-on: ubuntu-latest
+@@ -150,7 +150,7 @@ jobs:
+       - run: npm ci --ignore-scripts
+       - name: Original optimized v3-absence and exact73-file trace tests unchanged on280
+         run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-lens/original-build.sh
+-      - run: node --test tests/native-beta-output/scope.test.mjs
++      - run: node --test tests/preview-preflight-diagnostics/scope.test.mjs
+ 
+   B-owned-current-head-PG18:
+     if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+@@ -190,7 +190,7 @@ jobs:
+           node tests/native-union-284/require-pg-evidence.mjs /tmp/native-current-pg-evidence.log
+           bash tests/native-beta-release/pg18-isolated.sh | tee /tmp/native-owner-pg-evidence.log
+           node tests/native-beta-release/require-owner-evidence.mjs /tmp/native-owner-pg-evidence.log
+-      - run: node --test tests/native-beta-output/scope.test.mjs
++      - run: node --test tests/preview-preflight-diagnostics/scope.test.mjs
+       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+         if: always()
+         with:
+@@ -218,4 +218,4 @@ jobs:
+       - run: npm ci --ignore-scripts
+       - name: Actual clean-head selected assembly and immutable original OFF profile; synthetic bindings only
+         run: NODE_OPTIONS="--import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs" bash tests/native-beta-release/selected-build.sh
+-      - run: node --test tests/native-beta-output/scope.test.mjs
++      - run: node --test tests/preview-preflight-diagnostics/scope.test.mjs
+diff --git a/.github/workflows/preview-preflight-diagnostics.yml b/.github/workflows/preview-preflight-diagnostics.yml
+new file mode 100644
+index 0000000..b59a8e1
+--- /dev/null
++++ b/.github/workflows/preview-preflight-diagnostics.yml
+@@ -0,0 +1,36 @@
++name: Preview preflight diagnostics OFFLINE no SQL
++on:
++  pull_request:
++    branches: [fix/289-publisher-diagnostics-off, native-pilot/private-beta-rc]
++permissions:
++  contents: read
++jobs:
++  reviewed-predicate-transport-and-reachability:
++    if: github.head_ref == 'native-pilot/private-beta-rc'
++    runs-on: ubuntu-24.04
++    timeout-minutes: 20
++    steps:
++      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
++        with:
++          ref: ${{ github.event.pull_request.head.sha }}
++          fetch-depth: 0
++          persist-credentials: false
++      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
++        with:
++          node-version: '24.19.0'
++      - name: Pinned public dependencies only
++        run: |
++          npm install --global npm@11.9.0 --ignore-scripts --no-audit --no-fund
++          npm ci --ignore-scripts
++          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts
++      - name: Offline regression and exact predicate-preservation proofs
++        run: |
++          export NODE_OPTIONS="--import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs"
++          node --test tests/preview-preflight-diagnostics/*.test.mjs tests/native-beta-output/output.test.mjs tests/native-beta-output/verify.test.mjs tests/native-beta-output/upload.test.mjs tests/native-beta-output/workflow.test.mjs
++          bash tests/preview-preflight-diagnostics/tls-isolated.sh
++          ./node_modules/.bin/tsc --noEmit
++          npm run lint
++          npm run build
++          git restore -- next-env.d.ts
++          bash scripts/archive-tool.sh check 905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a
++          node --test tests/preview-preflight-diagnostics/scope.test.mjs
+diff --git a/ops/native-beta-output/INCIDENT-43518878650.md b/ops/native-beta-output/INCIDENT-43518878650.md
+new file mode 100644
+index 0000000..ea4417c
+--- /dev/null
++++ b/ops/native-beta-output/INCIDENT-43518878650.md
+@@ -0,0 +1,174 @@
++# Preview preflight incident — correction UNAPPLIED
++
++Base/reviewed installation: `972dc257f75c3f88087c49feda803af9e3bc7b7c`.
++Run43518878650, job132207896171, attempt1, existing workflow409607134,
++owner58099771, branch `native-pilot/private-beta-rc`. This document neither
++reuses that approval/window nor authorizes another run.
++
++## Established evidence and limits
++
++- The job log records successful public dependency installation, build, encryption
++  and both artifact transfers. The invocation step emitted only the original generic
++  `NATIVE_PREVIEW_HOLD`, at2026-11-13T22:27:11Z (4:27PM CST).
++- GitHub metadata reports original preserved artifact14081208632 and held
++  artifact14081428110, each53,601,765 ZIP bytes, same digest
++  `cf98cff2c60d553e114b0d40d0d3980fddc7f4ea20abac0c5079c6bd870358de`.
++  The founder independently verified ZIP bytes and the two-file inventory:
++  `build.aesgcm`, `receipt.json`; no `attempt.jsonl` or `binding.json`.
++  Workspace transfer of the relay's signed file reference was unavailable; this
++  investigation does not claim a separate local ZIP-byte verification. No decryption
++  or archive-key read was attempted. Hosted originals/retention are unchanged.
++- The saved approval API record exactly matches owner User58099771, approved,
++  environment26516929095 and the expected complete approval comment ending
++  `1794609960000`. Known run identity fields match the compiled requirements.
++  This does not establish which responses the workflow's reader actually received.
++- The original uploader writes/fsyncs a journal before its sole Vercel invocation
++  and contains no journal deletion. Given the verified complete held inventory and
++  unchanged code, its failure is before that invocation (including a possible failure
++  opening the journal). This is specific to this uploader; it is not a statement
++  about unrelated actors, platform metadata, or original publisher run42293408658.
++- No endpoint, HTTP status or failing predicate was logged. The elapsed2.4seconds
++  does not identify the number of requests or service. Connector404/403 evidence
++  is unrelated to the workflow token's response and is not used as its substitute.
++
++## Reproduced defect; historical first failure remains UNKNOWN
++
++The original requests `/v1/integrations/installations?teamId=...` and requires
++`configs.configurations`. Vercel documents the listing as
++`/v1/integrations/configurations?view=account&teamId=...`, returning an **array**.
++The pinned CLI64.5 also uses the configurations API (v2) and treats it as an array.
++References:
++
++- https://vercel.com/docs/rest-api/integrations/get-configurations-for-the-authenticated-user-or-team
++- https://vercel.com/docs/rest-api/sdk/examples/integrations
++
++Committed tests execute the original code unchanged and show that the documented
++array cannot pass its integration gate. The correction uses the documented v1
++listing and applies the original no-global/no-applicable-project condition to
++either that array or the previously accepted wrapper. It adds a1000-entry bound
++and conservatively holds empty/malformed/all-project or unknown selection scope.
++Null/missing project scope, applicable installations, pagination, denied/uncertain
++reads and unknown bodies still HOLD. No installation-type filter hides handlers.
++
++This is a genuine independent API-contract defect, **not proof that this run
++reached it**. Earlier project/Node/Git/protection/alias predicates, GitHub/Vercel
++HTTP/permission/token-format failures, local Git/link/output pins and journal-open
++failure remain possible. The exact earliest failing predicate cannot be recovered
++from the existing generic message. No credential replacement is proposed.
++
++## Minimal correction and diagnostics
++
++- Shared GET preflight; original uploader API/re-exports and deployment argv retained.
++- Each existing verification predicate is labeled; an AST-based test compares all
++ 22 original guard groups, preserving their expressions/order. Owner/reviewer/bypass,
++ branch, time, project, protection, alias, immutable identity and source-OFF gates
++ are not removed or relaxed.
++- Failed reads emit only a fixed endpoint label, categorical reason and numeric
++ HTTP status where available; logical failures name a fixed predicate. Examples:
++ `VC_PROJECT/http_status/403`, `PROJECT_NODE_VERSION`, `OWNER_REVIEW_EXACT_COMMENT`,
++ `INTEGRATIONS_SCOPE`. No URL, body, header value, token fragment/hash, key, error
++ message or stack is logged. Unknown exceptions get a fixed category.
++- `cliState` describes only the corrected invocation: `not_started`,
++ `started_unconfirmed` or `acknowledged`. This is not retroactive evidence about
++ the original run. Existing journals and uncertain/lost acknowledgments remain
++ fail-closed and cannot retry. Legacy HOLD output is retained.
++- No application/lib/SQL/policy/toolchain-lock/auth/source/STOP/collector/manual
++ workflow body is changed. The existing CI scope command is routed to a finite
++ additive review, replaying the original972 reviewer and tests unchanged. The
++ additional CI definition is offline/no-SQL/no-secrets; it is not a live inspector.
++
++## Critical advisory: retained, not upgraded
++
++A fresh audit of the unchanged tool lock reproduces36 findings:15moderate,
++20high,1critical. The original log has identical counts but no archived advisory
++JSON, so this identification uses the pinned lock and current npm advisory data.
++
++- Affected `tar@7.5.11`; critical finding
++  https://github.com/advisories/GHSA-23hp-3jrh-7fpw
++  (unbounded decompression/parse resource exhaustion; reported affected<=7.5.18).
++- Paths: `vercel@64.5.0 -> @vercel/container@19.1.3 -> tar@7.5.11`, and deduped
++  through `@vercel/backends -> @vercel/nft -> @mapbox/node-pre-gyp`.
++  `@vercel/fun` separately resolves `tar@7.5.22`; do not conflate the copies.
++- Container tar extraction occurs in `fetchPinnedArchive`/`fetchBuildpackage`
++  (including OCI layers). The native-addon chain extracts archives during binary
++  installation/test packaging. `npm ci --ignore-scripts` is already required.
++- The uploader's pre-invocation path is JSON/hash/Git/native-HTTPS validation.
++  Its actual pinned Git-metadata helper and import-only deploy-module probe load
++  no vulnerable root tar parser. The command itself is **not executed** by this
++  investigation. The GET-only inspector has no CLI/SDK import at all.
++- The reviewed Build Output validator accepts only Node24/edge functions, not
++  container build inputs. This finding cannot explain the observed pre-invocation
++  HOLD. No affected parse path was found for the fixed ordinary prebuilt Next
++  upload; this is a scoped static/import assessment, not a proof for every CLI
++  branch or a genuine hosted upload. Expanding commands, accepting container inputs
++  or parsing untrusted archives requires renewed review.
++
++The advisory remains in the toolchain. No upgrade/override/audit-fix was run.
++Policy/tool package/lock hashes remain byte-identical. An upgrade requires a
++separate dependency review and new builder/CLI pins, never an automatic repair.
++
++## Proposed next observation — GET ONLY, separate owner GO
++
++`inspect-only.mjs` has **no main/execute entry and is not wired into any workflow**.
++Its bound production reader uses native TLS and only fixed GitHub/Vercel GETs.
++It imports no uploader, CLI or child_process. Offline tests prove protocol
++separation: its manifest cannot authorize the uploader; a Preview GO cannot
++authorize inspection. Every outcome is `HOLD_NO_DEPLOYMENT_AUTHORITY`, activate:false.
++
++The proposed job would reuse existing `native-pilot-setup`, sole-owner review,
++no admin bypass, exact branch and the existing two read/upload-token bindings.
++**Do not bind the archive key.** No new secret, environment or permission is needed.
++Use a distinct new actual run/approval, exact reviewed diagnostic SHA, attempt1,
++an owner-selected validity interval<=5minutes, version `native-preview-inspection/1`,
++maxRequests9, deploy:false, sourceGo:false, sql:false, archiveKey:false. No execution
++interval is selected here. This does not start a30-minute deployment window.
++
++Exactly one request per path, sequential; <=9 total,4seconds/request,1MiB/256chunks
++per response, no redirect, pagination, retry or arbitrary path:
++
++1. Actual diagnostic run metadata.
++2. Saved setup-environment protection metadata.
++3. Exact setup-environment branch policy.
++4. Actual diagnostic run approval history.
++5. Pinned Vercel project identity/Node/Git/protection metadata.
++6. Complete bounded project aliases.
++7. Project webhooks.
++8. Documented account-view integration configurations.
++9. Legacy integration URL for categorical status/shape comparison only, after
++   all prior controls pass. Never a fallback authorization source.
++
++Stops on an earlier failed control. Final legacy comparison cannot confer any
++authority. The transport never reads secret-value or private-manifest endpoints, uses no
++bypass and prints no response values. A future approved job's fixed wrapper would
++call `runReadOnlyInspection` and print its sanitized result; it must catch any
++constructor error with `reportFailure`, never a raw exception.
++
++**Before any such dispatch**, independently review its feature-ref workflow
++wiring. A new inspection mode must be excluded from BOTH legacy context/publish
++jobs AND the Preview upload jobs, use the existing protected setup environment,
++and require this distinct exact comment:
++
++`APPROVE_NATIVE_PREFLIGHT_GET_ONLY <actualRun> <reviewedSHA> <projectID> <expiryMillis>`.
++
++Do not dispatch `preview-output` as a diagnostic. No old run retry, old approval
++reuse, variable deletion, metadata cleanup, key/token rotation or upload is allowed.
++GitHub's automatic environment-job record must be disclosed in that separate GO;
++no explicit publisher deployment/status POST is permitted. The proposed record is
++read-only evidence, never setup/source authorization or an upload approval.
++
++## Validation and delivery boundary
++
++Run the focused baseline regression, new predicate/transport/redaction/inspection
++tests, real loopback native TLS/SNI test, typecheck, lint, production build and
++archive check with existing local-only/no-database guards. No SQL is run.
++Original full native/PG CI evidence for972 is not claimed as a new patched-head run.
++
++This correction is delivered as a local, unapplied patch/commit only. It has not
++been pushed, installed or dispatched. No hosted setting changed. `vercel.json`
++and the installed release ref remain unchanged. A future publication/install
++needs separately reviewed trigger suppression; do not push an unregistered
++diagnostic topic branch and accidentally request a Git Preview.
++
++Preserve both original artifacts, receipts, approval and run history, including
++the independent42293408658 incident's UNKNOWN historical write disposition.
++This work authorizes neither a restore nor source acquisition.
+diff --git a/ops/native-beta-output/checks.json b/ops/native-beta-output/checks.json
+new file mode 100644
+index 0000000..f1ffee1
+--- /dev/null
++++ b/ops/native-beta-output/checks.json
+@@ -0,0 +1,170 @@
++{
++  "APPROVAL_CONTEXT_REPOSITORY": "Predicate from the unchanged reviewed approval_context guard",
++  "APPROVAL_CONTEXT_OWNER": "Predicate from the unchanged reviewed approval_context guard",
++  "APPROVAL_CONTEXT_ATTEMPT": "Predicate from the unchanged reviewed approval_context guard",
++  "APPROVAL_CONTEXT_BRANCH": "Predicate from the unchanged reviewed approval_context guard",
++  "APPROVAL_CONTEXT_SHA": "Predicate from the unchanged reviewed approval_context guard",
++  "APPROVAL_CONTEXT_RUN_INTEGER": "Predicate from the unchanged reviewed approval_context guard",
++  "APPROVAL_CONTEXT_RUN_POSITIVE": "Predicate from the unchanged reviewed approval_context guard",
++  "APPROVAL_VERSION": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_PROJECT": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_BRANCH": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_RUN_ID": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_SHA_FORMAT": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_TIME_INTEGER": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_START_INTEGER": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_EXPIRY_INTEGER": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_STARTED": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_NOT_EXPIRED": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_POSITIVE_WINDOW": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_BOUNDED_WINDOW": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_ONE_PREVIEW": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_SOURCE_OFF": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_SQL_OFF": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_NO_NATIVE_BINDINGS": "Predicate from the unchanged reviewed approval guard",
++  "APPROVAL_HANDLERS_REVIEWED": "Predicate from the unchanged reviewed approval guard",
++  "OWNER_ENVIRONMENT_ID": "Predicate from the unchanged reviewed owner_environment guard",
++  "OWNER_ENVIRONMENT_NAME": "Predicate from the unchanged reviewed owner_environment guard",
++  "OWNER_ENVIRONMENT_NO_ADMIN_BYPASS": "Predicate from the unchanged reviewed owner_environment guard",
++  "OWNER_ENVIRONMENT_NO_PROTECTED_BRANCH_FALLBACK": "Predicate from the unchanged reviewed owner_environment guard",
++  "OWNER_ENVIRONMENT_CUSTOM_BRANCH_RULES": "Predicate from the unchanged reviewed owner_environment guard",
++  "OWNER_RULES_ARRAY": "Predicate from the unchanged reviewed owner_rules guard",
++  "OWNER_RULES_NONEMPTY": "Predicate from the unchanged reviewed owner_rules guard",
++  "OWNER_RULES_BOUNDED": "Predicate from the unchanged reviewed owner_rules guard",
++  "OWNER_RULES_KNOWN_TYPES": "Predicate from the unchanged reviewed owner_rules guard",
++  "OWNER_REVIEWER_SOLE_RULE": "Predicate from the unchanged reviewed owner_reviewer guard",
++  "OWNER_REVIEWER_SELF_REVIEW_SETTING": "Predicate from the unchanged reviewed owner_reviewer guard",
++  "OWNER_REVIEWER_SOLE_REVIEWER": "Predicate from the unchanged reviewed owner_reviewer guard",
++  "OWNER_REVIEWER_USER_TYPE": "Predicate from the unchanged reviewed owner_reviewer guard",
++  "OWNER_REVIEWER_OWNER_ID": "Predicate from the unchanged reviewed owner_reviewer guard",
++  "OWNER_BRANCH_ONE_RULE": "Predicate from the unchanged reviewed owner_branch guard",
++  "OWNER_BRANCH_ONE_ENTRY": "Predicate from the unchanged reviewed owner_branch guard",
++  "OWNER_BRANCH_BRANCH_TYPE": "Predicate from the unchanged reviewed owner_branch guard",
++  "OWNER_BRANCH_EXACT_NAME": "Predicate from the unchanged reviewed owner_branch guard",
++  "OWNER_REVIEW_ONE_REVIEW": "Predicate from the unchanged reviewed owner_review guard",
++  "OWNER_REVIEW_APPROVED": "Predicate from the unchanged reviewed owner_review guard",
++  "OWNER_REVIEW_OWNER_ID": "Predicate from the unchanged reviewed owner_review guard",
++  "OWNER_REVIEW_USER_TYPE": "Predicate from the unchanged reviewed owner_review guard",
++  "OWNER_REVIEW_EXACT_COMMENT": "Predicate from the unchanged reviewed owner_review guard",
++  "OWNER_REVIEW_ONE_ENVIRONMENT": "Predicate from the unchanged reviewed owner_review guard",
++  "OWNER_REVIEW_ENVIRONMENT_ID": "Predicate from the unchanged reviewed owner_review guard",
++  "PROJECT_ID": "Predicate from the unchanged reviewed project guard",
++  "PROJECT_TEAM_ID": "Predicate from the unchanged reviewed project guard",
++  "PROJECT_NAME": "Predicate from the unchanged reviewed project guard",
++  "PROJECT_NODE_VERSION": "Predicate from the unchanged reviewed project guard",
++  "PROJECT_GIT_PROVIDER": "Predicate from the unchanged reviewed project guard",
++  "PROJECT_GIT_OWNER": "Predicate from the unchanged reviewed project guard",
++  "PROJECT_GIT_REPO": "Predicate from the unchanged reviewed project guard",
++  "PROJECT_PROTECTION_NOT_DISABLED": "Predicate from the unchanged reviewed project_protection guard",
++  "PROJECT_PROTECTION_COVERS_PREVIEW": "Predicate from the unchanged reviewed project_protection guard",
++  "ALIASES_ARRAY": "Predicate from the unchanged reviewed aliases guard",
++  "ALIASES_BOUNDED": "Predicate from the unchanged reviewed aliases guard",
++  "ALIAS_PROJECT_ID": "Predicate from the unchanged reviewed alias guard",
++  "ALIAS_NAME_STRING": "Predicate from the unchanged reviewed alias guard",
++  "ALIAS_NAME_FORMAT": "Predicate from the unchanged reviewed alias guard",
++  "ALIAS_DEPLOYMENT_FORMAT": "Predicate from the unchanged reviewed alias guard",
++  "ALIAS_UNIQUE": "Predicate from the unchanged reviewed alias guard",
++  "ALIASES_REQUIRED_PRESENT": "Predicate from the unchanged reviewed aliases guard",
++  "ALIASES_UNCHANGED": "Predicate from the unchanged reviewed aliases guard",
++  "DEPLOYMENT_PROJECT_ID": "Predicate from the unchanged reviewed deployment guard",
++  "DEPLOYMENT_PREVIEW_TARGET": "Predicate from the unchanged reviewed deployment guard",
++  "DEPLOYMENT_NO_CUSTOM_ENVIRONMENT": "Predicate from the unchanged reviewed deployment guard",
++  "DEPLOYMENT_NO_CUSTOM_SLUG": "Predicate from the unchanged reviewed deployment guard",
++  "DEPLOYMENT_READY": "Predicate from the unchanged reviewed deployment guard",
++  "DEPLOYMENT_ID_FORMAT": "Predicate from the unchanged reviewed deployment guard",
++  "DEPLOYMENT_UNIQUE_HOST": "Predicate from the unchanged reviewed deployment guard",
++  "DEPLOYMENT_NOT_BRANCH_HOST": "Predicate from the unchanged reviewed deployment guard",
++  "DEPLOYMENT_GIT_SHA": "Predicate from the unchanged reviewed deployment_git guard",
++  "DEPLOYMENT_GIT_BRANCH": "Predicate from the unchanged reviewed deployment_git guard",
++  "DEPLOYMENT_GIT_OWNER": "Predicate from the unchanged reviewed deployment_git guard",
++  "DEPLOYMENT_GIT_REPO": "Predicate from the unchanged reviewed deployment_git guard",
++  "EDGE_NO_CREDENTIALS": "Predicate from the unchanged reviewed edge guard",
++  "EDGE_NO_REDIRECT_FOLLOW": "Predicate from the unchanged reviewed edge guard",
++  "EDGE_PROTECTED": "Predicate from the unchanged reviewed edge guard",
++  "BROWSER_OWNER_SESSION": "Predicate from the unchanged reviewed browser guard",
++  "BROWSER_NO_REDIRECT": "Predicate from the unchanged reviewed browser guard",
++  "BROWSER_LENS_STATUS": "Predicate from the unchanged reviewed browser_lens guard",
++  "BROWSER_LENS_HTML": "Predicate from the unchanged reviewed browser_lens guard",
++  "BROWSER_API_STATUS": "Predicate from the unchanged reviewed browser_api guard",
++  "BROWSER_API_OFF": "Predicate from the unchanged reviewed browser_api guard",
++  "BROWSER_OWNER_ROUTE": "Predicate from the unchanged reviewed browser_owner guard",
++  "BROWSER_OWNER_STATUS": "Predicate from the unchanged reviewed browser_owner guard",
++  "BROWSER_OWNER_UNAVAILABLE": "Predicate from the unchanged reviewed browser_owner guard",
++  "ARTIFACT_RUN_NOT_VERIFICATION_ONLY": "Predicate from the unchanged reviewed artifact_run guard",
++  "ARTIFACT_RUN_BRANCH": "Predicate from the unchanged reviewed artifact_run guard",
++  "ARTIFACT_RUN_SHA": "Predicate from the unchanged reviewed artifact_run guard",
++  "ARTIFACT_RUN_RUN_BRANCH": "Predicate from the unchanged reviewed artifact_run guard",
++  "ARTIFACT_RUN_REPOSITORY": "Predicate from the unchanged reviewed artifact_run guard",
++  "ARTIFACT_RUN_ID_INTEGER": "Predicate from the unchanged reviewed artifact_run guard",
++  "ARTIFACT_RUN_ID_POSITIVE": "Predicate from the unchanged reviewed artifact_run guard",
++  "UNCLASSIFIED": "Fixed nonsecret check category",
++  "CONTEXT_MODE": "Fixed nonsecret check category",
++  "CONTEXT_EVENT": "Fixed nonsecret check category",
++  "CONTEXT_SHA": "Fixed nonsecret check category",
++  "RECEIPT_VERSION": "Fixed nonsecret check category",
++  "RECEIPT_POLICY": "Fixed nonsecret check category",
++  "RECEIPT_HASHES": "Fixed nonsecret check category",
++  "RECEIPT_OFF": "Fixed nonsecret check category",
++  "RECEIPT_COMMIT": "Fixed nonsecret check category",
++  "RECEIPT_PROJECT": "Fixed nonsecret check category",
++  "RECEIPT_BRANCH": "Fixed nonsecret check category",
++  "RECEIPT_NOT_VERIFICATION": "Fixed nonsecret check category",
++  "RUN_ID": "Fixed nonsecret check category",
++  "RUN_SHA": "Fixed nonsecret check category",
++  "RUN_BRANCH": "Fixed nonsecret check category",
++  "RUN_WORKFLOW": "Fixed nonsecret check category",
++  "RUN_PATH": "Fixed nonsecret check category",
++  "RUN_STATUS": "Fixed nonsecret check category",
++  "RUN_EVENT": "Fixed nonsecret check category",
++  "RUN_REPOSITORY": "Fixed nonsecret check category",
++  "RUN_HEAD_REPOSITORY": "Fixed nonsecret check category",
++  "ALIAS_PAGE_COMPLETE": "Fixed nonsecret check category",
++  "WEBHOOKS_ARRAY": "Fixed nonsecret check category",
++  "WEBHOOKS_EMPTY": "Fixed nonsecret check category",
++  "WEBHOOKS_PAGE_COMPLETE": "Fixed nonsecret check category",
++  "INTEGRATIONS_PAGE_COMPLETE": "Fixed nonsecret check category",
++  "INTEGRATIONS_ARRAY": "Fixed nonsecret check category",
++  "INTEGRATIONS_BOUND": "Fixed nonsecret check category",
++  "INTEGRATIONS_SCOPE": "Fixed nonsecret check category",
++  "EXISTING_JOURNAL": "Fixed nonsecret check category",
++  "LOCAL_SOURCE": "Fixed nonsecret check category",
++  "LOCAL_TREE": "Fixed nonsecret check category",
++  "LOCAL_PROJECT_LINK": "Fixed nonsecret check category",
++  "LOCAL_CLI_GIT": "Fixed nonsecret check category",
++  "LOCAL_OUTPUT": "Fixed nonsecret check category",
++  "JOURNAL_WRITE": "Fixed nonsecret check category",
++  "JOURNAL_ACK": "Fixed nonsecret check category",
++  "CLI_INVOCATION": "Fixed nonsecret check category",
++  "CLI_ACK": "Fixed nonsecret check category",
++  "INPUT_RECEIPT": "Fixed nonsecret check category",
++  "INPUT_APPROVAL": "Fixed nonsecret check category",
++  "OPERATION": "Fixed nonsecret check category",
++  "BUNDLE_READ": "Fixed nonsecret check category",
++  "BUNDLE_HASH": "Fixed nonsecret check category",
++  "BUNDLE_SOURCE": "Fixed nonsecret check category",
++  "BUNDLE_INVENTORY": "Fixed nonsecret check category",
++  "CIPHER_HASH": "Fixed nonsecret check category",
++  "TOOLCHAIN": "Fixed nonsecret check category",
++  "EMPTY_CONFIG": "Fixed nonsecret check category",
++  "GH_TOKEN": "Fixed nonsecret check category",
++  "VC_TOKEN": "Fixed nonsecret check category",
++  "REQUEST_ALLOWED": "Fixed nonsecret check category",
++  "REQUEST_BUDGET": "Fixed nonsecret check category",
++  "BINDING_WRITE": "Fixed nonsecret check category",
++  "OUTPUT_WRITE": "Fixed nonsecret check category",
++  "DIAGNOSTIC_AUTHORITY": "Fixed nonsecret check category",
++  "DIAGNOSTIC_CONTEXT": "Fixed nonsecret check category",
++  "DIAGNOSTIC_BUDGET": "Fixed nonsecret check category",
++  "GH_APPROVALS": "Fixed endpoint label; no response/body/header value",
++  "GH_RUN": "Fixed endpoint label; no response/body/header value",
++  "GH_BRANCHES": "Fixed endpoint label; no response/body/header value",
++  "GH_ENVIRONMENT": "Fixed endpoint label; no response/body/header value",
++  "GH_RESPONSE": "Fixed endpoint label; no response/body/header value",
++  "VC_PROJECT": "Fixed endpoint label; no response/body/header value",
++  "VC_ALIASES": "Fixed endpoint label; no response/body/header value",
++  "VC_WEBHOOKS": "Fixed endpoint label; no response/body/header value",
++  "VC_LEGACY_INTEGRATIONS": "Fixed endpoint label; no response/body/header value",
++  "VC_INTEGRATIONS": "Fixed endpoint label; no response/body/header value",
++  "VC_DEPLOYMENT": "Fixed endpoint label; no response/body/header value",
++  "VC_RESPONSE": "Fixed endpoint label; no response/body/header value"
++}
+diff --git a/ops/native-beta-output/diagnostics.mjs b/ops/native-beta-output/diagnostics.mjs
+new file mode 100644
+index 0000000..28ffd39
+--- /dev/null
++++ b/ops/native-beta-output/diagnostics.mjs
+@@ -0,0 +1,33 @@
++// Categories only: never format an exception, URL, response body, token or token hash.
++import fs from 'node:fs';
++const catalog=JSON.parse(fs.readFileSync(new URL('./checks.json',import.meta.url)));
++const failures=new WeakMap();
++const reasons=new Set(['predicate_false','invalid_input','network','tls','timeout','http_status','content_type','pagination','encoding','response_bound','incomplete','json','unclassified']);
++export function fail(check,reason='predicate_false',status){
++ const e=Error('NATIVE_BUILD_HOLD');
++ failures.set(e,Object.freeze({check:Object.hasOwn(catalog,check)?check:'UNCLASSIFIED',reason:reasons.has(reason)?reason:'unclassified',...(Number.isInteger(status)&&status>=100&&status<=599?{httpStatus:status}:{})}));throw e;
++}
++export function all(conditions){for(const [code,test]of conditions){let ok;try{ok=test();}catch{fail(code,'invalid_input');}if(!ok)fail(code);}}
++export function at(code,test){try{return test();}catch(e){if(failures.has(e))throw e;fail(code,'unclassified');}}
++export async function atAsync(code,test){try{return await test();}catch(e){if(failures.has(e))throw e;fail(code,'unclassified');}}
++export function safeFailure(error){return failures.get(error)??Object.freeze({check:'UNCLASSIFIED',reason:'unclassified'});}
++export function reportFailure(error,cliState='not_started'){
++ return Object.freeze({version:'native-preview-diagnostic/1',...safeFailure(error),cliState:['not_started','started_unconfirmed','acknowledged'].includes(cliState)?cliState:'started_unconfirmed',sourceGo:false,activate:false});
++}
++export function responseLabel(host,suffix){
++ const kind=host==='api.github.com'?'GH':'VC';
++ if(kind==='GH'){
++  if(/\/actions\/runs\/\d+\/approvals$/.test(suffix))return 'GH_APPROVALS';
++  if(/\/actions\/runs\/\d+$/.test(suffix))return 'GH_RUN';
++  if(suffix.includes('/deployment-branch-policies?'))return 'GH_BRANCHES';
++  if(suffix.includes('/environments/'))return 'GH_ENVIRONMENT';
++ }else{
++  if(suffix.startsWith('/v9/projects/'))return 'VC_PROJECT';
++  if(suffix.startsWith('/v4/aliases?'))return 'VC_ALIASES';
++  if(suffix.startsWith('/v1/webhooks?'))return 'VC_WEBHOOKS';
++  if(suffix.startsWith('/v1/integrations/installations?'))return 'VC_LEGACY_INTEGRATIONS';
++  if(suffix.startsWith('/v1/integrations/configurations?'))return 'VC_INTEGRATIONS';
++  if(suffix.startsWith('/v13/deployments/'))return 'VC_DEPLOYMENT';
++ }
++ return kind+'_RESPONSE';
++}
+diff --git a/ops/native-beta-output/inspect-only.mjs b/ops/native-beta-output/inspect-only.mjs
+new file mode 100644
+index 0000000..f075b5d
+--- /dev/null
++++ b/ops/native-beta-output/inspect-only.mjs
+@@ -0,0 +1,39 @@
++// UNWIRED owner-approved GET-only diagnostic. Never imports uploader/CLI/child_process.
++// No main/execute entry: a separately reviewed, owner-approved job must call the bound function.
++import {policy} from './output.mjs';
++import {all,atAsync,reportFailure,safeFailure} from './diagnostics.mjs';
++import {ownerGate,project} from './verify.mjs';
++import {paths,legacyIntegrationsPath,getReader,runIdentity,aliasListing,webhookListing,integrationListing} from './preflight.mjs';
++export function inspectionPlan(ctx){const p=paths(ctx);return Object.freeze({mode:'GET_ONLY',maxRequests:9,maxResponseBytes:1048576,timeoutMs:4000,retries:0,redirects:0,sourceGo:false,activate:false,requests:[
++ ['GH_RUN','api.github.com',p.run],['GH_ENVIRONMENT','api.github.com',p.environment],['GH_BRANCHES','api.github.com',p.branches],['GH_APPROVALS','api.github.com',p.reviews],
++ ['VC_PROJECT','api.vercel.com',p.project],['VC_ALIASES','api.vercel.com',p.aliases],['VC_WEBHOOKS','api.vercel.com',p.webhooks],['VC_INTEGRATIONS','api.vercel.com',p.integrations],['VC_LEGACY_INTEGRATIONS','api.vercel.com',legacyIntegrationsPath()]
++ ].map(([label,host,path])=>Object.freeze({label,host,path,method:'GET'}))});}
++export function inspectionAuthority(ctx,x,now){all([
++ ['DIAGNOSTIC_CONTEXT',()=>ctx.repositoryId===policy.repositoryId&&ctx.actorId===policy.ownerId&&ctx.attempt===1&&ctx.branch===policy.branch&&/^[a-f0-9]{40}$/.test(ctx.sha)&&Number.isSafeInteger(ctx.runId)&&ctx.runId>0],
++ ['DIAGNOSTIC_AUTHORITY',()=>x.version==='native-preview-inspection/1'&&x.commit===ctx.sha&&x.runId===ctx.runId&&x.project===policy.projectId&&x.branch===policy.branch&&x.maxRequests===9&&x.deploy===false&&x.sourceGo===false&&x.sql===false&&x.archiveKey===false&&Number.isSafeInteger(now)&&Number.isSafeInteger(x.startsAt)&&Number.isSafeInteger(x.expiresAt)&&x.startsAt<=now&&now<x.expiresAt&&x.expiresAt-x.startsAt>0&&x.expiresAt-x.startsAt<=300000]
++ ]);return 'APPROVE_NATIVE_PREFLIGHT_GET_ONLY '+ctx.runId+' '+ctx.sha+' '+policy.projectId+' '+x.expiresAt;}
++export async function evaluateInspection({ctx,manifest,gh,vc,clock=Date.now}){
++ let calls=0;const results=[],used=new Set(),p=paths(ctx),plan=inspectionPlan(ctx);
++ async function read(host,path){const item=plan.requests.find(r=>r.host===host&&r.path===path);all([['DIAGNOSTIC_BUDGET',()=>item&&!used.has(item.label)&&++calls<=9]]);used.add(item.label);inspectionAuthority(ctx,manifest,clock());return atAsync(item.label,()=> (host==='api.github.com'?gh:vc)(path));}
++ const pass=check=>results.push({check,outcome:'pass'});
++ try{
++  const comment=inspectionAuthority(ctx,manifest,clock());runIdentity(await read('api.github.com',p.run),ctx);pass('RUN_IDENTITY');
++  const env=await read('api.github.com',p.environment),branches=await read('api.github.com',p.branches),reviews=await read('api.github.com',p.reviews);ownerGate(env,branches,reviews,comment);pass('OWNER_CONTROLS');
++  project(await read('api.vercel.com',p.project));pass('PROJECT_AND_PROTECTION');
++  aliasListing(await read('api.vercel.com',p.aliases));pass('ALIASES_COMPLETE');
++  webhookListing(await read('api.vercel.com',p.webhooks));pass('WEBHOOKS_EMPTY');
++  integrationListing(await read('api.vercel.com',p.integrations));pass('INTEGRATIONS_SAFE');
++  // Comparison only, never authorization. Failure of the legacy route is evidence,
++  // not permission for any upload. No retry or fallback request on an unknown path.
++  try{const value=await read('api.vercel.com',legacyIntegrationsPath());results.push({check:'VC_LEGACY_INTEGRATIONS',outcome:'comparison_only',shape:Array.isArray(value)?'array':Array.isArray(value?.configurations)?'wrapper':'other'});}catch(e){results.push({check:'VC_LEGACY_INTEGRATIONS',outcome:'comparison_only',failure:safeFailure(e)});}
++  inspectionAuthority(ctx,manifest,clock());return {version:'native-preview-inspection-result/1',decision:'HOLD_NO_DEPLOYMENT_AUTHORITY',checksPassed:true,calls,results,cliState:'not_started',sourceGo:false,activate:false};
++ }catch(e){return {version:'native-preview-inspection-result/1',decision:'HOLD_NO_DEPLOYMENT_AUTHORITY',checksPassed:false,calls,results,failure:reportFailure(e,'not_started'),sourceGo:false,activate:false};}
++}
++/** Only production transport binding offered. Fixed catalog/hosts/GET and native TLS.
++ * Caller supplies TWO approved read/deployment-token bindings; archive key is absent.
++ * This function cannot invoke a deployment, create an artifact or publish a grant. */
++export function runReadOnlyInspection(ctx,manifest,githubToken,vercelToken){
++ inspectionAuthority(ctx,manifest,Date.now());const p=inspectionPlan(ctx);
++ const gh=getReader('api.github.com',githubToken,new Set(p.requests.filter(r=>r.host==='api.github.com').map(r=>r.path))),vc=getReader('api.vercel.com',vercelToken,new Set(p.requests.filter(r=>r.host==='api.vercel.com').map(r=>r.path)));
++ return evaluateInspection({ctx,manifest,gh,vc});
++}
+diff --git a/ops/native-beta-output/preflight.mjs b/ops/native-beta-output/preflight.mjs
+new file mode 100644
+index 0000000..376864f
+--- /dev/null
++++ b/ops/native-beta-output/preflight.mjs
+@@ -0,0 +1,55 @@
++// Shared fixed-host GET preflight. No child_process, CLI, archive key or deployment write.
++import https from 'node:https';import {checkServerIdentity} from 'node:tls';
++import fs from 'node:fs';
++import {policy,hash} from './output.mjs';
++import {all,fail,atAsync,responseLabel} from './diagnostics.mjs';
++import {approval,ownerGate,project,aliases} from './verify.mjs';
++export function context(env){all([
++ ['CONTEXT_MODE',()=>env.MODE==='preview-output'],['CONTEXT_EVENT',()=>env.GITHUB_EVENT_NAME==='workflow_dispatch'],['CONTEXT_SHA',()=>env.APPROVED_SHA===env.GITHUB_SHA]
++ ]);return {repositoryId:Number(env.GITHUB_REPOSITORY_ID),actorId:Number(env.GITHUB_ACTOR_ID),attempt:Number(env.GITHUB_RUN_ATTEMPT),branch:(env.GITHUB_REF??'').replace(/^refs\/heads\//,''),sha:env.GITHUB_SHA,runId:Number(env.GITHUB_RUN_ID)};}
++export function paths(ctx,id){const team='teamId='+policy.teamId,repo='/repos/'+policy.repository;return {
++ run:repo+'/actions/runs/'+ctx.runId,reviews:repo+'/actions/runs/'+ctx.runId+'/approvals',environment:repo+'/environments/'+policy.environment,branches:repo+'/environments/'+policy.environment+'/deployment-branch-policies?per_page=2',
++ project:'/v9/projects/'+policy.projectId+'?'+team,aliases:'/v4/aliases?projectId='+policy.projectId+'&'+team+'&limit=100',webhooks:'/v1/webhooks?projectId='+policy.projectId+'&'+team,
++ // Documented listing, account view: no integration-type filter hides relevant installations.
++ integrations:'/v1/integrations/configurations?view=account&'+team,
++ ...(id?{deployment:'/v13/deployments/'+id+'?'+team}:{})};}
++export function legacyIntegrationsPath(){return '/v1/integrations/installations?teamId='+policy.teamId;}
++export function getReader(host,token,allowed){all([[host==='api.github.com'?'GH_TOKEN':'VC_TOKEN',()=>['api.github.com','api.vercel.com'].includes(host)&&typeof token==='string'&&/^[A-Za-z0-9_.-]{20,1024}$/.test(token)]]);let calls=0;
++ return suffix=>new Promise((resolve,reject)=>{
++  all([['REQUEST_ALLOWED',()=>allowed.has(suffix)],['REQUEST_BUDGET',()=>++calls<=24]]);
++  const label=responseLabel(host,suffix);let q,timer,done=false,auth=false,size=0;const chunks=[];
++  const stop=(reason,status)=>{if(done)return;done=true;clearTimeout(timer);q?.destroy();try{fail(label,reason,status);}catch(e){reject(e);}};
++  try{q=https.request({hostname:host,servername:host,port:443,path:suffix,method:'GET',agent:false,rejectUnauthorized:true,minVersion:'TLSv1.2',checkServerIdentity,maxHeaderSize:16384,headers:{authorization:'Bearer '+token,accept:'application/json','accept-encoding':'identity','user-agent':'unfarmd-native-preview-owner-review','x-github-api-version':'2022-11-28'}},r=>{
++   if(!auth){r.destroy();stop('tls');return;}
++   if(r.statusCode!==200){r.destroy();stop('http_status',r.statusCode);return;}
++   if(!/^application\/json(?:;|$)/i.test(r.headers['content-type']??'')){r.destroy();stop('content_type');return;}
++   if(r.headers.link){r.destroy();stop('pagination');return;}
++   if(r.headers['content-encoding']&&r.headers['content-encoding']!=='identity'){r.destroy();stop('encoding');return;}
++   r.on('data',b=>{size+=b.length;if(size>1048576||chunks.length>=256){r.destroy();stop('response_bound');}else chunks.push(Buffer.from(b));});r.on('error',()=>stop('network'));r.on('aborted',()=>stop('incomplete'));
++   r.on('end',()=>{if(done)return;if(!r.complete||size===0){stop('incomplete');return;}try{const x=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(Buffer.concat(chunks)));done=true;clearTimeout(timer);resolve(x);}catch{stop('json');}});
++  });timer=setTimeout(()=>stop('timeout'),4000);q.on('error',()=>stop('network'));q.on('socket',s=>s.once('secureConnect',()=>{try{auth=s.authorized&&s.servername===host&&['TLSv1.2','TLSv1.3'].includes(s.getProtocol())&&!checkServerIdentity(host,s.getPeerCertificate());if(!auth)stop('tls');}catch{stop('tls');}}));q.end();}catch{stop('network');}
++ });
++}
++export function plan(receipt,go,ctx,now){approval(go,ctx,now);all([
++ ['RECEIPT_VERSION',()=>receipt.version==='native-build-receipt/1'],['RECEIPT_POLICY',()=>receipt.policySha256===hash(fs.readFileSync(new URL('./policy.json',import.meta.url)))],['RECEIPT_HASHES',()=>['plainBundleSha256','inventorySha256','cipherSha256'].every(k=>/^[a-f0-9]{64}$/.test(receipt[k]))],['RECEIPT_OFF',()=>receipt.sourceCalls===false&&receipt.deployed===false],
++ ['RECEIPT_COMMIT',()=>receipt.source.commit===go.commit],['RECEIPT_PROJECT',()=>receipt.source.project===policy.projectId],['RECEIPT_BRANCH',()=>receipt.source.branch===policy.branch],['RECEIPT_NOT_VERIFICATION',()=>receipt.source.verificationOnly===false]
++ ]);return {kind:'NATIVE_PREVIEW_UPLOAD_PLAN/1',commit:go.commit,tree:receipt.source.tree,project:policy.projectId,target:'preview',maxCliInvocations:1,plainBundleSha256:receipt.plainBundleSha256,inventorySha256:receipt.inventorySha256,sourceGo:false,sql:false,deploy:false};}
++export function runIdentity(run,ctx){all([
++ ['RUN_ID',()=>run.id===ctx.runId],['RUN_SHA',()=>run.head_sha===ctx.sha],['RUN_BRANCH',()=>run.head_branch===policy.branch],['RUN_WORKFLOW',()=>run.workflow_id===policy.workflowId],['RUN_PATH',()=>run.path==='.github/workflows/native-pilot-admission.yml'],['RUN_STATUS',()=>run.status==='in_progress'],['RUN_EVENT',()=>run.event==='workflow_dispatch'],['RUN_REPOSITORY',()=>run.repository?.id===policy.repositoryId],['RUN_HEAD_REPOSITORY',()=>run.head_repository?.id===policy.repositoryId]
++ ]);return true;}
++export function aliasListing(a){all([['ALIAS_PAGE_COMPLETE',()=>!a.pagination?.next&&!a.pagination?.until]]);return aliases(a.aliases);}
++export function webhookListing(hooks){const list=Array.isArray(hooks)?hooks:hooks.webhooks;all([['WEBHOOKS_ARRAY',()=>Array.isArray(list)],['WEBHOOKS_EMPTY',()=>list.length===0],['WEBHOOKS_PAGE_COMPLETE',()=>!hooks.pagination?.next]]);return true;}
++export function integrationListing(value){
++ // The public API returns an array. Retain the old explicitly accepted wrapper too;
++ // the SAME no-global/no-applicable-project test runs over either representation.
++ const list=Array.isArray(value)?value:value.configurations;
++ all([['INTEGRATIONS_PAGE_COMPLETE',()=>!value.pagination?.next],['INTEGRATIONS_ARRAY',()=>Array.isArray(list)],['INTEGRATIONS_BOUND',()=>list.length<=1000],['INTEGRATIONS_SCOPE',()=>list.every(c=>Array.isArray(c.projects)&&!c.projects.includes(policy.projectId)&&c.projects.length>0&&c.projects.every(p=>typeof p==='string'&&p.length>0)&&(!Object.hasOwn(c,'projectSelection')||c.projectSelection==='selected'))]]);return true;
++}
++export async function inspectGate(ctx,go,gh,vc,now){
++ const p=paths(ctx),comment=approval(go,ctx,now);runIdentity(await gh(p.run),ctx);
++ const env=await gh(p.environment),branches=await gh(p.branches),reviews=await gh(p.reviews);ownerGate(env,branches,reviews,comment);
++ const pub=await atAsync('VC_PROJECT',async()=>project(await vc(p.project))),before=await atAsync('VC_ALIASES',async()=>aliasListing(await vc(p.aliases)));
++ await atAsync('VC_WEBHOOKS',async()=>webhookListing(await vc(p.webhooks)));
++ await atAsync('VC_INTEGRATIONS',async()=>integrationListing(await vc(p.integrations)));
++ return {project:pub,aliases:before};
++}
+diff --git a/ops/native-beta-output/upload.mjs b/ops/native-beta-output/upload.mjs
+index c56c0f6..be05928 100644
+--- a/ops/native-beta-output/upload.mjs
++++ b/ops/native-beta-output/upload.mjs
+@@ -2,30 +2,11 @@
+ import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import https from 'node:https';import {checkServerIdentity} from 'node:tls';import {execFileSync} from 'node:child_process';import {fileURLToPath} from 'node:url';
+ import {policy,need,hash,inventory,canonical} from './output.mjs';
+ import {tools,source,cliGitMetadata,verifyLink} from './build.mjs';
+-import {approval,ownerGate,project,aliases,unchanged,deployment,edgeProtected,bind} from './verify.mjs';
+-export function context(env){need(env.MODE==='preview-output'&&env.GITHUB_EVENT_NAME==='workflow_dispatch'&&env.APPROVED_SHA===env.GITHUB_SHA);return {repositoryId:Number(env.GITHUB_REPOSITORY_ID),actorId:Number(env.GITHUB_ACTOR_ID),attempt:Number(env.GITHUB_RUN_ATTEMPT),branch:(env.GITHUB_REF??'').replace(/^refs\/heads\//,''),sha:env.GITHUB_SHA,runId:Number(env.GITHUB_RUN_ID)};}
+-export function paths(ctx,id){const team='teamId='+policy.teamId,repo='/repos/'+policy.repository;return {
+- run:repo+'/actions/runs/'+ctx.runId,reviews:repo+'/actions/runs/'+ctx.runId+'/approvals',environment:repo+'/environments/'+policy.environment,branches:repo+'/environments/'+policy.environment+'/deployment-branch-policies?per_page=2',
+- project:'/v9/projects/'+policy.projectId+'?'+team,aliases:'/v4/aliases?projectId='+policy.projectId+'&'+team+'&limit=100',webhooks:'/v1/webhooks?projectId='+policy.projectId+'&'+team,integrations:'/v1/integrations/installations?'+team,
+- ...(id?{deployment:'/v13/deployments/'+id+'?'+team}:{})};}
+-export function getReader(host,token,allowed){need(['api.github.com','api.vercel.com'].includes(host)&&typeof token==='string'&&/^[A-Za-z0-9_.-]{20,1024}$/.test(token));let calls=0;return suffix=>new Promise((resolve,reject)=>{
+- need(allowed.has(suffix)&&++calls<=24);let q,timer,done=false,auth=false,size=0;const chunks=[];
+- const fail=()=>{if(done)return;done=true;clearTimeout(timer);q?.destroy();reject(Error('NATIVE_BUILD_HOLD'));};
+- try{q=https.request({hostname:host,servername:host,port:443,path:suffix,method:'GET',agent:false,rejectUnauthorized:true,minVersion:'TLSv1.2',checkServerIdentity,maxHeaderSize:16384,headers:{authorization:'Bearer '+token,accept:'application/json','accept-encoding':'identity','user-agent':'unfarmd-native-preview-owner-review','x-github-api-version':'2022-11-28'}},r=>{
+-  if(!auth||r.statusCode!==200||!/^application\/json(?:;|$)/i.test(r.headers['content-type']??'')||r.headers.link||r.headers['content-encoding']&&r.headers['content-encoding']!=='identity'){r.destroy();fail();return;}
+-  r.on('data',b=>{size+=b.length;if(size>1048576||chunks.length>=256){r.destroy();fail();}else chunks.push(Buffer.from(b));});r.on('error',fail);r.on('aborted',fail);r.on('end',()=>{if(done)return;try{need(r.complete&&size>0);const x=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(Buffer.concat(chunks)));done=true;clearTimeout(timer);resolve(x);}catch{fail();}});
+- });timer=setTimeout(fail,4000);q.on('error',fail);q.on('socket',s=>s.once('secureConnect',()=>{auth=s.authorized&&s.servername===host&&['TLSv1.2','TLSv1.3'].includes(s.getProtocol())&&!checkServerIdentity(host,s.getPeerCertificate());if(!auth)fail();}));q.end();}catch{fail();}
+- });}
++import {approval,aliases,unchanged,deployment,edgeProtected,bind} from './verify.mjs';
++import {context,paths,getReader,plan,inspectGate} from './preflight.mjs';
++export {context,paths,getReader,plan,inspectGate} from './preflight.mjs';
++import {all,at,atAsync,reportFailure,fail} from './diagnostics.mjs';
+ export function deployArgs(cli,emptyConfig){return [cli,'deploy','--prebuilt','--target','preview','--non-interactive','--json','--scope',policy.teamId,'--global-config',emptyConfig];}
+-export function plan(receipt,go,ctx,now){approval(go,ctx,now);need(receipt.version==='native-build-receipt/1'&&receipt.policySha256===hash(fs.readFileSync(new URL('./policy.json',import.meta.url)))&&['plainBundleSha256','inventorySha256','cipherSha256'].every(k=>/^[a-f0-9]{64}$/.test(receipt[k]))&&receipt.sourceCalls===false&&receipt.deployed===false);need(receipt.source.commit===go.commit&&receipt.source.project===policy.projectId&&receipt.source.branch===policy.branch&&receipt.source.verificationOnly===false);return {kind:'NATIVE_PREVIEW_UPLOAD_PLAN/1',commit:go.commit,tree:receipt.source.tree,project:policy.projectId,target:'preview',maxCliInvocations:1,plainBundleSha256:receipt.plainBundleSha256,inventorySha256:receipt.inventorySha256,sourceGo:false,sql:false,deploy:false};}
+-export async function inspectGate(ctx,go,gh,vc,now){
+- const p=paths(ctx),comment=approval(go,ctx,now),run=await gh(p.run);need(run.id===ctx.runId&&run.head_sha===ctx.sha&&run.head_branch===policy.branch&&run.workflow_id===policy.workflowId&&run.path==='.github/workflows/native-pilot-admission.yml'&&run.status==='in_progress'&&run.event==='workflow_dispatch'&&run.repository?.id===policy.repositoryId&&run.head_repository?.id===policy.repositoryId);
+- const env=await gh(p.environment),branches=await gh(p.branches),reviews=await gh(p.reviews);ownerGate(env,branches,reviews,comment);
+- const pub=project(await vc(p.project)),a=await vc(p.aliases);need(!a.pagination?.next&&!a.pagination?.until);const before=aliases(a.aliases);
+- const hooks=await vc(p.webhooks),hookList=Array.isArray(hooks)?hooks:hooks.webhooks;need(Array.isArray(hookList)&&hookList.length===0&&!hooks.pagination?.next);
+- const configs=await vc(p.integrations);need(!configs.pagination?.next&&Array.isArray(configs.configurations));need(configs.configurations.every(c=>Array.isArray(c.projects)&&!c.projects.includes(policy.projectId))); // unknown/global installations HOLD
+- return {project:pub,aliases:before};
+-}
+ export function publicGET(origin,suffix){need(/^https:\/\/scout-stonk-intel-[a-z0-9-]+-riskledgerapp\.vercel\.app$/.test(origin)&&['/lens','/api/native-pilot','/api/native-pilot/owner/status'].includes(suffix));return new Promise((resolve,reject)=>{
+  let q,timer,done=false,size=0,auth=false;const chunks=[];const fail=()=>{if(done)return;done=true;clearTimeout(timer);q?.destroy();reject(Error('NATIVE_BUILD_HOLD'));};
+  const host=new URL(origin).hostname;q=https.request({hostname:host,servername:host,path:suffix,method:'GET',agent:false,rejectUnauthorized:true,minVersion:'TLSv1.2',checkServerIdentity,headers:{'user-agent':'unfarmd-source-off-protection-check','accept-encoding':'identity'}},r=>{
+@@ -33,33 +14,35 @@ export function publicGET(origin,suffix){need(/^https:\/\/scout-stonk-intel-[a-z
+  });timer=setTimeout(fail,4000);q.on('error',fail);q.on('socket',s=>s.once('secureConnect',()=>{auth=s.authorized&&!checkServerIdentity(host,s.getPeerCertificate());if(!auth)fail();}));q.end();
+  });}
+ export async function once({root,toolRoot,receipt,go,ctx,journal,gh,vc,run,probe,clock=Date.now}){
+- plan(receipt,go,ctx,clock());need(!fs.existsSync(journal));const gate=await inspectGate(ctx,go,gh,vc,clock());
+- const proof=await source(root,go.commit);need(proof.tree===receipt.source.tree);verifyLink(root);await cliGitMetadata(toolRoot,root,proof);need(inventory(path.join(root,'.vercel/output')).sha256===receipt.inventorySha256);approval(go,ctx,clock());
+- const fd=fs.openSync(journal,'wx',0o600);try{fs.writeFileSync(fd,JSON.stringify({version:'native-preview-attempt/1',run:ctx.runId,commit:proof.commit,plainBundleSha256:receipt.plainBundleSha256,state:'started_unconfirmed',activate:false}));fs.fsyncSync(fd);}finally{fs.closeSync(fd);}
+- let raw;try{raw=await run();}catch{throw Error('NATIVE_PREVIEW_HOLD_STARTED_UNCONFIRMED');}
+- let d;try{const value=JSON.parse(raw);d=value.deployment??value;need(/^dpl_[A-Za-z0-9]{8,100}$/.test(d.id));}catch{throw Error('NATIVE_PREVIEW_HOLD_STARTED_UNCONFIRMED');}
+- fs.appendFileSync(journal,'\n'+JSON.stringify({version:'native-preview-attempt/1',run:ctx.runId,commit:proof.commit,deploymentId:d.id,state:'acknowledged',activate:false})+'\n',{mode:0o600});
++ plan(receipt,go,ctx,clock());all([['EXISTING_JOURNAL',()=>!fs.existsSync(journal)]]);const gate=await inspectGate(ctx,go,gh,vc,clock());
++ const proof=await atAsync('LOCAL_SOURCE',()=>source(root,go.commit));all([['LOCAL_TREE',()=>proof.tree===receipt.source.tree]]);at('LOCAL_PROJECT_LINK',()=>verifyLink(root));await atAsync('LOCAL_CLI_GIT',()=>cliGitMetadata(toolRoot,root,proof));all([['LOCAL_OUTPUT',()=>inventory(path.join(root,'.vercel/output')).sha256===receipt.inventorySha256]]);approval(go,ctx,clock());
++ at('JOURNAL_WRITE',()=>{const fd=fs.openSync(journal,'wx',0o600);try{fs.writeFileSync(fd,JSON.stringify({version:'native-preview-attempt/1',run:ctx.runId,commit:proof.commit,plainBundleSha256:receipt.plainBundleSha256,state:'started_unconfirmed',activate:false}));fs.fsyncSync(fd);}finally{fs.closeSync(fd);}});
++ let raw;try{raw=await run();}catch{fail('CLI_INVOCATION','unclassified');}
++ let d;try{const value=JSON.parse(raw);d=value.deployment??value;need(/^dpl_[A-Za-z0-9]{8,100}$/.test(d.id));}catch{fail('CLI_ACK','json');}
++ at('JOURNAL_ACK',()=>fs.appendFileSync(journal,'\n'+JSON.stringify({version:'native-preview-attempt/1',run:ctx.runId,commit:proof.commit,deploymentId:d.id,state:'acknowledged',activate:false})+'\n',{mode:0o600}));
+  const p=paths(ctx,d.id),actual=await vc(p.deployment),identity=deployment(actual,receipt);const post=await vc(p.aliases);need(!post.pagination?.next&&!post.pagination?.until);const after=aliases(post.aliases);unchanged(gate.aliases,after);
+  const edge=[];for(const route of ['/lens','/api/native-pilot','/api/native-pilot/owner/status']){const result=await probe(identity.origin,route);edgeProtected(result);edge.push({path:route,status:result.status,authenticationRestrictionObserved:true});}
+  approval(go,ctx,clock());const binding=bind(receipt,actual,gate.aliases,after,{id:ctx.runId,head_sha:ctx.sha,head_branch:ctx.branch,repository_id:ctx.repositoryId});
+  return {...binding,edge,ownerRuntimeVerification:'PENDING_AUTHENTICATED_OWNER_BROWSER',sourceGo:false,setupAdmission:false};
+ }
+ async function main(){
++ let cliState='not_started';
+  try{
+-  const [mode,root,toolRoot,receiptFile,goFile,journal]=process.argv.slice(2),receipt=JSON.parse(fs.readFileSync(receiptFile)),go=JSON.parse(fs.readFileSync(goFile)),ctx=context(process.env);
++  const [mode,root,toolRoot,receiptFile,goFile,journal]=process.argv.slice(2),receipt=at('INPUT_RECEIPT',()=>JSON.parse(fs.readFileSync(receiptFile))),go=at('INPUT_APPROVAL',()=>JSON.parse(fs.readFileSync(goFile))),ctx=context(process.env);
+   if(mode==='plan'){console.log(JSON.stringify(plan(receipt,go,ctx,Date.now())));return;}
+-  need(mode==='execute'&&process.env.NATIVE_PREVIEW_OPERATION==='ONE_OWNER_APPROVED_SOURCE_OFF_PREVIEW');
+-  plan(receipt,go,ctx,Date.now());const folder=path.dirname(receiptFile),plain=fs.readFileSync(path.join(folder,'output.private.json')),body=JSON.parse(plain);need(hash(plain)===receipt.plainBundleSha256&&canonical(body.source)===canonical(receipt.source)&&body.inventory.sha256===receipt.inventorySha256&&hash(fs.readFileSync(path.join(folder,'build.aesgcm')))===receipt.cipherSha256);const cli=tools(toolRoot),cfg=fs.mkdtempSync(path.join(os.tmpdir(),'native-empty-deploy-cli-'));
++  all([['OPERATION',()=>mode==='execute'&&process.env.NATIVE_PREVIEW_OPERATION==='ONE_OWNER_APPROVED_SOURCE_OFF_PREVIEW']]);
++  plan(receipt,go,ctx,Date.now());const folder=path.dirname(receiptFile),plain=at('BUNDLE_READ',()=>fs.readFileSync(path.join(folder,'output.private.json'))),body=at('BUNDLE_READ',()=>JSON.parse(plain));all([['BUNDLE_HASH',()=>hash(plain)===receipt.plainBundleSha256],['BUNDLE_SOURCE',()=>canonical(body.source)===canonical(receipt.source)],['BUNDLE_INVENTORY',()=>body.inventory.sha256===receipt.inventorySha256],['CIPHER_HASH',()=>hash(fs.readFileSync(path.join(folder,'build.aesgcm')))===receipt.cipherSha256]]);const cli=at('TOOLCHAIN',()=>tools(toolRoot)),cfg=at('EMPTY_CONFIG',()=>fs.mkdtempSync(path.join(os.tmpdir(),'native-empty-deploy-cli-')));
+   const ghPaths=paths(ctx),gh=getReader('api.github.com',process.env.NATIVE_ADMISSION_READ_TOKEN,new Set([ghPaths.run,ghPaths.reviews,ghPaths.environment,ghPaths.branches]));
+   const vcPaths=new Set([ghPaths.project,ghPaths.aliases,ghPaths.webhooks,ghPaths.integrations]);
+   // Only this actual known deployment ID may be added after a parsed CLI acknowledgement.
+   const vcBase=getReader('api.vercel.com',process.env.VERCEL_TOKEN,vcPaths),vc=p=>vcBase(p);
+   const result=await once({root,toolRoot,receipt,go,ctx,journal,gh,vc,probe:publicGET,run:()=>{
+    const env={PATH:process.env.PATH,HOME:process.env.HOME,NO_UPDATE_NOTIFIER:'1',VERCEL_TELEMETRY_DISABLED:'1',VERCEL_TOKEN:process.env.VERCEL_TOKEN};
++   cliState='started_unconfirmed';
+    const stdout=execFileSync(process.execPath,deployArgs(cli,cfg),{cwd:root,env,encoding:'utf8',stdio:['ignore','pipe','pipe'],timeout:120000,maxBuffer:1048576});
+-   try{const v=JSON.parse(stdout),d=v.deployment??v;if(/^dpl_[A-Za-z0-9]{8,100}$/.test(d.id))vcPaths.add(paths(ctx,d.id).deployment);}catch{/* The one-shot controller preserves uncertain acknowledgement. */}return stdout;
++   try{const v=JSON.parse(stdout),d=v.deployment??v;if(/^dpl_[A-Za-z0-9]{8,100}$/.test(d.id)){cliState='acknowledged';vcPaths.add(paths(ctx,d.id).deployment);}}catch{/* The one-shot controller preserves uncertain acknowledgement. */}return stdout;
+   }});
+   const dest=process.env.GITHUB_OUTPUT;if(dest)fs.appendFileSync(dest,'artifact_name='+result.artifactName+'\n');fs.writeFileSync(path.join(path.dirname(receiptFile),'binding.json'),JSON.stringify(result,null,2)+'\n',{flag:'wx',mode:0o600});console.log(JSON.stringify(result));
+- }catch{console.error('NATIVE_PREVIEW_HOLD: preserve bundle and attempt journal; no retry, rebuild, cleanup or promotion.');process.exitCode=1;}
++ }catch(error){console.error(JSON.stringify(reportFailure(error,cliState)));console.error('NATIVE_PREVIEW_HOLD: preserve bundle and attempt journal; no retry, rebuild, cleanup or promotion.');process.exitCode=1;}
+ }
+ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))main();
+diff --git a/ops/native-beta-output/verify.mjs b/ops/native-beta-output/verify.mjs
+index a9b6543..4088abd 100644
+--- a/ops/native-beta-output/verify.mjs
++++ b/ops/native-beta-output/verify.mjs
+@@ -1,29 +1,30 @@
+ // Pure deployment/protection/binding verification. Does not call an endpoint or confer source authority.
+-import {policy,need,hash,canonical} from './output.mjs';
++import {policy,hash,canonical} from './output.mjs';
++import {all} from './diagnostics.mjs';
+ export function approval(x,context,now){
+- need(context.repositoryId===policy.repositoryId&&context.actorId===policy.ownerId&&context.attempt===1&&context.branch===policy.branch&&context.sha===x.commit&&Number.isSafeInteger(context.runId)&&context.runId>0);
+- need(x.version==='native-preview-go/1'&&x.project===policy.projectId&&x.branch===policy.branch&&x.runId===context.runId&&/^[a-f0-9]{40}$/.test(x.commit)&&Number.isSafeInteger(now)&&Number.isSafeInteger(x.startsAt)&&Number.isSafeInteger(x.expiresAt)&&x.startsAt<=now&&now<x.expiresAt&&x.expiresAt-x.startsAt>0&&x.expiresAt-x.startsAt<=1800000&&x.maxPreviews===1&&x.sourceGo===false&&x.sql===false&&x.noNativePreviewBindings===true&&x.externalHandlersReviewed===true);
++ all([['APPROVAL_CONTEXT_REPOSITORY',()=>context.repositoryId===policy.repositoryId],['APPROVAL_CONTEXT_OWNER',()=>context.actorId===policy.ownerId],['APPROVAL_CONTEXT_ATTEMPT',()=>context.attempt===1],['APPROVAL_CONTEXT_BRANCH',()=>context.branch===policy.branch],['APPROVAL_CONTEXT_SHA',()=>context.sha===x.commit],['APPROVAL_CONTEXT_RUN_INTEGER',()=>Number.isSafeInteger(context.runId)],['APPROVAL_CONTEXT_RUN_POSITIVE',()=>context.runId>0]]);
++ all([['APPROVAL_VERSION',()=>x.version==='native-preview-go/1'],['APPROVAL_PROJECT',()=>x.project===policy.projectId],['APPROVAL_BRANCH',()=>x.branch===policy.branch],['APPROVAL_RUN_ID',()=>x.runId===context.runId],['APPROVAL_SHA_FORMAT',()=>/^[a-f0-9]{40}$/.test(x.commit)],['APPROVAL_TIME_INTEGER',()=>Number.isSafeInteger(now)],['APPROVAL_START_INTEGER',()=>Number.isSafeInteger(x.startsAt)],['APPROVAL_EXPIRY_INTEGER',()=>Number.isSafeInteger(x.expiresAt)],['APPROVAL_STARTED',()=>x.startsAt<=now],['APPROVAL_NOT_EXPIRED',()=>now<x.expiresAt],['APPROVAL_POSITIVE_WINDOW',()=>x.expiresAt-x.startsAt>0],['APPROVAL_BOUNDED_WINDOW',()=>x.expiresAt-x.startsAt<=1800000],['APPROVAL_ONE_PREVIEW',()=>x.maxPreviews===1],['APPROVAL_SOURCE_OFF',()=>x.sourceGo===false],['APPROVAL_SQL_OFF',()=>x.sql===false],['APPROVAL_NO_NATIVE_BINDINGS',()=>x.noNativePreviewBindings===true],['APPROVAL_HANDLERS_REVIEWED',()=>x.externalHandlersReviewed===true]]);
+  return 'APPROVE_NATIVE_PREVIEW_ONCE '+x.runId+' '+x.commit+' '+policy.projectId+' '+x.expiresAt;
+ }
+ export function ownerGate(env,branches,reviews,comment){
+- need(env.id===policy.environmentId&&env.name===policy.environment&&env.can_admins_bypass===false&&env.deployment_branch_policy?.protected_branches===false&&env.deployment_branch_policy.custom_branch_policies===true);
+- const rules=env.protection_rules;need(Array.isArray(rules)&&rules.length>=1&&rules.length<=2&&rules.every(r=>['required_reviewers','branch_policy'].includes(r.type)));
+- const r=rules.filter(x=>x.type==='required_reviewers');need(r.length===1&&r[0].prevent_self_review===false&&r[0].reviewers?.length===1&&r[0].reviewers[0].type==='User'&&r[0].reviewers[0].reviewer?.id===policy.ownerId);
+- need(branches.total_count===1&&branches.branch_policies?.length===1&&branches.branch_policies[0].type==='branch'&&branches.branch_policies[0].name===policy.branch);
+- need(reviews.length===1&&reviews[0].state==='approved'&&reviews[0].user?.id===policy.ownerId&&reviews[0].user.type==='User'&&reviews[0].comment===comment&&reviews[0].environments?.length===1&&reviews[0].environments[0].id===policy.environmentId);return true;
++ all([['OWNER_ENVIRONMENT_ID',()=>env.id===policy.environmentId],['OWNER_ENVIRONMENT_NAME',()=>env.name===policy.environment],['OWNER_ENVIRONMENT_NO_ADMIN_BYPASS',()=>env.can_admins_bypass===false],['OWNER_ENVIRONMENT_NO_PROTECTED_BRANCH_FALLBACK',()=>env.deployment_branch_policy?.protected_branches===false],['OWNER_ENVIRONMENT_CUSTOM_BRANCH_RULES',()=>env.deployment_branch_policy.custom_branch_policies===true]]);
++ const rules=env.protection_rules;all([['OWNER_RULES_ARRAY',()=>Array.isArray(rules)],['OWNER_RULES_NONEMPTY',()=>rules.length>=1],['OWNER_RULES_BOUNDED',()=>rules.length<=2],['OWNER_RULES_KNOWN_TYPES',()=>rules.every(r=>['required_reviewers','branch_policy'].includes(r.type))]]);
++ const r=rules.filter(x=>x.type==='required_reviewers');all([['OWNER_REVIEWER_SOLE_RULE',()=>r.length===1],['OWNER_REVIEWER_SELF_REVIEW_SETTING',()=>r[0].prevent_self_review===false],['OWNER_REVIEWER_SOLE_REVIEWER',()=>r[0].reviewers?.length===1],['OWNER_REVIEWER_USER_TYPE',()=>r[0].reviewers[0].type==='User'],['OWNER_REVIEWER_OWNER_ID',()=>r[0].reviewers[0].reviewer?.id===policy.ownerId]]);
++ all([['OWNER_BRANCH_ONE_RULE',()=>branches.total_count===1],['OWNER_BRANCH_ONE_ENTRY',()=>branches.branch_policies?.length===1],['OWNER_BRANCH_BRANCH_TYPE',()=>branches.branch_policies[0].type==='branch'],['OWNER_BRANCH_EXACT_NAME',()=>branches.branch_policies[0].name===policy.branch]]);
++ all([['OWNER_REVIEW_ONE_REVIEW',()=>reviews.length===1],['OWNER_REVIEW_APPROVED',()=>reviews[0].state==='approved'],['OWNER_REVIEW_OWNER_ID',()=>reviews[0].user?.id===policy.ownerId],['OWNER_REVIEW_USER_TYPE',()=>reviews[0].user.type==='User'],['OWNER_REVIEW_EXACT_COMMENT',()=>reviews[0].comment===comment],['OWNER_REVIEW_ONE_ENVIRONMENT',()=>reviews[0].environments?.length===1],['OWNER_REVIEW_ENVIRONMENT_ID',()=>reviews[0].environments[0].id===policy.environmentId]]);return true;
+ }
+-export function project(p){need(p.id===policy.projectId&&p.accountId===policy.teamId&&p.name==='scout-stonk-intel'&&p.nodeVersion==='24.x'&&p.link?.type==='github'&&p.link.org==='fuzzysniper'&&p.link.repo==='scout-stonk-intel');need(p.ssoProtection?.enabled!==false&&['all','preview','all_except_custom_domains','prod_deployment_urls_and_all_previews'].includes(p.ssoProtection?.deploymentType));return {id:p.id,team:p.accountId,name:p.name,nodeVersion:p.nodeVersion,authentication:p.ssoProtection.deploymentType};}
+-export function aliases(rows){need(Array.isArray(rows)&&rows.length<=1000);const out={};for(const x of rows){need(x.projectId===policy.projectId&&typeof x.alias==='string'&&/^[a-z0-9.-]+$/.test(x.alias)&&/^dpl_[A-Za-z0-9]+$/.test(x.deploymentId)&&!Object.hasOwn(out,x.alias));out[x.alias]=x.deploymentId;}for(const n of ['unfarmd.com','scout.storkcoin.xyz','scout-stonk-intel.vercel.app','scout-stonk-intel-git-main-riskledgerapp.vercel.app'])need(Object.hasOwn(out,n));return out;}
+-export function unchanged(before,after){for(const [name,id]of Object.entries(before))need(after[name]===id);return true;}
+-export function deployment(d,receipt){need(d.projectId===policy.projectId&&(d.target==='preview'||Object.hasOwn(d,'target')&&d.target===null)&&!d.customEnvironment&&!d.customEnvironmentSlugOrId&&d.readyState==='READY'&&/^dpl_[A-Za-z0-9]{8,100}$/.test(d.id)&&/^scout-stonk-intel-[a-z0-9-]+-riskledgerapp\.vercel\.app$/.test(d.url)&&!d.url.includes('-git-'));need(d.meta?.githubCommitSha===receipt.source.commit&&d.meta.githubCommitRef===policy.branch&&d.meta.githubOrg==='fuzzysniper'&&d.meta.githubRepo==='scout-stonk-intel');return {id:d.id,origin:'https://'+d.url,commit:receipt.source.commit,tree:receipt.source.tree,branch:policy.branch,project:policy.projectId};}
++export function project(p){all([['PROJECT_ID',()=>p.id===policy.projectId],['PROJECT_TEAM_ID',()=>p.accountId===policy.teamId],['PROJECT_NAME',()=>p.name==='scout-stonk-intel'],['PROJECT_NODE_VERSION',()=>p.nodeVersion==='24.x'],['PROJECT_GIT_PROVIDER',()=>p.link?.type==='github'],['PROJECT_GIT_OWNER',()=>p.link.org==='fuzzysniper'],['PROJECT_GIT_REPO',()=>p.link.repo==='scout-stonk-intel']]);all([['PROJECT_PROTECTION_NOT_DISABLED',()=>p.ssoProtection?.enabled!==false],['PROJECT_PROTECTION_COVERS_PREVIEW',()=>['all','preview','all_except_custom_domains','prod_deployment_urls_and_all_previews'].includes(p.ssoProtection?.deploymentType)]]);return {id:p.id,team:p.accountId,name:p.name,nodeVersion:p.nodeVersion,authentication:p.ssoProtection.deploymentType};}
++export function aliases(rows){all([['ALIASES_ARRAY',()=>Array.isArray(rows)],['ALIASES_BOUNDED',()=>rows.length<=1000]]);const out={};for(const x of rows){all([['ALIAS_PROJECT_ID',()=>x.projectId===policy.projectId],['ALIAS_NAME_STRING',()=>typeof x.alias==='string'],['ALIAS_NAME_FORMAT',()=>/^[a-z0-9.-]+$/.test(x.alias)],['ALIAS_DEPLOYMENT_FORMAT',()=>/^dpl_[A-Za-z0-9]+$/.test(x.deploymentId)],['ALIAS_UNIQUE',()=>!Object.hasOwn(out,x.alias)]]);out[x.alias]=x.deploymentId;}for(const n of ['unfarmd.com','scout.storkcoin.xyz','scout-stonk-intel.vercel.app','scout-stonk-intel-git-main-riskledgerapp.vercel.app'])all([['ALIASES_REQUIRED_PRESENT',()=>Object.hasOwn(out,n)]]);return out;}
++export function unchanged(before,after){for(const [name,id]of Object.entries(before))all([['ALIASES_UNCHANGED',()=>after[name]===id]]);return true;}
++export function deployment(d,receipt){all([['DEPLOYMENT_PROJECT_ID',()=>d.projectId===policy.projectId],['DEPLOYMENT_PREVIEW_TARGET',()=>(d.target==='preview'||Object.hasOwn(d,'target')&&d.target===null)],['DEPLOYMENT_NO_CUSTOM_ENVIRONMENT',()=>!d.customEnvironment],['DEPLOYMENT_NO_CUSTOM_SLUG',()=>!d.customEnvironmentSlugOrId],['DEPLOYMENT_READY',()=>d.readyState==='READY'],['DEPLOYMENT_ID_FORMAT',()=>/^dpl_[A-Za-z0-9]{8,100}$/.test(d.id)],['DEPLOYMENT_UNIQUE_HOST',()=>/^scout-stonk-intel-[a-z0-9-]+-riskledgerapp\.vercel\.app$/.test(d.url)],['DEPLOYMENT_NOT_BRANCH_HOST',()=>!d.url.includes('-git-')]]);all([['DEPLOYMENT_GIT_SHA',()=>d.meta?.githubCommitSha===receipt.source.commit],['DEPLOYMENT_GIT_BRANCH',()=>d.meta.githubCommitRef===policy.branch],['DEPLOYMENT_GIT_OWNER',()=>d.meta.githubOrg==='fuzzysniper'],['DEPLOYMENT_GIT_REPO',()=>d.meta.githubRepo==='scout-stonk-intel']]);return {id:d.id,origin:'https://'+d.url,commit:receipt.source.commit,tree:receipt.source.tree,branch:policy.branch,project:policy.projectId};}
+ export function edgeProtected(r){
+- need(r.credentials==='omit'&&r.redirected!==true);const u=r.location?new URL(r.location):null;
++ all([['EDGE_NO_CREDENTIALS',()=>r.credentials==='omit'],['EDGE_NO_REDIRECT_FOLLOW',()=>r.redirected!==true]]);const u=r.location?new URL(r.location):null;
+  const redirect=[302,303,307,308].includes(r.status)&&u?.protocol==='https:'&&u.hostname==='vercel.com'&&/^\/(?:login|sso-api)(?:\/|$)/.test(u.pathname);
+  const challenge=[401,403].includes(r.status)&&r.authenticationMarker===true&&r.applicationJson!==true;
+- need(redirect||challenge);return true;
++ all([['EDGE_PROTECTED',()=>redirect||challenge]]);return true;
+ }
+-export function authenticated(r){need(r.credentials==='owner-browser-session'&&r.redirected===false);if(r.path==='/lens')need(r.status===200&&r.html===true);else if(r.path==='/api/native-pilot')need(r.status===503&&r.error==='native_pilot_off');else{need(r.path==='/api/native-pilot/owner/status'&&r.status===503&&r.error==='native_owner_unavailable');}return true;}
++export function authenticated(r){all([['BROWSER_OWNER_SESSION',()=>r.credentials==='owner-browser-session'],['BROWSER_NO_REDIRECT',()=>r.redirected===false]]);if(r.path==='/lens')all([['BROWSER_LENS_STATUS',()=>r.status===200],['BROWSER_LENS_HTML',()=>r.html===true]]);else if(r.path==='/api/native-pilot')all([['BROWSER_API_STATUS',()=>r.status===503],['BROWSER_API_OFF',()=>r.error==='native_pilot_off']]);else{all([['BROWSER_OWNER_ROUTE',()=>r.path==='/api/native-pilot/owner/status'],['BROWSER_OWNER_STATUS',()=>r.status===503],['BROWSER_OWNER_UNAVAILABLE',()=>r.error==='native_owner_unavailable']]);}return true;}
+ export function bind(receipt,d,before,after,artifactRun){
+- need(receipt.source.verificationOnly===false&&receipt.source.branch===policy.branch&&artifactRun.head_sha===receipt.source.commit&&artifactRun.head_branch===policy.branch&&artifactRun.repository_id===policy.repositoryId&&Number.isSafeInteger(artifactRun.id)&&artifactRun.id>0);unchanged(before,after);
++ all([['ARTIFACT_RUN_NOT_VERIFICATION_ONLY',()=>receipt.source.verificationOnly===false],['ARTIFACT_RUN_BRANCH',()=>receipt.source.branch===policy.branch],['ARTIFACT_RUN_SHA',()=>artifactRun.head_sha===receipt.source.commit],['ARTIFACT_RUN_RUN_BRANCH',()=>artifactRun.head_branch===policy.branch],['ARTIFACT_RUN_REPOSITORY',()=>artifactRun.repository_id===policy.repositoryId],['ARTIFACT_RUN_ID_INTEGER',()=>Number.isSafeInteger(artifactRun.id)],['ARTIFACT_RUN_ID_POSITIVE',()=>artifactRun.id>0]]);unchanged(before,after);
+  const identity=deployment(d,receipt);return {version:'native-preview-binding/1',identity,inventorySha256:receipt.inventorySha256,plainBundleSha256:receipt.plainBundleSha256,artifactName:'native-pilot-build-'+identity.id,artifactRunId:artifactRun.id,sourceGo:false,setupAdmission:false,productionAliasesUnchanged:true,bindingSha256:hash(canonical(identity))};
+ }
+diff --git a/tests/preview-preflight-diagnostics/contracts.test.mjs b/tests/preview-preflight-diagnostics/contracts.test.mjs
+new file mode 100644
+index 0000000..f5b9090
+--- /dev/null
++++ b/tests/preview-preflight-diagnostics/contracts.test.mjs
+@@ -0,0 +1,22 @@
++// SYNTHETIC offline API replies only. No workflow credential, archive key or service call.
++import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import {execFileSync} from 'node:child_process';import ts from 'typescript';
++import {all,fail,safeFailure,reportFailure} from '../../ops/native-beta-output/diagnostics.mjs';
++import {context,plan,paths,integrationListing} from '../../ops/native-beta-output/preflight.mjs';
++import {approval,ownerGate,project,aliases} from '../../ops/native-beta-output/verify.mjs';
++import {inspectionAuthority,inspectionPlan,evaluateInspection} from '../../ops/native-beta-output/inspect-only.mjs';
++import {context as ctxFixture,go,time,controls,dpl,aliasRows,sha,tree} from '../native-beta-output/fixtures.mjs';
++import {policy,hash} from '../../ops/native-beta-output/output.mjs';
++const BASE='972dc257f75c3f88087c49feda803af9e3bc7b7c';
++function clauses(text,kind){const sf=ts.createSourceFile('guard.mjs',text,ts.ScriptTarget.Latest,true,ts.ScriptKind.JS),out=[];function flat(n){return ts.isBinaryExpression(n)&&n.operatorToken.kind===ts.SyntaxKind.AmpersandAmpersandToken?[...flat(n.left),...flat(n.right)]:[n];}function walk(n){if(ts.isCallExpression(n)&&n.expression.getText(sf)===kind){if(kind==='need')out.push(flat(n.arguments[0]).map(x=>x.getText(sf).replace(/\s/g,'')));else out.push(n.arguments[0].elements.map(x=>x.elements[1].body.getText(sf).replace(/\s/g,'')));}ts.forEachChild(n,walk);}walk(sf);return out;}
++test('every existing verification predicate is byte-equivalent after splitting only top-level AND for categorical failures',()=>{const old=execFileSync('git',['show',BASE+':ops/native-beta-output/verify.mjs']).toString(),now=fs.readFileSync('ops/native-beta-output/verify.mjs','utf8');assert.deepEqual(clauses(now,'all'),clauses(old,'need'));assert.equal(clauses(old,'need').length,22);});
++test('real saved approval/run identity fields pass; in-progress status below is explicitly reconstructed, not a captured token response',()=>{const ctx={repositoryId:1415026436,actorId:58099771,attempt:1,branch:policy.branch,sha:BASE,runId:43518878650},g={...go(BASE),runId:ctx.runId,startsAt:1794608160000,expiresAt:1794609960000},comment=approval(g,ctx,Date.parse('2026-11-13T22:27:08.715Z'));assert.equal(comment,'APPROVE_NATIVE_PREVIEW_ONCE 43518878650 '+BASE+' '+policy.projectId+' 1794609960000');const c=controls(comment);assert.ok(ownerGate(c.environment,c.branches,c.reviews,comment));assert.equal(context({MODE:'preview-output',GITHUB_EVENT_NAME:'workflow_dispatch',APPROVED_SHA:BASE,GITHUB_SHA:BASE,GITHUB_REPOSITORY_ID:'1415026436',GITHUB_ACTOR_ID:'58099771',GITHUB_RUN_ATTEMPT:'1',GITHUB_REF:'refs/heads/'+policy.branch,GITHUB_RUN_ID:'43518878650'}).sha,BASE);});
++function recordThrow(f,code){try{f();assert.fail('must fail');}catch(e){assert.equal(e.message,'NATIVE_BUILD_HOLD');assert.equal(safeFailure(e).check,code);}}
++test('exact source/clock/owner/bypass/branch/review/project/protection/alias predicates have secret-safe identifiers',()=>{const c=ctxFixture(),g=go();recordThrow(()=>approval(g,{...c,actorId:1},time),'APPROVAL_CONTEXT_OWNER');recordThrow(()=>approval(g,c,g.expiresAt),'APPROVAL_NOT_EXPIRED');const x=controls(approval(g,c,time));let a=structuredClone(x);a.environment.can_admins_bypass=true;recordThrow(()=>ownerGate(a.environment,a.branches,a.reviews,a.reviews[0].comment),'OWNER_ENVIRONMENT_NO_ADMIN_BYPASS');a=structuredClone(x);a.branches.branch_policies[0].name='*';recordThrow(()=>ownerGate(a.environment,a.branches,a.reviews,a.reviews[0].comment),'OWNER_BRANCH_EXACT_NAME');a=structuredClone(x);a.reviews[0].comment+='SYNTHETIC_PRIVATE';recordThrow(()=>ownerGate(a.environment,a.branches,a.reviews,x.reviews[0].comment),'OWNER_REVIEW_EXACT_COMMENT');const p={id:policy.projectId,accountId:policy.teamId,name:'scout-stonk-intel',nodeVersion:'22.x',link:{type:'github',org:'fuzzysniper',repo:'scout-stonk-intel'},ssoProtection:{deploymentType:'all'}};recordThrow(()=>project(p),'PROJECT_NODE_VERSION');recordThrow(()=>project({...p,nodeVersion:'24.x',ssoProtection:null}),'PROJECT_PROTECTION_COVERS_PREVIEW');recordThrow(()=>aliases(aliasRows().slice(1)),'ALIASES_REQUIRED_PRESENT');});
++test('documented integration array works; original wrapper and all no-global/no-project/no-pagination gates are preserved',()=>{assert.ok(integrationListing([]));assert.ok(integrationListing({configurations:[]}));assert.ok(integrationListing([{projects:['prj_OTHER_SYNTHETIC']}])) ;for(const x of [[{projects:[]}],[{projects:['prj_OTHER'],projectSelection:'all'}],[{projects:['prj_OTHER'],projectSelection:'unknown'}],[{projects:[null]}],[{projects:null}],[{}],[{projects:[policy.projectId]}],{configurations:[{projects:undefined}]},{configurations:[],pagination:{next:'SYNTHETIC'}}])assert.throws(()=>integrationListing(x));assert.throws(()=>integrationListing(Array.from({length:1001},()=>({projects:[]}))));assert.ok(paths(ctxFixture()).integrations.startsWith('/v1/integrations/configurations?view=account&'));assert.ok(!paths(ctxFixture()).integrations.includes('installationType='));});
++test('original integration preflight fails on the documented array; exact original code is exercised unchanged',async()=>{const p=fs.mkdtempSync(path.join(os.tmpdir(),'preview-original-'));try{execFileSync('git',['worktree','add','--quiet','--detach',p,BASE]);const script=`import {inspectGate} from './ops/native-beta-output/upload.mjs';import {context,go,time,controls,aliasRows} from './tests/native-beta-output/fixtures.mjs';import {approval} from './ops/native-beta-output/verify.mjs';import {policy} from './ops/native-beta-output/output.mjs';const c=context(),g=go(),x=controls(approval(g,c,time));let last='';const gh=async s=>s.endsWith('/approvals')?x.reviews:s.includes('deployment-branch-policies')?x.branches:s.includes('/environments/')?x.environment:{id:c.runId,head_sha:c.sha,head_branch:c.branch,workflow_id:policy.workflowId,path:'.github/workflows/native-pilot-admission.yml',status:'in_progress',event:'workflow_dispatch',repository:{id:policy.repositoryId},head_repository:{id:policy.repositoryId}};const vc=async s=>{last=s;return s.includes('/projects/')?{id:policy.projectId,accountId:policy.teamId,name:'scout-stonk-intel',nodeVersion:'24.x',link:{type:'github',org:'fuzzysniper',repo:'scout-stonk-intel'},ssoProtection:{deploymentType:'all'}}:s.includes('/aliases?')?{aliases:aliasRows()}:[];};let held=false;try{await inspectGate(c,g,gh,vc,time)}catch{held=true}if(!held||!last.includes('/v1/integrations/installations?'))throw Error('REPRODUCTION_FAILED');console.log('ORIGINAL_CONTRACT_DEFECT_REPRODUCED_WITH_SYNTHETIC_ARRAY');`;execFileSync(process.execPath,['--input-type=module','-e',script],{cwd:p,stdio:['ignore','pipe','pipe']});}finally{execFileSync('git',['worktree','remove','--force',p],{stdio:'ignore'});}});
++function synthetic(ctx,manifest){const p=paths(ctx),comment=inspectionAuthority(ctx,manifest,time),x=controls(comment),run={id:ctx.runId,head_sha:ctx.sha,head_branch:ctx.branch,workflow_id:policy.workflowId,path:'.github/workflows/native-pilot-admission.yml',status:'in_progress',event:'workflow_dispatch',repository:{id:policy.repositoryId},head_repository:{id:policy.repositoryId}},responses={
++ [p.run]:run,[p.environment]:x.environment,[p.branches]:x.branches,[p.reviews]:x.reviews,[p.project]:{id:policy.projectId,accountId:policy.teamId,name:'scout-stonk-intel',nodeVersion:'24.x',link:{type:'github',org:'fuzzysniper',repo:'scout-stonk-intel'},ssoProtection:{deploymentType:'all'}},[p.aliases]:{aliases:aliasRows()},[p.webhooks]:[],[p.integrations]:[]};const seen=[];const read=async s=>{seen.push(s);if(!(s in responses))fail('VC_LEGACY_INTEGRATIONS','http_status',404);return structuredClone(responses[s]);};return {responses,seen,gh:read,vc:read,p};}
++const manifest=ctx=>({version:'native-preview-inspection/1',commit:ctx.sha,runId:ctx.runId,project:policy.projectId,branch:policy.branch,maxRequests:9,startsAt:time-1,expiresAt:time+10000,deploy:false,sourceGo:false,sql:false,archiveKey:false});
++test('GET-only positive/negative inspection never creates upload authority; exact nine-path budget, old endpoint comparison only, stop on failed controls',async()=>{const c=ctxFixture(),m=manifest(c),r=synthetic(c,m),v=await evaluateInspection({ctx:c,manifest:m,gh:r.gh,vc:r.vc,clock:()=>time});assert.equal(v.checksPassed,true);assert.equal(v.calls,9);assert.equal(v.activate,false);assert.equal(v.decision,'HOLD_NO_DEPLOYMENT_AUTHORITY');assert.equal(v.results.at(-1).failure.httpStatus,404);assert.ok(inspectionPlan(c).requests.every(r=>r.method==='GET'&&!r.path.includes('/deployments')));assert.throws(()=>inspectionAuthority(c,go(),time));assert.throws(()=>approval(m,c,time));for(const attack of ['review','project','aliases','global','expired']){const f=synthetic(c,m);if(attack==='review')f.responses[f.p.reviews][0].user.id=1;if(attack==='project')f.responses[f.p.project].id='prj_WRONG';if(attack==='aliases')f.responses[f.p.aliases].pagination={next:1};if(attack==='global')f.responses[f.p.integrations]=[{}];const held=await evaluateInspection({ctx:c,manifest:m,gh:f.gh,vc:f.vc,clock:()=>attack==='expired'?m.expiresAt:time});assert.equal(held.activate,false);assert.equal(held.checksPassed,false);assert.ok(held.calls<9);if(attack==='review')assert.equal(f.seen.filter(s=>s.startsWith('/v')).length,0);}});
++test('redaction rejects unknown identifiers and never serializes malicious errors, body, token, URL, key or stack',()=>{const marker='SYNTHETIC_PRIVATE_BODY_TOKEN_KEY';const e=Object.assign(Error(marker),{toJSON(){throw Error(marker)}});assert.doesNotMatch(JSON.stringify(reportFailure(e)),new RegExp(marker));for(const state of ['not_started','started_unconfirmed','acknowledged',marker]){let error;try{fail(marker,marker,marker)}catch(e){error=e;}const text=JSON.stringify(reportFailure(error,state));assert.doesNotMatch(text,new RegExp(marker));assert.ok(text.includes('UNCLASSIFIED'));}recordThrow(()=>all([['RUN_ID',()=>{throw Error(marker)}]]),'RUN_ID');});
++test('receipt/mode categories remain fail-closed and policy/locks are unchanged',()=>{const c=ctxFixture(),g=go(),r={version:'native-build-receipt/1',policySha256:hash(fs.readFileSync('ops/native-beta-output/policy.json')),plainBundleSha256:'a'.repeat(64),inventorySha256:'b'.repeat(64),cipherSha256:'c'.repeat(64),sourceCalls:false,deployed:false,source:{commit:sha,tree,branch:policy.branch,project:policy.projectId,verificationOnly:false}};assert.ok(plan(r,g,c,time));recordThrow(()=>plan({...r,cipherSha256:'PRIVATE'},g,c,time),'RECEIPT_HASHES');recordThrow(()=>context({MODE:'setup'}),'CONTEXT_MODE');for(const p of ['policy.json','toolchain/package.json','toolchain/package-lock.json'])assert.deepEqual(fs.readFileSync('ops/native-beta-output/'+p),execFileSync('git',['show',BASE+':ops/native-beta-output/'+p]));assert.equal(dpl().projectId,policy.projectId);});
+diff --git a/tests/preview-preflight-diagnostics/real-tls.mjs b/tests/preview-preflight-diagnostics/real-tls.mjs
+new file mode 100644
+index 0000000..4f868c7
+--- /dev/null
++++ b/tests/preview-preflight-diagnostics/real-tls.mjs
+@@ -0,0 +1,11 @@
++// Actual native HTTPS/SNI/CA test on loopback ONLY. Synthetic ephemeral TLS key.
++// Run under the existing OS namespace + no-database guards, never against a provider.
++import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import https from 'node:https';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
++import {getReader,paths} from '../../ops/native-beta-output/preflight.mjs';import {context} from '../native-beta-output/fixtures.mjs';
++assert.deepEqual(Object.keys(os.networkInterfaces()),['lo']);
++const dir=fs.mkdtempSync('/tmp/SYNTHETIC-preview-tls-'),key=path.join(dir,'key.pem'),cert=path.join(dir,'cert.pem');
++execFileSync('openssl',['req','-x509','-newkey','rsa:2048','-nodes','-days','1','-subj','/CN=api.github.com','-addext','subjectAltName=DNS:api.github.com','-keyout',key,'-out',cert],{stdio:'ignore'});
++let seen=0,sni=false;const server=https.createServer({key:fs.readFileSync(key),cert:fs.readFileSync(cert)},(req,res)=>{seen++;assert.equal(req.method,'GET');res.setHeader('Content-Type','application/json');res.end('{"synthetic":true}');});server.on('secureConnection',s=>{sni=s.servername==='api.github.com'});
++await new Promise(r=>server.listen(0,'127.0.0.1',r));const original=https.request;
++https.request=(opts,cb)=>{assert.equal(opts.hostname,'api.github.com');assert.equal(opts.servername,'api.github.com');assert.equal(opts.rejectUnauthorized,true);assert.equal(opts.minVersion,'TLSv1.2');return original({...opts,hostname:'127.0.0.1',port:server.address().port,ca:fs.readFileSync(cert)},cb);};
++try{const p=paths(context()).run,read=getReader('api.github.com','SYNTHETIC_TOKEN_123456789',new Set([p]));assert.deepEqual(await read(p),{synthetic:true});assert.equal(seen,1);assert.equal(sni,true);console.log(JSON.stringify({kind:'ACTUAL_LOOPBACK_TLS_SYNTHETIC_CA',strictCertificateAndHostname:true,nativeClientSniProperty:true,requests:seen,externalRoutes:0,providerCalls:0,sourceGo:false}));}finally{https.request=original;await new Promise(r=>server.close(r));fs.rmSync(dir,{recursive:true,force:true});}
+diff --git a/tests/preview-preflight-diagnostics/review.json b/tests/preview-preflight-diagnostics/review.json
+new file mode 100644
+index 0000000..2e93d37
+--- /dev/null
++++ b/tests/preview-preflight-diagnostics/review.json
+@@ -0,0 +1,76 @@
++{
++  "version": "native-preview-diagnostic-review/1",
++  "base": "972dc257f75c3f88087c49feda803af9e3bc7b7c",
++  "modified": {
++    ".github/workflows/native-beta-release.yml": {
++      "mode": "100644",
++      "sha256": "a005f697843c44142d6a9f1306b1ac6d264902002c9fd698670cb5eede711e68"
++    },
++    "ops/native-beta-output/upload.mjs": {
++      "mode": "100644",
++      "sha256": "d44fe59f9b54be8b3b15942f8c36be1a7e0d770a37662edbb382811d7179a844"
++    },
++    "ops/native-beta-output/verify.mjs": {
++      "mode": "100644",
++      "sha256": "c8b0fecfc6815843cbbfd6471699c8fe29b63c61247d85cef083f33ff6fdab24"
++    }
++  },
++  "added": {
++    ".github/workflows/preview-preflight-diagnostics.yml": {
++      "mode": "100644",
++      "sha256": "526c00fb6bf68beb8e4bfc7f088c4c300961a97d0fee3e49b82daea000bbebf4"
++    },
++    "ops/native-beta-output/INCIDENT-43518878650.md": {
++      "mode": "100644",
++      "sha256": "d33d388f94ea698ccd324b7adffaeae4ff520ae52ba9b757c169bc5b8c2ebe7b"
++    },
++    "ops/native-beta-output/checks.json": {
++      "mode": "100644",
++      "sha256": "65f965cae009da2db179481637b1207edff236b0ea379cfe6d3f552fb42de9ba"
++    },
++    "ops/native-beta-output/diagnostics.mjs": {
++      "mode": "100644",
++      "sha256": "1acf3243131f675108a3d243bd552b18e7f20efeec1ab1f12e8eb0d8dbdec8a4"
++    },
++    "ops/native-beta-output/inspect-only.mjs": {
++      "mode": "100644",
++      "sha256": "6b3725e06bce447a8f952060d2c7e509283e813190afb0dc227a81ebd5f37fbd"
++    },
++    "ops/native-beta-output/preflight.mjs": {
++      "mode": "100644",
++      "sha256": "e6e0b1667d50aa2bec54faa4fa34de404affef276964b8f05413869cf63ae6eb"
++    },
++    "tests/preview-preflight-diagnostics/contracts.test.mjs": {
++      "mode": "100644",
++      "sha256": "5cd407ce008aa1c82de3324e55433108ff125200fc1a4fbe5d8ffe4b6f77089c"
++    },
++    "tests/preview-preflight-diagnostics/real-tls.mjs": {
++      "mode": "100644",
++      "sha256": "e0ce914a99691b7425197b51e2c070130dfd99495775624330d556cb7f6237cd"
++    },
++    "tests/preview-preflight-diagnostics/review.json": {
++      "mode": "100644",
++      "sha256": null
++    },
++    "tests/preview-preflight-diagnostics/review.mjs": {
++      "mode": "100644",
++      "sha256": null
++    },
++    "tests/preview-preflight-diagnostics/scope.test.mjs": {
++      "mode": "100644",
++      "sha256": null
++    },
++    "tests/preview-preflight-diagnostics/tar-reachability.test.mjs": {
++      "mode": "100644",
++      "sha256": "034e7be6f16656ecb6d622be38d578a46bb8b964cfd0a489930b4bdf58b10af0"
++    },
++    "tests/preview-preflight-diagnostics/tls-isolated.sh": {
++      "mode": "100755",
++      "sha256": "c79244b0824eba7ffc34f6f75dceed4524d37b59d1149cbfef1dac014f35c507"
++    },
++    "tests/preview-preflight-diagnostics/transport.test.mjs": {
++      "mode": "100644",
++      "sha256": "3c884ba771bd284b1215276271337e3b9b917067fabb4a8a303c51c4f0a4ea5b"
++    }
++  }
++}
+diff --git a/tests/preview-preflight-diagnostics/review.mjs b/tests/preview-preflight-diagnostics/review.mjs
+new file mode 100644
+index 0000000..92eafb1
+--- /dev/null
++++ b/tests/preview-preflight-diagnostics/review.mjs
+@@ -0,0 +1,17 @@
++// Finite unapplied correction; original baseline reviewers stay immutable and are replayed.
++import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
++export const BASE='972dc257f75c3f88087c49feda803af9e3bc7b7c';export const hash=b=>createHash('sha256').update(b).digest('hex');
++const blob=b=>createHash('sha1').update('blob '+b.length+'\0').update(b).digest('hex');
++export function review(root=process.cwd(),committed=true){
++ const raw=(...a)=>execFileSync('git',a,{cwd:root,maxBuffer:64*1024*1024}),git=(...a)=>raw(...a).toString().trim(),read=p=>fs.readFileSync(path.join(root,p));
++ assert.equal(git('rev-parse',BASE+'^{tree}'),'d4f046f798271d07e52c4b2503f31697c97e9042');const m=JSON.parse(read('tests/preview-preflight-diagnostics/review.json'));assert.equal(m.base,BASE);
++ assert.deepEqual(Object.keys(m.modified).sort(),['.github/workflows/native-beta-release.yml','ops/native-beta-output/upload.mjs','ops/native-beta-output/verify.mjs']);
++ for(const line of git('ls-tree','-r',BASE).split('\n')){const [a,p]=line.split('\t'),[mode,,id]=a.split(' '),s=fs.lstatSync(path.join(root,p));assert.ok(s.isFile()&&!s.isSymbolicLink(),p);assert.equal(s.mode&0o111?'100755':'100644',mode,p);if(!m.modified[p])assert.equal(blob(read(p)),id,p+' immutable original');}
++ for(const [p,x]of Object.entries({...m.modified,...m.added})){assert.ok(m.modified[p]||p.startsWith('ops/native-beta-output/')||p.startsWith('tests/preview-preflight-diagnostics/')||p==='.github/workflows/preview-preflight-diagnostics.yml');const s=fs.lstatSync(path.join(root,p));assert.ok(s.isFile()&&!s.isSymbolicLink());assert.equal(s.mode&0o111?'100755':'100644',x.mode);if(x.sha256)assert.equal(hash(read(p)),x.sha256,p);}
++ assert.deepEqual(Object.entries(m.added).filter(([,x])=>x.sha256===null).map(([p])=>p).sort(),['tests/preview-preflight-diagnostics/review.json','tests/preview-preflight-diagnostics/review.mjs','tests/preview-preflight-diagnostics/scope.test.mjs']);
++ const changed=[...new Set([...git('diff','--name-only','--no-renames',BASE).split('\n'),...git('ls-files','--others','--exclude-standard').split('\n')].filter(Boolean))].sort();assert.deepEqual(changed,[...Object.keys(m.modified),...Object.keys(m.added)].sort());
++ const ci=read('.github/workflows/native-beta-release.yml').toString().replaceAll('tests/preview-preflight-diagnostics/scope.test.mjs','tests/native-beta-output/scope.test.mjs');assert.equal(ci,raw('show',BASE+':.github/workflows/native-beta-release.yml').toString(),'no original job/check removed or skipped');
++ const workflow=read('.github/workflows/preview-preflight-diagnostics.yml').toString();assert.doesNotMatch(workflow,/workflow_dispatch|\$\{\{\s*secrets\.|environment:|deployments:\s*write|upload-artifact|vercel deploy/);assert.match(workflow,/no-database\.mjs/);
++ if(committed){assert.equal(git('show','-s','--format=%P','HEAD'),BASE);for(const line of git('ls-tree','-r','HEAD').split('\n')){const [a,p]=line.split('\t');assert.equal(blob(read(p)),a.split(' ')[2],p+' committed bytes');}}
++ return m;
++}
+diff --git a/tests/preview-preflight-diagnostics/scope.test.mjs b/tests/preview-preflight-diagnostics/scope.test.mjs
+new file mode 100644
+index 0000000..0eccfd5
+--- /dev/null
++++ b/tests/preview-preflight-diagnostics/scope.test.mjs
+@@ -0,0 +1,5 @@
++import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {execFileSync} from 'node:child_process';import {review,hash,BASE} from './review.mjs';
++const REVIEWER='33bd24889fe478699da3ff13d652621424a8d646f7137b0412a57dcb98f3015b',MANIFEST='daf722422f422723bec6203629e9fa8154292ed1b92d99285c4ccc212c22d744';
++test('finite diagnostic patch freezes all app/lib/SQL/collector/workflow/limits/trust and package bytes',()=>{assert.equal(hash(fs.readFileSync('tests/preview-preflight-diagnostics/review.mjs')),REVIEWER);assert.equal(hash(fs.readFileSync('tests/preview-preflight-diagnostics/review.json')),MANIFEST);review();});
++test('original baseline guard and all20 focused tests execute unchanged at immutable installed972, with no database use',()=>{const p=fs.mkdtempSync('/tmp/preview-immutable-');try{execFileSync('git',['worktree','add','--quiet','--detach',p,BASE]);fs.symlinkSync(path.resolve('node_modules'),p+'/node_modules');fs.symlinkSync(path.resolve('ops/native-beta-output/toolchain/node_modules'),p+'/ops/native-beta-output/toolchain/node_modules');const env={...process.env};delete env.NODE_TEST_CONTEXT;const output=execFileSync(process.execPath,['--test','--test-reporter=tap','tests/native-beta-output/output.test.mjs','tests/native-beta-output/verify.test.mjs','tests/native-beta-output/upload.test.mjs','tests/native-beta-output/workflow.test.mjs','tests/native-beta-output/scope.test.mjs'],{cwd:p,env,stdio:['ignore','pipe','pipe'],timeout:120000}).toString();assert.match(output,/# tests 20\b/);assert.match(output,/# pass 20\b/);assert.match(output,/# fail 0\b/);assert.match(output,/# skipped 0\b/);}finally{execFileSync('git',['worktree','remove','--force',p],{stdio:'ignore'});}});
++test('scope catches runtime/SQL/security/publisher/branch/settings/additional-path tampering',()=>{const p=fs.mkdtempSync(path.join(os.tmpdir(),'preview-patch-tamper-'));try{execFileSync('git',['clone','--shared','--quiet','--no-checkout',process.cwd(),p]);execFileSync('git',['checkout','--quiet','--detach','HEAD'],{cwd:p});review(p);for(const f of ['lib/native-pilot/auth.ts','lib/native-pilot/engine.ts','lib/native-pilot/postgres/schema.sql','.github/workflows/native-pilot-admission.yml','ops/native-pilot-admission/publisher.mjs','ops/native-beta-output/policy.json','vercel.json']){const file=path.join(p,f),old=fs.readFileSync(file);fs.appendFileSync(file,'\nSYNTHETIC');assert.throws(()=>review(p,false));fs.writeFileSync(file,old);}fs.writeFileSync(path.join(p,'UNAPPROVED'),'SYNTHETIC');assert.throws(()=>review(p,false));}finally{fs.rmSync(p,{recursive:true,force:true});}});
+diff --git a/tests/preview-preflight-diagnostics/tar-reachability.test.mjs b/tests/preview-preflight-diagnostics/tar-reachability.test.mjs
+new file mode 100644
+index 0000000..95642e5
+--- /dev/null
++++ b/tests/preview-preflight-diagnostics/tar-reachability.test.mjs
+@@ -0,0 +1,8 @@
++// Genuine pinned module import/Git metadata only; NEVER invokes the deploy command.
++import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import {createRequire} from 'node:module';import {pathToFileURL} from 'node:url';
++import {tools,cliGitMetadata,source} from '../../ops/native-beta-output/build.mjs';import {localSource} from '../native-beta-output/fixtures.mjs';
++const root=path.resolve('ops/native-beta-output/toolchain'),require=createRequire(import.meta.url);
++test('critical tar remains pinned; parser sinks belong to container archives and native-addon installation, not the fixed metadata helper',async()=>{
++ const container=path.join(root,'node_modules/@vercel/container/dist/index.js'),tar=JSON.parse(fs.readFileSync(path.join(root,'node_modules/tar/package.json')));assert.equal(tar.version,'7.5.11');const s=fs.readFileSync(container,'utf8');assert.equal((s.match(/import_tar\.extract\)/g)??[]).length,3);assert.match(s,/async function fetchPinnedArchive/);assert.match(s,/async function fetchBuildpackage/);assert.match(s,/downloadPinnedArchive/);const policy=fs.readFileSync('ops/native-beta-output/output.mjs','utf8');assert.match(policy,/\['nodejs24\.x','edge'\]\.includes\(c.runtime\)/);
++ const f=localSource();try{tools(root);const proof=await source(f.root,f.source.commit);await cliGitMetadata(root,f.root,proof);assert.ok(!Object.keys(require.cache).some(p=>p.startsWith(path.join(root,'node_modules/tar/'))),'actual pre-journal metadata helper loaded no vulnerable parser');await import(pathToFileURL(path.join(root,'node_modules/vercel/dist/commands/deploy/index.js')).href);assert.ok(!Object.keys(require.cache).some(p=>p.startsWith(path.join(root,'node_modules/tar/'))),'import-only evidence, not a command-execution proof');}finally{fs.rmSync(f.root,{recursive:true,force:true});}
++});
+diff --git a/tests/preview-preflight-diagnostics/tls-isolated.sh b/tests/preview-preflight-diagnostics/tls-isolated.sh
+new file mode 100755
+index 0000000..bcb0be6
+--- /dev/null
++++ b/tests/preview-preflight-diagnostics/tls-isolated.sh
+@@ -0,0 +1,12 @@
++#!/usr/bin/env bash
++set -euo pipefail
++cd "$(dirname "$0")/../.."
++diagnostic_preloads="--import=$PWD/tests/native-postgres/namespace-only.mjs --import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs"
++diagnostic_args=(env -i PATH="$PATH" HOME="$HOME" NODE_OPTIONS="$diagnostic_preloads" node tests/preview-preflight-diagnostics/real-tls.mjs)
++if unshare --user --map-root-user --net true 2>/dev/null; then
++ exec unshare --user --map-root-user --net bash -c 'set -e; ip link set lo up; exec "$@"' native "${diagnostic_args[@]}"
++elif command -v sudo >/dev/null && sudo -n true 2>/dev/null; then
++ exec sudo -n unshare --net bash -c 'set -e; ip link set lo up; uid=$1; gid=$2; shift 2; exec setpriv --reuid="$uid" --regid="$gid" --clear-groups "$@"' native "$(id -u)" "$(id -g)" "${diagnostic_args[@]}"
++else
++ echo 'REQUIRED_ISOLATION_UNAVAILABLE' >&2;exit 1
++fi
+diff --git a/tests/preview-preflight-diagnostics/transport.test.mjs b/tests/preview-preflight-diagnostics/transport.test.mjs
+new file mode 100644
+index 0000000..ebff4b1
+--- /dev/null
++++ b/tests/preview-preflight-diagnostics/transport.test.mjs
+@@ -0,0 +1,9 @@
++import test from 'node:test';import assert from 'node:assert/strict';import https from 'node:https';import {EventEmitter} from 'node:events';import fs from 'node:fs';import path from 'node:path';
++import {getReader,paths} from '../../ops/native-beta-output/preflight.mjs';import {reportFailure} from '../../ops/native-beta-output/diagnostics.mjs';import {context} from '../native-beta-output/fixtures.mjs';
++const MARKER='SYNTHETIC_SECRET_BODY_HEADER_TOKEN_DO_NOT_LOG',TOKEN='SYNTHETIC_TOKEN_123456789012345';
++test('every API status/transport failure is categorized, bounded, TLS-pinned, GET-only, single-attempt and secret-safe',async t=>{for(const scenario of ['ok','401','403','404','429','503','redirect','type','link','encoding','oversize','chunks','incomplete','empty','json','utf8','tls-auth','tls-sni','tls-version','timeout','network']){
++ let requests=0,opts;const hook=t.mock.method(https,'request',(options,callback)=>{requests++;opts=options;const q=new EventEmitter();q.destroy=()=>{};q.end=()=>queueMicrotask(()=>{const s=new EventEmitter();s.authorized=scenario!=='tls-auth';s.servername=scenario==='tls-sni'?'wrong.test':'api.vercel.com';s.getProtocol=()=>scenario==='tls-version'?'TLSv1.1':'TLSv1.3';s.getPeerCertificate=()=>({subjectaltname:'DNS:api.vercel.com'});q.emit('socket',s);s.emit('secureConnect');if(['timeout','tls-auth','tls-sni','tls-version'].includes(scenario))return;if(scenario==='network'){q.emit('error',Error(MARKER));return;}const r=new EventEmitter();r.statusCode=/^\d+$/.test(scenario)?Number(scenario):scenario==='redirect'?307:200;r.headers={'content-type':scenario==='type'?'text/plain':'application/json',...(scenario==='link'?{link:MARKER}:{}),...(scenario==='encoding'?{'content-encoding':'gzip'}:{})};r.complete=scenario!=='incomplete';r.destroy=()=>{};callback(r);if(scenario==='chunks')for(let i=0;i<257;i++)r.emit('data',Buffer.from(' '));else if(scenario!=='empty')r.emit('data',scenario==='utf8'?Buffer.from([0xff]):Buffer.from(scenario==='oversize'?'x'.repeat(1048577):scenario==='json'?MARKER:JSON.stringify({body:MARKER})));r.emit('end');});return q;});
++ try{const p=paths(context()).project,read=getReader('api.vercel.com',TOKEN,new Set([p]));if(scenario==='ok')assert.equal((await read(p)).body,MARKER);else await assert.rejects(read(p),e=>{const x=reportFailure(e);assert.equal(x.check,'VC_PROJECT');const expected=/^\d+$/.test(scenario)||scenario==='redirect'?'http_status':({'type':'content_type','link':'pagination','encoding':'encoding','oversize':'response_bound','chunks':'response_bound','incomplete':'incomplete','empty':'incomplete','json':'json','utf8':'json','tls-auth':'tls','tls-sni':'tls','tls-version':'tls','timeout':'timeout','network':'network'})[scenario];assert.equal(x.reason,expected,scenario);if(expected==='http_status')assert.equal(x.httpStatus,opts&&scenario==='redirect'?307:Number(scenario));assert.doesNotMatch(JSON.stringify(x),new RegExp(MARKER+'|'+TOKEN));return true;});assert.equal(requests,1);assert.equal(opts.method,'GET');assert.equal(opts.servername,'api.vercel.com');assert.equal(opts.rejectUnauthorized,true);assert.equal(opts.minVersion,'TLSv1.2');assert.equal(opts.agent,false);assert.equal(opts.headers.authorization,'Bearer '+TOKEN);assert.ok(!('body'in opts));}finally{hook.mock.restore();}
++ }});
++test('missing/invalid token and unapproved path make zero API requests; no secret shape data is printed',async t=>{let calls=0;const hook=t.mock.method(https,'request',()=>{calls++;throw Error(MARKER)});try{for(const value of [undefined,'',MARKER+'\n'])assert.throws(()=>getReader('api.vercel.com',value,new Set()),e=>{assert.equal(reportFailure(e).check,'VC_TOKEN');assert.doesNotMatch(JSON.stringify(reportFailure(e)),new RegExp(MARKER));return true;});const read=getReader('api.vercel.com',TOKEN,new Set(['/fixed']));await assert.rejects(read('/arbitrary'),e=>reportFailure(e).check==='REQUEST_ALLOWED');assert.equal(calls,0);}finally{hook.mock.restore();}});
++test('unwired inspection has no CLI/upload/archive-key/POST entry; fixed reader is the only network capability',()=>{const root=path.resolve('ops/native-beta-output'),visited=new Set();function walk(file){if(visited.has(file))return;visited.add(file);const text=fs.readFileSync(file,'utf8');assert.doesNotMatch(text,/from ['"]node:child_process|from ['"][^'"]*(?:upload|build)\.mjs|import\(['"][^'"]*vercel|UNFARMD_NATIVE_BUILD_ARCHIVE_KEY/);for(const m of text.matchAll(/from ['"](.+?)['"]/g))if(m[1].startsWith('.'))walk(path.resolve(path.dirname(file),m[1]));}walk(path.join(root,'inspect-only.mjs'));const source=fs.readFileSync(path.join(root,'preflight.mjs'),'utf8');assert.equal((source.match(/https\.request\(/g)??[]).length,1);assert.match(source,/method:'GET'/);assert.doesNotMatch(source,/method:'(?:POST|PATCH|PUT|DELETE)'|execFileSync|\.deploy\(/);const inspector=fs.readFileSync(path.join(root,'inspect-only.mjs'),'utf8');assert.doesNotMatch(inspector,/process\.env|process\.argv|\.seal\(|\.open\(|\.restore\(|writeFile/);});
+-- 
+2.52.0
+
