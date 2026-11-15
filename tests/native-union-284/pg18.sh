@@ -16,4 +16,8 @@ cp ops/v4-journal/{native-tls.mjs,sources.json} "$current_pg_build/ops/v4-journa
 ln -s "$PWD/node_modules" "$current_pg_build/node_modules"
 export REMOTE_BUILD="$current_pg_build" NATIVE_BUILD="$current_pg_build" NATIVE_LENS_BUILD="$current_pg_build" NODE_PATH="$PWD/node_modules:$PWD/node_modules/next/dist/compiled" NODE_ENV=test
 export NODE_OPTIONS="--import=$PWD/tests/native-postgres/namespace-only.mjs --import=$PWD/tests/security114/local-only.mjs"
-node --conditions=react-server tests/native-union-284/pg18.test.mjs
+if [[ ${1:-} == 'clock-diagnose' ]]; then
+ node --conditions=react-server tests/native-union-284/clock-pg18.mjs
+else
+ node --conditions=react-server tests/native-union-284/pg18.test.mjs
+fi

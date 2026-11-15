@@ -3,10 +3,11 @@
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 node --input-type=module -e "import {requireLocalPg18Approval} from './tests/native-postgres/pg18-approval.mjs'; requireLocalPg18Approval();"
+[[ $# -le 1 && ( ${1:-} == '' || ${1:-} == 'clock-diagnose' ) ]] || exit 1
 current_pg_bin=${SCOUT_TEST_PG_BIN:?Checksum-pinned PG18 build required}
 [[ "$($current_pg_bin/postgres --version)" == 'postgres (PostgreSQL) 18.6' ]]
 current_root=$PWD
-current_args=(env -i PATH="$PATH" SCOUT_TEST_PG_BIN="$current_pg_bin" SCOUT_TEST_PG_SHARE="${SCOUT_TEST_PG_SHARE:?}" NODE_OPTIONS="--import=$current_root/tests/native-postgres/namespace-only.mjs" bash tests/native-union-284/pg18.sh)
+current_args=(env -i PATH="$PATH" SCOUT_TEST_PG_BIN="$current_pg_bin" SCOUT_TEST_PG_SHARE="${SCOUT_TEST_PG_SHARE:?}" NODE_OPTIONS="--import=$current_root/tests/native-postgres/namespace-only.mjs" bash tests/native-union-284/pg18.sh "${1:-}")
 if unshare --user --map-root-user --net true 2>/dev/null; then
  exec unshare --user --map-root-user --net bash -c 'set -e; ip link set lo up; uid=$1; gid=$2; shift 2; exec unshare --user --map-user="$uid" --map-group="$gid" "$@"' current "$(id -u)" "$(id -g)" "${current_args[@]}"
 elif command -v sudo >/dev/null && sudo -n true 2>/dev/null; then

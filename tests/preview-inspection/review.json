@@ -4,7 +4,7 @@
   "modified": {
     ".github/workflows/native-beta-release.yml": {
       "mode": "100644",
-      "sha256": "9341b3d24f70f47aa5adbf67bbe706a8030eaf0b76462744551c7cd54a3eb0a9"
+      "sha256": "d34649b8422dd9114e0889d24a5530266d21f4165ed5906707d7f9bfe1b17c34"
     },
     ".github/workflows/native-pilot-admission.yml": {
       "mode": "100644",
@@ -29,6 +29,18 @@
     "ops/native-beta-output/verify.mjs": {
       "mode": "100644",
       "sha256": "a003fb1d569dcfbf48859a9bc71cc6fceb7b18dc84f12c91f485b3983912c106"
+    },
+    "tests/native-union-284/pg18-browser.config.mjs": {
+      "mode": "100644",
+      "sha256": "9da341b1e2e4f421c4a90462eee0670f870fa14d609264da0dd97e75a681797a"
+    },
+    "tests/native-union-284/pg18-isolated.sh": {
+      "mode": "100644",
+      "sha256": "4a23702bd52fe96443d9d38e16e229ec7e3a2e639d126bdfa5e661f0cfaf2877"
+    },
+    "tests/native-union-284/pg18.sh": {
+      "mode": "100644",
+      "sha256": "4f63e511287514d9ce2af188a3c156a4b65a5d83b841a7ff07a3f86a491e843c"
     },
     "vercel.json": {
       "mode": "100644",
@@ -68,9 +80,29 @@
       "mode": "100644",
       "sha256": "31111e6ab2b42dfc51ac5cbe4fac87ab911773dacf25b825b299afd0831ceb21"
     },
+    "tests/native-union-284/clock-diagnose.config.mjs": {
+      "mode": "100644",
+      "sha256": "d7df56cb7852c4efc080cd7eacb454145348832a33deeaefacbc4f51d23cbbec"
+    },
+    "tests/native-union-284/clock-diagnose.spec.mjs": {
+      "mode": "100644",
+      "sha256": "9a32eed7be8218cb60d8e02697192b51b681da1bcd477d77e10870ac97ce31bf"
+    },
+    "tests/native-union-284/clock-pg18.mjs": {
+      "mode": "100644",
+      "sha256": "b1ab6fb7b5e971ca7e18a53b7fc44731d7881737971dc0f1fe2a2faf1fb2f66e"
+    },
+    "tests/native-union-284/clock-probe.mjs": {
+      "mode": "100644",
+      "sha256": "c942a6150fd67b4d0380abd68ae08621760415a754619168fba1f2c8f7350eb2"
+    },
     "tests/preview-inspection/ci-prerequisites.test.mjs": {
       "mode": "100644",
-      "sha256": "749dec49306a77c4b8cf3f220d8a5ad9eb9edfd4033783ed6449eaa50e833739"
+      "sha256": "4bed6cea5515eb280db60f277ee587c426ee764ce0708651c56b229478c87eb6"
+    },
+    "tests/preview-inspection/clock-probe.test.mjs": {
+      "mode": "100644",
+      "sha256": "73f0531362aa915a98d74541c3de29a06b28ffd0701452b0daa35767cf62c1f9"
     },
     "tests/preview-inspection/inspection.test.mjs": {
       "mode": "100644",

@@ -27,7 +27,7 @@ test('all seven complete release jobs execute on correction and installed branch
  }
 });
 test('every original release test, command, permission, source-OFF flag and timeout is unchanged after removing only the added prerequisites and named branch',()=>{
- const normalized=source.replaceAll(prereq,'').replaceAll(" || github.head_ref == '"+branch+"'",'');
+ const normalized=source.replace('          bash tests/native-union-284/pg18-isolated.sh clock-diagnose\n','').replace('            node_modules/.cache/native-union-pg18-results/\n            node_modules/.cache/native-clock-diagnosis/\n','').replaceAll(prereq,'').replaceAll(" || github.head_ref == '"+branch+"'",'');
  assert.equal(normalized,execFileSync('git',['show',installed+':.github/workflows/native-beta-release.yml']).toString());
 });
 test('focused inspection and publisher regressions run on correction AND post-install release; fork denial and original commands remain',()=>{
