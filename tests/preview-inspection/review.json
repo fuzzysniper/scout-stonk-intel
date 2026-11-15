@@ -4,7 +4,7 @@
   "modified": {
     ".github/workflows/native-beta-release.yml": {
       "mode": "100644",
-      "sha256": "d34649b8422dd9114e0889d24a5530266d21f4165ed5906707d7f9bfe1b17c34"
+      "sha256": "f625f0022aebce26a6bc5742a136833f87f7bf6b0503ca9099c4d45a7d5e1f21"
     },
     ".github/workflows/native-pilot-admission.yml": {
       "mode": "100644",
@@ -29,6 +29,10 @@
     "ops/native-beta-output/verify.mjs": {
       "mode": "100644",
       "sha256": "a003fb1d569dcfbf48859a9bc71cc6fceb7b18dc84f12c91f485b3983912c106"
+    },
+    "tests/native-union-284/browser.spec.mjs": {
+      "mode": "100644",
+      "sha256": "6c836a408273a15d37bdf6ee9e8cc846282ba0495ef2b17a68c7992c30440047"
     },
     "tests/native-union-284/pg18-browser.config.mjs": {
       "mode": "100644",
@@ -88,13 +92,17 @@
       "mode": "100644",
       "sha256": "9a32eed7be8218cb60d8e02697192b51b681da1bcd477d77e10870ac97ce31bf"
     },
+    "tests/native-union-284/clock-diagnosis.evidence.json": {
+      "mode": "100644",
+      "sha256": "76d99f6c85bdf94dce19fa5be3ae7a9196706a76af5b46800b15d47cecd14b9f"
+    },
     "tests/native-union-284/clock-pg18.mjs": {
       "mode": "100644",
       "sha256": "b1ab6fb7b5e971ca7e18a53b7fc44731d7881737971dc0f1fe2a2faf1fb2f66e"
     },
     "tests/native-union-284/clock-probe.mjs": {
       "mode": "100644",
-      "sha256": "c942a6150fd67b4d0380abd68ae08621760415a754619168fba1f2c8f7350eb2"
+      "sha256": "4417981128353ae10388951f071d0107c0109fae7a4dd96ee9a18ec556560cf3"
     },
     "tests/preview-inspection/ci-prerequisites.test.mjs": {
       "mode": "100644",
@@ -102,7 +110,7 @@
     },
     "tests/preview-inspection/clock-probe.test.mjs": {
       "mode": "100644",
-      "sha256": "73f0531362aa915a98d74541c3de29a06b28ffd0701452b0daa35767cf62c1f9"
+      "sha256": "2c135e5dcd1e6b732767a4e0965e75ac1b6386f4a34f157b90d208f627ecdc8b"
     },
     "tests/preview-inspection/inspection.test.mjs": {
       "mode": "100644",

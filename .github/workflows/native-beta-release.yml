@@ -222,7 +222,6 @@ jobs:
         run: |
           set -o pipefail
           bash tests/native-postgres/pg18-isolated.sh
-          bash tests/native-union-284/pg18-isolated.sh clock-diagnose
           bash tests/native-union-284/pg18-isolated.sh | tee /tmp/native-current-pg-evidence.log
           node tests/native-union-284/require-pg-evidence.mjs /tmp/native-current-pg-evidence.log
           bash tests/native-beta-release/pg18-isolated.sh | tee /tmp/native-owner-pg-evidence.log

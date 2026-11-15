@@ -2,7 +2,7 @@
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {createHash} from 'node:crypto';
 export const BASE='653f3dd4a636a2781b50d3c2891d71a84a7289e7';
 export const PARENT='27bf59b6ace8f24bf113564b5aa0eb0558110fc4';
-export const COMMIT_PARENT='6e7cbda0e5392839bf8890a67786703021004b3b';
+export const COMMIT_PARENT='987af49c1ba266b2e1515cce65b3175fd757bb60';
 export const hash=b=>createHash('sha256').update(b).digest('hex');
 const blob=b=>createHash('sha1').update('blob '+b.length+'\0').update(b).digest('hex');
 const prerequisites=`      - name: Pinned replay prerequisites; no credentials or install scripts
