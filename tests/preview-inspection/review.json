@@ -4,7 +4,7 @@
   "modified": {
     ".github/workflows/native-beta-release.yml": {
       "mode": "100644",
-      "sha256": "7bfa662aa7ab30b1c8dd9d7dea73b10488a3426a476d3ebe14d43776ce361910"
+      "sha256": "9341b3d24f70f47aa5adbf67bbe706a8030eaf0b76462744551c7cd54a3eb0a9"
     },
     ".github/workflows/native-pilot-admission.yml": {
       "mode": "100644",
@@ -12,7 +12,7 @@
     },
     ".github/workflows/preview-preflight-diagnostics.yml": {
       "mode": "100644",
-      "sha256": "00bd5d58619121af88978456684460fa55d6208c8ecec186d462a7a84ff9f98f"
+      "sha256": "9ee2f88b676abcb4ba2fdf1907671ab2073165d06337704309e6dab261dd84d8"
     },
     "ops/native-beta-output/inspect-only.mjs": {
       "mode": "100644",
@@ -32,7 +32,7 @@
     },
     "vercel.json": {
       "mode": "100644",
-      "sha256": "24bf0c69628d9e8d538abb6ead7e6960f8384b56e55624fc9f1884bf17c07096"
+      "sha256": "660e0bbd4701deaba220e7f9578b1703204a841a67a7dc2a3d8a18ec205c1b5a"
     }
   },
   "added": {
@@ -67,6 +67,10 @@
     "ops/native-beta-output/review/local-validation.txt": {
       "mode": "100644",
       "sha256": "31111e6ab2b42dfc51ac5cbe4fac87ab911773dacf25b825b299afd0831ceb21"
+    },
+    "tests/preview-inspection/ci-prerequisites.test.mjs": {
+      "mode": "100644",
+      "sha256": "749dec49306a77c4b8cf3f220d8a5ad9eb9edfd4033783ed6449eaa50e833739"
     },
     "tests/preview-inspection/inspection.test.mjs": {
       "mode": "100644",

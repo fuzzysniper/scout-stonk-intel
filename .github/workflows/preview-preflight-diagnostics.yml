@@ -6,7 +6,7 @@ permissions:
   contents: read
 jobs:
   reviewed-predicate-transport-and-reachability:
-    if: github.head_ref == 'ops/293-get-only-inspection' && github.event.pull_request.head.repo.full_name == github.repository
+    if: (github.head_ref == 'ops/293-get-only-inspection' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -21,8 +21,10 @@ jobs:
       - name: Pinned public dependencies only
         run: |
           npm install --global npm@11.9.0 --ignore-scripts --no-audit --no-fund
+          test "$(npm --version)" = '11.9.0'
           npm ci --ignore-scripts
-          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts --no-audit --no-fund
+          node --input-type=module -e "import {tools} from './ops/native-beta-output/build.mjs'; tools('ops/native-beta-output/toolchain');"
       - name: Offline regression and exact predicate-preservation proofs
         run: |
           export NODE_OPTIONS="--import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs"

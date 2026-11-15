@@ -17,7 +17,8 @@
       "fix/289-publisher-diagnostics-off": false,
       "native-pilot/private-beta-rc": false,
       "ops/291-build-output-packet": false,
-      "ops/293-get-only-inspection": false
+      "ops/293-get-only-inspection": false,
+      "fix/294-release-ci-prerequisites": false
     }
   }
 }

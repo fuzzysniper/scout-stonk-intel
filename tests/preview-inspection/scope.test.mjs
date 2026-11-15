@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {execFileSync} from 'node:child_process';import {BASE,hash,review} from './review.mjs';
-const REVIEWER='038091afd0d6dafb01eeb0f0391b41d4a3680a45f3a143779527a9b9d5404bbb',MANIFEST='0d9f0bc3804ddf8beb6d83ed2bdf0026691d70b1413511e36ab603b9621c02c0';
+const REVIEWER='837e8cce5a9a6bced7529f8258bbff3eaf28be0ed52df453a025c79cb5737ec8',MANIFEST='71f043d87f1cf2431075ce613c65c8e3a69a41a5133006980d269a03acd1964e';
 test('exact finite descendant freezes app/lib/API, SQL, collector, credentials, policies, locks, owner key, publisher and original reviewers',()=>{assert.equal(hash(fs.readFileSync('tests/preview-inspection/review.mjs')),REVIEWER);assert.equal(hash(fs.readFileSync('tests/preview-inspection/review.json')),MANIFEST);review();});
 test('the original recovered correction and its immutable baseline guards execute unchanged, not skipped or relaxed',()=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'inspection-original-'));

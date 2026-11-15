@@ -17,7 +17,7 @@ env:
   SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
 jobs:
   exact-head-public-request-isolation:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -29,6 +29,12 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24.19.0'
+      - name: Pinned replay prerequisites; no credentials or install scripts
+        run: |
+          npm install --global npm@11.9.0 --ignore-scripts --no-audit --no-fund
+          test "$(npm --version)" = '11.9.0'
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts --no-audit --no-fund
+          node --input-type=module -e "import {tools} from './ops/native-beta-output/build.mjs'; tools('ops/native-beta-output/toolchain');"
       - run: npm ci --ignore-scripts
       - run: npm ci --prefix experiments/jupiter-beta-approval/integration --ignore-scripts
       - run: node --test tests/preview-inspection/scope.test.mjs
@@ -45,7 +51,7 @@ jobs:
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-research-v3/run.sh
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
   exact-head-build-import-source-OFF:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -57,6 +63,12 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24.19.0'
+      - name: Pinned replay prerequisites; no credentials or install scripts
+        run: |
+          npm install --global npm@11.9.0 --ignore-scripts --no-audit --no-fund
+          test "$(npm --version)" = '11.9.0'
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts --no-audit --no-fund
+          node --input-type=module -e "import {tools} from './ops/native-beta-output/build.mjs'; tools('ops/native-beta-output/toolchain');"
       - run: npm ci --ignore-scripts
       - name: Actual combined admission claim risk and source regressions
         run: |
@@ -78,7 +90,7 @@ jobs:
           bash scripts/archive-tool.sh check 905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a
           node --test tests/preview-inspection/scope.test.mjs
   exact-head-mobile-accessibility-privacy:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
@@ -90,6 +102,12 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24.19.0'
+      - name: Pinned replay prerequisites; no credentials or install scripts
+        run: |
+          npm install --global npm@11.9.0 --ignore-scripts --no-audit --no-fund
+          test "$(npm --version)" = '11.9.0'
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts --no-audit --no-fund
+          node --input-type=module -e "import {tools} from './ops/native-beta-output/build.mjs'; tools('ops/native-beta-output/toolchain');"
       - run: npm ci --ignore-scripts
       - run: npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
       - name: Local Chromium
@@ -116,7 +134,7 @@ jobs:
           if-no-files-found: error
           include-hidden-files: true
   original-immutable-reviewers:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -128,6 +146,12 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24.19.0'
+      - name: Pinned replay prerequisites; no credentials or install scripts
+        run: |
+          npm install --global npm@11.9.0 --ignore-scripts --no-audit --no-fund
+          test "$(npm --version)" = '11.9.0'
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts --no-audit --no-fund
+          node --input-type=module -e "import {tools} from './ops/native-beta-output/build.mjs'; tools('ops/native-beta-output/toolchain');"
       - run: npm ci --ignore-scripts
       - name: Original A B and security reviewers through281 on each immutable input
         run: |
@@ -135,7 +159,7 @@ jobs:
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-beta-release/replay.sh
       - run: node --test tests/preview-inspection/scope.test.mjs
   original-optimized-isolation:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -147,13 +171,19 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24.19.0'
+      - name: Pinned replay prerequisites; no credentials or install scripts
+        run: |
+          npm install --global npm@11.9.0 --ignore-scripts --no-audit --no-fund
+          test "$(npm --version)" = '11.9.0'
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts --no-audit --no-fund
+          node --input-type=module -e "import {tools} from './ops/native-beta-output/build.mjs'; tools('ops/native-beta-output/toolchain');"
       - run: npm ci --ignore-scripts
       - name: Original optimized v3-absence and exact73-file trace tests unchanged on280
         run: NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-lens/original-build.sh
       - run: node --test tests/preview-inspection/scope.test.mjs
 
   B-owned-current-head-PG18:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -165,6 +195,12 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24.19.0'
+      - name: Pinned replay prerequisites; no credentials or install scripts
+        run: |
+          npm install --global npm@11.9.0 --ignore-scripts --no-audit --no-fund
+          test "$(npm --version)" = '11.9.0'
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts --no-audit --no-fund
+          node --input-type=module -e "import {tools} from './ops/native-beta-output/build.mjs'; tools('ops/native-beta-output/toolchain');"
       - name: Existing B owner approval before any database setup
         run: node --input-type=module -e "import {requireLocalPg18Approval} from './tests/native-postgres/pg18-approval.mjs'; requireLocalPg18Approval();"
       - run: npm ci --ignore-scripts
@@ -203,7 +239,7 @@ jobs:
           include-hidden-files: true
 
   selected-optimized-assembly-not-permanent-OFF:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -215,6 +251,12 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24.19.0'
+      - name: Pinned replay prerequisites; no credentials or install scripts
+        run: |
+          npm install --global npm@11.9.0 --ignore-scripts --no-audit --no-fund
+          test "$(npm --version)" = '11.9.0'
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts --no-audit --no-fund
+          node --input-type=module -e "import {tools} from './ops/native-beta-output/build.mjs'; tools('ops/native-beta-output/toolchain');"
       - run: npm ci --ignore-scripts
       - name: Actual clean-head selected assembly and immutable original OFF profile; synthetic bindings only
         run: NODE_OPTIONS="--import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs" bash tests/native-beta-release/selected-build.sh
