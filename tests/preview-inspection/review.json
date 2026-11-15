@@ -8,7 +8,7 @@
     },
     ".github/workflows/native-pilot-admission.yml": {
       "mode": "100644",
-      "sha256": "74cb6d056745f77d7f8f7fb34817792b504bf5fbd9c845748d30b42ee395067f"
+      "sha256": "c2cc008ea1e1ce778cb497ccd525eb9079ae7ab5577c1bfa10fd7bf13c46ba1a"
     },
     ".github/workflows/preview-preflight-diagnostics.yml": {
       "mode": "100644",
@@ -16,7 +16,7 @@
     },
     "ops/native-beta-output/inspect-only.mjs": {
       "mode": "100644",
-      "sha256": "db83b273f0b985fbd4db155029550b393c80ce029b10130d59b6fe50237f22cd"
+      "sha256": "9f6226fef730092016761c6924eb814a0e768944842784446c4927bd00336823"
     },
     "ops/native-beta-output/output.mjs": {
       "mode": "100644",
@@ -54,7 +54,7 @@
   "added": {
     "ops/native-beta-output/PHONE_INSPECTION.md": {
       "mode": "100644",
-      "sha256": "4ebdb154d677dde110d912d6bca7971df2496fc4df3d7f76febd729c3e9e2073"
+      "sha256": "c839be7932e9ba17d2581ac8cb413ab6c226b7cf4fbb73d720b202957808343c"
     },
     "ops/native-beta-output/identity.mjs": {
       "mode": "100644",
@@ -62,11 +62,11 @@
     },
     "ops/native-beta-output/inspection-card.mjs": {
       "mode": "100644",
-      "sha256": "c9a997f254794edf45e34cd6507a5efb13cdfefeb981bbfb0b5138dcb3067b71"
+      "sha256": "780158654d8376854470c16cdec77f4525828870c6dd6c77610984447b631cf4"
     },
     "ops/native-beta-output/inspection-context.mjs": {
       "mode": "100644",
-      "sha256": "72fcc6960c4f129947d8707d01e8b3ee1cbd0c3eb1e40f70398da22e70cd7fd1"
+      "sha256": "d6b7425ad22d0a14a4e40bc3729f2e2ca04c9de56c8738f8399f90f8a4f2d02d"
     },
     "ops/native-beta-output/inspection-step.mjs": {
       "mode": "100644",
@@ -106,7 +106,7 @@
     },
     "tests/preview-inspection/ci-prerequisites.test.mjs": {
       "mode": "100644",
-      "sha256": "4bed6cea5515eb280db60f277ee587c426ee764ce0708651c56b229478c87eb6"
+      "sha256": "9bde91b2f7c924e08fe92f9d94c9a8d75c3aaec675b9fdcf4366b7823841aa1f"
     },
     "tests/preview-inspection/clock-probe.test.mjs": {
       "mode": "100644",
@@ -114,7 +114,7 @@
     },
     "tests/preview-inspection/inspection.test.mjs": {
       "mode": "100644",
-      "sha256": "15d8a5dcb85cb6d241561aca6ece9bcdd083084c68430ba7855419459ed7dfb1"
+      "sha256": "4f71cd683dd98d616f7d827f078cceb35a41b67220fb3396cc4ee907fdcae7e9"
     },
     "tests/preview-inspection/review.json": {
       "mode": "100644",
@@ -131,6 +131,10 @@
     "tests/preview-inspection/workflow.test.mjs": {
       "mode": "100644",
       "sha256": "dd073c894dcd41eadeb08525770bb29c33a4002c373a32f584c409043b802a69"
+    },
+    "tests/preview-inspection/mobile-card.test.mjs": {
+      "mode": "100644",
+      "sha256": "4339ed508b96a60cd8522bfd8a6a6c586a24e252e3abef174fc6bfd76cd362bf"
     }
   }
 }

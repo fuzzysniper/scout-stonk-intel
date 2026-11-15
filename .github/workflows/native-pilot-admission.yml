@@ -232,7 +232,7 @@ jobs:
         with:
           node-version: '24.19.0'
       - id: card
-        name: Non-authorizing five-minute GET-only approval card
+        name: Non-authorizing 30-minute GET-only approval card
         run: node ops/native-beta-output/inspection-card.mjs
   inspection-read-only:
     if: inputs.mode == 'preview-inspect' && inputs.deployment == '' && inputs.preview_starts_at == '' && inputs.preview_expires_at == '' && inputs.approved_sha == github.sha && github.repository_id == '1415026436' && github.actor_id == '58099771' && github.run_attempt == 1 && github.ref == 'refs/heads/native-pilot/private-beta-rc'

@@ -49,7 +49,7 @@ POST disposition; no inference or cleanup is made for it.
   registration, environment, secret or permission expansion is required.
 - Add secret-free `inspection-context` and protected `inspection-read-only` jobs.
   Both require sole founder identity, exact branch/SHA, attempt1 and empty deployment
-  and Preview clocks. The context generates a five-minute **read-only** manifest
+  and Preview clocks. The context generates a 30-minute **read-only** manifest
   from the actual run, not a reusable upload window. Approval includes its SHA-256.
 - Add finite descendant scope/predicate/transport/reachability/Actions tests and
   replay the original correction and installed baseline guards unchanged. Existing
@@ -83,7 +83,8 @@ After installation and a **separate owner GO** for one GET-only inspection:
 3. `mode`: **preview-inspect**.
 4. `approved_sha`: **the exact installed, separately reviewed final draft head**.
 5. Leave **deployment**, **preview_starts_at**, **preview_expires_at** EMPTY.
-6. Start once. Do not rerun run43518878650 or reuse any old approval/window.
+6. Start once only after separate owner GO. Do not rerun failed runs43518878650
+   or43751726051 or reuse any old approval/window. This correction dispatches nothing.
 
 Expected jobs:
 
@@ -91,15 +92,19 @@ Expected jobs:
 - **inspection-read-only**: waits for existing **native-pilot-setup** owner approval.
 - **context**, **publish**, **preview-context**, **preview-output**: skipped by mode.
 
-Open the context job summary. Copy its exact generated comment into GitHub's
-pending environment review, then explicitly approve as the sole founder:
+Open the **inspection-context** job summary; check its exact run/SHA and expiry
+shown in **UTC** and **America/Chicago**. Paste the generated line into the pending
+**native-pilot-setup** environment review, then approve as the sole founder.
 
+MANDATORY: copy this entire line into the review comment before approving
 ```text
 APPROVE_NATIVE_PREFLIGHT_GET_ONLY <actualRun> <reviewedSHA> prj_OaA9snVrMUkpXuz6cMSKfSZ6fx5Q <expiryMillis> <canonicalManifestSHA256>
 ```
 
-The card expires five minutes after its creation, including review and runner
-startup. Missed expiry, denial, wrong comment/control, failed read or uncertain
+The card expires strictly 30 minutes after its creation, including review and runner
+startup. The protected job still has its original five-minute execution timeout;
+each of its at most nine fixed GETs still has a four-second timeout and no retry.
+A blank, altered or reused comment is rejected; approve only the exact new run card. Missed expiry, denial, wrong comment/control, failed read or uncertain
 completion means **STOP; no retry or new dispatch is authorized**. Do not shorten
 the hash/comment or substitute an upload/setup/source approval.
 

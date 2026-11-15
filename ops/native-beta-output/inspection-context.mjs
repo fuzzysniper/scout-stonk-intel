@@ -11,9 +11,9 @@ export function inspectionContext(env){
  return ctx;
 }
 export function inspectionCard(ctx,now){
- const manifest={version:'native-preview-inspection/1',commit:ctx.sha,runId:ctx.runId,project:policy.projectId,branch:policy.branch,maxRequests:9,startsAt:now,expiresAt:now+300000,deploy:false,sourceGo:false,sql:false,archiveKey:false};
+ const manifest={version:'native-preview-inspection/1',commit:ctx.sha,runId:ctx.runId,project:policy.projectId,branch:policy.branch,maxRequests:9,startsAt:now,expiresAt:now+1800000,deploy:false,sourceGo:false,sql:false,archiveKey:false};
  const comment=inspectionAuthority(ctx,manifest,now);
- return {manifest,manifestSha256:hash(canonical(manifest)),comment,expiresUTC:new Date(manifest.expiresAt).toISOString()};
+ return {manifest,manifestSha256:hash(canonical(manifest)),comment,expiresUTC:new Date(manifest.expiresAt).toISOString(),expiresChicago:new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',dateStyle:'full',timeStyle:'long'}).format(manifest.expiresAt)};
 }
 export function readManifest(ctx,text,now){
  all([['DIAGNOSTIC_AUTHORITY',()=>typeof text==='string'&&text.length>0&&text.length<=4096]]);

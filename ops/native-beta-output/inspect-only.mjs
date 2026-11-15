@@ -10,7 +10,7 @@ export function inspectionPlan(ctx){const p=paths(ctx);return Object.freeze({mod
  ].map(([label,host,path])=>Object.freeze({label,host,path,method:'GET'}))});}
 export function inspectionAuthority(ctx,x,now){all([
  ['DIAGNOSTIC_CONTEXT',()=>ctx.repositoryId===policy.repositoryId&&ctx.actorId===policy.ownerId&&ctx.attempt===1&&ctx.branch===policy.branch&&/^[a-f0-9]{40}$/.test(ctx.sha)&&Number.isSafeInteger(ctx.runId)&&ctx.runId>0],
- ['DIAGNOSTIC_AUTHORITY',()=>x.version==='native-preview-inspection/1'&&x.commit===ctx.sha&&x.runId===ctx.runId&&x.project===policy.projectId&&x.branch===policy.branch&&x.maxRequests===9&&x.deploy===false&&x.sourceGo===false&&x.sql===false&&x.archiveKey===false&&Number.isSafeInteger(now)&&Number.isSafeInteger(x.startsAt)&&Number.isSafeInteger(x.expiresAt)&&x.startsAt<=now&&now<x.expiresAt&&x.expiresAt-x.startsAt>0&&x.expiresAt-x.startsAt<=300000]
+ ['DIAGNOSTIC_AUTHORITY',()=>x.version==='native-preview-inspection/1'&&x.commit===ctx.sha&&x.runId===ctx.runId&&x.project===policy.projectId&&x.branch===policy.branch&&x.maxRequests===9&&x.deploy===false&&x.sourceGo===false&&x.sql===false&&x.archiveKey===false&&Number.isSafeInteger(now)&&Number.isSafeInteger(x.startsAt)&&Number.isSafeInteger(x.expiresAt)&&x.startsAt<=now&&now<x.expiresAt&&x.expiresAt-x.startsAt>0&&x.expiresAt-x.startsAt<=1800000]
  ]);return 'APPROVE_NATIVE_PREFLIGHT_GET_ONLY '+ctx.runId+' '+ctx.sha+' '+policy.projectId+' '+x.expiresAt+' '+hash(canonical(x));}
 export async function evaluateInspection({ctx,manifest,gh,vc,clock=Date.now}){
  let calls=0;const results=[],used=new Set(),p=paths(ctx),plan=inspectionPlan(ctx);

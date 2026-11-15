@@ -23,11 +23,11 @@ function env(){const c=context();return {MODE:'preview-inspect',GITHUB_EVENT_NAM
 test('phone card binds actual run, exact SHA and canonical manifest hash; no upload window or deployment authority',()=>{
  const ctx=inspectionContext(env()),card=inspectionCard(ctx,time);
  assert.equal(card.manifestSha256,hash(canonical(card.manifest)));
- assert.equal(card.comment,'APPROVE_NATIVE_PREFLIGHT_GET_ONLY '+ctx.runId+' '+ctx.sha+' '+policy.projectId+' '+(time+300000)+' '+card.manifestSha256);
+ assert.equal(card.comment,'APPROVE_NATIVE_PREFLIGHT_GET_ONLY '+ctx.runId+' '+ctx.sha+' '+policy.projectId+' '+(time+1800000)+' '+card.manifestSha256);
  assert.deepEqual(readManifest(ctx,canonical(card.manifest),time),card.manifest);
  assert.throws(()=>readManifest(ctx,' '+canonical(card.manifest),time));assert.throws(()=>readManifest(ctx,'null',time));assert.throws(()=>readManifest(ctx,'SYNTHETIC_PRIVATE',time));
  for(const patch of [{MODE:'preview-output'},{GITHUB_RUN_ATTEMPT:'2'},{GITHUB_EVENT_NAME:'push'},{GITHUB_REF:'refs/heads/main'},{GITHUB_ACTOR_ID:'1'},{GITHUB_REPOSITORY:'wrong/repo'},{DEPLOYMENT:'dpl_SYNTHETIC'},{PREVIEW_STARTS_AT:'2030-01-01'},{PREVIEW_EXPIRES_AT:'2030-01-01'},{APPROVED_SHA:'b'.repeat(40)}])assert.throws(()=>inspectionContext({...env(),...patch}));
- for(const now of [time-1,time+300000,NaN])assert.throws(()=>inspectionAuthority(ctx,card.manifest,now));
+ for(const now of [time-1,time+1800000,NaN])assert.throws(()=>inspectionAuthority(ctx,card.manifest,now));
  assert.throws(()=>inspectionAuthority(ctx,go(),time));
 });
 test('exact nine sequential GET catalog; legacy comparison cannot promote inspection to authority',async()=>{
