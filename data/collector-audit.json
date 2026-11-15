@@ -1,11 +1,51 @@
 {
   "version": 1,
-  "checkedAt": "2026-11-14T14:31:46+00:00",
+  "checkedAt": "2026-11-15T14:58:45+00:00",
   "state": "checked",
   "reason": null,
   "workflowState": "active",
-  "scheduledRunCount": 146,
+  "scheduledRunCount": 150,
   "runs": [
+    {
+      "id": 43706719932,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "createdAt": "2026-11-15T10:59:43Z",
+      "updatedAt": "2026-11-15T10:59:57Z",
+      "collectionStep": "success",
+      "commitStep": "success"
+    },
+    {
+      "id": 43669056358,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "createdAt": "2026-11-15T02:42:50Z",
+      "updatedAt": "2026-11-15T02:43:05Z",
+      "collectionStep": null,
+      "commitStep": null
+    },
+    {
+      "id": 43650946193,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "createdAt": "2026-11-14T22:59:52Z",
+      "updatedAt": "2026-11-14T23:00:08Z",
+      "collectionStep": null,
+      "commitStep": null
+    },
+    {
+      "id": 43630795498,
+      "event": "schedule",
+      "status": "completed",
+      "conclusion": "failure",
+      "createdAt": "2026-11-14T19:12:09Z",
+      "updatedAt": "2026-11-14T19:12:31Z",
+      "collectionStep": null,
+      "commitStep": null
+    },
     {
       "id": 43603555636,
       "event": "schedule",
@@ -13,8 +53,8 @@
       "conclusion": "failure",
       "createdAt": "2026-11-14T14:11:23Z",
       "updatedAt": "2026-11-14T14:11:38Z",
-      "collectionStep": "success",
-      "commitStep": "success"
+      "collectionStep": null,
+      "commitStep": null
     },
     {
       "id": 43566624066,
@@ -85,46 +125,6 @@
       "updatedAt": "2026-11-12T12:47:38Z",
       "collectionStep": null,
       "commitStep": null
-    },
-    {
-      "id": 43150746500,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "createdAt": "2026-11-12T03:49:31Z",
-      "updatedAt": "2026-11-12T03:49:45Z",
-      "collectionStep": null,
-      "commitStep": null
-    },
-    {
-      "id": 43114059796,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "createdAt": "2026-11-11T22:42:57Z",
-      "updatedAt": "2026-11-11T22:43:15Z",
-      "collectionStep": null,
-      "commitStep": null
-    },
-    {
-      "id": 43046834886,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "createdAt": "2026-11-11T15:17:15Z",
-      "updatedAt": "2026-11-11T15:17:31Z",
-      "collectionStep": null,
-      "commitStep": null
-    },
-    {
-      "id": 42972981363,
-      "event": "schedule",
-      "status": "completed",
-      "conclusion": "failure",
-      "createdAt": "2026-11-11T06:31:04Z",
-      "updatedAt": "2026-11-11T06:31:17Z",
-      "collectionStep": null,
-      "commitStep": null
     }
   ],
   "latestDatasetCommit": {
@@ -134,30 +134,30 @@
   },
   "cadence": {
     "state": "checked",
-    "windowStart": "2026-11-13T14:31:46+00:00",
-    "windowEnd": "2026-11-14T14:31:46+00:00",
+    "windowStart": "2026-11-14T14:58:45+00:00",
+    "windowEnd": "2026-11-15T14:58:45+00:00",
     "nominalSlots": 24,
-    "matureSlots": 23,
+    "matureSlots": 24,
     "graceSeconds": 900,
     "listedScheduledRuns": 4,
     "listedManualRuns": 0,
-    "matureSlotsWithoutRunCreation": 19,
+    "matureSlotsWithoutRunCreation": 20,
     "creationOffsets": [
       {
-        "id": 43603555636,
-        "secondsAfterPriorSlot": 3263
+        "id": 43706719932,
+        "secondsAfterPriorSlot": 2563
       },
       {
-        "id": 43566624066,
-        "secondsAfterPriorSlot": 779
+        "id": 43669056358,
+        "secondsAfterPriorSlot": 1550
       },
       {
-        "id": 43528429216,
-        "secondsAfterPriorSlot": 1199
+        "id": 43650946193,
+        "secondsAfterPriorSlot": 2572
       },
       {
-        "id": 43476159325,
-        "secondsAfterPriorSlot": 1787
+        "id": 43630795498,
+        "secondsAfterPriorSlot": 3309
       }
     ],
     "intendedSlotsKnown": false
