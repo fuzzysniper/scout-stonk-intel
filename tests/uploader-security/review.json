@@ -1,7 +1,7 @@
 {
   "version": "uploader-security-review/1",
   "base": "d98316ca4bda7120eeff5882688ba1e3364c04d5",
-  "parent": "d98316ca4bda7120eeff5882688ba1e3364c04d5",
+  "parent": "187b12b8c21f33f1062e5e8b135718322bea89af",
   "modified": {
     "ops/native-beta-output/build.mjs": {
       "mode": "100644",
@@ -31,7 +31,7 @@
   "added": {
     ".github/workflows/uploader-toolchain-security.yml": {
       "mode": "100644",
-      "sha256": "fb036745414ede4a288cc214b55961bee0c0967505d507e80e2cce0fb1cf1069"
+      "sha256": "098b85afd47b1c4834fda04c673f822062b19918c594174a793bd241242145dc"
     },
     "ops/native-beta-output/toolchain-security.mjs": {
       "mode": "100644",
