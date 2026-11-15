@@ -261,7 +261,9 @@ jobs:
         with:
           node-version: '24.19.0'
       - name: At most nine fixed GETs; no archive key or CLI; no authority granted
-        run: node ops/native-beta-output/inspection-step.mjs >> "$GITHUB_STEP_SUMMARY"
+        run: |
+          set -o pipefail
+          node ops/native-beta-output/inspection-step.mjs | tee -a "$GITHUB_STEP_SUMMARY"
         env:
           NATIVE_ADMISSION_READ_TOKEN: ${{ secrets.NATIVE_ADMISSION_READ_TOKEN }}
           VERCEL_TOKEN: ${{ secrets.UNFARMD_NATIVE_PREVIEW_DEPLOY_TOKEN }}

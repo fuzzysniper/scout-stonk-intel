@@ -139,3 +139,49 @@ be renewed by Clear or a new token; later sessions need a new explicit release.
 
 Rollback: permanent STOP, disable selection/publication, preserve DB/anchor/history.
 No source, hosted Save, public sharing, export, tracking, trades or production GO.
+
+
+## Remaining gates after the inspection-policy correction
+
+These consolidate the existing packet; none is executed by this code change.
+Reuse the existing Vercel project, Neon project/database, saved environments,
+owner-created GitHub/Vercel bindings and historical Helius subscription evidence.
+Do not repeat account enrollment/screenshots or infer a new token is needed.
+
+1. **Protected source-OFF Preview.** First complete one separately approved v2
+   GET-only metadata inspection at the installed exact SHA. It cannot authorize
+   upload. Resolve C's exact reviewed toolchain-security result and remaining
+   uploader risks. Review the existing bounded Build Output procedure and approve
+   the exact output, actual artifact provenance, one Preview operation and future
+   owner-selected window separately. Retain original43518878650 encrypted bytes
+   and receipts; a newer reviewed build must be labeled as new, never substituted
+   as the held original. Observe actual deployment ID/unique hostname/Git SHA/tree,
+   effective owner-only protection for /lens AND native APIs, source-OFF denials
+   and unchanged production aliases. No skip-domain/production deployment, bypass
+   or fabricated system variables. Current connector404/403 is not proof of the
+   protected workflow token's access or route behavior.
+2. **Database, owner and independent checkpoint.** Inventory and install only
+   missing exact reviewed schema/roles under separate owner SQL/setup approval;
+   do not reinstall verified packages or reset budgets/history. Use the existing
+   Neon target/strict native TLS/SCRAM-PLUS and physical durability admission;
+   verify role/function fingerprints and owner-policy compatibility. Owner
+   enrollment selection and checkpoint installation remain OFF/null until their
+   separate plan approvals. Custody needs a genuinely independent current anchor
+   and approved durable host/origin/disk; no serverless tmp/memory substitute.
+   A new paid host, if needed, is a separate owner cost/provisioning decision.
+   Complete genuine source-OFF owner login/status/logout/STOP, checkpoint ACK,
+   recovery/currentness and measured latency acceptance. Use a distinct permanently
+   stopped acceptance policy; preserve the eventual live policy's finite budget.
+3. **One-mint acceptance.** Only after actual setup evidence and exact-deployment
+   publication: obtain separate finite source approval for one owner-selected
+   mint, <=15 minutes and <=3 attempted fixed RPC reads with exact credit debits,
+   no retry/fallback. Reuse subscription evidence, but verify dedicated-key quota,
+   source rights/retention and current accounting before GO; credentials alone
+   grant no traffic. Capture original response hashes, source slot/clocks and
+   bounded sample evidence in the existing /lens; measure latency and distinguish
+   synthetic tests from genuine provider facts. Exercise permanent owner STOP and
+   preserve spent/uncertain state/anchor/history. No reset or implied continuous
+   service follows a successful one-mint observation.
+
+Next owner action for this sprint is only a new, manual v2 GET-only inspection
+at the tested installed SHA. No hosted operation in gates1–3 is approved here.

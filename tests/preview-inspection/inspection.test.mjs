@@ -9,13 +9,14 @@ import {context,time,controls,aliasRows,go} from '../native-beta-output/fixtures
 import https from 'node:https';import fs from 'node:fs';import crypto from 'node:crypto';import cp from 'node:child_process';import {EventEmitter} from 'node:events';
 import {runReadOnlyInspection} from '../../ops/native-beta-output/inspect-only.mjs';
 export function fixture(){
- const ctx=context(),card=inspectionCard(ctx,time),manifest=card.manifest,p=paths(ctx),c=controls(card.comment),seen=[];
+ const ctx=context(),card=inspectionCard(ctx,time),manifest=card.manifest,p=paths(ctx),c=controls(''),seen=[];
  const data={
   [p.run]:{id:ctx.runId,head_sha:ctx.sha,head_branch:ctx.branch,workflow_id:policy.workflowId,path:'.github/workflows/native-pilot-admission.yml',status:'in_progress',event:'workflow_dispatch',repository:{id:policy.repositoryId},head_repository:{id:policy.repositoryId}},
   [p.environment]:c.environment,[p.branches]:c.branches,[p.reviews]:c.reviews,
   [p.project]:{id:policy.projectId,accountId:policy.teamId,name:'scout-stonk-intel',nodeVersion:'24.x',link:{type:'github',org:'fuzzysniper',repo:'scout-stonk-intel'},ssoProtection:{deploymentType:'all'}},
   [p.aliases]:{aliases:aliasRows()},[p.webhooks]:[],[p.integrations]:[]
  };
+ c.reviews[0].user.login='fuzzysniper';
  const read=async path=>{seen.push(path);if(!Object.hasOwn(data,path))fail('VC_LEGACY_INTEGRATIONS','http_status',404);return structuredClone(data[path]);};
  return {ctx,card,manifest,p,data,seen,gh:read,vc:read,clock:()=>time};
 }
@@ -23,7 +24,7 @@ function env(){const c=context();return {MODE:'preview-inspect',GITHUB_EVENT_NAM
 test('phone card binds actual run, exact SHA and canonical manifest hash; no upload window or deployment authority',()=>{
  const ctx=inspectionContext(env()),card=inspectionCard(ctx,time);
  assert.equal(card.manifestSha256,hash(canonical(card.manifest)));
- assert.equal(card.comment,'APPROVE_NATIVE_PREFLIGHT_GET_ONLY '+ctx.runId+' '+ctx.sha+' '+policy.projectId+' '+(time+1800000)+' '+card.manifestSha256);
+ assert.equal(card.comment,undefined);assert.equal(card.manifest.version,'native-preview-inspection/2');assert.equal(card.manifest.approvalPolicy,'github-environment-owner/1');assert.equal(inspectionAuthority(ctx,card.manifest,time),card.manifestSha256);
  assert.deepEqual(readManifest(ctx,canonical(card.manifest),time),card.manifest);
  assert.throws(()=>readManifest(ctx,' '+canonical(card.manifest),time));assert.throws(()=>readManifest(ctx,'null',time));assert.throws(()=>readManifest(ctx,'SYNTHETIC_PRIVATE',time));
  for(const patch of [{MODE:'preview-output'},{GITHUB_RUN_ATTEMPT:'2'},{GITHUB_EVENT_NAME:'push'},{GITHUB_REF:'refs/heads/main'},{GITHUB_ACTOR_ID:'1'},{GITHUB_REPOSITORY:'wrong/repo'},{DEPLOYMENT:'dpl_SYNTHETIC'},{PREVIEW_STARTS_AT:'2030-01-01'},{PREVIEW_EXPIRES_AT:'2030-01-01'},{APPROVED_SHA:'b'.repeat(40)}])assert.throws(()=>inspectionContext({...env(),...patch}));
@@ -54,9 +55,9 @@ test('unclear integration access HOLD: global, malformed, missing scopes, paging
   const f=fixture(),read=async p=>{if(p===f.p.integrations)fail('VC_INTEGRATIONS',reason,status);return f.vc(p);};const r=await evaluateInspection({...f,vc:read});assert.equal(r.calls,8);assert.equal(r.failure.check,'VC_INTEGRATIONS');assert.equal(r.failure.reason,reason);assert.equal(r.checksPassed,false);
  }
 });
-test('manifest-bound comment, wrong owner, bypass, branch, replay, clock and run identity fail before Vercel credential use',async()=>{
- for(const scenario of ['comment','hash','owner','bypass','self-review','branch','tag','attempt','sha','workflow','run-status','expiry']){
-  const f=fixture();if(scenario==='comment')f.data[f.p.reviews][0].comment+=' SYNTHETIC';if(scenario==='hash')f.data[f.p.reviews][0].comment=f.card.comment.slice(0,-64)+'0'.repeat(64);if(scenario==='owner')f.data[f.p.reviews][0].user.id=1;
+test('v2 manifest, wrong owner, bypass, branch, replay, clock and run identity fail before Vercel credential use',async()=>{
+ for(const scenario of ['old-version','old-policy','owner','login','missing-review','bypass','self-review','branch','tag','attempt','sha','workflow','run-status','expiry']){
+  const f=fixture();if(scenario==='old-version')f.manifest.version='native-preview-inspection/1';if(scenario==='old-policy')f.manifest.approvalPolicy='comment/1';if(scenario==='owner')f.data[f.p.reviews][0].user.id=1;if(scenario==='login')f.data[f.p.reviews][0].user.login='wrong-owner';if(scenario==='missing-review')f.data[f.p.reviews]=[];
   if(scenario==='bypass')f.data[f.p.environment].can_admins_bypass=true;if(scenario==='self-review')f.data[f.p.environment].protection_rules[0].prevent_self_review=true;if(scenario==='branch')f.data[f.p.branches].branch_policies[0].name='*';if(scenario==='tag')f.data[f.p.branches].branch_policies[0].type='tag';
   if(scenario==='attempt')f.ctx.attempt=2;if(scenario==='sha')f.data[f.p.run].head_sha='b'.repeat(40);if(scenario==='workflow')f.data[f.p.run].workflow_id++;if(scenario==='run-status')f.data[f.p.run].status='completed';if(scenario==='expiry')f.clock=()=>f.manifest.expiresAt;
   let vcCalls=0;const r=await evaluateInspection({...f,vc:async p=>{vcCalls++;return f.vc(p);}});assert.equal(r.checksPassed,false,scenario);assert.equal(vcCalls,0,scenario);
@@ -66,8 +67,8 @@ test('no body, response, error, URL, token or unsanitized shape can escape resul
  const marker='SYNTHETIC_PRIVATE_RESPONSE_TOKEN_URL_STACK';const f=fixture();const r=await evaluateInspection({...f,vc:async()=>{throw Object.assign(Error(marker),{toJSON(){return marker}})}});assert.doesNotMatch(JSON.stringify(r),new RegExp(marker));assert.equal(r.failure.check,'VC_PROJECT');assert.equal(safeFailure(Error(marker)).check,'UNCLASSIFIED');
 });
 test('bound native transport completes nine GETs while all write/decrypt/subprocess capabilities throw',async t=>{
- const f=fixture(),card=inspectionCard(f.ctx,Date.now()),c=controls(card.comment),seen=[];
- f.data[f.p.reviews]=c.reviews;
+ const f=fixture(),card=inspectionCard(f.ctx,Date.now()),c=controls(''),seen=[];
+ c.reviews[0].user.login='fuzzysniper';f.data[f.p.reviews]=c.reviews;
  const forbidden=()=>{throw Error('SYNTHETIC_FORBIDDEN_CAPABILITY_REACHED');};
  const hooks=[];for(const [module,names]of [[fs,['writeFileSync','appendFileSync','writeFile','appendFile','createWriteStream','unlinkSync']],[crypto,['createDecipheriv','createCipheriv']],[cp,['exec','execSync','execFile','execFileSync','spawn','spawnSync']]])for(const name of names)hooks.push(t.mock.method(module,name,forbidden));
  hooks.push(t.mock.method(https,'request',(options,callback)=>{

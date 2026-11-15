@@ -1,4 +1,12 @@
-# Preview preflight correction and phone inspection — NOT INSTALLED
+# Preview inspection v2 — owner environment approval, source OFF
+
+The v2 policy uses genuine sole-owner GitHub environment approval, not a free-text
+phrase. It accepts only native-preview-inspection/2 with github-environment-owner/1;
+old cards remain invalid. Run43773187772 stays preserved/failed, attempt1. Its JSON
+was redirected to Summary; the read-only logs do not establish its first failed
+predicate. The founder reports an empty approval comment. No retry was performed.
+
+## Historical correction provenance
 
 This dependent draft preserves installed `972dc257f75c3f88087c49feda803af9e3bc7b7c`.
 The original correction **f02951820dc9ea6c26282b502d56601b4bfe1831** was recovered
@@ -50,7 +58,8 @@ POST disposition; no inference or cleanup is made for it.
 - Add secret-free `inspection-context` and protected `inspection-read-only` jobs.
   Both require sole founder identity, exact branch/SHA, attempt1 and empty deployment
   and Preview clocks. The context generates a 30-minute **read-only** manifest
-  from the actual run, not a reusable upload window. Approval includes its SHA-256.
+  from the actual run, not a reusable upload window. The card shows its SHA-256;
+  the immutable workflow passes those exact manifest bytes to the protected job.
 - Add finite descendant scope/predicate/transport/reachability/Actions tests and
   replay the original correction and installed baseline guards unchanged. Existing
   CI job commands are preserved with the finite reviewer routing updated.
@@ -59,20 +68,14 @@ POST disposition; no inference or cleanup is made for it.
   locks, provider runtime, SQL, collector, authentication, STOP and all source gates
   are byte-frozen. There is no application/UI change or automatic dependency upgrade.
 
-## Minimal later installation — separate owner approval, no main merge
+## Current conditional installation — no main merge
 
-1. Review this draft's exact final head and successful exact-head diagnostic CI.
-   Verify the installed release still points to972 and all deployment suppression
-   remains intact. If it moved, STOP and reconcile; do not overwrite descendants.
-2. Separately authorize **only an ordinary fast-forward** of
-   `native-pilot/private-beta-rc` from972 to that reviewed draft head. No main write,
-   force push, environment changes, secrets, dispatch or deployment accompanies it.
-3. Verify the installed SHA/tree, two-commit ancestry (public-metadata correction replay plus
-   phone-inspection descendant), unchanged policy/locks/source-OFF and deployment
-   disposition. Preserve every original failed run/approval/artifact.
-
-This installation is not authorized by publication of the draft. Owner review can
-be mobile; no terminal, device-code flow, console or token value is needed.
+Start from installed d98316ca4bda7120eeff5882688ba1e3364c04d5. Only after all eight
+required exact-head checks pass, the installed ref still matches that expected
+parent, and branch deployment suppression remains false, the owner authorizes an
+ordinary fast-forward to the tested successor. Preserve C's exact reviewed security
+commit as ancestry if integrated; no guessed/unreviewed patch. Verify post-install
+CI separately. No main write, environment/secret edit, dispatch or deployment.
 
 ## Proposed single mobile dispatch — NOT AUTHORIZED NOW
 
@@ -84,7 +87,7 @@ After installation and a **separate owner GO** for one GET-only inspection:
 4. `approved_sha`: **the exact installed, separately reviewed final draft head**.
 5. Leave **deployment**, **preview_starts_at**, **preview_expires_at** EMPTY.
 6. Start once only after separate owner GO. Do not rerun failed runs43518878650
-   or43751726051 or reuse any old approval/window. This correction dispatches nothing.
+   or43751726051 or43773187772 or reuse any old approval/window. This correction dispatches nothing.
 
 Expected jobs:
 
@@ -92,21 +95,16 @@ Expected jobs:
 - **inspection-read-only**: waits for existing **native-pilot-setup** owner approval.
 - **context**, **publish**, **preview-context**, **preview-output**: skipped by mode.
 
-Open the **inspection-context** job summary; check its exact run/SHA and expiry
-shown in **UTC** and **America/Chicago**. Paste the generated line into the pending
-**native-pilot-setup** environment review, then approve as the sole founder.
+Open the **inspection-context** job summary; verify its actual run/SHA, v2 policy,
+manifest hash and expiry in **UTC** / **America/Chicago**. Open the pending
+**native-pilot-setup** review and approve as **fuzzysniper/58099771**. No free-text
+phrase is required for this inspection only. Missing/wrong-owner approval rejects.
 
-MANDATORY: copy this entire line into the review comment before approving
-```text
-APPROVE_NATIVE_PREFLIGHT_GET_ONLY <actualRun> <reviewedSHA> prj_OaA9snVrMUkpXuz6cMSKfSZ6fx5Q <expiryMillis> <canonicalManifestSHA256>
-```
-
-The card expires strictly 30 minutes after its creation, including review and runner
-startup. The protected job still has its original five-minute execution timeout;
-each of its at most nine fixed GETs still has a four-second timeout and no retry.
-A blank, altered or reused comment is rejected; approve only the exact new run card. Missed expiry, denial, wrong comment/control, failed read or uncertain
-completion means **STOP; no retry or new dispatch is authorized**. Do not shorten
-the hash/comment or substitute an upload/setup/source approval.
+The card expires strictly 30 minutes after creation, including review and runner
+startup. The protected job retains its five-minute execution timeout and at most
+nine four-second fixed GETs with no retries. Expiry, failed controls/reads or
+uncertain completion means **STOP; no retry or automatic extension**. Shared
+publisher/upload/setup/source approval phrases and windows remain unchanged.
 
 The protected job re-reads run, setup controls, branch restriction and exact actual
 approval before any Vercel request. It binds only the existing
@@ -144,7 +142,9 @@ authorize deployment. Environment/branch/review inputs are collected as one owne
 control group before Vercel; a malformed item in that group can require the other
 two GETs before evaluation. A denied read stops immediately.
 
-Results show fixed check names, category, numeric HTTP status and request count;
+The exact same sanitized JSON is printed to job logs and Summary with pipefail
+preserving a failed process exit. Results show fixed check names, category, numeric
+HTTP status and request count;
 never bodies, URLs, token/key fragments/hashes or raw exceptions. Success means
 only the current metadata checks passed. **Every outcome remains
 HOLD_NO_DEPLOYMENT_AUTHORITY, sourceGo:false, activate:false, CLI not_started.**
