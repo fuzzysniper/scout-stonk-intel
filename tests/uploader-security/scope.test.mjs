@@ -1,0 +1,10 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {execFileSync} from 'node:child_process';import {review,hash} from './review.mjs';
+const MANIFEST='4f9ae497a7ddd68bc753f8015caac2c6259613c36489aff6d0c10c1b90dd81d9',REVIEWER='9c49c324583c78a8ae0d52673caf6d9294aba44cb0ddd330d5cf9c382650e2b6';
+test('finite current uploader correction freezes A/B/source/STOP/SQL/collector/approval/incident/archive/identity bytes',()=>{assert.equal(hash(fs.readFileSync('tests/uploader-security/review.json')),MANIFEST);assert.equal(hash(fs.readFileSync('tests/uploader-security/review.mjs')),REVIEWER);review();});
+test('passing control rejects out-of-scope, source, encryption, alias, tool-pin, inspection and nested package drift',()=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'SYNTHETIC-uploader-scope-'));
+ try{execFileSync('git',['clone','--quiet','--shared','--no-checkout',process.cwd(),root]);execFileSync('git',['checkout','--quiet','--detach','HEAD'],{cwd:root});review(root);
+  for(const p of ['lib/native-pilot/engine.ts','lib/native-pilot/auth.ts','lib/native-pilot/postgres/schema.sql','ops/native-beta-output/output.mjs','ops/native-beta-output/restore.mjs','ops/native-beta-output/verify.mjs','ops/native-beta-output/inspect-only.mjs','.github/workflows/native-pilot-admission.yml','ops/native-beta-output/INCIDENT-43518878650.md','ops/native-beta-output/review/correction.patch','ops/native-beta-output/toolchain/package-lock.json','ops/native-beta-output/policy.json','vercel.json']){const file=path.join(root,p),b=fs.readFileSync(file);fs.appendFileSync(file,'\nSYNTHETIC_UNREVIEWED');assert.throws(()=>review(root,false),p);fs.writeFileSync(file,b);}
+  fs.writeFileSync(path.join(root,'SYNTHETIC_EXTRA'),'not allowed');assert.throws(()=>review(root,false));fs.unlinkSync(path.join(root,'SYNTHETIC_EXTRA'));fs.chmodSync(path.join(root,'ops/native-beta-output/toolchain-security.mjs'),0o755);assert.throws(()=>review(root,false));
+ }finally{fs.rmSync(root,{recursive:true,force:true});}
+});

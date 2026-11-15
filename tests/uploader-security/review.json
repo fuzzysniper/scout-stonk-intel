@@ -1,0 +1,61 @@
+{
+  "version": "uploader-security-review/1",
+  "base": "d98316ca4bda7120eeff5882688ba1e3364c04d5",
+  "parent": "d98316ca4bda7120eeff5882688ba1e3364c04d5",
+  "modified": {
+    "ops/native-beta-output/build.mjs": {
+      "mode": "100644",
+      "sha256": "26d9a8773b17b90915634a8a438b7e9982a835b6dc3199bb911ef67e6a088d8c"
+    },
+    "ops/native-beta-output/policy.json": {
+      "mode": "100644",
+      "sha256": "7f852ac68a5be70b0a0ab002a6dee6a34085819bceafea91e51bc40f14cdac53"
+    },
+    "ops/native-beta-output/toolchain/package-lock.json": {
+      "mode": "100644",
+      "sha256": "d7fb93de8f1b3a8bf77980fc68d775e2dfbbe82be3c50264bff078b643a06a5d"
+    },
+    "ops/native-beta-output/toolchain/package.json": {
+      "mode": "100644",
+      "sha256": "4f6b8173a52b62d1fb204430a4af2c30c8464fc9270ea19532283546c3dea8d8"
+    },
+    "tests/preview-preflight-diagnostics/tar-reachability.test.mjs": {
+      "mode": "100644",
+      "sha256": "06edf6344eff8612e09c320f35a043eec1c07b17e88aed35843aad67d1e0d61c"
+    },
+    "vercel.json": {
+      "mode": "100644",
+      "sha256": "8d5d4f9995e8a853433972fa9be24fc0b92fd878686d905b7a90b968e4d0eb75"
+    }
+  },
+  "added": {
+    ".github/workflows/uploader-toolchain-security.yml": {
+      "mode": "100644",
+      "sha256": "fb036745414ede4a288cc214b55961bee0c0967505d507e80e2cce0fb1cf1069"
+    },
+    "ops/native-beta-output/toolchain-security.mjs": {
+      "mode": "100644",
+      "sha256": "f912d371a94a536d463072025770056a2a75dcbd7915ceeed52bb91a8a49b66b"
+    },
+    "tests/uploader-security/graph.test.mjs": {
+      "mode": "100644",
+      "sha256": "c8f2f08be505a98b341895ad764ecbd626878652f9baa6e6815ebdb8b1794f65"
+    },
+    "tests/uploader-security/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/uploader-security/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/uploader-security/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/uploader-security/tar-worker.mjs": {
+      "mode": "100644",
+      "sha256": "883cf085db2570ef968685f5defd1a9bf9a1a8026a474469aa79b130b43b43cc"
+    }
+  }
+}
