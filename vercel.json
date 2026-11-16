@@ -20,7 +20,9 @@
       "ops/293-get-only-inspection": false,
       "fix/294-release-ci-prerequisites": false,
       "fix/uploader-tar-locked": false,
-      "fix/preview-alias-completeness": false
+      "fix/preview-alias-completeness": false,
+      "fix/uploader-security-remediation": false,
+      "fix/native-preview-union": false
     }
   }
 }

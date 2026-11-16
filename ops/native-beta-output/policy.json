@@ -15,7 +15,7 @@
   "cli": "64.5.0",
   "builder": "23.0.3",
   "buildUtils": "14.21.3",
-  "toolLockSha256": "d7fb93de8f1b3a8bf77980fc68d775e2dfbbe82be3c50264bff078b643a06a5d",
+  "toolLockSha256": "fd97176071b2a6627148b1522e9a0b61854750fae02ca1c2048e9dee29eaf9c5",
   "maxFiles": 20000,
   "maxBytes": 134217728,
   "maxBundleBytes": 201326592,
