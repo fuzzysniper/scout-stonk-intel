@@ -1,4 +1,4 @@
-// Uploader-only locked tar correction. No app import, acquisition, credential or I/O transport.
+// Uploader-only exact locked dependency correction. No app import, acquisition, credential or I/O transport.
 import fs from 'node:fs';import path from 'node:path';import {createRequire} from 'node:module';
 export const TAR_VERSION='7.5.22';
 export const TAR_INTEGRITY='sha512-MFO/QzvtAOmJbkhOaCTvbGcFN9L9b+JunIsDwaKljSOdcLMea3NJ1k9Usz/rjdfSXTq4dfzfeS7W4p4YOAAHeA==';
@@ -41,7 +41,7 @@ export function verifyTarGraph(root){
  }catch{deny();}
 }
 
-const REVIEWED_PACKAGE={"dependencies":{"vercel":"64.5.0"},"overrides":{"@vercel/container@19.1.3":{"tar":"7.5.22"},"ajv@8.6.3":"8.18.0","js-yaml@4.1.1":"4.3.2","smol-toml@1.5.2":"1.9.0","path-to-regexp@6.1.0":"6.3.0","path-to-regexp@8.3.0":"8.4.0","zod@4.1.11":"4.6.6","minimatch@10.1.1":"11.0.1","undici@5.28.4":"6.29.1","undici@5.29.0":"6.29.1","zod@3.22.4":"4.6.6","glob@13.0.6":"14.0.2","minimatch@10.2.6":"11.0.1"}};
+const REVIEWED_PACKAGE={"dependencies":{"vercel":"64.5.0"},"overrides":{"@vercel/container@19.1.3":{"tar":"7.5.22"},"ajv@8.6.3":"8.18.0","js-yaml@4.1.1":"4.3.2","smol-toml@1.5.2":"1.9.0","path-to-regexp@6.1.0":"6.3.0","path-to-regexp@8.3.0":"8.4.0","zod@4.1.11":"4.6.6","minimatch@10.1.1":"11.0.1","undici@5.28.4":"6.29.1","undici@5.29.0":"6.29.1","zod@3.22.4":"4.6.6","glob@13.0.6":"14.0.2"}};
 // Every installed package and alias is checked against the enclosing exact lock.
 // Optional platform packages may be absent; every required entry must exist.
 export function verifyUploaderGraph(root){

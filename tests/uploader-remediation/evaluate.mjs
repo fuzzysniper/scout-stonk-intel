@@ -1,5 +1,5 @@
 // Public package experiment ONLY. Candidate bytes do not change operational pins.
-import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {spawnSync} from 'node:child_process';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
+import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {spawnSync,execFileSync} from 'node:child_process';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
 for(const n of ['VERCEL_TOKEN','NATIVE_ADMISSION_READ_TOKEN','UNFARMD_NATIVE_BUILD_ARCHIVE_KEY','UNFARMD_NATIVE_PREVIEW_DEPLOY_TOKEN','DATABASE_URL'])assert.ok(!process.env[n]);
 const sha=b=>createHash('sha256').update(b).digest('hex'),out=path.join(process.env.RUNNER_TEMP||os.tmpdir(),'uploader-public-evaluation');fs.mkdirSync(out,{recursive:true});
 const run=(args,cwd)=>spawnSync('npm',args,{cwd,encoding:'utf8',maxBuffer:32*1024*1024,timeout:240000,env:{PATH:process.env.PATH,HOME:process.env.HOME,CI:'1',npm_config_registry:'https://registry.npmjs.org/',npm_config_ignore_scripts:'true'}});
@@ -8,9 +8,9 @@ for(const name of ['smol-toml','undici','glob','minimatch','zod','@vercel/node',
 }
 const same={'@vercel/container@19.1.3':{tar:'7.5.22'},'ajv@8.6.3':'8.18.0','js-yaml@4.1.1':'4.3.2','smol-toml@1.5.2':'1.9.0','path-to-regexp@6.1.0':'6.3.0','path-to-regexp@8.3.0':'8.4.0','zod@4.1.11':'4.6.6','minimatch@10.1.1':'10.2.6'};
 const transport={...same,'undici@5.28.4':'6.29.1','undici@5.29.0':'6.29.1'};
-const all={...transport,'zod@3.22.4':'4.6.6','glob@13.0.6':'14.0.2','minimatch@10.1.1':'11.0.1','minimatch@10.2.6':'11.0.1'};
+const all={...transport,'zod@3.22.4':'4.6.6','glob@13.0.6':'14.0.2','minimatch@10.1.1':'11.0.1',};
 for(const [label,overrides] of Object.entries({majorCompatibilityExperiment:all})){
- const d=path.join(out,label);fs.mkdirSync(d);fs.copyFileSync('ops/native-beta-output/toolchain/package-lock.json',path.join(d,'package-lock.json'));const pkg={dependencies:{vercel:'64.5.0'},overrides};fs.writeFileSync(path.join(d,'package.json'),JSON.stringify(pkg,null,2)+'\n');
+ const d=path.join(out,label);fs.mkdirSync(d);fs.writeFileSync(path.join(d,'package-lock.json'),execFileSync('git',['show','c4cecb3ae8370713d78d08ff308a65632c7719d3:ops/native-beta-output/toolchain/package-lock.json']));const pkg={dependencies:{vercel:'64.5.0'},overrides};fs.writeFileSync(path.join(d,'package.json'),JSON.stringify(pkg,null,2)+'\n');
  const install=run(['install','--ignore-scripts','--no-audit','--no-fund'],d);if(install.status!==0){console.log('PUBLIC_INSTALL_FAILURE '+JSON.stringify({label,status:install.status,stderr:install.stderr}));throw Error('PUBLIC_CANDIDATE_INSTALL_FAILED');}
  const audit=run(['audit','--json'],d);assert.ok(audit.status===0||audit.status===1,audit.stderr);const report=JSON.parse(audit.stdout);assert.ok(report.metadata&&!report.error);fs.writeFileSync(path.join(d,'audit.json'),audit.stdout);
  const lock=fs.readFileSync(path.join(d,'package-lock.json'));console.log('PUBLIC_CANDIDATE '+JSON.stringify({label,pkg,lockSha256:sha(lock),exit:audit.status,audit:report,lock:JSON.parse(lock)}));

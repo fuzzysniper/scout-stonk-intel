@@ -3,16 +3,31 @@ import test from 'node:test';import assert from 'node:assert/strict';import fs f
 import {tools} from '../../ops/native-beta-output/build.mjs';import {verifyUploaderGraph} from '../../ops/native-beta-output/toolchain-security.mjs';
 const root=path.resolve('ops/native-beta-output/toolchain'),req=createRequire(path.join(root,'package.json'));
 test('actual full installed graph and aliases match exact lock and all consumer resolution edges',()=>{
- tools(root);const report=verifyUploaderGraph(root);const tree=JSON.parse(execFileSync('npm',['ls','--prefix',root,'--all','--json'],{encoding:'utf8',maxBuffer:8*1024*1024}));assert.ok(!tree.problems);
+ tools(root);const report=verifyUploaderGraph(root);const tree=JSON.parse(execFileSync('npm',['ls','--prefix',root,'--all','--json'],{encoding:'utf8',maxBuffer:8*1024*1024}));// npm ls exits zero, but npm 11.9 retains six locked optional WASM children on Linux.
+ // Prove the entire finite diagnostic closure, including peer edges; no audit or
+ // invalid/missing/unlocked package error is exempted. verifyUploaderGraph checks each installed copy.
+ const lock=JSON.parse(fs.readFileSync(path.join(root,'package-lock.json'))),base=JSON.parse(execFileSync('git',['show','c4cecb3ae8370713d78d08ff308a65632c7719d3:ops/native-beta-output/toolchain/package-lock.json']));
+ const roots=['@oxc-parser/binding-wasm32-wasi','@oxc-transform/binding-wasm32-wasi','@rolldown/binding-wasm32-wasi'],closure=new Set(),queue=[];
+ for(const name of roots){const p='node_modules/'+name,v=lock.packages[p];assert.equal(v.optional,true);assert.deepEqual(v.cpu,['wasm32']);assert.notEqual(process.arch,'wasm32');assert.equal(fs.existsSync(path.join(root,p)),false);queue.push(...Object.keys(v.dependencies));}
+ for(let i=0;i<queue.length;i++){const name=queue[i];if(closure.has(name))continue;closure.add(name);const p='node_modules/'+name,v=lock.packages[p];assert.equal(v.optional,true);assert.deepEqual(v,base.packages[p],'unchanged baseline optional record');queue.push(...Object.keys({...v.dependencies,...v.peerDependencies}));}
+ assert.deepEqual([...closure].sort(),['@emnapi/core','@emnapi/runtime','@emnapi/wasi-threads','@napi-rs/wasm-runtime','@tybys/wasm-util','tslib']);
+ const expected=[...closure].map(name=>'extraneous: '+name+'@'+lock.packages['node_modules/'+name].version+' '+path.join(root,'node_modules',name)).sort();
+ assert.deepEqual(tree.problems.slice().sort(),expected,'only the exact locked platform-optional closure; all other diagnostics fail');
+ console.log('NPM_LS_ZERO_EXIT_OPTIONAL_WASM_DIAGNOSTICS '+JSON.stringify({problems:tree.problems,uninstalledPlatformRoots:roots,allInstalledCopiesVerified:true,auditExemption:false}));
  assert.ok(report.edges.length>=25);assert.equal(Object.values(report.copies).filter(x=>x.name==='undici').every(x=>['6.29.1','7.30.1'].includes(x.version)),true);
  assert.equal(Object.values(report.copies).some(x=>x.name==='@fastify/busboy'),false);console.log('EXACT_RESOLVED_UPLOADER_GRAPH '+JSON.stringify(report));
 });
 test('all real builder modules and their actual parser schemas initialize with the pinned graph',async()=>{
  for(const name of ['@vercel/next','@vercel/node','@vercel/backends','@vercel/express','@vercel/hono','@vercel/python-analysis','@vercel/nft']){
-  const mod=await import(pathToFileURL(req.resolve(name)).href);assert.ok(Object.keys(mod).length>0);console.log('REAL_CONSUMER_EXPORTS '+JSON.stringify({name,exports:Object.keys(mod),defaultExports:mod.default&&typeof mod.default==='object'?Object.keys(mod.default):[]}));
+  const mod=await import(pathToFileURL(req.resolve(name)).href);assert.ok(Object.keys(mod).length>0);console.log('REAL_CONSUMER_INITIALIZED '+JSON.stringify({name,exportCount:Object.keys(mod).length}));
  }
  const proxy=await import(pathToFileURL(path.join(root,'node_modules/vercel/dist/chunks/fetch-proxy-OC6B22AW.js')).href);console.log('REAL_PROXY_EXPORTS '+JSON.stringify(Object.keys(proxy)));
- const python=req('@vercel/python-analysis');for(const [name,x]of Object.entries(python))if(x&&typeof x.safeParse==='function')console.log('REAL_PYTHON_SCHEMA '+name);
+ const python=req('@vercel/python-analysis'),schemas=Object.entries(python).filter(([,x])=>x&&typeof x.safeParse==='function');assert.ok(schemas.length>=20);
+ assert.equal(python.PipfileLikeSchema.safeParse({packages:{requests:'*'},source:[{name:'SYNTHETIC',url:'https://example.invalid/simple',verify_ssl:true}]}).success,true);
+ assert.equal(python.PipfileLikeSchema.safeParse({packages:{requests:17}}).success,false);
+ assert.equal(python.PyProjectTomlSchema.safeParse({project:{name:'synthetic',version:'0.0.0',dependencies:['synthetic>=1']}}).success,true);
+ assert.equal(python.PyProjectTomlSchema.safeParse({project:{name:'synthetic',dependencies:[17]}}).success,false);
+ console.log('REAL_PYTHON_SCHEMAS '+JSON.stringify({count:schemas.length,pipfileAndPyprojectPositiveAndNegative:true}));
 });
 test('actual AJV YAML TOML route parsers and Zod preserve valid/invalid boundaries',()=>{
  const Ajv=req('ajv'),ajv=new Ajv({$data:true});const check=ajv.compile({type:'object',properties:{label:{type:'string',minLength:1}},required:['label'],additionalProperties:false});assert.equal(check({label:'SYNTHETIC'}),true);assert.equal(check({label:1}),false);

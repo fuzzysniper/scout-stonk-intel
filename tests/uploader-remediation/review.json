@@ -1,6 +1,6 @@
 {
   "base": "c4cecb3ae8370713d78d08ff308a65632c7719d3",
-  "parent": "bf864595308d87adfb863bb30e49ed1fef8d0f8f",
+  "parent": "572ea341934bbb5620f8ad4a22390f339bfc9b06",
   "modified": {
     "ops/native-beta-output/build.mjs": {
       "mode": "100644",
@@ -12,7 +12,7 @@
     },
     "ops/native-beta-output/toolchain-security.mjs": {
       "mode": "100644",
-      "sha256": "53e5960661d1b8db1526ebb60015f1d3df9b3493bb9249d8396943295f2baaef"
+      "sha256": "ec0766da7d16d580b4b82fd8b1302710992ed53f5b43fc72717a6047356df577"
     },
     "ops/native-beta-output/toolchain/package-lock.json": {
       "mode": "100644",
@@ -20,7 +20,7 @@
     },
     "ops/native-beta-output/toolchain/package.json": {
       "mode": "100644",
-      "sha256": "f6ad12d7ebaa32569187b4a7216e9ed055d5934f86d3f83a276917e53ca12c2c"
+      "sha256": "0feeca0f91e7b3f76cc8218e5e3e94d5363a261eaae43a8a99335be7888e9b99"
     },
     "vercel.json": {
       "mode": "100644",
@@ -30,11 +30,11 @@
   "added": {
     ".github/workflows/uploader-remediation.yml": {
       "mode": "100644",
-      "sha256": "ed809f91db88b165657574cc2bde672f56f5413b1aa9104553805d6b19948336"
+      "sha256": "1bdb2161539ca303f083a78e27a05db2d7974e9ee26f825a12250eb205ed1f66"
     },
     "tests/uploader-remediation/audit-matrix.mjs": {
       "mode": "100644",
-      "sha256": "0d80745c4c2c6c165657f016ed290b7022e49838cbf82ba83c1349902dc7c25f"
+      "sha256": "45303d44d2c39dec0ce04caefcfdc970c9e0b80b50d2d8d8d1665fb0c655c2c5"
     },
     "tests/uploader-remediation/baseline-audit.json": {
       "mode": "100644",
@@ -42,11 +42,11 @@
     },
     "tests/uploader-remediation/compatibility.test.mjs": {
       "mode": "100644",
-      "sha256": "0f99fdfd8f41f2cc40ac5ecc2191d550ee9dc5e8f5abd4156e5ebc4d0cc87610"
+      "sha256": "24f042a2275328da40b084feecb23c72d9dd02aee7d1894839c370aedd498109"
     },
     "tests/uploader-remediation/evaluate.mjs": {
       "mode": "100644",
-      "sha256": "5554a4454983fef29a7d57e63f432c813e25e6efe8ead23d6e5ff1013e3d1f47"
+      "sha256": "09699768ca89eb5855a6243f114c2e98891f1f87853df9543726a1d8be8f287f"
     },
     "tests/uploader-remediation/isolated.sh": {
       "mode": "100644",

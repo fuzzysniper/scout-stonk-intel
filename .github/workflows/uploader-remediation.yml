@@ -40,6 +40,7 @@ jobs:
         run: |
           set -o pipefail
           npm audit --prefix ops/native-beta-output/toolchain --json | tee "$RUNNER_TEMP/uploader-audit.json"
+          node tests/uploader-remediation/audit-matrix.mjs "$RUNNER_TEMP/uploader-audit.json"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
