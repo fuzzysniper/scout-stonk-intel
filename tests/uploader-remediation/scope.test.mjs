@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import {execFileSync} from 'node:child_process';import {review,hash} from './review.mjs';
-const MANIFEST='0adbf5c40ed946a7ddda9eba7259f125e478f795b43a6b45f665168979b707e4',REVIEWER='1ff939344e1ea0526113018e3d77d4b3fff5061396f7089a23e66d19f420696b';
+const MANIFEST='085f869911f499f0da7e30ed64e5ecdf30355d1333761824385a9e023073177b',REVIEWER='1ff939344e1ea0526113018e3d77d4b3fff5061396f7089a23e66d19f420696b';
 test('finite current uploader correction freezes A/B/source/STOP/SQL/collector/approval/incident/archive/identity bytes',()=>{assert.equal(hash(fs.readFileSync('tests/uploader-remediation/review.json')),MANIFEST);assert.equal(hash(fs.readFileSync('tests/uploader-remediation/review.mjs')),REVIEWER);review();});
 test('passing control rejects out-of-scope, source, encryption, alias, tool-pin, inspection and nested package drift',()=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'SYNTHETIC-uploader-scope-'));

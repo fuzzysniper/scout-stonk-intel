@@ -1,6 +1,6 @@
 {
   "base": "c4cecb3ae8370713d78d08ff308a65632c7719d3",
-  "parent": "7cecf00dd1e790b2a683de920488ede87772057b",
+  "parent": "995ed255eab132960cf25e65f025848e417505bf",
   "modified": {
     "ops/native-beta-output/build.mjs": {
       "mode": "100644",
@@ -34,7 +34,7 @@
     },
     "tests/uploader-remediation/audit-matrix.mjs": {
       "mode": "100644",
-      "sha256": "45303d44d2c39dec0ce04caefcfdc970c9e0b80b50d2d8d8d1665fb0c655c2c5"
+      "sha256": "9ab0c7e79cbea02952b666d5d12410933a12f22b951c1b9bce58c7133adca788"
     },
     "tests/uploader-remediation/baseline-audit.json": {
       "mode": "100644",
