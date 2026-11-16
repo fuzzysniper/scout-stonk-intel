@@ -25,10 +25,12 @@ jobs:
           npm ci --ignore-scripts
           npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts --no-audit --no-fund
           node --input-type=module -e "import {tools} from './ops/native-beta-output/build.mjs'; tools('ops/native-beta-output/toolchain');"
+          node tests/preview-inspection/legacy-tools.mjs
       - name: Offline regression and exact predicate-preservation proofs
         run: |
           export NODE_OPTIONS="--import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs"
           node --test tests/preview-inspection/*.test.mjs tests/preview-preflight-diagnostics/contracts.test.mjs tests/preview-preflight-diagnostics/transport.test.mjs tests/preview-preflight-diagnostics/tar-reachability.test.mjs tests/native-beta-output/output.test.mjs tests/native-beta-output/verify.test.mjs tests/native-beta-output/upload.test.mjs tests/native-beta-output/workflow.test.mjs
+          node --test tests/uploader-security/graph.test.mjs
           bash tests/native-publisher-diagnostics/run.sh
           bash tests/preview-preflight-diagnostics/tls-isolated.sh
           ./node_modules/.bin/tsc --noEmit

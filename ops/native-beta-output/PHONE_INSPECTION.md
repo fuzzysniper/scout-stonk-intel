@@ -154,11 +154,15 @@ a separately authorized effective protection test on a real deployment.
 
 ## Deployment HOLD and rollback
 
-The unchanged toolchain still contains critical `tar@7.5.11`
-GHSA-23hp-3jrh-7fpw. Reachability assessment is limited to static/module-import
-evidence, not execution of the deploy command. **Unresolved for deployment.** No
-upgrade or advisory waiver is made. The inspector does not install/import that
-toolchain. A passed inspection is insufficient to lift this HOLD.
+C's exact reviewed source37e4a39caf2976f4575c2b8c4358e30b1e1b51d8 patches the
+actual tar copies to7.5.22 without changing CLI64.5.0. Full uploader audit remains
+nonzero (C's retained snapshot35 affected entries; independent B snapshot37).
+**Deployment security remains HOLD** for unresolved high/moderate advisories,
+including Undici TLS validation. The inspector imports neither CLI nor tar;
+its code-only approval change is not an audit waiver or uploader GO. Original
+held43518878650 receipt has the old policy hash; it cannot silently become valid
+under the changed tool-lock policy. A distinct new build/output needs separate
+review/approval and may never impersonate those preserved original bytes.
 
 No installed branch/settings have changed in this draft; rollback now is simply
 not installing it. After a separately approved installation, an inspection failure

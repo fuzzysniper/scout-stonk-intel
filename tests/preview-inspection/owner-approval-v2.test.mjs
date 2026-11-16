@@ -59,7 +59,7 @@ test('shared publisher/upload gate still requires its exact phrase; v2 never cal
  assert.equal(restored,original.trimEnd(),'all other predicates preserved in original order');
  const contracts='tests/preview-preflight-diagnostics/contracts.test.mjs';
  const historicalFixture=fs.readFileSync(contracts,'utf8').replace("version:'native-preview-inspection/2',approvalPolicy:'github-environment-owner/1',repositoryId:policy.repositoryId,environmentId:policy.environmentId,commit:ctx.sha","version:'native-preview-inspection/1',commit:ctx.sha").replace("x.reviews[0].user.login='fuzzysniper';",'');
- assert.equal(historicalFixture,execFileSync('git',['show',base+':'+contracts]).toString(),'only synthetic policy/owner fixture changes; every original assertion retained');
+ assert.equal(historicalFixture.replace("execFileSync('git',['show','37e4a39caf2976f4575c2b8c4358e30b1e1b51d8:ops/native-beta-output/'+p])","execFileSync('git',['show',BASE+':ops/native-beta-output/'+p])"),execFileSync('git',['show',base+':'+contracts]).toString(),'only synthetic policy/owner fixture changes; every original assertion retained');
 });
 test('actual pipeline mirrors sanitized failures to logs and Summary and preserves failing exit status',()=>{
  const workflow=fs.readFileSync('.github/workflows/native-pilot-admission.yml','utf8'),block=workflow.split('\n  inspection-read-only:')[1];

@@ -1,12 +1,14 @@
 // Offline build preparation. No auth/login/pull/deployment command is available here.
 import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import {execFileSync} from 'node:child_process';import {pathToFileURL,fileURLToPath} from 'node:url';
 import {policy,need,hash,freeze} from './output.mjs';
+import {verifyTarGraph} from './toolchain-security.mjs';
 export function git(root,...args){return execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:['ignore','pipe','ignore']}).trim();}
 export function tools(root){
  const read=p=>JSON.parse(fs.readFileSync(path.join(root,'node_modules',p,'package.json')));
  need(process.versions.node===policy.node&&read('vercel').version===policy.cli&&read('@vercel/next').version===policy.builder&&read('@vercel/build-utils').version===policy.buildUtils);
  need(execFileSync('npm',['--version'],{encoding:'utf8',stdio:['ignore','pipe','ignore']}).trim()===policy.npm);
  need(hash(fs.readFileSync(path.join(root,'package-lock.json')))===policy.toolLockSha256);
+ verifyTarGraph(root);
  for(const [p,digest]of Object.entries(policy.cliFiles))need(hash(fs.readFileSync(path.join(root,'node_modules/vercel',p)))===digest);
  return path.join(root,'node_modules/vercel/dist/index.js');
 }
