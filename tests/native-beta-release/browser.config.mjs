@@ -1,0 +1,2 @@
+import {defineConfig} from '../../experiments/consumer-mvp/web/node_modules/@playwright/test/index.mjs';import base from '../native-union-284/browser.config.mjs';
+export default defineConfig({...base,testDir:'.',testMatch:'browser.spec.mjs',outputDir:'../../node_modules/.cache/native-beta-release-browser',use:{...base.use,baseURL:'http://127.0.0.1:3898'},webServer:{...base.webServer,command:'node --conditions=react-server tests/native-beta-release/browser-server.mjs',url:'http://127.0.0.1:3898/lens'}});

@@ -1,0 +1,75 @@
+FRESH OFFLINE VALIDATION — 2026-11-14 UTC
+Installed base: 972dc257f75c3f88087c49feda803af9e3bc7b7c
+Recovered correction parent: f02951820dc9ea6c26282b502d56601b4bfe1831
+Stage: local prepublication descendant; not hosted execution or exact-head GitHub CI
+Node 24.19.0; npm 11.9.0; unchanged root/toolchain locks; install scripts disabled.
+Existing local-only and no-database preloads used. No credentials bound.
+
+Focused suite: 56 passed, zero failed/skipped.
+  ...
+1..40
+# tests 56
+# suites 0
+# pass 56
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6798.74843
+
+Preserved publisher suite: 164 passed, zero failed/skipped; synthetic 0/1/2 POST, denied reads, lost acknowledgments and redaction cases.
+✔ every original need predicate remains present, including TLS/framing/binding and publication gates (0.694261ms)
+ℹ tests 164
+ℹ suites 0
+ℹ pass 164
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12216.91267
+
+Actual isolated loopback TLS/SNI with ephemeral test CA:
+{"kind":"ACTUAL_LOOPBACK_TLS_SYNTHETIC_CA","strictCertificateAndHostname":true,"nativeClientSniProperty":true,"requests":1,"externalRoutes":0,"providerCalls":0,"sourceGo":false}
+
+Typecheck command: ./node_modules/.bin/tsc --noEmit — exit0.
+Lint command: npm run lint — exit0, zero errors, three inherited warnings:
+
+> scout-stonk-intel@0.1.0 lint
+> eslint .
+
+
+/tmp/scout-inspection-publish/tests/native-publisher-diagnostics/contracts.test.mjs
+  3:9  warning  'need' is defined but never used  @typescript-eslint/no-unused-vars
+
+/tmp/scout-inspection-publish/tests/native-publisher-diagnostics/diagnostics.test.mjs
+  260:77  warning  'm' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/tmp/scout-inspection-publish/tests/oracle-take-274/optimized.config.mjs
+  2:1  warning  Assign object to a variable before exporting as module default  import/no-anonymous-default-export
+
+✖ 3 problems (0 errors, 3 warnings)
+
+
+Production build: npm run build — exit0, Next15.5.28; external HTTP and all SQL blocked.
+  ├ chunks/4bd1b696-f785427dddbba9fb.js          54.2 kB
+  └ other shared chunks (total)                  1.96 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+Archive command: bash scripts/archive-tool.sh check 905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a — exit0.
+Archive append-only/reproduction check passed
+
+Original temporary validation log hashes are historical labels, not recovered files:
+50b1fbe7f1185adb1164736c1612676ec97ee8b293ee6ff923f57fee9f6a2318 TEST-RESULTS.txt
+5917688b57cb099839e584648e0fa71330f260cc750c72ed61b1850600ded8fa VALIDATION.json
+2dbd5d0acbdd795fcd39927a837d07a8bab80b35d3e2b3ca2bcaac60c8dc563b toolchain-audit.json
+
+No hosted compatibility, effective deployment protection, upload, first-failing-predicate discovery or live source success is claimed.
+Tar critical advisory remains unresolved for deployment.
+Scope/immutable replay and final GitHub CI are recorded separately in the draft PR.
+
+Publication-only metadata reconciliation: GitHub rejected private author metadata.
+Original recovered source tree retained exactly; public noreply replay 653f3dd4a636a2781b50d3c2891d71a84a7289e7 has identical669e tree. Original local commits remain preserved. No privacy setting was changed.

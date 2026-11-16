@@ -1,0 +1,2659 @@
+{
+  "kind": "LOCAL_SYNTHETIC_FOCUS_OBSERVATIONS",
+  "historicalCiCause": "unproven",
+  "sourceCalls": false,
+  "reports": {
+    "natural": [
+      {
+        "project": "320",
+        "events": [
+          {
+            "type": "raf-before",
+            "at": 105,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 105.20000000298023,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-before",
+            "at": 105.30000000447035,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 105.5,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "DOMContentLoaded",
+            "at": 154,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 343.70000000298023,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 399.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 399.70000000298023,
+            "ready": "complete",
+            "active": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 407.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "toggle",
+            "at": 474,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "breaks"
+            },
+            "open": false
+          },
+          {
+            "type": "toggle",
+            "at": 474.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "raf-before",
+            "at": 516.8999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 517.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "open": false
+          },
+          {
+            "type": "raf-after",
+            "at": 517.2000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "before-summary-focus",
+            "at": 583.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusout",
+            "at": 609.5,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 609.8999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "after-summary-focus",
+            "at": 618.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "keydown",
+            "at": 628.8999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "key": "Enter",
+            "open": false
+          },
+          {
+            "type": "keyup",
+            "at": 630.8000000044703,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "key": "Enter",
+            "open": true
+          },
+          {
+            "type": "toggle",
+            "at": 633.7000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": true
+          },
+          {
+            "type": "after-enter",
+            "at": 645.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": true
+          },
+          {
+            "type": "focusout",
+            "at": 2153.10000000149,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": true
+          },
+          {
+            "type": "focusin",
+            "at": 2153.5,
+            "ready": "complete",
+            "active": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": true
+          },
+          {
+            "type": "focusout",
+            "at": 2156.7000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": true
+          },
+          {
+            "type": "focusin",
+            "at": 2157,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": true
+          }
+        ],
+        "consoleErrorCategories": [
+          "expected_source_off_503"
+        ]
+      },
+      {
+        "project": "320",
+        "events": [
+          {
+            "type": "raf-before",
+            "at": 347.1000000014901,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 348.1000000014901,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "DOMContentLoaded",
+            "at": 431.70000000298023,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 586.7999999970198,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "raf-before",
+            "at": 662.2000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 662.7999999970198,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-before",
+            "at": 662.8999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 662.8999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 701.8999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 702.2000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 719.7999999970198,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "toggle",
+            "at": 803.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "breaks"
+            },
+            "open": false
+          },
+          {
+            "type": "toggle",
+            "at": 803.8999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "raf-before",
+            "at": 844.5,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 844.7000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "open": false
+          },
+          {
+            "type": "raf-after",
+            "at": 844.8999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "before-summary-focus",
+            "at": 932.7999999970198,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusout",
+            "at": 952.5,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 952.7999999970198,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "after-summary-focus",
+            "at": 998.3999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "keydown",
+            "at": 1042.7999999970198,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "key": "Enter",
+            "open": false
+          },
+          {
+            "type": "keyup",
+            "at": 1048.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "key": "Enter",
+            "open": true
+          },
+          {
+            "type": "toggle",
+            "at": 1052.5,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": true
+          },
+          {
+            "type": "after-enter",
+            "at": 1087.3999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": true
+          },
+          {
+            "type": "focusout",
+            "at": 2689.60000000149,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": true
+          },
+          {
+            "type": "focusin",
+            "at": 2689.7999999970198,
+            "ready": "complete",
+            "active": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": true
+          },
+          {
+            "type": "focusout",
+            "at": 2690.89999999851,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": true
+          },
+          {
+            "type": "focusin",
+            "at": 2691.2000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": true
+          }
+        ],
+        "consoleErrorCategories": [
+          "expected_source_off_503"
+        ]
+      },
+      {
+        "project": "320",
+        "events": [
+          {
+            "type": "raf-before",
+            "at": 161,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 161.20000000298023,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-before",
+            "at": 163,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 163.10000000149012,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "DOMContentLoaded",
+            "at": 220.20000000298023,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 379.8999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 431,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 431.20000000298023,
+            "ready": "complete",
+            "active": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 443.70000000298023,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "toggle",
+            "at": 522.3000000044703,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "breaks"
+            },
+            "open": false
+          },
+          {
+            "type": "toggle",
+            "at": 522.5,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "raf-before",
+            "at": 561.5,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 561.8999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "open": false
+          },
+          {
+            "type": "raf-after",
+            "at": 562,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "before-summary-focus",
+            "at": 621.3999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusout",
+            "at": 636.7000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 637.2000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "after-summary-focus",
+            "at": 646.8999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "keydown",
+            "at": 655.8000000044703,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "key": "Enter",
+            "open": false
+          },
+          {
+            "type": "toggle",
+            "at": 659.8000000044703,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": true
+          },
+          {
+            "type": "keyup",
+            "at": 660,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "key": "Enter",
+            "open": true
+          },
+          {
+            "type": "after-enter",
+            "at": 673.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": true
+          },
+          {
+            "type": "focusout",
+            "at": 1860.8999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": true
+          },
+          {
+            "type": "focusin",
+            "at": 1861.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": true
+          },
+          {
+            "type": "focusout",
+            "at": 1862.2000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": true
+          },
+          {
+            "type": "focusin",
+            "at": 1862.5,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": true
+          }
+        ],
+        "consoleErrorCategories": [
+          "expected_source_off_503"
+        ]
+      }
+    ],
+    "deferred-before": [
+      {
+        "project": "320",
+        "events": [
+          {
+            "type": "DOMContentLoaded",
+            "at": 103.70000000298023,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-before",
+            "at": 191.70000000298023,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 191.70000000298023,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-before",
+            "at": 191.70000000298023,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 191.90000000596046,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 374.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 432.80000000447035,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 433.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 440.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "toggle",
+            "at": 559.5,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "breaks"
+            },
+            "open": false
+          },
+          {
+            "type": "toggle",
+            "at": 559.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "before-summary-focus",
+            "at": 643.2000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 656.4000000059605,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "after-summary-focus",
+            "at": 663.3000000044703,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "raf-before",
+            "at": 669.2000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusout",
+            "at": 669.3000000044703,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 669.7000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "open": false
+          },
+          {
+            "type": "raf-after",
+            "at": 669.8000000044703,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "keydown",
+            "at": 675.5,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "key": "Enter",
+            "open": false
+          },
+          {
+            "type": "keyup",
+            "at": 676.4000000059605,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "key": "Enter",
+            "open": false
+          },
+          {
+            "type": "after-enter",
+            "at": 682.7000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          }
+        ],
+        "consoleErrorCategories": [
+          "expected_source_off_503"
+        ]
+      }
+    ],
+    "deferred-after": [
+      {
+        "project": "320",
+        "events": [
+          {
+            "type": "raf-before",
+            "at": 122.60000000149012,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 122.79999999701977,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-before",
+            "at": 122.79999999701977,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 123,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "DOMContentLoaded",
+            "at": 187.60000000149012,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 340.29999999701977,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 401.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 401.79999999701977,
+            "ready": "complete",
+            "active": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 409.20000000298023,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "toggle",
+            "at": 440.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "breaks"
+            },
+            "open": false
+          },
+          {
+            "type": "toggle",
+            "at": 440.70000000298023,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "raf-before",
+            "at": 589,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 589.2999999970198,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "open": false
+          },
+          {
+            "type": "raf-after",
+            "at": 589.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "before-summary-focus",
+            "at": 606.2000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusout",
+            "at": 618.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 618.5,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "after-summary-focus",
+            "at": 633.8999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "keydown",
+            "at": 640.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "key": "Enter",
+            "open": false
+          },
+          {
+            "type": "keyup",
+            "at": 642.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "key": "Enter",
+            "open": true
+          },
+          {
+            "type": "toggle",
+            "at": 645,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": true
+          },
+          {
+            "type": "after-enter",
+            "at": 661.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": true
+          },
+          {
+            "type": "focusout",
+            "at": 1853.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": true
+          },
+          {
+            "type": "focusin",
+            "at": 1853.2999999970198,
+            "ready": "complete",
+            "active": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": true
+          },
+          {
+            "type": "focusout",
+            "at": 1854.2000000029802,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": true
+          },
+          {
+            "type": "focusin",
+            "at": 1854.3999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": true
+          }
+        ],
+        "consoleErrorCategories": [
+          "expected_source_off_503"
+        ]
+      },
+      {
+        "project": "390",
+        "events": [
+          {
+            "type": "raf-before",
+            "at": 136.60000000149012,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 136.70000000298023,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-before",
+            "at": 136.80000000447035,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 136.80000000447035,
+            "ready": "loading",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "DOMContentLoaded",
+            "at": 169.90000000596046,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 290.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 340.80000000447035,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 340.90000000596046,
+            "ready": "complete",
+            "active": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 349.40000000596046,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "toggle",
+            "at": 407.30000000447035,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "breaks"
+            },
+            "open": false
+          },
+          {
+            "type": "toggle",
+            "at": 407.5,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "raf-before",
+            "at": 492,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 492.20000000298023,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "open": false
+          },
+          {
+            "type": "raf-after",
+            "at": 492.40000000596046,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "before-summary-focus",
+            "at": 506.5,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusout",
+            "at": 517.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 517.3000000044703,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "after-summary-focus",
+            "at": 530.3000000044703,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "keydown",
+            "at": 536,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "key": "Enter",
+            "open": false
+          },
+          {
+            "type": "keyup",
+            "at": 537.5,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "key": "Enter",
+            "open": true
+          },
+          {
+            "type": "after-enter",
+            "at": 543.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": true
+          },
+          {
+            "type": "toggle",
+            "at": 550.9000000059605,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": true
+          },
+          {
+            "type": "focusout",
+            "at": 1674.5,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": true
+          },
+          {
+            "type": "focusin",
+            "at": 1674.9000000059605,
+            "ready": "complete",
+            "active": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": true
+          },
+          {
+            "type": "focusout",
+            "at": 1675.8000000044703,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": true
+          },
+          {
+            "type": "focusin",
+            "at": 1676.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": true
+          }
+        ],
+        "consoleErrorCategories": [
+          "expected_source_off_503"
+        ]
+      },
+      {
+        "project": "1280",
+        "events": [
+          {
+            "type": "DOMContentLoaded",
+            "at": 98.5,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-before",
+            "at": 149.60000000149012,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 149.69999999552965,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-before",
+            "at": 149.69999999552965,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "raf-after",
+            "at": 150,
+            "ready": "interactive",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 374.19999999552965,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 434.19999999552965,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusin",
+            "at": 434.3999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "focusout",
+            "at": 441.79999999701977,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": null
+          },
+          {
+            "type": "toggle",
+            "at": 503.3999999985099,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "breaks"
+            },
+            "open": false
+          },
+          {
+            "type": "toggle",
+            "at": 503.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "raf-before",
+            "at": 618.1000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 618.2999999970198,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "open": false
+          },
+          {
+            "type": "raf-after",
+            "at": 618.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "before-summary-focus",
+            "at": 632.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "focusout",
+            "at": 645.5,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "H2",
+              "id": "lens-intelligence-title",
+              "part": null
+            },
+            "open": false
+          },
+          {
+            "type": "focusin",
+            "at": 645.6999999955297,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": false
+          },
+          {
+            "type": "after-summary-focus",
+            "at": 660.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": false
+          },
+          {
+            "type": "keydown",
+            "at": 667.5,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "key": "Enter",
+            "open": false
+          },
+          {
+            "type": "keyup",
+            "at": 671.6999999955297,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "key": "Enter",
+            "open": true
+          },
+          {
+            "type": "toggle",
+            "at": 671.7999999970198,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": {
+              "tag": "DETAILS",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": true
+          },
+          {
+            "type": "after-enter",
+            "at": 692.6000000014901,
+            "ready": "complete",
+            "active": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "target": null,
+            "open": true
+          },
+          {
+            "type": "focusout",
+            "at": 1785.1999999955297,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "SUMMARY",
+              "id": "",
+              "part": "unknown"
+            },
+            "open": true
+          },
+          {
+            "type": "focusin",
+            "at": 1785.2999999970198,
+            "ready": "complete",
+            "active": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": true
+          },
+          {
+            "type": "focusout",
+            "at": 1786.2999999970198,
+            "ready": "complete",
+            "active": {
+              "tag": "BODY",
+              "id": "",
+              "part": null
+            },
+            "target": {
+              "tag": "BUTTON",
+              "id": "",
+              "part": null
+            },
+            "open": true
+          },
+          {
+            "type": "focusin",
+            "at": 1786.5,
+            "ready": "complete",
+            "active": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "target": {
+              "tag": "INPUT",
+              "id": "inspect-ca",
+              "part": null
+            },
+            "open": true
+          }
+        ],
+        "consoleErrorCategories": [
+          "expected_source_off_503"
+        ]
+      }
+    ]
+  }
+}

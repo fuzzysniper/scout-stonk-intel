@@ -1,13 +1,14 @@
 import 'server-only';
 import {need,hash,type Policy} from '../plan';
 import {NATIVE_SETUP_RUNTIME_ENABLED} from './gates';
+import {NATIVE_RUNTIME_BUILD,NATIVE_RUNTIME_PLAN} from '../runtime/build';
 import {freeze} from '../../onchain-mint/validation';
 import {canonical,controlPlan,identity,setupCandidate,sourceCandidate,type ControlPlan,type Context,type Identity,type Setup,type Source} from './contract';
 import {githubReader,listingPath,publication,configurationPath,privateManifest,evidencePaths,verifyEvidence,type Read} from './github';
 /** No environment flag, request packet or issue comment can populate these compiled pins.
  * A later owner-approved build emits its actual checked-out identity, not a self-referential Git literal. */
-export const NATIVE_ADMISSION_PLAN:ControlPlan|null=null;
-export const NATIVE_ADMISSION_BUILD:Readonly<{commit:string;tree:string}>|null=null;
+export const NATIVE_ADMISSION_PLAN:ControlPlan|null=NATIVE_RUNTIME_PLAN;
+export const NATIVE_ADMISSION_BUILD:Readonly<{commit:string;tree:string}>|null=NATIVE_RUNTIME_BUILD;
 declare const setupBrand:unique symbol,sourceBrand:unique symbol;
 export type NativeSetupAdmission=Readonly<{readonly [setupBrand]:true}>;
 export type NativeSourceAdmission=Readonly<{readonly [sourceBrand]:true}>;

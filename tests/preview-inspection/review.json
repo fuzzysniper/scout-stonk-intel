@@ -1,0 +1,111 @@
+{
+  "base": "c4cecb3ae8370713d78d08ff308a65632c7719d3",
+  "modified": {
+    ".github/workflows/native-beta-release.yml": {
+      "mode": "100644",
+      "sha256": "517da23e2664c7c9999465b12ffdb2662cac79d7de00f968e9a22e641ac5a279"
+    },
+    ".github/workflows/preview-preflight-diagnostics.yml": {
+      "mode": "100644",
+      "sha256": "e66202a43a9d8b217312f683719a6812c23183b7d8c498bcfe9a8a35eecf3031"
+    },
+    ".github/workflows/uploader-toolchain-security.yml": {
+      "mode": "100644",
+      "sha256": "7662ee0f5dffb179cd488f27e23ee2d153fa50b626b065cfc10fbd596a66422c"
+    },
+    "ops/native-beta-output/PHONE_INSPECTION.md": {
+      "mode": "100644",
+      "sha256": "48e8fa3ddc91b6f5c3c5fe97e054f685310649dd96b19faa470eb65f53d2614c"
+    },
+    "ops/native-beta-output/checks.json": {
+      "mode": "100644",
+      "sha256": "4972b74ea3618c5b3c4a472e45e028193c7dd74a468b281567b5a4fa1ffc7f9b"
+    },
+    "ops/native-beta-output/inspect-only.mjs": {
+      "mode": "100644",
+      "sha256": "a9b29e620e65370f43f26dafe509fc1352518dcf0283365c672e39967c7df0ac"
+    },
+    "ops/native-beta-output/inspection-card.mjs": {
+      "mode": "100644",
+      "sha256": "2d0b2e8288be6ef903bdd5584da3ad00458f95ad05ed663205790e9d40baedb4"
+    },
+    "ops/native-beta-output/inspection-context.mjs": {
+      "mode": "100644",
+      "sha256": "52cc5bce99f79b06403657226bf8f188e9b30e00cdd4a42f625eed4804ef82e6"
+    },
+    "ops/native-beta-output/inspection-step.mjs": {
+      "mode": "100644",
+      "sha256": "aac8cbd1063e41df2c3c86e1218c534e5d6857bfacb8c4c14e2a8be1198b380d"
+    },
+    "ops/native-beta-output/preflight.mjs": {
+      "mode": "100644",
+      "sha256": "2d1e7b85a66ce278fe1e3ccf09dc5451d8851dfbd778ad4e901e31e797354cd0"
+    },
+    "ops/native-beta-output/upload.mjs": {
+      "mode": "100644",
+      "sha256": "8021c5721a36e6f00b009b88ff67240d7177669cbb0e8cc87e457e74289f4a8a"
+    },
+    "tests/native-beta-output/upload.test.mjs": {
+      "mode": "100644",
+      "sha256": "fd318cb77c650671df71b196f89d6055902d92e4235e389a5aa829aba8790fc7"
+    },
+    "tests/preview-inspection/ci-prerequisites.test.mjs": {
+      "mode": "100644",
+      "sha256": "59bc6a160c8c11f894cd48ccec3ce4c4a15cd4dc4997c38a35a87b6267677894"
+    },
+    "tests/preview-inspection/inspection.test.mjs": {
+      "mode": "100644",
+      "sha256": "cf5824299ea1fc6123cce142f2431cbfcc2cc0ba78f412de22ccc68175116b37"
+    },
+    "tests/preview-inspection/mobile-card.test.mjs": {
+      "mode": "100644",
+      "sha256": "87bd41540b4f8bc1a1df0a296fac197197fb48c7eb43f496b236818084275a96"
+    },
+    "tests/preview-inspection/owner-approval-v2.test.mjs": {
+      "mode": "100644",
+      "sha256": "3e916dddcc1cca29dea6c6bd837572cd351b50b968cd1cb6de1c992de19a30c4"
+    },
+    "tests/preview-inspection/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/preview-inspection/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/preview-inspection/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/preview-inspection/security-union.test.mjs": {
+      "mode": "100644",
+      "sha256": "48e333fb4a2916215841719e67a043c86cad67450d8f0e5ced3a4eeeab56edfc"
+    },
+    "tests/preview-preflight-diagnostics/contracts.test.mjs": {
+      "mode": "100644",
+      "sha256": "8a7261c03d561b9950a4a210a04815e50dd17c03d42a61f756687fa5b7feb3ed"
+    },
+    "vercel.json": {
+      "mode": "100644",
+      "sha256": "95658b8538c1c6bc6d6cc7bbbc095ef48058f966d641469461bcaea7fc96f056"
+    }
+  },
+  "added": {
+    "ops/native-beta-output/ALIAS_PAGINATION_REVIEW.md": {
+      "mode": "100644",
+      "sha256": "a341a4428dd49ea979f3c05657f1f897cda4fe31c8be87c630dbbf2caacb8e3f"
+    },
+    "ops/native-beta-output/alias-pages.mjs": {
+      "mode": "100644",
+      "sha256": "88b825c8d91701c5c3c7663aa449b0c5ca7f0a16a686e80e2673f604a6d46468"
+    },
+    "tests/preview-inspection/alias-pages.test.mjs": {
+      "mode": "100644",
+      "sha256": "7dee8737bd589e8f17ca80c3ae5ff9a246fc103546bdd09f60bc8ebb5d13371d"
+    },
+    "tests/preview-inspection/alias-preservation.test.mjs": {
+      "mode": "100644",
+      "sha256": "d668f6ff71c049a89b717dbd3bc1c1aa40e4b36527882b105ab8214d24e7a786"
+    }
+  }
+}

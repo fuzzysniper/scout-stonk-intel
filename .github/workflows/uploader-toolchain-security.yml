@@ -1,0 +1,172 @@
+name: Uploader locked tar correction OFFLINE
+on:
+  pull_request:
+    branches: [native-pilot/private-beta-rc]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  all-resolved-dependency-audit:
+    if: (github.head_ref == 'fix/uploader-tar-locked' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness' || github.head_ref == 'fix/native-preview-union' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: Exact public npm and locked uploader; no install scripts
+        run: |
+          npm install --global npm@11.9.0 --ignore-scripts --no-fund
+          test "$(npm --version)" = '11.9.0'
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts
+          npm ls --prefix ops/native-beta-output/toolchain tar --all --json
+      - name: Every uploader advisory is blocking; no severity filter or ignored exit
+        run: |
+          set -o pipefail
+          npm audit --prefix ops/native-beta-output/toolchain --json | tee "$RUNNER_TEMP/uploader-audit.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: PUBLIC-UPLOADER-AUDIT-NO-operational-acceptance
+          path: |
+            ${{ runner.temp }}/uploader-audit.json
+          if-no-files-found: error
+          include-hidden-files: true
+  actual-toolchain-packaging-and-security:
+    if: (github.head_ref == 'fix/uploader-tar-locked' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness' || github.head_ref == 'fix/native-preview-union' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: Pinned public dependencies only
+        run: |
+          npm install --global npm@11.9.0 --ignore-scripts --no-fund
+          test "$(npm --version)" = '11.9.0'
+          npm ci --ignore-scripts
+          node tests/preview-inspection/legacy-tools.mjs
+          node tests/preview-union/historical-tools.mjs
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts
+      - name: Actual copies, bounded archives, security, typecheck and archive preservation
+        run: |
+          export NODE_OPTIONS="--import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs"
+          node --test tests/uploader-security/graph.test.mjs
+          node tests/preview-union/run.mjs historical
+          node --test tests/native-beta-output/output.test.mjs tests/native-beta-output/verify.test.mjs tests/native-beta-output/upload.test.mjs tests/native-beta-output/workflow.test.mjs tests/preview-preflight-diagnostics/transport.test.mjs tests/preview-preflight-diagnostics/tar-reachability.test.mjs tests/preview-inspection/inspection.test.mjs tests/preview-inspection/clock-probe.test.mjs tests/preview-inspection/workflow.test.mjs
+          bash tests/preview-preflight-diagnostics/tls-isolated.sh
+          ./node_modules/.bin/tsc --noEmit
+          npm run lint
+          bash scripts/archive-tool.sh check 905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a
+      # Scope-bound inspection contracts/mobile-card assertions execute unchanged at their original input below.
+      # Current B code is byte-frozen by C scope; current policy delta is restricted to the exact new lock hash.
+      - name: Original immutable reviewers and historical graph; never release clearance
+        run: |
+          prior="$RUNNER_TEMP/uploader-original-d983"
+          git worktree add --detach "$prior" d98316ca4bda7120eeff5882688ba1e3364c04d5
+          ln -s "$GITHUB_WORKSPACE/node_modules" "$prior/node_modules"
+          npm ci --prefix "$prior/ops/native-beta-output/toolchain" --ignore-scripts
+          cd "$prior"
+          NODE_OPTIONS="--import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs" node --test tests/preview-inspection/*.test.mjs
+          cd "$GITHUB_WORKSPACE"
+          git worktree remove --force "$prior"
+          node tests/preview-union/run.mjs scope
+  genuine-candidate-offline-build:
+    if: (github.head_ref == 'fix/uploader-tar-locked' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness' || github.head_ref == 'fix/native-preview-union' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: Locked public build prerequisites
+        run: |
+          npm install --global npm@11.9.0 --ignore-scripts --no-fund
+          test "$(npm --version)" = '11.9.0'
+          npm ci --ignore-scripts
+          node tests/preview-inspection/legacy-tools.mjs
+          node tests/preview-union/historical-tools.mjs
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts
+      - name: New candidate verification-only output; incident artifacts are never read
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          git switch --create "$GITHUB_HEAD_REF" "$EXPECTED_HEAD"
+          node --input-type=module -e "import {tools,source,cliGitMetadata} from './ops/native-beta-output/build.mjs'; const t='ops/native-beta-output/toolchain'; tools(t); const p=await source(process.cwd(),process.env.EXPECTED_HEAD,{verificationOnly:true}); await cliGitMetadata(t,process.cwd(),p); console.log(JSON.stringify({kind:'CANDIDATE_LOCAL_GIT_METADATA',source:p,sourceCalls:false,deployed:false}));"
+          bash ops/native-beta-output/build-isolated.sh verify-build "$PWD" "$PWD/ops/native-beta-output/toolchain" "$EXPECTED_HEAD" "$RUNNER_TEMP/NEW-CANDIDATE-VERIFICATION-ONLY.private.json" > "$RUNNER_TEMP/NEW-CANDIDATE-VERIFICATION-ONLY.receipt.json"
+          node -e 'const x=require(process.env.RUNNER_TEMP+"/NEW-CANDIDATE-VERIFICATION-ONLY.receipt.json");if(!x.source.verificationOnly||x.deployed||x.sourceCalls)throw Error("HOLD");console.log(JSON.stringify(x));'
+          node tests/preview-union/run.mjs scope
+      # No generated application/server-key/archive files are uploaded.
+  mobile-acceptance-sequence-LOCAL-SYNTHETIC:
+    if: (github.head_ref == 'fix/uploader-tar-locked' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness' || github.head_ref == 'fix/native-preview-union' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - name: Locked public browser prerequisites only
+        run: |
+          npm install --global npm@11.9.0 --ignore-scripts --no-fund
+          test "$(npm --version)" = '11.9.0'
+          npm ci --ignore-scripts
+          node tests/preview-inspection/legacy-tools.mjs
+          node tests/preview-union/historical-tools.mjs
+          npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts
+          npm ci --prefix experiments/consumer-mvp/web --ignore-scripts
+          if command -v google-chrome >/dev/null; then
+            printf 'CONSUMER_CHROMIUM_PATH=%s\n' "$(command -v google-chrome)" >> "$GITHUB_ENV"
+          else
+            node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js install --with-deps chromium
+          fi
+      - name: Existing exact-mint clocks THE TAKE claim provenance STOP expiry Clear and owner form
+        run: |
+          export NODE_OPTIONS="--import=$PWD/tests/security114/local-only.mjs --import=$PWD/tests/native-postgres/no-database.mjs"
+          bash tests/jupiter-research-v3/mobile.sh
+          FOCUS_PROBE_MODE=deferred-handoff node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/oracle-take-274/optimized.config.mjs --output=experiments/consumer-mvp/web/node_modules/.cache/oracle-take274-deferred
+          bash tests/native-union-284/run.sh browser
+          bash tests/native-beta-release/mobile.sh browser
+          node experiments/consumer-mvp/web/node_modules/@playwright/test/cli.js test -c tests/native-union-284/optimized.config.mjs
+          node tests/preview-union/run.mjs scope
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: LOCAL-SYNTHETIC-mobile-NO-protected-Preview-or-live-acceptance
+          path: |
+            experiments/consumer-mvp/web/node_modules/.cache/oracle-take274-optimized/**/focus-observations.json
+            experiments/consumer-mvp/web/node_modules/.cache/oracle-take274-deferred/**/focus-observations.json
+            node_modules/.cache/native-union-284-proof/*.png
+            node_modules/.cache/native-beta-release-proof/owner-off-*.png
+          if-no-files-found: error
+          include-hidden-files: true

@@ -1,0 +1,21 @@
+'use client';
+// Reuse the existing /lens owner sign-in form, cookie-only requests and styling.
+// No new page, signup, storage, tracking, automatic request or source action.
+import {useEffect,useRef,useState} from 'react';
+import styles from './ca-view.module.css';
+export default function NativeOwnerAccess({open,onOpen,onSession,onDiscard}:{open:boolean;onOpen:(value:boolean)=>void;onSession:(value:boolean)=>void;onDiscard:()=>void}){
+ const [email,setEmail]=useState(''),[password,setPassword]=useState(''),[signedIn,setSignedIn]=useState(false),[busy,setBusy]=useState(false),[message,setMessage]=useState('');
+ const status=useRef<HTMLParagraphElement>(null),emailInput=useRef<HTMLInputElement>(null),active=useRef<AbortController|null>(null),generation=useRef(0);
+ useEffect(()=>{if(open)emailInput.current?.focus();},[open]);
+ useEffect(()=>{const abort=()=>{generation.current++;active.current?.abort();};const discard=()=>{abort();setEmail('');setPassword('');setSignedIn(false);setBusy(false);setMessage('');};const hide=()=>{if(document.visibilityState==='hidden')discard();};window.addEventListener('pagehide',discard);document.addEventListener('visibilitychange',hide);return()=>{abort();window.removeEventListener('pagehide',discard);document.removeEventListener('visibilitychange',hide);};},[]);
+ async function submit(logout=false){if(busy)return;const id=++generation.current,c=new AbortController();active.current=c;setBusy(true);setMessage('');if(logout){setSignedIn(false);onSession(false);onDiscard();}
+  try{const r=await fetch('/api/native-pilot/owner/'+(logout?'sign-out':'sign-in/email'),{method:'POST',credentials:'same-origin',cache:'no-store',redirect:'error',signal:AbortSignal.any([c.signal,AbortSignal.timeout(6000)]),headers:{'Content-Type':'application/json','X-UNFARMD-OWNER-INTENT':logout?'logout':'login'},body:logout?'{}':JSON.stringify({email,password})});
+   if(!r.ok)throw Object.assign(Error('owner_unavailable'),{status:r.status});const reader=r.body?.getReader();if(!reader)throw Error();let text='',bytes=0,parts=0;const decoder=new TextDecoder('utf8',{fatal:true});try{for(;;){const x=await reader.read();if(x.done)break;bytes+=x.value.length;if(bytes>2048||++parts>32)throw Error();text+=decoder.decode(x.value,{stream:true});}text+=decoder.decode();}finally{void reader.cancel().catch(()=>{});}
+   const v=JSON.parse(text);if(Object.keys(v).sort().join(',')!=='status'||v.status!==(logout?'signed_out':'signed_in'))throw Error();if(id!==generation.current||c.signal.aborted)return;
+   setSignedIn(!logout);onSession(!logout);onOpen(false);setEmail('');setPassword('');setMessage(logout?'Signed out. Private view cleared.':'Signed in. Inspect an address to continue.');
+  }catch(error){if(id!==generation.current||c.signal.aborted)return;setPassword('');setMessage(logout?'Sign-out outcome unknown. Private view cleared; close this tab and verify your session before returning.':(error as {status?:number}).status===429?'Sign-in limit reached. No automatic retry.':'Sign-in was not confirmed. Check your owner credentials or release admission.');requestAnimationFrame(()=>status.current?.focus());}finally{if(id===generation.current)setBusy(false);}
+ }
+ return <><div>{signedIn?<button type="button" className={styles.quiet} disabled={busy} onClick={()=>void submit(true)}>Sign out</button>:<button type="button" className={styles.quiet} onClick={()=>onOpen(!open)}>Owner sign in</button>}</div>
+  {open?<form className={styles.signin} onSubmit={e=>{e.preventDefault();void submit();}}><h2>Owner sign in</h2><label htmlFor="owner-email">Email</label><input id="owner-email" ref={emailInput} type="email" value={email} onChange={e=>setEmail(e.target.value)} autoComplete="username" autoCapitalize="none" required/><label htmlFor="owner-password">Passphrase</label><input id="owner-password" type="password" value={password} onChange={e=>setPassword(e.target.value)} autoComplete="current-password" maxLength={128} required/><button disabled={busy} type="submit">{busy?'Signing in…':'Sign in'}</button><p>Single owner. No public signup. Sign-in does not enable market sources.</p></form>:null}
+  <p ref={status} role="status" tabIndex={-1} className={styles.authStatus}>{message}</p></>;
+}

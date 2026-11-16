@@ -56,10 +56,17 @@ export function transaction(pool:Pick<Pool,'connect'>,binding:string,proof:(c:Po
 }
 /** Concrete native-pg+authenticated remote witness. Nothing connects at construction. */
 export function openPostgresLedger(pInput:Policy,config:NativePostgresConfiguration){
+ return openNativeLedger(pInput,config,false);
+}
+/** Same immutable protocol/physical proof, restricted STOP-only SQL login. */
+export function openPostgresStopper(pInput:Policy,config:NativePostgresConfiguration){
+ const ledger=openNativeLedger(pInput,config,true);return Object.freeze({stop:ledger.stop});
+}
+function openNativeLedger(pInput:Policy,config:NativePostgresConfiguration,stopper:boolean){
  const p=policy(pInput),binding=seed(p).checkpoint.policyHash;
  const admitted=nativeSetupRecord(config.admission,p),record=admitted.record.database,custody=admitted.record.checkpoint;
  need(hash(config.ca)===record.caSha256&&config.host===record.host&&config.custody.policyHash===binding&&config.custody.origin===custody.origin&&config.custody.keySha256===custody.keySha256&&config.custody.reviewSha256===custody.reviewSha256&&config.custody.origin!==p.origin);
- const connection=nativeConfiguration(config.dsn,config.host,config.ca);
+ const connection=nativeConfiguration(config.dsn,config.host,config.ca,stopper);
  // Fresh bounded native client per transaction: no frozen Vercel idle-pool dependency.
  const pool={async connect(){const c=new StrictJournalClient(connection);await c.connect();
   return Object.assign(c,{async release(broken=false){const stream=(c as unknown as {connection:{stream:{destroy:()=>void}}}).connection.stream;if(broken)stream.destroy();let timer:NodeJS.Timeout|undefined;
@@ -68,7 +75,7 @@ export function openPostgresLedger(pInput:Policy,config:NativePostgresConfigurat
  }} as Pick<Pool,'connect'>;
  const anchor=remoteCheckpoint(config.custody,config.checkpointKey);
  const proof=async(c:PoolClient)=>{
-  need(strictBindingEstablished(c));nativeSetupRecord(config.admission,p);checkProof((await c.query(PROOF)).rows[0]);
+  need(strictBindingEstablished(c));nativeSetupRecord(config.admission,p);checkProof((await c.query(PROOF)).rows[0],stopper);
   checkPhysicalProof((await c.query(PHYSICAL_PROOF,[record.project,record.branch,record.tenantId,record.timelineId])).rows[0]);
  };
  const tx=transaction(pool,binding,proof),durability=Object.freeze({mode:'neon-safekeeper-quorum/v1',tenantId:record.tenantId,timelineId:record.timelineId,admissionSha256:admitted.sha256,custodySha256:config.custody.reviewSha256});

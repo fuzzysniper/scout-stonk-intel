@@ -1,0 +1,9 @@
+// Genuine patched toolchain import/Git metadata only; NEVER invokes deployment.
+// Import reachability is compatibility evidence, never advisory/source clearance.
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import {createRequire} from 'node:module';import {pathToFileURL} from 'node:url';
+import {tools,cliGitMetadata,source} from '../../ops/native-beta-output/build.mjs';import {localSource} from '../native-beta-output/fixtures.mjs';
+const root=path.resolve('ops/native-beta-output/toolchain'),require=createRequire(import.meta.url);
+test('patched tar retains real container parser sinks and pinned metadata/import compatibility; no operational clearance',async()=>{
+ const container=path.join(root,'node_modules/@vercel/container/dist/index.js'),tar=JSON.parse(fs.readFileSync(path.join(root,'node_modules/tar/package.json')));assert.equal(tar.version,'7.5.22');const s=fs.readFileSync(container,'utf8');assert.equal((s.match(/import_tar\.extract\)/g)??[]).length,3);assert.match(s,/async function fetchPinnedArchive/);assert.match(s,/async function fetchBuildpackage/);assert.match(s,/downloadPinnedArchive/);const policy=fs.readFileSync('ops/native-beta-output/output.mjs','utf8');assert.match(policy,/\['nodejs24\.x','edge'\]\.includes\(c.runtime\)/);
+ const f=localSource();try{tools(root);const proof=await source(f.root,f.source.commit);await cliGitMetadata(root,f.root,proof);assert.ok(!Object.keys(require.cache).some(p=>p.startsWith(path.join(root,'node_modules/tar/'))),'actual pre-journal metadata helper loaded no parser');await import(pathToFileURL(path.join(root,'node_modules/vercel/dist/commands/deploy/index.js')).href);assert.ok(!Object.keys(require.cache).some(p=>p.startsWith(path.join(root,'node_modules/tar/'))),'import-only evidence, not a command-execution proof');}finally{fs.rmSync(f.root,{recursive:true,force:true});}
+});
