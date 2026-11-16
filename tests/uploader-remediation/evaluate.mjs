@@ -3,10 +3,10 @@ import fs from 'node:fs';import os from 'node:os';import path from 'node:path';i
 for(const n of ['VERCEL_TOKEN','NATIVE_ADMISSION_READ_TOKEN','UNFARMD_NATIVE_BUILD_ARCHIVE_KEY','UNFARMD_NATIVE_PREVIEW_DEPLOY_TOKEN','DATABASE_URL'])assert.ok(!process.env[n]);
 const sha=b=>createHash('sha256').update(b).digest('hex'),out=path.join(process.env.RUNNER_TEMP||os.tmpdir(),'uploader-public-evaluation');fs.mkdirSync(out,{recursive:true});
 const run=(args,cwd)=>spawnSync('npm',args,{cwd,encoding:'utf8',maxBuffer:32*1024*1024,timeout:240000,env:{PATH:process.env.PATH,HOME:process.env.HOME,CI:'1',npm_config_registry:'https://registry.npmjs.org/',npm_config_ignore_scripts:'true'}});
-for(const name of ['undici','glob','minimatch','zod','@vercel/node','@vercel/backends','@vercel/python-analysis']){
+for(const name of ['smol-toml','undici','glob','minimatch','zod','@vercel/node','@vercel/backends','@vercel/python-analysis']){
  const r=await fetch('https://registry.npmjs.org/'+encodeURIComponent(name),{signal:AbortSignal.timeout(30000)});assert.equal(r.status,200);const p=await r.json(),v=p['dist-tags'].latest;console.log('PUBLIC_PACKAGE_METADATA '+JSON.stringify({name,latest:v,meta:p.versions[v],recent:Object.keys(p.versions).filter(x=>/^\d+\.\d+\.\d+$/.test(x)).slice(-6)}));
 }
-const same={'@vercel/container@19.1.3':{tar:'7.5.22'},'ajv@8.6.3':'8.18.0','js-yaml@4.1.1':'4.3.2','smol-toml@1.5.2':'1.8.1','path-to-regexp@6.1.0':'6.3.0','path-to-regexp@8.3.0':'8.4.0','zod@4.1.11':'4.6.6','minimatch@10.1.1':'10.2.6'};
+const same={'@vercel/container@19.1.3':{tar:'7.5.22'},'ajv@8.6.3':'8.18.0','js-yaml@4.1.1':'4.3.2','smol-toml@1.5.2':'1.9.0','path-to-regexp@6.1.0':'6.3.0','path-to-regexp@8.3.0':'8.4.0','zod@4.1.11':'4.6.6','minimatch@10.1.1':'10.2.6'};
 const transport={...same,'undici@5.28.4':'6.29.1','undici@5.29.0':'6.29.1'};
 const all={...transport,'zod@3.22.4':'4.6.6','glob@13.0.6':'14.0.2','minimatch@10.1.1':'11.0.1','minimatch@10.2.6':'11.0.1'};
 for(const [label,overrides] of Object.entries({sameMajor:same,transportCandidate:transport,majorCompatibilityExperiment:all})){
