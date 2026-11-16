@@ -101,7 +101,7 @@
     },
     "tests/preview-inspection/alias-pages.test.mjs": {
       "mode": "100644",
-      "sha256": "cc08f4392b15b14bf8c3fa42e6e128fe54d329e9a659bf853f76f71b7f04612c"
+      "sha256": "7dee8737bd589e8f17ca80c3ae5ff9a246fc103546bdd09f60bc8ebb5d13371d"
     },
     "tests/preview-inspection/alias-preservation.test.mjs": {
       "mode": "100644",

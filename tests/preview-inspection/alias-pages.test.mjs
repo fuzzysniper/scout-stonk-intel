@@ -1,6 +1,6 @@
 // SYNTHETIC pagination only; no alias API, CLI, archive, hosted DB or provider calls.
 import test from 'node:test';import assert from 'node:assert/strict';import https from 'node:https';import {EventEmitter} from 'node:events';
-import {aliasPath,aliasRequestAllowed,aliasListing,readAliases,aliasLimits} from '../../ops/native-beta-output/alias-pages.mjs';
+import {aliasPath,aliasRequestAllowed,aliasListing,aliasLimits} from '../../ops/native-beta-output/alias-pages.mjs';
 import {evaluateInspection,inspectionAuthority,runReadOnlyInspection} from '../../ops/native-beta-output/inspect-only.mjs';
 import {inspectionCard} from '../../ops/native-beta-output/inspection-context.mjs';
 import {paths,inspectGate,getReader,webhookListing,integrationListing} from '../../ops/native-beta-output/preflight.mjs';

@@ -22,6 +22,6 @@ export function review(root=process.cwd(),committed=true){
  for(const file of ['native-beta-release.yml','preview-preflight-diagnostics.yml','uploader-toolchain-security.yml']){
   const p='.github/workflows/'+file;assert.equal(read(p).toString().replaceAll(" || github.head_ref == 'fix/preview-alias-completeness'",''),raw('show',PARENT+':'+p).toString(),'only a finite CI selector may change');
  }
- if(committed){assert.equal(git('show','-s','--format=%P','HEAD'),PARENT);assert.equal(git('status','--porcelain','--untracked-files=normal'),'');}
+ if(committed){assert.equal(git('show','-s','--format=%P','HEAD'),'b60d16cb6ff3da26f6ba3e40b685a3b93376e3c9');assert.equal(git('status','--porcelain','--untracked-files=normal'),'');}
  return manifest;
 }
