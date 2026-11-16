@@ -1,6 +1,6 @@
 {
   "base": "c4cecb3ae8370713d78d08ff308a65632c7719d3",
-  "parent": "572ea341934bbb5620f8ad4a22390f339bfc9b06",
+  "parent": "7cecf00dd1e790b2a683de920488ede87772057b",
   "modified": {
     "ops/native-beta-output/build.mjs": {
       "mode": "100644",
@@ -30,7 +30,7 @@
   "added": {
     ".github/workflows/uploader-remediation.yml": {
       "mode": "100644",
-      "sha256": "1bdb2161539ca303f083a78e27a05db2d7974e9ee26f825a12250eb205ed1f66"
+      "sha256": "303896b3d77de9991c6131203af17cd6568c5bcd716988dfd1c9cce0fbd14271"
     },
     "tests/uploader-remediation/audit-matrix.mjs": {
       "mode": "100644",
@@ -42,7 +42,7 @@
     },
     "tests/uploader-remediation/compatibility.test.mjs": {
       "mode": "100644",
-      "sha256": "24f042a2275328da40b084feecb23c72d9dd02aee7d1894839c370aedd498109"
+      "sha256": "9eb222c4ec4121970a4ccdc4a698c7cf055027753a1b27ee9cdbb1a3c4cc0953"
     },
     "tests/uploader-remediation/evaluate.mjs": {
       "mode": "100644",

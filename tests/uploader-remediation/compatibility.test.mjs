@@ -54,6 +54,8 @@ test('actual NFT traces bounded dynamic assets through upgraded glob; glob cance
  }finally{fs.rmSync(d,{recursive:true,force:true});}
 });
 test('positive installed graph rejects removed, extra nested and alias-version drift before any credential path',()=>{
+ const required=path.join(root,'node_modules/undici'),parked=path.join(root,'.SYNTHETIC-required-package');
+ try{verifyUploaderGraph(root);fs.renameSync(required,parked);assert.throws(()=>verifyUploaderGraph(root),/NATIVE_BUILD_HOLD/);}finally{if(fs.existsSync(parked))fs.renameSync(parked,required);}
  const target=path.join(root,'node_modules/path-to-regexp-updated/package.json'),original=fs.readFileSync(target);
  try{verifyUploaderGraph(root);const x=JSON.parse(original);x.version='6.1.0';fs.writeFileSync(target,JSON.stringify(x));assert.throws(()=>verifyUploaderGraph(root),/NATIVE_BUILD_HOLD/);}finally{fs.writeFileSync(target,original);}
  const parent=path.join(root,'node_modules/undici/node_modules/SYNTHETIC-unlocked');try{fs.mkdirSync(parent,{recursive:true});fs.writeFileSync(path.join(parent,'package.json'),'{"name":"SYNTHETIC-unlocked","version":"1.0.0"}');assert.throws(()=>verifyUploaderGraph(root),/NATIVE_BUILD_HOLD/);}finally{fs.rmSync(parent,{recursive:true,force:true});}

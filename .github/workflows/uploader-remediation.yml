@@ -78,6 +78,7 @@ jobs:
           bash tests/uploader-remediation/isolated.sh tests/uploader-remediation/transport.mjs
           node --test tests/native-beta-output/output.test.mjs tests/native-beta-output/verify.test.mjs tests/native-beta-output/upload.test.mjs tests/native-beta-output/workflow.test.mjs tests/preview-preflight-diagnostics/transport.test.mjs tests/preview-preflight-diagnostics/tar-reachability.test.mjs tests/preview-inspection/inspection.test.mjs tests/preview-inspection/clock-probe.test.mjs tests/preview-inspection/workflow.test.mjs
           bash tests/preview-preflight-diagnostics/tls-isolated.sh
+          bash tests/native-publisher-diagnostics/run.sh
           ./node_modules/.bin/tsc --noEmit
           npm run lint
           node tests/uploader-remediation/audit-matrix.mjs
