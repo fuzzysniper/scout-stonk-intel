@@ -6,7 +6,7 @@ permissions:
   contents: read
 jobs:
   reviewed-predicate-transport-and-reachability:
-    if: (github.head_ref == 'ops/293-get-only-inspection' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
+    if: (github.head_ref == 'ops/293-get-only-inspection' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:

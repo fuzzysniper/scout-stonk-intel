@@ -11,7 +11,7 @@ export function inspectionContext(env){
  return ctx;
 }
 export function inspectionCard(ctx,now){
- const manifest={version:'native-preview-inspection/2',approvalPolicy:'github-environment-owner/1',repositoryId:policy.repositoryId,environmentId:policy.environmentId,commit:ctx.sha,runId:ctx.runId,project:policy.projectId,branch:policy.branch,maxRequests:9,startsAt:now,expiresAt:now+1800000,deploy:false,sourceGo:false,sql:false,archiveKey:false};
+ const manifest={version:'native-preview-inspection/3',approvalPolicy:'github-environment-owner/1',repositoryId:policy.repositoryId,environmentId:policy.environmentId,commit:ctx.sha,runId:ctx.runId,project:policy.projectId,branch:policy.branch,maxRequests:18,aliasPolicy:'vercel-alias-enumeration/1',maxAliasPages:10,maxAliasRecords:1000,aliasPageSize:100,startsAt:now,expiresAt:now+1800000,deploy:false,sourceGo:false,sql:false,archiveKey:false};
  inspectionAuthority(ctx,manifest,now);
  return {manifest,manifestSha256:hash(canonical(manifest)),expiresUTC:new Date(manifest.expiresAt).toISOString(),expiresChicago:new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',dateStyle:'full',timeStyle:'long'}).format(manifest.expiresAt)};
 }

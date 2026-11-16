@@ -14,7 +14,7 @@ export function fixture(){
   [p.run]:{id:ctx.runId,head_sha:ctx.sha,head_branch:ctx.branch,workflow_id:policy.workflowId,path:'.github/workflows/native-pilot-admission.yml',status:'in_progress',event:'workflow_dispatch',repository:{id:policy.repositoryId},head_repository:{id:policy.repositoryId}},
   [p.environment]:c.environment,[p.branches]:c.branches,[p.reviews]:c.reviews,
   [p.project]:{id:policy.projectId,accountId:policy.teamId,name:'scout-stonk-intel',nodeVersion:'24.x',link:{type:'github',org:'fuzzysniper',repo:'scout-stonk-intel'},ssoProtection:{deploymentType:'all'}},
-  [p.aliases]:{aliases:aliasRows()},[p.webhooks]:[],[p.integrations]:[]
+  [p.aliases]:{aliases:aliasRows(),pagination:{count:4,next:null,prev:null}},[p.webhooks]:[],[p.integrations]:[]
  };
  c.reviews[0].user.login='fuzzysniper';
  const read=async path=>{seen.push(path);if(!Object.hasOwn(data,path))fail('VC_LEGACY_INTEGRATIONS','http_status',404);return structuredClone(data[path]);};
@@ -24,7 +24,7 @@ function env(){const c=context();return {MODE:'preview-inspect',GITHUB_EVENT_NAM
 test('phone card binds actual run, exact SHA and canonical manifest hash; no upload window or deployment authority',()=>{
  const ctx=inspectionContext(env()),card=inspectionCard(ctx,time);
  assert.equal(card.manifestSha256,hash(canonical(card.manifest)));
- assert.equal(card.comment,undefined);assert.equal(card.manifest.version,'native-preview-inspection/2');assert.equal(card.manifest.approvalPolicy,'github-environment-owner/1');assert.equal(inspectionAuthority(ctx,card.manifest,time),card.manifestSha256);
+ assert.equal(card.comment,undefined);assert.equal(card.manifest.version,'native-preview-inspection/3');assert.equal(card.manifest.approvalPolicy,'github-environment-owner/1');assert.equal(inspectionAuthority(ctx,card.manifest,time),card.manifestSha256);
  assert.deepEqual(readManifest(ctx,canonical(card.manifest),time),card.manifest);
  assert.throws(()=>readManifest(ctx,' '+canonical(card.manifest),time));assert.throws(()=>readManifest(ctx,'null',time));assert.throws(()=>readManifest(ctx,'SYNTHETIC_PRIVATE',time));
  for(const patch of [{MODE:'preview-output'},{GITHUB_RUN_ATTEMPT:'2'},{GITHUB_EVENT_NAME:'push'},{GITHUB_REF:'refs/heads/main'},{GITHUB_ACTOR_ID:'1'},{GITHUB_REPOSITORY:'wrong/repo'},{DEPLOYMENT:'dpl_SYNTHETIC'},{PREVIEW_STARTS_AT:'2030-01-01'},{PREVIEW_EXPIRES_AT:'2030-01-01'},{APPROVED_SHA:'b'.repeat(40)}])assert.throws(()=>inspectionContext({...env(),...patch}));

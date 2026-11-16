@@ -17,7 +17,7 @@ env:
   SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
 jobs:
   exact-head-public-request-isolation:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -52,7 +52,7 @@ jobs:
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/jupiter-research-v3/run.sh
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/oracle-lens/source-tests.sh
   exact-head-build-import-source-OFF:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -92,7 +92,7 @@ jobs:
           bash scripts/archive-tool.sh check 905f5e68a2d53a3d1e54747e0b4a9632e96b0f8a
           node --test tests/preview-inspection/scope.test.mjs
   exact-head-mobile-accessibility-privacy:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness'
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
@@ -137,7 +137,7 @@ jobs:
           if-no-files-found: error
           include-hidden-files: true
   original-immutable-reviewers:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -163,7 +163,7 @@ jobs:
           NODE_OPTIONS=--import=$PWD/tests/security114/local-only.mjs bash tests/native-beta-release/replay.sh
       - run: node --test tests/preview-inspection/scope.test.mjs
   original-optimized-isolation:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -188,7 +188,7 @@ jobs:
       - run: node --test tests/preview-inspection/scope.test.mjs
 
   B-owned-current-head-PG18:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -247,7 +247,7 @@ jobs:
           include-hidden-files: true
 
   selected-optimized-assembly-not-permanent-OFF:
-    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites'
+    if: github.head_ref == 'native-pilot/private-beta-rc' || github.head_ref == 'ops/291-build-output-packet' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:

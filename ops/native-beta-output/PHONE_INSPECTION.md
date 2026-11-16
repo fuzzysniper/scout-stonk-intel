@@ -1,7 +1,7 @@
-# Preview inspection v2 — owner environment approval, source OFF
+# Preview inspection v3 — owner environment approval, source OFF
 
-The v2 policy uses genuine sole-owner GitHub environment approval, not a free-text
-phrase. It accepts only native-preview-inspection/2 with github-environment-owner/1;
+The v3 manifest uses genuine sole-owner GitHub environment approval, not a free-text
+phrase. It accepts only native-preview-inspection/3 with github-environment-owner/1;
 old cards remain invalid. Run43773187772 stays preserved/failed, attempt1. Its JSON
 was redirected to Summary; the read-only logs do not establish its first failed
 predicate. The founder reports an empty approval comment. No retry was performed.
@@ -87,7 +87,7 @@ After installation and a **separate owner GO** for one GET-only inspection:
 4. `approved_sha`: **the exact installed, separately reviewed final draft head**.
 5. Leave **deployment**, **preview_starts_at**, **preview_expires_at** EMPTY.
 6. Start once only after separate owner GO. Do not rerun failed runs43518878650
-   or43751726051 or43773187772 or reuse any old approval/window. This correction dispatches nothing.
+   or43751726051 or43773187772 or43792519144 or reuse any old approval/window. This correction dispatches nothing.
 
 Expected jobs:
 
@@ -95,14 +95,14 @@ Expected jobs:
 - **inspection-read-only**: waits for existing **native-pilot-setup** owner approval.
 - **context**, **publish**, **preview-context**, **preview-output**: skipped by mode.
 
-Open the **inspection-context** job summary; verify its actual run/SHA, v2 policy,
+Open the **inspection-context** job summary; verify its actual run/SHA, v3 alias policy,
 manifest hash and expiry in **UTC** / **America/Chicago**. Open the pending
 **native-pilot-setup** review and approve as **fuzzysniper/58099771**. No free-text
 phrase is required for this inspection only. Missing/wrong-owner approval rejects.
 
 The card expires strictly 30 minutes after creation, including review and runner
 startup. The protected job retains its five-minute execution timeout and at most
-nine four-second fixed GETs with no retries. Expiry, failed controls/reads or
+18 four-second GETs (at most10 fixed-project/team alias pages and eight other fixed reads) with no retries. Expiry, failed controls/reads or
 uncertain completion means **STOP; no retry or automatic extension**. Shared
 publisher/upload/setup/source approval phrases and windows remain unchanged.
 
@@ -120,22 +120,22 @@ or Vercel/Render application deployment; no explicit write path exists here.
 
 ## Fixed bounded read plan and interpretation
 
-At most nine sequential requests, once per fixed path; four-second request timeout,
+At most18 sequential requests, once per canonical path; four-second request timeout,
 1MiB/256-chunk response bounds, native verified TLS/SNI, no redirects/retries or
-pagination. Hosts are only api.github.com and api.vercel.com:
+arbitrary pagination URLs. Only documented alias next-to-until pagination is allowed. Hosts are only api.github.com and api.vercel.com:
 
 1. This actual run.
 2. Saved setup environment.
 3. Its exact branch policy.
 4. This run's approval history.
 5. Pinned Vercel project/Git/Node/protection settings.
-6. Complete bounded project aliases.
+6. Complete bounded project aliases:1–10 pages,100 records/page,1,000 total; explicit next:null required.
 7. Project webhooks.
 8. Documented `/v1/integrations/configurations?view=account&teamId=...`.
 9. Original installations path, **comparison only**, only after all controls pass.
 
 Denied/missing/malformed/ambiguous integration scope, global or applicable installs,
-pagination, network/TLS errors,401/403/404/429/503 and timeout at a mandatory read
+unknown/unbounded pagination, network/TLS errors,401/403/404/429/503 and timeout at a mandatory read
 all HOLD. There is no fallback to the legacy endpoint or connector credentials.
 The last comparison may record a categorical status/array shape; it can never
 authorize deployment. Environment/branch/review inputs are collected as one owner
@@ -144,7 +144,7 @@ two GETs before evaluation. A denied read stops immediately.
 
 The exact same sanitized JSON is printed to job logs and Summary with pipefail
 preserving a failed process exit. Results show fixed check names, category, numeric
-HTTP status and request count;
+HTTP status, request count, alias page/record counts and finite termination state;
 never bodies, URLs, token/key fragments/hashes or raw exceptions. Success means
 only the current metadata checks passed. **Every outcome remains
 HOLD_NO_DEPLOYMENT_AUTHORITY, sourceGo:false, activate:false, CLI not_started.**
@@ -170,3 +170,5 @@ means preserve run/summary/automatic records and STOP. Do not delete variables,
 cleanup metadata, replace tokens or retry an upload. Any future upload requires a
 separate review/approval and must not rebuild or substitute the held original
 43518878650 output. That artifact remains untouched by this work.
+
+Alias pagination v3 is code-only until separately installed and owner-approved. See [contract and finite limits](ALIAS_PAGINATION_REVIEW.md); old cards cannot authorize the expanded budget. Do not retry run43792519144.

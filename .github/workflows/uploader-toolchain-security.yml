@@ -17,7 +17,7 @@ env:
   SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
 jobs:
   all-resolved-dependency-audit:
-    if: (github.head_ref == 'fix/uploader-tar-locked' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
+    if: (github.head_ref == 'fix/uploader-tar-locked' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -48,7 +48,7 @@ jobs:
           if-no-files-found: error
           include-hidden-files: true
   actual-toolchain-packaging-and-security:
-    if: (github.head_ref == 'fix/uploader-tar-locked' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
+    if: (github.head_ref == 'fix/uploader-tar-locked' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
@@ -91,7 +91,7 @@ jobs:
           git worktree remove --force "$prior"
           node --test tests/preview-inspection/scope.test.mjs
   genuine-candidate-offline-build:
-    if: (github.head_ref == 'fix/uploader-tar-locked' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
+    if: (github.head_ref == 'fix/uploader-tar-locked' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
@@ -122,7 +122,7 @@ jobs:
           node --test tests/preview-inspection/scope.test.mjs
       # No generated application/server-key/archive files are uploaded.
   mobile-acceptance-sequence-LOCAL-SYNTHETIC:
-    if: (github.head_ref == 'fix/uploader-tar-locked' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
+    if: (github.head_ref == 'fix/uploader-tar-locked' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'fix/preview-alias-completeness' || github.head_ref == 'native-pilot/private-beta-rc') && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:

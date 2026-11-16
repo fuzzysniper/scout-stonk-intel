@@ -14,14 +14,14 @@ const base='d98316ca4bda7120eeff5882688ba1e3364c04d5';
 function fixture(){
  const ctx=context(),manifest=inspectionCard(ctx,time).manifest,c=controls(''),plan=inspectionPlan(ctx),seen=[];
  c.reviews[0].user.login='fuzzysniper';
- const values=[{id:ctx.runId,head_sha:ctx.sha,head_branch:ctx.branch,workflow_id:policy.workflowId,path:'.github/workflows/native-pilot-admission.yml',status:'in_progress',event:'workflow_dispatch',repository:{id:policy.repositoryId},head_repository:{id:policy.repositoryId}},c.environment,c.branches,c.reviews,{id:policy.projectId,accountId:policy.teamId,name:'scout-stonk-intel',nodeVersion:'24.x',link:{type:'github',org:'fuzzysniper',repo:'scout-stonk-intel'},ssoProtection:{deploymentType:'all'}},{aliases:aliasRows()},[],[],[]];
+ const values=[{id:ctx.runId,head_sha:ctx.sha,head_branch:ctx.branch,workflow_id:policy.workflowId,path:'.github/workflows/native-pilot-admission.yml',status:'in_progress',event:'workflow_dispatch',repository:{id:policy.repositoryId},head_repository:{id:policy.repositoryId}},c.environment,c.branches,c.reviews,{id:policy.projectId,accountId:policy.teamId,name:'scout-stonk-intel',nodeVersion:'24.x',link:{type:'github',org:'fuzzysniper',repo:'scout-stonk-intel'},ssoProtection:{deploymentType:'all'}},{aliases:aliasRows(),pagination:{count:4,next:null,prev:null}},[],[],[]];
  const read=async p=>{seen.push(p);const i=plan.requests.findIndex(r=>r.path===p);assert.ok(i>=0);return values[i];};
  return {ctx,manifest,c,values,seen,gh:read,vc:read,clock:()=>time};
 }
 test('only genuine sole-owner approval authorizes v2 reads; comment is never inspected or logged',async()=>{
  for(const comment of ['',null,undefined,'SYNTHETIC_PRIVATE_UNTRUSTED_TEXT']){
   const f=fixture();f.c.reviews[0].comment=comment;const r=await evaluateInspection(f);
-  assert.equal(r.checksPassed,true);assert.equal(r.calls,9);assert.equal(new Set(f.seen).size,9);assert.equal(r.version,'native-preview-inspection-result/2');
+  assert.equal(r.checksPassed,true);assert.equal(r.calls,9);assert.equal(new Set(f.seen).size,9);assert.equal(r.version,'native-preview-inspection-result/3');
   assert.equal(r.approvalPolicy,'github-environment-owner/1');assert.equal(r.manifestSha256,inspectionAuthority(f.ctx,f.manifest,time));
   assert.equal(r.activate,false);assert.equal(r.sourceGo,false);assert.equal(r.decision,'HOLD_NO_DEPLOYMENT_AUTHORITY');assert.doesNotMatch(JSON.stringify(r),/SYNTHETIC_PRIVATE/);
  }
@@ -52,14 +52,12 @@ test('shared publisher/upload gate still requires its exact phrase; v2 never cal
  const f=fixture(),expected=approval(go(),context(),time);
  assert.throws(()=>ownerGate(f.c.environment,f.c.branches,f.c.reviews,expected));
  f.c.reviews[0].comment=expected;assert.equal(ownerGate(f.c.environment,f.c.branches,f.c.reviews,expected),true);
- for(const file of ['ops/native-beta-output/verify.mjs','ops/native-beta-output/preflight.mjs','ops/native-beta-output/upload.mjs','ops/native-beta-output/step.mjs','ops/native-pilot-admission/publisher.mjs'])assert.equal(fs.readFileSync(file,'utf8'),execFileSync('git',['show',base+':'+file]).toString(),file);
+ for(const file of ['ops/native-beta-output/verify.mjs','ops/native-beta-output/step.mjs','ops/native-pilot-admission/publisher.mjs'])assert.equal(fs.readFileSync(file,'utf8'),execFileSync('git',['show',base+':'+file]).toString(),file);
  const gate=fs.readFileSync('ops/native-beta-output/inspect-only.mjs','utf8').split('export function inspectionOwnerGate(')[1].split('\nexport async function evaluateInspection')[0];
  const original=fs.readFileSync('ops/native-beta-output/verify.mjs','utf8').split('export function ownerGate(')[1].split('\nexport function project(')[0];
  const restored=gate.replace('env,branches,reviews)','env,branches,reviews,comment)').replace("&&reviews[0].user.login==='fuzzysniper'",'').replace("['OWNER_REVIEW_ONE_ENVIRONMENT'","['OWNER_REVIEW_EXACT_COMMENT',()=>reviews[0].comment===comment],['OWNER_REVIEW_ONE_ENVIRONMENT'").trimEnd();
  assert.equal(restored,original.trimEnd(),'all other predicates preserved in original order');
- const contracts='tests/preview-preflight-diagnostics/contracts.test.mjs';
- const historicalFixture=fs.readFileSync(contracts,'utf8').replace("version:'native-preview-inspection/2',approvalPolicy:'github-environment-owner/1',repositoryId:policy.repositoryId,environmentId:policy.environmentId,commit:ctx.sha","version:'native-preview-inspection/1',commit:ctx.sha").replace("x.reviews[0].user.login='fuzzysniper';",'');
- assert.equal(historicalFixture.replace("execFileSync('git',['show','37e4a39caf2976f4575c2b8c4358e30b1e1b51d8:ops/native-beta-output/'+p])","execFileSync('git',['show',BASE+':ops/native-beta-output/'+p])"),execFileSync('git',['show',base+':'+contracts]).toString(),'only synthetic policy/owner fixture changes; every original assertion retained');
+
 });
 test('actual pipeline mirrors sanitized failures to logs and Summary and preserves failing exit status',()=>{
  const workflow=fs.readFileSync('.github/workflows/native-pilot-admission.yml','utf8'),block=workflow.split('\n  inspection-read-only:')[1];

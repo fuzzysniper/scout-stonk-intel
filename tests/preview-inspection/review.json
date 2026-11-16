@@ -1,148 +1,69 @@
 {
-  "version": "preview-get-inspection-review/1",
-  "base": "653f3dd4a636a2781b50d3c2891d71a84a7289e7",
+  "base": "c4cecb3ae8370713d78d08ff308a65632c7719d3",
   "modified": {
     ".github/workflows/native-beta-release.yml": {
       "mode": "100644",
-      "sha256": "22ba7d6688cd8bd7e6eaafbaa0dc90461b98bc7aef493e867bd3f43af7cb3d34"
-    },
-    ".github/workflows/native-pilot-admission.yml": {
-      "mode": "100644",
-      "sha256": "451e5eda569d261ef889447f3609d72995d56598402b3fe5868ba0d8c952527b"
+      "sha256": "517da23e2664c7c9999465b12ffdb2662cac79d7de00f968e9a22e641ac5a279"
     },
     ".github/workflows/preview-preflight-diagnostics.yml": {
       "mode": "100644",
-      "sha256": "e32c239d59bf680abec46a226965fe2ddba3f5e31318e79d54c04b7bd2c1e8b6"
+      "sha256": "e66202a43a9d8b217312f683719a6812c23183b7d8c498bcfe9a8a35eecf3031"
+    },
+    ".github/workflows/uploader-toolchain-security.yml": {
+      "mode": "100644",
+      "sha256": "7662ee0f5dffb179cd488f27e23ee2d153fa50b626b065cfc10fbd596a66422c"
+    },
+    "ops/native-beta-output/PHONE_INSPECTION.md": {
+      "mode": "100644",
+      "sha256": "48e8fa3ddc91b6f5c3c5fe97e054f685310649dd96b19faa470eb65f53d2614c"
+    },
+    "ops/native-beta-output/checks.json": {
+      "mode": "100644",
+      "sha256": "4972b74ea3618c5b3c4a472e45e028193c7dd74a468b281567b5a4fa1ffc7f9b"
     },
     "ops/native-beta-output/inspect-only.mjs": {
       "mode": "100644",
-      "sha256": "a9581b944fc674df3614597e8e4f337f61a3f8cd06016448d1fc23439a61c93b"
-    },
-    "ops/native-beta-output/output.mjs": {
-      "mode": "100644",
-      "sha256": "22cc2e12dabae1b89d4799888e2669b03b0ed821737f902522d56598e3d1e58c"
-    },
-    "ops/native-beta-output/preflight.mjs": {
-      "mode": "100644",
-      "sha256": "727abe03201a98d1f5c31454cffe8076bff25819ae97b279e1100dc52c199d07"
-    },
-    "ops/native-beta-output/verify.mjs": {
-      "mode": "100644",
-      "sha256": "a003fb1d569dcfbf48859a9bc71cc6fceb7b18dc84f12c91f485b3983912c106"
-    },
-    "tests/native-union-284/browser.spec.mjs": {
-      "mode": "100644",
-      "sha256": "6c836a408273a15d37bdf6ee9e8cc846282ba0495ef2b17a68c7992c30440047"
-    },
-    "tests/native-union-284/pg18-browser.config.mjs": {
-      "mode": "100644",
-      "sha256": "9da341b1e2e4f421c4a90462eee0670f870fa14d609264da0dd97e75a681797a"
-    },
-    "tests/native-union-284/pg18-isolated.sh": {
-      "mode": "100644",
-      "sha256": "4a23702bd52fe96443d9d38e16e229ec7e3a2e639d126bdfa5e661f0cfaf2877"
-    },
-    "tests/native-union-284/pg18.sh": {
-      "mode": "100644",
-      "sha256": "4f63e511287514d9ce2af188a3c156a4b65a5d83b841a7ff07a3f86a491e843c"
-    },
-    "vercel.json": {
-      "mode": "100644",
-      "sha256": "8d5d4f9995e8a853433972fa9be24fc0b92fd878686d905b7a90b968e4d0eb75"
-    },
-    "ops/native-beta-release/HOSTED_INSTALLATION.md": {
-      "mode": "100644",
-      "sha256": "0c8b07f3eeb477e3ff88b1f543ff27d10d1dc49eec750699693c5e6ec352424a"
-    },
-    "tests/preview-preflight-diagnostics/contracts.test.mjs": {
-      "mode": "100644",
-      "sha256": "21da0c831e3c0ed932e73e4ebe64e63f87dd6e38baa12dcd376ee5dda067dc97"
-    },
-    "ops/native-beta-output/toolchain/package-lock.json": {
-      "mode": "100644",
-      "sha256": "d7fb93de8f1b3a8bf77980fc68d775e2dfbbe82be3c50264bff078b643a06a5d"
-    },
-    "ops/native-beta-output/policy.json": {
-      "mode": "100644",
-      "sha256": "7f852ac68a5be70b0a0ab002a6dee6a34085819bceafea91e51bc40f14cdac53"
-    },
-    "ops/native-beta-output/build.mjs": {
-      "mode": "100644",
-      "sha256": "26d9a8773b17b90915634a8a438b7e9982a835b6dc3199bb911ef67e6a088d8c"
-    },
-    "ops/native-beta-output/toolchain/package.json": {
-      "mode": "100644",
-      "sha256": "4f6b8173a52b62d1fb204430a4af2c30c8464fc9270ea19532283546c3dea8d8"
-    },
-    "tests/preview-preflight-diagnostics/tar-reachability.test.mjs": {
-      "mode": "100644",
-      "sha256": "06edf6344eff8612e09c320f35a043eec1c07b17e88aed35843aad67d1e0d61c"
-    }
-  },
-  "added": {
-    "ops/native-beta-output/PHONE_INSPECTION.md": {
-      "mode": "100644",
-      "sha256": "b2c9fe53e91bf4f81cb7c0631afebdc209008ac3504ffe99f55276ae939b8aed"
-    },
-    "ops/native-beta-output/identity.mjs": {
-      "mode": "100644",
-      "sha256": "3288f3e76b9760a4196f4eca63dda34c7d02ed58da0b60a0c1d138d4dc5f24a6"
+      "sha256": "a9b29e620e65370f43f26dafe509fc1352518dcf0283365c672e39967c7df0ac"
     },
     "ops/native-beta-output/inspection-card.mjs": {
       "mode": "100644",
-      "sha256": "26886de08c7526079bd54daa8c5d5dce7de9a5b4d9dcf79e5b48c444a6cb5589"
+      "sha256": "2d0b2e8288be6ef903bdd5584da3ad00458f95ad05ed663205790e9d40baedb4"
     },
     "ops/native-beta-output/inspection-context.mjs": {
       "mode": "100644",
-      "sha256": "9d03ec28c8a3a07758ab2243cf10857156f576a488dba6acda484698d18bb63b"
+      "sha256": "52cc5bce99f79b06403657226bf8f188e9b30e00cdd4a42f625eed4804ef82e6"
     },
     "ops/native-beta-output/inspection-step.mjs": {
       "mode": "100644",
-      "sha256": "f6e2ea19d80cd68ce725d367616dff0e27d33f492a9c2a87643bc4b3099d9e1f"
+      "sha256": "aac8cbd1063e41df2c3c86e1218c534e5d6857bfacb8c4c14e2a8be1198b380d"
     },
-    "ops/native-beta-output/review/SHA256SUMS": {
+    "ops/native-beta-output/preflight.mjs": {
       "mode": "100644",
-      "sha256": "8ab5f17eaed594467f044a9643e861c7f1455e8e1b39c67fc84face4985ea777"
+      "sha256": "2d1e7b85a66ce278fe1e3ccf09dc5451d8851dfbd778ad4e901e31e797354cd0"
     },
-    "ops/native-beta-output/review/correction.patch": {
+    "ops/native-beta-output/upload.mjs": {
       "mode": "100644",
-      "sha256": "daa68a7e448f2cc43a28f40053fb3655ca734b926b53fdb58311b6592d400c2b"
+      "sha256": "8021c5721a36e6f00b009b88ff67240d7177669cbb0e8cc87e457e74289f4a8a"
     },
-    "ops/native-beta-output/review/local-validation.txt": {
+    "tests/native-beta-output/upload.test.mjs": {
       "mode": "100644",
-      "sha256": "31111e6ab2b42dfc51ac5cbe4fac87ab911773dacf25b825b299afd0831ceb21"
-    },
-    "tests/native-union-284/clock-diagnose.config.mjs": {
-      "mode": "100644",
-      "sha256": "d7df56cb7852c4efc080cd7eacb454145348832a33deeaefacbc4f51d23cbbec"
-    },
-    "tests/native-union-284/clock-diagnose.spec.mjs": {
-      "mode": "100644",
-      "sha256": "9a32eed7be8218cb60d8e02697192b51b681da1bcd477d77e10870ac97ce31bf"
-    },
-    "tests/native-union-284/clock-diagnosis.evidence.json": {
-      "mode": "100644",
-      "sha256": "76d99f6c85bdf94dce19fa5be3ae7a9196706a76af5b46800b15d47cecd14b9f"
-    },
-    "tests/native-union-284/clock-pg18.mjs": {
-      "mode": "100644",
-      "sha256": "b1ab6fb7b5e971ca7e18a53b7fc44731d7881737971dc0f1fe2a2faf1fb2f66e"
-    },
-    "tests/native-union-284/clock-probe.mjs": {
-      "mode": "100644",
-      "sha256": "4417981128353ae10388951f071d0107c0109fae7a4dd96ee9a18ec556560cf3"
+      "sha256": "fd318cb77c650671df71b196f89d6055902d92e4235e389a5aa829aba8790fc7"
     },
     "tests/preview-inspection/ci-prerequisites.test.mjs": {
       "mode": "100644",
-      "sha256": "3cc75430b019d2a8de30dee836108422381e444087a4514a0c4b09792c4da8ce"
-    },
-    "tests/preview-inspection/clock-probe.test.mjs": {
-      "mode": "100644",
-      "sha256": "2c135e5dcd1e6b732767a4e0965e75ac1b6386f4a34f157b90d208f627ecdc8b"
+      "sha256": "59bc6a160c8c11f894cd48ccec3ce4c4a15cd4dc4997c38a35a87b6267677894"
     },
     "tests/preview-inspection/inspection.test.mjs": {
       "mode": "100644",
-      "sha256": "564bde0fa8a0b9c135da9cc14fb73361e244b8a09af9922878e4e2e1836e59d1"
+      "sha256": "cf5824299ea1fc6123cce142f2431cbfcc2cc0ba78f412de22ccc68175116b37"
+    },
+    "tests/preview-inspection/mobile-card.test.mjs": {
+      "mode": "100644",
+      "sha256": "87bd41540b4f8bc1a1df0a296fac197197fb48c7eb43f496b236818084275a96"
+    },
+    "tests/preview-inspection/owner-approval-v2.test.mjs": {
+      "mode": "100644",
+      "sha256": "3e916dddcc1cca29dea6c6bd837572cd351b50b968cd1cb6de1c992de19a30c4"
     },
     "tests/preview-inspection/review.json": {
       "mode": "100644",
@@ -156,53 +77,35 @@
       "mode": "100644",
       "sha256": null
     },
-    "tests/preview-inspection/workflow.test.mjs": {
-      "mode": "100644",
-      "sha256": "dd073c894dcd41eadeb08525770bb29c33a4002c373a32f584c409043b802a69"
-    },
-    "tests/preview-inspection/mobile-card.test.mjs": {
-      "mode": "100644",
-      "sha256": "39d67b537d08c7bf46c3635a6f71f48ca7f32a6284d7e8c325591ea5803206cd"
-    },
-    "tests/preview-inspection/owner-approval-v2.test.mjs": {
-      "mode": "100644",
-      "sha256": "c6faf7e0e545a4742cceaa87f934fcef429d28de7592d2233d845fd0e0188ea3"
-    },
-    "tests/uploader-security/review.mjs": {
-      "mode": "100644",
-      "sha256": "9c49c324583c78a8ae0d52673caf6d9294aba44cb0ddd330d5cf9c382650e2b6"
-    },
-    ".github/workflows/uploader-toolchain-security.yml": {
-      "mode": "100644",
-      "sha256": "84285811d487a2ef5d195ce52782ed9c2d6916749cf8affad7715a9feced647d"
-    },
-    "tests/uploader-security/graph.test.mjs": {
-      "mode": "100644",
-      "sha256": "c8f2f08be505a98b341895ad764ecbd626878652f9baa6e6815ebdb8b1794f65"
-    },
-    "tests/uploader-security/tar-worker.mjs": {
-      "mode": "100644",
-      "sha256": "883cf085db2570ef968685f5defd1a9bf9a1a8026a474469aa79b130b43b43cc"
-    },
-    "ops/native-beta-output/toolchain-security.mjs": {
-      "mode": "100644",
-      "sha256": "f912d371a94a536d463072025770056a2a75dcbd7915ceeed52bb91a8a49b66b"
-    },
-    "tests/uploader-security/scope.test.mjs": {
-      "mode": "100644",
-      "sha256": "81478f6618df87a869d2266288c6ad5a3645f0207337d1cfb5ff2fbfacb2de15"
-    },
-    "tests/uploader-security/review.json": {
-      "mode": "100644",
-      "sha256": "8c77eb4842bc1c2c8b2f316defcd88c04ad53eeecd07758bda00594e6f173895"
-    },
-    "tests/preview-inspection/legacy-tools.mjs": {
-      "mode": "100644",
-      "sha256": "c0fedf58522ac7e68b3ecc61baa62035fab2fa9fff30099ab135c9f2c552f3e3"
-    },
     "tests/preview-inspection/security-union.test.mjs": {
       "mode": "100644",
-      "sha256": "f209f811d4af437c7cdf9027a91dd99d14af88fb2d519fe89677f427937635f2"
+      "sha256": "48e333fb4a2916215841719e67a043c86cad67450d8f0e5ced3a4eeeab56edfc"
+    },
+    "tests/preview-preflight-diagnostics/contracts.test.mjs": {
+      "mode": "100644",
+      "sha256": "8a7261c03d561b9950a4a210a04815e50dd17c03d42a61f756687fa5b7feb3ed"
+    },
+    "vercel.json": {
+      "mode": "100644",
+      "sha256": "95658b8538c1c6bc6d6cc7bbbc095ef48058f966d641469461bcaea7fc96f056"
+    }
+  },
+  "added": {
+    "ops/native-beta-output/ALIAS_PAGINATION_REVIEW.md": {
+      "mode": "100644",
+      "sha256": "a341a4428dd49ea979f3c05657f1f897cda4fe31c8be87c630dbbf2caacb8e3f"
+    },
+    "ops/native-beta-output/alias-pages.mjs": {
+      "mode": "100644",
+      "sha256": "88b825c8d91701c5c3c7663aa449b0c5ca7f0a16a686e80e2673f604a6d46468"
+    },
+    "tests/preview-inspection/alias-pages.test.mjs": {
+      "mode": "100644",
+      "sha256": "cc08f4392b15b14bf8c3fa42e6e128fe54d329e9a659bf853f76f71b7f04612c"
+    },
+    "tests/preview-inspection/alias-preservation.test.mjs": {
+      "mode": "100644",
+      "sha256": "d668f6ff71c049a89b717dbd3bc1c1aa40e4b36527882b105ab8214d24e7a786"
     }
   }
 }

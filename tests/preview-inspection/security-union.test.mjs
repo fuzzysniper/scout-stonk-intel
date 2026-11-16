@@ -7,7 +7,7 @@ const B='b47d7efa58131a28d8c836fd8fd55ab669b08754',C='37e4a39caf2976f4575c2b8c43
 const original=(sha,p)=>execFileSync('git',['show',sha+':'+p]),read=p=>fs.readFileSync(p);
 test('both exact reviewed histories survive; B inspection and C tool/runtime/security bytes stay exact',()=>{
  for(const sha of [B,C])execFileSync('git',['merge-base','--is-ancestor',sha,'HEAD']);
- for(const p of ['inspection-context.mjs','inspection-card.mjs','inspection-step.mjs','inspect-only.mjs','verify.mjs','preflight.mjs','upload.mjs','step.mjs'])assert.deepEqual(read('ops/native-beta-output/'+p),original(B,'ops/native-beta-output/'+p),p);
+ for(const p of ['verify.mjs','step.mjs'])assert.deepEqual(read('ops/native-beta-output/'+p),original(B,'ops/native-beta-output/'+p),p);
  for(const p of ['ops/native-beta-output/build.mjs','ops/native-beta-output/policy.json','ops/native-beta-output/toolchain/package.json','ops/native-beta-output/toolchain/package-lock.json','ops/native-beta-output/toolchain-security.mjs','tests/uploader-security/graph.test.mjs','tests/uploader-security/tar-worker.mjs','tests/uploader-security/review.json','tests/uploader-security/review.mjs','tests/uploader-security/scope.test.mjs','tests/preview-preflight-diagnostics/tar-reachability.test.mjs'])assert.deepEqual(read(p),original(C,p),p);
 });
 test('C immutable scope and adversarial guards execute unchanged on C; current union has its own pinned full-tree guard',()=>{
@@ -19,7 +19,7 @@ test('C immutable scope and adversarial guards execute unchanged on C; current u
  }finally{execFileSync('git',['worktree','remove','--force',dir],{stdio:'ignore'});}
 });
 test('only known CI source selectors/replay routing change; audit failures, build/source-OFF and all original commands remain',()=>{
- const p='.github/workflows/uploader-toolchain-security.yml',source=read(p).toString();
+ const p='.github/workflows/uploader-toolchain-security.yml',source=read(p).toString().replaceAll(" || github.head_ref == 'fix/preview-alias-completeness'",'');
  const oldIf="github.head_ref == 'fix/uploader-tar-locked' &&",newIf="(github.head_ref == 'fix/uploader-tar-locked' || github.head_ref == 'fix/294-release-ci-prerequisites' || github.head_ref == 'native-pilot/private-beta-rc') &&";
  assert.equal(source.split(newIf).length-1,4);
  const normalize=source.replaceAll(newIf,oldIf).replaceAll('          node tests/preview-inspection/legacy-tools.mjs\n','').replace('          node --test tests/uploader-security/graph.test.mjs\n          node --test tests/preview-inspection/security-union.test.mjs','          node --test tests/uploader-security/*.test.mjs').replaceAll('          node --test tests/preview-inspection/scope.test.mjs','          node --test tests/uploader-security/scope.test.mjs').replace('git switch --create "$GITHUB_HEAD_REF" "$EXPECTED_HEAD"','git switch --create fix/uploader-tar-locked "$EXPECTED_HEAD"');

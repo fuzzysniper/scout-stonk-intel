@@ -166,5 +166,16 @@
   "VC_LEGACY_INTEGRATIONS": "Fixed endpoint label; no response/body/header value",
   "VC_INTEGRATIONS": "Fixed endpoint label; no response/body/header value",
   "VC_DEPLOYMENT": "Fixed endpoint label; no response/body/header value",
-  "VC_RESPONSE": "Fixed endpoint label; no response/body/header value"
+  "VC_RESPONSE": "Fixed endpoint label; no response/body/header value",
+  "ALIAS_CURSOR": "Bounded alias enumeration: ALIAS_CURSOR",
+  "ALIAS_RESPONSE_SHAPE": "Bounded alias enumeration: ALIAS_RESPONSE_SHAPE",
+  "ALIAS_PAGE_BOUND": "Bounded alias enumeration: ALIAS_PAGE_BOUND",
+  "ALIAS_PAGINATION_SHAPE": "Bounded alias enumeration: ALIAS_PAGINATION_SHAPE",
+  "ALIAS_PAGE_COUNT": "Bounded alias enumeration: ALIAS_PAGE_COUNT",
+  "ALIAS_PREVIOUS_CURSOR": "Bounded alias enumeration: ALIAS_PREVIOUS_CURSOR",
+  "ALIAS_CURSOR_PROGRESS": "Bounded alias enumeration: ALIAS_CURSOR_PROGRESS",
+  "ALIAS_RECORD_CAP": "Bounded alias enumeration: ALIAS_RECORD_CAP",
+  "ALIAS_RECORD_SHAPE": "Bounded alias enumeration: ALIAS_RECORD_SHAPE",
+  "ALIAS_RECORD_ID": "Bounded alias enumeration: ALIAS_RECORD_ID",
+  "ALIAS_ENUMERATION_CAP": "Bounded alias enumeration: ALIAS_ENUMERATION_CAP"
 }

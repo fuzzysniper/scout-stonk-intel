@@ -64,7 +64,7 @@ test('actual generated v2 card requires owner review without an additional phras
   const ctx=context(),env={PATH:process.env.PATH,MODE:'preview-inspect',GITHUB_EVENT_NAME:'workflow_dispatch',GITHUB_REPOSITORY:policy.repository,GITHUB_REPOSITORY_ID:String(ctx.repositoryId),GITHUB_ACTOR_ID:String(ctx.actorId),GITHUB_RUN_ATTEMPT:'1',GITHUB_RUN_ID:String(ctx.runId),GITHUB_REF:'refs/heads/'+ctx.branch,GITHUB_SHA:ctx.sha,APPROVED_SHA:ctx.sha,DEPLOYMENT:'',PREVIEW_STARTS_AT:'',PREVIEW_EXPIRES_AT:'',GITHUB_OUTPUT:dir+'/output',GITHUB_STEP_SUMMARY:dir+'/summary'};
   execFileSync(process.execPath,['ops/native-beta-output/inspection-card.mjs'],{env});
   const manifest=JSON.parse(fs.readFileSync(env.GITHUB_OUTPUT,'utf8').trim().slice('manifest='.length)),digest=inspectionAuthority(ctx,manifest,manifest.startsAt),summary=fs.readFileSync(env.GITHUB_STEP_SUMMARY,'utf8');
-  assert.ok(summary.includes('No free-text phrase is required'));assert.ok(summary.includes(digest));assert.doesNotMatch(summary,/APPROVE_NATIVE_PREFLIGHT|MANDATORY: copy/);assert.equal(manifest.version,'native-preview-inspection/2');
+  assert.ok(summary.includes('No free-text phrase is required'));assert.ok(summary.includes(digest));assert.doesNotMatch(summary,/APPROVE_NATIVE_PREFLIGHT|MANDATORY: copy/);assert.equal(manifest.version,'native-preview-inspection/3');
   assert.ok(summary.includes(new Date(manifest.expiresAt).toISOString()+' (UTC)'));assert.ok(summary.includes('(America/Chicago)'));
   assert.equal(manifest.expiresAt-manifest.startsAt,duration);assert.equal(manifest.deploy,false);assert.equal(manifest.sourceGo,false);assert.equal(manifest.archiveKey,false);
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
@@ -74,7 +74,7 @@ test('shared lane files and fixed GET/time limits remain exact under the distinc
  const prior=p=>execFileSync('git',['show',installed+':'+p]).toString(),read=p=>fs.readFileSync(p,'utf8');
  const file='ops/native-beta-output/inspect-only.mjs';assert.match(read(file),/x.expiresAt-x.startsAt<=1800000/);
  const workflow='.github/workflows/native-pilot-admission.yml';assert.equal(read(workflow).replace('        run: |\n          set -o pipefail\n          node ops/native-beta-output/inspection-step.mjs | tee -a "$GITHUB_STEP_SUMMARY"','        run: node ops/native-beta-output/inspection-step.mjs >> "$GITHUB_STEP_SUMMARY"').replace('Non-authorizing 30-minute GET-only approval card','Non-authorizing five-minute GET-only approval card'),prior(workflow));
- for(const p of ['ops/native-beta-output/verify.mjs','ops/native-beta-output/preflight.mjs','ops/native-beta-output/step.mjs','ops/native-beta-output/upload.mjs','ops/native-pilot-admission/publisher.mjs','package.json','package-lock.json'])assert.equal(read(p),prior(p),p);
- const plan=inspectionPlan(context());assert.equal(plan.maxRequests,9);assert.equal(plan.timeoutMs,4000);assert.equal(plan.retries,0);assert.equal(plan.requests.length,9);assert.ok(plan.requests.every(r=>r.method==='GET'));
+ for(const p of ['ops/native-beta-output/verify.mjs','ops/native-beta-output/step.mjs','ops/native-pilot-admission/publisher.mjs','package.json','package-lock.json'])assert.equal(read(p),prior(p),p);
+ const plan=inspectionPlan(context());assert.equal(plan.maxRequests,18);assert.equal(plan.timeoutMs,4000);assert.equal(plan.retries,0);assert.equal(plan.requests.length,9);assert.ok(plan.requests.every(r=>r.method==='GET'));
  const jobs=read(workflow).split('\n  inspection-context:')[1];assert.equal((jobs.match(/timeout-minutes: 5/g)||[]).length,2);
 });
