@@ -1,0 +1,65 @@
+name: Uploader remediation exact-head source OFF
+on:
+  pull_request:
+    branches: [native-pilot/private-beta-rc]
+permissions:
+  contents: read
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  VERCEL_TELEMETRY_DISABLED: '1'
+  PRODUCTION_RPC_ENABLED: 'false'
+  UNFARMD_DATA_ACTIVATION: disabled
+  UNFARMD_CONTINUOUS_ACTIVATION: disabled
+  SCOUT_LIVE_API_ENABLED: 'false'
+  SCOUT_LIVE_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_API_ENABLED: 'false'
+  SCOUT_CONTINUOUS_CONTROL_ENABLED: 'false'
+  SCOUT_CONTINUOUS_STORE_ENABLED: 'false'
+  SCOUT_CONTINUOUS_MAINTENANCE_ENABLED: 'false'
+jobs:
+  current-locked-unsuppressed-audit:
+    if: github.head_ref == 'fix/uploader-security-remediation' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm install --global npm@11.9.0 --ignore-scripts --no-fund
+      - run: npm ci --prefix ops/native-beta-output/toolchain --ignore-scripts
+      - name: Every advisory remains blocking
+        run: |
+          set -o pipefail
+          npm audit --prefix ops/native-beta-output/toolchain --json | tee "$RUNNER_TEMP/current-uploader-audit.json"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: PUBLIC-current-uploader-audit-NO-operational-acceptance
+          path: ${{ runner.temp }}/current-uploader-audit.json
+          if-no-files-found: error
+  public-candidate-evaluation-NOT-security-clearance:
+    if: github.head_ref == 'fix/uploader-security-remediation' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.19.0'
+      - run: npm install --global npm@11.9.0 --ignore-scripts --no-fund
+      - run: node tests/uploader-remediation/evaluate.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: PUBLIC-candidate-evaluation-NOT-approved-toolchain
+          path: ${{ runner.temp }}/uploader-public-evaluation/
+          if-no-files-found: error

@@ -19,7 +19,8 @@
       "ops/291-build-output-packet": false,
       "ops/293-get-only-inspection": false,
       "fix/294-release-ci-prerequisites": false,
-      "fix/uploader-tar-locked": false
+      "fix/uploader-tar-locked": false,
+      "fix/uploader-security-remediation": false
     }
   }
 }
