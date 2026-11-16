@@ -1,0 +1,72 @@
+{
+  "base": "c4cecb3ae8370713d78d08ff308a65632c7719d3",
+  "parent": "bf864595308d87adfb863bb30e49ed1fef8d0f8f",
+  "modified": {
+    "ops/native-beta-output/build.mjs": {
+      "mode": "100644",
+      "sha256": "273bb2f2e8dcf921d550cc24a21d4383add2dc331f8d3faf1ad396dd29b8c561"
+    },
+    "ops/native-beta-output/policy.json": {
+      "mode": "100644",
+      "sha256": "5b96a62fa391b196497b22236586283c2cbef00405f42252a1c099016ffb60bc"
+    },
+    "ops/native-beta-output/toolchain-security.mjs": {
+      "mode": "100644",
+      "sha256": "53e5960661d1b8db1526ebb60015f1d3df9b3493bb9249d8396943295f2baaef"
+    },
+    "ops/native-beta-output/toolchain/package-lock.json": {
+      "mode": "100644",
+      "sha256": "fd97176071b2a6627148b1522e9a0b61854750fae02ca1c2048e9dee29eaf9c5"
+    },
+    "ops/native-beta-output/toolchain/package.json": {
+      "mode": "100644",
+      "sha256": "f6ad12d7ebaa32569187b4a7216e9ed055d5934f86d3f83a276917e53ca12c2c"
+    },
+    "vercel.json": {
+      "mode": "100644",
+      "sha256": "47417b13a2d9faf79a44f42cb1f596d82fc37945a574ce560d11c156ff297cec"
+    }
+  },
+  "added": {
+    ".github/workflows/uploader-remediation.yml": {
+      "mode": "100644",
+      "sha256": "ed809f91db88b165657574cc2bde672f56f5413b1aa9104553805d6b19948336"
+    },
+    "tests/uploader-remediation/audit-matrix.mjs": {
+      "mode": "100644",
+      "sha256": "0d80745c4c2c6c165657f016ed290b7022e49838cbf82ba83c1349902dc7c25f"
+    },
+    "tests/uploader-remediation/baseline-audit.json": {
+      "mode": "100644",
+      "sha256": "2d6472df17dac495e01a63a5e89d4871c1e9675da392adefb31db0c9a79b956f"
+    },
+    "tests/uploader-remediation/compatibility.test.mjs": {
+      "mode": "100644",
+      "sha256": "0f99fdfd8f41f2cc40ac5ecc2191d550ee9dc5e8f5abd4156e5ebc4d0cc87610"
+    },
+    "tests/uploader-remediation/evaluate.mjs": {
+      "mode": "100644",
+      "sha256": "5554a4454983fef29a7d57e63f432c813e25e6efe8ead23d6e5ff1013e3d1f47"
+    },
+    "tests/uploader-remediation/isolated.sh": {
+      "mode": "100644",
+      "sha256": "7ff6ba6a93e757f15f528042a1a78734289c85a609374871d77adc5e23bd4b8f"
+    },
+    "tests/uploader-remediation/review.json": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/uploader-remediation/review.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/uploader-remediation/scope.test.mjs": {
+      "mode": "100644",
+      "sha256": null
+    },
+    "tests/uploader-remediation/transport.mjs": {
+      "mode": "100644",
+      "sha256": "2b7b9d764622e3cff11a27fa939c5b3d9de2078493ddd2e21e1aa069f0ae9192"
+    }
+  }
+}
