@@ -1,0 +1,26 @@
+name: Private market offline safety
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/live-market/**'
+      - 'experiments/launch-intel/**'
+      - 'experiments/consumer-mvp/evidence/guards.ts'
+      - 'experiments/consumer-mvp/evidence/strict-json.ts'
+      - '.github/workflows/live-market-offline.yml'
+permissions:
+  contents: read
+jobs:
+  offline-only:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci --ignore-scripts
+      - run: npm ci --prefix experiments/live-market --ignore-scripts
+      - run: bash experiments/launch-intel/test.sh
+      - run: bash experiments/live-market/test.sh

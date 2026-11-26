@@ -27,8 +27,13 @@ export async function localPostgres({tls,database='postgres',runtimeRole='scout_
     running = true;
   };
   const pool = (user = runtimeRole, password = PASSWORD, dbname = database) => {
+    // Synthetic fixture-owner DDL/TRUNCATE is administrative setup, not an API request.
+    // CI observed SQLSTATE 57014 at the initial reset under the shared 800ms limit.
+    // Keep setup bounded, without retries; runtime-role and production limits stay strict.
+    const fixtureOwner = user === 'scout_test_owner';
     const p = new Pool({ host: dir, port, user, password, database: dbname, max: 1,
-      connectionTimeoutMillis: 800, query_timeout: 1200, statement_timeout: 800, allowExitOnIdle: true });
+      connectionTimeoutMillis: 800, query_timeout: fixtureOwner ? 6000 : 1200,
+      statement_timeout: fixtureOwner ? 5000 : 800, allowExitOnIdle: true });
     p.on("error", () => {}); pools.add(p); return p;
   };
   const closePools = async () => { await Promise.all([...pools].map(p => p.end())); pools.clear(); };
